@@ -47,11 +47,6 @@ nnoremap <leader>td i<c-r>=strftime('%Y-%m-%d')<cr>
 " Insert today's c-[d]ate
 inoremap <c-d> <c-r>=strftime('%Y-%m-%d')<cr> 
 
-"Center the screen when moving through search results.
-"nnoremap n nzz
-"nnoremap N Nzz
-
-
 " NERDTree Settings
 " Open up nerd tree quickly.
 nnoremap <leader>n :NERDTree<cr>
