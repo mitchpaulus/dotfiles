@@ -3,3 +3,5 @@
 	name = Mitchell Paulus
 [push]
 	default = simple
+[core]
+	autocrlf = true
