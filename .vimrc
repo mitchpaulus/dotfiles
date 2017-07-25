@@ -384,6 +384,7 @@ iabbrev apploied applied
 iabbrev applky apply
 iabbrev appraoch approach
 iabbrev approahc approach
+iabbrev approriate appropriate
 iabbrev approximatled approximated
 iabbrev approximatled approximated
 iabbrev approximatlye approximately
@@ -452,8 +453,10 @@ iabbrev cvase case
 iabbrev Certian Certain
 iabbrev certificaiton certification
 iabbrev chnage change
+iabbrev chagnes changes
 iabbrev cahractersictic characteristic
 iabbrev childern children
+iabbrev cohsen chosen
 iabbrev xlosed closed
 iabbrev ocde code
 iabbrev coeffient coefficient
@@ -468,6 +471,7 @@ iabbrev commisioning commissioning
 iabbrev Commisisiong Commissioning
 iabbrev ocmmon common
 iabbrev commonlky commonly
+iabbrev competiting competing
 iabbrev compelted completed
 iabbrev compeleted completed
 iabbrev compeletes completes
@@ -520,6 +524,7 @@ iabbrev deriviatives derivatives
 iabbrev descentdants descendants
 iabbrev descritpion description
 iabbrev desing design
+iabbrev detial detail
 iabbrev detailede detailed
 iabbrev detials details
 iabbrev determein determine
@@ -596,6 +601,8 @@ iabbrev Foiruier Fourier
 iabbrev fullfill fulfill
 iabbrev funciton function
 iabbrev fucntion function
+iabbrev functdion function
+iabbrev functdion function
 iabbrev fucntions functions
 iabbrev funcitons functions
 iabbrev rurther further
@@ -626,6 +633,7 @@ iabbrev impelmetn implement
 iabbrev Implementner Implementer
 iabbrev importantance importance
 iabbrev improtant important
+iabbrev importatn important
 iabbrev imporve improve
 iabbrev ina in a
 iabbrev inthe in the
@@ -686,6 +694,7 @@ iabbrev measuremnets measurements
 iabbrev measuremnts measurements
 iabbrev mehtod method
 iabbrev Mniiimzie Minimize
+iabbrev mimnimum minimum
 iabbrev Mintue Minute
 iabbrev mintues minutes
 iabbrev mintues minutes
@@ -705,6 +714,7 @@ iabbrev moter motor
 iabbrev namign naming
 iabbrev enearsets nearest
 iabbrev NEedc Need
+iabbrev neagagive negative
 iabbrev neighbort neighbor
 iabbrev neightbor neighbor
 iabbrev NOtes Notes
@@ -752,9 +762,11 @@ iabbrev ploytropic polytropic
 iabbrev Protfoilo Portfolio
 iabbrev poriton portion
 iabbrev Posistions Positions
+iabbrev positivie positive
 iabbrev possilbities possibilities
 iabbrev potentila potential
 iabbrev potentail potential
+iabbrev ptotently potentially
 iabbrev pwoer power
 iabbrev pwoered powered
 iabbrev practivce practice
@@ -808,9 +820,11 @@ iabbrev requied required
 iabbrev requiremnets requirements
 iabbrev reaseach research
 iabbrev reasearch research
+iabbrev respcet respect
 iabbrev resutls results
 iabbrev retun return
 iabbrev rightt right
+iabbrev riese rise
 iabbrev Roayl Royal
 iabbrev ORyal Royal
 iabbrev sameple sample
@@ -826,6 +840,7 @@ iabbrev sensitivtiy sensitivity
 iabbrev snesors sensors
 iabbrev Sereis Series
 iabbrev sereis series
+iabbrev setpoinut setpoint
 iabbrev sevearl several
 iabbrev shoudl should
 iabbrev shouuuld should
@@ -879,6 +894,7 @@ iabbrev subsance substance
 iabbrev substituations substitutions
 iabbrev succesful successful
 iabbrev usch such
+iabbrev suppy supply
 iabbrev surroundsing surrounding
 iabbrev surroudnings surroundings
 iabbrev surroudngins surroundings
@@ -921,9 +937,15 @@ iabbrev tmepatuera temperature
 iabbrev temperautre temperature
 iabbrev tempearature temperature
 iabbrev temperatre temperature
+iabbrev tempetature temperature
+iabbrev tempreature temperature
+iabbrev temprautrre temperature
+iabbrev tepmerature temperature
 iabbrev tmeperatures temperatures
 iabbrev temperautrtes temperatures
 iabbrev temperautres temperatures
+iabbrev tempeatueras temperatures
+iabbrev temperaturres temperatures
 iabbrev temr term
 iabbrev temrinal terminal
 iabbrev temrinla terminal
@@ -945,6 +967,8 @@ iabbrev temrial terminal
 iabbrev termanil terminal
 iabbrev termnial terminal
 iabbrev Termain Terminal
+iabbrev temrialn terminal
+iabbrev terminla terminal
 iabbrev TExas Texas
 iabbrev htan than
 iabbrev taht that
