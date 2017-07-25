@@ -152,26 +152,29 @@ nnoremap L $
 vnoremap H ^
 vnoremap L $
 
-set hlsearch                          " highlight search
-set incsearch                         " highlight temporary searches
-set rnu                               " Relative line numbering
-set number                            " Show the current line number
-"set ignorecase                                                  " ignorecase on searching
-set backspace=indent,eol,start        " Want backspaces to always work as normal.
-set scrolloff=2                       " Want two lines above and below cursor when scrolling.
-set smartcase                         " Use smartcase
-set laststatus=2                      " Always show the statusbar
-set lines=9999                          " Show 75 lines on default opening.
-set columns=110                       " Show 90 columns on default opening.
-set nowrap                            " No word wrap.
-set lbr                               " Want line breaks at whitespace
-set tabstop=4                         " show existing tab with 4 spaces width
-set shiftwidth=4                      " when indenting with '>', use 4 spaces width
-set expandtab                         " On pressing tab, insert 4 spaces
-set cmdheight=2                       " Make the command window height 2 to avoid the hit-enter prompts
-set history=300                       " Remember up to 300 ex commands.
-"set guifont=Consolas:h11:cANSI:qDRAFT " Set Font to Consolas.
-"set guifont=Inconsolata\ 12           " Set Font to Inconsolata
+set hlsearch   " highlight search
+set incsearch  " highlight temporary searches
+set rnu        " Relative line numbering
+set number     " Show the current line number
+set cursorline 
+set encoding=utf-8
+                               " set ignorecase                                                  " ignorecase on searching
+set backspace=indent,eol,start " Want backspaces to always work as normal.
+set scrolloff=2                " Want two lines above and below cursor when scrolling.
+set smartcase                  " Use smartcase
+set laststatus=2               " Always show the statusbar
+set lines=9999                 " Show 75 lines on default opening.
+set columns=110                " Show 90 columns on default opening.
+set nowrap                     " No word wrap.
+set lbr                        " Want line breaks at whitespace
+set tabstop=4                  " show existing tab with 4 spaces width
+set shiftwidth=4               " when indenting with '>', use 4 spaces width
+set expandtab                  " On pressing tab, insert 4 spaces
+set cmdheight=2                " Make the command window height 2 to avoid the hit-enter prompts
+set history=1000               " Remember up to 1000 ex commands.
+set nolazyredraw
+" set guifont=Consolas:h11:cANSI:qDRAFT                           " Set Font to Consolas.
+" set guifont=Inconsolata\ 12                                     " Set Font to Inconsolata
 
 if has("gui_running")
   if has("gui_gtk2")
@@ -316,10 +319,16 @@ autocmd FileType markdown nnoremap <silent> <leader>h1 :<c-u>call <SID>MakeHeadi
 autocmd FileType markdown nnoremap <silent> <leader>h2 :<c-u>call <SID>MakeHeading("-")<cr>
 autocmd FileType markdown,tex set textwidth=72
 autocmd FileType tex inoremap %%% \% 
-autocmd BufRead *.cshtml set filetype=html
 autocmd FileType bib command! CleanBib call <SID>CleanBibFile()
 augroup END
 
+augroup eventtypemappings
+autocmd!
+" cshtml - html - close enough 
+autocmd BufRead *.cshtml set filetype=html
+" Save when losing focus, thanks SJL
+autocmd BufLeave * :silent! w
+augroup END
 
 nnoremap <c-n> :bn<cr>
 " nnoremap <leader>j <c-w>j
