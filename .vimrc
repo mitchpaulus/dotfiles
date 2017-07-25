@@ -120,6 +120,9 @@ nnoremap <leader>cw :%s/\v\s+$//<cr>
 nnoremap S ddO
 nnoremap cc S
 
+" Thanks SJL, default behavior of <cr> is useless
+nnoremap <cr> o<esc>
+
 nnoremap [q :cprevious<CR>
 nnoremap ]q :cnext<CR>
 nnoremap [Q :cfirst<CR>
