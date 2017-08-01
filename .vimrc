@@ -357,6 +357,7 @@ iabbrev Accordiing According
 iabbrev actucally actually
 iabbrev dadditional additional
 iabbrev addsd adds
+iabbrev adeqauyate adequate
 iabbrev adopeted adopted
 iabbrev Ari Air
 iabbrev ahir air
@@ -370,6 +371,9 @@ iabbrev aslo also
 iabbrev Althouugh Although
 iabbrev amoutn amount
 iabbrev analyis analysis
+iabbrev analyiss analysis
+iabbrev analyiss analysis
+iabbrev analyiss analysis
 iabbrev anscestors ancestors
 iabbrev Adn And
 iabbrev adn and
@@ -482,6 +486,7 @@ iabbrev ocnclusions conclusions
 iabbrev conculsions conclusions
 iabbrev ocndenser condenser
 iabbrev conenction connection
+iabbrev condsidered considered
 iabbrev consistnely consistently
 iabbrev ocnstant constant
 iabbrev constatn constant
@@ -546,6 +551,7 @@ iabbrev effectes effects
 iabbrev efficicency efficiency
 iabbrev efficienty efficiency
 iabbrev effortr effort
+iabbrev electiricyt electricity
 iabbrev elswe else
 iabbrev ned end
 iabbrev ENergy Energy
@@ -623,6 +629,7 @@ iabbrev heaitng heating
 iabbrev heaint heating
 iabbrev ehating heating
 iabbrev helpuful helpful
+iabbrev hgiher higher
 iabbrev hikstorical historical
 iabbrev HOliddays Holidays
 iabbrev horizonatal horizontal
@@ -669,6 +676,7 @@ iabbrev inot into
 iabbrev invserse inverse
 iabbrev investement investment
 iabbrev irreversilbe irreversible
+iabbrev fis is
 iabbrev isoalted isolated
 iabbrev isothermla isothermal
 iabbrev itme item
@@ -751,6 +759,7 @@ iabbrev paretns parents
 iabbrev paretns parents
 iabbrev partail partial
 iabbrev aprtial partial
+iabbrev paraticlaur particular
 iabbrev aprtition partition
 iabbrev pepople people
 iabbrev perforamcne performance
@@ -789,6 +798,7 @@ iabbrev probelm problem
 iabbrev prfoceed proceed
 iabbrev Processs Process
 iabbrev proces process
+iabbrev prodcued produced
 iabbrev produciton production
 iabbrev prodcuts products
 iabbrev progrma program
@@ -910,6 +920,7 @@ iabbrev Systesm Systems
 iabbrev systmes systems
 iabbrev Ssytems Systems
 iabbrev TAble Table
+iabbrev takne taken
 iabbrev taks task
 iabbrev taought taught
 iabbrev tmepearute temperature
@@ -948,6 +959,9 @@ iabbrev temperautrtes temperatures
 iabbrev temperautres temperatures
 iabbrev tempeatueras temperatures
 iabbrev temperaturres temperatures
+iabbrev temprautes temperatures
+iabbrev temperatues temperatures
+iabbrev tempearutes temperatures
 iabbrev temr term
 iabbrev temrinal terminal
 iabbrev temrinla terminal
@@ -973,6 +987,7 @@ iabbrev temrialn terminal
 iabbrev terminla terminal
 iabbrev TExas Texas
 iabbrev htan than
+iabbrev thna than
 iabbrev taht that
 iabbrev tahht that
 iabbrev Teh The
@@ -982,6 +997,7 @@ iabbrev thre the
 iabbrev ther the
 iabbrev trhe the
 iabbrev tyhe the
+iabbrev THe The
 iabbrev thne then
 iabbrev theorteical theoretical
 iabbrev THere There
@@ -1017,6 +1033,7 @@ iabbrev throuugh through
 iabbrev teimstamp timestamp
 iabbrev ot to
 iabbrev otkens tokens
+iabbrev totla total
 iabbrev trnasfer transfer
 iabbrev trned trend
 iabbrev trrended trended
