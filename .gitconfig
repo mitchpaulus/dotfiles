@@ -5,3 +5,7 @@
 	default = simple
 [core]
 	autocrlf = true
+[alias]
+	st = status
+	co = checkout
+	logg = log --graph --oneline --decorate --abbrev-commit --all
