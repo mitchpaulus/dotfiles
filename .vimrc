@@ -174,7 +174,6 @@ set cmdheight=2                " Make the command window height 2 to avoid the h
 set history=1000               " Remember up to 1000 ex commands.
 set lazyredraw
 set ttyfast
-set autowrite
 " set guifont=Consolas:h11:cANSI:qDRAFT                           " Set Font to Consolas.
 " set guifont=Inconsolata\ 12                                     " Set Font to Inconsolata
 
@@ -494,8 +493,10 @@ iabbrev constatn constant
 iabbrev Constatn Constant
 iabbrev contianer container
 iabbrev Conntainer Container
+iabbrev continaer container
 iabbrev coantainers containers
 iabbrev contaienrs containers
+iabbrev conntainers containers
 iabbrev conatins contains
 iabbrev Continousous Continuous
 iabbrev Contionous Continuous
@@ -564,8 +565,10 @@ iabbrev entorpy entropy
 iabbrev enviornment environment
 iabbrev eqaul equal
 iabbrev equzl equal
+iabbrev equaiton equation
 iabbrev eequations equations
 iabbrev equationas equations
+iabbrev equaitons equations
 iabbrev equilbrium equilibrium
 iabbrev equpiment equipment
 iabbrev euqipment equipment
@@ -583,6 +586,7 @@ iabbrev exectued executed
 iabbrev exercieses exercises
 iabbrev Exisiting Existing
 iabbrev exisitng existing
+iabbrev expannding expanding
 iabbrev exapansion expansion
 iabbrev expansionj expansion
 iabbrev Explaingin Explaining
@@ -613,6 +617,7 @@ iabbrev functdion function
 iabbrev functdion function
 iabbrev fucntions functions
 iabbrev funcitons functions
+iabbrev Fucnttions Functions
 iabbrev rurther further
 iabbrev grpahic graphic
 iabbrev graviational gravitational
@@ -727,6 +732,7 @@ iabbrev NEedc Need
 iabbrev neagagive negative
 iabbrev neighbort neighbor
 iabbrev neightbor neighbor
+iabbrev nnormal normal
 iabbrev NOtes Notes
 iabbrev nozle nozzle
 iabbrev nubmer number
@@ -744,6 +750,8 @@ iabbrev operatialn operational
 iabbrev optimizaiton optimization
 iabbrev optimziation optimization
 iabbrev optimziaiton optimization
+iabbrev origianl original
+iabbrev oriigal original
 iabbrev toher other
 iabbrev otudoor outdoor
 iabbrev outelt outlet
@@ -775,6 +783,7 @@ iabbrev poriton portion
 iabbrev Posistions Positions
 iabbrev positivie positive
 iabbrev possilbities possibilities
+iabbrev possilbe possible
 iabbrev potentila potential
 iabbrev potentail potential
 iabbrev ptotently potentially
@@ -804,6 +813,7 @@ iabbrev prodcuts products
 iabbrev progrma program
 iabbrev properityes properties
 iabbrev proeprty property
+iabbrev porperty property
 iabbrev porportion proportion
 iabbrev propsoed proposed
 iabbrev propsed proposed
@@ -828,6 +838,9 @@ iabbrev relationsihp relationship
 iabbrev Relationjships Relationships
 iabbrev relavent relevant
 iabbrev remtoe remote
+iabbrev rpelaced replaced
+iabbrev repclaced replaced
+iabbrev replacemetn replacement
 iabbrev requied required
 iabbrev requiremnets requirements
 iabbrev reaseach research
@@ -1016,6 +1029,7 @@ iabbrev thermodynaimics thermodynamics
 iabbrev thermodynamcis thermodynamics
 iabbrev Thermodynamcis Thermodynamics
 iabbrev Thsi This
+iabbrev htis this
 iabbrev trhee three
 iabbrev THree Three
 iabbrev threshld threshold
@@ -1032,6 +1046,7 @@ iabbrev trhought through
 iabbrev throuugh through
 iabbrev teimstamp timestamp
 iabbrev ot to
+iabbrev toekn token
 iabbrev otkens tokens
 iabbrev totla total
 iabbrev trnasfer transfer
