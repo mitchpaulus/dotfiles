@@ -1,3 +1,4 @@
+" Vundle Plugins {{{1 
 set nocompatible  " be iMproved, required for Vundle
 filetype off    " required for Vundle.
 
@@ -28,6 +29,7 @@ let g:UltiSnipsSnippetDir = "~/vimfiles/UltiSnips"
 let g:UltiSnipsSnippetDirectories = [$HOME.'/vimfiles/UltiSnips', 'UltiSnips']
 nnoremap <leader>ue :UltiSnipsEdit<cr>
 
+" General Mappings {{{1
 "Use space key for leader, but actually use default leader so it shows up in
 "status bar.
 map <space> <leader>
@@ -47,33 +49,14 @@ nnoremap <leader>td i<c-r>=strftime('%Y-%m-%d')<cr>
 " Insert today's c-[d]ate
 inoremap <c-d> <c-r>=strftime('%Y-%m-%d')<cr> 
 
-" NERDTree Settings
-" Open up nerd tree quickly.
-nnoremap <leader>n :NERDTree<cr>
-let NERDTreeIgnore=['\.aux.*$','\.fls$','\.lof$','\.toc$','\.out$','\.vrb$','\.nav$','\.snm$','\.bbl$','\.bib','\.fdb_latexmk$','\.xdv','\.gif','\.pdf','\~$','\.blg$','\.lot$']
+" From Vimscript the Hard Way chap 15
+onoremap p i(
+onoremap in( :<c-u>execute "normal! /(\r:nohlsearch\rvi("<cr>
+onoremap il( :<c-u>execute "normal! ?(\r:nohlsearch\rvi("<cr>
 
-
-
-" Gundo Options. New versions of GVIM don't have 
-" original python support.
-if has('python3')
-    let g:gundo_prefer_python3 = 1
-endif
-" Open up the undo tree.
-nnoremap <F5> :<c-u>GundoToggle<cr>
-
-"Tabular mapping to format table
-" aligning on & and \\ at the end of the line.
-" See http://stackoverflow.com/questions/19414193/regex-extract-string-not-between-two-brackets
-vnoremap <leader>tf :<c-u>'<,'>Tab /[^\\]\zs&\<Bar>\({[^}{]*\)\@<!\(\\\\\)\([^{}]*}\)\@!/<cr>
-nnoremap <leader>tf :<c-u>Tab /[^\\]\zs&\<Bar>\({[^}{]*\)\@<!\(\\\\\)\([^{}]*}\)\@!/<cr>
-
-" Fugitive mappings for status, add, and commit.
-nnoremap <leader>gs :Gstatus<cr>
-nnoremap <leader>ga :Gwrite<cr>
-nnoremap <leader>gc :Gcommit<cr>
-nnoremap <leader>gph :Gpush<cr>
-nnoremap <leader>gpl :Gpull<cr>
+onoremap b i{
+onoremap in{ :<c-u>execute "normal! /{\r:nohlsearch\rvi{"<cr>
+onoremap il{ :<c-u>execute "normal! ?{\r:nohlsearch\rvi{"<cr>
 
 " Quickly change present working directory to 
 " the current files directory.
@@ -84,8 +67,6 @@ function! s:ChangePWD()
     pwd
 endfunction
 
-"Custom Status Line
-set statusline=File:%F,\ FT:%y,C:%c,%p%%\ %{fugitive#statusline()}
 
 "Make it easy to edit the vimrc file. From
 "http://learnvimscriptthehardway.stevelosh.com/chapters/07.html.
@@ -147,10 +128,62 @@ cnoremap <C-f> <Right>
 inoremap jk <esc>
 nnoremap <TAB> %
 " Quick mappings for the beginning and ends of lines
-nnoremap H ^
-nnoremap L $
-vnoremap H ^
-vnoremap L $
+noremap H ^
+noremap L $
+
+" Want cntrl-backspace to delete whole word in insert mode
+inoremap <C-BS> <C-W>
+
+xnoremap * :<C-u>call <SID>VSetSearch()<CR>/<C-R>=@/<CR><CR>
+xnoremap # :<C-u>call <SID>VSetSearch()<CR>?<C-R>=@/<CR><CR>
+
+"Clear the previous search (c[lear] h[ighlight])
+nnoremap <leader>ch :nohlsearch<cr>
+
+nnoremap <leader>ss :set spell!<cr>
+" Flip background color setting, from http://tilvim.com/2013/07/31/swapping-bg.html.
+nnoremap <leader>bg :let &background = ( &background == "dark"? "light" : "dark" )<CR>
+
+" Switch the setting of the [sh]ell slash setting. 
+nnoremap <leader>sh :<c-u>call <SID>SwitchShellSlash()<CR>
+
+function! s:SwitchShellSlash() 
+    if &shellslash == 0
+        set shellslash
+    else
+        set noshellslash
+    endif    
+    echo "shellslash setting is now " . &shellslash
+endfunction
+
+
+" Switch setting for [t]ext [w]idth.
+nnoremap <leader>tw :<c-u>call <SID>ChangeTextWidth()<CR>
+
+function! s:ChangeTextWidth()
+    let &textwidth = ( &textwidth == 0 ? 72 : 0 )
+    echo "textwidth is now " . &textwidth
+endfunction
+
+
+"These mappings are for moving around the windows quickly.
+nnoremap <c-w> <c-w><c-w>
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+nnoremap <c-c> <c-w>c
+nnoremap <c-d> :BD<cr> " Delete buffer using the qpkorr/vim-bufkill package.
+
+nnoremap <c-s> [s  " Move backwards in spell check.
+
+nnoremap <c-n> :bn<cr>
+" nnoremap <leader>j <c-w>j
+" nnoremap <leader>k <c-w>k
+
+" General Settings/Options {{{1
+"Custom Status Line
+set statusline=File:%F,\ FT:%y,C:%c,%p%%\ %{fugitive#statusline()}
 
 set hlsearch   " highlight search
 set incsearch  " highlight temporary searches
@@ -211,9 +244,49 @@ set wildignore+=*.dvi
 set wildignore+=*.tmp
 set wildignore+=*.synctex.gz
 
+"Set hyphens and colons to be parts of words. Very useful in latex documents.
+set iskeyword+=-
+set iskeyword+=:
+set noshellslash
 
-xnoremap * :<C-u>call <SID>VSetSearch()<CR>/<C-R>=@/<CR><CR>
-xnoremap # :<C-u>call <SID>VSetSearch()<CR>?<C-R>=@/<CR><CR>
+" Plugin Specific Options {{{1
+
+" NERDTree {{{2
+" NERDTree Settings
+" Open up nerd tree quickly.
+nnoremap <leader>n :NERDTree<cr>
+let NERDTreeIgnore=['\.aux.*$','\.fls$','\.lof$','\.toc$','\.out$','\.vrb$','\.nav$','\.snm$','\.bbl$','\.bib','\.fdb_latexmk$','\.xdv','\.gif','\.pdf','\~$','\.blg$','\.lot$']
+
+
+
+" Gundo {{{2
+" Gundo Options. New versions of GVIM don't have 
+" original python support.
+if has('python3')
+    let g:gundo_prefer_python3 = 1
+endif
+" Open up the undo tree.
+nnoremap <F5> :<c-u>GundoToggle<cr>
+
+"Tabular {{{2
+"Tabular mapping to format table
+" aligning on & and \\ at the end of the line.
+" See http://stackoverflow.com/questions/19414193/regex-extract-string-not-between-two-brackets
+vnoremap <leader>tf :<c-u>'<,'>Tab /[^\\]\zs&\<Bar>\({[^}{]*\)\@<!\(\\\\\)\([^{}]*}\)\@!/<cr>
+nnoremap <leader>tf :<c-u>Tab /[^\\]\zs&\<Bar>\({[^}{]*\)\@<!\(\\\\\)\([^{}]*}\)\@!/<cr>
+
+" Fugitive {{{2
+" Fugitive mappings for status, add, and commit.
+nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>ga :Gwrite<cr>
+nnoremap <leader>gc :Gcommit<cr>
+nnoremap <leader>gph :Gpush<cr>
+nnoremap <leader>gpl :Gpull<cr>
+
+
+
+
+
 
 " Search for the current visual selection using '*'. See pg. 212 of Practical Vim
 function! s:VSetSearch()
@@ -227,12 +300,14 @@ syntax enable
 set background=dark
 colorscheme solarized
 
+" Vimtex {{{2
 "For vimtex
 filetype plugin indent on
 let g:vimtex_view_enabled = 0
 let g:tex_flavor="latex"
 let g:vimtex_quickfix_latexlog = {'overfull': 0, 'underfull':0}
 
+" Ctrl-P {{{2
 " For CTRL-P
 let g:ctrlp_mruf_exclude = '.*log\|.*aux\|.*tmp\|.*\\.git\\.*' " Windows
 let g:ctrlp_mruf_max = 250
@@ -243,58 +318,18 @@ let g:ctrlp_by_filename = 1
 " finger
 nnoremap <c-y> :CtrlPBuffer<cr>
 
-" Want cntrl-backspace to delete whole word in insert mode
-inoremap <C-BS> <C-W>
 
-"Set hyphens and colons to be parts of words. Very useful in latex documents.
-set iskeyword+=-
-set iskeyword+=:
-set noshellslash
 
-"Clear the previous search (c[lear] h[ighlight])
-nnoremap <leader>ch :nohlsearch<cr>
+
+" MISC {{{1
+
 "This is to make sure that when you first enter a file
 "you don't get a whole bunch of highlighting.
 nohlsearch
 
-nnoremap <leader>ss :set spell!<cr>
-" Flip background color setting, from http://tilvim.com/2013/07/31/swapping-bg.html.
-nnoremap <leader>bg :let &background = ( &background == "dark"? "light" : "dark" )<CR>
-
-" Switch the setting of the [sh]ell slash setting. 
-nnoremap <leader>sh :<c-u>call <SID>SwitchShellSlash()<CR>
-
-function! s:SwitchShellSlash() 
-    if &shellslash == 0
-        set shellslash
-    else
-        set noshellslash
-    endif    
-    echo "shellslash setting is now " . &shellslash
-endfunction
 
 
-" Switch setting for [t]ext [w]idth.
-nnoremap <leader>tw :<c-u>call <SID>ChangeTextWidth()<CR>
-
-function! s:ChangeTextWidth()
-    let &textwidth = ( &textwidth == 0 ? 72 : 0 )
-    echo "textwidth is now " . &textwidth
-endfunction
-
-
-"These mappings are for moving around the windows quickly.
-nnoremap <c-w> <c-w><c-w>
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
-nnoremap <c-c> <c-w>c
-nnoremap <c-d> :BD<cr> " Delete buffer using the qpkorr/vim-bufkill package.
-
-nnoremap <c-s> [s  " Move backwards in spell check.
-
-
+" FileType AutoCmd Mappings {{{1
 function! s:MakeHeading(replaceCharacter)
     let previousSearch=@/
     "echom ":s/\\s\\+$//e\rVypVr".a:replaceCharacter.":noh\r"
@@ -323,6 +358,7 @@ autocmd FileType tex inoremap %%% \%
 autocmd FileType bib command! CleanBib call <SID>CleanBibFile()
 augroup END
 
+" Event Type Autocmd mappings {{{1
 augroup eventtypemappings
 autocmd!
 " cshtml - html - close enough 
@@ -331,10 +367,8 @@ autocmd BufRead *.cshtml set filetype=html
 autocmd BufLeave * :silent! w
 augroup END
 
-nnoremap <c-n> :bn<cr>
-" nnoremap <leader>j <c-w>j
-" nnoremap <leader>k <c-w>k
 
+" Autocorrect Mappings {{{1
 "This is a mapping just for the vimrc to sort the abbreviations, case
 "insensitively. Sort operates on characters after match by default.
 "|||||||||||||||||||++++++++++++++++++++++++++++------------------------------------- Search for commented line 'Autocorrect Mappings'
