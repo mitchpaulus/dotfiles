@@ -1,11 +1,24 @@
 [user]
-	email = paulusm14@gmail.com
-	name = Mitchell Paulus
+    email = paulusm14@gmail.com
+    name = Mitchell Paulus
 [push]
-	default = simple
+    default = simple
 [core]
-	autocrlf = true
+    autocrlf = true
 [alias]
-	st = status
-	co = checkout
-	logg = log --graph --oneline --decorate --abbrev-commit --all
+	st = status -u
+    co = checkout
+    logg = log --graph --oneline --decorate --abbrev-commit --all
+	fp = fetch --prune
+[merge]
+    tool = kdiff3
+[mergetool "kdiff3"]
+    path = C:/Program Files/KDiff3/kdiff3.exe
+    trustExitCode = false
+[diff]
+    guitool = kdiff3
+[difftool "kdiff3"]
+    path = C:/Program Files/KDiff3/kdiff3.exe
+    trustExitCode = false
+[winUpdater]
+	recentlySeenVersion = 2.15.1.windows.2
