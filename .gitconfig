@@ -6,10 +6,10 @@
 [core]
     autocrlf = true
 [alias]
-	st = status -u
+    st = status -u
     co = checkout
     logg = log --graph --oneline --decorate --abbrev-commit --all
-	fp = fetch --prune
+    fp = fetch --prune
 [merge]
     tool = kdiff3
 [mergetool "kdiff3"]
