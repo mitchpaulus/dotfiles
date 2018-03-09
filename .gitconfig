@@ -4,21 +4,13 @@
 [push]
     default = simple
 [core]
-    autocrlf = true
+    autocrlf = input
 [alias]
-    st = status -u
+	st = status -u
     co = checkout
     logg = log --graph --oneline --decorate --abbrev-commit --all
-    fp = fetch --prune
-[merge]
-    tool = kdiff3
-[mergetool "kdiff3"]
-    path = C:/Program Files/KDiff3/kdiff3.exe
-    trustExitCode = false
-[diff]
-    guitool = kdiff3
-[difftool "kdiff3"]
-    path = C:/Program Files/KDiff3/kdiff3.exe
-    trustExitCode = false
-[winUpdater]
-	recentlySeenVersion = 2.15.1.windows.2
+	fp = fetch --prune
+    pull = pull --ff-only
+    branches = branch -a
+    remotes = remote -v
+    cm = commit -m
