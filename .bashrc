@@ -57,7 +57,8 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    #PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1='\[\033[1;33m\]\u@\h:\w\$\[\033[00m\] '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -109,6 +110,12 @@ bind '"\C-p": history-search-backward'
 bind '"\C-n": history-search-forward'
 
 export EDITOR=vim
+export PATH=/usr/local/texlive/2017/bin/x86_64-linux:$PATH
+export MANPATH=/usr/local/texlive/2017/texmf-dist/doc/man/:$MANPATH
+export INFOPATH=/usr/local/texlive/2017/texmf-dist/doc/info/:$INFOPATH
+
+export GEM_HOME=$HOME/gems
+export PATH=$HOME/gems/bin:$PATH
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
