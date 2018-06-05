@@ -108,7 +108,14 @@ fi
 
 bind '"\C-p": history-search-backward'
 bind '"\C-n": history-search-forward'
+getlast() {
+    fc -ln "$1" "$1" | sed '1s/^[[:space:]]*//'
+}
 
+# [Q]uick [F]ind.
+qf() {
+    find . -iname "*$1*"
+}
 export EDITOR=vim
 export PATH=/usr/local/texlive/2017/bin/x86_64-linux:$PATH
 export MANPATH=/usr/local/texlive/2017/texmf-dist/doc/man/:$MANPATH
@@ -127,3 +134,4 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+PROMPT_DIRTRIM=3
