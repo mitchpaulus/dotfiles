@@ -8,7 +8,7 @@
 [alias]
 	st = status -u
     co = checkout
-    logg = log --graph --oneline --decorate --abbrev-commit --all
+    logg = log --graph --date=format:'%b-%d %H:%M' -n 50 --format=format:'%C(yellow)%d%Creset %s %Cred%an %Cgreen%cd %Cblue%h%Creset'
 	fp = fetch --prune
     pull = pull --ff-only
     branches = branch -a
