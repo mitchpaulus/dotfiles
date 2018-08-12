@@ -6,3 +6,4 @@ alias home2git='cat ~/.vimrc > ~/GoogleDrive/GitHub/vimrc/_vimrc && cd ~/GoogleD
 alias dotconfig='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias testalias='echo hello'
 alias r='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
+alias gst='git status -u'
