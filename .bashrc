@@ -93,10 +93,6 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
@@ -108,6 +104,7 @@ fi
 
 bind '"\C-p": history-search-backward'
 bind '"\C-n": history-search-forward'
+
 getlast() {
     fc -ln "$1" "$1" | sed '1s/^[[:space:]]*//'
 }
@@ -116,6 +113,7 @@ getlast() {
 qf() {
     find . -iname "*$1*"
 }
+
 export EDITOR=vim
 export PATH=/usr/local/texlive/2017/bin/x86_64-linux:$PATH
 export MANPATH=/usr/local/texlive/2017/texmf-dist/doc/man/:$MANPATH
