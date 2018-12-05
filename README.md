@@ -1,4 +1,4 @@
-# dotfiles
-You know dotfiles
+# Mitch Paulus dotfiles
 
-These are for my Linux setups, so missing my shared _vimrc that goes between both Windows and Linux
+At the current time, the vim configuration files are separated into a
+different repository.

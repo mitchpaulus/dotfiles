@@ -1,9 +1,6 @@
 alias ea='gvim ~/.bash_aliases'
-alias gtd='cd ~/GoogleDrive/ESL/DisserationGit/'
-alias gtdp='cd ~/GoogleDrive/GitHub/overleaf/DisserationPresentation/'
-alias git2home='cat ~/GoogleDrive/GitHub/vimrc/_vimrc > ~/.vimrc'
-alias home2git='cat ~/.vimrc > ~/GoogleDrive/GitHub/vimrc/_vimrc && cd ~/GoogleDrive/GitHub/vimrc'
-alias dotconfig='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias testalias='echo hello'
 alias r='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
-alias gst='git status -u'
+alias gs='git status -u'
+alias gd='git diff'
+# [S]ource .[b]ashrc
+alias sb='source ~/.bashrc && printf ".bashrc reloaded.\n"'
