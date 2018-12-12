@@ -33,7 +33,7 @@ floating_modifier $mod
 bindsym $mod+Return exec i3-sensible-terminal
 
 # kill focused window
-bindsym $mod+Shift+q kill
+bindsym $mod+x kill
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec dmenu_run
@@ -42,8 +42,8 @@ bindsym $mod+d exec dmenu_run
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
-# Start firefo[x]
-bindsym $mod+x exec --no-startup-id firefox
+# Start Firefox, 'i' for internet.
+bindsym $mod+i exec --no-startup-id firefox
 
 # Bind the audio keys
 bindcode 121 exec pamixer -t
@@ -184,7 +184,7 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
     font pango:Fira Code Retina 8
-        status_command i3status
+        status_command i3blocks
 }
 
 # vim:filetype=i3config
