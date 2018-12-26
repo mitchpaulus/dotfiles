@@ -42,8 +42,10 @@ bindsym $mod+d exec dmenu_run
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
-# Start Firefox, 'i' for internet.
-bindsym $mod+i exec --no-startup-id firefox
+# Start Firefox, 'i' for internet. With shift, get i3 help.
+bindsym $mod+i workspace firefox; exec --no-startup-id firefox
+bindsym $mod+Shift+i exec firefox "https://i3wm.org/docs/userguide.html"; workspace firefox
+
 
 # Bind the audio keys
 bindcode 121 exec pamixer -t
@@ -100,9 +102,6 @@ bindsym $mod+a focus parent
 # Explicity set focus follows mouse
 focus_follows_mouse yes
 
-# Can use same workspace number to cycle back and forth.
-workspace_auto_back_and_forth yes
-
 # focus the child container
 #bindsym $mod+d focus child
 
@@ -120,7 +119,6 @@ set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
-set $ws10 "10"
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -132,7 +130,7 @@ bindsym $mod+6 workspace $ws6
 bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
-bindsym $mod+0 workspace $ws10
+bindsym $mod+0 workspace firefox
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $ws1  ; workspace $ws1
@@ -144,7 +142,7 @@ bindsym $mod+Shift+6 move container to workspace $ws6  ; workspace $ws6
 bindsym $mod+Shift+7 move container to workspace $ws7  ; workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8  ; workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9  ; workspace $ws9
-bindsym $mod+Shift+0 move container to workspace $ws10 ; workspace $ws10
+bindsym $mod+Shift+0 move container to workspace firefox; workspace firefox
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -180,10 +178,13 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+exec feh --bg-fill ~/dotfiles/wall.jpg
+exec --no-startup-id compton
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-    font pango:Fira Code Retina 8
+    font pango:Fira Sans 9
         status_command i3blocks
 }
 
