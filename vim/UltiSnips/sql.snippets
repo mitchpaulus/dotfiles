@@ -1,0 +1,35 @@
+snippet ` "Field name"  i
+\`$1\`
+endsnippet
+
+snippet I "" i
+INTEGER
+endsnippet
+
+snippet T "" i
+TEXT
+endsnippet
+
+snippet R "REAL" i
+REAL
+endsnippet
+
+snippet fk "Foreign Key" i
+FOREIGN KEY (\`${1:PropertyName}\`) REFERENCES \`${2:TableName}\` (\`${3:OtherColumn}\`)
+endsnippet
+
+snippet f "field"
+\`${1:fieldName}\` ${2:TYPE},
+$3
+endsnippet
+
+snippet tab "Create table"
+CREATE TABLE \`${1:TableName}\` (
+	\`Id\`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	$2
+);
+endsnippet
+
+snippet in "Insert"
+INSERT INTO ${1:table} (${2:columns}) VALUES (${3:values});
+endsnippet

@@ -1,0 +1,26 @@
+snippet if
+if (${1:expression}) {
+	$2
+}
+endsnippet
+
+snippet for "iterator type"
+for (i = 0; i < ${1:item}; i++) {
+	$2
+}
+endsnippet
+
+snippet for "enumerable type"
+for (${2:item} in ${1:items}) {
+	$3
+}
+endsnippet
+
+snippet b "begin"
+BEGIN { $1 }
+endsnippet
+
+snippet bt "begin with tabs"
+BEGIN { FS=OFS="\t" } 
+$1
+endsnippet

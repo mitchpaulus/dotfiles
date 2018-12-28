@@ -1,0 +1,27 @@
+#!/bin/bash
+
+VIMPLUGINDIR="$HOME/.vim/pack/mitchplugins/start"
+if [[ ! -d "$VIMPLUGINDIR" ]]; then
+    printf "Installing plugin directory at $VIMPLUGINDIR.\n"
+    mkdir -p "$VIMPLUGINDIR"
+    cd  "$VIMPLUGINDIR"
+    git clone https://github.com/mitchpaulus/vim-siemens-ppcl.git
+    git clone https://github.com/mitchpaulus/autocorrect.vim.git
+    git clone https://github.com/mitchpaulus/vim-tex2text.git
+    git clone https://github.com/mitchpaulus/latex-plus.git
+else
+    printf "Plugin directory already exists.\n" 
+fi
+
+if [[ ! -d "$HOME/.vim/bundle/Vundle.vim" ]]; then
+    printf "Installing Vundle.vim.\n"
+    mkdir -p $HOME/.vim/bundle
+    cd $HOME/.vim/bundle
+    git clone https://github.com/VundleVim/Vundle.vim.git
+fi
+
+if [[ ! -d "$HOME/.vim/spell" ]]; then
+    mkdir -p "$HOME/.vim/spell"
+fi 
+
+ln -s -i -r -t "$HOME/.vim/spell/" spell/hvac.utf-8.add

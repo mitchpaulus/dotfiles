@@ -1,0 +1,101 @@
+snippet eq
+\begin{equation}
+    $1
+\end{equation}
+endsnippet
+snippet lr
+\left($1\right)$2
+endsnippet
+snippet sec
+\section{$1}
+endsnippet
+snippet fr
+\frac{$1}{$2}
+endsnippet 
+snippet sum
+\sum_{$1}^{$2}
+endsnippet 
+snippet hat
+\hat{$1}
+endsnippet
+snippet bar
+\bar{$1}
+endsnippet
+snippet pack
+\usepackage{$1}
+endsnippet
+snippet text
+\text{$1}
+endsnippet
+snippet si
+\SI{$1}{$2}
+endsnippet
+snippet bf
+\textbf{$1}
+endsnippet
+snippet it
+\textit{$1}
+endsnippet
+snippet en
+\begin{enumerate}
+    \item $1
+\end{enumerate}
+endsnippet
+snippet tab
+\begin{tabular}{$1}
+$2
+\end{tabular}
+endsnippet
+snippet item
+\begin{itemize}
+    \item $1
+\end{itemize}
+endsnippet 
+snippet fig
+\begin{figure}
+\centering
+$3
+\label{fig:$1}
+\caption{$2}
+\end{figure}
+
+endsnippet
+snippet up
+\usepackage{$1}
+endsnippet
+snippet ci
+\cite{$1}
+endsnippet
+snippet re
+\ref{$1}
+endsnippet
+snippet tikz
+\begin{tikzpicture}
+    \begin{axis}[
+    $1,
+]
+\addplot coordinates{
+ ${2:(1,1)}
+};
+    \end{axis}
+\end{tikzpicture}
+
+endsnippet
+snippet int
+\int_{$1}^{$2}
+endsnippet
+snippet dot
+\dot{$1}
+endsnippet
+snippet co
+\newcommand{\\${1:commandName}}[${2:numberOfArguments}]{${3:command}}
+endsnippet
+snippet sup
+\textsuperscript{$1}
+endsnippet
+snippet color
+\definecolor{${1:SampleColor}}{HTML}{${2:000000}}
+endsnippet
+snippet apt
+\addplot[${1:only marks}] table[${2:col sep = comma}]{${3:filename}};
+endsnippet

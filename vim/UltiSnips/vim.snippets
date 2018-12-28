@@ -1,0 +1,25 @@
+snippet if
+if $1
+    $2
+endif
+endsnippet
+
+snippet func "function definition" 
+function! s:${1:FunctionName}($2)
+    $3
+endfunction
+endsnippet
+
+snippet for "For loop"
+for ${1:iterator} in ${2:List}
+    $3
+endfor
+endsnippet
+
+snippet try "Try catch"
+try 
+    $1
+catch
+    $2
+endtry
+endsnippet

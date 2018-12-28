@@ -1,0 +1,420 @@
+snippet _ "underscore fill" i
+_{$1}$0
+endsnippet
+snippet ^ "exponent fill" i
+^{$1}$0
+endsnippet
+snippet eq
+\begin{equation}
+    $1
+\end{equation}
+endsnippet
+snippet eq*
+\begin{equation*}
+    $1
+\end{equation*}
+endsnippet
+snippet lr "left and right parenthesis math mode" i
+\left($1\right)$2
+endsnippet
+snippet sec
+\section{$1}
+endsnippet
+snippet fr "fraction math mode" i
+\frac{$1}{$2}
+endsnippet
+snippet sum
+\sum_{$1}^{$2}
+endsnippet
+snippet hat
+\hat{$1}
+endsnippet
+snippet bar
+\bar{$1}
+endsnippet
+snippet pack
+\usepackage{$1}
+endsnippet
+
+snippet text "text command for math mode" i
+\text{$1}
+endsnippet
+
+snippet si "siunitx unit" i
+\SI{$1}{$2}
+endsnippet
+
+snippet bf "Make bold font" i
+\textbf{$1}
+endsnippet
+
+snippet it "make italic font" i
+\textit{$1}
+endsnippet
+
+snippet en
+\begin{enumerate}
+	$1
+\end{enumerate}
+endsnippet
+
+snippet tab
+\begin{tabular}{$1}
+$2
+\end{tabular}
+endsnippet
+
+snippet item
+\begin{itemize}
+    \item $1
+\end{itemize}
+endsnippet
+
+snippet fig
+\begin{figure}
+\centering
+$3
+\caption{$2}
+\label{fig:$1}
+\end{figure}
+
+endsnippet
+
+snippet up
+\usepackage{$1}
+endsnippet
+snippet ci
+\cite{$1}
+endsnippet
+snippet re
+\ref{$1}
+endsnippet
+snippet tikz
+\begin{tikzpicture}
+    \begin{axis}[
+    $1,
+]
+\addplot coordinates{
+ ${2:(1,1)}
+};
+    \end{axis}
+\end{tikzpicture}
+
+endsnippet
+snippet int
+\int_{$1}^{$2}
+endsnippet
+snippet dot "overdot math" i
+\dot{$1}
+endsnippet
+snippet co "New command with arguments"
+\newcommand{\\${1:commandName}}[${2:numberOfArguments}]{${3:command}}
+endsnippet
+snippet co "New command with no arguments"
+\newcommand{\\${1:commandName}}{${2:command}}
+endsnippet
+snippet sup "text superscript" i
+\textsuperscript{$1}
+endsnippet
+snippet color
+\definecolor{${1:SampleColor}}{HTML}{${2:000000}}
+endsnippet
+snippet apt
+\addplot[${1:only marks}] table[${2:col sep = comma}]{${3:filename}};
+endsnippet
+snippet lab
+\label{${1:fig:sampleFig}}
+endsnippet
+snippet pdv "Partial differential" i
+\pdv{${1:y}}{${2:x}}
+endsnippet
+snippet dv "Standard differential" i
+\dv{${1:y}}{${2:x}}
+endsnippet
+snippet gather
+\begin{gather}
+    $1
+\end{gather}
+endsnippet
+snippet split
+\begin{split}
+    ${1:LHS} & ${2:RHS} \\\\
+	$3
+\end{split}
+endsnippet
+snippet rule
+\rule[${1:baselineAdjust}]{${2:width}}{${3:thickness}}
+endsnippet
+snippet mini
+\begin{minipage}{${1:Width}}
+    ${2:text}
+\end{minipage}
+endsnippet
+
+snippet ig "Include graphics with options"
+\includegraphics[$1]{${2:SampleFolder/File}}
+endsnippet
+
+snippet ig "Include graphics with NO options"
+\includegraphics{${1:SampleFolder/File}}
+endsnippet
+
+snippet ( "In line equation" i
+\($1\)
+endsnippet
+snippet array
+\begin{array}{${1:@{}lr@{}}}
+${2:LHS}  &  ${3:RHS} \\\\
+\end{array}
+endsnippet
+snippet sub
+\subsection{${1:subsectiontitle}}
+endsnippet
+snippet sscript "text subscript" i
+\textsubscript{$1}
+endsnippet
+snippet al
+\begin{align}
+    $1
+\end{align}
+endsnippet
+snippet al*
+\begin{align*}
+    $1
+\end{align*}
+endsnippet
+snippet choices
+\begin{choices}
+    \choice $1
+\end{choices}
+endsnippet
+snippet vs
+\vspace{$1cm}
+endsnippet
+snippet [
+\[$1\]
+endsnippet
+snippet sol
+\begin{solution}
+$1
+\end{solution}
+endsnippet
+snippet mult
+\begin{multline}
+    $1
+\end{multline}
+endsnippet
+snippet prob
+\begin{problem}{${1:ProblemNumber}}
+    $2
+\end{problem}
+endsnippet
+snippet proof
+\begin{proof}
+    $1
+\end{proof}
+endsnippet
+snippet parts
+\begin{parts}
+\part $1
+\end{parts}
+endsnippet
+snippet num
+\num{$1}
+endsnippet
+snippet env
+\begin{${1:enumerate}}
+    $0
+\end{$1}
+endsnippet
+
+snippet sqrt "Square Root Function"
+\sqrt{$1}
+endsnippet
+
+snippet tikz "Base items for a standalone tikz plot"
+\RequirePackage{luatex85}
+\documentclass[12pt]{article}
+\usepackage[active, tightpage]{preview}
+\usepackage{tikz}
+\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,positioning,fit,petri}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.14}
+\PreviewEnvironment{tikzpicture}
+
+\begin{document}
+
+\begin{tikzpicture}
+\begin{axis}
+[
+    xlabel={${1:sample x label}},
+    ylabel={${2:sample y label}}
+]
+\addplot[$3] table[col sep=${4:space/comma}]{${5:samplefile.csv}};
+
+\end{axis}
+\end{tikzpicture}
+
+\end{document}
+
+endsnippet
+
+snippet draw "draw command for tikz"
+\draw[$1] ($2,$3) -- ($4,$5);
+endsnippet
+
+snippet draw "draw command for rectangle"
+\draw[$1] ($2,$3) rectangle ($4,$5);
+endsnippet
+
+snippet node "node for tikz"
+\node[$1] at ($3,$4) {$5};
+endsnippet
+
+snippet draw "CIRCLE - draw command"
+\draw[$1] ($2,$3) circle [radius=$4];
+endsnippet
+
+snippet draw "ARC - draw command"
+\draw[$1] ($2,$3) arc [start angle=$4, end angle=$5, radius=$6];
+endsnippet
+
+snippet table "table environment" 
+\begin{table}
+\centering
+\caption{$2}
+\label{tab:$1}
+$3
+\end{table}
+endsnippet
+
+snippet label "latex label" i
+\label{$1}
+endsnippet
+
+snippet ln "natural log" i
+\ln{$1}
+endsnippet
+
+snippet frame "beamer frame" 
+\begin{frame}{${1:frameName}}
+    $2
+\end{frame}
+endsnippet
+
+snippet dc "define color" 
+\definecolor{${1:name}}{RGB}{${2:R},${3:G},${4:B}}
+endsnippet
+
+snippet parbox "parbox" i
+\parbox[${1:pos}][${2:height}][${3:contentPos}]{${4:width}}{$5}
+endsnippet
+
+snippet parbox "parbox with only width and contents" i
+\parbox{${1:width}}{$2}
+endsnippet
+
+snippet vimtex "xelatex -- TEX directives for vimtex" 
+%! TEX program = xelatex
+%! TEX root = main.tex
+endsnippet
+
+snippet vimtex "lualatex -- TEX directives for vimtex" 
+%! TEX program = lualatex
+%! TEX root = main.tex
+endsnippet
+
+snippet vimtex "pdflatex -- TEX directives for vimtex" 
+%! TEX program = pdflatex
+%! TEX root = main.tex
+endsnippet
+
+snippet flow "flow command - used in thesis" i
+\flow{$1}
+endsnippet
+
+snippet article
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\begin{document}
+$1
+\end{document}
+endsnippet
+
+snippet ed "for [ed]it, a macro for red bold font text" i
+\edit{$1}
+endsnippet
+
+snippet chapter
+\chapter{$1}
+endsnippet
+
+snippet degf "degree farenheit" i
+\(^{\circ{}}\)F
+endsnippet
+
+snippet he	"heat energy" i
+\heatenergy{$1}
+endsnippet
+
+snippet sat "supply air temperature" i
+\sat{}
+endsnippet
+
+snippet mat "mixed air temperature" i
+\mat{}
+endsnippet
+
+snippet oat "outdoor air temperature" i
+\oat{}
+endsnippet
+
+snippet rat "return air temperature" i
+\rat{}
+endsnippet 
+
+snippet rp "require lualatex 85 package" i
+\RequirePackage{luatex85}
+endsnippet
+
+snippet lr[ "left right square brackets" i
+\left[$1\right]
+endsnippet
+
+snippet eqref "equation text for dissertation" i
+\eqreftext{} \ref{eq:
+endsnippet
+
+snippet base "Base Latex Document" 
+\documentclass{article}
+\usepackage{siunitx}
+\usepackage{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+\begin{document}
+$1
+\end{document}
+endsnippet
+
+snippet center "Centering environment"
+\begin{centering}
+$1
+\end{centering}
+endsnippet
+
+snippet i "item"
+\item $1
+endsnippet
+
+snippet tt 
+\texttt{$1}
+endsnippet
+
+snippet $ "inline equation for markdown" i
+$${1}$
+endsnippet

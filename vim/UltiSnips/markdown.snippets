@@ -1,0 +1,25 @@
+snippet it "italics - using same form as snippet for latex" i
+_$1_
+endsnippet
+
+snippet bf "bold font - using same form as snippet for latex" i
+**$1**
+endsnippet
+
+snippet l "link" 
+[${1:title}](${2:url})
+endsnippet
+
+snippet if "if statement for liquid"
+{%- if $1 -%}
+$2
+{%- endif -%}
+endsnippet
+
+snippet fig "figure"
+![${1:caption}](${2:URL}){#fig:${3:figname}}
+endsnippet
+
+snippet img "image"
+![${1:alt text}](${2:url})
+endsnippet
