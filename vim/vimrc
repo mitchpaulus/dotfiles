@@ -280,24 +280,13 @@ if &term =~? '256color'
     " set t_ut=
 endif
 
-function! s:SetSpellToHVACFile()
-    if &l:spellfile==?""
-        if has('win32')
-            echom "Tried to set spellfile"
-            setlocal spellfile=~\vimfiles\spell\hvac.utf-8.add
-        endif
-        if has('unix') 
-            setlocal spellfile=~/.vim/spell/hvac.utf-8.add
-        endif
-    else 
-        echom "Cleared spellfile"
-        setlocal spellfile=
-    endif
-    echom &l:spellfile
-endfunction
-
-" Map to function to get [h]vac [s]pell file. 
-nnoremap <leader>hs :<c-u>call <SID>SetSpellToHVACFile()<cr>
+" Set spellfile for custom words. Originally just started as
+" HVAC related words, but turned into everything.
+if has('win32')
+    set spellfile=~\vimfiles\spell\hvac.utf-8.add
+elseif has('unix')
+    set spellfile=~/.vim/spell/hvac.utf-8.add
+endif
 
 if has("gui_running")
   if has("gui_gtk2")
