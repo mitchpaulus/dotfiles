@@ -17,7 +17,7 @@ shopt -s checkwinsize
 # match all files and zero or more directories and subdirectories.
 #shopt -s globstar
 
-PS1='\[\033[1;33m\]\w\nΞ\[\033[00m\] '
+PS1='\[\e[1;33m\]\w\n\[\e[1;33m\]=>\[\e[00m\] '
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
