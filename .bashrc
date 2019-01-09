@@ -17,7 +17,7 @@ shopt -s checkwinsize
 # match all files and zero or more directories and subdirectories.
 #shopt -s globstar
 
-PS1='\[\e[1;33m\]\w\n\[\e[1;33m\]=>\[\e[00m\] '
+PS1='\[\e[1;36m\]\w\n\[\e[1;36m\]=>\[\e[00m\] '
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -80,8 +80,6 @@ PROMPT_DIRTRIM=3
 # Source git tab-completion if available.
 if [[ -a ~/git-completion.bash ]]; then
     source ~/git-completion.bash
-else
-    printf "Did not find ~/git-completion.bash.\n"
 fi
 
 # Enable bash-completion for stack if it is installed.
