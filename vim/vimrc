@@ -271,9 +271,6 @@ set synmaxcol=200
 if has('gui_running')
     set lines=9999                 " Show 75 lines on default opening.
     set columns=110                " Show 90 columns on default opening.
-else
-    "set background=light
-    "colorscheme solarized
 endif
 
 if &term =~? '256color'
@@ -379,8 +376,6 @@ if has('gui_running')
     let g:solarized_termtrans=0
     silent! colorscheme solarized
     "colorscheme monokai
-else
-    colorscheme desert
 endif
 
 " Vimtex {{{2
