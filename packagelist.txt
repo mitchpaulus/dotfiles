@@ -1,0 +1,7 @@
+# vim:nospell
+maxima
+pandoc
+pandoc-citeproc
+pandoc-crossref
+neofetch
+ruby
