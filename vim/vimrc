@@ -231,7 +231,7 @@ set hlsearch   " highlight search
 set incsearch  " highlight temporary searches
 set rnu        " Relative line numbering
 set number     " Show the current line number
-set cursorline
+set nocursorline
 set encoding=utf-8
                                " set ignorecase                                                  " ignorecase on searching
 set backspace=indent,eol,start " Want backspaces to always work as normal.
@@ -376,6 +376,8 @@ if has('gui_running')
     let g:solarized_termtrans=0
     silent! colorscheme solarized
     "colorscheme monokai
+else
+    colorscheme sensible
 endif
 
 " Vimtex {{{2

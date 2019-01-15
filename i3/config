@@ -31,10 +31,12 @@ floating_modifier $mod
 
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec kitty
+#bindsym $mod+Return exec kitty
+bindsym $mod+Return exec alacritty
 
 # No borders allowed.
-default_border pixel 1
+default_border none
+hide_edge_borders both
 
 # kill focused window
 bindsym $mod+x kill
@@ -46,9 +48,11 @@ bindsym $mod+d exec dmenu_run
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
+set $firefox 
+
 # Start Firefox, 'i' for internet. With shift, get i3 help.
-bindsym $mod+i workspace firefox; exec --no-startup-id firefox
-bindsym $mod+Shift+i exec firefox "https://i3wm.org/docs/userguide.html"; workspace firefox
+bindsym $mod+i workspace $firefox; exec --no-startup-id firefox
+bindsym $mod+F1 workspace $firefox; exec firefox "https://i3wm.org/docs/userguide.html";
 
 
 # Bind the audio keys
@@ -134,7 +138,7 @@ bindsym $mod+6 workspace $ws6
 bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
-bindsym $mod+0 workspace firefox
+bindsym $mod+0 workspace $firefox
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $ws1  ; workspace $ws1
@@ -146,7 +150,7 @@ bindsym $mod+Shift+6 move container to workspace $ws6  ; workspace $ws6
 bindsym $mod+Shift+7 move container to workspace $ws7  ; workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8  ; workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9  ; workspace $ws9
-bindsym $mod+Shift+0 move container to workspace firefox; workspace firefox
+bindsym $mod+Shift+0 move container to workspace $firefox; workspace $firefox
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -188,8 +192,9 @@ exec --no-startup-id compton
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-    font pango:Fira Sans 9
-        status_command i3blocks
+    font pango:Fira Code 9
+    status_command i3blocks
+    separator_symbol "<=>"
 }
 
 # vim:filetype=i3config
