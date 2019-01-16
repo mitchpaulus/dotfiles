@@ -15,7 +15,7 @@ shopt -s checkwinsize
 
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
-#shopt -s globstar
+shopt -s globstar
 
 PS1='\[\e[1;36m\]\w\n\[\e[1;36m\]=>\[\e[00m\] '
 
@@ -86,8 +86,3 @@ fi
 if [[ $(command -v stack) ]]; then
     eval "$(stack --bash-completion-script stack)"
 fi
-
-if [[ $(command -v compton-trans) ]]; then
-    compton-trans -c 90
-fi
-
