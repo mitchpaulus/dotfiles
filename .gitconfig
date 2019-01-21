@@ -14,3 +14,5 @@
     branches = branch -a
     remotes = remote -v
     cm = commit -m
+[include]
+    path = ~/.hostgitconfig

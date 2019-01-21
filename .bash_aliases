@@ -4,3 +4,4 @@ alias gs='git status -u'
 alias gd='git diff'
 # [S]ource .[b]ashrc
 alias sb='source ~/.bashrc && printf ".bashrc reloaded.\n"'
+alias p='sudo pacman'
