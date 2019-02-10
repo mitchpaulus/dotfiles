@@ -233,7 +233,6 @@ set rnu        " Relative line numbering
 set number     " Show the current line number
 set nocursorline
 set encoding=utf-8
-                               " set ignorecase                                                  " ignorecase on searching
 set backspace=indent,eol,start " Want backspaces to always work as normal.
 set scrolloff=2                " Want two lines above and below cursor when scrolling.
 set smartcase                  " Use smartcase
@@ -250,6 +249,7 @@ set ttyfast
 set spelllang=en_us
 set spellsuggest=10
 set hidden
+set mouse=a
 
 set sessionoptions=buffers,curdir,winpos,winsize
 set nolist
