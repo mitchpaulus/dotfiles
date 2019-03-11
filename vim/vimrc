@@ -1,4 +1,4 @@
-" Vundle Plugins {{{1 
+" Vundle Plugins {{{1
 set nocompatible  " be iMproved, required for Vundle
 filetype off    " required for Vundle.
 
@@ -73,7 +73,7 @@ vnoremap <localleader>c "*y
 " stay on current search
 nnoremap * *N
 
-" Compile Pandoc 
+" Compile Pandoc
 nnoremap <leader>pc :silent !pandoc -o %:p:r.pdf %:p<cr>
 
 
@@ -93,17 +93,17 @@ vnoremap b i{
 " Copy file to clipboard (d for duplicate)
 nnoremap <leader>d ggVG"*y
 
-" Visually select inside latex table cell, first go back to last 
+" Visually select inside latex table cell, first go back to last
 " & or beginning of line, mark to s, then go to next & or end of line \\
 " then go to the end of the previous word, visually select back to
-" original mark. 
+" original mark.
 vnoremap tc v?^\<bar>&<cr>wms/&\<bar>\\\\<cr>:nohlsearch<cr>gEv`s
 onoremap tc :<c-u>execute 'normal! ?^\<bar>&' . "\r" . 'wms/&\<bar>\\\\' . "\r:nohlsearch\rgEv`s"<cr>
 
-" Change paste settings 
+" Change paste settings
 nnoremap <leader>sp :<c-u>set paste!<cr>:set paste?<cr>
 
-" Quickly change present working directory to 
+" Quickly change present working directory to
 " the current files directory.
 nnoremap <leader>pw :<c-u>call <SID>ChangePWD()<cr>
 
@@ -122,7 +122,7 @@ endif
 nnoremap <leader>ev :split $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
-" [e]dit [t]ikz plugin. 
+" [e]dit [t]ikz plugin.
 nnoremap <leader>et :vsplit ~/vimfiles/bundle/latex-plus/ftplugin/tex.vim<cr>
 "
 "[C]lear [W]hitespace at End of Line
@@ -177,15 +177,15 @@ nnoremap <leader>ss :set spell!<cr>:echo "Spell is now " . &spell<cr>
 " Flip background color setting, from http://tilvim.com/2013/07/31/swapping-bg.html.
 nnoremap <leader>bg :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 
-" Switch the setting of the [sh]ell slash setting. 
+" Switch the setting of the [sh]ell slash setting.
 nnoremap <leader>sh :<c-u>call <SID>SwitchShellSlash()<CR>
 
-function! s:SwitchShellSlash() 
+function! s:SwitchShellSlash()
     if &shellslash == 0
         set shellslash
     else
         set noshellslash
-    endif    
+    endif
     echo "shellslash setting is now " . &shellslash
 endfunction
 
@@ -226,7 +226,7 @@ inoremap <c-a> <c-o>^
 
 " General Settings/Options {{{1
 "Custom Status Line
-set statusline=File:%.50F,\ FT:%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding},pwd:%.40{getcwd()}
+set statusline=File:%.50F,\ FT:%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding}%=pwd:%{getcwd()}
 set hlsearch   " highlight search
 set incsearch  " highlight temporary searches
 set rnu        " Relative line numbering
@@ -337,7 +337,7 @@ let NERDTreeIgnore=['\.aux.*$','\.fls$','\.lof$','\.toc$','\.out$','\.vrb$','\.n
 
 
 " Gundo {{{2
-" Gundo Options. New versions of GVIM don't have 
+" Gundo Options. New versions of GVIM don't have
 " original python support.
 if has('python3')
     let g:gundo_prefer_python3 = 1
@@ -371,7 +371,7 @@ endfunction
 
 syntax enable
 
-if has('gui_running') 
+if has('gui_running')
     let g:solarized_termcolors=256
     let g:solarized_termtrans=0
     silent! colorscheme solarized
@@ -452,7 +452,7 @@ autocmd FileType markdown,tex,text setlocal spell
 autocmd FileType help nnoremap <leader>hh mnA~<esc>`n
 autocmd FileType help nnoremap <leader>hl mn78i=<esc>`n
 autocmd FileType help setlocal nospell
-autocmd FileType tex inoremap %%% \% 
+autocmd FileType tex inoremap %%% \%
 autocmd FileType tex nnoremap [e ?\\begin{equation}<cr>:nohlsearch<cr>
 autocmd FileType tex nnoremap ]e /\\begin{equation}<cr>:nohlsearch<cr>
 autocmd FileType bib command! CleanBib call <SID>CleanBibFile()
@@ -468,13 +468,17 @@ augroup END
 " Event Type Autocmd mappings {{{1
 augroup eventtypemappings
 autocmd!
-" cshtml - html - close enough 
+" cshtml - html - close enough
 autocmd BufRead *.cshtml set filetype=html
+" Remove trailing whitespace. Use keeppatterns so that
+" the search history isn't ruined with the \v\s+$ junk.
+" Setting the marks is required so that the cursor doesn't jump
+" around.
+autocmd BufWrite * execute "normal! mz" |  keeppatterns %s/\v\s+$//e | normal `z
 " Make sure we are aware of when we are in insert mode.
-autocmd InsertEnter * set statusline=%#ErrorMsg#\ INSERT\ File:%.50F,\ FT:%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding},pwd:%.40{getcwd()}
-autocmd InsertLeave * set statusline=File:%.50F,\ FT:%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding},pwd:%.40{getcwd()}
+autocmd InsertEnter * set statusline=%#ErrorMsg#\ INSERT\ File:%.50F,\ FT:%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding}%=pwd:%{getcwd()}
+autocmd InsertLeave * set statusline=%0*File:%.50F,\ FT:%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding}%=pwd:%{getcwd()}%=\
 augroup END
-
 
 " [S]ession [w]rite
 nnoremap <leader>sw :mksession! ~/defaultsession.vim<cr>
