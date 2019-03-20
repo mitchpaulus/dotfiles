@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
 if [[ "$button" ]]; then
-    alacritty -e nmtui > /dev/null
+    alacritty -t "nmtui" -e nmtui > /dev/null
 fi
 nmcli | head -n 1
