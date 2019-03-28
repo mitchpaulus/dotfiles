@@ -48,8 +48,8 @@ nnoremap <leader>ue :UltiSnipsEdit<cr>
 " status bar.
 map <space> <leader>
 let maplocalleader=","
-"Fast saving
-noremap <Leader>w :w<CR>
+" Fast saving, but use update not write.
+noremap <Leader>w :update<CR>
 " Fast quitting
 noremap <leader>q :q<cr>
 " Really quit
