@@ -440,6 +440,9 @@ function! s:CleanBibFile()
     %s/title\s*=\s*{\s*{\(.*\)}\s*}/title = {\1}/
 endfunction
 
+nnoremap <leader>j /<++><cr>cgn
+inoremap <c-j> <esc>/<++><cr>cgn
+
 let g:AutocorrectFiletypes = ["markdown", "tex", "text","gitcommit"]
 
 augroup filetypemappings
@@ -463,6 +466,13 @@ autocmd FileType markdown,text inoremap ^2 <c-v>178
 " Quickly enter in °F
 autocmd FileType markdown,text inoremap DEGF °F
 autocmd FileType gitcommit setlocal spell
+
+autocmd FileType tex inoremap ,eq \begin{equation}<cr><cr>\end{equation}<esc>ki    <esc>i
+autocmd FileType tex inoremap ,bf \textbf{} <++><esc>5hi
+autocmd FileType tex inoremap ,lr \left{\right} <++><esc>11hi
+autocmd FileType tex inoremap ,u _{} <++><esc>5hi
+autocmd FileType tex inoremap ,s ^{} <++><esc>5hi
+
 augroup END
 
 " Event Type Autocmd mappings {{{1
@@ -486,3 +496,5 @@ nnoremap <leader>sw :mksession! ~/defaultsession.vim<cr>
 nnoremap <leader>sl :so ~/defaultsession.vim<cr>
 " Toggle list setting
 nnoremap <leader>ll :set list!<cr>
+
+" vim:ft=vim:foldmethod=marker
