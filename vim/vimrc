@@ -472,8 +472,16 @@ autocmd FileType tex inoremap ,bf \textbf{} <++><esc>5hi
 autocmd FileType tex inoremap ,lr \left{\right} <++><esc>11hi
 autocmd FileType tex inoremap ,u _{} <++><esc>5hi
 autocmd FileType tex inoremap ,s ^{} <++><esc>5hi
+autocmd FileType tex inoremap ,fr \frac{}{<++>} <++><esc>11hi
+autocmd FileType tex inoremap ,dot \dot{} <++><esc>5hi
+autocmd FileType tex inoremap ,tx \text{} <++><esc>5hi
+autocmd FileType tex inoremap ,p \usepackage{}<esc>i
+autocmd FileType tex inoremap ,co \newcommand{\}{<++>}<esc>6hi
+autocmd FileType tex inoremap ,base <esc>:0read ~/.vim/snipfiles/base.tex<cr>
 
 augroup END
+
+inoremap ,hist <esc>:0read ~/.vim/snipfiles/hist.gnuplot<cr>
 
 " Event Type Autocmd mappings {{{1
 augroup eventtypemappings
@@ -487,7 +495,7 @@ autocmd BufRead *.cshtml set filetype=html
 autocmd BufWrite * execute "normal! mz" |  keeppatterns %s/\v\s+$//e | normal `z
 " Make sure we are aware of when we are in insert mode.
 autocmd InsertEnter * set statusline=%#ErrorMsg#\ INSERT\ File:%.50F,\ FT:%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding}%=pwd:%{getcwd()}
-autocmd InsertLeave * set statusline=%0*File:%.50F,\ FT:%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding}%=pwd:%{getcwd()}%=\
+autocmd InsertLeave * set statusline=%0*File:%.50F,\ FT:%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding}%=pwd:%{getcwd()}
 augroup END
 
 " [S]ession [w]rite
