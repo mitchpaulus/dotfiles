@@ -1,0 +1,39 @@
+# Home directory for Windows.
+H=/mnt/c/Users/mpaulus
+
+export PATH=/usr/local/texlive/2018/:"$PATH"
+
+setterm -cursor on
+PROMPT_DIRTRIM=3
+
+# Make tmux start in Windows home directory
+if [ -z "$TMUX" ]; then
+    cd /mnt/c/Users/mpaulus
+fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+export NNN_TMPFILE="/tmp/nnn"
+
+n()
+{
+    nnn "$@"
+
+    if [ -f $NNN_TMPFILE ]; then
+        . $NNN_TMPFILE
+        rm -f $NNN_TMPFILE > /dev/null
+    fi
+}
+
+export FFF_CD_FILE=~/.fff_d
+f() { fff "$@"; cd "$(cat ~/.fff_d)"; }
+
+odn()
+{
+    cd "/mnt/c/Users/mpaulus/OneDrive - Command Commissioning/dailynotes/"
+    nvim "$(find . -type f -name "[2]*.markdown" | sort | tail -n 1)"
+}
+
+export NEOVIM_WIN_DIR="/mnt/c/Users/mpaulus/scoop/apps/neovim/current/Neovim"
+
+# vim:ft=sh
