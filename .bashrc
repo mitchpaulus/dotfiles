@@ -17,7 +17,7 @@ shopt -s checkwinsize
 # match all files and zero or more directories and subdirectories.
 shopt -s globstar
 
-PS1='\[\e[1;36m\]\w\n\[\e[1;36m\]=>\[\e[00m\] '
+PS1='\[\e[90m\]\w\n::\[\e[00m\] '
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -57,13 +57,6 @@ qf() {
     find . -iname "*$1*"
 }
 
-export EDITOR=vim
-export PATH=/usr/local/texlive/2017/bin/x86_64-linux:$PATH
-export MANPATH=/usr/local/texlive/2017/texmf-dist/doc/man/:$MANPATH
-export INFOPATH=/usr/local/texlive/2017/texmf-dist/doc/info/:$INFOPATH
-
-export GEM_HOME=$HOME/gems
-export PATH=$HOME/gems/bin:$PATH
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -85,4 +78,9 @@ fi
 # Enable bash-completion for stack if it is installed.
 if [[ $(command -v stack) ]]; then
     eval "$(stack --bash-completion-script stack)"
+fi
+
+# Add computer specific commands and overwrites.
+if [[ -f ~/.host-bashrc ]]; then
+    source ~/.host-bashrc
 fi
