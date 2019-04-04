@@ -1,8 +1,9 @@
 # vim:nospell
 maxima
+neofetch
+neovim
 pandoc
 pandoc-citeproc
 pandoc-crossref
-neofetch
 ruby
 vlc
