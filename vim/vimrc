@@ -479,6 +479,11 @@ autocmd FileType tex inoremap ,p \usepackage{}<esc>i
 autocmd FileType tex inoremap ,co \newcommand{\}{<++>}<esc>6hi
 autocmd FileType tex inoremap ,base <esc>:0read ~/.vim/snipfiles/base.tex<cr>
 
+autocmd FileType awk inoremap ,for for (i = ; i < <++>; i++) {<cr>    <++><cr>}<esc>2k^f;i
+autocmd FileType awk inoremap ,pf printf("")<esc>hi
+autocmd FileType awk inoremap ,b BEGIN { FS=OFS="" }<esc>2hi
+autocmd FileType awk inoremap ,if if () {<cr>    <++><cr>}<esc>2k^f(a
+
 augroup END
 
 inoremap ,hist <esc>:0read ~/.vim/snipfiles/hist.gnuplot<cr>
