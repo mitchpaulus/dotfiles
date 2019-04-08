@@ -1,0 +1,4 @@
+sed -i 's/COMPASS_DEV/COMPASS_PROD/' WebAM/web.config
+sed -i 's/COMPASS_DEV/COMPASS_PROD/' Compass.Domain/App.config
+
+# vim:ft=sh
