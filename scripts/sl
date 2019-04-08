@@ -1,0 +1,50 @@
+#!/usr/bin/awk -E
+
+# sl slice delimited files.
+# USAGE:
+#   sl FS Columns Files
+#
+#   FS      field separator
+#   Columns string of columns, in order. Assuming < 10 columns
+#           so that 213 means print the second, first, and third columns
+#           in that order.
+
+BEGIN {
+    if (ARGV[1] == "-h" || ARGV[1] == "--help") {
+        print "sl   slice"
+        print ""
+        print "USAGE:"
+        print "  sl FS Columns Files..."
+        exit 0
+    }
+
+    FS=ARGV[1]
+    cols=ARGV[2]
+    ARGV[1] = ""
+    ARGV[2] = ""
+}
+
+{
+    numcols = length(cols)
+
+    if (numcols == 1) {
+        print $cols
+        next
+    }
+
+    for (i = 1; i <= length(cols); i++) {
+        col = substr(cols, i, 1)
+
+        if (i == 1) {
+            printf("%s", $col)
+        }
+        else if (i < length(cols))  {
+            printf("%s%s", FS, $col)
+        }
+        else {
+            printf("%s%s\n", FS, $col)
+        }
+    }
+}
+
+# vim:ft=awk
