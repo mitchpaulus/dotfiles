@@ -28,6 +28,7 @@ n()
 export FFF_CD_FILE=~/.fff_d
 f() { fff "$@"; cd "$(cat ~/.fff_d)"; }
 
+# Open daily notes.
 odn()
 {
     cd "/mnt/c/Users/mpaulus/OneDrive - Command Commissioning/dailynotes/"
@@ -35,5 +36,8 @@ odn()
 }
 
 export NEOVIM_WIN_DIR="/mnt/c/Users/mpaulus/scoop/apps/neovim/current/Neovim"
+
+
+alias vim='nvim'
 
 # vim:ft=sh
