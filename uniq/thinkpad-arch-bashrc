@@ -26,3 +26,5 @@ gitmod() {
             "$(git status -su | awk '/^\s*\?\?\s+/' | wc -l)"
     fi
 }
+
+alias vim=nvim
