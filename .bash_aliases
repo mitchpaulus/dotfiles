@@ -3,4 +3,4 @@ alias r='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd
 alias gd='git diff'
 # [S]ource .[b]ashrc
 alias sb='source ~/.bashrc && printf ".bashrc reloaded.\n"'
-alias p='sudo pacman'
+alias vim='nvim'
