@@ -1,34 +1,23 @@
-" Vundle Plugins {{{1
+" Plugins {{{1
 set nocompatible  " be iMproved, required for Vundle
-filetype off    " required for Vundle.
 
-if has('win32')
-    set rtp+=~/vimfiles/bundle/Vundle.vim "This is for Windows Vundle.
-    call vundle#begin('~/vimfiles/bundle')
-endif
+call plug#begin()
 
-if has('unix')
-    set rtp+=~/.vim/bundle/Vundle.vim "This is for Ubuntu/Linux Vundle.
-    call vundle#begin()
-endif
+Plug 'altercation/vim-colors-solarized'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'godlygeek/tabular'
+Plug 'lervag/vimtex'
+Plug 'qpkorr/vim-bufkill'
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree'
+Plug 'sickill/vim-monokai'
+" Plug 'SirVer/ultisnips'
+Plug 'sjl/gundo.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'mboughaba/i3config.vim'
 
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'godlygeek/tabular'
-Plugin 'lervag/vimtex'
-Plugin 'qpkorr/vim-bufkill'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'scrooloose/nerdtree'
-Plugin 'sickill/vim-monokai'
-"Plugin 'SirVer/ultisnips'
-Plugin 'sjl/gundo.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-surround'
-Plugin 'mboughaba/i3config.vim'
-
-call vundle#end()            " required for Vundle
-filetype plugin indent on    " required for Vundle
+call plug#end()
 
 if has('unix')
     let g:UltiSnipsSnippetDir = "~/.vim/UltiSnips"
@@ -39,7 +28,6 @@ if has('win32')
     let g:UltiSnipsSnippetDirectories = [$HOME.'/vimfiles/UltiSnips', 'UltiSnips']
 endif
 let g:UltiSnipsUsePythonVersion = 3
-
 
 nnoremap <leader>ue :UltiSnipsEdit<cr>
 
@@ -419,6 +407,7 @@ nnoremap <c-y> :CtrlPBuffer<cr>
 " Chose <c-u> for most recently [u]sed
 nnoremap <c-u> :CtrlPMRU<cr>
 
+
 " MISC {{{1
 
 "This is to make sure that when you first enter a file
@@ -485,7 +474,6 @@ autocmd FileType tex inoremap ,en \begin{enumerate}<cr><cr>\end{enumerate}<esc>k
 autocmd FileType tex inoremap ,base <esc>:0read ~/.vim/snipfiles/base.tex<cr>
 autocmd FileType tex inoremap ,i \item <esc>a
 autocmd FileType tex inoremap ,tab \begin{tabular}{}<cr><++><cr>\end{tabular}<esc>2k^2f{a
-
 autocmd FileType awk inoremap ,for for (i = ; i < <++>; i++) {<cr>    <++><cr>}<esc>2k^f;i
 autocmd FileType awk inoremap ,pf printf("")<esc>hi
 autocmd FileType awk inoremap ,b BEGIN { FS=OFS="" }<esc>2hi
