@@ -57,6 +57,10 @@ qf() {
     find . -iname "*$1*"
 }
 
+pdfmerge() {
+    gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -sOutputFile="$@"
+}
+
 export EDITOR=nvim
 
 # enable programmable completion features (you don't need to enable
