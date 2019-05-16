@@ -34,7 +34,7 @@ nnoremap <leader>ue :UltiSnipsEdit<cr>
 " General Mappings {{{1
 " Use space key for leader, but actually use default leader so it shows up in
 " status bar.
-map <space> <leader>
+map <Space> <Leader>
 let maplocalleader=","
 " Fast saving, but use update not write.
 noremap <Leader>w :update<CR>
@@ -292,6 +292,7 @@ set isfname-={
 set isfname-=}
 
 set wildignore+=*.aux*
+set wildignore+=*.asv
 set wildignore+=*.log
 set wildignore+=*.swp
 set wildignore+=*.nav
@@ -434,7 +435,7 @@ function! s:CleanBibFile()
 endfunction
 
 nnoremap <leader>j /<++><cr>cgn
-inoremap <c-j> <esc>/<++><cr>cgn
+inoremap <c-j> <esc>/<++><cr>:nohlsearch<cr>cgn
 
 let g:AutocorrectFiletypes = ["markdown", "tex", "text","gitcommit"]
 
@@ -456,8 +457,10 @@ autocmd FileType gnuplot nnoremap <localleader>g :silent !gnuplot.exe % && start
 autocmd FileType gnuplot nnoremap <localleader>k :silent !taskkill.exe /IM Microsoft.Photos.exe /F<cr>
 " Quickly enter in ² symbol
 autocmd FileType markdown,text inoremap ^2 <c-v>178
+autocmd FileType markdown,text inoremap ,l [](<++>)<esc>6hi
 " Quickly enter in °F
 autocmd FileType markdown,text inoremap DEGF °F
+
 autocmd FileType gitcommit setlocal spell
 
 autocmd FileType tex inoremap ,eq \begin{equation}<cr><cr>\end{equation}<esc>ki    <esc>i
@@ -474,6 +477,7 @@ autocmd FileType tex inoremap ,en \begin{enumerate}<cr><cr>\end{enumerate}<esc>k
 autocmd FileType tex inoremap ,base <esc>:0read ~/.vim/snipfiles/base.tex<cr>
 autocmd FileType tex inoremap ,i \item <esc>a
 autocmd FileType tex inoremap ,tab \begin{tabular}{}<cr><++><cr>\end{tabular}<esc>2k^2f{a
+
 autocmd FileType awk inoremap ,for for (i = ; i < <++>; i++) {<cr>    <++><cr>}<esc>2k^f;i
 autocmd FileType awk inoremap ,pf printf("")<esc>hi
 autocmd FileType awk inoremap ,b BEGIN { FS=OFS="" }<esc>2hi
