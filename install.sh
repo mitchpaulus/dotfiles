@@ -1,19 +1,19 @@
-#!/bin/env bash
+#!/bin/sh
 
 checkfile() {
-    if [[ -f "$2" ]]; then
-        read -p "Do you want to overwrite $2? (y/n) " response
+    if [ -f "$2" ]; then
+        prompt "Do you want to overwrite $2? (y/n) "
 
-        if [[ "$response" == "y" ]]; then
+        if yesresponse "$response"; then
             printf "Linking %s to %s...\n\n" "$2" "$1"
             ln -sfr "$1" "$2"
         else
             printf "Skipping file %s...\n\n" "$2"
         fi
     else
-        read -p "Install $2? ([y]/n)" response
+        prompt "Install $2? ([y]/n)"
 
-        if [[ "$response" == "y" ]] || [[ "$response" == "" ]]; then
+        if yesresponse "$response"; then
             printf "Linking %s to %s...\n" "$2" "$1"
             mkdir -p "$(dirname "$2")"
             ln -sfr "$1" "$2"
@@ -22,42 +22,64 @@ checkfile() {
     fi
 }
 
+# Prompt user from something, store in 'response'
+prompt() {
+    printf "%s" "$1"
+    read -r response
+}
 
-CURRDIR="$(dirname "$0")"
+yesresponse() {
+    if [ "$1" = "y" ] || [ "$1" = "Y" ] || [ "$1" = "yes" ] || [ -z "$1" ]; then
+        return 0
+    else
+        return 1
+    fi
+}
 
-checkfile "$CURRDIR"/i3/config ~/.config/i3/config
+
+checkfile i3/config ~/.config/i3/config
 checkfile vim/vimrc ~/.config/nvim/init.vim
 checkfile .bashrc ~/.bashrc
 checkfile .bash_aliases ~/.bash_aliases
 checkfile alacritty.yml ~/.config/alacritty/alacritty.yml
 checkfile .gitconfig ~/.gitconfig
 
-read -p "Which version of tmux.conf do you want? 1 = new, 2 = old" response
-if [[ "$response" == "1" ]]; then
+prompt "Which version of tmux.conf do you want? 1 = new, 2 = old, 3 = skip "
+if [ "$response" = "1" ]; then
     checkfile "$CURRDIR"/.tmux.conf.new ~/.tmux.conf
-elif [[ "$response" == "2" ]]; then
+elif [ "$response" = "2" ]; then
     checkfile "$CURRDIR"/.tmux.conf ~/.tmux.conf
 fi
 
-read -p "Do you want to download vim-plug? ([y]/n) " response
-if [[ "$response" == "y" ]] || [[ "$response" == "" ]]; then
-    curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+if [ ! -f ~/.local/share/nvim/site/autoload/plug.vim ]; then
+    prompt "Do you want to download vim-plug? ([y]/n) "
+    if yesresponse "$response"; then
+        curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
             https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    fi
 fi
 
 # Make neovim plugin directory for my plugins.
 plugindir=~/.local/share/nvim/site/pack/mitch/start
 mkdir -p $plugindir
 
-read -p "Do you want to clone down vim plugins? (y/n) " response
-if [[ "$response" == "y" ]] || [[ "$response" == "" ]]; then
+prompt "Do you want to clone down vim plugins? (y/n) "
+if yesresponse "$response"; then
     git clone https://github.com/mitchpaulus/autocorrect.vim.git $plugindir/autocorrect.vim
     git clone https://github.com/mitchpaulus/sensible.vim.git $plugindir/sensible.vim
 fi
 
-if [[ ! -d "~/mitchpaulus.github.io/" ]]; then
-    read -p "Do you want to clone down website (y/n)? " response
-    if [[ "$response" == "y" ]] || [[ "$response" == "" ]]; then
+if [ ! -d "$HOME/mitchpaulus.github.io/" ]; then
+    prompt "Do you want to set up website (y/n)? "
+    if yesresponse "$response"; then
         git clone https://github.com/mitchpaulus/mitchpaulus.github.io.git ~/mitchpaulus.github.io
+
+        if pacman -Qi ruby >/dev/null 2>/dev/null; then
+            printf "Need to install ruby...\n"
+            pacman -S ruby
+        fi
+
+        gem install bundler jekyll
+
     fi
 fi
