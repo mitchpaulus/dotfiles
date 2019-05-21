@@ -525,4 +525,10 @@ nnoremap <leader>sl :so ~/defaultsession.vim<cr>
 " Toggle list setting
 nnoremap <leader>ll :set list!<cr>
 
+" Figure out what syntax group item under cursor is
+function! SynGroup()
+    let l:s = synID(line('.'), col('.'), 1)
+    echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
+endfunction
+
 " vim:ft=vim:foldmethod=marker
