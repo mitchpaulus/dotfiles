@@ -4,9 +4,9 @@ Always a work in progress.
 
 ## Programs I like to use:
 
-* EDITOR: Vim, My first love.
-* TERMINAL: Kitty, default terminal since it can make use of the ligatures in
-  Fira Code. Also has nice transparency.
+* EDITOR: ~~Vim~~Neovim, I've made the switch.
+* TERMINAL: Alacritty for the most part. Sometimes Kitty, since it can
+  make use of the ligatures in Fira Code. Also has nice transparency.
 * SHELL: Bash, default shell. Though looking into zsh.
 * BROWSER: Firefox, It's not Google Chrome and works pretty well with vim-vixen
   extension.

@@ -64,6 +64,14 @@ nnoremap * *N
 " Compile Pandoc
 nnoremap <leader>pc :silent !pandoc -o %:p:r.pdf %:p<cr>
 
+" Terminal mode, see pg. 73 Modern Vim
+if has('nvim')
+    tnoremap jk <C-\><C-n>
+    tnoremap <C-v>jk jk
+    tnoremap <Esc> <C-\><C-n>
+    tnoremap <C-v><Esc> <Esc>
+endif
+
 
 " From Vimscript the Hard Way chap 15
 onoremap p i(
@@ -188,11 +196,19 @@ endfunction
 
 
 "These mappings are for moving around the windows quickly.
-nnoremap <c-w> <c-w><c-w>
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
+nnoremap <M-h> <c-w>h
+nnoremap <M-j> <c-w>j
+nnoremap <M-k> <c-w>k
+nnoremap <M-l> <c-w>l
+
+" From pg. 81 Modern Vim
+if has('nvim')
+    tnoremap <M-h> <C-\><c-n><c-w>h
+    tnoremap <M-j> <C-\><c-n><c-w>j
+    tnoremap <M-k> <C-\><c-n><c-w>k
+    tnoremap <M-l> <C-\><c-n><c-w>l
+endif
+
 nnoremap <c-c> <c-w>c
  " Delete buffer using the qpkorr/vim-bufkill package.
 nnoremap <c-d> :BD<cr>
