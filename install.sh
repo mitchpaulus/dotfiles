@@ -1,22 +1,28 @@
 #!/bin/sh
 
+# $1 is the normal expected system location.
+# $2 is the location of file in this repository.
 checkfile() {
-    if [ -f "$2" ]; then
-        prompt "Do you want to overwrite $2? (y/n) "
+    # If the file is already a symbolic link, assume
+    # that it is correctly pointing to what we want.
+    if [ -L "$1" ]; then return 0; fi
+
+    if [ -f "$1" ]; then
+        prompt "Do you want to overwrite $1? (y/n) "
 
         if yesresponse "$response"; then
-            printf "Linking %s to %s...\n\n" "$2" "$1"
-            ln -sfr "$1" "$2"
+            printf "Linking %s to %s...\n\n" "$1" "$2"
+            ln -sfr "$2" "$1"
         else
-            printf "Skipping file %s...\n\n" "$2"
+            printf "Skipping file %s...\n\n" "$1"
         fi
     else
-        prompt "Install $2? ([y]/n)"
+        prompt "Install $1? ([y]/n)"
 
         if yesresponse "$response"; then
-            printf "Linking %s to %s...\n" "$2" "$1"
-            mkdir -p "$(dirname "$2")"
-            ln -sfr "$1" "$2"
+            printf "Linking %s to %s...\n" "$1" "$2"
+            mkdir -p "$(dirname "$1")"
+            ln -sfr "$2" "$1"
             printf "\n\n"
         fi
     fi
@@ -36,19 +42,21 @@ yesresponse() {
     fi
 }
 
+# Try installing various dotfiles
+checkfile   ~/.config/i3/config                 i3/config
+checkfile   ~/.config/nvim/init.vim             vim/vimrc
+checkfile   ~/.bashrc                           .bashrc
+checkfile   ~/.bash_aliases                     .bash_aliases
+checkfile   ~/.config/alacritty/alacritty.yml   .config/alacritty/alacritty.yml
+checkfile   ~/.gitconfig                        .gitconfig
 
-checkfile i3/config ~/.config/i3/config
-checkfile vim/vimrc ~/.config/nvim/init.vim
-checkfile .bashrc ~/.bashrc
-checkfile .bash_aliases ~/.bash_aliases
-checkfile alacritty.yml ~/.config/alacritty/alacritty.yml
-checkfile .gitconfig ~/.gitconfig
-
-prompt "Which version of tmux.conf do you want? 1 = new, 2 = old, 3 = skip "
-if [ "$response" = "1" ]; then
-    checkfile "$CURRDIR"/.tmux.conf.new ~/.tmux.conf
-elif [ "$response" = "2" ]; then
-    checkfile "$CURRDIR"/.tmux.conf ~/.tmux.conf
+if [ ! -L ~/.tmux.conf ]; then
+    prompt "Which version of tmux.conf do you want? 1 = new, 2 = old, 3 = skip "
+    if [ "$response" = "1" ]; then
+        checkfile ~/.tmux.conf "$CURRDIR"/.tmux.conf.new
+    elif [ "$response" = "2" ]; then
+        checkfile ~/.tmux.conf "$CURRDIR"/.tmux.conf
+    fi
 fi
 
 if [ ! -f ~/.local/share/nvim/site/autoload/plug.vim ]; then
