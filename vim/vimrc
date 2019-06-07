@@ -499,6 +499,10 @@ autocmd FileType awk inoremap ,pf printf("")<esc>hi
 autocmd FileType awk inoremap ,b BEGIN { FS=OFS="" }<esc>2hi
 autocmd FileType awk inoremap ,if if () {<cr>    <++><cr>}<esc>2k^f(a
 
+autocmd FileType sh inoremap ,sh #!/bin/sh<CR>
+
+autocmd FileType matlab inoremap ,f function [output] = functionname(inputvariable)<CR><CR>end<Esc>2k
+
 augroup END
 
 inoremap ,hist <esc>:0read ~/.vim/snipfiles/hist.gnuplot<cr>
