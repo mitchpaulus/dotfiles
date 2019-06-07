@@ -108,11 +108,6 @@ function! s:ChangePWD()
     pwd
 endfunction
 
-" Use par for formatting paragraphs on unix.
-if has('unix')
-    set formatprg=par\ -w72
-endif
-
 "Make it easy to edit the vimrc file. From
 "http://learnvimscriptthehardway.stevelosh.com/chapters/07.html.
 nnoremap <leader>ev :split $MYVIMRC<cr>
@@ -471,6 +466,7 @@ autocmd FileType tex nnoremap ]e /\\begin{equation}<cr>:nohlsearch<cr>
 autocmd FileType bib command! CleanBib call <SID>CleanBibFile()
 autocmd FileType gnuplot nnoremap <localleader>g :silent !gnuplot.exe % && start "Plot" %:p:r.png<cr>
 autocmd FileType gnuplot nnoremap <localleader>k :silent !taskkill.exe /IM Microsoft.Photos.exe /F<cr>
+autocmd FileType gnuplot inoremap ,hist <esc>:0read ~/.vim/snipfiles/hist.gnuplot<cr>
 " Quickly enter in ² symbol
 autocmd FileType markdown,text inoremap ^2 <c-v>178
 autocmd FileType markdown,text inoremap ,l [](<++>)<esc>6hi
@@ -493,11 +489,12 @@ autocmd FileType tex inoremap ,en \begin{enumerate}<cr><cr>\end{enumerate}<esc>k
 autocmd FileType tex inoremap ,base <esc>:0read ~/.vim/snipfiles/base.tex<cr>
 autocmd FileType tex inoremap ,i \item <esc>a
 autocmd FileType tex inoremap ,tab \begin{tabular}{}<cr><++><cr>\end{tabular}<esc>2k^2f{a
-
+" }
 autocmd FileType awk inoremap ,for for (i = ; i < <++>; i++) {<cr>    <++><cr>}<esc>2k^f;i
 autocmd FileType awk inoremap ,pf printf("")<esc>hi
 autocmd FileType awk inoremap ,b BEGIN { FS=OFS="" }<esc>2hi
 autocmd FileType awk inoremap ,if if () {<cr>    <++><cr>}<esc>2k^f(a
+" )
 
 autocmd FileType sh inoremap ,sh #!/bin/sh<CR>
 
@@ -505,7 +502,6 @@ autocmd FileType matlab inoremap ,f function [output] = functionname(inputvariab
 
 augroup END
 
-inoremap ,hist <esc>:0read ~/.vim/snipfiles/hist.gnuplot<cr>
 
 " Event Type Autocmd mappings {{{1
 augroup eventtypemappings
