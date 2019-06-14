@@ -4,3 +4,8 @@ alias gd='git diff'
 # [S]ource .[b]ashrc
 alias sb='source ~/.bashrc && printf ".bashrc reloaded.\n"'
 alias vim='nvim'
+
+# Update a .gitignore file for Visual Studio projects.
+vsignore() {
+    curl https://raw.githubusercontent.com/github/gitignore/master/VisualStudio.gitignore > .gitignore
+}
