@@ -16,6 +16,7 @@ Plug 'sjl/gundo.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'mboughaba/i3config.vim'
+Plug 'leafgarland/typescript-vim'
 
 call plug#end()
 
@@ -474,6 +475,18 @@ autocmd FileType markdown,text inoremap ,l [](<++>)<esc>6hi
 autocmd FileType markdown,text inoremap DEGF °F
 
 autocmd FileType gitcommit setlocal spell
+
+autocmd FileType html inoremap ,d <div></div><Esc>5hi
+autocmd FileType html inoremap ,1 <h1></h1><Esc>4hi
+autocmd FileType html inoremap ,2 <h2></h2><Esc>4hi
+autocmd FileType html inoremap ,l <label></label><Esc>7hi
+autocmd FileType html inoremap ,i <input />
+autocmd FileType html inoremap ,p <lt>p></p><Esc>3hi
+autocmd FileType html inoremap ,s <span></span><Esc>6hi
+autocmd FileType html inoremap ,b data-bind=""<Left>
+
+autocmd FileType javascript,typescript inoremap ,f function (<++>) {<cr><++><cr>}<Esc>2k^f(i
+" )
 
 autocmd FileType tex inoremap ,eq \begin{equation}<cr><cr>\end{equation}<esc>ki    <esc>i
 autocmd FileType tex inoremap ,bf \textbf{} <++><esc>5hi
