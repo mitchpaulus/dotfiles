@@ -508,6 +508,7 @@ autocmd FileType awk inoremap ,pf printf("")<esc>hi
 autocmd FileType awk inoremap ,b BEGIN { FS=OFS="" }<esc>2hi
 autocmd FileType awk inoremap ,if if () {<cr>    <++><cr>}<esc>2k^f(a
 " )
+autocmd FileType awk inoremap ,! #!/usr/bin/awk -E<cr>
 
 autocmd FileType sh inoremap ,sh #!/bin/sh<CR>
 
