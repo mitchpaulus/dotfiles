@@ -17,7 +17,12 @@ shopt -s checkwinsize
 # match all files and zero or more directories and subdirectories.
 shopt -s globstar
 
-PS1='\[\e[90m\]\w\n\[\e[90m\]::\[\e[00m\] '
+whiteback='\[\e[48;5;15m\]'
+blackfore='\[\e[30m\]'
+bluefore='\[\e[34m\]'
+reset='\[\e[0m\]'
+
+PS1="${bluefore}\w\n${bluefore}:: ${reset}"
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -37,9 +42,7 @@ alias la='ls -A'
 alias l='ls -CF'
 
 # Alias definitions.
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
+if [ -f ~/.bash_aliases ]; then . ~/.bash_aliases; fi
 
 bind '"\C-p": history-search-backward'
 bind '"\C-n": history-search-forward'
@@ -69,7 +72,6 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-PROMPT_DIRTRIM=3
 
 # Source git tab-completion if available.
 if [[ -a ~/git-completion.bash ]]; then

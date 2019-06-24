@@ -4,7 +4,7 @@ H=/mnt/c/Users/mpaulus
 export PATH=/usr/local/texlive/2018/:"$PATH"
 
 setterm -cursor on
-PROMPT_DIRTRIM=3
+PROMPT_DIRTRIM=5
 
 # Make tmux start in Windows home directory
 if [ -z "$TMUX" ]; then
