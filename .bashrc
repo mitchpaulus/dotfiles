@@ -20,9 +20,10 @@ shopt -s globstar
 whiteback='\[\e[48;5;15m\]'
 blackfore='\[\e[30m\]'
 bluefore='\[\e[34m\]'
+cyanfore='\[\e[36m\]'
 reset='\[\e[0m\]'
 
-PS1="${bluefore}\w\n${bluefore}:: ${reset}"
+PS1="${cyanfore}\w\n${cyanfore}:: ${reset}"
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
