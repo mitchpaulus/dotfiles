@@ -92,6 +92,13 @@ if [ ! -d "$HOME/mitchpaulus.github.io/" ]; then
     fi
 fi
 
+if [ ! -d "$HOME/config-notes" ]; then
+    prompt "Do you want to set up computer config notes (y/n)? "
+    if yesresponse "$response"; then
+        git clone https://github.com/mitchpaulus/config-notes.git ~/config-notes
+    fi
+fi
+
 # Set up ssh with website server
 prompt "Set up SSH with website? [y]/n"
 if yesresponse "$response"; then
