@@ -476,15 +476,17 @@ autocmd FileType markdown,text inoremap DEGF °F
 
 autocmd FileType gitcommit setlocal spell
 
-autocmd FileType html inoremap ,d <div></div><Esc>5hi
 autocmd FileType html inoremap ,1 <h1></h1><Esc>4hi
 autocmd FileType html inoremap ,2 <h2></h2><Esc>4hi
 autocmd FileType html inoremap ,3 <h3></h3><Esc>4hi
-autocmd FileType html inoremap ,l <label></label><Esc>7hi
-autocmd FileType html inoremap ,i <input  /><Esc>2hi
-autocmd FileType html inoremap ,p <lt>p></p><Esc>3hi
-autocmd FileType html inoremap ,s <span></span><Esc>6hi
 autocmd FileType html inoremap ,b data-bind=""<Left>
+autocmd FileType html inoremap ,c class=""<Left>
+autocmd FileType html inoremap ,d <div></div><Esc>5hi
+autocmd FileType html inoremap ,i <input  /><Esc>2hi
+autocmd FileType html inoremap ,l <label></label><Esc>7hi
+autocmd FileType html inoremap ,p <lt>p></p><Esc>3hi
+autocmd FileType html inoremap ,sp <span></span><Esc>6hi
+autocmd FileType html inoremap ,st <style></style><Esc>7hi
 
 autocmd FileType javascript,typescript inoremap ,f function (<++>) {<cr><++><cr>}<Esc>2k^f(i
 " )
