@@ -8,3 +8,11 @@ H='/mnt/c/Users/mpaulus/'
 
 cd /mnt/c/Users/mpaulus
 
+# Open daily notes.
+odn()
+{
+    cd "/mnt/c/Users/mpaulus/OneDrive - Command Commissioning/dailynotes/"
+    "$EDITOR" "$(find . -type f -name "[2]*.markdown" | sort | tail -n 1)"
+}
+
+export CDPATH=".:$H"

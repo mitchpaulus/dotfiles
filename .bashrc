@@ -21,6 +21,7 @@ whiteback='\[\e[48;5;15m\]'
 blackfore='\[\e[30m\]'
 bluefore='\[\e[34m\]'
 cyanfore='\[\e[36m\]'
+whitefore='\[\e[37m\]'
 reset='\[\e[0m\]'
 
 PS1="${cyanfore}\w\n${cyanfore}:: ${reset}"
