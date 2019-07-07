@@ -17,6 +17,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'mboughaba/i3config.vim'
 Plug 'leafgarland/typescript-vim'
+Plug 'arcticicestudio/nord-vim'
 
 call plug#end()
 
@@ -52,11 +53,11 @@ nnoremap dl ^d$
 " [C]hange [l]ine without newlines
 nnoremap cl ^c$
 " Insert [t]oday's [d]ate
-nnoremap <leader>td i<c-r>=strftime('%Y-%m-%d')<cr>
+nnoremap <leader>td i<c-r>=strftime("%Y-%m-%d")<cr>
 " Insert today's c-[d]ate
-inoremap <c-d> <c-r>=strftime('%Y-%m-%d')<cr>
+inoremap <c-d> <c-r>=strftime("%Y-%m-%d")<cr>
 " Insert today's date, never used ctrl-t in command mode.
-cnoremap <c-t> <c-r>=strftime('%Y-%m-%d')<cr>
+cnoremap <c-t> <c-r>=strftime("%Y-%m-%d")<cr>
 " Copy to clipboard
 vnoremap <localleader>c "*y
 " stay on current search
@@ -192,10 +193,10 @@ endfunction
 
 
 "These mappings are for moving around the windows quickly.
-nnoremap <M-h> <c-w>h
-nnoremap <M-j> <c-w>j
-nnoremap <M-k> <c-w>k
-nnoremap <M-l> <c-w>l
+nnoremap <C-h> <c-w>h
+nnoremap <C-j> <c-w>j
+nnoremap <C-k> <c-w>k
+nnoremap <C-l> <c-w>l
 
 " From pg. 81 Modern Vim
 if has('nvim')
