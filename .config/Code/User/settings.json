@@ -1,0 +1,23 @@
+{
+    "vim.insertModeKeyBindingsNonRecursive": [
+        {
+            "before": ["j", "k"],
+            "after": ["<Esc>"]
+        }
+    ],
+    "vim.normalModeKeyBindingsNonRecursive" : [
+        {
+            "before": ["H"],
+            "after": ["^"]
+        },
+        {
+            "before": ["L"],
+            "after": ["$"]
+        },
+        {
+            "before": ["<Tab>"],
+            "after": ["<PageDown>", "z", "z"]
+        }
+    ],
+    "vim.leader" : "<space>"
+}
