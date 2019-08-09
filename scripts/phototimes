@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Purpose: Get data on when site photos taken.
+# First used on the Cherry Point job.
+
+for pic in *.JPG; do
+    printf "%s\t%s\n" "$pic" "$(exiftool "$pic" | awk  'BEGIN {FS=": "}  /Original/ { print $2 }' )"
+done
