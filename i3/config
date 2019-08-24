@@ -56,9 +56,13 @@ bindsym $mod+F1 workspace $firefox; exec firefox "https://i3wm.org/docs/userguid
 
 
 # Bind the audio keys
-bindcode 121 exec pamixer -t; exec pkill -SIGRTMIN+10 i3blocks
-bindcode 122 exec pamixer -d 5; exec pkill -SIGRTMIN+10 i3blocks
-bindcode 123 exec pamixer -i 5; exec pkill -SIGRTMIN+10 i3blocks
+#bindcode 121 exec pamixer -t; exec pkill -SIGRTMIN+10 i3blocks
+#bindcode 122 exec pamixer -d 5; exec pkill -SIGRTMIN+10 i3blocks
+#bindcode 123 exec pamixer -i 5; exec pkill -SIGRTMIN+10 i3blocks
+bindcode 121 exec amixer set Master toggle; exec pkill -SIGRTMIN+10 i3blocks
+bindcode 122 exec amixer set Master 5-; exec pkill -SIGRTMIN+10 i3blocks
+bindcode 123 exec amixer set Master 5+; exec pkill -SIGRTMIN+10 i3blocks
+
 
 # Move focus.
 bindsym $mod+h focus left

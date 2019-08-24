@@ -49,6 +49,7 @@ checkfile   ~/.bashrc                           .bashrc
 checkfile   ~/.bash_aliases                     .bash_aliases
 checkfile   ~/.config/alacritty/alacritty.yml   .config/alacritty/alacritty.yml
 checkfile   ~/.gitconfig                        .gitconfig
+checkfile   ~/.config/i3blocks/config           i3blocks/.i3blocks.conf
 
 if [ ! -L ~/.tmux.conf ]; then
     prompt "Which version of tmux.conf do you want? 1 = new, 2 = old, 3 = skip "
