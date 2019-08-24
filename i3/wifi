@@ -1,6 +1,28 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-if [[ "$button" ]]; then
-    alacritty -t "nmtui" -e nmtui > /dev/null
+#if [[ "$button" ]]; then
+    ##alacritty -t "nmtui" -e nmtui > /dev/null
+    ##alacritty -t "wifi-menu" -e sudo wifi-menu > /dev/null
+#fi
+
+ip_info="$(ip addr)"
+
+wireless_interface="$(awk '$2 ~ /wl.*:/ { print $2 }' <<DOC
+$ip_info
+DOC
+)"
+
+wireless_status="$(awk '$2 ~ /wl.*:/ { print $9 }' <<DOC
+$ip_info
+DOC
+)"
+
+quality=$(grep "$wireless_interface" /proc/net/wireless | awk '{ print int($3 * 100 / 70) }')
+
+if [ "$wireless_status" = "UP" ]; then
+    printf "%s %s%%" "$wireless_interface" "$quality"
+else
+    printf "%s DOWN" "$wireless_interface"
 fi
-nmcli | head -n 1
+
+# nmcli | head -n 1
