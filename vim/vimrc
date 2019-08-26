@@ -149,7 +149,9 @@ cnoremap <C-a> <C-b>
 
 "Use jk to escape insert mode. Suggested here:
 "http://learnvimscriptthehardway.stevelosh.com/chapters/10.html
-inoremap jk <esc>
+"inoremap jk <esc>
+" Switch to left hand because of RSI
+inoremap fd <Esc>
 nnoremap <TAB> <PageDown>zz
 nnoremap <S-TAB> <PageUp>zz
 
