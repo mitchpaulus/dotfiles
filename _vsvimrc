@@ -5,10 +5,14 @@ map <space> <leader>
 
 "Use jk to escape insert mode. Suggested here:
 "http://learnvimscriptthehardway.stevelosh.com/chapters/10.html
-inoremap jk <esc>
+"inoremap jk <esc>
+inoremap fd <Esc>
+
+nnoremap <TAB> <PageDown>zz
+nnoremap <S-TAB> <PageUp>zz
 
 " Fast saving, but use update not write.
-noremap <Leader>w :w<CR>
+nnoremap <Leader>w :w<CR>
 
 " stay on current search
 nnoremap * *N
