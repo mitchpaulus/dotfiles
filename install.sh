@@ -2,6 +2,7 @@
 
 # $1 is the normal expected system location.
 # $2 is the location of file in this repository.
+# checkfile [destination location] [dotfile relative location]
 checkfile() {
     # If the file is already a symbolic link, assume
     # that it is correctly pointing to what we want.
@@ -49,7 +50,7 @@ checkfile   ~/.bashrc                           .bashrc
 checkfile   ~/.bash_aliases                     .bash_aliases
 checkfile   ~/.config/alacritty/alacritty.yml   .config/alacritty/alacritty.yml
 checkfile   ~/.gitconfig                        .gitconfig
-checkfile   ~/.config/i3blocks/config           i3blocks/.i3blocks.conf
+checkfile   ~/.config/i3blocks/config           i3blocks/config
 
 if [ ! -L ~/.tmux.conf ]; then
     prompt "Which version of tmux.conf do you want? 1 = new, 2 = old, 3 = skip "
@@ -81,15 +82,7 @@ fi
 if [ ! -d "$HOME/mitchpaulus.github.io/" ]; then
     prompt "Do you want to set up website (y/n)? "
     if yesresponse "$response"; then
-        git clone https://github.com/mitchpaulus/mitchpaulus.github.io.git ~/mitchpaulus.github.io
-
-        if pacman -Qi ruby >/dev/null 2>/dev/null; then
-            printf "Need to install ruby...\n"
-            pacman -S ruby
-        fi
-
-        gem install bundler jekyll
-
+        scripts/install-website.sh
     fi
 fi
 
@@ -98,6 +91,12 @@ if [ ! -d "$HOME/config-notes" ]; then
     if yesresponse "$response"; then
         git clone https://github.com/mitchpaulus/config-notes.git ~/config-notes
     fi
+fi
+
+if uname -a | grep -q -i "arch"; then
+    sudo pacman -S acpi alacritty compton feh firefox git i3 i3blocks neovim openvpn ranger rofi shellcheck tmux xclip
+else
+    printf "Did not grab packages for particular OS.\n"
 fi
 
 # Set up ssh with website server
