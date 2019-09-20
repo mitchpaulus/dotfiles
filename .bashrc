@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
@@ -75,8 +77,24 @@ if ! shopt -oq posix; then
   fi
 fi
 
+if command -v git; then
+    a() {
+        git add "$@"
+    }
+    d() {
+        git diff "$@"
+    }
+    s() {
+        git status "$@"
+    }
+    c() {
+        git commit "$@"
+    }
+fi
+
 # Source git tab-completion if available.
 if [[ -a ~/git-completion.bash ]]; then
+    # shellcheck disable=SC1090
     source ~/git-completion.bash
 fi
 
@@ -87,5 +105,6 @@ fi
 
 # Add computer specific commands and overwrites.
 if [[ -f ~/.host-bashrc ]]; then
+    # shellcheck disable=SC1090
     source ~/.host-bashrc
 fi
