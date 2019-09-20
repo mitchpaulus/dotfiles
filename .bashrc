@@ -64,6 +64,11 @@ pdfmerge() {
     gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -sOutputFile="$@"
 }
 
+# [E]dit .[b]ashrc
+eb() {
+    nvim ~/.bashrc
+}
+
 export EDITOR=nvim
 
 # enable programmable completion features (you don't need to enable
