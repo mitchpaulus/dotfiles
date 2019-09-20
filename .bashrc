@@ -77,7 +77,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
-if command -v git; then
+if command -v git >/dev/null 2>&1; then
     a() {
         git add "$@"
     }
