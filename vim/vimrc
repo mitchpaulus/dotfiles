@@ -536,8 +536,8 @@ autocmd BufRead *.cshtml set filetype=html
 " around.
 autocmd BufWrite * execute "normal! mz" |  keeppatterns %s/\v\s+$//e | normal `z
 " Make sure we are aware of when we are in insert mode.
-autocmd InsertEnter * set statusline=%#ErrorMsg#\ INSERT\ File:%.50F,\ FT:%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding}%=pwd:%{getcwd()}
-autocmd InsertLeave * set statusline=%0*File:%.50F,\ FT:%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding}%=pwd:%{getcwd()}
+autocmd InsertEnter * set statusline=%#ErrorMsg#\ INSERT\ File:%.50F,\ FT:%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding}
+autocmd InsertLeave * set statusline=%0*File:%.50F,\ FT:%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding}
 augroup END
 
 " [S]ession [w]rite
