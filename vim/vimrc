@@ -18,6 +18,7 @@ Plug 'tpope/vim-surround'
 Plug 'mboughaba/i3config.vim'
 Plug 'leafgarland/typescript-vim'
 Plug 'arcticicestudio/nord-vim'
+Plug 'mitchpaulus/energyplus-vim'
 
 call plug#end()
 
