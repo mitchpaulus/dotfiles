@@ -82,6 +82,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# Add single letter commands for common git operations
 if command -v git >/dev/null 2>&1; then
     a() {
         git add "$@"
@@ -90,10 +91,13 @@ if command -v git >/dev/null 2>&1; then
         git diff "$@"
     }
     s() {
-        git status "$@"
+        git status -u "$@"
     }
     c() {
         git commit "$@"
+    }
+    p() {
+        git push "$@"
     }
 fi
 
