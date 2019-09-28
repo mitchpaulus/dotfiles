@@ -10,7 +10,7 @@
 #           in that order.
 
 BEGIN {
-    if (ARGV[1] == "-h" || ARGV[1] == "--help") {
+    if (ARGV[1] == "-h" || ARGV[1] == "--help" || ARGC == 1) {
         print "sl   slice"
         print ""
         print "USAGE:"
