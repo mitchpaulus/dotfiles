@@ -107,6 +107,11 @@ if [[ -a ~/git-completion.bash ]]; then
     source ~/git-completion.bash
 fi
 
+if [[ -a ~/.config/tmux/bash_completion_tmux.sh ]]; then
+    # shellcheck disable=SC1090
+    source ~/.config/tmux/bash_completion_tmux.sh
+fi
+
 # Enable bash-completion for stack if it is installed.
 if [[ $(command -v stack) ]]; then
     eval "$(stack --bash-completion-script stack)"
