@@ -59,10 +59,14 @@ nnoremap <leader>td i<c-r>=strftime("%Y-%m-%d")<cr>
 inoremap <c-d> <c-r>=strftime("%Y-%m-%d")<cr>
 " Insert today's date, never used ctrl-t in command mode.
 cnoremap <c-t> <c-r>=strftime("%Y-%m-%d")<cr>
-" Copy to clipboard
-vnoremap <localleader>c "*y
 " stay on current search
 nnoremap * *N
+
+" Copy to clipboard in visual mode
+xnoremap <leader>y "*y
+
+" Checktime of the file
+nnoremap <leader>ct :<C-u>checktime<cr>
 
 " Compile Pandoc
 nnoremap <leader>pc :silent !pandoc -o %:p:r.pdf %:p<cr>
