@@ -26,7 +26,7 @@ cyanfore='\[\e[36m\]'
 whitefore='\[\e[37m\]'
 reset='\[\e[0m\]'
 
-PS1="${cyanfore}\w\n${cyanfore}:: ${reset}"
+PS1="${cyanfore}\w\n${cyanfore}::${reset} "
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -107,10 +107,12 @@ if [[ -a ~/git-completion.bash ]]; then
     source ~/git-completion.bash
 fi
 
-if [[ -a ~/.config/tmux/bash_completion_tmux.sh ]]; then
-    # shellcheck disable=SC1090
-    source ~/.config/tmux/bash_completion_tmux.sh
+if [[ ! -a ~/.config/tmux/bash_completion_tmux.sh ]]; then
+    mkdir -p ~/.config/tmux/
+    curl https://raw.githubusercontent.com/imomaliev/tmux-bash-completion/master/completions/tmux > ~/.config/tmux/bash_completion_tmux.sh
+    chmod 755 ~/.config/tmux/bash_completion_tmux.sh
 fi
+source ~/.config/tmux/bash_completion_tmux.sh
 
 # Enable bash-completion for stack if it is installed.
 if [[ $(command -v stack) ]]; then
