@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Prints today's date in the only true date format YYYY-MM-DD
+date +%Y-%m-%d
