@@ -1,0 +1,4 @@
+#!/bin/sh
+SCRIPT=$(readlink -f "$0")
+DIR=$(dirname "$SCRIPT")
+less -r "${DIR}"/unit-conv.markdown
