@@ -44,6 +44,7 @@ yesresponse() {
 }
 
 # Try installing various dotfiles
+#           final destination                   relative repo location
 checkfile   ~/.config/i3/config                 i3/config
 checkfile   ~/.config/nvim/init.vim             vim/vimrc
 checkfile   ~/.bashrc                           .bashrc
@@ -51,6 +52,7 @@ checkfile   ~/.bash_aliases                     .bash_aliases
 checkfile   ~/.config/alacritty/alacritty.yml   .config/alacritty/alacritty.yml
 checkfile   ~/.gitconfig                        .gitconfig
 checkfile   ~/.config/i3blocks/config           i3blocks/config
+checkfile   ~/.config/tmux/bash_completion_tmux.sh           scripts/bash_completion_tmux.sh
 
 if [ ! -L ~/.tmux.conf ]; then
     prompt "Which version of tmux.conf do you want? 1 = new, 2 = old, 3 = skip "
