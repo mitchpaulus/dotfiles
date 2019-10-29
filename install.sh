@@ -96,7 +96,9 @@ if [ ! -d "$HOME/config-notes" ]; then
 fi
 
 if uname -a | grep -q -i "arch"; then
-    sudo pacman -S acpi alacritty compton feh firefox git i3 i3blocks neovim openvpn ranger rofi shellcheck tmux xclip
+    sudo pacman -S acpi alacritty compton feh firefox git i3 i3blocks \
+        neovim openvpn openssh ranger rofi shellcheck tmux xclip \
+        zathura zathura-pdf-mupdf
 else
     printf "Did not grab packages for particular OS.\n"
 fi
@@ -104,9 +106,6 @@ fi
 # Set up ssh with website server
 prompt "Set up SSH with website? [y]/n"
 if yesresponse "$response"; then
-    ssh-keygen -t rsa -b 4096
-    ssh-copy-id root@199.192.25.72
-    printf "Adding 'psy' as a known host to ~/.ssh/config...\n"
-    printf "Host psy\n    User root\nHostname 199.192.25.72\n" >> ~/.ssh/config
+    scripts/install-website-ssh.sh
 fi
 
