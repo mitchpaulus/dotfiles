@@ -3,9 +3,11 @@ set nocompatible  " be iMproved, required for Vundle
 
 " Automatically pull vim-plug if required. From
 " https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
-if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-  silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+if has('unix')
+    if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+      silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+      autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    endif
 endif
 
 call plug#begin()
@@ -452,13 +454,16 @@ let g:vimtex_compiler_latexmk = {
 let g:ctrlp_mruf_exclude = '.*log\|.*aux\|.*tmp\|.*\\.git\\.*' " Windows
 let g:ctrlp_mruf_max = 250
 
-let g:ctrlp_custom_ignore = '\.\(pdf\|png\|PNG\)$'
+let g:ctrlp_custom_ignore = { 'file': '\.\(pdf\|png\|PNG\)$' }
 let g:ctrlp_by_filename = 1
 " Chose <c-y> because it is analogous to ctrl-p but with the pointer
 " finger
 nnoremap <c-y> :CtrlPBuffer<cr>
 " Chose <c-u> for most recently [u]sed
 nnoremap <c-u> :CtrlPMRU<cr>
+
+" autoignore extensions allows for a .ctrlpignore file, acts like .gitignore
+let g:ctrlp_extensions = ['autoignore']
 
 
 " MISC {{{1
