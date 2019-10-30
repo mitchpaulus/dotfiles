@@ -7,6 +7,7 @@ map <space> <leader>
 "http://learnvimscriptthehardway.stevelosh.com/chapters/10.html
 "inoremap jk <esc>
 inoremap fd <Esc>
+inoremap df <Esc>
 
 nnoremap <TAB> <PageDown>zz
 nnoremap <S-TAB> <PageUp>zz
