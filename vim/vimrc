@@ -241,6 +241,29 @@ inoremap <c-a> <c-o>^
 " nnoremap <leader>j <c-w>j
 " nnoremap <leader>k <c-w>k
 
+inoremap <localleader>df °F
+
+" Filename completion
+inoremap <C-F> <C-X><C-F>
+" CTRL-Space is often translated by terminals to CTRL-@. When typing fast,
+" CTRL-N followed by space, often catches the CTRL key too long and then
+" you get whole nother copy of the last insert. I rarely find myself using
+" the CTRL-@ mapping, so I don't think this should be a big deal to NOP.
+" See:
+" https://en.wikipedia.org/wiki/Control_character#How_control_characters_map_to_keyboards
+" https://stackoverflow.com/a/7725796/5932184
+" https://github.com/microsoft/terminal/issues/2865
+imap <C-@> <Nop>
+
+" Take first spelling suggestion
+nnoremap <F1> 1z=
+nnoremap <F2> :<C-u>update<CR>
+nnoremap <F4> ZZ
+
+" Open and close parenthesis. Idea from:
+" http://xahlee.info/kbd/best_way_to_insert_brackets.html
+inoremap <C-j> ()<Left>
+
 " General Settings/Options {{{1
 "Custom Status Line
 set statusline=File:%.50F,\ FT:%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding}
@@ -464,7 +487,7 @@ function! s:CleanBibFile()
 endfunction
 
 nnoremap <leader>j /<++><cr>cgn
-inoremap <c-j> <esc>/<++><cr>:nohlsearch<cr>cgn
+"inoremap <c-j> <esc>/<++><cr>:nohlsearch<cr>cgn
 
 let g:AutocorrectFiletypes = ["markdown", "tex", "text","gitcommit"]
 
