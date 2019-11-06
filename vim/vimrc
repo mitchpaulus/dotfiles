@@ -168,8 +168,8 @@ cnoremap <C-a> <C-b>
 " can just mash the two keys.
 inoremap fd <Esc>
 inoremap df <Esc>
-nnoremap <TAB> <PageDown>zz
-nnoremap <S-TAB> <PageUp>zz
+noremap <TAB> <PageDown>zz
+noremap <S-TAB> <PageUp>zz
 
 " Quick mappings for the beginning and ends of lines
 noremap H ^
