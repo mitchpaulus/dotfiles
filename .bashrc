@@ -69,6 +69,20 @@ eb() {
     nvim ~/.bashrc
 }
 
+# Go to dotfiles
+gd() {
+    cd ~/dotfiles
+}
+
+w() {
+    curl 'wttr.in/Dallas?format=%l:+%C+%t+%h+%w'
+}
+
+# Open EnergyPlus I/O reference
+epio() {
+    cmd.exe /C start 'C:\EnergyPlusV9-1-0\Documentation\InputOutputReference.pdf'
+}
+
 export EDITOR=nvim
 
 # enable programmable completion features (you don't need to enable
