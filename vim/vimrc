@@ -257,10 +257,17 @@ inoremap <C-F> <C-X><C-F>
 " https://github.com/microsoft/terminal/issues/2865
 imap <C-@> <Nop>
 
+" Since ` is used as prefix in tmux, this lets me put in ` without having to
+" double the keystrokes.
+inoremap <F1> `
+inoremap <F2> ```
+
 " Take first spelling suggestion
 nnoremap <F1> 1z=
 nnoremap <F2> :<C-u>update<CR>
 nnoremap <F4> ZZ
+nnoremap <F8> :<c-u>set paste!<cr>:set paste?<cr>
+nnoremap <F9> :<C-u>set paste<CR>"*p:set nopaste<CR>
 
 " Open and close parenthesis. Idea from:
 " http://xahlee.info/kbd/best_way_to_insert_brackets.html
