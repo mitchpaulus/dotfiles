@@ -4,9 +4,15 @@ eval "$(dircolors -b ~/ls_colors.txt)"
 
 alias vim='nvim'
 
+export PATH="$PATH":/home/mtp/dotfiles/scripts/
+
 H='/mnt/c/Users/mpaulus/'
 
 cd /mnt/c/Users/mpaulus
+
+uup() {
+    sudo apt update && sudo apt upgrade && sudo apt autoremove
+}
 
 # Open daily notes.
 odn()

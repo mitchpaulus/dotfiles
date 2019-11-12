@@ -13,3 +13,14 @@ sudo ln -s /etc/fonts/conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d
 sudo ln -s /etc/fonts/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d
 ```
 
+# Work Surface
+
+Disabled the Microsoft Telemetry Compatibility. Went off this post and
+disabled the scheduled tasks for:
+
+`https://answers.microsoft.com/en-us/windows/forum/windows_10-performance/microsoft-telemetry-compatibility/cefa7c8e-49c9-4965-aef6-2d5f01bb38f2`
+
+Microsoft Compatibility Appraiser
+ProgramDataUpdater
+
+
