@@ -23,4 +23,6 @@ disabled the scheduled tasks for:
 Microsoft Compatibility Appraiser
 ProgramDataUpdater
 
-
+2019-11-09:
+When installing stack from the repository:
+You need to either 1) install latest stable ghc package from [extra] or 2) install ncurses5-compat-libs from AUR for the prebuilt binaries installed by stack to work.
