@@ -164,10 +164,13 @@ cnoremap <C-a> <C-b>
 "Use jk to escape insert mode. Suggested here:
 "http://learnvimscriptthehardway.stevelosh.com/chapters/10.html
 "inoremap jk <esc>
-" Switch to left hand because of RSI. Add opposite mapping so I
-" can just mash the two keys.
-inoremap fd <Esc>
-inoremap df <Esc>
+" Now switching to jf for a few reasons:
+" 1. jk stills causes some RSI problems
+" 2. df and fd were annoying since there are many words that end with
+"    either of those characters. The biggest offender was f in if statements.
+" 3. j is the best leader character, since almost no words end with that.
+" 4. So jf splits the duty between both hands using strong pointer finger.
+inoremap jf <esc>
 noremap <TAB> <PageDown>zz
 noremap <S-TAB> <PageUp>zz
 
