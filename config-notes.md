@@ -26,3 +26,12 @@ ProgramDataUpdater
 2019-11-09:
 When installing stack from the repository:
 You need to either 1) install latest stable ghc package from [extra] or 2) install ncurses5-compat-libs from AUR for the prebuilt binaries installed by stack to work.
+
+# General
+
+If iCue software breaks for keyboard, follow steps at:
+```
+https://help.corsair.com/hc/en-us/articles/360025166712-Performing-a-Clean-Reinstallation-of-the-Corsair-Utility-Engine-iCUE-
+```
+This removes all remnants of a previous profile.
+
