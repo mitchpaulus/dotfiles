@@ -69,12 +69,16 @@ eb() {
     nvim ~/.bashrc
 }
 
+ev() {
+    nvim ~/dotfiles/vim/vimrc
+}
+
 # Go to dotfiles
 gd() {
     cd ~/dotfiles
 }
 
-w() {
+wttr() {
     curl 'wttr.in/Dallas?format=%l:+%C+%t+%h+%w'
 }
 
