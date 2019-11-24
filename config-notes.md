@@ -12,7 +12,6 @@ sudo ln -s /etc/fonts/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d
 sudo ln -s /etc/fonts/conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d
 sudo ln -s /etc/fonts/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d
 ```
-
 # Work Surface
 
 Disabled the Microsoft Telemetry Compatibility. Went off this post and
@@ -35,3 +34,13 @@ https://help.corsair.com/hc/en-us/articles/360025166712-Performing-a-Clean-Reins
 ```
 This removes all remnants of a previous profile.
 
+# Thinkpad
+
+2019-10-12: Ran into issue with wifi-menu and netctl. Had to follow
+instructions from
+https://unix.stackexchange.com/questions/121060/arch-linux-not-connecting-to-wifi-anymore#121125
+
+All I did was `killall dhcpcd` and then re-ran wifi menu. Have no idea
+why that fixed anything.
+
+The interface of network profile 'wlp3s0-MySpectrumWiFidf-2G' is already up
