@@ -19,18 +19,18 @@ shopt -s checkwinsize
 # match all files and zero or more directories and subdirectories.
 shopt -s globstar
 
-whiteback='\[\e[48;5;15m\]'
-blackfore='\[\e[30m\]'
-bluefore='\[\e[34m\]'
+# whiteback='\[\e[48;5;15m\]'
+# blackfore='\[\e[30m\]'
+# bluefore='\[\e[34m\]'
 cyanfore='\[\e[36m\]'
-whitefore='\[\e[37m\]'
+# whitefore='\[\e[37m\]'
 reset='\[\e[0m\]'
 
 PS1="${cyanfore}\w\n${cyanfore}::${reset} "
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    ( test  -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" ) || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
     alias dir='dir --color=auto'
     alias vdir='vdir --color=auto'
@@ -46,6 +46,7 @@ alias la='ls -A'
 alias l='ls -CF'
 
 # Alias definitions.
+# shellcheck disable=SC1090
 if [ -f ~/.bash_aliases ]; then . ~/.bash_aliases; fi
 
 bind '"\C-p": history-search-backward'
@@ -75,7 +76,7 @@ ev() {
 
 # Go to dotfiles
 gd() {
-    cd ~/dotfiles
+    cd ~/dotfiles || return
 }
 
 wttr() {
@@ -130,6 +131,7 @@ if [[ ! -a ~/.config/tmux/bash_completion_tmux.sh ]]; then
     curl https://raw.githubusercontent.com/imomaliev/tmux-bash-completion/master/completions/tmux > ~/.config/tmux/bash_completion_tmux.sh
     chmod 755 ~/.config/tmux/bash_completion_tmux.sh
 fi
+# shellcheck disable=SC1090
 source ~/.config/tmux/bash_completion_tmux.sh
 
 # Enable bash-completion for stack if it is installed.
