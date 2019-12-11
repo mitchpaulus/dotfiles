@@ -21,6 +21,8 @@
 1 (m³/s) / m² = 196.9 CFM/ft²
 1 CFM/ft² = 5.08e-3 (m³/s) / m²
 
+1 m³/s = 15,850 gpm
+
 [36m# Thermal Conductivity[0m
 
 1 BTU/(ft²-hr-°F) = 5.68 W/(m²-K)
