@@ -82,7 +82,7 @@ nnoremap <leader>pc :silent !pandoc -o %:p:r.pdf %:p<cr>
 
 " Terminal mode, see pg. 73 Modern Vim
 if has('nvim')
-    tnoremap jk <C-\><C-n>
+    tnoremap jf <C-\><C-n>
     tnoremap <C-v>jk jk
     tnoremap <Esc> <C-\><C-n>
     tnoremap <C-v><Esc> <Esc>
@@ -264,6 +264,12 @@ imap <C-@> <Nop>
 " double the keystrokes.
 inoremap <F1> `
 inoremap <F2> ```
+inoremap <F3> ``<Left>
+inoremap <F4> ```<CR><CR>```<Esc>kI
+
+" This allows you to escape out of quotes, braces, etc. and then append
+" at the end of the current line.
+execute "inoremap <C-L> <Esc>A "
 
 " Take first spelling suggestion
 nnoremap <F1> 1z=
@@ -271,6 +277,7 @@ nnoremap <F2> :<C-u>update<CR>
 nnoremap <F4> ZZ
 nnoremap <F8> :<c-u>set paste!<cr>:set paste?<cr>
 nnoremap <F9> :<C-u>set paste<CR>"*p:set nopaste<CR>
+nnoremap <F10> :<C-u>set paste<CR>"*P:set nopaste<CR>
 
 " Open and close parenthesis. Idea from:
 " http://xahlee.info/kbd/best_way_to_insert_brackets.html
