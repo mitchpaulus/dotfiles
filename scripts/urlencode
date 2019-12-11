@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# Taken from https://unix.stackexchange.com/a/60698/296724
+string="$*"; format=; set --
+while
+literal=${string%%[!-._~0-9A-Za-z]*}
+case "$literal" in
+  ?*)
+    format=$format%s
+    set -- "$@" "$literal"
+    string=${string#$literal};;
+esac
+case "$string" in
+  "") false;;
+esac
+do
+tail=${string#?}
+head=${string%$tail}
+format=$format%%%02x
+set -- "$@" "'$head"
+string=$tail
+done
+printf "$format\\n" "$@"
