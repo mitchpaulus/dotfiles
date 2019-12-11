@@ -1,0 +1,7 @@
+#!/bin/sh
+complete_search="$*"
+
+url_encoded=$(./urlencode "$complete_search")
+
+'/mnt/c/Program Files/Firefox Developer Edition/firefox.exe' -new-tab "$(printf 'duckduckgo.com/?q=%s' "$url_encoded")"
+
