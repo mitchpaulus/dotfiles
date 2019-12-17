@@ -31,6 +31,9 @@ bind c-x kill-pane
 # Quickly create window.
 bind C-c new-window
 
+# Cycle through sessions
+bind / switch-client -n
+
 # Moving around panes
 bind h select-pane -L
 bind j select-pane -D
