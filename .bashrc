@@ -74,6 +74,15 @@ ev() {
     nvim ~/dotfiles/vim/vimrc
 }
 
+# Edit notes
+en() {
+    if [ $TMUX ]; then
+        tmux switch-client -t "work:notes"
+    else
+        printf "Not running tmux.\n"
+    fi
+}
+
 # Go to dotfiles
 gd() {
     cd ~/dotfiles || return
