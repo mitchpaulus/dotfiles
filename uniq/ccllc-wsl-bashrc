@@ -28,6 +28,23 @@ n()
 export FFF_CD_FILE=~/.fff_d
 f() { fff "$@"; cd "$(cat ~/.fff_d)"; }
 
+ns() {
+    tmux new-session -s "$1"
+}
+
+nw() {
+    tmux new-session -s work
+}
+
+et() {
+    nvim "/mnt/c/Users/mpaulus/OneDrive - Command Commissioning/dailynotes/tasks.markdown"
+}
+
+# Explorer.exe here
+eh() {
+    explorer.exe "$(wslpath -w "$(pwd)")"
+}
+
 # Open daily notes.
 odn()
 {
