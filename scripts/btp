@@ -1,3 +1,5 @@
+#!/bin/sh
+
 printf "Update WebAM/web.config\n"
 sed -i 's/COMPASS_DEV/COMPASS_PROD/' WebAM/web.config
 sed -i 's/COMPASS_AUTH_DEV/COMPASS_AUTH_PROD/' WebAM/web.config

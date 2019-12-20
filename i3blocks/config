@@ -1,7 +1,7 @@
 # vim:ft=dosini
 [wifi]
 command=~/dotfiles/i3/wifi
-interval=30
+interval=15
 
 [volume]
 command=if [[ "$(amixer get Master | awk 'NR==5{print $6}' )" == "[on]" ]]; then printf "Vol: %s\n" "$(amixer get Master | awk 'NR==5{print $4}')"; else printf "Vol: MUTE %s\n\n#FF3F3F\n" "$(amixer get Master | awk 'NR==5{print $4}')"; fi

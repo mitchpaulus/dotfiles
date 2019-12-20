@@ -42,7 +42,8 @@ hide_edge_borders both
 bindsym $mod+x kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+#bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec rofi -show run
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -198,7 +199,7 @@ exec --no-startup-id compton -f
 bar {
     font pango:Fira Code 9
     status_command i3blocks
-    separator_symbol "<=>"
+    separator_symbol "<+>"
 }
 
 # vim:filetype=i3config
