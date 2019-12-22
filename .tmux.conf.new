@@ -15,21 +15,14 @@ unbind-key `
 bind ` send-prefix
 
 bind r source-file ~/.tmux.conf \; display "Reloaded!"
-bind C-r source-file ~/.tmux.conf \; display "Reloaded!"
 
 # Splitting windows
-bind \ split-window -h -c '#{pane_current_path}'
-bind c-\ split-window -h -c '#{pane_current_path}'
+bind '\' split-window -h -c '#{pane_current_path}'
 bind | split-window -h -c '#{pane_current_path}'
 bind - split-window -v -c '#{pane_current_path}'
-bind C-s split-window -v -c '#{pane_current_path}'
 
 # Don't ask to kill window
 bind x kill-pane
-bind c-x kill-pane
-
-# Quickly create window.
-bind C-c new-window
 
 # Cycle through sessions
 bind / switch-client -n
@@ -39,11 +32,6 @@ bind h select-pane -L
 bind j select-pane -D
 bind k select-pane -U
 bind l select-pane -R
-bind C-l select-pane -R
-bind C-h select-pane -L
-bind C-j select-pane -D
-bind C-k select-pane -U
-bind C-n next-window
 
 # Resizing panes
 bind -r H resize-pane -L 5
