@@ -55,7 +55,7 @@ set-window-option -g mode-keys vi
 # Taken from https://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf/
 set -g status-position bottom
 set -g status-justify left
-set -g status-right '#[fg=colour7,bg=colour5,bold] %Y-%m-%d #[fg=colour7,bg=colour4,bold] %H:%M:%S '
+set -g status-right '#[fg=colour7,bg=colour5,bold] %a %Y-%m-%d #[fg=colour7,bg=colour4,bold] %H:%M:%S '
 set -g status-right-length 50
 set -g status-left-length 20
 set -g status-left '#[fg=colour7][#S] '
