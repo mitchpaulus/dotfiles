@@ -26,12 +26,22 @@ bind x kill-pane
 
 # Cycle through sessions
 bind / switch-client -n
+bind -n S-Up switch-client -n
+bind -n S-Down switch-client -p
 
 # Moving around panes
 bind h select-pane -L
 bind j select-pane -D
 bind k select-pane -U
 bind l select-pane -R
+bind -n M-Left select-pane -L
+bind -n M-Down select-pane -D
+bind -n M-Up select-pane -U
+bind -n M-Right select-pane -R
+
+# Move around windows
+bind -n S-Left previous-window
+bind -n S-Right next-window
 
 # Resizing panes
 bind -r H resize-pane -L 5
