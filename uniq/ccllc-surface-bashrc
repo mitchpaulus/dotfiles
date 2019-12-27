@@ -22,3 +22,7 @@ odn()
 }
 
 export CDPATH=".:$H"
+
+gm() {
+    cd "/mnt/c/Users/mpaulus/OneDrive - Command Commissioning/meetingnotes"
+}
