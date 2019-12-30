@@ -1,7 +1,7 @@
 # Home directory for Windows.
 H=/mnt/c/Users/mpaulus
 
-export PATH=/usr/local/texlive/2018/:"$PATH"
+export PATH=~/dotfiles/scripts:/usr/local/texlive/2018/:"$PATH"
 
 setterm -cursor on
 PROMPT_DIRTRIM=5
@@ -49,6 +49,9 @@ eh() {
 odn()
 {
     cd "/mnt/c/Users/mpaulus/OneDrive - Command Commissioning/dailynotes/"
+    if [ $TMUX ]; then
+        tmux rename-window "notes"
+    fi
     "$EDITOR" "$(find . -type f -name "[2]*.markdown" | sort | tail -n 1)"
 }
 
@@ -56,5 +59,28 @@ export NEOVIM_WIN_DIR="/mnt/c/Users/mpaulus/scoop/apps/neovim/current/Neovim"
 
 
 alias vim='nvim'
+
+alias ep='/mnt/c/EnergyPlusV9-1-0/energyplus.exe'
+
+# Resource Advisor API location
+raapi="https://preprod.resourceadvisor.schneider-electric.com/api"
+iancred="inelson:CCllc2019!"
+
+ratest="https://core.stg1.resourceadvisor.schneider-electric.com/api"
+
+brand_colors_png() {
+    cmd.exe '/C' 'C:\Users\mpaulus\OneDrive - Command Commissioning\ccllc_brand_colors.png'
+}
+
+brand_colors() {
+    printf "Blue:       0   73  135, #004987\n"
+    printf "Gray:       84  88  90,  #54585a\n"
+    printf "Maroon:     80  0   0,   #500000\n"
+    printf "Light Gray: 237 240 240, #edf0f0\n"
+    printf "Green:      25  145 58,  #19913a\n"
+    printf "Yellow:     253 196 0,   #fdc400\n"
+    printf "Black:      0   0   0,   #000000\n"
+}
+
 
 # vim:ft=sh
