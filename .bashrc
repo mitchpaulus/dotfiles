@@ -96,6 +96,10 @@ wttr() {
     curl 'wttr.in/Dallas?format=%l:+%C+%t+%h+%w'
 }
 
+m() {
+    nvim Makefile
+}
+
 # Open EnergyPlus I/O reference
 epio() {
     cmd.exe /C start 'C:\EnergyPlusV9-1-0\Documentation\InputOutputReference.pdf'
