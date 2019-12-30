@@ -64,7 +64,9 @@ qf() {
 }
 
 pdfmerge() {
-    gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -sOutputFile="$@"
+    outputfile="$1"
+    shift
+    gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -sOutputFile="$outputfile" "$@"
 }
 
 # [E]dit .[b]ashrc
