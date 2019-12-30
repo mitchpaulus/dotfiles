@@ -102,6 +102,11 @@ onoremap il{ :<c-u>execute "normal! ?{\r:nohlsearch\rvi{"<cr>
 onoremap ilb :<c-u>execute "normal! ?{\r:nohlsearch\rvi{"<cr>
 vnoremap b i{
 
+" From https://vi.stackexchange.com/a/15233/10847
+onoremap if :<C-u>normal! [zV]z<CR>
+xnoremap if [zo]z
+
+
 " Copy file to clipboard (d for duplicate)
 nnoremap <leader>d ggVG"*y
 
@@ -269,7 +274,7 @@ inoremap <F4> ```<CR><CR>```<Esc>kI
 
 " This allows you to escape out of quotes, braces, etc. and then append
 " at the end of the current line.
-execute "inoremap <C-L> <Esc>A "
+execute "inoremap <C-L> <Esc>A"
 
 " Take first spelling suggestion
 nnoremap <F1> 1z=
