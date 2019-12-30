@@ -487,6 +487,9 @@ nnoremap <c-u> :CtrlPMRU<cr>
 " autoignore extensions allows for a .ctrlpignore file, acts like .gitignore
 let g:ctrlp_extensions = ['autoignore']
 
+" NERDCommenter {{{2
+
+let g:NERDCustomDelimiters = { "idf": { 'left': '!' } }
 
 " MISC {{{1
 
