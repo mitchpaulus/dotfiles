@@ -71,16 +71,16 @@ pdfmerge() {
 
 # [E]dit .[b]ashrc
 eb() {
-    nvim ~/.bashrc
+    "$EDITOR" ~/.bashrc
 }
 
 ev() {
-    nvim ~/dotfiles/vim/vimrc
+    "$EDITOR" ~/dotfiles/vim/vimrc
 }
 
 # Edit notes
 en() {
-    if [ $TMUX ]; then
+    if [ "$TMUX" ]; then
         tmux switch-client -t "work:notes"
     else
         printf "Not running tmux.\n"
@@ -97,7 +97,7 @@ wttr() {
 }
 
 m() {
-    nvim Makefile
+    "$EDITOR" Makefile
 }
 
 # Open EnergyPlus I/O reference
