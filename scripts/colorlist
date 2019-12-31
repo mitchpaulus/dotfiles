@@ -1,3 +1,5 @@
 #!/bin/sh
 
-for color in 30 31 32 33 34 35 36 37; do printf "\e[%sm\\\\e[%s hello\n" "$color" "$color"; done
+printf "\n"
+
+for color in 30 31 32 33 34 35 36 37; do printf "\e[%smColor %s hello\t\e[%smColor %s hello\n" "$color" "$color" "$(($color + 60))" "$(($color + 60))"; done
