@@ -142,6 +142,11 @@ if command -v git >/dev/null 2>&1; then
     }
 fi
 
+# -R is to make this a read only operation.
+helpbash() {
+    "$EDITOR" -R ~/dotfiles/help/bash.markdown
+}
+
 # Source git tab-completion if available.
 if [[ -a ~/git-completion.bash ]]; then
     # shellcheck disable=SC1090
