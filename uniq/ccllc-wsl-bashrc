@@ -60,7 +60,7 @@ export NEOVIM_WIN_DIR="/mnt/c/Users/mpaulus/scoop/apps/neovim/current/Neovim"
 
 alias vim='nvim'
 
-alias ep='/mnt/c/EnergyPlusV9-1-0/energyplus.exe'
+alias ep='/mnt/c/EnergyPlusV9-2-0/energyplus.exe'
 
 # Resource Advisor API location
 raapi="https://preprod.resourceadvisor.schneider-electric.com/api"
