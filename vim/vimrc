@@ -290,7 +290,10 @@ inoremap <C-j> ()<Left>
 
 " General Settings/Options {{{1
 "Custom Status Line
-set statusline=File:%.50F,\ FT:%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding}
+
+let g:basestatusline='%.50F%=%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding}'
+
+set statusline=%!g:basestatusline
 set hlsearch   " highlight search
 set incsearch  " highlight temporary searches
 set rnu        " Relative line numbering
@@ -606,8 +609,8 @@ autocmd BufRead *.cshtml set filetype=html
 " around.
 autocmd BufWrite * execute "normal! mz" |  keeppatterns %s/\v\s+$//e | normal `z
 " Make sure we are aware of when we are in insert mode.
-autocmd InsertEnter * set statusline=%#ErrorMsg#\ INSERT\ File:%.50F,\ FT:%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding}
-autocmd InsertLeave * set statusline=%0*File:%.50F,\ FT:%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding}
+autocmd InsertEnter * setlocal statusline=%#ErrorMsg#\ INSERT\ %.50F%=%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding}
+autocmd InsertLeave * setlocal statusline=%!g:basestatusline
 augroup END
 
 " [S]ession [w]rite
