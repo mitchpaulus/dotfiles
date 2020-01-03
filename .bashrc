@@ -100,6 +100,11 @@ m() {
     "$EDITOR" Makefile
 }
 
+# Save keystrokes moving up a directory.
+u() {
+    cd ..
+}
+
 # Open EnergyPlus I/O reference
 epio() {
     cmd.exe /C start 'C:\EnergyPlusV9-2-0\Documentation\InputOutputReference.pdf'
