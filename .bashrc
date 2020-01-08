@@ -99,7 +99,7 @@ epio() {
 }
 
 epdoc() {
-    explorer.exe 'C:\EnergyPlusV9-1-0\Documentation'
+    explorer.exe 'C:\EnergyPlusV9-2-0\Documentation'
 }
 
 
