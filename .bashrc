@@ -59,9 +59,7 @@ getlast() {
 }
 
 # [Q]uick [F]ind.
-qf() {
-    find . -iname "*$1*"
-}
+qf() { find . -iname "*$1*" ; }
 
 pdfmerge() {
     outputfile="$1"
@@ -70,13 +68,9 @@ pdfmerge() {
 }
 
 # [E]dit .[b]ashrc
-eb() {
-    "$EDITOR" ~/.bashrc
-}
+eb() { "$EDITOR" ~/.bashrc ; }
 
-ev() {
-    "$EDITOR" ~/dotfiles/vim/vimrc
-}
+ev() { "$EDITOR" ~/dotfiles/vim/vimrc ; }
 
 # Edit notes
 en() {
@@ -88,22 +82,16 @@ en() {
 }
 
 # Go to dotfiles
-gd() {
-    cd ~/dotfiles || return
-}
+gd() { cd ~/dotfiles || return ; }
 
 wttr() {
     curl 'wttr.in/Dallas?format=%l:+%C+%t+%h+%w'
 }
 
-m() {
-    "$EDITOR" Makefile
-}
+m() { "$EDITOR" Makefile ; }
 
 # Save keystrokes moving up a directory.
-u() {
-    cd ..
-}
+u() { cd .. ;  }
 
 # Open EnergyPlus I/O reference
 epio() {
