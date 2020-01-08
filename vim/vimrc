@@ -367,8 +367,10 @@ if has("gui_running")
 endif
 
 
+" A sane user does not use these characters in filenames
 set isfname-={
 set isfname-=}
+set isfname-==
 
 set wildignore+=*.aux*
 set wildignore+=*.asv
@@ -594,6 +596,10 @@ autocmd FileType awk inoremap ,! #!/usr/bin/awk -E<cr>
 autocmd FileType sh inoremap ,sh #!/bin/sh<CR>
 
 autocmd FileType matlab inoremap ,f function [output] = functionname(inputvariable)<CR><CR>end<Esc>2k
+
+autocmd FileType make inoremap ,v $()<Left>
+
+autocmd FileType idf execute 'inoremap <localleader>i ! INCLUDE '
 
 augroup END
 
