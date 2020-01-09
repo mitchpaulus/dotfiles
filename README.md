@@ -6,8 +6,8 @@ Always a work in progress.
 
 *  EDITOR: ~~Vim~~Neovim, I've made the switch.
 
-*  TERMINAL: Alacritty for the most part. Sometimes Kitty, since it can
-   make use of the ligatures in Fira Code. Also has nice transparency.
+*  TERMINAL: Alacritty for the most part on Linux. Windows Terminal in
+   WSL.
 
 *  SHELL: Bash, default shell. Though looking into zsh.
 
