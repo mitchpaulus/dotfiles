@@ -1,3 +1,4 @@
+#!/bin/sh
 ssh-keygen -t rsa -b 4096
 ssh-copy-id root@199.192.25.72
 printf "Adding 'psy' as a known host to ~/.ssh/config...\n"
