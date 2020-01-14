@@ -50,6 +50,8 @@ map <Space> <Leader>
 let maplocalleader=","
 " Fast saving, but use update not write.
 noremap <Leader>w :update<CR>
+" For when I hold the shift key too long
+command W w
 " Fast quitting
 noremap <leader>q :q<cr>
 " Really quit
