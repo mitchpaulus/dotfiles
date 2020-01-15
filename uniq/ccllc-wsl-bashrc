@@ -28,9 +28,7 @@ n()
 export FFF_CD_FILE=~/.fff_d
 f() { fff "$@"; cd "$(cat ~/.fff_d)"; }
 
-ns() {
-    tmux new-session -s "$1"
-}
+ns() { tmux new-session -s "$*"; }
 
 nw() {
     tmux new-session -s work
@@ -45,6 +43,8 @@ eh() {
     explorer.exe "$(wslpath -w "$(pwd)")"
 }
 
+epidd() { nvim '/mnt/c/EnergyPlusV9-2-0/Energy+.idd'; }
+
 # Open daily notes.
 odn()
 {
@@ -56,7 +56,6 @@ odn()
 }
 
 export NEOVIM_WIN_DIR="/mnt/c/Users/mpaulus/scoop/apps/neovim/current/Neovim"
-
 
 alias vim='nvim'
 
