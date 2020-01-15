@@ -118,21 +118,11 @@ fi
 
 # Add single letter commands for common git operations
 if command -v git >/dev/null 2>&1; then
-    a() {
-        git add "$@"
-    }
-    d() {
-        git diff "$@"
-    }
-    s() {
-        git status -u "$@"
-    }
-    c() {
-        git commit "$@"
-    }
-    p() {
-        git push "$@"
-    }
+    a() { git add       "$@"; }
+    d() { git diff      "$@"; }
+    s() { git status -u "$@"; }
+    c() { git commit    "$@"; }
+    p() { git push      "$@"; }
 fi
 
 # -R is to make this a read only operation.
