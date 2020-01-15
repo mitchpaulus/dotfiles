@@ -54,6 +54,9 @@ noremap <Leader>w :update<CR>
 command W w
 " Fast quitting
 noremap <leader>q :q<cr>
+
+nnoremap Q :q<CR>
+nnoremap <leader>q :q<CR>
 " Really quit
 noremap <leader>Q :q!<cr>
 " [Y]ank entire file to clipboard.
@@ -70,6 +73,8 @@ nnoremap <leader>td i<c-r>=strftime("%Y-%m-%d")<cr>
 inoremap <c-d> <c-r>=strftime("%Y-%m-%d")<cr>
 " Insert today's date, never used ctrl-t in command mode.
 cnoremap <c-t> <c-r>=strftime("%Y-%m-%d")<cr>
+" Insert today's date with the day of the week
+inoremap <localleader>t <c-r>=strftime("%A %Y-%m-%d")<cr>
 " stay on current search
 nnoremap * *N
 
@@ -178,6 +183,8 @@ cnoremap <C-a> <C-b>
 " 3. j is the best leader character, since almost no words end with that.
 " 4. So jf splits the duty between both hands using strong pointer finger.
 inoremap jf <esc>
+inoremap <F9> <C-r>*
+
 noremap <TAB> <PageDown>zz
 noremap <S-TAB> <PageUp>zz
 
@@ -602,6 +609,7 @@ autocmd FileType matlab inoremap ,f function [output] = functionname(inputvariab
 autocmd FileType make inoremap ,v $()<Left>
 
 autocmd FileType idf execute 'inoremap <localleader>i ! INCLUDE '
+autocmd FileType idf inoremap <localleader>r Replace ECM
 
 augroup END
 
