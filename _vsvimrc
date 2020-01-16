@@ -3,11 +3,7 @@
 
 map <space> <leader>
 
-"Use jk to escape insert mode. Suggested here:
-"http://learnvimscriptthehardway.stevelosh.com/chapters/10.html
-"inoremap jk <esc>
-inoremap fd <Esc>
-inoremap df <Esc>
+inoremap jf <Esc>
 
 nnoremap <TAB> <PageDown>zz
 nnoremap <S-TAB> <PageUp>zz
