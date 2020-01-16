@@ -51,7 +51,7 @@ let maplocalleader=","
 " Fast saving, but use update not write.
 noremap <Leader>w :update<CR>
 " For when I hold the shift key too long
-command W w
+command! W w
 " Fast quitting
 noremap <leader>q :q<cr>
 
@@ -138,7 +138,7 @@ endfunction
 
 "Make it easy to edit the vimrc file. From
 "http://learnvimscriptthehardway.stevelosh.com/chapters/07.html.
-nnoremap <leader>ev :split $MYVIMRC<cr>
+nnoremap <leader>ev :edit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
 " [e]dit [t]ikz plugin.
