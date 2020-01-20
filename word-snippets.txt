@@ -1,0 +1,16 @@
+zt  temperature
+zT Temperature
+
+zcn condenser
+zCn Condenser
+
+zch chilled
+zCh Chilled
+
+zw water
+
+zchwst chilled water supply temperature
+zcwst condenser water supply temperature
+
+zs supply
+zS Supply
