@@ -49,16 +49,17 @@ nnoremap <leader>ue :UltiSnipsEdit<cr>
 map <Space> <Leader>
 let maplocalleader=","
 " Fast saving, but use update not write.
-noremap <Leader>w :update<CR>
+nnoremap <Leader>w :update<CR>
 " For when I hold the shift key too long
 command! W w
-" Fast quitting
-noremap <leader>q :q<cr>
 
-nnoremap Q :q<CR>
-nnoremap <leader>q :q<CR>
+" Fast quitting
+nnoremap q :q<CR>
 " Really quit
-noremap <leader>Q :q!<cr>
+nnoremap Q :q!<CR>
+
+" Start macro
+nnoremap m q
 " [Y]ank entire file to clipboard.
 nnoremap <leader>y :<c-u>%yank *<cr>
 " [Y]ank [l]ine without newlines
