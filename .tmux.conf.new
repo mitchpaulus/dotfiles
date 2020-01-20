@@ -56,14 +56,19 @@ bind u switch-client -t "work:notes"
 
 # Formatting status bar.
 # Taken from https://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf/
-set -g status-position bottom
-set -g status-justify left
-set -g status-right '#[fg=colour7,bg=colour5,bold] %a %Y-%m-%d #[fg=colour7,bg=colour4,bold] %H:%M:%S '
-set -g status-right-length 50
-set -g status-left-length 20
-set -g status-left '#[fg=colour7][#S] '
+#set -g status-right '#[fg=colour7,bg=colour5,bold] %a %Y-%m-%d #[fg=colour7,bg=colour4,bold] %H:%M '
 set -g pane-active-border-style fg=colour6
+set -g status-interval 30
+set -g status-justify centre
+set -g status-left '#[fg=colour7][#S] '
+set -g status-left-length 20
+set -g status-position bottom
+set -g status-right '#(curl wttr.in/Dallas?format=%%t+%%C) #[fg=colour7,bg=colour5,bold] %a %Y-%m-%d #[fg=colour7,bg=colour4,bold] %H:%M '
+set -g status-right-length 50
 set -g status-style bg=colour0
+
+set -g window-style 'bg=colour0'
+set -g window-active-style 'bg=colour233'
 
 setw -g window-status-current-format ' #[fg=colour4]#I:#W#F '
 setw -g window-status-format ' #[fg=colour7]#I:#W#F '
