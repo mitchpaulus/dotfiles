@@ -64,7 +64,12 @@
     "blacklist": [
         "outlook.office.com",
         "commandcomllc.deltekfirst.com",
-        "www.youtube.com"
+        "www.youtube.com",
+        "github.com",
+        "github.tamu.edu",
+        "cc-compass.tamu.edu",
+        "localhost:57993",
+        "mail.google.com"
     ],
     "properties": {
         "hintchars": "abcdefghijklmnopqrstuvwxyz",
