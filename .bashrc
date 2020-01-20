@@ -102,6 +102,8 @@ epdoc() {
     explorer.exe 'C:\EnergyPlusV9-2-0\Documentation'
 }
 
+hnotes() { "$EDITOR" '/mnt/c/Users/mpaulus/GoogleDrive/notes/home tasks.md' ; }
+
 
 export EDITOR=nvim
 
