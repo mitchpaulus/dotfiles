@@ -3,8 +3,6 @@
     name = Mitchell Paulus
 [push]
     default = simple
-[core]
-    autocrlf = input
 [alias]
 	st = status -u
     co = checkout
