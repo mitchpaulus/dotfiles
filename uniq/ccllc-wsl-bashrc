@@ -81,6 +81,4 @@ brand_colors() {
     printf "Black:      0   0   0,   #000000\n"
 }
 
-source /home/mpaulus//.ghcup/env
-
 # vim:ft=sh

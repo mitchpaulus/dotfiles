@@ -49,7 +49,9 @@ nnoremap <leader>ue :UltiSnipsEdit<cr>
 map <Space> <Leader>
 let maplocalleader=","
 " Fast saving, but use update not write.
-nnoremap <Leader>w :update<CR>
+"nnoremap <Leader>w :update<CR>
+nnoremap s :<C-u>update<CR>
+
 " For when I hold the shift key too long
 command! W w
 
@@ -62,12 +64,6 @@ nnoremap Q :q!<CR>
 nnoremap m q
 " [Y]ank entire file to clipboard.
 nnoremap <leader>y :<c-u>%yank *<cr>
-" [Y]ank [l]ine without newlines
-nnoremap yl ^y$
-" [D]elete [l]ine without newlines
-nnoremap dl ^d$
-" [C]hange [l]ine without newlines
-nnoremap cl ^c$
 " Insert [t]oday's [d]ate
 nnoremap <leader>td i<c-r>=strftime("%Y-%m-%d")<cr>
 " Insert today's c-[d]ate
@@ -113,7 +109,6 @@ vnoremap b i{
 " From https://vi.stackexchange.com/a/15233/10847
 onoremap if :<C-u>normal! [zV]z<CR>
 xnoremap if [zo]z
-
 
 " Copy file to clipboard (d for duplicate)
 nnoremap <leader>d ggVG"*y
@@ -301,7 +296,7 @@ inoremap <C-j> ()<Left>
 " General Settings/Options {{{1
 "Custom Status Line
 
-let g:basestatusline='%.50F%=%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding}'
+let g:basestatusline='%F%=%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding}'
 
 set statusline=%!g:basestatusline
 set hlsearch   " highlight search
@@ -359,7 +354,7 @@ endif
 if has('win32')
     set spellfile=~\vimfiles\spell\hvac.utf-8.add
 elseif has('unix')
-    set spellfile=~/.vim/spell/hvac.utf-8.add
+    set spellfile=~/.config/nvim/spell/hvac.utf-8.add
 endif
 
 if has("gui_running")
