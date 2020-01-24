@@ -67,6 +67,9 @@ pdfmerge() {
     gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -sOutputFile="$outputfile" "$@"
 }
 
+# Pretty print the path variable
+pathpp() { printf "%s" "$PATH" | awk 'BEGIN { RS=":" } { print }' | sort ; }
+
 # [E]dit .[b]ashrc
 eb() { "$EDITOR" ~/.bashrc ; }
 
