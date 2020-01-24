@@ -8,6 +8,8 @@ inoremap jf <Esc>
 nnoremap <TAB> <PageDown>zz
 nnoremap <S-TAB> <PageUp>zz
 
+nnoremap s :w<CR>
+
 " Fast saving, but use update not write.
 nnoremap <Leader>w :w<CR>
 
