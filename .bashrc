@@ -87,9 +87,7 @@ en() {
 # Go to dotfiles
 gd() { cd ~/dotfiles || return ; }
 
-wttr() {
-    curl 'wttr.in/Dallas?format=%l:+%C+%t+%h+%w'
-}
+wttr() { curl 'wttr.in/Dallas?format=%l:+%C+%t+%h+%w'; }
 
 m() { "$EDITOR" Makefile ; }
 
@@ -97,13 +95,9 @@ m() { "$EDITOR" Makefile ; }
 u() { cd .. ;  }
 
 # Open EnergyPlus I/O reference
-epio() {
-    cmd.exe /C start 'C:\EnergyPlusV9-2-0\Documentation\InputOutputReference.pdf'
-}
+epio() { cmd.exe /C start 'C:\EnergyPlusV9-2-0\Documentation\InputOutputReference.pdf'; }
 
-epdoc() {
-    explorer.exe 'C:\EnergyPlusV9-2-0\Documentation'
-}
+epdoc() { explorer.exe 'C:\EnergyPlusV9-2-0\Documentation'; }
 
 hnotes() { "$EDITOR" '/mnt/c/Users/mpaulus/GoogleDrive/notes/home tasks.md' ; }
 
@@ -115,8 +109,10 @@ export EDITOR=nvim
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
+    # shellcheck disable=SC1091
     . /usr/share/bash-completion/bash_completion
   elif [ -f /etc/bash_completion ]; then
+    # shellcheck disable=SC1091
     . /etc/bash_completion
   fi
 fi
@@ -130,10 +126,11 @@ if command -v git >/dev/null 2>&1; then
     p() { git push      "$@"; }
 fi
 
-# -R is to make this a read only operation.
-helpbash() {
-    "$EDITOR" -R ~/dotfiles/help/bash.markdown
-}
+# -R is to make this a read only operation if nvim is the EDITOR
+helpbash() { nvim -R ~/dotfiles/help/bash.markdown; }
+
+# Mount a Windows network drive like M:\. Use like 'winmount m'
+winmount() { if [ ! -d /mnt/"${1,,}" ]; then sudo mkdir -p /mnt/"${1,,}"; fi ; sudo mount -t drvfs "${1^^}": /mnt/"${1,,}" ; }
 
 # Source git tab-completion if available.
 if [[ -a ~/git-completion.bash ]]; then
