@@ -1,5 +1,4 @@
 bash-completion
-bat
 cmatrix
 curl
 datamash
@@ -19,3 +18,5 @@ ripgrep
 rmlint
 shellcheck
 tmux
+unzip
+zip
