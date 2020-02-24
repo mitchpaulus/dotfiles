@@ -184,8 +184,8 @@ cnoremap <C-a> <C-b>
 "    either of those characters. The biggest offender was f in if statements.
 " 3. j is the best leader character, since almost no words end with that.
 " 4. So jf splits the duty between both hands using strong pointer finger.
-inoremap jf <esc>
-inoremap <F9> <C-r>*
+inoremap jf <esc>:<C-u>update<CR>
+inoremap <F9> <C-o>:set paste<CR><C-r>*<C-o>:set nopaste<CR>
 
 noremap <TAB> <PageDown>zz
 noremap <S-TAB> <PageUp>zz
@@ -335,6 +335,10 @@ set listchars=tab:▸\ ,eol:¬
 set guioptions-=e
 set guioptions-=L
 set guioptions-=R
+
+"This is to make sure that when you first enter a file
+"you don't get a whole bunch of highlighting.
+nohlsearch
 
 if has('win32')
     set directory^=$HOME/vimfiles/tmp//
@@ -507,13 +511,16 @@ let g:ctrlp_extensions = ['autoignore']
 
 let g:NERDCustomDelimiters = { "idf": { 'left': '!' } }
 
-" MISC {{{1
-
-"This is to make sure that when you first enter a file
-"you don't get a whole bunch of highlighting.
-nohlsearch
 
 " FileType AutoCmd Mappings {{{1
+
+" It's wild that this is even possible, but man it's a headache to work
+" through the interop issues with the WSL (not to mention the vimscript layer
+" as well). 'wslpath' is required here to translate WSL to windows paths, and
+" you have to start cmd.exe in a valid Windows directory or it'll also
+" complain.
+command! WinExploreHere silent !cd /mnt/c && cmd.exe /C start "vim explore" /D $(wslpath -w '%:p:h')" explorer.exe "$(wslpath -w '%:p:h')"
+
 function! s:MakeHeading(replaceCharacter)
     let previousSearch=@/
     "echom ":s/\\s\\+$//e\rVypVr".a:replaceCharacter.":noh\r"
@@ -559,6 +566,12 @@ autocmd FileType markdown,text inoremap ^2 <c-v>178
 autocmd FileType markdown,text inoremap ,l [](<++>)<esc>6hi
 " Quickly enter in °F
 autocmd FileType markdown,text inoremap DEGF °F
+
+autocmd FileType markdown inoremap <localleader>f ![]()<Esc>2hi
+autocmd FileType markdown inoremap <localleader>i **<Left>
+autocmd FileType markdown inoremap <localleader>b ****<Left><Left>
+autocmd FileType markdown inoremap <localleader>e $$  $$<Esc>2hi
+autocmd FileType markdown inoremap <localleader>m e^{\pi i} + 1 = 0
 
 autocmd FileType gitcommit setlocal spell
 
