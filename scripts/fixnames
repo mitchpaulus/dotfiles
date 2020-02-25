@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# This script changes all spaces in filenames to underscores
+for file in *; do
+    case "$file" in
+        *' '* )
+            mv "$file" "${file// /_}"
+        ;;
+    esac
+done
