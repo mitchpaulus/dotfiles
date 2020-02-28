@@ -564,6 +564,7 @@ autocmd FileType gnuplot inoremap ,hist <esc>:0read ~/.vim/snipfiles/hist.gnuplo
 " Quickly enter in ² symbol
 autocmd FileType markdown,text inoremap ^2 <c-v>178
 autocmd FileType markdown,text inoremap ,l [](<++>)<esc>6hi
+autocmd FileType markdown,text inoremap ,c ✓
 " Quickly enter in °F
 autocmd FileType markdown,text inoremap DEGF °F
 
@@ -615,6 +616,7 @@ autocmd FileType awk inoremap ,pf printf("")<esc>hi
 autocmd FileType awk inoremap ,b BEGIN { FS=OFS="" }<esc>2hi
 autocmd FileType awk inoremap ,if if () {<cr>    <++><cr>}<esc>2k^f(a
 " )
+autocmd FileType awk inoremap <localleader>q \042
 autocmd FileType awk inoremap ,! #!/usr/bin/awk -E<cr>
 
 autocmd FileType sh inoremap ,sh #!/bin/sh<CR>
