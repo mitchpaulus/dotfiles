@@ -1,0 +1,7 @@
+#!/bin/sh
+if [ $# = 0 ]; then
+    find . -type f -printf '%TY-%Tm-%Td %p\n' | sort -r
+else
+    find . -type f -printf '%TY-%Tm-%Td %p\n' | sort -r | head -n "$1"
+fi
+
