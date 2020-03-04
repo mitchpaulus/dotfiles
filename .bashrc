@@ -62,6 +62,10 @@ getlast() {
 qf() { find . -iname "*$1*" ; }
 
 pdfmerge() {
+    if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+        printf "USAGE:\n  pdfmerge outputfile inputfiles..\n"
+        return 0
+    fi
     outputfile="$1"
     shift
     gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -sOutputFile="$outputfile" "$@"
