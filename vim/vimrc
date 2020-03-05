@@ -105,12 +105,20 @@ onoremap in( :<c-u>execute "normal! /(\r:nohlsearch\rvi("<cr>
 onoremap il( :<c-u>execute "normal! ?(\r:nohlsearch\rvi("<cr>
 vnoremap p i(
 
+" Add in quotes
+onoremap q i"
+vnoremap q i"
+
+onoremap ' i'
+vnoremap ' i'
+
 onoremap b i{
+vnoremap b i{
 onoremap in{ :<c-u>execute "normal! /{\r:nohlsearch\rvi{"<cr>
 onoremap inb :<c-u>execute "normal! /{\r:nohlsearch\rvi{"<cr>
 onoremap il{ :<c-u>execute "normal! ?{\r:nohlsearch\rvi{"<cr>
 onoremap ilb :<c-u>execute "normal! ?{\r:nohlsearch\rvi{"<cr>
-vnoremap b i{
+
 
 " From https://vi.stackexchange.com/a/15233/10847
 onoremap if :<C-u>normal! [zV]z<CR>
