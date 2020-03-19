@@ -88,7 +88,7 @@ xnoremap <leader>y "*y
 nnoremap <leader>ct :<C-u>checktime<cr>
 
 " Compile Pandoc
-nnoremap <leader>pc :silent !pandoc -o %:p:r.pdf %:p<cr>
+nnoremap <leader>pc :silent !pandoc -o "%:p:r.pdf" "%:p"<cr>
 
 " Terminal mode, see pg. 73 Modern Vim
 if has('nvim')
@@ -626,6 +626,7 @@ autocmd FileType awk inoremap ,if if () {<cr>    <++><cr>}<esc>2k^f(a
 " )
 autocmd FileType awk inoremap <localleader>q \042
 autocmd FileType awk inoremap ,! #!/usr/bin/awk -E<cr>
+autocmd FileType awk inoremap <localleader>sp split(string, array, FS)
 
 autocmd FileType sh inoremap ,sh #!/bin/sh<CR>
 
@@ -635,6 +636,8 @@ autocmd FileType make inoremap ,v $()<Left>
 
 autocmd FileType idf execute 'inoremap <localleader>i ! INCLUDE '
 autocmd FileType idf inoremap <localleader>r Replace ECM
+autocmd FileType idf nnoremap <localleader>s /<C-r>*\c<CR>
+
 
 augroup END
 
