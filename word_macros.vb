@@ -1,3 +1,5 @@
+
+
 Sub AutoFitTables()
 
     Dim tbl As Table
@@ -78,5 +80,27 @@ Sub UpdateCaptionStyling()
 
 
 End Sub
+
+Sub ClearExistingTableFormats()
+
+    Dim tbl As Table
+
+    For Each tbl In ActiveDocument.Tables
+            tbl.Select
+            Selection.ClearFormatting
+    Next tbl
+End Sub
+
+Sub ListCustomKeyBindings()
+
+    CustomizationContext = NormalTemplate
+
+    For Each aKey In KeyBindings
+     Selection.InsertAfter aKey.Command & vbTab & aKey.KeyString & vbCr
+     Selection.Collapse Direction:=wdCollapseEnd
+    Next aKey
+
+End Sub
+
 
 
