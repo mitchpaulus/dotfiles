@@ -44,6 +44,7 @@ bind -n M-k select-pane -U
 bind -n M-l select-pane -R
 
 bind -n M-n next-window
+bind -n M-p previous-window
 
 bind -n M-c new-window
 bind -n M-x kill-pane
