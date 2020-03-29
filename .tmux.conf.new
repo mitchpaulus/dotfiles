@@ -1,7 +1,7 @@
 # Color options
 set-option -g default-terminal "xterm-256color"
 
-set -g mouse on
+set -g mouse off
 
 set-window-option -g monitor-activity on
 set-option -g visual-activity on
@@ -73,8 +73,8 @@ set -g status-justify centre
 set -g status-left '#[fg=colour7][#S] '
 set -g status-left-length 20
 set -g status-position bottom
-set -g status-right '#(curl wttr.in/Dallas?format=%%t+%%C) #[fg=colour7,bg=colour5,bold] %a %Y-%m-%d #[fg=colour7,bg=colour4,bold] %H:%M '
-set -g status-right-length 50
+set -g status-right '#(~/dotfiles/scripts/weatherblock.sh) #[fg=colour7,bg=colour5,bold] %a %Y-%m-%d #[fg=colour7,bg=colour4,bold] #(tmuxtime) '
+set -g status-right-length 60
 set -g status-style bg=colour0
 
 set -g window-style 'bg=colour0'
