@@ -2,11 +2,14 @@
 
 Always a work in progress.
 
-## Programs I like to use
+## Using
 
-* EDITOR: ~~Vim~~Neovim, I've made the switch.
+* OS: Little of everything, one Arch, one Manjaro, two Windows. Looking
+  into NixOS.
 
-* TERMINAL: Alacritty for the most part on Linux. Windows Terminal in
+* EDITOR: ~~Vim~~ Neovim, I've made the switch.
+
+* TERMINAL: [Alacritty](https://github.com/alacritty/alacritty) for the most part on Linux. [Windows Terminal](https://github.com/Microsoft/Terminal) in
   WSL.
 
 * SHELL: Bash, default shell. Though looking into zsh.
@@ -18,10 +21,10 @@ Always a work in progress.
 
 * PDF: Zathura, PDF viewing.
 
-* Compton, compositor for transparency, etc.
+* COMPOSITOR: Compton, for transparency, etc.
 
-* i3-blocks, Status bar for i3
+* WM: i3, along with i3-blocks, Status bar for i3
 
-* Ranger, for file browsing/navigation.
+* FILE MANAGER: Ranger, for file browsing/navigation.
 
-* tmux, When i3 isn't possible, like when I'm working in WSL on Windows
+* OTHER: tmux, When i3 isn't possible, like when I'm working in WSL on Windows
