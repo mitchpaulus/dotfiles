@@ -1,7 +1,7 @@
 # Color options
 set-option -g default-terminal "xterm-256color"
 
-set -g mouse off
+set -g mouse on
 
 set-window-option -g monitor-activity on
 set-option -g visual-activity on
@@ -15,6 +15,10 @@ unbind-key `
 bind ` send-prefix
 
 bind r source-file ~/.tmux.conf \; display "Reloaded!"
+
+# Original binding for backup: bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-selection-and-cancel
+if-shell -b 'test -n "$WSLENV"' 'bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel clip.exe'
+if-shell -b 'test -n "$WSLENV"' 'bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel clip.exe'
 
 # Splitting windows
 bind '\' split-window -h -c '#{pane_current_path}'
