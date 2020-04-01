@@ -4,7 +4,7 @@
 for file in *; do
     case "$file" in
         *' '* )
-            mv "$file" "${file// /_}"
+            mv "$file" "$(printf "%s" "$file" | sed 's/ /_/g' )"
         ;;
     esac
 done
