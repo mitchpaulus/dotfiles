@@ -131,6 +131,19 @@ if command -v git >/dev/null 2>&1; then
     p() { git push      "$@"; }
 fi
 
+ta() {
+    case "$(tmux ls 2>&1)" in
+        "no server running"* )  tmux ls;;
+        *)
+            if [ "$(tmux ls | wc -l)" -gt 1 ]; then
+                tmux attach-session -t "$(tmux ls | awk -F ':' '{print $1}' | fzf)"
+            else
+                tmux attach-session -t "$(tmux ls | awk -F ':' '{print $1;exit}')"
+            fi
+        ;;
+    esac
+}
+
 # -R is to make this a read only operation if nvim is the EDITOR
 helpbash() { nvim -R ~/dotfiles/help/bash.markdown; }
 
@@ -161,3 +174,5 @@ if [[ -f ~/.host-bashrc ]]; then
     # shellcheck disable=SC1090
     source ~/.host-bashrc
 fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
