@@ -1,5 +1,7 @@
+#!/bin/env bash
+
 # Home directory for Windows.
-H=/mnt/c/Users/mpaulus
+export H=/mnt/c/Users/mpaulus
 
 export PATH=~/dotfiles/scripts:/usr/local/texlive/2018/:"$PATH"
 
@@ -8,7 +10,7 @@ PROMPT_DIRTRIM=5
 
 # Make tmux start in Windows home directory
 if [ -z "$TMUX" ]; then
-    cd /mnt/c/Users/mpaulus
+    cd /mnt/c/Users/mpaulus || return
 fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
@@ -25,10 +27,10 @@ n()
     fi
 }
 
-i() { nvim *.idf ; }
+i() { nvim ./*.idf ; }
 
 export FFF_CD_FILE=~/.fff_d
-f() { fff "$@"; cd "$(cat ~/.fff_d)"; }
+f() { fff "$@"; cd "$(cat ~/.fff_d)" || exit; }
 
 ns() { tmux new-session -s "$*"; }
 
@@ -50,8 +52,8 @@ epidd() { nvim '/mnt/c/EnergyPlusV9-2-0/Energy+.idd'; }
 # Open daily notes.
 odn()
 {
-    cd "/mnt/c/Users/mpaulus/OneDrive - Command Commissioning/dailynotes/"
-    if [ $TMUX ]; then
+    cd "/mnt/c/Users/mpaulus/OneDrive - Command Commissioning/dailynotes/" || exit 1
+    if [ -n "$TMUX" ]; then
         tmux rename-window "notes"
     fi
     "$EDITOR" "$(find . -type f -name "[2]*.markdown" | sort | tail -n 1)"
@@ -64,10 +66,10 @@ alias vim='nvim'
 alias ep='/mnt/c/EnergyPlusV9-2-0/energyplus.exe'
 
 # Resource Advisor API location
-raapi="https://preprod.resourceadvisor.schneider-electric.com/api"
-iancred="inelson:CCllc2019!"
+export raapi="https://preprod.resourceadvisor.schneider-electric.com/api"
+export iancred="inelson:CCllc2019!"
 
-ratest="https://core.stg1.resourceadvisor.schneider-electric.com/api"
+export ratest="https://core.stg1.resourceadvisor.schneider-electric.com/api"
 
 brand_colors_png() {
     cmd.exe '/C' 'C:\Users\mpaulus\OneDrive - Command Commissioning\ccllc_brand_colors.png'

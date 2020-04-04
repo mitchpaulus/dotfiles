@@ -72,6 +72,14 @@ pdfmerge() {
     gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -sOutputFile="$outputfile" "$@"
 }
 
+function pathadd {
+  case ":$PATH:" in
+    *":$1:"*) :;; # already there
+    *) if [ -z "$2" ]; then PATH="$1:$PATH"; else PATH="$PATH:$1"; fi ;; # or PATH="$PATH:$1"
+  esac
+}
+
+
 # Pretty print the path variable
 pathpp() { printf "%s" "$PATH" | awk 'BEGIN { RS=":" } { print }' | sort ; }
 
@@ -168,6 +176,8 @@ source ~/.config/tmux/bash_completion_tmux.sh
 if [[ $(command -v stack) ]]; then
     eval "$(stack --bash-completion-script stack)"
 fi
+
+pathadd "$HOME"/dotfiles/scripts/
 
 # Add computer specific commands and overwrites.
 if [[ -f ~/.host-bashrc ]]; then
