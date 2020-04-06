@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Merge PDFs
+fd '^[^_].*pdf' | sort -V |  tr '\n' '\0' | xargs -0 pdfmerge _combined.pdf
+
+# Rotate if required
+if [ $# -gt 0 ]; then
+    qpdf --rotate="$1" _combined.pdf tmp && mv tmp _combined.pdf
+fi
+
+fd '^[^_].*pdf' | sort -V | pdfbookmark > bookmarks.txt
+
+gs -o tmp -sDEVICE=pdfwrite bookmarks.txt -f _combined.pdf && mv tmp _combined.pdf
+
+rm bookmarks.txt
+
