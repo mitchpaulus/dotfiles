@@ -14,3 +14,17 @@ zcwst condenser water supply temperature
 
 zs supply
 zS Supply
+
+
+
+
+Other configurations to set up:
+
+Keyboard shortcuts:
+
+Normal.Module1.FigureCaption	Alt+A
+InsertCaption	Alt+C
+TableInsertRowBelow	Alt+I
+Normal.Module1.SelectColumn	Alt+Q
+InsertCrossReference	Alt+R
+Normal.Module1.TableCaption	Alt+T
