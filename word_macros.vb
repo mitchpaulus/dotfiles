@@ -1,5 +1,4 @@
 
-
 Sub AutoFitTables()
 
     Dim tbl As Table
@@ -33,11 +32,12 @@ Sub CCLLCTables()
 
     Dim tbl As Table
 
+
     For Each tbl In ActiveDocument.Tables
-            tbl.Style = "ccxtable"
+            If InStr(tbl.Cell(1, 1).Range.Text, "Field") Or InStr(tbl.Cell(1, 1).Range.Text, "Test") Then
+                tbl.Style = "ccxtable"
+            End If
     Next tbl
-
-
 
 End Sub
 
@@ -103,4 +103,47 @@ Sub ListCustomKeyBindings()
 End Sub
 
 
+Sub SelectColumn()
+'
+' Macro2 Macro
+'
+'
+    Selection.SelectColumn
+End Sub
+
+Sub CrossReferenceTable()
+'
+' This macro allows for fast cross referencing of tables
+' USAGE:
+'   Type number of table, select/highlight it
+'   Run this macro
+'
+
+Dim Number As String
+
+TableNumber = Selection.Text
+
+Selection.InsertCrossReference ReferenceType:="Table", ReferenceKind:= _
+        wdOnlyLabelAndNumber, ReferenceItem:=TableNumber, InsertAsHyperlink:=True, _
+        IncludePosition:=False, SeparateNumbers:=False, SeparatorString:=" "
+
+End Sub
+
+Sub CrossReferenceFigure()
+'
+' This macro allows for fast cross referencing of figures
+' USAGE:
+'   Type number of figure, select/highlight it
+'   Run this macro
+'
+
+Dim Number As String
+
+FigureNumber = Selection.Text
+
+Selection.InsertCrossReference ReferenceType:="Figure", ReferenceKind:= _
+        wdOnlyLabelAndNumber, ReferenceItem:=FigureNumber, InsertAsHyperlink:=True, _
+        IncludePosition:=False, SeparateNumbers:=False, SeparatorString:=" "
+
+End Sub
 
