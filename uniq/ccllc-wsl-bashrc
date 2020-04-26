@@ -42,6 +42,12 @@ et() {
     nvim "/mnt/c/Users/mpaulus/OneDrive - Command Commissioning/dailynotes/tasks.markdown"
 }
 
+ashrae() {
+    pushd '/mnt/c/Users/mpaulus/Command Commissioning/Library - Guidelines and Standards/ASHRAE' >/dev/null
+    cmd.exe /C start '' "$(fd -e pdf | fzf)"
+    popd >/dev/null
+}
+
 # Explorer.exe here
 eh() {
     explorer.exe "$(wslpath -w "$(pwd)")"
