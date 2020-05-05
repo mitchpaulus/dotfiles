@@ -2,7 +2,7 @@
 
 # SLR
 
-NF == 2 {
+NF == 2 && $1 != "" && $2 != "" {
     sum_x += $1
     sum_y += $2
     x[NR] = $1
@@ -25,4 +25,5 @@ END {
 
     print intercept
     print slope
+    print n
 }
