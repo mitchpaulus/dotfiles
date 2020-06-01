@@ -74,7 +74,7 @@ bind u switch-client -t "work:notes"
 set -g pane-active-border-style fg=colour6
 set -g status-interval 30
 set -g status-justify centre
-set -g status-left '#[fg=colour7][#S] '
+set -g status-left '#[fg=colour7,bg=colour5,bold] Σ #S '
 set -g status-left-length 20
 set -g status-position bottom
 set -g status-right '#(~/dotfiles/scripts/weatherblock.sh) #[fg=colour7,bg=colour5,bold] %a %Y-%m-%d #[fg=colour7,bg=colour4,bold] #(tmuxtime) '
@@ -84,5 +84,5 @@ set -g status-style bg=colour0
 set -g window-style 'bg=colour0'
 set -g window-active-style 'bg=colour236'
 
-setw -g window-status-current-format ' #[fg=colour4]#I:#W#F '
-setw -g window-status-format ' #[fg=colour7]#I:#W#F '
+setw -g window-status-current-format '#[fg=colour7,bg=colour4] #I #W#F '
+setw -g window-status-format '#[fg=colour7] #I #W#F '
