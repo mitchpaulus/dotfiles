@@ -1,0 +1,12 @@
+#!/bin/sh
+if [ $# -ne 1 ]; then
+    printf "1 argument expected, %s received.\n" "$#"
+    exit 1
+fi
+
+if [ -x "$1" ]; then
+  mkdir -p ~/.local/bin
+  ln -s -r "$1" ~/.local/bin
+else
+  printf "%s is not an executable file\n" "$1"
+fi
