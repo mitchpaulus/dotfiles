@@ -34,6 +34,7 @@ Plug 'mboughaba/i3config.vim'
 Plug 'leafgarland/typescript-vim'
 Plug 'arcticicestudio/nord-vim'
 Plug 'mitchpaulus/energyplus-vim'
+Plug 'PProvost/vim-ps1'
 
 call plug#end()
 
@@ -192,7 +193,7 @@ cnoremap <C-a> <C-b>
 "    either of those characters. The biggest offender was f in if statements.
 " 3. j is the best leader character, since almost no words end with that.
 " 4. So jf splits the duty between both hands using strong pointer finger.
-inoremap jf <esc>:<C-u>update<CR>
+inoremap jf <esc>
 inoremap <F9> <C-o>:set paste<CR><C-r>*<C-o>:set nopaste<CR>
 
 noremap <TAB> <PageDown>zz
@@ -635,8 +636,10 @@ autocmd FileType matlab inoremap ,f function [output] = functionname(inputvariab
 autocmd FileType make inoremap ,v $()<Left>
 
 autocmd FileType idf execute 'inoremap <localleader>i ! INCLUDE '
-autocmd FileType idf inoremap <localleader>r Replace ECM
+autocmd FileType idf inoremap <localleader>r Replace ECM ::
+autocmd FileType idf inoremap <localleader>de Delete ECM
 autocmd FileType idf nnoremap <localleader>s /<C-r>*\c<CR>
+autocmd FileType idf nnoremap <localleader>t :Tabularize /!-\?/l1l1<CR>
 
 
 augroup END
