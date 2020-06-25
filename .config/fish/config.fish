@@ -1,5 +1,14 @@
 #!/usr/bin/fish
 
+set -g fish_prompt_pwd_dir_length 3
+
+function fish_prompt
+    set_color cyan
+    printf "%s >\n:: " (prompt_pwd)
+    set_color normal
+end
+
+
 function v
     nvim $argv
 end
@@ -29,4 +38,8 @@ if test -n "$WSL_DISTRO_NAME"
     end
 end
 
+# Load configuration special to given computer
+if test -f ~/.config/fish/host-config.fish
+    source ~/.config/fish/host-config.fish
+end
 
