@@ -98,9 +98,9 @@ m() { "$EDITOR" Makefile ; }
 u() { cd .. ;  }
 
 # Open EnergyPlus I/O reference
-epio() { cmd.exe /C start 'C:\EnergyPlusV9-2-0\Documentation\InputOutputReference.pdf'; }
+epio() { cmd.exe /C start 'C:\EnergyPlusV9-3-0\Documentation\InputOutputReference.pdf'; }
 
-epdoc() { explorer.exe 'C:\EnergyPlusV9-2-0\Documentation'; }
+epdoc() { explorer.exe 'C:\EnergyPlusV9-3-0\Documentation'; }
 
 hnotes() { "$EDITOR" '/mnt/c/Users/mpaulus/GoogleDrive/notes/home tasks.md' ; }
 
