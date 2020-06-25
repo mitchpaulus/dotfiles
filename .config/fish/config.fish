@@ -14,7 +14,6 @@ if command -v git >/dev/null 2>&1
 end
 
 function r; ranger --choosedir="$HOME/.rangerdir"; cd (cat $HOME/.rangerdir);  end
-function gd; cd ~/dotfiles; end
 function u; cd ..; end
 
 # Carrying over from source [b]ashrc
@@ -23,9 +22,11 @@ function sb
     printf "Reloaded %s\n" ~/.config/fish/config.fish
 end
 
-# Carrying over from [e]dit [b]ashrc
-function eb
-    nvim ~/.config/fish/config.fish
+# If working in WSL environment
+if test -n "$WSL_DISTRO_NAME"
+    function eh
+        explorer.exe (wslpath -w (pwd))
+    end
 end
 
 
