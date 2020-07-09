@@ -2,12 +2,17 @@
 
 set -g fish_prompt_pwd_dir_length 3
 
+set -gx EDITOR nvim
+set -gx VISUAL nvim
+set -g H /mnt/c/Users/mpaulus
+
 function fish_prompt
     set_color cyan
     printf "%s >\n:: " (prompt_pwd)
     set_color normal
 end
 
+set PATH ~/dotfiles/scripts/ $PATH
 
 function v
     nvim $argv
