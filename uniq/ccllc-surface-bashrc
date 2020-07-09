@@ -2,8 +2,6 @@
 
 eval "$(dircolors -b ~/ls_colors.txt)"
 
-alias vim='nvim'
-
 export PATH="$PATH":/home/mtp/dotfiles/scripts/
 
 H='/mnt/c/Users/mpaulus/'
@@ -14,12 +12,7 @@ uup() {
     sudo apt update && sudo apt upgrade && sudo apt autoremove
 }
 
-# Open daily notes.
-odn()
-{
-    cd "/mnt/c/Users/mpaulus/OneDrive - Command Commissioning/dailynotes/"
-    "$EDITOR" "$(find . -type f -name "[2]*.markdown" | sort | tail -n 1)"
-}
+eh() { explorer.exe "$(wslpath -w "$(pwd)")"; }
 
 export CDPATH=".:$H"
 

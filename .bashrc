@@ -129,6 +129,11 @@ if command -v git >/dev/null 2>&1; then
     p() { git push      "$@"; }
 fi
 
+# Quickly make new session and base work session
+ns() { tmux new-session -s "$*"; }
+
+nw() { tmux new-session -s work; }
+
 ta() {
     case "$(tmux ls 2>&1)" in
         "no server running"* )  tmux ls;;
@@ -140,6 +145,16 @@ ta() {
             fi
         ;;
     esac
+}
+
+# Open daily notes.
+odn()
+{
+    cd "/mnt/c/Users/mpaulus/OneDrive - Command Commissioning/dailynotes/" || exit 1
+    if [ -n "$TMUX" ]; then
+        tmux rename-window "notes"
+    fi
+    "$EDITOR" "$(find . -type f -name "[2]*.markdown" | sort | tail -n 1)"
 }
 
 # -R is to make this a read only operation if nvim is the EDITOR

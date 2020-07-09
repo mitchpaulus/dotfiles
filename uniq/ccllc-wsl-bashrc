@@ -32,11 +32,6 @@ i() { nvim ./*.idf ; }
 export FFF_CD_FILE=~/.fff_d
 f() { fff "$@"; cd "$(cat ~/.fff_d)" || exit; }
 
-ns() { tmux new-session -s "$*"; }
-
-nw() {
-    tmux new-session -s work
-}
 
 et() {
     nvim "/mnt/c/Users/mpaulus/OneDrive - Command Commissioning/dailynotes/tasks.markdown"
@@ -49,25 +44,11 @@ ashrae() {
 }
 
 # Explorer.exe here
-eh() {
-    explorer.exe "$(wslpath -w "$(pwd)")"
-}
+eh() { explorer.exe "$(wslpath -w "$(pwd)")"; }
 
 epidd() { nvim '/mnt/c/EnergyPlusV9-2-0/Energy+.idd'; }
 
-# Open daily notes.
-odn()
-{
-    cd "/mnt/c/Users/mpaulus/OneDrive - Command Commissioning/dailynotes/" || exit 1
-    if [ -n "$TMUX" ]; then
-        tmux rename-window "notes"
-    fi
-    "$EDITOR" "$(find . -type f -name "[2]*.markdown" | sort | tail -n 1)"
-}
-
 export NEOVIM_WIN_DIR="/mnt/c/Users/mpaulus/scoop/apps/neovim/current/Neovim"
-
-alias vim='nvim'
 
 alias ep='/mnt/c/EnergyPlusV9-2-0/energyplus.exe'
 
