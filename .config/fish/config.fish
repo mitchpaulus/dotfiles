@@ -18,6 +18,8 @@ function v
     nvim $argv
 end
 
+function wttr; curl 'wttr.in/Dallas?format=%l:+%C+%t+%h+%w'; end
+
 # Git shortcuts
 if command -v git >/dev/null 2>&1
     function a;  git add       $argv; end
@@ -48,3 +50,10 @@ if test -f ~/.config/fish/host-config.fish
     source ~/.config/fish/host-config.fish
 end
 
+function update
+    if command -s pacman
+        sudo pacman -Syu
+    end
+end
+
+# vim:ft=fish
