@@ -56,4 +56,14 @@ function update
     end
 end
 
+function compass
+    if test -d '/mnt/c/Users/mpaulus/source/repos/Compass/'
+        tmux new-session -c /mnt/c/Users/mpaulus/source/repos/Compass/ -s Compass
+    else
+        printf 'Did not find compass repository at /mnt/c/Users/mpaulus/source/repos/Compass/\n'
+    end
+end
+
+
+
 # vim:ft=fish
