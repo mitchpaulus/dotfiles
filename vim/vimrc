@@ -448,6 +448,7 @@ nnoremap <F5> :<c-u>GundoToggle<cr>
 vnoremap <leader>tf :<c-u>'<,'>Tab /[^\\]\zs&\<Bar>\({[^}{]*\)\@<!\(\\\\\)\([^{}]*}\)\@!/<cr>
 nnoremap <leader>tf :<c-u>Tab /[^\\]\zs&\<Bar>\({[^}{]*\)\@<!\(\\\\\)\([^{}]*}\)\@!/<cr>
 nnoremap <leader>t<Bar> :Tab /<Bar>/<cr>
+nnoremap <leader>t= :Tab /=/<CR>
 
 " Fugitive {{{2
 " Fugitive mappings for status, add, and commit.
