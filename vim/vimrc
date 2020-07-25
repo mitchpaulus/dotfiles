@@ -34,6 +34,7 @@ Plug 'mboughaba/i3config.vim'
 Plug 'leafgarland/typescript-vim'
 Plug 'arcticicestudio/nord-vim'
 Plug 'mitchpaulus/energyplus-vim'
+Plug 'mitchpaulus/vim-andover-plain-english'
 Plug 'PProvost/vim-ps1'
 Plug 'dag/vim-fish'
 
