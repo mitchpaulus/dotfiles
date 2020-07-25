@@ -12,5 +12,9 @@
     branches = branch -a
     remotes = remote -v
     cm = commit -m
+    # Taken from https://blog.jez.io/cli-code-review/
+    files = !git diff --name-only $(git merge-base HEAD Dev_branch)
+    stat = !git diff --stat $(git merge-base HEAD Dev_branch)
+    review = !nvim $(git files) +\"bufdo Gdiffsplit Dev_branch\"
 [include]
     path = ~/.hostgitconfig
