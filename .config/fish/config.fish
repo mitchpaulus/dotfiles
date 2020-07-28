@@ -34,6 +34,12 @@ end
 function r; ranger --choosedir="$HOME/.rangerdir"; cd (cat $HOME/.rangerdir);  end
 function u; cd ..; end
 
+function m; nvim Makefile; end
+
+function t
+    task $argv
+end
+
 # Carrying over from source [b]ashrc
 function sb
     source ~/.config/fish/config.fish
