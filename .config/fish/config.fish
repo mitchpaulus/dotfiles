@@ -12,7 +12,8 @@ function fish_prompt
     set_color normal
 end
 
-set PATH ~/dotfiles/scripts/ $PATH
+set -gx PATH ~/dotfiles/scripts/ $PATH
+set -gx PATH /usr/local/texlive/2020/bin/x86_64-linux $PATH
 
 function v
     nvim $argv
