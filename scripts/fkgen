@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Generate SQL Foreign Key statement
+
+# Parameter 1 - Original Table
+# Parameter 2 - Foreign Key Column Original Table
+# Parameter 3 - Reference Table
+# Parameter 4 - Reference Table Column (Default Id)
+
+printf 'ALTER TABLE [%s] ADD CONSTRAINT FK_%s_%s FOREIGN KEY ([%s]) REFERENCES [%s] (%s)' "$1" "$1" "$3" "$2" "$3" "${4:-Id}"
+
