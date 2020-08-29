@@ -14,6 +14,8 @@ end
 
 set -gx PATH ~/dotfiles/scripts/ $PATH
 set -gx PATH /usr/local/texlive/2020/bin/x86_64-linux $PATH
+set -gx PATH "$HOME/bin" $PATH
+set -gx PATH "$HOME/.local/bin" $PATH
 
 function v
     nvim $argv
