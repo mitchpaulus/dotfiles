@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# USAGE:
+# mslink filename
+#
+# Since OneDrive can't handle symlinks, I have to resort to trash like this.
+# This makes a 'bat' script that essentially runs the Windows 'start' command
+# on the file, using a relative path (or absolute if you want).
+
+filename="$(basename "$1")"
+linkpath="$(wslpath -w "$1")"
+
+printf "start \"%s\" \"%s\"" "$filename" "$linkpath" > "$filename".bat
