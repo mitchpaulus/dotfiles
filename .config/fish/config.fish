@@ -74,6 +74,12 @@ function compass
     end
 end
 
+#function winmount
+    #if [ ! -d /mnt/"${1,,}" ]
+        #sudo mkdir -p /mnt/"${1,,}"
+    #end
+    #sudo mount -t drvfs "${1^^}": /mnt/"${1,,}" ;
+#end
 
 function ta
     set -l IFS
