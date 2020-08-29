@@ -630,6 +630,7 @@ autocmd FileType awk inoremap ,if if () {<cr>    <++><cr>}<esc>2k^f(a
 " )
 autocmd FileType awk inoremap <localleader>q \042
 autocmd FileType awk inoremap ,! #!/usr/bin/awk -E<cr>
+autocmd FileType awk inoremap ,sh #!/usr/bin/awk -E<CR>
 autocmd FileType awk inoremap <localleader>sp split(string, array, FS)
 
 autocmd FileType sh inoremap ,sh #!/bin/sh<CR>
