@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# inplace sort
+sort "$1" > tmp && mv tmp "$1"
