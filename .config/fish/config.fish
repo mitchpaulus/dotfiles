@@ -36,6 +36,11 @@ if command -v git >/dev/null 2>&1
 end
 
 function r; ranger --choosedir="$HOME/.rangerdir"; cd (cat $HOME/.rangerdir);  end
+
+function lf
+    /home/mp/bin/lf -last-dir-path "$HOME/.config/lf/lf_lastdir"; cd (cat "$HOME/.config/lf/lf_lastdir")
+end
+
 function u; cd ..; end
 
 function m; nvim Makefile; end
