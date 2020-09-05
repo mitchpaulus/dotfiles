@@ -17,6 +17,8 @@ set -gx PATH /usr/local/texlive/2020/bin/x86_64-linux $PATH
 set -gx PATH "$HOME/bin" $PATH
 set -gx PATH "$HOME/.local/bin" $PATH
 
+set -gx CLASSPATH ".:/usr/local/lib/antlr-4.8-complete.jar:$CLASSPATH"
+
 function v
     nvim $argv
 end
