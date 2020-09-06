@@ -370,6 +370,10 @@ if &term =~? '256color'
     " set t_ut=
 endif
 
+if executable('rg')
+	set grepprg=rg\ --vimgrep
+endif
+
 " Set spellfile for custom words. Originally just started as
 " HVAC related words, but turned into everything.
 if has('win32')
