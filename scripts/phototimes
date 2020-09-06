@@ -3,7 +3,7 @@
 # Purpose: Get data on when site photos taken.
 # First used on the Cherry Point job.
 
-find . \( -iname '*.jpg' -o -iname '*.jpeg' \) | while read -r pic; do
+find . \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.mov' \) | while read -r pic; do
     # Need to exit after finding the value, since some camera's duplicate this field.
-    printf "%s\t%s\n" "$pic" "$(exiftool "$pic" | awk  'BEGIN {FS=": "}  /Date.Time Original/ { print $2; exit }' )"
+    printf "%s\t%s\n" "$pic" "$(exiftool "$pic" | awk  'BEGIN {FS=": "}  $0 ~ /Date.Time Original/ || $1 ~ /Create Date/ { print $2; exit }' )"
 done
