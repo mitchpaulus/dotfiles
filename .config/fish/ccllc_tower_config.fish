@@ -5,3 +5,5 @@ function odn
     end
     nvim (find . -type f -name "[2]*.markdown" | sort | tail -n 1)
 end
+
+set -gx PATH /usr/java/jdk-14.0.2/bin/ $PATH
