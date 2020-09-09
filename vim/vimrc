@@ -37,6 +37,7 @@ Plug 'mitchpaulus/energyplus-vim'
 Plug 'mitchpaulus/vim-andover-plain-english'
 Plug 'PProvost/vim-ps1'
 Plug 'dag/vim-fish'
+Plug 'dylon/vim-antlr'
 
 call plug#end()
 
