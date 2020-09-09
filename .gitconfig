@@ -18,3 +18,5 @@
     review = !nvim $(git files) +\"bufdo Gdiffsplit Dev_branch\"
 [include]
     path = ~/.hostgitconfig
+[pull]
+	ff = only
