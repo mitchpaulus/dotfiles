@@ -1,0 +1,3 @@
+#!/bin/sh
+
+[ -n "$1" ] && cp '/mnt/c/Users/mpaulus/Command Commissioning/Library - Resources/Templates/ccllc-technical-report-template.docx' "$1"
