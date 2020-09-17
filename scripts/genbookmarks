@@ -1,0 +1,3 @@
+#!/bin/sh
+
+fd '^[^_].*pdf' | sort -V | pdfbookmark
