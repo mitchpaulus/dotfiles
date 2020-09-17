@@ -7,6 +7,11 @@
 # This makes a 'bat' script that essentially runs the Windows 'start' command
 # on the file, using a relative path (or absolute if you want).
 
+if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
+    printf "mslink\n\nUSAGE:\nmslink filename\n\nMakes a .bat file in the current directory pointing to the link location.\n"
+    exit 0
+fi
+
 filename="$(basename "$1")"
 linkpath="$(wslpath -w "$1")"
 
