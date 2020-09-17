@@ -81,12 +81,15 @@ function compass
     end
 end
 
-#function winmount
-    #if [ ! -d /mnt/"${1,,}" ]
-        #sudo mkdir -p /mnt/"${1,,}"
-    #end
-    #sudo mount -t drvfs "${1^^}": /mnt/"${1,,}" ;
-#end
+function winmount
+    set lowercase_letter (string lower $argv[1])
+    set uppercase_letter (string upper $argv[1])
+
+    if [ ! -d /mnt/"$lowercase_letter" ]
+        sudo mkdir -p /mnt/"$lowercase_letter"
+    end
+    sudo mount -t drvfs "$uppercase_letter": /mnt/"$lowercase_letter"
+end
 
 function ta
     set -l IFS
