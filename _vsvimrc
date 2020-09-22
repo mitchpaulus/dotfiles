@@ -35,3 +35,7 @@ nnoremap <leader>ch :nohlsearch<cr>
 
 set hlsearch   " highlight search
 
+" All the ways to misspell common keywords in C#
+iabbrev pbuilc public
+iabbrev pbulci public
+iabbrev pbulic public
