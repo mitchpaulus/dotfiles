@@ -35,3 +35,6 @@ nnoremap <leader>ch :nohlsearch<cr>
 
 set hlsearch   " highlight search
 
+iabbrev pubulic public
+iabbrev pbulic public
+
