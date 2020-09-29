@@ -33,9 +33,17 @@ inoremap <C-BS> <C-W>
 "Clear the previous search (c[lear] h[ighlight])
 nnoremap <leader>ch :nohlsearch<cr>
 
+let localleader=","
+
+inoremap <LocalLeader>l List<><Left>
+
 set hlsearch   " highlight search
 
 " All the ways to misspell common keywords in C#
 iabbrev pbuilc public
 iabbrev pbulci public
 iabbrev pbulic public
+iabbrev ture true
+iabbrev parital partial
+iabbrev partila partial
+
