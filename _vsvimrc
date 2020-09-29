@@ -44,6 +44,7 @@ iabbrev pbuilc public
 iabbrev pbulci public
 iabbrev pbulic public
 iabbrev ture true
+iabbrev flase false
 iabbrev parital partial
 iabbrev partila partial
 
