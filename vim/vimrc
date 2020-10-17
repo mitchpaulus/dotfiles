@@ -86,7 +86,7 @@ inoremap <localleader>t <c-r>=strftime("%A %Y-%m-%d")<cr>
 nnoremap * *N
 
 " Copy to clipboard in visual mode
-xnoremap <leader>y "*y
+xnoremap <leader>y "+y
 
 " Checktime of the file
 nnoremap <leader>ct :<C-u>checktime<cr>
@@ -129,7 +129,7 @@ onoremap if :<C-u>normal! [zV]z<CR>
 xnoremap if [zo]z
 
 " Copy file to clipboard (d for duplicate)
-nnoremap <leader>d ggVG"*y
+nnoremap <leader>d ggVG"+y
 
 " Visually select inside latex table cell, first go back to last
 " & or beginning of line, mark to s, then go to next & or end of line \\
@@ -304,8 +304,8 @@ nnoremap <F1> 1z=
 nnoremap <F2> :<C-u>update<CR>
 nnoremap <F4> ZZ
 nnoremap <F8> :<c-u>set paste!<cr>:set paste?<cr>
-nnoremap <F9> :<C-u>set paste<CR>"*p:set nopaste<CR>
-nnoremap <F10> :<C-u>set paste<CR>"*P:set nopaste<CR>
+nnoremap <F9> :<C-u>set paste<CR>"+p:set nopaste<CR>
+nnoremap <F10> :<C-u>set paste<CR>"+P:set nopaste<CR>
 
 " Open and close parenthesis. Idea from:
 " http://xahlee.info/kbd/best_way_to_insert_brackets.html

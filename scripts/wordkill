@@ -1,0 +1,21 @@
+#!/bin/sh
+
+pid="$(tasklist.exe '/FI' 'IMAGENAME eq WINWORD.EXE' '/FO:LIST' '/V' | awk -v searchfile="$1" '
+BEGIN { FS=OFS=":" }
+
+$1 ~ /PID/ {
+
+    gsub(/[ \r]/, "", $2)
+
+    current_pid = $2
+
+}
+
+$1 ~ /Window Title/ && $2 ~ searchfile {
+    print current_pid
+    exit 0
+}')"
+
+if [ -n "$pid" ]; then
+    taskkill.exe '/PID' "$pid"
+fi
