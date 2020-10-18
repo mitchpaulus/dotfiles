@@ -27,7 +27,5 @@ gitmod() {
     fi
 }
 
-xmodmap ~/dotfiles/.Xmodmap
-
 alias vim=nvim
 # vim:ft=sh
