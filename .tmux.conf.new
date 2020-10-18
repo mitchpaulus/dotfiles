@@ -23,7 +23,8 @@ if-shell -b 'test -n "$WSLENV"' 'bind-key -T copy-mode-vi MouseDragEnd1Pane send
 if-shell -b 'test -n "$WSLENV"' 'bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel clip.exe'
 
 # Splitting windows
-bind '\' split-window -h -c '#{pane_current_path}'
+bind '\\' split-window -h -c '#{pane_current_path}'
+bind -n M-Enter split-window -h -c '#{pane_current_path}'
 bind | split-window -h -c '#{pane_current_path}'
 bind - split-window -v -c '#{pane_current_path}'
 
