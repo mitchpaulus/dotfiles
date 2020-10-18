@@ -9,22 +9,24 @@ Always a work in progress.
 
 * EDITOR: ~~Vim~~ Neovim, I've made the switch.
 
-* TERMINAL: [Alacritty](https://github.com/alacritty/alacritty) for the most part on Linux. [Windows Terminal](https://github.com/Microsoft/Terminal) in
+* TERMINAL: [Alacritty](https://github.com/alacritty/alacritty) for the
+  most part on Linux. [Windows Terminal](https://github.com/Microsoft/Terminal) in
   WSL.
 
-* SHELL: Bash, default shell. Though looking into zsh.
+* SHELL: `fish`. So much more pleasant to work in on a daily basis.
+  ~~Bash, default shell. Though looking into zsh~~.
 
 * BROWSER: Firefox, It's not Google Chrome and works pretty well with vim-vixen
   extension.
 
 * FONT: Fira Code, Monospaced font with fancy programming ligatures.
 
-* PDF: Zathura, PDF viewing.
+* PDF: Zathura, PDF viewing. Okular on Manjaro.
 
 * COMPOSITOR: Compton, for transparency, etc.
 
 * WM: i3, along with i3-blocks, Status bar for i3
 
-* FILE MANAGER: Ranger, for file browsing/navigation.
+* FILE MANAGER: `lf`
 
 * OTHER: tmux, When i3 isn't possible, like when I'm working in WSL on Windows
