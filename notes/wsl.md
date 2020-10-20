@@ -8,3 +8,13 @@
   call that breaks libc6.
   [https://discourse.ubuntu.com/t/ubuntu-20-04-and-wsl-1/15291](https://discourse.ubuntu.com/t/ubuntu-20-04-and-wsl-1/15291).
 
+
+## Time issues
+
+There have been issues regarding the clock in WSL2. Running the command
+
+`sudo hwclock -s` based on this post seems to generally fix this issue.
+
+`https://github.com/microsoft/WSL/issues/4245#issuecomment-510238198`
+
+
