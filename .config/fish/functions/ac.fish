@@ -1,4 +1,4 @@
 # Antlr compile
-function ac
+function ac -d 'compile Antlr grammar files'
     antlr4 *.g4
 end

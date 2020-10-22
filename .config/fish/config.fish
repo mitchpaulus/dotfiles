@@ -70,6 +70,8 @@ end
 function update
     if command -s pacman
         sudo pacman -Syu
+    else if command -s apt
+        sudo apt update
     end
 end
 
