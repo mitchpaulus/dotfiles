@@ -22,12 +22,18 @@ shopt -s globstar
 
 # whiteback='\[\e[48;5;15m\]'
 # blackfore='\[\e[30m\]'
-# bluefore='\[\e[34m\]'
+yellowfore='\[\e[33m\]'
+bluefore='\[\e[34m\]'
 cyanfore='\[\e[36m\]'
 # whitefore='\[\e[37m\]'
+bright_yellow_fore='\[\e[93m\]'
 reset='\[\e[0m\]'
 
-PS1="${cyanfore}\w\n${cyanfore}::${reset} "
+ps1_in_git() {
+    if git branch >/dev/null 2>&1; then printf "::"; else printf "☣\n"; fi
+}
+
+PS1="${bluefore}\w\n${bright_yellow_fore}"'$(ps1_in_git)'"${reset} "
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -69,6 +75,8 @@ function pathadd {
   esac
 }
 
+# Required for using Antlr
+export CLASSPATH=".:/usr/local/lib/antlr-4.8-complete.jar:$CLASSPATH"
 
 # Pretty print the path variable
 pathpp() { printf "%s" "$PATH" | awk 'BEGIN { RS=":" } { print }' | sort ; }
