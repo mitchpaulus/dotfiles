@@ -7,3 +7,7 @@ Quick AUR Instructions
 
 Steps 3 and 4 could be combined using `makepkg -si`.
 
+
+## Useful AUR Packages
+
+- Insync: https://aur.archlinux.org/packages/insync/
