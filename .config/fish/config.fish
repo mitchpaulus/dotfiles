@@ -19,6 +19,8 @@ set -gx PATH "$HOME/.local/bin" $PATH
 
 set -gx CLASSPATH ".:/usr/local/lib/antlr-4.8-complete.jar:$CLASSPATH"
 
+set -gx DOTREMINDERS ~/.config/remind/remind.rem
+
 function v
     nvim $argv
 end
