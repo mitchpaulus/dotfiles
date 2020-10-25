@@ -83,7 +83,7 @@ set -g status-justify centre
 set -g status-left '#[fg=colour7,bg=colour5,bold] Σ #S '
 set -g status-left-length 20
 set -g status-position bottom
-set -g status-right '#(~/dotfiles/scripts/random_remind) #(~/dotfiles/scripts/weatherblock.sh) #[fg=colour7,bg=colour5,bold] %a %Y-%m-%d #[fg=colour7,bg=colour4,bold] #(tmuxtime) '
+set -g status-right ' REM: #(~/dotfiles/scripts/random_remind) | #(~/dotfiles/scripts/weatherblock.sh) #[fg=colour7,bg=colour5,bold] %a %Y-%m-%d #[fg=colour7,bg=colour4,bold] #(tmuxtime) '
 set -g status-right-length 100
 set -g status-style bg=colour0
 
