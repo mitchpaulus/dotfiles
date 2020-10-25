@@ -1,6 +1,6 @@
 #!/bin/sh
 
-first_reminder="$(remind ~/.config/remind/remind.rem | awk 'NR > 2' | shuf -n 1)"
+first_reminder="$(remind ~/.config/remind/remind.rem | awk 'NR > 2' | shuf -n 1 | sed 's/ *$//')"
 
 if [ -n "$first_reminder" ]; then
     printf '%s' "$first_reminder"
