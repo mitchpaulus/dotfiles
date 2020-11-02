@@ -87,7 +87,7 @@ set -g status-right ' REM: #(~/dotfiles/scripts/random_remind) | #(~/dotfiles/sc
 set -g status-right-length 100
 set -g status-style bg=colour0
 
-set -g window-style 'bg=colour0'
+set -g window-style 'bg=default'
 set -g window-active-style 'bg=colour236'
 
 setw -g window-status-current-format '#[fg=colour7,bg=colour4] #I #W#F '
