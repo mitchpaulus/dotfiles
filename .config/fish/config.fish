@@ -21,8 +21,10 @@ set -gx CLASSPATH ".:/usr/local/lib/antlr-4.8-complete.jar:$CLASSPATH"
 
 set -gx DOTREMINDERS ~/.config/remind/remind.rem
 
-function v
-    nvim $argv
+set -gx FZF_DEFAULT_OPTS '--reverse --margin 10% --border'
+
+function v --wraps="$EDITOR"
+    "$EDITOR" $argv
 end
 
 function wttr; curl 'wttr.in/Dallas?format=%l:+%C+%t+%h+%w'; end
@@ -30,24 +32,24 @@ function wttr; curl 'wttr.in/Dallas?format=%l:+%C+%t+%h+%w'; end
 # Git shortcuts
 if command -v git >/dev/null 2>&1
     function a;  git add       $argv; end
-    function d;  git diff -w      $argv; end
+    function d --wraps='git diff';  git diff -w      $argv; end
     function s;  git status -u $argv; end
     function c;  git commit    $argv; end
     function p;  git push      $argv; end
     function dc; git diff -w --cached $argv; end
 end
 
-function r; ranger --choosedir="$HOME/.rangerdir"; cd (cat $HOME/.rangerdir);  end
+function r --wraps=ranger; ranger --choosedir="$HOME/.rangerdir"; cd (cat $HOME/.rangerdir); end
 
-function lf
+function lf --wraps=lf
     "$HOME"/bin/lf -last-dir-path "$HOME/.config/lf/lf_lastdir" $argv; and cd (cat "$HOME/.config/lf/lf_lastdir")
 end
 
 function u; cd ..; end
 
-function m; nvim Makefile; end
+function m --wraps=make; "$EDITOR" Makefile; end
 
-function t
+function t --wraps=task
     task $argv
 end
 
