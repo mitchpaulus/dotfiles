@@ -53,6 +53,21 @@ function t --wraps=task
     task $argv
 end
 
+function g
+    cd (fzf -1 < ~/.config/goto/dirs.txt | awk -F "	" '$1')
+end
+
+function eg --description "Edit goto dirs file"
+    "$EDITOR" ~/.config/goto/dirs.txt
+end
+
+function ag
+    pwd >> ~/.config/goto/dirs.txt
+end
+
+function en
+    set file (fd --type f '' ~/dotfiles/notes/ -x printf "%s\n" '{/}' | sed 's/\.md//' | fzf -1) && "$EDITOR" ~/dotfiles/notes/"$file".md
+end
 # Carrying over from source [b]ashrc
 function sb
     source ~/.config/fish/config.fish
