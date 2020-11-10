@@ -30,3 +30,7 @@ ALTER TABLE dbo.TerminalUnits ADD [Floor] INT NULL
 ```sql
 INSERT INTO Table (Column1, Column2, ...) VALUES (Value1, Value2, ...);
 ```
+
+## Converting from UTC to Time Zone
+
+SELECT CONVERT(datetime2, [UTC Datetime Column] at time zone 'UTC' at time zone 'Central Standard Time')
