@@ -30,3 +30,20 @@ https://askubuntu.com/a/1264985
 
 Here's a related YouTube video?
 https://www.youtube.com/watch?v=yR2NsssY7z8
+
+## File Permissions
+
+There are two important blog posts discussing files and file
+permissions within WSL.
+
+[chmod and chown improvements Jan 12, 2018](https://devblogs.microsoft.com/commandline/chmod-chown-wsl-improvements/)
+[automatically configuring WSL Feb 7, 2018](https://devblogs.microsoft.com/commandline/automatically-configuring-wsl/)
+
+After manually adding `metadata` to my D: drive, this was the output of
+`mount -l`. Recording this in case I want to force drives to what was
+the previous default.
+
+```
+C:\ on /mnt/c type drvfs (rw,noatime,uid=1000,gid=1000,case=off)
+D: on /mnt/d type drvfs (rw,relatime,metadata,case=off)
+```

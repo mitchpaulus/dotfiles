@@ -15,6 +15,14 @@ In fish config added:
 set -gx LD_LIBRARY_PATH "/usr/local/lib" $LD_LIBRARY_PATH
 ```
 
+Can use `ldd` command to check whether things link correctly.
+
+Used like:
+
+```
+ldd /usr/local/bin/qpdf
+```
+
 ## Update: Tuesday 2020-11-10
 
 After rechecking these paths that were listed in the
@@ -29,3 +37,7 @@ sudo ldconfig
 to update the LD configuration. Things seemed to now work without the
 explicit path being set. I'm not sure if something didn't update when I
 updated Ubuntu versions or what.
+
+# Examples
+
+Print number of pages in PDF: `qpdf --show-npages file.pdf`
