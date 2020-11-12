@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# USAGE:
+# textjoin joinchar file
+
+awk -v joinchar="$1" '{ printf (NR == 1 ? $0 : joinchar $0) }' "$2"
