@@ -1,6 +1,18 @@
 #!/usr/bin/awk -E
 
+# This function generates the required statements that Ghostscript can
+# read to produce bookmarks in a PDF. Assumes bookmark per page.
+
 {
-    filename_without_extension = substr($0, 0, length($0) - 4)
-    printf "[/Page %d /View [/XYZ null null null] /Title (%s) /OUT pdfmark\n", NR, filename_without_extension
+     gsub(/\r/,"")
+
+    if ($0 ~ /\.[pP][dD][fF]$/) {
+        # filename without extension
+        bookmark = substr($0, 0, length($0) - 4)
+    }
+    else {
+        bookmark = $0
+    }
+
+    printf "[/Page %d /View [/XYZ null null null] /Title (%s) /OUT pdfmark\n", NR, bookmark
 }
