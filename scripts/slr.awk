@@ -4,7 +4,7 @@ BEGIN {
 
     for (i = 1; i <= ARGC; i++) {
         if (ARGV[i] == "--help" || ARGV[i] == "-h") {
-            printf "slr.awk - Simple Linear Regression from the Terminal\n\nUSAGE:\nslr.awk <file>\n\nThe file should be a whitespace delimited text file with X values\nin the first column and Y values in the second column.\n"
+            printf "slr.awk - Simple Linear Regression from the Terminal\n\nUSAGE:\nslr.awk <file>\n\nThe file should be a whitespace delimited text file with X values\nin the first column and Y values in the second column.\nReturns\n\nIntercept\nSlope\nCount\n"
             early_exit = 1
             exit 0
         }
