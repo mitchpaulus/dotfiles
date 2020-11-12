@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# USAGE:
+# writebookmarks bookmarks.txt output.pdf
+
+gs -o tmp -sDEVICE=pdfwrite "$1" -f "$2" && mv tmp "$2"
