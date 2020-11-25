@@ -1,6 +1,6 @@
 #!/usr/bin/fish
 
-set -g fish_prompt_pwd_dir_length 3
+set -g fish_prompt_pwd_dir_length 5
 
 set -gx EDITOR nvim
 set -gx VISUAL nvim
@@ -22,6 +22,8 @@ set -gx CLASSPATH ".:/usr/local/lib/antlr-4.8-complete.jar:$CLASSPATH"
 set -gx DOTREMINDERS ~/.config/remind/remind.rem
 
 set -gx FZF_DEFAULT_OPTS '--reverse --margin 10% --border'
+
+set -gx BAT_THEME 'Monokai Extended'
 
 function v --wraps="$EDITOR"
     "$EDITOR" $argv
@@ -47,7 +49,13 @@ end
 
 function u; cd ..; end
 
-function m --wraps=make; "$EDITOR" Makefile; end
+function m
+    if test -f Makefile
+        "$EDITOR" Makefile;
+    else
+        printf "Makefile not found\n"
+    end
+end
 
 function t --wraps=task
     task $argv
@@ -65,16 +73,20 @@ function ag
     pwd >> ~/.config/goto/dirs.txt
 end
 
-function en
+function i --description 'Edit idf files'
+    "$EDITOR" *.idf
+end
+
+function en --description 'Edit a note'
     set file (fd --type f '' ~/dotfiles/notes/ -x printf "%s\n" '{/}' | sed 's/\.md//' | fzf -1) && "$EDITOR" ~/dotfiles/notes/"$file".md
 end
 # Carrying over from source [b]ashrc
-function sb
+function sb --description 'Reload fish config file'
     source ~/.config/fish/config.fish
     printf "Reloaded %s\n" ~/.config/fish/config.fish
 end
 
-# If working in WSL environment
+# If working in WSL environment, set up command to bring up Windows Explorer in current directory.
 if test -n "$WSL_DISTRO_NAME"
     function eh
         explorer.exe (wslpath -w (pwd))
@@ -86,7 +98,7 @@ if test -f ~/.config/fish/host-config.fish
     source ~/.config/fish/host-config.fish
 end
 
-function update
+function update --description 'Universal package update'
     if command -s pacman
         sudo pacman -Syu
     else if command -s apt
