@@ -1,4 +1,4 @@
-Ripping DVDs
+# Ripping DVDs
 
 - Can mount DVD using command:
     - `sudo mount -t iso9660 /dev/sr1 dvd/`

@@ -1,11 +1,13 @@
-# CSS Grid
+# CSS
 
-## Parent
+## CSS Grid
+
+### Parent
 
 - `display: grid;`
 - column/row specification example: `grid-template-columns: 1fr 50px 20%;`
 
-## Children
+### Children
 
 - Placement: `grid-column: 1 / 3;`
 

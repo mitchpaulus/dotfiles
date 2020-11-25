@@ -1,3 +1,5 @@
+# AUR
+
 Quick AUR Instructions
 
 1. Clone down repository
