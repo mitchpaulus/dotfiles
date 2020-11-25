@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Quickly start up Screen 2 Gif
+'/mnt/d/GoogleDrive/PortablePrograms/ScreenToGif.2.16.Portable/ScreenToGif 2.27.3.exe' &

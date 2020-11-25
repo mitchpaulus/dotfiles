@@ -1,0 +1,22 @@
+#!/usr/bin/awk -E
+
+# Takes tab-separated column headers from copying out of Excel,
+# and turns them into variable names and assignments.
+
+BEGIN { FS=OFS="\t" }
+
+{
+    for (i = 1; i <= NF; i++) {
+
+        header = $i
+
+        gsub(/[^a-zA-Z0-9]/, "_", header)
+        gsub(/__+/, "_", header)
+
+        gsub(/_$/, "", header)
+
+        header = tolower(header)
+
+        printf "%s = $%s\n", header, i
+    }
+}
