@@ -1,4 +1,4 @@
-bc <<DOC
-scale=10;
-(($1) * 9.0 / 5.0) + 32.0;
-DOC
+#!/usr/bin/awk -E
+
+BEGIN { print (ARGV[1] * 9.0 / 5.0) + 32 }
+
