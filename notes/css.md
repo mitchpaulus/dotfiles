@@ -11,3 +11,14 @@
 
 - Placement: `grid-column: 1 / 3;`
 
+
+## Flex
+
+### Parent
+
+- `display: flex`
+-
+
+### Children
+
+- `flex: grow-factor shrink-factor default-size`
