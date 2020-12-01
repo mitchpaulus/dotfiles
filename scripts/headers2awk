@@ -5,11 +5,14 @@
 
 BEGIN { FS=OFS="\t" }
 
-{
+NR == 1 {
     for (i = 1; i <= NF; i++) {
 
         header = $i
 
+        gsub(/²/, "2", header)
+        gsub(/³/ "3", header)
+        gsub(/°/, "deg", header)
         gsub(/[^a-zA-Z0-9]/, "_", header)
         gsub(/__+/, "_", header)
 
