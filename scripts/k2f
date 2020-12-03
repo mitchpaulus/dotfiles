@@ -1,0 +1,4 @@
+#!/usr/bin/awk -E
+
+# Kelvin to Fahrenheit
+BEGIN { print (ARGV[1] * 9.0 / 5.0) - 459.67  }
