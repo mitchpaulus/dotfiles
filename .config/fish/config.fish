@@ -12,10 +12,18 @@ function fish_prompt
     set_color normal
 end
 
-set -gx PATH ~/dotfiles/scripts/ $PATH
-set -gx PATH /usr/local/texlive/2020/bin/x86_64-linux $PATH
-set -gx PATH "$HOME/bin" $PATH
-set -gx PATH "$HOME/.local/bin" $PATH
+function __path_add
+    # If the directory exists and isn't in the path, add it.
+    if not contains $argv[1] $PATH; and test -d $argv[1]
+        set -gxp PATH $argv[1]
+    end
+end
+
+__path_add ~/dotfiles/scripts/
+__path_add /usr/local/texlive/2020/bin/x86_64-linux
+__path_add "$HOME/.gem/ruby/2.7.0/bin"
+__path_add "$HOME/bin"
+__path_add "$HOME/.local/bin"
 
 set -gx CLASSPATH ".:/usr/local/lib/antlr-4.8-complete.jar:$CLASSPATH"
 
@@ -25,6 +33,7 @@ set -gx FZF_DEFAULT_OPTS '--reverse --margin 10% --border'
 
 set -gx BAT_THEME 'Monokai Extended'
 
+# v for VIM
 function v --wraps="$EDITOR"
     "$EDITOR" $argv
 end
