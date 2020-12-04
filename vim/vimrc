@@ -74,7 +74,7 @@ nnoremap Q :q!<CR>
 " Start macro
 nnoremap m q
 " [Y]ank entire file to clipboard.
-nnoremap <leader>y :<c-u>%yank *<cr>
+nnoremap <leader>y :<c-u>%yank +<cr>
 " Insert [t]oday's [d]ate
 nnoremap <leader>td i<c-r>=strftime("%Y-%m-%d")<cr>
 " Insert today's c-[d]ate
