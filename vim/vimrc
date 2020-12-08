@@ -643,9 +643,9 @@ autocmd FileType typescript nnoremap <leader>tc :<c-u>!tsc<cr>
 autocmd FileType tex inoremap ,eq \begin{equation}<cr><cr>\end{equation}<esc>ki    <esc>i
 autocmd FileType tex inoremap ,bf \textbf{} <++><esc>5hi
 autocmd FileType tex inoremap ,lr \left(\right) <++><esc>11hi
-autocmd FileType tex inoremap ,u _{} <++><esc>5hi
+autocmd FileType tex inoremap ,u _{}<Left>
 autocmd FileType tex inoremap ,s ^{} <++><esc>5hi
-autocmd FileType tex inoremap ,fr \frac{}{<++>} <++><esc>11hi
+autocmd FileType tex inoremap ,fr \frac{}{}<esc>2hi
 autocmd FileType tex inoremap ,dot \dot{} <++><esc>5hi
 autocmd FileType tex inoremap ,tx \text{} <++><esc>5hi
 autocmd FileType tex inoremap ,p \usepackage{}<esc>i
