@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Use CMD to start program/file
+cmd.exe /C start '' "$@"
