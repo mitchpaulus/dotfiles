@@ -1,12 +1,14 @@
 # Heat Transfer
 
-## Fludi Properties
+## Fluid Properties
 
 Viscosity (dynamic viscosity) units (Force second) / length²
 
 Kinematic Viscosity = viscosity / density or viscosity * specific volume. Units are length²/time
 
 Thermal conductivity units: Power / (length temperature)
+
+"Mass velocity": density * velocity, units: (mass / second - length²)
 
 ## Important Dimensionless Numbers
 
@@ -16,9 +18,11 @@ Solving for heat transfer coefficient $h$:
 
 $$ h = Nu k_f / L $$
 
-Reynolds number (Re): $V L / \nu$
+Reynolds number (Re): $V L / \nu = \frac{V L \rho}{\mu}$
 
-Prantl number (Pr): $c_p \mu / k  = \nu / \alpha$
+Prandtl number (Pr): $c_p \mu / k  = \nu / \alpha$
+
+Stanton number (St): $\frac{h}{\rho V c_{p}}$
 
 ## Various Properties
 
