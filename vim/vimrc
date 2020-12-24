@@ -616,6 +616,7 @@ autocmd FileType markdown inoremap <localleader>f ![]()<Esc>2hi
 autocmd FileType markdown inoremap <localleader>i **<Left>
 autocmd FileType markdown inoremap <localleader>b ****<Left><Left>
 autocmd FileType markdown inoremap <localleader>e $$  $$<Esc>2hi
+autocmd FileType markdown inoremap <localleader>n \begin{equation}<CR>\end{equation}<Esc>0ko
 autocmd FileType markdown inoremap <localleader>m e^{\pi i} + 1 = 0
 
 autocmd FileType gitcommit setlocal spell
