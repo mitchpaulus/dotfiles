@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# ln [OPTION]... TARGET... DIRECTORY
+
+ln -s -r "$@" "$HOME/.local/bin"
