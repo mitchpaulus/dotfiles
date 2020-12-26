@@ -50,7 +50,7 @@ checkfile   ~/.config/nvim/init.vim             vim/vimrc
 checkfile   ~/.bashrc                           .bashrc
 checkfile   ~/.bash_aliases                     .bash_aliases
 checkfile   ~/.config/alacritty/alacritty.yml   .config/alacritty/alacritty.yml
-checkfile   ~/.gitconfig                        .gitconfig
+checkfile   ~/.config/git/config                .gitconfig
 checkfile   ~/.config/i3blocks/config           i3blocks/config
 checkfile   ~/.config/tmux/bash_completion_tmux.sh           scripts/bash_completion_tmux.sh
 checkfile   ~/.config/fish                      .config/fish/
