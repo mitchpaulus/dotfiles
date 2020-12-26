@@ -71,6 +71,9 @@ bind -r L resize-pane -R 5
 
 set-window-option -g mode-keys vi
 
+bind-key -T copy-mode-vi H send-keys -X start-of-line
+bind-key -T copy-mode-vi L send-keys -X end-of-line
+
 # u is for 'update'
 bind u switch-client -t "work:notes"
 
