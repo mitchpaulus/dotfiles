@@ -74,6 +74,14 @@ function g
     cd (fzf -1 < ~/.config/goto/dirs.txt | awk -F "	" '$1')
 end
 
+function ev --description "Edit vimrc file"
+    if test -f "$HOME/.config/nvim/init.vim"
+        "$EDITOR" "$HOME/.config/nvim/init.vim"
+    else
+        printf "vimrc file not found.\n"
+    end
+end
+
 function eg --description "Edit goto dirs file"
     "$EDITOR" ~/.config/goto/dirs.txt
 end
