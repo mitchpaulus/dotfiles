@@ -3,3 +3,5 @@ bundle/
 *.spl
 pack/
 tmp/
+*.aux
+*.log
