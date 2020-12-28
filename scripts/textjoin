@@ -3,4 +3,12 @@
 # USAGE:
 # textjoin joinchar file
 
+if test "$1" = "-h" -o "$1" = "--help"; then
+    printf "textjoin\n"
+    printf "\n"
+    printf "USAGE:\n"
+    printf "textjoin delimiter file\n"
+    exit 0
+fi
+
 awk -v joinchar="$1" '{ printf (NR == 1 ? $0 : joinchar $0) }' "$2"
