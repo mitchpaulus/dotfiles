@@ -1,7 +1,11 @@
 #!/bin/sh
 complete_search="$*"
 
-url_encoded=$(./urlencode "$complete_search")
+# Use urlencode from our dotfiles
+script_path=$(readlink -f "$0")
+script_dir=$(dirname "$script_path")
+
+url_encoded=$("$script_dir"/urlencode "$complete_search")
 
 '/mnt/c/Program Files/Firefox Developer Edition/firefox.exe' -new-tab "$(printf 'duckduckgo.com/?q=%s' "$url_encoded")"
 
