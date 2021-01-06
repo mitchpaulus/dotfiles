@@ -102,12 +102,16 @@ function sb --description 'Reload fish config file'
     source ~/.config/fish/config.fish
     printf "Reloaded %s\n" ~/.config/fish/config.fish
 end
-
-# If working in WSL environment, set up command to bring up Windows Explorer in current directory.
+# Set up specific commands if working in WSL environment
 if test -n "$WSL_DISTRO_NAME"
+    # Command to bring up Windows Explorer in current directory.
     function eh
         explorer.exe (wslpath -w (pwd))
     end
+
+    # This is a variable used by `lf`. wsl-opener is a personal opener script
+    # See: https://github.com/mitchpaulus/wsl-opener
+    set -gx OPENER wsl-opener
 end
 
 # Load configuration special to given computer
@@ -116,9 +120,9 @@ if test -f ~/.config/fish/host-config.fish
 end
 
 function update --description 'Universal package update'
-    if command -s pacman
+    if command -s pacman >/dev/null
         sudo pacman -Syu
-    else if command -s apt
+    else if command -s apt >/dev/null
         sudo apt update
     end
 end
