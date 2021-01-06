@@ -690,6 +690,7 @@ augroup eventtypemappings
 autocmd!
 " cshtml - html - close enough
 autocmd BufRead *.cshtml set filetype=html
+autocmd BufRead *.do     set filetype=sh
 " Remove trailing whitespace. Use keeppatterns so that
 " the search history isn't ruined with the \v\s+$ junk.
 " Setting the marks is required so that the cursor doesn't jump
