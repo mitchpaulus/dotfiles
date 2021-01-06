@@ -15,3 +15,13 @@ SCRIPT=$(readlink -f "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")
 echo $SCRIPTPATH
 ```
+
+## Case Statement
+
+Can never remember the syntax for case statements.
+
+```
+case word in
+    pattern [| pattern]... ) command-list ;;
+esac
+```
