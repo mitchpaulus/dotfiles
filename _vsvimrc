@@ -34,6 +34,7 @@ inoremap <C-BS> <C-W>
 nnoremap <leader>ch :nohlsearch<cr>
 
 inoremap ,l List<><Left>
+inoremap <C-L> <Esc>A
 
 set hlsearch   " highlight search
 
@@ -43,6 +44,7 @@ iabbrev pbulci public
 iabbrev pbulic public
 iabbrev ture true
 iabbrev flase false
+iabbrev fasle false
 iabbrev parital partial
 iabbrev partila partial
 
