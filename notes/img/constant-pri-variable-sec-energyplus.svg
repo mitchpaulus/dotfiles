@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<svg width="250mm" height="200mm" viewBox="0 0   3000    1500"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     xmlns:ev="http://www.w3.org/2001/xml-events">
+<g font-family="Verdana" font-size="8" >
+  <line x1="  1050" y1="    70" x2="  2050" y2="   390" style = "stroke:silver  ;"/>
+  <line x1="  1050" y1="   110" x2="  2050" y2="   430" style = "stroke:silver  ;"/>
+  <line x1="  2300" y1="   150" x2="   800" y2="   230" style = "stroke:silver  ;"/>
+  <rect x="   200" y="   500" width="   200" height="    20" style = "fill:snow; stroke: Black;"/>     1
+  <text x="   202" y="   513">OutdoorAir:NodeList</text>
+  <rect x="   700" y="    20" width="   200" height="    20" style = "fill:wheat; stroke: Black;"/>     5
+  <text  x="   702" y="    28">CHW PLANT TEMPLATE CHW SUPPLY SIDE
+  <tspan x="   702" y="    36">BYPASS PIPE</tspan></text>
+  <rect x="   200" y="    20" width="   200" height="    20" style = "fill:wheat; stroke: Black;"/>     6
+  <text  x="   202" y="    28">CHW PLANT TEMPLATE CHW SUPPLY SIDE
+  <tspan x="   202" y="    36">INLET PIPE</tspan></text>
+  <rect x="  1450" y="   100" width="   200" height="    20" style = "fill:wheat; stroke: Black;"/>     7
+  <text  x="  1452" y="   108">CHW PLANT TEMPLATE CHW SUPPLY
+  <tspan x="  1452" y="   116">OUTLET PIPE</tspan></text>
+  <rect x="  2200" y="   100" width="   200" height="    20" style = "fill:wheat; stroke: Black;"/>     8
+  <text  x="  2202" y="   108">CHW PLANT TEMPLATE CHW DEMAND SIDE
+  <tspan x="  2202" y="   116">BYPASS PIPE</tspan></text>
+  <rect x="  2700" y="   140" width="   200" height="    20" style = "fill:wheat; stroke: Black;"/>     9
+  <text  x="  2702" y="   148">CHW PLANT TEMPLATE CHW DEMAND
+  <tspan x="  2702" y="   156">OUTLET PIPE</tspan></text>
+  <rect x="  1200" y="   340" width="   200" height="    20" style = "fill:wheat; stroke: Black;"/>    10
+  <text  x="  1202" y="   348">CHW PLANT TEMPLATE CNDW SUPPLY
+  <tspan x="  1202" y="   356">OUTLET PIPE</tspan></text>
+  <rect x="   700" y="   300" width="   200" height="    20" style = "fill:wheat; stroke: Black;"/>    11
+  <text  x="   702" y="   308">CHW PLANT TEMPLATE CNDW SUPPLY SIDE
+  <tspan x="   702" y="   316">BYPASS PIPE</tspan></text>
+  <rect x="  1450" y="   340" width="   200" height="    20" style = "fill:wheat; stroke: Black;"/>    12
+  <text  x="  1452" y="   348">CHW PLANT TEMPLATE CNDW DEMAND
+  <tspan x="  1452" y="   356">INLET PIPE</tspan></text>
+  <rect x="  1950" y="   340" width="   200" height="    20" style = "fill:wheat; stroke: Black;"/>    13
+  <text  x="  1952" y="   348">CHW PLANT TEMPLATE CNDW DEMAND SIDE
+  <tspan x="  1952" y="   356">BYPASS PIPE</tspan></text>
+  <rect x="  2450" y="   420" width="   200" height="    20" style = "fill:wheat; stroke: Black;"/>    14
+  <text  x="  2452" y="   428">CHW PLANT TEMPLATE CNDW DEMAND
+  <tspan x="  2452" y="   436">OUTLET PIPE</tspan></text>
+  <rect x="  1950" y="   100" width="   200" height="    20" style = "fill:wheat; stroke: Black;"/>    15
+  <text  x="  1952" y="   108">CHW PLANT TEMPLATE CHW DEMAND
+  <tspan x="  1952" y="   116">SPLITTER</tspan></text>
+  <rect x="  2450" y="   140" width="   200" height="    20" style = "fill:wheat; stroke: Black;"/>    16
+  <text x="  2452" y="   153">CHW PLANT TEMPLATE CHW DEMAND MIXER</text>
+  <rect x="   950" y="    60" width="   200" height="    20" style = "fill:powderblue; stroke: Black;"/>    17
+  <text x="   952" y="    73">CHILLER</text>
+  <rect x="  1950" y="   380" width="   200" height="    20" style = "fill:powderblue; stroke: Black;"/>    18
+  <text x="  1952" y="   393">CHILLER</text>
+  <rect x="   950" y="   100" width="   200" height="    20" style = "fill:powderblue; stroke: Black;"/>    19
+  <text x="   952" y="   113">CHILLER 2</text>
+  <rect x="  1950" y="   420" width="   200" height="    20" style = "fill:powderblue; stroke: Black;"/>    20
+  <text x="  1952" y="   433">CHILLER 2</text>
+  <rect x="   450" y="    20" width="   200" height="    20" style = "fill:wheat; stroke: Black;"/>    21
+  <text  x="   452" y="    28">CHW PLANT TEMPLATE CHW SUPPLY
+  <tspan x="   452" y="    36">SPLITTER</tspan></text>
+  <rect x="  1200" y="   100" width="   200" height="    20" style = "fill:wheat; stroke: Black;"/>    22
+  <text x="  1202" y="   113">CHW PLANT TEMPLATE CHW SUPPLY MIXER</text>
+  <rect x="  1700" y="   340" width="   200" height="    20" style = "fill:wheat; stroke: Black;"/>    23
+  <text  x="  1702" y="   348">CHW PLANT TEMPLATE CNDW DEMAND
+  <tspan x="  1702" y="   356">SPLITTER</tspan></text>
+  <rect x="  2200" y="   420" width="   200" height="    20" style = "fill:wheat; stroke: Black;"/>    24
+  <text x="  2202" y="   433">CHW PLANT TEMPLATE CNDW DEMAND MIXER</text>
+  <rect x="   700" y="   340" width="   200" height="    20" style = "fill:pink; stroke: Black;"/>    25
+  <text x="   702" y="   353">TOWER</text>
+  <rect x="   450" y="   300" width="   200" height="    20" style = "fill:wheat; stroke: Black;"/>    26
+  <text  x="   452" y="   308">CHW PLANT TEMPLATE CNDW SUPPLY
+  <tspan x="   452" y="   316">SPLITTER</tspan></text>
+  <rect x="   950" y="   340" width="   200" height="    20" style = "fill:wheat; stroke: Black;"/>    27
+  <text x="   952" y="   353">CHW PLANT TEMPLATE CNDW SUPPLY MIXER</text>
+  <rect x="  1200" y="   220" width="   200" height="    20" style = "fill:chartreuse; stroke: Black;"/>    28
+  <text x="  1202" y="   233">ZONE 1</text>
+  <rect x="   200" y="   220" width="   200" height="    20" style = "fill:lawngreen; stroke: Black;"/>    29
+  <text x="   202" y="   233">ZONE 1 OA MIXING BOX</text>
+  <rect x="  2200" y="   140" width="   200" height="    20" style = "fill:skyblue; stroke: Black;"/>    30
+  <text x="  2202" y="   153">ZONE 1 COOLING COIL</text>
+  <rect x="   700" y="   220" width="   200" height="    20" style = "fill:skyblue; stroke: Black;"/>    31
+  <text x="   702" y="   233">ZONE 1 COOLING COIL</text>
+  <rect x="   950" y="   220" width="   200" height="    20" style = "fill:salmon; stroke: Black;"/>    32
+  <text x="   952" y="   233">ZONE 1 HEATING COIL</text>
+  <rect x="   450" y="   220" width="   200" height="    20" style = "fill:aliceblue; stroke: Black;"/>    33
+  <text x="   452" y="   233">ZONE 1 SUPPLY FAN</text>
+  <rect x="   200" y="   300" width="   200" height="    20" style = "fill:springgreen; stroke: Black;"/>    34
+  <text x="   202" y="   313">CHW PLANT TEMPLATE CNDW SUPPLY PUMP</text>
+  <rect x="   700" y="    60" width="   200" height="    20" style = "fill:springgreen; stroke: Black;"/>    35
+  <text x="   702" y="    73">CHILLER CHW BRANCH PUMP</text>
+  <rect x="   700" y="   100" width="   200" height="    20" style = "fill:springgreen; stroke: Black;"/>    36
+  <text x="   702" y="   113">CHILLER 2 CHW BRANCH PUMP</text>
+  <rect x="  1700" y="   100" width="   200" height="    20" style = "fill:springgreen; stroke: Black;"/>    37
+  <text  x="  1702" y="   108">CHW PLANT TEMPLATE CHW SECONDARY
+  <tspan x="  1702" y="   116">PUMP</tspan></text>
+  <line x1="   900" y1="    30" x2="   950" y2="    50" style = "stroke: Black;"/>
+  <line x1="   950" y1="    50" x2="  1150" y2="    50" style = "stroke: Black;"/>
+  <line x1="  1150" y1="    50" x2="  1200" y2="   110" style = "stroke: Black;"/>
+  <line x1="   400" y1="    30" x2="   450" y2="    30" style = "stroke: Black;"/>
+  <line x1="  1650" y1="   110" x2="  1700" y2="   110" style = "stroke: Black;"/>
+  <line x1="  2400" y1="   110" x2="  2450" y2="   150" style = "stroke: Black;"/>
+  <line x1="  1400" y1="   350" x2="  1450" y2="   350" style = "stroke: Black;"/>
+  <line x1="   900" y1="   310" x2="   950" y2="   350" style = "stroke: Black;"/>
+  <line x1="  1650" y1="   350" x2="  1700" y2="   350" style = "stroke: Black;"/>
+  <line x1="  2150" y1="   350" x2="  2200" y2="   430" style = "stroke: Black;"/>
+  <line x1="  2150" y1="   110" x2="  2200" y2="   110" style = "stroke: Black;"/>
+  <line x1="  2150" y1="   110" x2="  2200" y2="   150" style = "stroke: Black;"/>
+  <line x1="  2650" y1="   150" x2="  2700" y2="   150" style = "stroke: Black;"/>
+  <line x1="  1150" y1="    70" x2="  1200" y2="   110" style = "stroke: Black;"/>
+  <line x1="  2150" y1="   390" x2="  2200" y2="   430" style = "stroke: Black;"/>
+  <line x1="  1150" y1="   110" x2="  1200" y2="   110" style = "stroke: Black;"/>
+  <line x1="  2150" y1="   430" x2="  2200" y2="   430" style = "stroke: Black;"/>
+  <line x1="   650" y1="    30" x2="   700" y2="    30" style = "stroke: Black;"/>
+  <line x1="   650" y1="    30" x2="   700" y2="    70" style = "stroke: Black;"/>
+  <line x1="   650" y1="    30" x2="   700" y2="   110" style = "stroke: Black;"/>
+  <line x1="  1400" y1="   110" x2="  1450" y2="   110" style = "stroke: Black;"/>
+  <line x1="  1900" y1="   350" x2="  1950" y2="   350" style = "stroke: Black;"/>
+  <line x1="  1900" y1="   350" x2="  1950" y2="   390" style = "stroke: Black;"/>
+  <line x1="  1900" y1="   350" x2="  1950" y2="   430" style = "stroke: Black;"/>
+  <line x1="  2400" y1="   430" x2="  2450" y2="   430" style = "stroke: Black;"/>
+  <line x1="   900" y1="   350" x2="   950" y2="   350" style = "stroke: Black;"/>
+  <line x1="   650" y1="   310" x2="   700" y2="   310" style = "stroke: Black;"/>
+  <line x1="   650" y1="   310" x2="   700" y2="   350" style = "stroke: Black;"/>
+  <line x1="  1150" y1="   350" x2="  1200" y2="   350" style = "stroke: Black;"/>
+  <line x1="   400" y1="   230" x2="   450" y2="   230" style = "stroke: Black;"/>
+  <line x1="  2400" y1="   150" x2="  2450" y2="   150" style = "stroke: Black;"/>
+  <line x1="   900" y1="   230" x2="   950" y2="   230" style = "stroke: Black;"/>
+  <line x1="  1150" y1="   230" x2="  1200" y2="   230" style = "stroke: Black;"/>
+  <line x1="   650" y1="   230" x2="   700" y2="   230" style = "stroke: Black;"/>
+  <line x1="   400" y1="   310" x2="   450" y2="   310" style = "stroke: Black;"/>
+  <line x1="   900" y1="    70" x2="   950" y2="    70" style = "stroke: Black;"/>
+  <line x1="   900" y1="   110" x2="   950" y2="   110" style = "stroke: Black;"/>
+  <line x1="  1900" y1="   110" x2="  1950" y2="   110" style = "stroke: Black;"/>
+  <line x1="   200" y1="    30" x2="   175" y2="    30" style = "stroke: Black;"/>
+  <line x1="   175" y1="    30" x2="   175" y2="     0" style = "stroke: Black;"/>
+  <line x1="   175" y1="     0" x2="  2925" y2="     0" style = "stroke: Black;"/>
+  <line x1="  2925" y1="     0" x2="  2925" y2="   150" style = "stroke: Black;"/>
+  <line x1="  2925" y1="   150" x2="  2900" y2="   150" style = "stroke: Black;"/>
+  <line x1="   200" y1="   230" x2="   175" y2="   230" style = "stroke: Black;"/>
+  <line x1="   175" y1="   230" x2="   175" y2="   200" style = "stroke: Black;"/>
+  <line x1="   175" y1="   200" x2="  1425" y2="   200" style = "stroke: Black;"/>
+  <line x1="  1425" y1="   200" x2="  1425" y2="   230" style = "stroke: Black;"/>
+  <line x1="  1425" y1="   230" x2="  1400" y2="   230" style = "stroke: Black;"/>
+  <line x1="   200" y1="   310" x2="   175" y2="   310" style = "stroke: Black;"/>
+  <line x1="   175" y1="   310" x2="   175" y2="   280" style = "stroke: Black;"/>
+  <line x1="   175" y1="   280" x2="  2675" y2="   280" style = "stroke: Black;"/>
+  <line x1="  2675" y1="   280" x2="  2675" y2="   430" style = "stroke: Black;"/>
+  <line x1="  2675" y1="   430" x2="  2650" y2="   430" style = "stroke: Black;"/>
+  <text x="   200" y="   560">Unused Non-Parent Objects:</text>
+  <text x="   220" y="   580">OutdoorAir:Node</text>
+  <text x="   220" y="   600">CHW PLANT TEMPLATE CHW TEMP MANAGER</text>
+  <text x="   220" y="   620">CHW PLANT TEMPLATE CNDW TEMP MANAGER</text>
+  <text x="   200" y="   660">
+The following are not supported: objects related to controls or ZoneHVAC:IdealLoadsAirSystem</text>
+</g>
+</svg>
