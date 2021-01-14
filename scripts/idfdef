@@ -1,0 +1,5 @@
+#!/bin/sh
+
+DIR=/mnt/c/Users/mpaulus/source/repos/idf-default-objects/9_4
+
+ clip.exe < "$DIR"/"$(fd '.' "$DIR" -x basename | fzf)"
