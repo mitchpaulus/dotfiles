@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+
+if test -n "$WSLENV"; then
+    PREV_DIR="$(pwd)"
+    cd /mnt/c/ || exit 1
+    PDF="$(fd InputOutputReference.pdf /mnt/c/EnergyPlus* | sort -rV | head -n 1)"
+    cmd.exe /C start '' "$(wslpath -w "$PDF")"
+    cd "$PREV_DIR" || exit 1
+fi
