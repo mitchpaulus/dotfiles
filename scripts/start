@@ -1,4 +1,6 @@
 #!/bin/sh
 
 # Use CMD to start program/file
-cmd.exe /C start '' "$@"
+if command -v wslpath >/dev/null; then
+    cmd.exe /C start '' "$(wslpath -a -w "$1")"
+fi
