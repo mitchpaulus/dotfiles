@@ -14,7 +14,7 @@ if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
 linear_reset_excel.sh
 
 USAGE:
-    linear_reset_excel.sh Input X1 Y1 X2 Y2
+    linear_reset_excel.sh <Input> <X1> <Y1> <X2> <Y2>
 EOF
 exit 0
 fi

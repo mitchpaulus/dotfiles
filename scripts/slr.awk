@@ -1,5 +1,11 @@
 #!/usr/bin/awk -E
 
+# Produce coefficients for simple linear regression across whitespace delimited file
+# OUTPUT:
+#  intercept
+#  slope
+#  n
+
 BEGIN {
 
     for (i = 1; i <= ARGC; i++) {
