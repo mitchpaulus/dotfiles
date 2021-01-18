@@ -1,0 +1,37 @@
+#!/usr/bin/awk -E
+
+BEGIN {
+    if (ARGV[1] == "-h" || ARGV[1] == "--help" || ARGV[1] == "") {
+        print "biquadratic_excel"
+        print ""
+        print "USAGE:"
+        print "    bibiquadratic_excel <START_COL> <START ROW> <X_CELL> <Y_CELL> [SHEET]"
+        print ""
+        print "Dollar signs ($) will be added to the start range by default."
+        exit 0
+    }
+
+    start_col = ARGV[1]
+    start_row = ARGV[2]
+    x_cell = ARGV[3]
+    y_cell = ARGV[4]
+
+    sheet = ARGV[5]
+
+    if (sheet != "") {
+        total_sheet = "'" sheet "'!"
+    }
+    else {
+        total_sheet = ""
+    }
+
+    constant = total_sheet "$" start_col "$" start_row
+    x        = total_sheet "$" start_col "$" (start_row + 1)
+    xx       = total_sheet "$" start_col "$" (start_row + 2)
+    y        = total_sheet "$" start_col "$" (start_row + 3)
+    yy       = total_sheet "$" start_col "$" (start_row + 4)
+    xy       = total_sheet "$" start_col "$" (start_row + 5)
+
+
+    printf "=%s + (%s * %s) + (%s * %s * %s) + (%s * %s) + (%s * %s * %s) + (%s * %s * %s)", constant, x, x_cell, xx, x_cell, x_cell, y, y_cell, yy, y_cell, y_cell, xy, x_cell, y_cell
+}

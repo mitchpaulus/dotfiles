@@ -1,0 +1,31 @@
+#!/usr/bin/awk -E
+
+BEGIN {
+
+    if (ARGV[1] == "-h" || ARGV[1] == "--help") {
+        print "quadratic_excel"
+        print ""
+        print "USAGE:"
+        print "quadratic_excel START_COL START ROW X_CELL [SHEET]"
+    }
+
+    start_col = ARGV[1]
+    start_row = ARGV[2]
+    x_cell = ARGV[3]
+
+    sheet = ARGV[4]
+
+    if (sheet != "") {
+        total_sheet = "'" sheet "'!"
+    }
+    else {
+        total_sheet = ""
+    }
+
+    constant = total_sheet "$" start_col "$" start_row
+    x        = total_sheet "$" start_col "$" (start_row + 1)
+    xx       = total_sheet "$" start_col "$" (start_row + 2)
+
+
+    printf "=%s + (%s * %s) + (%s * %s * %s)", constant, x, x_cell, xx, x_cell, x_cell
+}
