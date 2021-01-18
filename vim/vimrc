@@ -86,6 +86,8 @@ cnoremap <c-t> <c-r>=strftime("%Y-%m-%d")<cr>
 inoremap <localleader>t <c-r>=strftime("%A %Y-%m-%d")<cr>
 " stay on current search
 nnoremap * *N
+" D is just dL. Better to save a keystroke on line deletion.
+nnoremap D dd
 
 " Copy to clipboard in visual mode
 xnoremap <leader>y "+y
@@ -327,7 +329,7 @@ set number     " Show the current line number
 set nocursorline
 set encoding=utf-8
 set backspace=indent,eol,start " Want backspaces to always work as normal.
-set scrolloff=2                " Want two lines above and below cursor when scrolling.
+set scrolloff=8                " Want two lines above and below cursor when scrolling.
 set smartcase                  " Use smartcase
 set laststatus=2               " Always show the statusbar
 set nowrap                     " No word wrap.
@@ -343,10 +345,10 @@ set spelllang=en_us
 set spellsuggest=10
 set hidden
 set mouse=a
-
+set noshowmode                 " My status line already takes of this for me.
 set sessionoptions=buffers,curdir,winpos,winsize
-set nolist
-set listchars=tab:▸\ ,eol:¬
+set nolist                     " No special characters by default
+set listchars=tab:▸\ ,eol:¬    " But provide better characters when requried
 set guioptions-=e
 set guioptions-=L
 set guioptions-=R
