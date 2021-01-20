@@ -21,3 +21,12 @@ $$
   - $a$: Surface area per unit tower volume, ft²/ft^3
   - $V$: Effective tower volume, ft^3
   - $L$: Water mass flowrate, lb/h
+
+## York Chillers
+
+From [link
+here](https://docs.johnsoncontrols.com/chillers/v/u/YK/YK-Style-H-Centrifugal-Liquid-Chiller-250-300-tons),
+they provide a formula for minimum CWST.
+
+$$\textrm{CWST_{min}} = \textrm{CHWST} - \textrm{CW Range} + 5°F + 12 (PLR)$$
+
