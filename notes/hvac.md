@@ -30,3 +30,19 @@ they provide a formula for minimum CWST.
 
 $$\textrm{CWST_{min}} = \textrm{CHWST} - \textrm{CW Range} + 5°F + 12 (PLR)$$
 
+
+Model Number Nomenclature:
+
+Positions - Meaning
+
+1-2: Unit Type
+3-4: Evaporator Code
+5-6: Condenser Code
+7-8: Compressor Code
+9: Power Supply (- for 60 Hz, 5 for 50 Hz, M for 50 Hz Supply / 60 Hz motor)
+10-11: Motor Code
+12: Design Level
+13: Special
+
+
+

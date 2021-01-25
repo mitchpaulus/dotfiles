@@ -28,6 +28,13 @@
 
 - lambda syntax, `lambda var1, var2: expression`
 
+- Write to File:
+     ```
+     with open('Path') as file:
+        file.write(string_var)
+     ```
+
+
 ## Sorting
 
 `sorted` function.
