@@ -1,5 +1,14 @@
 # Antlr
 
+
+- Forcing Java classes to be built:
+```
+antlr4 -Dlanguage=Java *.g4
+javac *.java
+```
+
+
+
 ## Installing the Java Development Kit for WSL on Windows OS
 
 - Used Open Source version from [https://jdk.java.net/14/](https://jdk.java.net/14/)
@@ -16,3 +25,7 @@ Followed instructions for Antlr
   There they specify that you need the `Antlr4.Runtime.Standard`
   package.
 
+
+## Arch/Manjaro
+
+- Believe I used package `jdk-openjdk`

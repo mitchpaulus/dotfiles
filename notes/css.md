@@ -17,7 +17,8 @@
 ### Parent
 
 - `display: flex`
--
+- Horizontal Spacing
+    - `justify-content`
 
 ### Children
 
