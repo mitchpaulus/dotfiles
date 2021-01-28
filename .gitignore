@@ -5,3 +5,4 @@ pack/
 tmp/
 *.aux
 *.log
+notes/*.pdf
