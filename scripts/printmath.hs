@@ -16,7 +16,7 @@ processEquation options = do
     -- Open a handle to send output to /dev/null
     nullHandle <- openFile "/dev/null" WriteMode
     -- Run lualatex on template file
-    let process =  proc "lualatex" [(texFileName options)]
+    let process =  proc "lualatex" ["--halt-on-error", (texFileName options)]
     (_, _, _, processHandle) <- createProcess process { std_out = UseHandle nullHandle }
     exitCode <- waitForProcess processHandle
     if exitCode == ExitSuccess then putStrLn "Success" else putStrLn "Fail"
