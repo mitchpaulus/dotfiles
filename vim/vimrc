@@ -291,7 +291,8 @@ inoremap <C-F> <C-X><C-F>
 " https://en.wikipedia.org/wiki/Control_character#How_control_characters_map_to_keyboards
 " https://stackoverflow.com/a/7725796/5932184
 " https://github.com/microsoft/terminal/issues/2865
-imap <C-@> <Nop>
+inoremap <C-@> <Nop>
+inoremap <C-Space> <Nop>
 
 " Since ` is used as prefix in tmux, this lets me put in ` without having to
 " double the keystrokes.
