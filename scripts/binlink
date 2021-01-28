@@ -1,4 +1,17 @@
 #!/bin/sh
+
+if test "$1" = "-h" || test "$1" = "--help"; then
+    cat <<EOF
+binlink
+
+USAGE:
+    binlink <executable file>
+
+binlink creates a relative symlink to the executable file in ~/.local/bin under the same name.
+EOF
+exit 0
+fi
+
 if [ $# -ne 1 ]; then
     printf "1 argument expected, %s received.\n" "$#"
     exit 1
