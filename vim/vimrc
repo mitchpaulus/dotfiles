@@ -683,6 +683,7 @@ autocmd FileType idf nnoremap <localleader>s /<C-r>*\c<CR>
 autocmd FileType idf nnoremap <localleader>t :Tabularize /!-\?/l1l1<CR>
 autocmd FileType idf set errorformat=%l:%c\ %m
 autocmd FileType idf set makeprg=idf-lint\ %
+autocmd FileType idf inoremap <localleader>l λ
 
 autocmd FileType python iabbrev improt import
 
