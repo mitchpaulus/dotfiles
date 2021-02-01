@@ -25,3 +25,8 @@ case word in
     pattern [| pattern]... ) command-list ;;
 esac
 ```
+
+## Basename/Dirname
+
+- `basename` removes directory portions
+- `dirname` removes file, leaving directory
