@@ -24,9 +24,10 @@ if-shell -b 'test -n "$WSLENV"' 'bind-key -T copy-mode-vi Enter send-keys -X cop
 
 # Splitting windows
 bind "\\" split-window -h -c '#{pane_current_path}'
-bind -n M-Enter split-window -h -c '#{pane_current_path}'
 bind | split-window -h -c '#{pane_current_path}'
 bind - split-window -v -c '#{pane_current_path}'
+bind -n M-- split-window -v -c '#{pane_current_path}'
+bind -n 'M-;' split-window -h -c '#{pane_current_path}'
 
 # Don't ask to kill window
 bind x kill-pane
@@ -56,8 +57,9 @@ bind -n M-l select-pane -R
 bind -n M-n next-window
 bind -n M-p previous-window
 
-bind -n M-c new-window
+bind -n M-Enter new-window
 bind -n M-x kill-pane
+bind -n M-o kill-pane
 
 # Move around windows
 bind -n S-Left previous-window
@@ -71,6 +73,7 @@ bind -r L resize-pane -R 5
 
 set-window-option -g mode-keys vi
 
+# Make 'H' and 'L' match my vim motion
 bind-key -T copy-mode-vi H send-keys -X start-of-line
 bind-key -T copy-mode-vi L send-keys -X end-of-line
 
