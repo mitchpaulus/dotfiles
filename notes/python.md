@@ -95,6 +95,7 @@ https://docs.python.org/3/library/string.html#format-string-syntax
 https://docs.python.org/3/library/string.html#formatspec
 https://docs.python.org/3/library/string.html#format-specification-mini-language
 
+```
 Binary Operators
 
 Operator           Method
@@ -150,3 +151,62 @@ Operator          Method
 !=                object.__ne__(self, other)
 >=                object.__ge__(self, other)
 >                 object.__gt__(self, other)
+
+```
+
+## Module Loading
+
+- https://leemendelowitz.github.io/blog/how-does-python-find-packages.html
+
+Python searches directories in `sys.path`. Can check current value
+using:
+
+```python
+import sys
+print("\n".join(sys.path))
+```
+
+Default: Current Directory, PYTHONPATH, directories filled by `site`
+module.
+
+Good resource on path modification best practice:
+https://docs.python.org/3/install/index.html#modifying-python-s-search-path
+
+Appears easiest way to add path locations is the use of special "path
+configuration files". These have an extension of '.pth' and are simply
+newline separated directories of paths to add.
+
+Gets more complicated when using PyCharm as an IDE. To add paths to the
+project interpreter so that the IDE knows about them, use the dialog in
+the settings, see
+[https://www.jetbrains.com/help/pycharm/python-interpreters.html#paths](https://www.jetbrains.com/help/pycharm/python-interpreters.html#paths)
+
+1. Ctrl-Alt-S for project settings
+2. Project: <project> -> Python Interpreter -> Dropdown -> "Show All"
+3. Click icon for more paths, add to that.
+
+
+## Linear Regression
+
+package: scikit-learn
+
+```python
+from sklearn.linear_model import LinearRegression
+
+regressor = LinearRegression()
+data = ....
+regressor.fit(x, y)
+# regressor.intercept_, regressor.coeff_, etc.
+
+prediction = regressor.predict(new_x)
+```
+
+## matplotlib
+
+- Uses `numpy.array`s
+
+```
+fig, ax = plt.subplots()  # Create a figure containing a single axes.
+ax.plot([1, 2, 3, 4], [1, 4, 2, 3])  # Plot some data on the axes.
+plt.show()
+```
