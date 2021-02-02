@@ -86,8 +86,6 @@ cnoremap <c-t> <c-r>=strftime("%Y-%m-%d")<cr>
 inoremap <localleader>t <c-r>=strftime("%A %Y-%m-%d")<cr>
 " stay on current search
 nnoremap * *N
-" D is just dL. Better to save a keystroke on line deletion.
-nnoremap D dd
 
 " Copy to clipboard in visual mode
 xnoremap <leader>y "+y
@@ -280,6 +278,7 @@ inoremap <c-a> <c-o>^
 " nnoremap <leader>k <c-w>k
 
 inoremap <localleader>df °F
+inoremap <localleader>dt ΔT
 
 " Filename completion
 inoremap <C-F> <C-X><C-F>
@@ -653,6 +652,7 @@ autocmd FileType tex inoremap ,s ^{} <++><esc>5hi
 autocmd FileType tex inoremap ,fr \frac{}{}<esc>2hi
 autocmd FileType tex inoremap ,dot \dot{} <++><esc>5hi
 autocmd FileType tex inoremap ,tx \text{} <++><esc>5hi
+autocmd FileType tex inoremap ,rm \textrm{}<Left>
 autocmd FileType tex inoremap ,p \usepackage{}<esc>i
 autocmd FileType tex inoremap ,co \newcommand{\}{<++>}<esc>6hi
 autocmd FileType tex inoremap ,en \begin{enumerate}<cr><cr>\end{enumerate}<esc>ki    <esc>i
