@@ -7,9 +7,18 @@ set -gx VISUAL nvim
 set -g H /mnt/c/Users/mpaulus
 
 function fish_prompt
-    set_color cyan
-    printf "%s >\n:: " (prompt_pwd)
-    set_color normal
+    set exit_code "$status"
+    if test "$exit_code" -eq 0
+        set_color cyan
+        printf "%s >\n:: " (prompt_pwd)
+        set_color normal
+    else
+        set_color cyan
+        printf "%s >\n" (prompt_pwd)
+        set_color red
+        printf "(%s) :: " "$exit_code"
+        set_color normal
+    end
 end
 
 function __path_add
