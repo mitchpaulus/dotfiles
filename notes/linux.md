@@ -17,3 +17,8 @@
 
 - May need to log out/log in to see changes
 - `tmux` may need to be restarted in order to see the changes as well
+
+
+## Clipboard
+
+3 clipboards: primary, secondary, and clipboard.

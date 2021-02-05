@@ -8,3 +8,17 @@ and see what Vim prints. This helped me find that Vim received Ctrl -
 Space as `<C-Space>`, not `<C-@>` as I had expected.
 
 
+
+## Syntax Highlighting
+
+See `:h group-name` for standard group names like 'Comment' and
+'Constant'
+
+See `:h syn-match` for syntax matching. It's in `syntax.txt`
+
+General process is:
+
+1. Match things using `syntax keyword`, `syntax match`, or `syntax
+   region`.
+
+2.
