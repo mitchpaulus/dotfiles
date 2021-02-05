@@ -199,7 +199,7 @@ cnoremap <C-a> <C-b>
 " 3. j is the best leader character, since almost no words end with that.
 " 4. So jf splits the duty between both hands using strong pointer finger.
 inoremap jf <esc>
-inoremap <F9> <C-o>:set paste<CR><C-r>*<C-o>:set nopaste<CR>
+inoremap <F9> <C-o>:set paste<CR><C-r>+<C-o>:set nopaste<CR>
 
 noremap <TAB> <PageDown>zz
 noremap <S-TAB> <PageUp>zz
