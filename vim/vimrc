@@ -291,7 +291,7 @@ inoremap <C-F> <C-X><C-F>
 " https://stackoverflow.com/a/7725796/5932184
 " https://github.com/microsoft/terminal/issues/2865
 inoremap <C-@> <Nop>
-inoremap <C-Space> <Nop>
+inoremap <C-Space> <Space>
 
 " Since ` is used as prefix in tmux, this lets me put in ` without having to
 " double the keystrokes.
