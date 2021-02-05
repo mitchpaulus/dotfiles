@@ -1,5 +1,27 @@
 #!/bin/sh
 
-DIR=/mnt/c/Users/mpaulus/source/repos/idf-default-objects/9_4
+set -e
 
- clip.exe < "$DIR"/"$(fd '.' "$DIR" -x basename | fzf)"
+if test -f "$HOME"/.config/idf-default-objects/dir; then
+    DIR="$(cat "$HOME"/.config/idf-default-objects/dir)"
+else
+    REPODIR="$(fd --type d idf-default-objects "$HOME")"
+    if test -n "$REPODIR"; then
+        DIR="$(fd --type d '^[0-9]' "$REPODIR" | sort -V -r | head -n 1)"
+        mkdir -p "$HOME"/.config/idf-default-objects
+        # Write the file location to a cached location
+        printf "%s\n" "$DIR" > "$HOME"/.config/idf-default-objects/dir
+    else
+        printf "Could not find repository directory.\n"
+        exit 1
+    fi
+fi
+
+#/mnt/c/Users/mpaulus/source/repos/idf-default-objects/9_4
+
+
+if test -n "$WSL_DISTRO_NAME"; then
+    clip.exe < "$DIR"/"$(fd '.' "$DIR" -x basename | fzf)"
+else
+    xclip -selection clipboard < "$DIR"/"$(fd '.' "$DIR" -x basename | fzf)"
+fi
