@@ -7,6 +7,23 @@ antlr4 -Dlanguage=Java *.g4
 javac *.java
 ```
 
+```
+antlr4() {
+    java -jar /usr/local/lib/antlr-4.x-complete.jar
+}
+```
+
+```
+grun() {
+    java org.antlr.v4.runtime.misc.TestRig
+}
+```
+
+Run grun like:
+```
+grun GrammarName rule options..
+```
+
 
 
 ## Installing the Java Development Kit for WSL on Windows OS
