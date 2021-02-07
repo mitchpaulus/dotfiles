@@ -45,6 +45,8 @@ bind l select-pane -R
 
 bind t command-prompt -p 'Enter new session name:' "new-session -s '%%'"
 
+bind -n M-i run-shell 'duckduckgo'
+
 bind -n M-Left select-pane -L
 bind -n M-Down select-pane -D
 bind -n M-Up select-pane -U
