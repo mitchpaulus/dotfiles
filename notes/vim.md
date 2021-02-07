@@ -22,3 +22,20 @@ General process is:
    region`.
 
 2.
+
+## Constantly Reload File for Demo
+
+From [link](https://www.reddit.com/r/vim/comments/ktd2kw/run_a_vim_command_in_loop_each_n_seconds/):
+
+```viml
+:call timer_start( 2000, { id -> execute( 'e!' ) }, { 'repeat': -1 } )
+```
+
+However, combining it with this function for restoring the cursor
+position is even better ([link](https://stackoverflow.com/a/50476532/5932184)):
+
+```viml
+:call timer_start( 2000, { id -> execute('let l:winview=winsaveview() | checktime | call winrestview(l:winview) ' ) }, { 'repeat': -1 } )
+```
+
+
