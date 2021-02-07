@@ -6,6 +6,7 @@
 - String operations
     - Trim/Strip: `str_object.strip()`
     - Split: `str_object.split(string_to_split_on)`
+    - Replace `str_object.replace(old, new[, max])` returns new string
 - Truthiness
     - All values are considered "truthy" except for the following, which are "falsy":
             1. None
@@ -95,6 +96,20 @@ https://docs.python.org/3/library/string.html#format-string-syntax
 https://docs.python.org/3/library/string.html#formatspec
 https://docs.python.org/3/library/string.html#format-specification-mini-language
 
+Common formats:
+`.3f`, `.3g`
+Can put in thousands separator with something like:
+`,.0f`
+
+Can use double or single quotes, doesn't change things except for
+escaping themselves
+
+Raw strings, put 'r' in front.
+
+String literals can be concatenated when next to each other `'string 1'`
+`'string 2'`
+
+## Binary Operator Overloading
 ```
 Binary Operators
 

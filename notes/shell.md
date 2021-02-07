@@ -30,3 +30,9 @@ esac
 
 - `basename` removes directory portions
 - `dirname` removes file, leaving directory
+
+## Grep in if statement
+
+```sh
+if printf '%s' $var | grep -q 'pattern'; then ... ; fi
+```
