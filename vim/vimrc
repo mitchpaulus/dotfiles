@@ -560,7 +560,6 @@ nnoremap <Leader>/ :Ack!<Space>
 " }}}
 
 
-" FileType AutoCmd Mappings {{{1
 
 " It's wild that this is even possible, but man it's a headache to work
 " through the interop issues with the WSL (not to mention the vimscript layer
@@ -592,6 +591,8 @@ nnoremap <leader>j /<++><cr>cgn
 
 let g:AutocorrectFiletypes = ["markdown", "tex", "text","gitcommit"]
 
+" FileType AutoCmd Mappings {{{1
+"
 augroup filetypemappings
 autocmd!
 
@@ -694,17 +695,21 @@ autocmd FileType bemp nnoremap <localleader>c :!bemp -o out.idf %<CR>
 autocmd FileType bemp inoremap <localleader>f λ  { <++> }<Esc>8hi
 autocmd FileType bemp inoremap <localleader>r <  ><Esc>hi
 
-autocmd FileType python iabbrev improt import
+autocmd FileType python,bemp iabbrev improt import
+
+autocmd FileType compass inoremap <localleader>b <!-- Compass:  --><CR><CR><!-- Compass --><Esc>2k0f:la
 
 augroup END
 
 
+"
 " Event Type Autocmd mappings {{{1
 augroup eventtypemappings
 autocmd!
 " cshtml - html - close enough
 autocmd BufEnter *.cshtml set filetype=html
 autocmd BufEnter *.do     set filetype=sh
+autocmd BufEnter *.compass set filetype=compass
 " Remove trailing whitespace. Use keeppatterns so that
 " the search history isn't ruined with the \v\s+$ junk.
 " Setting the marks is required so that the cursor doesn't jump
