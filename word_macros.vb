@@ -173,3 +173,11 @@ Next Section
 
 End Sub
 
+Sub GenTable()
+' Bound to CTRL-SHIFT-T
+    Selection.ConvertToTable Separator:=wdSeparateByTabs, AutoFitBehavior:=wdAutoFitContent, AutoFit:=True
+     With Selection.Tables(1)
+        .Style = "ccxtable"
+    End With
+End Sub
+
