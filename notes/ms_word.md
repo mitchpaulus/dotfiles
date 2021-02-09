@@ -13,3 +13,78 @@ the bottom.
 The solution is to use the 'Font -> Advanced -> Position -> Lowered ->
 Enter Points' dialog to shift the equation by a
 certain number of points. Got this tip from [here](https://wordribbon.tips.net/T009827_Vertical_Alignment_of_an_Inline_Graphic.html)
+
+
+## Find and Replace VBA
+
+MS Word find does have some of the concepts from regular expressions.
+These include (from
+[https://www.customguide.com/word/how-to-use-wildcards-in-word](https://www.customguide.com/word/how-to-use-wildcards-in-word):
+
+```
+Wildcard 	Purpose		Example
+? 	   Any single character 	h?t will find hat, hot, and h t
+* 	   Any number of characters 	a*d will find ad, ahead, and as compared
+[ ]    One of these characters 	t[ai]n will find tan and tin, but not ton
+[ - ]  One of these characters in a range 	[b-d]ot will find bot, cot, and dot
+[! ]   Not the specific characters 	[!d]ust will find rust and must, but not dust
+< 	The beginning of a word 	<(some) will find something, someone, and somewhere
+> 	The end of a word 	(one)> will find stone, cone, and provolone
+@ 	One or more instances of a character 	cor@al will find coral and corral
+{n} 	Exactly n instances of a character 	^p{2} will find two consecutive paragraph breaks
+{n,} 	At least n instances of a character 	10{2,} will find 100, 1000, and 10000
+{n,m} 	Between n and m instances of a character 	10{2,3} will find only 100 and 1000, not 10000
+```
+
+In the replacement, a useful special character sequence is `^c`. This
+will replace the value with whatever is currently on the clipboard. This
+allows you to do thing like replace with fields for Figure or Table
+captions.
+
+Example of this at [this
+answer.](https://answers.microsoft.com/en-us/msoffice/forum/msoffice_word-mso_winother-mso_archive/how-to-replace-the-tablefigure-caption-labels-in/23c09913-c813-4868-bf20-8624c50e6f32)
+
+Special find/replacements:
+
+
+"Find what" box only
+
+Character  String
+^1 or ^g Picture (inline pictures only)
+^2, ^f (footnote), or ^e (endnote) Auto-referenced footnotes or endnotes
+^5 or ^a Annotation/comment mark
+^19 or ^d Opening field brace (Use only when you are viewing field codes.) (Selects whole field, not just opening brace.)
+^21 or ^d Closing field brace (Use only when you are viewing field codes.) (Selects whole field, not just closing brace.)
+^?  Any single character
+^# Any digit
+^$ Any letter
+^u8195 Em space Unicode character value search
+^u8194 En space Unicode character value search
+^b Section break
+^w White space (space, nonbreaking space, tab)
+^unnnn Word 2000 Unicode character search, where "n" is a decimal number corresponding to the Unicode character value
+
+"Replace with" Box only
+
+Character String
+^& Contents of the "Find what" box
+^c Replace with the Clipboard contents
+
+Both "Find what" and "Replace with" boxes
+
+Character String
+^9 or ^t Tab
+^11 or ^l New line
+^12 Page or section break (Replaces a section break with a page break)
+^13 or ^p Carriage return/paragraph mark
+^14 or ^n Column break
+?  Question mark
+^- Optional hyphen
+^~ Nonbreaking hyphen
+^^ Caret character
+^+ Em dash
+^= En dash
+^m Manual page break
+^s Nonbreaking space
+^nnn Where "n" is an ASCII character number
+^0nnn Where "n" is an ANSI character number

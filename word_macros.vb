@@ -68,7 +68,8 @@ Sub UpdateCaptionStyling()
 
     For Each pgh In ActiveDocument.Paragraphs
 
-        If pgh.Style = "Caption" Then
+        ' Caption is default style, "Image Caption" is from pandoc generated figure captions, "Table Caption" for pandoc generated tables
+        If pgh.Style = "Caption" Or pgh.Style = "Image Caption" Or pgh.Style = "Table Caption" Then
 
             If InStr(pgh.Range.Text, "Figure") Then
                 pgh.Style = "figure-caption"
@@ -179,5 +180,59 @@ Sub GenTable()
      With Selection.Tables(1)
         .Style = "ccxtable"
     End With
+End Sub
+
+Sub ReplaceFigureCaptions()
+'
+' This macro is for replacing the "dumb" captions coming
+' from a pandoc generated file.
+' IMPORTANT: The only way this works is by having a Figure caption
+' in the clipboard, relying on the ^c
+'
+
+    Selection.Find.ClearFormatting
+    Selection.Find.Style = ActiveDocument.Styles("Image Caption")
+    With Selection.Find
+        .Text = "Figure [0-9]{1,}:"
+        .Replacement.Text = "^c"
+        .Forward = True
+        .Wrap = wdFindContinue
+        .Format = True
+        .MatchCase = False
+        .MatchWholeWord = False
+        .MatchAllWordForms = False
+        .MatchSoundsLike = False
+        .MatchWildcards = True
+    End With
+    Selection.Find.Execute Replace:=wdReplaceAll
+
+
+End Sub
+
+Sub ReplaceTableCaptions()
+'
+' This macro is for replacing the "dumb" captions coming
+' from a pandoc generated file.
+' IMPORTANT: The only way this works is by having a Table caption
+' in the clipboard, relying on the ^c
+'
+
+    Selection.Find.ClearFormatting
+    Selection.Find.Style = ActiveDocument.Styles("Table Caption")
+    With Selection.Find
+        .Text = "Table [0-9]{1,}:"
+        .Replacement.Text = "^c"
+        .Forward = True
+        .Wrap = wdFindContinue
+        .Format = True
+        .MatchCase = False
+        .MatchWholeWord = False
+        .MatchAllWordForms = False
+        .MatchSoundsLike = False
+        .MatchWildcards = True
+    End With
+    Selection.Find.Execute Replace:=wdReplaceAll
+
+
 End Sub
 
