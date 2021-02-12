@@ -1,0 +1,4 @@
+template = λ num {
+Version,
+    < num >;
+}
