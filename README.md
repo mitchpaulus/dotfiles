@@ -1,6 +1,6 @@
 # Mitch Paulus dotfiles [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d50e331067be47ab8246b76686ff17c8)](https://www.codacy.com/manual/mitchpaulus/dotfiles?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mitchpaulus/dotfiles&amp;utm_campaign=Badge_Grade)
 
-Always a work in progress.
+As they say, progress not perfection.
 
 ## Using
 
@@ -25,8 +25,6 @@ Always a work in progress.
 
 * COMPOSITOR: Compton, for transparency, etc.
 
-* WM: i3, along with i3-blocks, Status bar for i3
+* WM: Pretty much live in `tmux`, but have KDE plasma on one computer, i3 on another, and WSL on Windows at main work.
 
 * FILE MANAGER: `lf`
-
-* OTHER: tmux, When i3 isn't possible, like when I'm working in WSL on Windows

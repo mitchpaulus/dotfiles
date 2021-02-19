@@ -38,4 +38,11 @@ position is even better ([link](https://stackoverflow.com/a/50476532/5932184)):
 :call timer_start( 2000, { id -> execute('let l:winview=winsaveview() | checktime | call winrestview(l:winview) ' ) }, { 'repeat': -1 } )
 ```
 
+## Inserting text from external command
 
+Few options:
+
+1. Use read. `:read !shell text`
+2. Use System, Use expression register `<C-R>` followed by `=`.
+    `<C-R>=system('shell text')<CR>`
+3. Use filter. `:range!shell text`. `:help filter`

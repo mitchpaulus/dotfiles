@@ -41,3 +41,29 @@ updated Ubuntu versions or what.
 # Examples
 
 Print number of pages in PDF: `qpdf --show-npages file.pdf`
+
+Get useful document information in JSON form:
+
+```
+qpdf --json [--json-key=key]
+```
+
+Get bookmark details:
+```
+qpdf --json --json-key=outlines
+```
+
+Concatenate pages from multiple pdfs:
+
+Page selection:
+
+```
+--pages input-file [ --password=password ] [ page-range ] [ ... ] --
+```
+
+Concatenate all pages of PDFs:
+
+```
+qpdf --empty out.pdf --pages *.pdf --
+```
+
