@@ -1,5 +1,5 @@
 #!/bin/sh
 
 # Print out the headers in a CSV file
-head -n 1 "$1" | tr ',' '\n' | sort -V
+head -q -n 1 "$@" | tr ',' '\n' | sort -V
 
