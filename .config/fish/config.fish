@@ -4,6 +4,10 @@ set -g fish_prompt_pwd_dir_length 5
 
 set -gx EDITOR nvim
 set -gx VISUAL nvim
+
+# This from DistroTube https://www.youtube.com/watch?v=ab3rY0X5kD4
+set -gx MANPAGER "nvim -c 'set ft=man' -"
+
 set -g H /mnt/c/Users/mpaulus
 
 function fish_prompt
