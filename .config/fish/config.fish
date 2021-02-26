@@ -66,7 +66,7 @@ end
 function r --wraps=ranger; ranger --choosedir="$HOME/.rangerdir"; cd (cat $HOME/.rangerdir); end
 
 function lf --wraps=lf
-    "$HOME"/bin/lf -last-dir-path "$HOME/.config/lf/lf_lastdir" $argv; and cd (cat "$HOME/.config/lf/lf_lastdir")
+    command lf -last-dir-path "$HOME/.config/lf/lf_lastdir" $argv; and cd (cat "$HOME/.config/lf/lf_lastdir")
 end
 
 function u; cd ..; end
