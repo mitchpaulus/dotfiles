@@ -108,7 +108,7 @@ function i --description 'Edit idf files'
 end
 
 function en --description 'Edit a note'
-    set file (fd --type f -e md '' ~/dotfiles/notes/ -x printf "%s\n" '{/}' | sed 's/\.md//' | fzf -1) && "$EDITOR" ~/dotfiles/notes/"$file".md
+    set file (fd --type f -e md '' ~/dotfiles/notes/ -x printf "%s\n" '{/}' | sed 's/\.md//' | fzf -1); and "$EDITOR" ~/dotfiles/notes/"$file".md
 end
 # Carrying over from source [b]ashrc
 function sb --description 'Reload fish config file'
