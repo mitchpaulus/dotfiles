@@ -677,7 +677,9 @@ autocmd FileType awk inoremap ,sh #!/usr/bin/awk -E<CR>
 autocmd FileType awk inoremap <localleader>sp split(string, array, FS)
 
 autocmd FileType sh inoremap ,sh #!/bin/sh<CR>
+autocmd FileType sh,bash nnoremap ,h :read ~/dotfiles/snipfiles/shell_help.sh
 autocmd FileType sh,fish,bash inoremap ,v "$"<Left>
+
 
 autocmd FileType matlab inoremap ,f function [output] = functionname(inputvariable)<CR><CR>end<Esc>2k
 
