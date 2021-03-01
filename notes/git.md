@@ -41,3 +41,19 @@ $ git status        # Show files that will be normalized
 $ git commit -m "Introduce end-of-line normalization"
 ```
 
+## Extracting a folder to own repository
+
+TLDR: `git filter-repo --path 'path/to/folder' --path-rename '/path/to/folder/:'`
+
+Uses [git-filter-repo](https://github.com/newren/git-filter-repo).
+Figured out the right path rename from [here](https://making.close.com/posts/splitting-sub-folders-out-into-new-git-repository).
+
+
+## Remove Untracked files
+
+`git clean -d -n` to dry run. `git clean -d -i` for interactive delete,
+`-f` option to force the deletion.
+
+## Move Remote
+
+`git remote set-url <remote> <URL>`

@@ -10,7 +10,8 @@
 
 ## User Management
 
-- Add user: `useradd`
+- Add user: `useradd`. However, this is a low-level utility, recommended
+  replacement is `adduser`. [SO](https://unix.stackexchange.com/a/182193/296724). See `man useradd` as well.
 - Add existing user account to group: `usermod -a -G groupname username`.
   `-a` is for append.
   `-G` is for secondary group.
@@ -18,6 +19,10 @@
 - May need to log out/log in to see changes
 - `tmux` may need to be restarted in order to see the changes as well
 
+
+## Passwords
+
+- `[sudo] passwd user`: Update password. Stored in `/etc/passwd`
 
 ## Clipboard
 
