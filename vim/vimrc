@@ -618,6 +618,7 @@ autocmd FileType gnuplot inoremap ,hist <esc>:0read ~/.vim/snipfiles/hist.gnuplo
 autocmd FileType markdown,text inoremap ^2 <c-v>178
 autocmd FileType markdown,text inoremap ,l [](<++>)<esc>6hi
 autocmd FileType markdown,text inoremap ,c ✓
+autocmd FileType markdown,text inoremap ,x ✗
 " Quickly enter in °F
 autocmd FileType markdown,text inoremap DEGF °F
 
@@ -691,13 +692,14 @@ autocmd FileType idf inoremap <localleader>de Delete ECM
 autocmd FileType idf nnoremap <localleader>s /<C-r>*\c<CR>
 autocmd FileType idf set errorformat=%l:%c\ %m
 autocmd FileType idf set makeprg=idflint\ %
-autocmd FileType idf,bemp inoremap <localleader>l λ
-autocmd FileType idf,bemp nnoremap <localleader>t :Tabularize /!-\?/l1l1<CR>
-autocmd FileType bemp nnoremap <localleader>c :!bemp -o out.idf %<CR>
-autocmd FileType bemp inoremap <localleader>f λ  { <++> }<Esc>8hi
-autocmd FileType bemp inoremap <localleader>r <  ><Esc>hi
+autocmd FileType idf,neobem inoremap <localleader>l λ
+autocmd FileType idf,neobem nnoremap <localleader>t :Tabularize /!-\?/l1l1<CR>
+autocmd FileType neobem nnoremap <localleader>c :!nbem -o out.idf %<CR>
+autocmd FileType neobem inoremap <localleader>f λ  { <++> }<Esc>8hi
+autocmd FileType neobem inoremap <localleader>r <  ><Esc>hi
+autocmd FileType neobem inoremap <localleader>c ✓
 
-autocmd FileType python,bemp iabbrev improt import
+autocmd FileType python,nbem iabbrev improt import
 
 autocmd FileType compass inoremap <localleader>b <!-- Compass:  --><CR><CR><!-- Compass --><Esc>2k0f:la
 
