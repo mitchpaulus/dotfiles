@@ -21,3 +21,7 @@ Refresh font cache:
 ```
 sudo fc-cache
 ```
+
+## X bitmap fonts
+
+- On Arch, package is 'xorg-fonts-misc'
