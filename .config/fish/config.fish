@@ -2,8 +2,22 @@
 
 set -g fish_prompt_pwd_dir_length 5
 
-set -gx EDITOR nvim
-set -gx VISUAL nvim
+# Neovim/Vim for all the things
+if command -v nvim >/dev/null 2>&1
+    set -gx EDITOR nvim
+    set -gx VISUAL nvim
+else if command -v vim >/dev/null 2>&1
+    set -gx EDITOR vim
+    set -gx VISUAL vim
+end
+
+set -gx DOTFILES ~/dotfiles
+
+if command -v exa
+    function ls --wraps exa
+        exa $argv
+    end
+end
 
 # This from DistroTube https://www.youtube.com/watch?v=ab3rY0X5kD4
 set -gx MANPAGER "nvim -c 'set ft=man' -"
@@ -32,7 +46,7 @@ function __path_add
     end
 end
 
-__path_add ~/dotfiles/scripts/
+__path_add "$DOTFILES"/scripts/
 __path_add /usr/local/texlive/2020/bin/x86_64-linux
 __path_add "$HOME/.gem/ruby/2.7.0/bin"
 __path_add "$HOME/bin"
@@ -111,13 +125,19 @@ function i --description 'Edit idf files'
 end
 
 function en --description 'Edit a note'
-    set file (fd --type f -e md '' ~/dotfiles/notes/ -x printf "%s\n" '{/}' | sed 's/\.md//' | fzf -1); and "$EDITOR" ~/dotfiles/notes/"$file".md
+    set file (fd --type f -e md '' "$DOTFILES"/notes/ -x printf "%s\n" '{/}' | sed 's/\.md//' | fzf -1); and "$EDITOR" "$DOTFILES"/notes/"$file".md
 end
+
+function gn --description 'Go to notes directory'
+    cd "$DOTFILES"/notes
+end
+
 # Carrying over from source [b]ashrc
 function sb --description 'Reload fish config file'
     source ~/.config/fish/config.fish
     printf "Reloaded %s\n" ~/.config/fish/config.fish
 end
+
 # Set up specific commands if working in WSL environment
 if test -n "$WSL_DISTRO_NAME"
     # Command to bring up Windows Explorer in current directory.
@@ -161,7 +181,7 @@ function winmount
     sudo mount -t drvfs "$uppercase_letter": /mnt/"$lowercase_letter"
 end
 
-function ta
+function ta --description "tmux attach"
     set -l IFS
     switch (tmux ls 2>&1)
         case "no server running*"
