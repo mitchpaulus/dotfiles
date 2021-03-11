@@ -1,0 +1,20 @@
+#!/bin/sh
+
+if test "$1" = "-h" || test "$1" = "--help"; then
+    cat <<EOF
+cccopy
+
+USAGE
+    cccopy [file]
+
+Strip unnecessary file path information. If no arguments, current working
+directory is used as the input.
+EOF
+exit 0
+fi
+
+if test "$#" -eq 0; then
+    CCLLCCopyToClip.exe "$(wslpath -w "$(pwd)")"
+else
+    CCLLCCopyToClip.exe "$(wslpath -w "$1")"
+fi
