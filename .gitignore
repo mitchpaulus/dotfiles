@@ -6,3 +6,11 @@ tmp/
 *.aux
 *.log
 notes/*.pdf
+
+# Haskell build files
+*.hi
+*.o
+
+# fzf added files
+fzf_key_bindings.fish
+.config/fish/functions/fish_user_key_bindings.fish
