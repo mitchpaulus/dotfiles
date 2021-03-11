@@ -13,7 +13,7 @@ end
 
 set -gx DOTFILES ~/dotfiles
 
-if command -v exa
+if command -v exa >/dev/null 2>&1
     function ls --wraps exa
         exa $argv
     end
