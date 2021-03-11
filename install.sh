@@ -78,7 +78,6 @@ mkdir -p $plugindir
 
 prompt "Do you want to clone down vim plugins? (y/n) "
 if yesresponse "$response"; then
-    git clone https://github.com/mitchpaulus/autocorrect.vim.git $plugindir/autocorrect.vim
     git clone https://github.com/mitchpaulus/sensible.vim.git $plugindir/sensible.vim
 fi
 
@@ -97,7 +96,7 @@ if [ ! -d "$HOME/config-notes" ]; then
 fi
 
 if uname -a | grep -q -i "arch"; then
-    sudo pacman -S acpi alacritty compton feh firefox git i3 i3blocks \
+    sudo pacman -S acpi alacritty compton feh firefox fish git i3 i3blocks \
         neovim openvpn openssh ranger rofi shellcheck tmux xclip \
         zathura zathura-pdf-mupdf
 else
