@@ -21,3 +21,29 @@ Here's the link that sent me down the new build programs path:
 Shake looks to be another interesting alternative
 [https://shakebuild.com/](https://shakebuild.com/).
 
+## Waf
+
+[https://waf.io/](https://waf.io/)
+
+## redo (several variants)
+
+Personally like the [apenwarr version](https://github.com/apenwarr/redo).
+
+
+## Scons
+
+Written in python
+
+## CMake
+
+
+## ninja
+
+
+## doit
+
+https://pydoit.org/
+
+## Grunt, Rake, Snakemake
+
+
