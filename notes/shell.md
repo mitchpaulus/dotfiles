@@ -16,6 +16,10 @@ SCRIPTPATH=$(dirname "$SCRIPT")
 echo $SCRIPTPATH
 ```
 
+Although this post from the bash FAQ is pretty convincing that this is
+still a bit of a hack and isn't necessarily the best way to go about
+things. [link](https://mywiki.wooledge.org/BashFAQ/028)
+
 ## Case Statement
 
 Can never remember the syntax for case statements.
