@@ -112,6 +112,14 @@ function ev --description "Edit vimrc file"
     end
 end
 
+# If a build of Neovim from source is found, use that.
+if test -f "$HOME"/repos/neovim/build/bin/nvim
+    function nvim --description 'Source build of Neovim' --wraps 'nvim'
+        env VIMRUNTIME="$HOME"/repos/neovim/runtime "$HOME"/repos/neovim/build/bin/nvim $argv
+    end
+end
+
+
 function eg --description "Edit goto dirs file"
     "$EDITOR" ~/.config/goto/dirs.txt
 end
