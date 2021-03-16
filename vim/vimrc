@@ -136,6 +136,10 @@ nnoremap s :<C-u>update<CR>
 " For when I hold the shift key too long
 command! W w
 
+" Faster scrolling? K is pretty much useless by deafult, losing 'J' a little
+" more painful.
+nnoremap K 5k
+nnoremap J 5j
 
 " Fast quitting
 nnoremap q :q<CR>
