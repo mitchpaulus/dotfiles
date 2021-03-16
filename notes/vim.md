@@ -68,3 +68,6 @@ Good resources:
 
 [neovim/lsp-config](https://github.com/neovim/nvim-lspconfig)
 [blog on setting up LSP](https://www.chrisatmachine.com/Neovim/27-native-lsp/)
+
+Along with 'neovim/lsp-config', need 'nvim-lua/completion-nvim' for auto
+completion like behavior.

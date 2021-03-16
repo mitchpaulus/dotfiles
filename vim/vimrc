@@ -38,6 +38,7 @@ Plug 'mitchpaulus/energyplus-vim'
 Plug 'mitchpaulus/vim-andover-plain-english'
 Plug 'mitchpaulus/vim-siemens-ppcl'
 Plug 'mitchpaulus/neobem-vim'
+Plug 'nvim-lua/completion-nvim'
 Plug 'PProvost/vim-ps1'
 Plug 'dag/vim-fish'
 Plug 'dylon/vim-antlr'
@@ -51,9 +52,6 @@ endif
 call plug#end()
 
 if has("nvim-0.5.0")
-    "lua <<EOF
-"require'lspconfig'.bashls.setup{}
-"EOF
 
 lua << EOF
 local nvim_lsp = require('lspconfig')
@@ -62,6 +60,7 @@ local on_attach = function(client, bufnr)
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+  require'completion'.on_attach()
 
   -- Mappings.
   local opts = { noremap=true, silent=true }
@@ -105,12 +104,11 @@ end
 
 -- Use a loop to conveniently both setup defined servers
 -- and map buffer local keybindings when the language server attaches
-local servers = { "bashls" }
+local servers = { "bashls", "vimls" }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup { on_attach = on_attach }
 end
 EOF
-
 
 endif
 
@@ -137,6 +135,7 @@ nnoremap s :<C-u>update<CR>
 
 " For when I hold the shift key too long
 command! W w
+
 
 " Fast quitting
 nnoremap q :q<CR>
@@ -423,6 +422,9 @@ set listchars=tab:▸\ ,eol:¬    " But provide better characters when requried
 set guioptions-=e
 set guioptions-=L
 set guioptions-=R
+
+set completeopt=menuone,noinsert,noselect
+set shortmess+=c
 
 "This is to make sure that when you first enter a file
 "you don't get a whole bunch of highlighting.
