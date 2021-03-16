@@ -71,3 +71,8 @@ Good resources:
 
 Along with 'neovim/lsp-config', need 'nvim-lua/completion-nvim' for auto
 completion like behavior.
+
+## General Improvements
+
+- Must remap Caps Lock to Alt
+- Shorten the repeat rate from the keyboard settings

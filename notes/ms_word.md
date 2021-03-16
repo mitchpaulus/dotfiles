@@ -88,3 +88,11 @@ Character String
 ^s Nonbreaking space
 ^nnn Where "n" is an ASCII character number
 ^0nnn Where "n" is an ANSI character number
+
+## Fixing Spell Check
+
+There are times when the spell check doesn't appear to work. [This
+article](https://www.lifewire.com/fix-spell-check-not-working-in-word-4693118)
+has a great list of troubleshooting steps.
+
+1.
