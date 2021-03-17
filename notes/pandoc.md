@@ -3,3 +3,11 @@
 ## Syntax Highlighting
 
 - Uses KDE syntax, definition [here](https://docs.kde.org/stable5/en/applications/katepart/highlight.html)
+
+## Tex target
+
+Will need `\tightlist` command. Default definition is:
+
+```
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+```
