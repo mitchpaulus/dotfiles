@@ -44,5 +44,18 @@ Positions - Meaning
 12: Design Level
 13: Special
 
+## IPLV
 
+Updates the EER or kW/ton value by the weighted average of efficiencies
+at different part load ratios. Heavily weighted to the PLR at 75% and
+50% load.
+
+IPLV (or NPLV) = 0.01A+0.42B+0.45C+0.12D
+
+Where:
+
+A = COP or EER @ 100% Load
+B = COP or EER @ 75% Load
+C = COP or EER @ 50% Load
+D = COP or EER @ 25% Load
 

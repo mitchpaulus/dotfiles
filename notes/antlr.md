@@ -24,6 +24,7 @@ Run grun like:
 grun GrammarName rule options..
 ```
 
+- Add visitor classes `-visitor` CLI option
 
 
 ## Installing the Java Development Kit for WSL on Windows OS
