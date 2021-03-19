@@ -29,6 +29,11 @@ checkfile() {
     fi
 }
 
+# Test whether something is a command
+iscommand() {
+    command -v "$1" >/dev/null 2>/dev/null
+}
+
 # Prompt user from something, store in 'response'
 prompt() {
     printf "%s" "$1"
@@ -41,6 +46,17 @@ yesresponse() {
     else
         return 1
     fi
+}
+
+install_npm() {
+    if iscommand npm; then return 0; fi
+
+    # npm should come along with node in Ubuntu
+    if iscommand apt; then sudo apt install nodejs; fi
+}
+
+install_bash_language_server() {
+    install_npm && sudo npm install -g bash-language-server
 }
 
 # Try installing various dotfiles
@@ -109,3 +125,9 @@ if yesresponse "$response"; then
     scripts/install-website-ssh.sh
 fi
 
+if ! iscommand bash-language-server; then
+    prompt "Install bash language server? [y]/n? "
+    if yesresponse "$response"; then
+        install_bash_language_server
+    fi
+fi
