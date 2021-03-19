@@ -19,6 +19,11 @@ if command -v exa >/dev/null 2>&1
     end
 end
 
+# Add a REPOS environment variable for all those git repositories.
+if test -d '/mnt/c/Users/mpaulus/source/repos'
+    set -gx REPOS '/mnt/c/Users/mpaulus/source/repos'
+end
+
 # This from DistroTube https://www.youtube.com/watch?v=ab3rY0X5kD4
 set -gx MANPAGER "nvim -c 'set ft=man' -"
 
@@ -113,9 +118,9 @@ function ev --description "Edit vimrc file"
 end
 
 # If a build of Neovim from source is found, use that.
-if test -f "$HOME"/repos/neovim/build/bin/nvim
+if test -f "$REPOS"/neovim/build/bin/nvim
     function nvim --description 'Source build of Neovim' --wraps 'nvim'
-        env VIMRUNTIME="$HOME"/repos/neovim/runtime "$HOME"/repos/neovim/build/bin/nvim $argv
+        env VIMRUNTIME="$REPOS"/neovim/runtime "$REPOS"/neovim/build/bin/nvim $argv
     end
 end
 
@@ -138,6 +143,14 @@ end
 
 function gn --description 'Go to notes directory'
     cd "$DOTFILES"/notes
+end
+
+function gr --description 'Go to code repositories';
+    if test -d "$REPOS"
+        cd "$REPOS"
+    else
+        printf '$REPOS environment variable not found.\n'
+    end
 end
 
 # Carrying over from source [b]ashrc
@@ -172,10 +185,10 @@ function update --description 'Universal package update'
 end
 
 function compass
-    if test -d '/mnt/c/Users/mpaulus/source/repos/Compass/'
-        tmux new-session -c /mnt/c/Users/mpaulus/source/repos/Compass/ -s Compass
+    if test -d "$REPOS/Compass/"
+        tmux new-session -c "$REPOS"/Compass/ -s Compass
     else
-        printf 'Did not find compass repository at /mnt/c/Users/mpaulus/source/repos/Compass/\n'
+        printf 'Did not find compass repository at %s/Compass\n' "$REPOS"
     end
 end
 
