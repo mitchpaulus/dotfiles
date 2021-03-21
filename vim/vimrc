@@ -1,3 +1,12 @@
+" Hi Prime! Say hi to Telescopic Johnson for me.
+"
+" Glad we can agree that <space> is the only real choice for the leader key, straight Coconut Oil.
+"
+" Other major key configuration not shown here is that my CapsLock is remapped
+" to Alt. Highly recommend.
+"
+" Long time listener, first time vimrc sharer.
+
 " Plugins {{{1
 set nocompatible  " be iMproved, required for Vundle
 
