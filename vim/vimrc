@@ -1,9 +1,7 @@
 " Hi Prime! Say hi to Telescopic Johnson for me.
 "
-" Glad we can agree that <space> is the only real choice for the leader key, straight Coconut Oil.
-"
-" Other major key configuration not shown here is that my CapsLock is remapped
-" to Alt. Highly recommend.
+" Glad we can agree that <space> is the only real choice for the leader key,
+" straight Coconut Oil.
 "
 " Long time listener, first time vimrc sharer.
 
@@ -54,7 +52,7 @@ Plug 'dylon/vim-antlr'
 Plug 'mileszs/ack.vim'
 
 if has("nvim-0.5.0")
-    " Trying some language servers with built in LSP
+    " Trying out some language servers with the built in LSP
     Plug 'neovim/nvim-lspconfig'
 endif
 
@@ -121,23 +119,13 @@ EOF
 
 endif
 
-if has('unix')
-    let g:UltiSnipsSnippetDir = "~/.vim/UltiSnips"
-endif
-
-if has('win32')
-    let g:UltiSnipsSnippetDir = "~/vimfiles/UltiSnips"
-    let g:UltiSnipsSnippetDirectories = [$HOME.'/vimfiles/UltiSnips', 'UltiSnips']
-endif
-let g:UltiSnipsUsePythonVersion = 3
-
-nnoremap <leader>ue :UltiSnipsEdit<cr>
 
 " General Mappings {{{1
 " Use space key for leader, but actually use default leader so it shows up in
 " status bar.
 map <Space> <Leader>
 let maplocalleader=","
+
 " Fast saving, but use update not write.
 "nnoremap <Leader>w :update<CR>
 nnoremap s :<C-u>update<CR>
@@ -210,6 +198,7 @@ onoremap ilb :<c-u>execute "normal! ?{\r:nohlsearch\rvi{"<cr>
 
 
 " From https://vi.stackexchange.com/a/15233/10847
+" 'if' for 'inside fold'
 onoremap if :<C-u>normal! [zV]z<CR>
 xnoremap if [zo]z
 
@@ -282,7 +271,6 @@ cnoremap <C-a> <C-b>
 " 3. j is the best leader character, since almost no words end with that.
 " 4. So jf splits the duty between both hands using strong pointer finger.
 inoremap jf <esc>
-inoremap <F9> <C-o>:set paste<CR><C-r>+<C-o>:set nopaste<CR>
 
 noremap <TAB> <PageDown>zz
 noremap <S-TAB> <PageUp>zz
@@ -365,9 +353,10 @@ inoremap <localleader>dt ΔT
 
 " Filename completion
 inoremap <C-F> <C-X><C-F>
+
 " CTRL-Space is often translated by terminals to CTRL-@. When typing fast,
 " CTRL-N followed by space, often catches the CTRL key too long and then
-" you get whole nother copy of the last insert. I rarely find myself using
+" you get whole 'nother copy of the last insert. I rarely find myself using
 " the CTRL-@ mapping, so I don't think this should be a big deal to NOP.
 " See:
 " https://en.wikipedia.org/wiki/Control_character#How_control_characters_map_to_keyboards
@@ -377,11 +366,14 @@ inoremap <C-@> <Nop>
 inoremap <C-Space> <Space>
 
 " Since ` is used as prefix in tmux, this lets me put in ` without having to
-" double the keystrokes.
+" double the keystrokes. Critical for Markdown.
 inoremap <F1> `
 inoremap <F2> ```
 inoremap <F3> ``<Left>
 inoremap <F4> ```<CR><CR>```<Esc>kI
+
+" Sane pasting
+inoremap <F9> <C-o>:set paste<CR><C-r>+<C-o>:set nopaste<CR>
 
 " This allows you to escape out of quotes, braces, etc. and then append
 " at the end of the current line.
@@ -398,6 +390,13 @@ nnoremap <F10> :<C-u>set paste<CR>"+P:set nopaste<CR>
 " Open and close parenthesis. Idea from:
 " http://xahlee.info/kbd/best_way_to_insert_brackets.html
 inoremap <C-j> ()<Left>
+
+" [S]ession [w]rite
+nnoremap <leader>sw :mksession! ~/defaultsession.vim<cr>
+" [S]ession [l]oad
+nnoremap <leader>sl :so ~/defaultsession.vim<cr>
+" Toggle list setting
+nnoremap <leader>ll :set list!<cr>
 
 " General Settings/Options {{{1
 "Custom Status Line
@@ -450,17 +449,8 @@ elseif has('unix')
 endif
 set noswapfile
 
-" Don't try to highlight lines longer than 100 chars (from sjl)
+" Don't try to highlight lines longer than 200 chars (from sjl)
 set synmaxcol=200
-
-if has('gui_running')
-    set lines=9999                 " Show 75 lines on default opening.
-    set columns=110                " Show 90 columns on default opening.
-endif
-
-if &term =~? '256color'
-    " set t_ut=
-endif
 
 if executable('rg')
 	set grepprg=rg\ --vimgrep
@@ -644,7 +634,18 @@ cnoreabbrev Ack Ack!
 " Maps <leader>/ so we're ready to type the search keyword
 nnoremap <Leader>/ :Ack!<Space>
 " }}}
+" UltiSnips {{{2
+if has('unix')
+    let g:UltiSnipsSnippetDir = "~/.vim/UltiSnips"
+endif
 
+if has('win32')
+    let g:UltiSnipsSnippetDir = "~/vimfiles/UltiSnips"
+    let g:UltiSnipsSnippetDirectories = [$HOME.'/vimfiles/UltiSnips', 'UltiSnips']
+endif
+let g:UltiSnipsUsePythonVersion = 3
+
+nnoremap <leader>ue :UltiSnipsEdit<cr>
 
 
 " It's wild that this is even possible, but man it's a headache to work
@@ -810,12 +811,6 @@ autocmd InsertEnter * setlocal statusline=%#ErrorMsg#\ INSERT\ %.50F%=%y,C:%c,%p
 autocmd InsertLeave * setlocal statusline=%!g:basestatusline
 augroup END
 
-" [S]ession [w]rite
-nnoremap <leader>sw :mksession! ~/defaultsession.vim<cr>
-" [S]ession [l]oad
-nnoremap <leader>sl :so ~/defaultsession.vim<cr>
-" Toggle list setting
-nnoremap <leader>ll :set list!<cr>
 
 " Figure out what syntax group item under cursor is
 function! SynGroup()
