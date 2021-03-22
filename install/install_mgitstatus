@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# Check if already installed
+if command -v multi-git-status; then
+    exit 0
+fi
+
+if test -z "$REPOS"; then
+    printf 'Repository environment variable REPOS not set.\n'
+    exit 1
+fi
+
+cd "$REPOS" || exit 2
+
+if test -d multi-git-status; then
+    printf 'Looks like the repo is already cloned\n'
+else
+    git clone https://github.com/fboender/multi-git-status.git
+fi
+
+cd "$REPOS"/multi-git-status || exit 1
+
+sudo make install

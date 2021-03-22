@@ -131,3 +131,10 @@ if ! iscommand bash-language-server; then
         install_bash_language_server
     fi
 fi
+
+if ! iscommand mgitstatus; then
+    prompt "Install mgitstatus? [y]/n? "
+    if yesresponse "$response"; then
+        install/install_mgitstatus
+    fi
+fi
