@@ -19,3 +19,9 @@ stuff}{pdf stuff - normally empty}` to get around the issue.
 ```
 
 
+## TeX Live
+
+- Update `tlmgr`: `[sudo] tlmgr update --self`
+- Update all packages: `[sudo] tlmgr update --all`
+- List what would be updated: `[sudo] tlmgr update --list`
+
