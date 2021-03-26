@@ -397,6 +397,66 @@ nnoremap <leader>sw :mksession! ~/defaultsession.vim<cr>
 nnoremap <leader>sl :so ~/defaultsession.vim<cr>
 " Toggle list setting
 nnoremap <leader>ll :set list!<cr>
+"
+" Search for the current visual selection using '*'. See pg. 212 of Practical Vim
+function! s:VSetSearch()
+    let temp = @s
+    norm! gv"sy
+    let @/ = '\V' . substitute(escape(@s, '/\'), '\n', '\\n', 'g')
+    let @s = temp
+endfunction
+
+syntax enable
+
+try
+    if has('gui_running')
+        let g:solarized_termcolors=256
+        let g:solarized_termtrans=0
+        silent! colorscheme solarized
+        "colorscheme monokai
+    else
+        colorscheme sensible
+    endif
+catch
+    colorscheme desert
+endtry
+
+" Make the QuickFixLine readable
+highlight QuickFixLine cterm=bold ctermfg=7
+
+" It's wild that this is even possible, but man it's a headache to work
+" through the interop issues with the WSL (not to mention the vimscript layer
+" as well). 'wslpath' is required here to translate WSL to windows paths, and
+" you have to start cmd.exe in a valid Windows directory or it'll also
+" complain.
+command! WinExploreHere silent !cd /mnt/c && cmd.exe /C start "vim explore" /D $(wslpath -w '%:p:h')" explorer.exe "$(wslpath -w '%:p:h')"
+
+function! s:MakeHeading(replaceCharacter)
+    let previousSearch=@/
+    "echom ":s/\\s\\+$//e\rVypVr".a:replaceCharacter.":noh\r"
+    silent execute "normal! :s/\\s\\+$//e\rVypVr".a:replaceCharacter
+    let @/=previousSearch
+endfunction
+
+function! s:CleanBibFile()
+    %g/month\s*=/d
+    %g/file\s*=/d
+    %g/doi\s*=/d
+    %g/issn\s*=/d
+    %g/keywords\s*=/d
+    %g/url\s*=/d
+    %g/mendeley-groups\s*=/d
+    %s/title\s*=\s*{\s*{\(.*\)}\s*}/title = {\1}/
+endfunction
+
+nnoremap <leader>j /<++><cr>cgn
+"inoremap <c-j> <esc>/<++><cr>:nohlsearch<cr>cgn
+
+" Figure out what syntax group item under cursor is
+function! SynGroup()
+    let l:s = synID(line('.'), col('.'), 1)
+    echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
+endfunction
 
 " General Settings/Options {{{1
 "Custom Status Line
@@ -412,6 +472,7 @@ set nocursorline
 set encoding=utf-8
 set backspace=indent,eol,start " Want backspaces to always work as normal.
 set scrolloff=8                " Want two lines above and below cursor when scrolling.
+set sidescrolloff=10           " Have some buffer when scrolling side to side.
 set smartcase                  " Use smartcase
 set laststatus=2               " Always show the statusbar
 set nowrap                     " No word wrap.
@@ -422,7 +483,7 @@ set expandtab                  " On pressing tab, insert 4 spaces
 set cmdheight=2                " Make the command window height 2 to avoid the hit-enter prompts
 set history=1000               " Remember up to 1000 ex commands.
 set lazyredraw
-set ttyfast
+set ttyfast                    " Not even used in nvim.
 set spelllang=en_us
 set spellsuggest=10
 set hidden
@@ -435,7 +496,7 @@ set guioptions-=e
 set guioptions-=L
 set guioptions-=R
 
-set completeopt=menuone,noinsert,noselect
+set completeopt=menuone,noinsert,longest
 set shortmess+=c
 
 "This is to make sure that when you first enter a file
@@ -545,30 +606,6 @@ nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gph :Gpush<cr>
 nnoremap <leader>gpl :Gpull<cr>
 
-" Search for the current visual selection using '*'. See pg. 212 of Practical Vim
-function! s:VSetSearch()
-    let temp = @s
-    norm! gv"sy
-    let @/ = '\V' . substitute(escape(@s, '/\'), '\n', '\\n', 'g')
-    let @s = temp
-endfunction
-
-syntax enable
-
-try
-    if has('gui_running')
-        let g:solarized_termcolors=256
-        let g:solarized_termtrans=0
-        silent! colorscheme solarized
-        "colorscheme monokai
-    else
-        colorscheme sensible
-    endif
-catch
-    colorscheme desert
-endtry
-
-highlight QuickFixLine cterm=bold ctermfg=7
 
 " Vimtex {{{2
 "For vimtex
@@ -648,33 +685,6 @@ let g:UltiSnipsUsePythonVersion = 3
 nnoremap <leader>ue :UltiSnipsEdit<cr>
 
 
-" It's wild that this is even possible, but man it's a headache to work
-" through the interop issues with the WSL (not to mention the vimscript layer
-" as well). 'wslpath' is required here to translate WSL to windows paths, and
-" you have to start cmd.exe in a valid Windows directory or it'll also
-" complain.
-command! WinExploreHere silent !cd /mnt/c && cmd.exe /C start "vim explore" /D $(wslpath -w '%:p:h')" explorer.exe "$(wslpath -w '%:p:h')"
-
-function! s:MakeHeading(replaceCharacter)
-    let previousSearch=@/
-    "echom ":s/\\s\\+$//e\rVypVr".a:replaceCharacter.":noh\r"
-    silent execute "normal! :s/\\s\\+$//e\rVypVr".a:replaceCharacter
-    let @/=previousSearch
-endfunction
-
-function! s:CleanBibFile()
-    %g/month\s*=/d
-    %g/file\s*=/d
-    %g/doi\s*=/d
-    %g/issn\s*=/d
-    %g/keywords\s*=/d
-    %g/url\s*=/d
-    %g/mendeley-groups\s*=/d
-    %s/title\s*=\s*{\s*{\(.*\)}\s*}/title = {\1}/
-endfunction
-
-nnoremap <leader>j /<++><cr>cgn
-"inoremap <c-j> <esc>/<++><cr>:nohlsearch<cr>cgn
 
 let g:AutocorrectFiletypes = ["markdown", "tex", "text","gitcommit"]
 
@@ -793,7 +803,7 @@ autocmd FileType compass inoremap <localleader>b <!-- Compass:  --><CR><CR><!-- 
 augroup END
 
 
-"
+
 " Event Type Autocmd mappings {{{1
 augroup eventtypemappings
 autocmd!
@@ -812,10 +822,5 @@ autocmd InsertLeave * setlocal statusline=%!g:basestatusline
 augroup END
 
 
-" Figure out what syntax group item under cursor is
-function! SynGroup()
-    let l:s = synID(line('.'), col('.'), 1)
-    echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
-endfunction
 
 " vim:ft=vim:foldmethod=marker
