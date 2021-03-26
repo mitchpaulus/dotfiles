@@ -1,0 +1,50 @@
+#!/usr/bin/python3
+import sys
+import os
+import shutil
+
+num_args = len(sys.argv)
+if num_args != 3:
+    print(f"2 Arguments required. {num_args} supplied.")
+    sys.exit(1)
+
+source      = sys.argv[1]
+destination = os.path.abspath(sys.argv[2])
+
+if not os.path.exists(source):
+    print("The source " + source + " does not exist.")
+    sys.exit(1)
+
+n = 0
+
+if os.path.isfile(source) and os.path.isdir(destination):
+    source_filename = os.path.basename(source)
+
+    while os.path.exists(os.path.join(destination, source_filename)):
+        n = n + 1
+        (root, ext) = os.path.splitext(source_filename)
+        source_filename = root + "_" + str(n) + ext
+
+    shutil.move(source, os.path.join(destination, source_filename))
+
+elif os.path.isfile(source) and os.path.isfile(destination):
+    (dirname, orig_filename) = os.path.split(destination)
+    (root, ext) = os.path.splitext(orig_filename)
+
+    while os.path.exists(destination):
+        n = n + 1
+        new_filename = root + "_" + str(n) + ext
+        destination =  os.path.join(dirname, new_filename)
+
+    shutil.move(source, destination)
+
+elif os.path.isfile(source):
+    # Source is real file and destination clear, just try and see what happens.
+    shutil.move(source, destination)
+
+
+else:
+    print("Only support moving files the moment.")
+    sys.exit(1)
+    # while os.path.exists(destination):
+
