@@ -59,3 +59,28 @@ B = COP or EER @ 75% Load
 C = COP or EER @ 50% Load
 D = COP or EER @ 25% Load
 
+
+## Andover/TAC History
+
+Interesting resources:
+
+Andover controls started in 1975
+
+TAC was bought out by Schneider Electric in 2003/2004 - Migrated into
+the SE brand in 2009.
+
+TAC was a Swedish company, then underwent a series of acquisitions and
+mergers.
+
+- Tour Agenturer (1925)
+- Tour & Andersson (1977)
+- TA Hydronics and TA Control (aka TAC) (1994/1995)
+- Merged with CSI from Dallas, TX (2000)
+- Schneider Electric (2003)
+
+[link](http://www.bmsengineers.co.uk/andover-controls)
+[TAC History](https://www.se.com/ww/en/about-us/company-profile/history/tac.jsp?contentId=document/30869)
+[TAC Wikipedia](https://en.wikipedia.org/wiki/TAC_(building_automation))
+
+
+PaaS: Platform as a service [MS Azure](https://en.wikipedia.org/wiki/Microsoft_Azure)

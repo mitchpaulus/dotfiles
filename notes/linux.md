@@ -16,14 +16,25 @@
   `-a` is for append.
   `-G` is for secondary group.
 
-- May need to log out/log in to see changes
+- **May need to log out/log in to see changes**
 - `tmux` may need to be restarted in order to see the changes as well
 
+- View groups for current user: `groups`
 
-## Passwords
+## Passwords / View all users
 
 - `[sudo] passwd user`: Update password. Stored in `/etc/passwd`
+- `cat /etc/passwd` to see all available users on computer.
 
 ## Clipboard
 
 3 clipboards: primary, secondary, and clipboard.
+
+## Zip Files
+
+```
+zip zipfilename files...
+unzip zipfilename -d extractDir  # Only one file can be processed at a time.
+```
+
+

@@ -1,5 +1,7 @@
 # Python
 
+## Basics
+
 - Opening a file:
     - `with open('File path') as file:`
     - Read lines with `file.readlines()`
@@ -224,4 +226,12 @@ prediction = regressor.predict(new_x)
 fig, ax = plt.subplots()  # Create a figure containing a single axes.
 ax.plot([1, 2, 3, 4], [1, 4, 2, 3])  # Plot some data on the axes.
 plt.show()
+```
+
+## Virtual Environments
+
+```
+python -m venv /path/to/proj/venv
+source /path/to/proj/venv/bin/activate    (or activate.fish if in fish shell)
+deactivate
 ```
