@@ -606,6 +606,11 @@ nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gph :Gpush<cr>
 nnoremap <leader>gpl :Gpull<cr>
 
+" See Vimcast http://vimcasts.org/episodes/fugitive-vim-resolving-merge-conflicts-with-vimdiff/
+" and Prime   https://www.youtube.com/watch?v=PO6DxfGPQvw
+nnoremap <leader>gh :diffget //2<cr>
+nnoremap <leader>gl :diffget //3<cr>
+
 
 " Vimtex {{{2
 "For vimtex
