@@ -86,6 +86,10 @@ end
 
 function r --wraps=ranger; ranger --choosedir="$HOME/.rangerdir"; cd (cat $HOME/.rangerdir); end
 
+function f --wraps=lf --description 'When two characters is too many.'
+    lf
+end
+
 function lf --wraps=lf
     set config_dir  "$HOME/.config/lf"
     # Make config directory if it doesn't exist
