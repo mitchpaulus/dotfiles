@@ -14,7 +14,7 @@ Ubuntu (among others) [link](https://www.atechtown.com/install-fonts-in-ubuntu/)
 
 Copy to folder:
  - Installing for single user, `~/.fonts`
- - All Users: `/usr/local/share/fonts`
+ - All Users: `/usr/local/share/fonts` or `/usr/share/fonts/`
 
 Refresh font cache:
 
