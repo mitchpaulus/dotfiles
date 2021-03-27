@@ -22,6 +22,8 @@ end
 # Add a REPOS environment variable for all those git repositories.
 if test -d '/mnt/c/Users/mpaulus/source/repos'
     set -gx REPOS '/mnt/c/Users/mpaulus/source/repos'
+else if test -d "$HOME"/repos
+    set -gx REPOS "$HOME"/repos
 end
 
 # This from DistroTube https://www.youtube.com/watch?v=ab3rY0X5kD4
