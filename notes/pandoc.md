@@ -11,3 +11,7 @@ Will need `\tightlist` command. Default definition is:
 ```
 \providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 ```
+
+## Plain Text Target
+
+`--to plain`
