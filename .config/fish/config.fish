@@ -84,7 +84,12 @@ if command -v git >/dev/null 2>&1
     function dc --wraps='git diff'; git diff -w --cached $argv; end
 end
 
-function r --wraps=ranger; ranger --choosedir="$HOME/.rangerdir"; cd (cat $HOME/.rangerdir); end
+# function r --wraps=ranger; ranger --choosedir="$HOME/.rangerdir"; cd (cat $HOME/.rangerdir); end
+function r
+    if test -n "$REPOS"
+        lf "$REPOS"
+    end
+end
 
 function f --wraps=lf --description 'When two characters is too many.'
     lf
