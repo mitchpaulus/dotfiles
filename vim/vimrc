@@ -138,6 +138,9 @@ command! W w
 nnoremap K 5k
 nnoremap J 5j
 
+" Join lines on gj - since I don't wrap lines, default gj is redundant.
+nnoremap gj J
+
 " Fast quitting
 nnoremap q :q<CR>
 " Really quit
@@ -415,7 +418,7 @@ try
         silent! colorscheme solarized
         "colorscheme monokai
     else
-        colorscheme sensible
+        colorscheme desert
     endif
 catch
     colorscheme desert
