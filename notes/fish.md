@@ -20,3 +20,7 @@ env VAR=value command
 ```
 begin; set -l IFS; set data (cat data.txt); end
 ```
+
+## Strings
+
+Substring: `string sub -s start -e end -l length`
