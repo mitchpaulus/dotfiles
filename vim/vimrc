@@ -121,9 +121,8 @@ endif
 
 
 " General Mappings {{{1
-" Use space key for leader, but actually use default leader so it shows up in
-" status bar.
-map <Space> <Leader>
+
+let mapleader=" "
 let maplocalleader=","
 
 " Fast saving, but use update not write.
