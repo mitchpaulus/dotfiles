@@ -202,6 +202,8 @@ the settings, see
 2. Project: <project> -> Python Interpreter -> Dropdown -> "Show All"
 3. Click icon for more paths, add to that.
 
+From [here](https://packaging.python.org/guides/tool-recommendations/),
+`Pipenv` is hot new thing for managing packages for a project.
 
 ## Linear Regression
 
@@ -218,7 +220,7 @@ regressor.fit(x, y)
 prediction = regressor.predict(new_x)
 ```
 
-## matplotlib
+## `matplotlib`
 
 - Uses `numpy.array`s
 
@@ -226,12 +228,64 @@ prediction = regressor.predict(new_x)
 fig, ax = plt.subplots()  # Create a figure containing a single axes.
 ax.plot([1, 2, 3, 4], [1, 4, 2, 3])  # Plot some data on the axes.
 plt.show()
+
+fig.savefig('filename.ext', format='png')
 ```
+
 
 ## Virtual Environments
 
+- However, `pipenv` is now the suggested way to manage environments?
 ```
 python -m venv /path/to/proj/venv
 source /path/to/proj/venv/bin/activate    (or activate.fish if in fish shell)
 deactivate
 ```
+
+## Processes/System Calls
+
+```python
+import subprocess
+
+completed_process = subprocess.run(["command", "arg1", "arg2"])
+```
+
+## Delimited Data
+
+```python
+import csv
+with open('file') as file:
+    reader = csv.reader(file)
+    for row in reader:
+        row # row :: [Str]
+```
+
+## Pipenv
+
+- Latest recommendation for project package management.
+- Run script using `pipenv run python <file>`
+- Enter shell environment using `pipenv shell`. This set ups the proper
+  Python paths, so that editors like Vim and pyright can resolve modules
+  properly.
+- get out of `pipenv` shell with `exit`, NOT `deactivate`.
+
+## Reading Command Line Arguments
+
+```python
+# python myscript arg1 arg2
+
+import sys
+
+sys.argv[0] == "myscript"
+sys.argv[1] == "arg1"
+```
+
+## Path Manipulation
+
+- `pathlib` is a nice, high level utility.
+
+```python
+path = pathlib.Path('sample/path.txt')
+path.stem == "path"
+```
+
