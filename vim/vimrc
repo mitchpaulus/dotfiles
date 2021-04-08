@@ -711,13 +711,13 @@ autocmd FileType markdown,tex,text setlocal spell
 autocmd FileType help nnoremap <leader>hh mnA~<esc>`n
 autocmd FileType help nnoremap <leader>hl mn78i=<esc>`n
 autocmd FileType help setlocal nospell
-autocmd FileType tex inoremap %%% \%
-autocmd FileType tex nnoremap [e ?\\begin{equation}<cr>:nohlsearch<cr>
-autocmd FileType tex nnoremap ]e /\\begin{equation}<cr>:nohlsearch<cr>
 autocmd FileType bib command! CleanBib call <SID>CleanBibFile()
 autocmd FileType gnuplot nnoremap <localleader>g :silent !gnuplot.exe % && start "Plot" %:p:r.png<cr>
 autocmd FileType gnuplot nnoremap <localleader>k :silent !taskkill.exe /IM Microsoft.Photos.exe /F<cr>
 autocmd FileType gnuplot inoremap ,hist <esc>:0read ~/.vim/snipfiles/hist.gnuplot<cr>
+
+autocmd FileType make inoremap ,p .PHONY :<space>
+
 " Quickly enter in ² symbol
 autocmd FileType markdown,text inoremap ^2 <c-v>178
 autocmd FileType markdown,text inoremap ,l [](<++>)<esc>6hi
@@ -731,7 +731,7 @@ autocmd FileType markdown inoremap <localleader>i **<Left>
 autocmd FileType markdown inoremap <localleader>b ****<Left><Left>
 autocmd FileType markdown inoremap <localleader>e $$  $$<Esc>2hi
 autocmd FileType markdown inoremap <localleader>n \begin{equation}<CR>\end{equation}<Esc>0ko
-autocmd FileType markdown inoremap <localleader>m e^{\pi i} + 1 = 0
+autocmd FileType markdown inoremap <localleader>m $$<Left>
 
 autocmd FileType gitcommit setlocal spell
 
@@ -755,6 +755,9 @@ autocmd FileType javascript,typescript inoremap ,> () =><Space>
 
 autocmd FileType typescript nnoremap <leader>tc :<c-u>!tsc<cr>
 
+autocmd FileType tex inoremap %%% \%
+autocmd FileType tex nnoremap [e ?\\begin{equation}<cr>:nohlsearch<cr>
+autocmd FileType tex nnoremap ]e /\\begin{equation}<cr>:nohlsearch<cr>
 autocmd FileType tex inoremap ,eq \begin{equation}<cr><cr>\end{equation}<esc>ki    <esc>i
 autocmd FileType tex inoremap ,bf \textbf{} <++><esc>5hi
 autocmd FileType tex inoremap ,lr \left(\right) <++><esc>11hi
@@ -767,9 +770,17 @@ autocmd FileType tex inoremap ,rm \textrm{}<Left>
 autocmd FileType tex inoremap ,p \usepackage{}<esc>i
 autocmd FileType tex inoremap ,co \newcommand{\}{<++>}<esc>6hi
 autocmd FileType tex inoremap ,en \begin{enumerate}<cr><cr>\end{enumerate}<esc>ki    <esc>i
-autocmd FileType tex inoremap ,base <esc>:0read ~/.vim/snipfiles/base.tex<cr>
+autocmd FileType tex inoremap ,base <esc>:0read $DOTFILES/snipfiles/base.tex<cr>
 autocmd FileType tex inoremap ,i \item <esc>a
 autocmd FileType tex inoremap ,tab \begin{tabular}{}<cr><++><cr>\end{tabular}<esc>2k^2f{a
+autocmd FileType tex inoremap ,au \author{Mitchell T. Paulus}
+autocmd FileType tex inoremap ,ab \begin{abstract}<cr><cr>\end{abstract}<Esc>kI
+autocmd FileType tex inoremap ,mt \maketitle{}
+" ms for [m]ake [s]ection
+autocmd FileType tex inoremap ,ms \section{}<Left>
+" 'h' for Header
+autocmd FileType tex inoremap ,h \title{}<Left>
+
 " }
 autocmd FileType awk inoremap ,for for (i = ; i < <++>; i++) {<cr>    <++><cr>}<esc>2k^f;i
 autocmd FileType awk inoremap ,pf printf("")<esc>hi
