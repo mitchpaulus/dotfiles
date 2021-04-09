@@ -23,4 +23,9 @@ begin; set -l IFS; set data (cat data.txt); end
 
 ## Strings
 
-Substring: `string sub -s start -e end -l length`
+
+Substring: `string sub -s start -e end -l length <string>`
+1-index based, can use negative values as well.
+
+
+Length: `string length <string>`

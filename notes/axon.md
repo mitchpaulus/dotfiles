@@ -32,12 +32,14 @@ Should be able to split on space character.
 
 ## IO
 
-Note that `URI` is essentially a IO_Handle
+Note that `URI` is essentially a IO_Handle. If referencing directory,
+must end in trailing slash '/'.
 
 ```
 ioReadLines :: IO_Handle -> Opts -> List[Str]
 ioZipDir :: URI -> Grid (Grid has columns `path`, `size`, and `mod`)
 ioZipEntry :: IO_Handle -> Str -> IO_Handle
+ioDir :: URI -> Grid (uri, name, mimeType, dir, size, mod)
 ```
 
 ## CRUD Operations
@@ -114,3 +116,35 @@ Takes a function `fold Tval Tacc :: (Tval -> Tacc) -> Tacc`.
 
 Can use special markers `foldStart()` and `foldEnd()` to build custom
 fold function.
+
+## Parsing
+
+```
+parseNumber :: Str -> Bool -> Number
+parseNumber("12kW", false)
+```
+
+## Regex
+
+```
+// check match for entire string
+reMatches(r"AHU-(\d+)", "AHU")     // false
+reMatches(r"AHU-(\d+)", "AHU-10")  // true
+
+// find substring in a regex
+reFind(r"AHU-(\d+)",  "Store-2")        // null
+reFind(r"AHU-(\d+)",  "Store-2 AHU-3")  // "AHU-3"
+
+// find all substring groups in a regex
+reGroups(r"(Clg|Hgt)-(\d+)", "foo")     // null
+reGroups(r"(Clg|Hgt)-(\d+)", "Hgt-7")   // ["Hgt-7", "Hgt", "7"]
+reGroups(r"(Clg|Hgt)-(\d+)", "<Hgt-7>") // ["Hgt-7", "Hgt", "7"]
+```
+
+`toStr` to make string version.
+
+## Functional Programming
+
+filter: `findAll`
+
+

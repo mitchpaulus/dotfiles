@@ -1,9 +1,8 @@
 # Taskwarrior
 
-task <filter> command <mods>
-
-task <filter> annotate <mods>
-
+`task <filter> command <mods>`
+`task <filter> annotate <mods>`
+`task <filter> modify <mods>`
 
 ## Common Mods
 
@@ -13,7 +12,7 @@ task <filter> annotate <mods>
 
 ## Search with regular expressions
 
-task /regex/ list
+`task /regex/ list`
 
 ## Files
 
