@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+
+cd "$DOTFILES"  || exit 1
+
+git add 'vim/spell/hvac.utf-8.add' && \
+git commit -m 'Add spellings' && \
+git push
