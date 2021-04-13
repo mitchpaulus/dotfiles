@@ -1,10 +1,3 @@
-" Hi Prime! Say hi to Telescopic Johnson for me.
-"
-" Glad we can agree that <space> is the only real choice for the leader key,
-" straight Coconut Oil.
-"
-" Long time listener, first time vimrc sharer.
-
 " Plugins {{{1
 set nocompatible  " be iMproved, required for Vundle
 
