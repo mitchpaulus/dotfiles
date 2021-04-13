@@ -91,6 +91,13 @@ function r
     end
 end
 
+if test -d '/mnt/c/Users/mpaulus/Command Commissioning'
+    function j
+        lf '/mnt/c/Users/mpaulus/Command Commissioning'
+    end
+end
+
+
 function f --wraps=lf --description 'When two characters is too many.'
     lf
 end
