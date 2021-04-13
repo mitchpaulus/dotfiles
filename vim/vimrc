@@ -113,14 +113,17 @@ EOF
 endif
 
 
-" General Mappings {{{1
 
+" General Mappings {{{1
 let mapleader=" "
 let maplocalleader=","
 
 " Fast saving, but use update not write.
 "nnoremap <Leader>w :update<CR>
 nnoremap s :<C-u>update<CR>
+
+imap <tab> <Plug>(completion_smart_tab)
+imap <s-tab> <Plug>(completion_smart_s_tab)
 
 " For when I hold the shift key too long
 command! W w
