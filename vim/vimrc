@@ -407,14 +407,7 @@ endfunction
 syntax enable
 
 try
-    if has('gui_running')
-        let g:solarized_termcolors=256
-        let g:solarized_termtrans=0
-        silent! colorscheme solarized
-        "colorscheme monokai
-    else
-        colorscheme desert
-    endif
+    colorscheme monokai
 catch
     colorscheme desert
 endtry
