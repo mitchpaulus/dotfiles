@@ -705,7 +705,7 @@ autocmd FileType gnuplot nnoremap <localleader>g :silent !gnuplot.exe % && start
 autocmd FileType gnuplot nnoremap <localleader>k :silent !taskkill.exe /IM Microsoft.Photos.exe /F<cr>
 autocmd FileType gnuplot inoremap ,hist <esc>:0read ~/.vim/snipfiles/hist.gnuplot<cr>
 
-autocmd FileType make inoremap ,p .PHONY :<space>
+autocmd FileType make inoremap ,p .PHONY :<Space>
 
 " Quickly enter in ² symbol
 autocmd FileType markdown,text inoremap ^2 <c-v>178
@@ -745,44 +745,42 @@ autocmd FileType javascript,typescript inoremap ,> () =><Space>
 autocmd FileType typescript nnoremap <leader>tc :<c-u>!tsc<cr>
 
 autocmd FileType tex inoremap %%% \%
+autocmd FileType tex inoremap ,ab \begin{abstract}<Cr><Cr>\end{abstract}<Esc>k0i
+autocmd FileType tex inoremap ,au \author{}<Left>
+autocmd FileType tex inoremap ,base <esc>:0read $DOTFILES/snipfiles/base.tex<cr>
+autocmd FileType tex inoremap ,bf \textbf{} <++><esc>5hi
+autocmd FileType tex inoremap ,co \newcommand{\}{<++>}<esc>6hi
+autocmd FileType tex inoremap ,dot \dot{} <++><esc>5hi
+autocmd FileType tex inoremap ,en \begin{enumerate}<cr><cr>\end{enumerate}<esc>ki    <esc>i
+autocmd FileType tex inoremap ,eq \begin{equation}<cr><cr>\end{equation}<esc>ki    <esc>i
+autocmd FileType tex inoremap ,fig \includegraphics{}<Left>
+autocmd FileType tex inoremap ,fr \frac{}{}<esc>2hi
+autocmd FileType tex inoremap ,h \title{}<Left>
+autocmd FileType tex inoremap ,i \item <esc>a
+autocmd FileType tex inoremap ,lr \left(\right) <++><esc>11hi
+autocmd FileType tex inoremap ,ms \section{}<Left>
+autocmd FileType tex inoremap ,mt \maketitle{}<Cr>
+autocmd FileType tex inoremap ,p \usepackage{}<esc>i
+autocmd FileType tex inoremap ,rm \textrm{}<Left>
+autocmd FileType tex inoremap ,s ^{} <++><esc>5hi
+autocmd FileType tex inoremap ,tab \begin{tabular}{}<cr><++><cr>\end{tabular}<esc>2k^2f{a
+autocmd FileType tex inoremap ,tx \text{} <++><esc>5hi
+autocmd FileType tex inoremap ,u _{}<Left>
+autocmd FileType tex nnoremap ,base :0read $DOTFILES/snipfiles/base.tex<cr>
 autocmd FileType tex nnoremap [e ?\\begin{equation}<cr>:nohlsearch<cr>
 autocmd FileType tex nnoremap ]e /\\begin{equation}<cr>:nohlsearch<cr>
-autocmd FileType tex inoremap ,eq \begin{equation}<cr><cr>\end{equation}<esc>ki    <esc>i
-autocmd FileType tex inoremap ,bf \textbf{} <++><esc>5hi
-autocmd FileType tex inoremap ,lr \left(\right) <++><esc>11hi
-autocmd FileType tex inoremap ,u _{}<Left>
-autocmd FileType tex inoremap ,s ^{} <++><esc>5hi
-autocmd FileType tex inoremap ,fr \frac{}{}<esc>2hi
-autocmd FileType tex inoremap ,dot \dot{} <++><esc>5hi
-autocmd FileType tex inoremap ,tx \text{} <++><esc>5hi
-autocmd FileType tex inoremap ,rm \textrm{}<Left>
-autocmd FileType tex inoremap ,p \usepackage{}<esc>i
-autocmd FileType tex inoremap ,co \newcommand{\}{<++>}<esc>6hi
-autocmd FileType tex inoremap ,en \begin{enumerate}<cr><cr>\end{enumerate}<esc>ki    <esc>i
-autocmd FileType tex inoremap ,base <esc>:0read $DOTFILES/snipfiles/base.tex<cr>
-autocmd FileType tex inoremap ,i \item <esc>a
-autocmd FileType tex inoremap ,tab \begin{tabular}{}<cr><++><cr>\end{tabular}<esc>2k^2f{a
-autocmd FileType tex inoremap ,au \author{Mitchell T. Paulus}
-autocmd FileType tex inoremap ,ab \begin{abstract}<cr><cr>\end{abstract}<Esc>kI
-autocmd FileType tex inoremap ,mt \maketitle{}
-" ms for [m]ake [s]ection
-autocmd FileType tex inoremap ,ms \section{}<Left>
-" 'h' for Header
-autocmd FileType tex inoremap ,h \title{}<Left>
 
-" }
-autocmd FileType awk inoremap ,for for (i = ; i < <++>; i++) {<cr>    <++><cr>}<esc>2k^f;i
-autocmd FileType awk inoremap ,pf printf("")<esc>hi
-autocmd FileType awk inoremap ,b BEGIN { FS=OFS="" }<esc>2hi
-autocmd FileType awk inoremap ,if if () {<cr>    <++><cr>}<esc>2k^f(a
-" )
-autocmd FileType awk inoremap <localleader>q \042
 autocmd FileType awk inoremap ,! #!/usr/bin/awk -E<cr>
+autocmd FileType awk inoremap ,b BEGIN { FS=OFS="" }<esc>2hi
+autocmd FileType awk inoremap ,for for (i = ; i < <++>; i++) {<cr>    <++><cr>}<esc>2k^f;i
+autocmd FileType awk inoremap ,if if () {<cr>    <++><cr>}<esc>2k^f(a
+autocmd FileType awk inoremap ,pf printf("")<esc>hi
 autocmd FileType awk inoremap ,sh #!/usr/bin/awk -E<CR>
+autocmd FileType awk inoremap <localleader>q \042
 autocmd FileType awk inoremap <localleader>sp split(string, array, FS)
 
 autocmd FileType sh inoremap ,sh #!/bin/sh<CR>
-autocmd FileType sh,bash nnoremap ,h :read ~/dotfiles/snipfiles/shell_help.sh
+autocmd FileType sh,bash nnoremap <localleader>h :read $DOTFILES/snipfiles/shell_help.sh<Cr>
 autocmd FileType sh,fish,bash inoremap ,v "$"<Left>
 
 
@@ -790,7 +788,7 @@ autocmd FileType matlab inoremap ,f function [output] = functionname(inputvariab
 
 autocmd FileType make inoremap ,v $()<Left>
 
-autocmd FileType idf execute 'inoremap <localleader>i ! INCLUDE '
+autocmd FileType idf inoremap <localleader>i ! INCLUDE<Space>
 autocmd FileType idf inoremap <localleader>r Replace ECM ::
 autocmd FileType idf inoremap <localleader>de Delete ECM
 autocmd FileType idf nnoremap <localleader>s /<C-r>*\c<CR>
@@ -817,7 +815,16 @@ autocmd!
 " cshtml - html - close enough
 autocmd BufEnter *.cshtml set filetype=html
 autocmd BufEnter *.do     set filetype=sh
+autocmd BufEnter *.do     inoremap ,ex exec >&2<Cr>
+autocmd BufEnter *.do     inoremap ,r redo-ifchange<Space>
 autocmd BufEnter *.compass set filetype=compass
+
+autocmd BufEnter dodo.py inoremap ,dep "file_dep": [  ]<Left><Left>
+autocmd BufEnter dodo.py inoremap ,a "actions": [  ]<Left><Left>
+autocmd BufEnter dodo.py inoremap ,tar "targets": [  ]<Left><Left>
+autocmd BufEnter dodo.py inoremap ,doc "doc": ""<Left>
+autocmd BufEnter dodo.py inoremap ,task <esc>:read $DOTFILES/snipfiles/doit_task.py<cr>
+
 " Remove trailing whitespace. Use keeppatterns so that
 " the search history isn't ruined with the \v\s+$ junk.
 " Setting the marks is required so that the cursor doesn't jump
