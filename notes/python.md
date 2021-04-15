@@ -103,6 +103,8 @@ Common formats:
 Can put in thousands separator with something like:
 `,.0f`
 
+Example: `'{.3f}'.format(1.00023)`
+
 Can use double or single quotes, doesn't change things except for
 escaping themselves
 
