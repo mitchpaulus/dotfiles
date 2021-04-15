@@ -8,7 +8,7 @@ local function nnmap(lhs, rhs)
 end
 
 -- https://stackoverflow.com/a/11671820/5932184
-local function func_map(f, tbl) 
+local function func_map(f, tbl)
 	local t = {}
 	for k,v in pairs(tbl) do
 		t[k] = f(v)
@@ -16,7 +16,6 @@ local function func_map(f, tbl)
 	return t
 end
 
-vim.api.nvim_set_keymap("n", "s", ":<C-u>update<CR>", silent)
 
 --[[ "Use jk to escape insert mode. Suggested here:
 "http://learnvimscriptthehardway.stevelosh.com/chapters/10.html
@@ -30,11 +29,11 @@ vim.api.nvim_set_keymap("n", "s", ":<C-u>update<CR>", silent)
 
 vim.api.nvim_set_keymap("i", "jf", "<Esc>", silent  )
 
-vim.api.nvim_set_keymap("n", "q", ":q<CR>", { silent = true })
-
-normalNoRecurseMappings = { 
+normalNoRecurseMappings = {
 	-- Fast quitting
 	{ 'q', ':q<CR>' },
+
+	{ 's', ':<C-u>update<CR>' },
 
 	-- Scrolling
 	{ "K", "5k"  },
@@ -71,7 +70,25 @@ normalNoRecurseMappings = {
 
 func_map(function(tbl) nnmap(tbl[1], tbl[2]) end, normalNoRecurseMappings)
 
+vim.api.nvim_set_option('hlsearch', true)   -- highlight search
+vim.api.nvim_set_option('incsearch', true)  -- highlight temporary searches
+vim.api.nvim_set_option('lazyredraw', true)  -- don't update screen during macros
+vim.api.nvim_set_option('scrolloff', 8)
+vim.api.nvim_set_option('sidescrolloff', 10)
+vim.api.nvim_set_option('hidden', true)  -- Stop asking me to write file
+vim.api.nvim_set_option('mouse', 'a')  -- The mouse can be useful
+
+
+vim.api.nvim_win_set_option(0, 'relativenumber', true)        -- Relative line numbering
+vim.api.nvim_win_set_option(0, 'number', true)     -- Show the current line number
+
+vim.api.nvim_win_set_option(0, 'cursorline', false)
+vim.api.nvim_win_set_option(0, 'wrap', false)
+
+vim.api.nvim_buf_set_option(0, 'spelllang', 'en_us') -- U.S. only spelling
+
 settings = {
+
 
 -- nnoremap <leader>sp :<c-u>set paste!<cr>:set paste?<cr>
 -- nnoremap <leader>ss :set spell!<cr>:echo "Spell is now " . &spell<cr>
@@ -83,31 +100,14 @@ settings = {
 -- nnoremap <F10> :<C-u>set paste<CR>"+P:set nopaste<CR>
 -- nnoremap <leader>ll :set list!<cr>
 -- set statusline=%!g:basestatusline
--- 
--- set hlsearch   " highlight search
--- set incsearch  " highlight temporary searches
--- set rnu        " Relative line numbering
--- set number     " Show the current line number
--- set nocursorline
--- set encoding=utf-8
 -- set backspace=indent,eol,start " Want backspaces to always work as normal.
--- set scrolloff=8                " Want two lines above and below cursor when scrolling.
--- set sidescrolloff=10           " Have some buffer when scrolling side to side.
 -- set smartcase                  " Use smartcase
 -- set laststatus=2               " Always show the statusbar
--- set nowrap                     " No word wrap.
--- set lbr                        " Want line breaks at whitespace
 -- set tabstop=4                  " show existing tab with 4 spaces width
 -- set shiftwidth=4               " when indenting with '>', use 4 spaces width
 -- set expandtab                  " On pressing tab, insert 4 spaces
 -- set cmdheight=2                " Make the command window height 2 to avoid the hit-enter prompts
--- set history=1000               " Remember up to 1000 ex commands.
--- set lazyredraw
--- set ttyfast                    " Not even used in nvim.
--- set spelllang=en_us
 -- set spellsuggest=10
--- set hidden
--- set mouse=a
 -- set noshowmode                 " My status line already takes of this for me.
 -- set sessionoptions=buffers,curdir,winpos,winsize
 -- set nolist                     " No special characters by default
@@ -129,7 +129,6 @@ settings = {
     -- set guifont=Menlo\ Regular:h14
     -- set guifont=Fira_Code_Retina:h10:cANSI:qDRAFT,Consolas:h11:cANSI
     -- set renderoptions=type:directx
-    -- set encoding=utf-8
 -- set isfname-={
 -- set isfname-=}
 -- set isfname-==
