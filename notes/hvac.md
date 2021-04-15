@@ -84,3 +84,28 @@ mergers.
 
 
 PaaS: Platform as a service [MS Azure](https://en.wikipedia.org/wiki/Microsoft_Azure)
+
+## CO2 measurement
+
+Most HVAC sensors are going to be based on IR sensors. [source](https://jlcinternational.com/co2-measurement-theory-basics/).
+
+## Cascaded Control
+
+- Instead of single PID loop to have actuator control to desired process
+  variable, you have actuator control to *manipulated variable* setpoint
+  instead, where the *manipulated variable* setpoint resets from a
+  second PID loop.
+
+- Examples:
+    - Box Reheat Coils: Reheat coils control to Discharge Temp.
+      Discharge temp resets based on space temp. This prevents
+      stratification. (ASHRAE Standard 90.1 requires < 20°F and Guideline
+      62 has tighter restrictions, and Guideline 36 explicitly states the
+      control should be this way).
+
+    - AHU Cooling Coils: PID loop from CHWV to flow instead of SAT
+      directly. This way you prevent pulling more flow than needed and
+      avoiding the "saturation region" in which more flow results in
+      little additional heat transfer.
+
+
