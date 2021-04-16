@@ -76,3 +76,12 @@ completion like behavior.
 
 - Must remap Caps Lock to Alt
 - Shorten the repeat rate from the keyboard settings
+
+## Neovim lua
+
+For Help:
+- api.txt
+
+```
+nvim.api.nvim_set_keymap({mode}, {lhs}, {rhs}, {opts})
+```
