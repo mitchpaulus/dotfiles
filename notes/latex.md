@@ -48,3 +48,32 @@ outside of the main one set at the beginning of the document class.
 Generally can use commands like `\big` etc. For `fontspec`, the concept
 is similar, you can just apply a `Scale`, which is a fraction of the
 main document size.
+
+## Bibliographies
+
+Stack Exchange answer: https://tex.stackexchange.com/questions/25701/bibtex-vs-biber-and-biblatex-vs-natbib
+
+Packages: biblatex, natbib
+Preprocessing Programs (.bib -> .bbl): biber, BibTeX
+
+Database files: .bib (biber has extended options vs. BibTeX)
+
+biber and biblatex are the newer programs. Key features for `biber`:
+
+1. Full Unicode support (huge)
+2. Can better handle names (given, family, prefix, etc.)
+
+### `.bib` file format
+
+4 types of entries:
+
+1. @STRING { identifier = "Value" }
+2. @PREAMBLE { ? } 
+3. @COMMENT { "Any comment" }
+4. @entry { tags = "values", ... }
+
+**Tags**
+
+- Case insensitive
+- Can surround with either curly braces or quotations. Escape either of these with '\' if required.
+

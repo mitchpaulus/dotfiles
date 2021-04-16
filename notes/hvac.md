@@ -91,6 +91,9 @@ Most HVAC sensors are going to be based on IR sensors. [source](https://jlcinter
 
 ## Cascaded Control
 
+Notes from: [source](Ryan_Miles_Feb2021_14-21_Understanding_Cascade_Control_and_Its_applications_for_HVAC.pdf)
+Miles ASHRAE Journal, Feb 2021, Pg. 14.
+
 - Instead of single PID loop to have actuator control to desired process
   variable, you have actuator control to *manipulated variable* setpoint
   instead, where the *manipulated variable* setpoint resets from a
