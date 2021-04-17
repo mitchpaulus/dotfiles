@@ -234,4 +234,8 @@ function ta --description "tmux attach"
     end
 end
 
+# ghcup-env
+set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX "$HOME"
+test -f "$HOME"/.ghcup/env ; and set -gx PATH "$HOME"/.cabal/bin /home/mitch/.ghcup/bin "$PATH"
+
 # vim:ft=fish
