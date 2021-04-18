@@ -167,6 +167,9 @@ normalNoRecurseMappings = {
 	{ '<leader>y', ':<C-u>%yank +<CR>' },
 	-- Move backwards through spell.
 	{ 'T', '[s' },
+
+	-- Clear the previous search (c[lear] h[ighlight])
+	{ '<leader>ch', ':nohlsearch<CR>' }
 }
 
 func_map(function(tbl) nnmap(tbl[1], tbl[2]) end, normalNoRecurseMappings)
@@ -214,6 +217,19 @@ insertModeNoRecurseMappings = {
 
 func_map(function(tbl) inmap(tbl[1], tbl[2]) end, insertModeNoRecurseMappings)
 
+local statusLineComponents = {
+	-- Used to put the mode, but if terminal can change cursor shape, it really isn't required.
+	'%f',   -- File name
+	'%=',    -- makes following right aligned
+	'%y ',   -- file type
+	'C:%c ',  -- column number
+	'%p%% ',  -- percentage through file
+	'HEX:%B ', -- Hex value for character under cursor
+	'%{&ff} ',  -- File format (unix vs. dos)
+	'%{&encoding}' -- current encoding
+}
+
+vim.api.nvim_set_option('statusline', table.concat(statusLineComponents))
 
 vim.api.nvim_set_option('hlsearch', true)   -- highlight search
 vim.api.nvim_set_option('incsearch', true)  -- highlight temporary searches
@@ -223,6 +239,10 @@ vim.api.nvim_set_option('sidescrolloff', 10)
 vim.api.nvim_set_option('hidden', true)  -- Stop asking me to write file
 vim.api.nvim_set_option('mouse', 'a')  -- The mouse can be useful
 vim.api.nvim_set_option('isfname', '@,48-57,/,\\,.,-,_,+,(,),[,],@-@')  -- Sane filename characters.
+vim.api.nvim_set_option('listchars', 'tab:▸ ,eol:¬,trail:-,nbsp:+')
+vim.api.nvim_set_option('showmode', false)
+vim.api.nvim_set_option('shiftround', true)
+vim.api.nvim_set_option('spellsuggest', 'best,9')
 
 local wildignorePatterns = table.concat({
     '*.aux',
@@ -257,59 +277,32 @@ vim.api.nvim_win_set_option(0, 'wrap', false)
 
 vim.api.nvim_buf_set_option(0, 'spelllang', 'en_us') -- U.S. only spelling
 
-
-
-
-
+vim.api.nvim_buf_set_option(0, 'expandtab', true) -- Yes, I use spaces
+vim.api.nvim_buf_set_option(0, 'tabstop', 4)      -- Default of 8 is absurd
+vim.api.nvim_buf_set_option(0, 'shiftwidth', 4)      -- Default of 8 is absurd
+vim.api.nvim_buf_set_option(0, 'synmaxcol', 300)
+vim.api.nvim_buf_set_option(0, 'swapfile', false)
+vim.api.nvim_buf_set_option(0, 'spellfile', os.getenv('DOTFILES') .. '/vim/spell/hvac.utf-8.add')
 
 settings = {
 
 
 -- nnoremap <leader>sp :<c-u>set paste!<cr>:set paste?<cr>
 -- nnoremap <leader>ss :set spell!<cr>:echo "Spell is now " . &spell<cr>
-        -- set shellslash
-        -- set noshellslash
 -- inoremap <F9> <C-o>:set paste<CR><C-r>+<C-o>:set nopaste<CR>
 -- nnoremap <F8> :<c-u>set paste!<cr>:set paste?<cr>
 -- nnoremap <F9> :<C-u>set paste<CR>"+p:set nopaste<CR>
 -- nnoremap <F10> :<C-u>set paste<CR>"+P:set nopaste<CR>
--- nnoremap <leader>ll :set list!<cr>
--- set statusline=%!g:basestatusline
--- set backspace=indent,eol,start " Want backspaces to always work as normal.
--- set smartcase                  " Use smartcase
 -- set laststatus=2               " Always show the statusbar
--- set tabstop=4                  " show existing tab with 4 spaces width
--- set shiftwidth=4               " when indenting with '>', use 4 spaces width
--- set expandtab                  " On pressing tab, insert 4 spaces
 -- set cmdheight=2                " Make the command window height 2 to avoid the hit-enter prompts
--- set spellsuggest=10
--- set noshowmode                 " My status line already takes of this for me.
 -- set sessionoptions=buffers,curdir,winpos,winsize
--- set nolist                     " No special characters by default
--- set listchars=tab:▸\ ,eol:¬    " But provide better characters when requried
 -- set guioptions-=e
 -- set guioptions-=L
 -- set guioptions-=R
 -- set completeopt=menuone,noinsert,longest
 -- set shortmess+=c
-    -- set directory^=$HOME/vimfiles/tmp//
-    -- set directory^=$HOME/.vim/tmp//
--- set noswapfile
--- set synmaxcol=200
 	-- set grepprg=rg\ --vimgrep
-    -- set spellfile=~\vimfiles\spell\hvac.utf-8.add
-    -- set spellfile=~/.config/nvim/spell/hvac.utf-8.add
-    -- set guifont=Inconsolata\ 12
-    -- set guifont=Inconsolata\ 12
-    -- set guifont=Menlo\ Regular:h14
-    -- set guifont=Fira_Code_Retina:h10:cANSI:qDRAFT,Consolas:h11:cANSI
     -- set renderoptions=type:directx
--- set noshellslash
--- autocmd FileType idf set errorformat=%l:%c\ %m
--- autocmd FileType idf set makeprg=idflint\ %
--- autocmd BufEnter *.cshtml set filetype=html
--- autocmd BufEnter *.do     set filetype=sh
--- autocmd BufEnter *.compass set filetype=compass
 
 }
 
@@ -318,3 +311,163 @@ if not pcall(function() vim.cmd('colorscheme monokai') end) then
 vim.cmd('colorscheme desert')
 end
 
+-- FileType AutoCmd Mappings {{{1
+
+local function createAugroup(autocmds, name, event)
+    vim.cmd('augroup ' .. name)
+    vim.cmd('autocmd!')
+    for _, autocmd in ipairs(autocmds) do
+        vim.cmd('autocmd ' .. event .. ' ' .. table.concat(autocmd, ' '))
+    end
+    vim.cmd('augroup END')
+end
+
+filetypeAutocmds = {
+
+	{ 'antlr4', 'nnoremap', '<localleader>c', ':!antlr4 %<CR>' },
+	{ 'antlr4', 'nnoremap', '<localleader>j', ':!antlrj<Space>%<CR>', },
+
+	-- make a header 1 line, deleting trailing whitespace first.
+	{ 'markdown', 'nnoremap', '<silent>', '<leader>h1 :<c-u>call<Space><SID>MakeHeading("=")<cr>', },
+	{ 'markdown', 'nnoremap', '<silent>', '<leader>h2 :<c-u>call<Space><SID>MakeHeading("-")<cr>', },
+	{ 'markdown,tex,text', 'setlocal', 'textwidth=72' },
+	{ 'markdown,tex,text', 'setlocal spell' },
+	{ 'help', 'nnoremap', '<leader>hh', 'mnA~<esc>`n', },
+	{ 'help', 'nnoremap', '<leader>hl', 'mn78i=<esc>`n', },
+	{ 'help', 'setlocal nospell' },
+	{ 'bib', 'command!', 'CleanBib', 'call<Space><SID>CleanBibFile()' },
+	{ 'gnuplot', 'nnoremap', '<localleader>g', ':silent !gnuplot.exe % && start "Plot" %:p:r.png<cr>', },
+	{ 'gnuplot', 'nnoremap', '<localleader>k', ':silent !taskkill.exe /IM Microsoft.Photos.exe /F<cr>', },
+	{ 'gnuplot', 'inoremap', ',hist', '<esc>:0read ~/.vim/snipfiles/hist.gnuplot<cr>', },
+
+	{ 'make', 'inoremap', ',p', '.PHONY :<Space>', },
+
+	-- Quickly enter in ² symbol
+	{ 'markdown,text', 'inoremap', '^2', '<c-v>178', },
+	{ 'markdown,text', 'inoremap', ',l', '[](<++>)<esc>6hi', },
+	{ 'markdown,text', 'inoremap', ',c', '✓', },
+	{ 'markdown,text', 'inoremap', ',x', '✗', },
+	-- Quickly enter in °F
+	{ 'markdown,text', 'inoremap', 'DEGF', '°F', },
+
+	{ 'markdown', 'inoremap', '<localleader>f', '![]()<Esc>2hi', },
+	{ 'markdown', 'inoremap', '<localleader>i', '**<Left>', },
+	{ 'markdown', 'inoremap', '<localleader>b', '****<Left><Left>', },
+	{ 'markdown', 'inoremap', '<localleader>e', '$$  $$<Esc>2hi', },
+	{ 'markdown', 'inoremap', '<localleader>n', '\\begin{equation}<CR>\\end{equation}<Esc>0ko', },
+	{ 'markdown', 'inoremap', '<localleader>m', '$$<Left>', },
+
+	{ 'gitcommit', 'setlocal spell' },
+
+	{ 'html', 'inoremap', ',1', '<h1></h1><Esc>4hi', },
+	{ 'html', 'inoremap', ',2', '<h2></h2><Esc>4hi', },
+	{ 'html', 'inoremap', ',3', '<h3></h3><Esc>4hi', },
+	{ 'html', 'inoremap', ',a', '<a href=""></a><Esc>5hi', },
+	{ 'html', 'inoremap', ',b', 'data-bind=""<Left>', },
+	{ 'html', 'inoremap', ',c', 'class=""<Left>', },
+	{ 'html', 'inoremap', ',d', '<div></div><Esc>5hi', },
+	{ 'html', 'inoremap', ',i', '<input  /><Esc>2hi', },
+	{ 'html', 'inoremap', ',l', '<label></label><Esc>7hi', },
+	{ 'html', 'inoremap', ',p', '<lt>p></p><Esc>3hi', },
+	{ 'html', 'inoremap', ',sp', '<span></span><Esc>6hi', },
+	{ 'html', 'inoremap', ',st', '<style></style><Esc>7hi', },
+	{ 'html', 'inoremap', ',u', '<ul><cr><li></li><cr></ul><Esc>k^f>a', },
+
+	{ 'javascript,typescript', 'inoremap', ',f', 'function (<++>) {<cr><++><cr>}<Esc>2k^f(i', },
+	{ 'javascript,typescript', 'inoremap', ',>', '() =><Space>', },
+
+	{ 'typescript', 'nnoremap', '<leader>tc', ':<c-u>!tsc<cr>', },
+
+	{ 'tex', 'inoremap', '%%%', [[\%]] },
+	{ 'tex', 'inoremap', ',ab', '\\begin{abstract}<Cr><Cr>\\end{abstract}<Esc>k0i', },
+	{ 'tex', 'inoremap', ',au', '\\author{}<Left>', },
+	{ 'tex', 'inoremap', ',base', '<esc>:0read $DOTFILES/snipfiles/base.tex<cr>', },
+	{ 'tex', 'inoremap', ',bf', '\\textbf{} <++><esc>5hi', },
+	{ 'tex', 'inoremap', ',co', '\\newcommand{\\}{<++>}<esc>6hi', },
+	{ 'tex', 'inoremap', ',dot', '\\dot{} <++><esc>5hi', },
+	{ 'tex', 'inoremap', ',en', '\\begin{enumerate}<cr><cr>\\end{enumerate}<esc>ki    <esc>i', },
+	{ 'tex', 'inoremap', ',eq', '\\begin{equation}<cr><cr>\\end{equation}<esc>ki    <esc>i', },
+	{ 'tex', 'inoremap', ',fig', '\\includegraphics{}<Left>', },
+	{ 'tex', 'inoremap', ',fr', '\\frac{}{}<esc>2hi', },
+	{ 'tex', 'inoremap', ',h', '\\title{}<Left>', },
+	{ 'tex', 'inoremap', ',i', '\\item <esc>a', },
+	{ 'tex', 'inoremap', ',lr', '\\left(\\right) <++><esc>11hi', },
+	{ 'tex', 'inoremap', ',ms', '\\section{}<Left>', },
+	{ 'tex', 'inoremap', ',mt', '\\maketitle{}<Cr>', },
+	{ 'tex', 'inoremap', ',p', '\\usepackage{}<esc>i', },
+	{ 'tex', 'inoremap', ',rm', '\\textrm{}<Left>', },
+	{ 'tex', 'inoremap', ',s', '^{} <++><esc>5hi', },
+	{ 'tex', 'inoremap', ',tab', '\\begin{tabular}{}<cr><++><cr>\\end{tabular}<esc>2k^2f{a', },
+	{ 'tex', 'inoremap', ',tx', '\\text{} <++><esc>5hi', },
+	{ 'tex', 'inoremap', ',u', '_{}<Left>', },
+	{ 'tex', 'nnoremap', ',base', ':0read $DOTFILES/snipfiles/base.tex<cr>', },
+	{ 'tex', 'nnoremap', '[e', '?\\begin{equation}<cr>:nohlsearch<cr>', },
+	{ 'tex', 'nnoremap', ']e', '/\\begin{equation}<cr>:nohlsearch<cr>', },
+
+	{ 'awk', 'inoremap', ',!', '#!/usr/bin/awk -E<cr>', },
+	{ 'awk', 'inoremap', ',b', 'BEGIN { FS=OFS="" }<esc>2hi', },
+	{ 'awk', 'inoremap', ',for', 'for (i = ; i < <++>; i++) {<cr>    <++><cr>}<esc>2k^f;i', },
+	{ 'awk', 'inoremap', ',if', 'if () {<cr>    <++><cr>}<esc>2k^f(a', },
+	{ 'awk', 'inoremap', ',pf', 'printf("")<esc>hi', },
+	{ 'awk', 'inoremap', ',sh', '#!/usr/bin/awk -E<CR>', },
+	{ 'awk', 'inoremap', '<localleader>q', '\\042', },
+	{ 'awk', 'inoremap', '<localleader>sp', 'split(string, array, FS)', },
+
+	{ 'sh', 'inoremap', ',sh', '#!/bin/sh<CR>', },
+	{ 'sh,bash', 'nnoremap', '<localleader>h', ':read $DOTFILES/snipfiles/shell_help.sh<Cr>', },
+	{ 'sh,fish,bash', 'inoremap', ',v', '"$"<Left>', },
+
+
+	{ 'matlab', 'inoremap', ',f', 'function [output] = functionname(inputvariable)<CR><CR>end<Esc>2k', },
+
+	{ 'make', 'inoremap', ',v', '$()<Left>', },
+
+	{ 'idf', 'inoremap', '<localleader>i', '! INCLUDE<Space>', },
+	{ 'idf', 'inoremap', '<localleader>r', 'Replace ECM ::', },
+	{ 'idf', 'inoremap', '<localleader>de', 'Delete ECM', },
+	{ 'idf', 'nnoremap', '<localleader>s', '/<C-r>*\\c<CR>', },
+	{ 'idf', 'set', 'errorformat=%l:%c\\', '%m', },
+	{ 'idf', 'set', 'makeprg=idflint\\ %', },
+	{ 'idf,neobem', 'inoremap', '<localleader>l', 'λ', },
+	{ 'idf,neobem', 'nnoremap', '<localleader>t', ':Tabularize /!-\\?/l1l1<CR>', },
+	{ 'neobem', 'nnoremap', '<localleader>c', ':!nbem -o out.idf %<CR>', },
+	{ 'neobem', 'inoremap', '<localleader>f', 'λ  { <++> }<Esc>8hi', },
+	{ 'neobem', 'inoremap', '<localleader>r', '<  ><Esc>hi', },
+	{ 'neobem', 'inoremap', '<localleader>c', '✓', },
+
+	{ 'python,nbem', 'iabbrev', 'improt', 'import', },
+
+	{ 'compass', 'inoremap', '<localleader>b', '<!-- Compass:  --><CR><CR><!-- Compass --><Esc>2k0f:la', },
+}
+
+createAugroup(filetypeAutocmds, 'filetypemappings', 'FileType')
+
+-- Event Type Autocmds {{{1
+bufEnterAutocmds = {
+	{ '*.cshtml', 'set filetype=html' },
+	{ '*.do',    'set filetype=sh' },
+	{ '*.do',     'inoremap ,ex exec >&2<Cr>' },
+	{ '*.do',     'inoremap ,r redo-ifchange<Space>' },
+	{ '*.compass', 'set filetype=compass' },
+
+	-- doit build system file
+	{ 'dodo.py', 'inoremap ,dep "file_dep": [  ]<Left><Left>' },
+	{ 'dodo.py', 'inoremap ,a "actions": [  ]<Left><Left>' },
+	{ 'dodo.py', 'inoremap ,tar "targets": [  ]<Left><Left>' },
+	{ 'dodo.py', 'inoremap ,doc "doc": ""<Left>' },
+	{ 'dodo.py', 'inoremap ,task <esc>:read $DOTFILES/snipfiles/doit_task.py<cr>' },
+}
+
+createAugroup(bufEnterAutocmds, 'bufenter', 'BufEnter')
+
+-- Remove trailing whitespace. Use keeppatterns so that
+-- the search history isn't ruined with the \v\s+$ junk.
+-- Setting the marks is required so that the cursor doesn't jump
+-- around.
+vim.cmd([[autocmd BufWrite * execute "normal! mz" |  keeppatterns %s/\v\s+$//e | normal `z]])
+
+-- Make sure we are aware of when we are in insert mode.
+--vim.cmd([[autocmd InsertEnter * setlocal statusline=%#ErrorMsg#\ INSERT\ %.50F%=%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding}]])
+--vim.cmd([[autocmd InsertLeave * setlocal statusline=%!g:basestatusline]])
+
+-- vim:foldmethod=marker
