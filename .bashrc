@@ -198,4 +198,9 @@ if [[ -f ~/.host-bashrc ]]; then
     source ~/.host-bashrc
 fi
 
+# I hate all these programs that have to automatically add lines to my configs. But alas, here they are.
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# Node version manager
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
