@@ -1,5 +1,13 @@
 # SkySpark
 
+View current running instances: `ps -aux | grep java`
+
+Restarting skyspark
+
+Go to `bin` directory, run `./skyspark >/dev/null 2>/dev/null &` in
+order to run the command in the background.
+
+
 ## Video 12. Spark App (15:07)
 - Began in 3.0.15.
 - Can't recreate the split feature at 7:00
@@ -111,3 +119,4 @@ different settings do.
 - Debug view
     - (7:25) Debug -> Index -> Summary, can update `hisEngine` options
       that allow rules to be run in parallel.
+
