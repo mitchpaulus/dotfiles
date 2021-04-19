@@ -7,3 +7,5 @@
 - while <boolean> do <code> end
 - if <boolean> then <code> elseif <code> else <code> end
 -  `nil` and `false` are only false things
+
+- Handle exceptions: `pcall`.
