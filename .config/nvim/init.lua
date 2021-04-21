@@ -115,8 +115,6 @@ local function func_map(f, tbl)
 	return t
 end
 
-vim.api.nvim_set_keymap("i", "jf", "<Esc>", silent  )
-
 normalNoRecurseMappings = {
 	-- Fast quitting
 	{ 'q', ':q<CR>' },
@@ -217,6 +215,8 @@ insertModeNoRecurseMappings = {
 
 func_map(function(tbl) inmap(tbl[1], tbl[2]) end, insertModeNoRecurseMappings)
 
+vim.api.nvim_set_keymap("v", '<leader>y', '"+y', silent)
+
 local statusLineComponents = {
 	-- Used to put the mode, but if terminal can change cursor shape, it really isn't required.
 	'%f',   -- File name
@@ -311,6 +311,8 @@ if not pcall(function() vim.cmd('colorscheme monokai') end) then
 vim.cmd('colorscheme desert')
 end
 
+vim.g.AutocorrectFiletypes = { "markdown", "tex", "text", "gitcommit" }
+
 -- FileType AutoCmd Mappings {{{1
 
 local function createAugroup(autocmds, name, event)
@@ -328,8 +330,8 @@ filetypeAutocmds = {
 	{ 'antlr4', 'nnoremap', '<localleader>j', ':!antlrj<Space>%<CR>', },
 
 	-- make a header 1 line, deleting trailing whitespace first.
-	{ 'markdown', 'nnoremap', '<silent>', '<leader>h1 :<c-u>call<Space><SID>MakeHeading("=")<cr>', },
-	{ 'markdown', 'nnoremap', '<silent>', '<leader>h2 :<c-u>call<Space><SID>MakeHeading("-")<cr>', },
+	--{ 'markdown', 'nnoremap', '<silent>', '<leader>h1 :<c-u>call<Space><SID>MakeHeading("=")<cr>', },
+	--{ 'markdown', 'nnoremap', '<silent>', '<leader>h2 :<c-u>call<Space><SID>MakeHeading("-")<cr>', },
 	{ 'markdown,tex,text', 'setlocal', 'textwidth=72' },
 	{ 'markdown,tex,text', 'setlocal spell' },
 	{ 'help', 'nnoremap', '<leader>hh', 'mnA~<esc>`n', },
