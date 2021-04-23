@@ -455,6 +455,8 @@ bufEnterAutocmds = {
 	{ '*.do',     'inoremap ,r redo-ifchange<Space>' },
 	{ '*.compass', 'set filetype=compass' },
 
+    { '*.har', 'set filetype=json' },
+
 	-- doit build system file
 	{ 'dodo.py', 'inoremap ,dep "file_dep": [  ]<Left><Left>' },
 	{ 'dodo.py', 'inoremap ,a "actions": [  ]<Left><Left>' },

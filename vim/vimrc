@@ -825,6 +825,8 @@ autocmd BufEnter *.do     inoremap ,ex exec >&2<Cr>
 autocmd BufEnter *.do     inoremap ,r redo-ifchange<Space>
 autocmd BufEnter *.compass set filetype=compass
 
+autocmd BufEnter *.har set filetype=json
+
 autocmd BufEnter dodo.py inoremap ,dep "file_dep": [  ]<Left><Left>
 autocmd BufEnter dodo.py inoremap ,a "actions": [  ]<Left><Left>
 autocmd BufEnter dodo.py inoremap ,tar "targets": [  ]<Left><Left>
