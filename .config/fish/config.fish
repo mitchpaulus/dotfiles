@@ -13,6 +13,8 @@ end
 
 set -gx DOTFILES ~/dotfiles
 
+set -gx FILEMANAGER lf
+
 if command -v exa >/dev/null 2>&1
     function ls --wraps exa
         exa $argv
@@ -85,21 +87,22 @@ if command -v git >/dev/null 2>&1
 end
 
 # function r --wraps=ranger; ranger --choosedir="$HOME/.rangerdir"; cd (cat $HOME/.rangerdir); end
+# Go to git repositories
 function r
     if test -n "$REPOS"
-        lf "$REPOS"
+        "$FILEMANAGER" "$REPOS"
     end
 end
 
 if test -d '/mnt/c/Users/mpaulus/Command Commissioning'
     function j
-        lf '/mnt/c/Users/mpaulus/Command Commissioning'
+        "$FILEMANAGER" '/mnt/c/Users/mpaulus/Command Commissioning'
     end
 end
 
 
-function f --wraps=lf --description 'When two characters is too many.'
-    lf
+function f --wraps="$FILEMANAGER" --description 'When two characters is too many.'
+    "$FILEMANAGER"
 end
 
 function lf --wraps=lf
