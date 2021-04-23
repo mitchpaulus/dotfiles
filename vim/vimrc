@@ -451,6 +451,9 @@ endfunction
 
 " General Settings/Options {{{1
 "Custom Status Line
+"
+let g:markdown_fenced_languages = ['python', 'gnuplot', 'vim', 'sh', 'vim']
+let g:markdown_syntax_conceal = 1
 
 let g:basestatusline='%F%=%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding}'
 
@@ -489,6 +492,9 @@ set guioptions-=R
 
 set completeopt=menuone,noinsert,longest
 set shortmess+=c
+
+" Concealed text is completely hidden unless it has a custom replacement character defined
+set conceallevel=2
 
 "This is to make sure that when you first enter a file
 "you don't get a whole bunch of highlighting.

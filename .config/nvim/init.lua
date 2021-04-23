@@ -95,6 +95,8 @@ end
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
+vim.g.markdown_fenced_languages = { 'python', 'gnuplot', 'vim', 'sh', 'vim' }
+vim.g.markdown_syntax_conceal = 1
 
 silent = { silent = true, noremap = true }
 
@@ -274,6 +276,7 @@ vim.api.nvim_win_set_option(0, 'number', true)     -- Show the current line numb
 
 vim.api.nvim_win_set_option(0, 'cursorline', false)
 vim.api.nvim_win_set_option(0, 'wrap', false)
+vim.api.nvim_win_set_option(0, 'conceallevel', 2) -- Concealed text is completely hidden unless it has a custom replacement character defined
 
 vim.api.nvim_buf_set_option(0, 'spelllang', 'en_us') -- U.S. only spelling
 
