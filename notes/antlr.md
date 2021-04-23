@@ -7,7 +7,7 @@ antlr4 -Dlanguage=Java *.g4
 javac *.java
 ```
 
-```
+```sh
 antlr4() {
     java -jar /usr/local/lib/antlr-4.x-complete.jar
 }

@@ -27,14 +27,14 @@ General process is:
 
 From [link](https://www.reddit.com/r/vim/comments/ktd2kw/run_a_vim_command_in_loop_each_n_seconds/):
 
-```viml
+```vim
 :call timer_start( 2000, { id -> execute( 'e!' ) }, { 'repeat': -1 } )
 ```
 
 However, combining it with this function for restoring the cursor
 position is even better ([link](https://stackoverflow.com/a/50476532/5932184)):
 
-```viml
+```vim
 :call timer_start( 2000, { id -> execute('let l:winview=winsaveview() | checktime | call winrestview(l:winview) ' ) }, { 'repeat': -1 } )
 ```
 
@@ -82,6 +82,15 @@ completion like behavior.
 For Help:
 - api.txt
 
-```
+```vim
 nvim.api.nvim_set_keymap({mode}, {lhs}, {rhs}, {opts})
 ```
+
+## Syntax Highlighting within Markdown
+
+[See Stack Overflow answer here](https://vi.stackexchange.com/questions/23215/how-to-use-code-highlighting-and-checking-in-markdown)
+Add `let g:markdown_fenced_languages`{.vim} to vimrc.
+
+## Vim's normal mode grammar
+
+[Cool post](https://gist.github.com/countvajhula/0721a5fc40f2124097652071bb9f97fb)

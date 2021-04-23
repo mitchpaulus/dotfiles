@@ -37,6 +37,11 @@
         file.write(string_var)
      ```
 
+- Binary operations operate like JavaScript, they can be thought more of
+  as "selectors". It doesn't covert expression to boolean upon output.
+  Therefore, you can do things like:
+
+  `variable = <expr> or <default>`
 
 ## Sorting
 
@@ -86,6 +91,8 @@ Typing functions
 ```
 def myfunction(input: type) -> return_type:
 ```
+
+Use `None` as return type for "void" functions.
 
 Type Aliasing:
 
@@ -290,4 +297,61 @@ sys.argv[1] == "arg1"
 path = pathlib.Path('sample/path.txt')
 path.stem == "path"
 ```
+
+## Parsing HTML
+
+Best recommendation appears to be 'Beautiful Soup'. Documentation found
+[here](https://www.crummy.com/software/BeautifulSoup/bs4/doc/).
+
+```python
+from bs4 import BeautifulSoup
+
+soup = BeautifulSoup("<head>asdf<head>")
+
+elements = soup.findAll("tag_type", id="an id", anyattribute=true,
+attrs={"nonvalid_python_attribute": "value to test"})
+# get_text :: Element -> Str
+elements[0].get_text()
+elements["attribute name"] # returns attribute value
+```
+
+## Pycharm File Encodings
+
+Few places to check:
+
+- [VM options](https://www.jetbrains.com/help/pycharm/working-with-consoles.html):
+  - Add `-Dconsole.encoding=UTF-8` to `PYCHARM_HOME/bin/pycharm.exe.vmoptions` or `PYCHARM_HOME/bin/pycharm.vmoptions`
+  - Can get there from Help -> Edit Custom VM Options
+- Set File encodings in general settings: File | Settings | File
+  Encodings
+- Make sure to explicitly open files with desired encoding: `open("file", encoding='utf-8')`
+
+## `requests`
+
+
+## JSON
+
+`import json`
+```
+# load from string
+python_obj = json.loads('[ "a string" ]')
+# from file
+python_obj = json.load(file_handle)
+```
+
+## Classes
+
+*namespace*: Mapping from names to objects
+
+```python
+# Simple class
+class ClassName:
+    <Statement 1>
+    <Statement 2>
+    ...
+
+    def __init__(self, other_params):
+        <Statements>...
+```
+
 
