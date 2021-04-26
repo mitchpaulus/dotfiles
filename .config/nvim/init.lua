@@ -169,7 +169,12 @@ normalNoRecurseMappings = {
 	{ 'T', '[s' },
 
 	-- Clear the previous search (c[lear] h[ighlight])
-	{ '<leader>ch', ':nohlsearch<CR>' }
+	{ '<leader>ch', ':nohlsearch<CR>' },
+
+	{ 'ev', ':<C-u>edit $MYVIMRC<CR>' },
+	{ 'sv', ':<C-u>luafile $MYVIMRC<CR>' },
+
+	{ '<C-n>', ':bnext<CR>' },
 }
 
 func_map(function(tbl) nnmap(tbl[1], tbl[2]) end, normalNoRecurseMappings)
@@ -313,6 +318,17 @@ settings = {
 if not pcall(function() vim.cmd('colorscheme monokai') end) then
 vim.cmd('colorscheme desert')
 end
+
+-- Search for the current visual selection using '*'. See pg. 212 of Practical Vim
+function vsetsearch()
+	local temp = vim.fn.getreg('s')
+	--let temp = @s
+	vim.cmd 'normal! gv"sy'
+	vim.fn.setreg('/',  '\\V' .. vim.fn.substitute(vim.fn.escape(temp, '/\\'), '\n', '\\n', 'g'))
+	vim.fn.setreg('s', temp)
+end
+
+--vim.api.nvim_set_keymap("v", '*', ':<C-u>lua vsetsearch()', silent)
 
 vim.g.AutocorrectFiletypes = { "markdown", "tex", "text", "gitcommit" }
 
