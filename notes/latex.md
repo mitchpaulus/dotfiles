@@ -68,7 +68,7 @@ biber and biblatex are the newer programs. Key features for `biber`:
 4 types of entries:
 
 1. @STRING { identifier = "Value" }
-2. @PREAMBLE { ? } 
+2. @PREAMBLE { ? }
 3. @COMMENT { "Any comment" }
 4. @entry { tags = "values", ... }
 
@@ -76,4 +76,13 @@ biber and biblatex are the newer programs. Key features for `biber`:
 
 - Case insensitive
 - Can surround with either curly braces or quotations. Escape either of these with '\' if required.
+
+### Biblatex compilation
+
+Normally goes:
+
+1. `pdflatex` or `lualatex`, etc. -> should generate .bcf file during
+   compilation if the `biblatex` package is used.
+2. `biber <basename>`
+3. `pdflatex` or `lualatex`, etc. until convergence.
 
