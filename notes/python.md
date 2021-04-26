@@ -354,4 +354,20 @@ class ClassName:
         <Statements>...
 ```
 
+## Dictionaries
+
+- `list(d)`: return list of keys
+- `len(d)`: return number of keys
+- `d[key]`: get value for key, exception if doesn't exist
+- `d[key] = value`: set key pair
+- `del d[key]`: delete key, exception if doesn't exist
+- `key in d`
+- `key not in d` or `not key in d`
+- `iter(d) == iter(d.keys())`
+- `clear()`: remove all items
+- `copy()`: make shallow copy
+- `get(key, [default])`: Get value without exception, `None` if no
+  explicit default given.
+- `keys()`
+- `pop(key, [default])`: Can have exception.
 
