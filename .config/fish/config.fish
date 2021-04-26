@@ -58,6 +58,7 @@ end
 __path_add "$DOTFILES"/scripts/
 __path_add /usr/local/texlive/2020/bin/x86_64-linux
 __path_add "$HOME/.gem/ruby/2.7.0/bin"
+__path_add "$HOME/.gem/ruby/3.0.0/bin"
 __path_add "$HOME/bin"
 __path_add "$HOME/.local/bin"
 
@@ -246,3 +247,6 @@ set -gx NVM_DIR "$HOME/.nvm"
 if test -s "$NVM_DIR/nvm.sh"; bash "$NVM_DIR/nvm.sh"; end
 
 # vim:ft=fish
+# ghcup-env
+set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME
+test -f /home/mitch/.ghcup/env ; and set -gx PATH $HOME/.cabal/bin /home/mitch/.ghcup/bin $PATH
