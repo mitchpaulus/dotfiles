@@ -86,3 +86,9 @@ Normally goes:
 2. `biber <basename>`
 3. `pdflatex` or `lualatex`, etc. until convergence.
 
+### Basic compilation steps
+
+[link](https://tex.stackexchange.com/questions/204291/bibtex-latex-compiling)
+
+[Another link showing the pitfalls of trying to compile while using
+--output-directory option](https://tex.stackexchange.com/questions/12686/how-do-i-run-bibtex-after-using-the-output-directory-flag-with-pdflatex-when-f)

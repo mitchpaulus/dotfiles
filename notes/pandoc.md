@@ -2,7 +2,7 @@
 
 ## Syntax Highlighting
 
-- Uses KDE syntax, definition [here](https://docs.kde.org/stable5/en/applications/katepart/highlight.html)
+- Uses KDE syntax, definition [here](https://docs.kde.org/stable5/en/kate/katepart/highlight.html)
 
 ## Tex target
 
