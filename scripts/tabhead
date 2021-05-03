@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Print out the headers in a TSV file
+head -q -n 1 "$@" | tr '\t' '\n' | sort -V
