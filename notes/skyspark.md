@@ -120,3 +120,16 @@ different settings do.
     - (7:25) Debug -> Index -> Summary, can update `hisEngine` options
       that allow rules to be run in parallel.
 
+
+## Upgrading
+
+1. Go to `bin` directory and make sure all scripts are executable
+    - `chmod +x *`
+2. Run `setup`
+3. In our setup, we use port 8080, and use nginx to route https traffic
+   to SkySpark.
+4. Wizard asks questions, but I don't think it really matters much for
+   the username/password since I think that information is stored in the
+   var directory and gets overwritten.
+5. Make backup of old var directory, copy over `var` directory from the
+   old version.

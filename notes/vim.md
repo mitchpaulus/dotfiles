@@ -94,3 +94,8 @@ Add `let g:markdown_fenced_languages`{.vim} to vimrc.
 ## Vim's normal mode grammar
 
 [Cool post](https://gist.github.com/countvajhula/0721a5fc40f2124097652071bb9f97fb)
+
+
+## Using `<cmd>` in mappings: See `:h :map-cmd` or `:h <Cmd>`
+Alternative to using `:<C-u>` in mappings.
+

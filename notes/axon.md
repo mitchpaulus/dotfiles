@@ -46,7 +46,7 @@ ioDir :: URI -> Grid (uri, name, mimeType, dir, size, mod)
 
 `toRecList` is an important function to turn a grid into a list.
 
-```
+```axon
 // add new record
 newRec: commit(diff(null, {dis:"New Rec!"}, {add}))
 
@@ -55,7 +55,7 @@ readAll(filter).toRecList.map(r => diff(r, {someTag})).commit
 ```
 
 
-```
+```axon
 // create new record
 diff(null, {dis:"New Rec", someMarker}, {add})
 
@@ -67,6 +67,11 @@ diff(orig, {dis:"New Dis", -oldTag})
 
 // set/add val tag transiently
 diff(orig, {val:123}, {transient})
+
+diff :: orig_dict -> dict -> flag_dict
+diff :: orig, changes, flags
+
+flag_dict :: dict with 'add', 'remove', 'transient', or 'force' tags
 ```
 
 ## List Functions
@@ -86,7 +91,7 @@ find T :: Dict -> ((T -> int) -> bool) -> Dict T
 
 ## String Functions
 
-```
+```axon
 123.toStr                      >>  "123"    // convert any object to string
 "num=" + 3                     >>  "num=3"  // use '+' for concat
 "hi world".isEmpty             >>  false
@@ -119,15 +124,15 @@ fold function.
 
 ## Parsing
 
-```
+```axon
 parseNumber :: Str -> Bool -> Number
 parseNumber("12kW", false)
 ```
 
 ## Regex
 
-```
-// check match for entire string
+```axon
+// check match for ENTIRE string
 reMatches(r"AHU-(\d+)", "AHU")     // false
 reMatches(r"AHU-(\d+)", "AHU-10")  // true
 
@@ -146,5 +151,38 @@ reGroups(r"(Clg|Hgt)-(\d+)", "<Hgt-7>") // ["Hgt-7", "Hgt", "7"]
 ## Functional Programming
 
 filter: `findAll`
+# map :: Grid -> (Dict -> Dict) -> [Grid | null]
 
+Can use `toRecList` to map to things that aren't Dicts.
+See https://skyfoundry.com/forum/topic/2111
 
+`grid.each `
+
+## Filters
+
+https://skyfoundry.com/doc/docHaystack/Filters
+
+```
+<filter>     :=  <condOr>
+<condOr>     :=  <condAnd> ("or" <condAnd>)*
+<condAnd>    :=  <term> ("and" <term>)*
+<term>       :=  <parens> | <has> | <missing> | <cmp>
+<parens>     :=  "(" <filter> ")"
+<has>        :=  <path>
+<missing>    :=  "not" <path>
+<cmp>        :=  <path> <cmpOp> <val>
+<cmpOp>      :=  "==" | "!=" | "<" | "<=" | ">" | ">="
+<path>       :=  <name> ("->" <name>)*
+
+<val>        :=  <bool> | <ref> | <str> | <uri> |
+                 <number> | <date> | <time>
+<bool>       := "true" or "false"
+<number>     := same as Zinc (keywords not supported INF, -INF, NaN)
+<ref>        := same as Zinc
+<symbol>     := same as Zinc
+<str>        := same as Zinc
+<uri>        := same as Zinc
+<date>       := same as Zinc
+<time>       := same as Zinc
+<name>       := same as Zinc <id>
+```
