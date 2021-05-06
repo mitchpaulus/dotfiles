@@ -359,7 +359,7 @@ filetypeAutocmds = {
 	{ 'help', 'nnoremap', '<leader>hh', 'mnA~<esc>`n', },
 	{ 'help', 'nnoremap', '<leader>hl', 'mn78i=<esc>`n', },
 	{ 'help', 'setlocal nospell' },
-	{ 'bib', 'command!', 'CleanBib', 'call<Space><SID>CleanBibFile()' },
+
 	{ 'gnuplot', 'nnoremap', '<localleader>g', ':silent !gnuplot.exe % && start "Plot" %:p:r.png<cr>', },
 	{ 'gnuplot', 'nnoremap', '<localleader>k', ':silent !taskkill.exe /IM Microsoft.Photos.exe /F<cr>', },
 	{ 'gnuplot', 'inoremap', ',hist', '<esc>:0read ~/.vim/snipfiles/hist.gnuplot<cr>', },
