@@ -59,6 +59,8 @@ if vim.fn.has('nvim-0.5.0') == 1 then
           buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
           buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 
+	  buf_set_option('completeopt', 'menuone,preview,noinsert')
+
           -- Set some keybinds conditional on server capabilities
           if client.resolved_capabilities.document_formatting then
             buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
@@ -250,6 +252,7 @@ vim.api.nvim_set_option('listchars', 'tab:▸ ,eol:¬,trail:-,nbsp:+')
 vim.api.nvim_set_option('showmode', false)
 vim.api.nvim_set_option('shiftround', true)
 vim.api.nvim_set_option('spellsuggest', 'best,9')
+vim.api.nvim_set_option('completeopt', 'menuone,preview')
 
 local wildignorePatterns = table.concat({
     '*.aux',
