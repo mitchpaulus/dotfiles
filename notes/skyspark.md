@@ -133,3 +133,12 @@ different settings do.
    var directory and gets overwritten.
 5. Make backup of old var directory, copy over `var` directory from the
    old version.
+
+## KPI/Spark Rules
+
+[Documentation](https://skyfoundry.com/doc/lib-rule/doc)
+
+readAll(zone and air and temp and not sp).hisRead(2016-03).hisFindPeriods(x => x > 72°F).findAll(x => x["v0"] > 30min)
+
+
+
