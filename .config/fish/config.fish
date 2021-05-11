@@ -132,8 +132,12 @@ function g
 end
 
 function ev --description "Edit vimrc file"
-    if test -f "$HOME/.config/nvim/init.vim"
+    if test -e "$HOME/.config/nvim/init.vim"
         "$EDITOR" "$HOME/.config/nvim/init.vim"
+    else if  test -e "$HOME/.config/nvim/init.lua"
+        "$EDITOR" "$HOME/.config/nvim/init.lua"
+    else if  test -e "$HOME"/.vimrc
+        "$EDITOR" "$HOME"/.vimrc
     else
         printf "vimrc file not found.\n"
     end
