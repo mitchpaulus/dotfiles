@@ -226,6 +226,8 @@ insertModeNoRecurseMappings = {
 func_map(function(tbl) inmap(tbl[1], tbl[2]) end, insertModeNoRecurseMappings)
 
 vim.api.nvim_set_keymap("v", '<leader>y', '"+y', silent)
+vim.api.nvim_set_keymap("v", 'L', '$', silent)
+vim.api.nvim_set_keymap("v", 'H', '^', silent)
 
 local statusLineComponents = {
 	-- Used to put the mode, but if terminal can change cursor shape, it really isn't required.
