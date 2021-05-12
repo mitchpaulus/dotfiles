@@ -131,7 +131,7 @@ normalNoRecurseMappings = {
 	{ "K", "5k"  },
 	{ "J", "5j"  },
 	-- Need something to remap to join lines
-	{ 'gJ', 'J' },
+	{ 'gj', 'J' },
 
 	-- Quick mappings for the beginning and ends of lines
 	{ "H", "^" },
