@@ -61,8 +61,8 @@ if vim.fn.has('nvim-0.5.0') == 1 then
           buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
           buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 
-          -- Critical to have the noinsert and noselect option
-          vim.api.nvim_set_option('completeopt', 'menuone,noinsert,noselect')
+          -- Critical to have the noinsert option
+          vim.api.nvim_set_option('completeopt', 'menuone,noinsert')
 
           -- Set some keybinds conditional on server capabilities
           if client.resolved_capabilities.document_formatting then
