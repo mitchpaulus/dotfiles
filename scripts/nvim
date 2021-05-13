@@ -1,0 +1,7 @@
+# If a build of Neovim from source is found, use that.
+if test -f "$REPOS"/neovim/build/bin/nvim; then
+    env VIMRUNTIME="$REPOS"/neovim/runtime "$REPOS"/neovim/build/bin/nvim "$@"
+else
+    nvim "$@"
+fi
+# vim:ft=sh
