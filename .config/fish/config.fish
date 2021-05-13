@@ -244,13 +244,13 @@ end
 
 # ghcup-env
 set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX "$HOME"
-test -f "$HOME"/.ghcup/env ; and set -gx PATH "$HOME"/.cabal/bin /home/mitch/.ghcup/bin "$PATH"
+if test -f "$HOME"/.ghcup/env
+     __path_add "$HOME"/.cabal/bin
+     __path_add /home/mitch/.ghcup/bin
+ end
 #
 # Yet another version manager. nvm = node version manager.
 set -gx NVM_DIR "$HOME/.nvm"
 if test -s "$NVM_DIR/nvm.sh"; bash "$NVM_DIR/nvm.sh"; end
 
 # vim:ft=fish
-# ghcup-env
-set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME
-test -f /home/mitch/.ghcup/env ; and set -gx PATH $HOME/.cabal/bin /home/mitch/.ghcup/bin $PATH
