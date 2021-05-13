@@ -1,37 +1,39 @@
 -- Packages
--- From paq-nvim documentation
-vim.cmd 'packadd paq-nvim'         -- Load package
-local paq = require'paq-nvim'.paq  -- Import module and bind `paq` function
-paq { 'savq/paq-nvim', opt=true }  -- Let Paq manage itself
+vim.fn["plug#begin"]()
 
-paq 'altercation/vim-colors-solarized'
-paq 'arcticicestudio/nord-vim'
-paq 'ctrlpvim/ctrlp.vim'
-paq 'dag/vim-fish'
-paq 'dylon/vim-antlr'
-paq 'godlygeek/tabular'
-paq 'leafgarland/typescript-vim'
-paq 'lervag/vimtex'
-paq 'mboughaba/i3config.vim'
-paq 'mileszs/ack.vim'
-paq 'mitchpaulus/autocorrect.vim'
-paq 'mitchpaulus/energyplus-vim'
-paq 'mitchpaulus/neobem-vim'
-paq 'mitchpaulus/vim-andover-plain-english'
-paq 'mitchpaulus/vim-siemens-ppcl'
-paq 'nvim-lua/completion-nvim'
-paq 'PProvost/vim-ps1'
-paq 'qpkorr/vim-bufkill'
-paq 'scrooloose/nerdcommenter'
-paq 'scrooloose/nerdtree'
-paq 'sickill/vim-monokai'
-paq 'sjl/gundo.vim'
-paq 'tpope/vim-fugitive'
-paq 'tpope/vim-surround'
+vim.cmd [[ Plug 'altercation/vim-colors-solarized' ]]
+vim.cmd [[ Plug 'ctrlpvim/ctrlp.vim' ]]
+vim.cmd [[ Plug 'godlygeek/tabular' ]]
+vim.cmd [[ Plug 'lervag/vimtex' ]]
+vim.cmd [[ Plug 'qpkorr/vim-bufkill' ]]
+vim.cmd [[ Plug 'scrooloose/nerdcommenter' ]]
+vim.cmd [[ Plug 'scrooloose/nerdtree' ]]
+vim.cmd [[ Plug 'sickill/vim-monokai' ]]
+-- vim.cmd [[ Plug 'SirVer/ultisnips' ]]
+vim.cmd [[ Plug 'sjl/gundo.vim' ]]
+vim.cmd [[ Plug 'tpope/vim-fugitive' ]]
+vim.cmd [[ Plug 'tpope/vim-surround' ]]
+vim.cmd [[ Plug 'mboughaba/i3config.vim' ]]
+vim.cmd [[ Plug 'leafgarland/typescript-vim' ]]
+vim.cmd [[ Plug 'arcticicestudio/nord-vim' ]]
+vim.cmd [[ Plug 'mitchpaulus/autocorrect.vim' ]]
+vim.cmd [[ Plug 'mitchpaulus/energyplus-vim' ]]
+vim.cmd [[ Plug 'mitchpaulus/vim-andover-plain-english' ]]
+vim.cmd [[ Plug 'mitchpaulus/vim-siemens-ppcl' ]]
+vim.cmd [[ Plug 'mitchpaulus/neobem-vim' ]]
+vim.cmd [[ Plug 'nvim-lua/completion-nvim' ]]
+vim.cmd [[ Plug 'PProvost/vim-ps1' ]]
+vim.cmd [[ Plug 'dag/vim-fish' ]]
+vim.cmd [[ Plug 'dylon/vim-antlr' ]]
+vim.cmd [[ Plug 'mileszs/ack.vim' ]]
 
 if vim.fn.has('nvim-0.5.0') == 1 then
-    paq 'neovim/nvim-lspconfig'
+	vim.cmd [[ Plug 'neovim/nvim-lspconfig' ]]
+end
 
+vim.fn["plug#end"]()
+
+if vim.fn.has('nvim-0.5.0') == 1 then
     local function setupLsp()
         local nvim_lsp = require('lspconfig')
         local on_attach = function(client, bufnr)
@@ -93,8 +95,10 @@ if vim.fn.has('nvim-0.5.0') == 1 then
     end
 
     -- Wrap this up so we don't fail if we haven't installed the package yet.
-    pcall(setupLsp)
+    local status, err = pcall(setupLsp)
+    if not status then print(err) end
 end
+
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
