@@ -15,6 +15,10 @@ set -gx DOTFILES ~/dotfiles
 
 set -gx FILEMANAGER lf
 
+# Good ole U.S. of A.
+set -gx TEXLIVE_INSTALL_PAPER letter
+set -gx TEXLIVE_INSTALL_PREFIX "$HOME"/texlive
+
 if command -v exa >/dev/null 2>&1
     function ls --wraps exa
         exa $argv
@@ -56,11 +60,16 @@ function __path_add
 end
 
 __path_add "$DOTFILES"/scripts/
+__path_add "$TEXLIVE_INSTALL_PREFIX"/2021/bin/x86_64-linux
 __path_add /usr/local/texlive/2020/bin/x86_64-linux
 __path_add "$HOME/.gem/ruby/2.7.0/bin"
 __path_add "$HOME/.gem/ruby/3.0.0/bin"
 __path_add "$HOME/bin"
 __path_add "$HOME/.local/bin"
+
+set -gxp MANPATH "$TEXLIVE_INSTALL_PREFIX"/2021/texmf-dist/doc/man
+set -gxp INFOPATH "$TEXLIVE_INSTALL_PREFIX"/2021/texmf-dist/doc/man
+
 
 set -gx CLASSPATH ".:/usr/local/lib/antlr-4.8-complete.jar:$CLASSPATH"
 
