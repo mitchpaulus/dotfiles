@@ -47,13 +47,13 @@
 
 `sorted` function.
 
-```
+```python
 sorted(iterable, *, key=None, reverse=False)
 ```
 
 ## Math
 
-```
+```python
 import math
 math.exp(x)
 abs(x)
@@ -64,7 +64,7 @@ Set value to 'NaN': `float('NaN')`
 
 ## Unit Testing
 
-```
+```python
 import unittest
 
 class MyTest(unittest.TestCase):
@@ -88,7 +88,7 @@ Index like lists: `tuple = (item1, item2); tuple[0] == item1`
 
 Typing functions
 
-```
+```python
 def myfunction(input: type) -> return_type:
 ```
 
@@ -96,7 +96,7 @@ Use `None` as return type for "void" functions.
 
 Type Aliasing:
 
-```
+```python
 Vector = list[float]
 ```
 
@@ -121,7 +121,7 @@ String literals can be concatenated when next to each other `'string 1'`
 `'string 2'`
 
 ## Binary Operator Overloading
-```
+```python
 Binary Operators
 
 Operator           Method
@@ -233,7 +233,7 @@ prediction = regressor.predict(new_x)
 
 - Uses `numpy.array`s
 
-```
+```python
 fig, ax = plt.subplots()  # Create a figure containing a single axes.
 ax.plot([1, 2, 3, 4], [1, 4, 2, 3])  # Plot some data on the axes.
 plt.show()
@@ -245,7 +245,7 @@ fig.savefig('filename.ext', format='png')
 ## Virtual Environments
 
 - However, `pipenv` is now the suggested way to manage environments?
-```
+```sh
 python -m venv /path/to/proj/venv
 source /path/to/proj/venv/bin/activate    (or activate.fish if in fish shell)
 deactivate
@@ -332,7 +332,7 @@ Few places to check:
 ## JSON
 
 `import json`
-```
+```python
 # load from string
 python_obj = json.loads('[ "a string" ]')
 # from file
@@ -371,3 +371,16 @@ class ClassName:
 - `keys()`
 - `pop(key, [default])`: Can have exception.
 
+## String Operations
+
+`str.lower()`
+`str.endswith('example')`
+
+
+## OS operations
+
+```python
+os.mkdir('dirname')
+os.path.join('path/', 'file')
+os.remove('file')
+```

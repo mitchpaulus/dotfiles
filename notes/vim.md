@@ -21,7 +21,10 @@ General process is:
 1. Match things using `syntax keyword`, `syntax match`, or `syntax
    region`.
 
-2.
+2. Link to highlight groups `highlight link CustomGroup Known Group`
+
+3. `let b:current_syntax="newtype"` at the end of the file.
+
 
 ## Constantly Reload File for Demo
 

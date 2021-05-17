@@ -23,6 +23,7 @@ stuff}{pdf stuff - normally empty}` to get around the issue.
 - Update `tlmgr`: `[sudo] tlmgr update --self`
 - Update all packages: `[sudo] tlmgr update --all`
 - List what would be updated: `[sudo] tlmgr update --list`
+- Install package: `[sudo] tlmgr install [option...] pkg...`
 
 Based on my testing, `\maketitle{}` has to be after the abstract
 definition.
@@ -92,3 +93,16 @@ Normally goes:
 
 [Another link showing the pitfalls of trying to compile while using
 --output-directory option](https://tex.stackexchange.com/questions/12686/how-do-i-run-bibtex-after-using-the-output-directory-flag-with-pdflatex-when-f)
+
+
+### TexLive
+
+- Prefer to manually download and manage vs. using package manager.
+- Download `install-tl-xxxxxxx.tar.gz` file
+- Extract: `tar -xvf install-tl-xxxxxxx.tar.gz`
+- Probably best to install to user owned location.
+    - From [here](https://stackoverflow.com/a/29784261/5932184), can use
+      the two environment variables
+        - TEXLIVE_INSTALL_PREFIX=/home/user/texlive
+        - TEXLIVE_INSTALL_TEXDIR=/home/user/texlive/YYYY
+

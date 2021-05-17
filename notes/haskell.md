@@ -23,3 +23,12 @@
 - [Chris Martin blog](https://chris-martin.org/)
 - [Their book](https://joyofhaskell.com/)
 - [Another book: Haskell from first principles](https://www.goodreads.com/book/show/25587599-haskell-programming-from-first-principles)
+
+## 'as-patterns'
+
+Can use an '@' symbol in pattern matching. [This is useful if you want
+to "decompose" a parameter into it's parts while still needing the
+parameter as a whole somewhere in your
+function.](https://stackoverflow.com/a/1153609/5932184)
+
+
