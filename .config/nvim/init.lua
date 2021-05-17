@@ -102,8 +102,8 @@ end
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
-vim.g.markdown_fenced_languages = { 'python', 'gnuplot', 'vim', 'sh', 'vim' }
-vim.g.markdown_syntax_conceal = 1
+vim.g.markdown_fenced_languages = { 'python', 'gnuplot', 'vim', 'sh', 'vim', 'axon', 'lua' }
+vim.g.markdown_syntax_conceal = 0
 
 silent = { silent = true, noremap = true }
 
@@ -259,6 +259,7 @@ vim.api.nvim_set_option('listchars', 'tab:▸ ,eol:¬,trail:-,nbsp:+')
 vim.api.nvim_set_option('showmode', false)
 vim.api.nvim_set_option('shiftround', true)
 vim.api.nvim_set_option('spellsuggest', 'best,9')
+-- Remove the noinsert option if we aren't in LSP mode.
 vim.api.nvim_set_option('completeopt', 'menuone,preview')
 
 local wildignorePatterns = table.concat({
@@ -317,7 +318,6 @@ settings = {
 -- set guioptions-=e
 -- set guioptions-=L
 -- set guioptions-=R
--- set completeopt=menuone,noinsert,longest
 -- set shortmess+=c
 	-- set grepprg=rg\ --vimgrep
     -- set renderoptions=type:directx

@@ -452,8 +452,8 @@ endfunction
 " General Settings/Options {{{1
 "Custom Status Line
 "
-let g:markdown_fenced_languages = ['python', 'gnuplot', 'vim', 'sh', 'vim']
-let g:markdown_syntax_conceal = 1
+let g:markdown_fenced_languages = ['python', 'gnuplot', 'vim', 'sh', 'vim', 'axon', 'lua']
+let g:markdown_syntax_conceal = 0
 
 let g:basestatusline='%F%=%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding}'
 
@@ -490,7 +490,7 @@ set guioptions-=e
 set guioptions-=L
 set guioptions-=R
 
-set completeopt=menuone,noinsert,longest
+set completeopt=menu,menuone,noinsert
 set shortmess+=c
 
 " Concealed text is completely hidden unless it has a custom replacement character defined
