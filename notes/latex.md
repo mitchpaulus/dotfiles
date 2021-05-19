@@ -30,7 +30,7 @@ definition.
 
 ## Abstract
 
-```latex
+```tex
 \begin{abstract}
 
 \end{abstract}
@@ -39,7 +39,7 @@ definition.
 
 ## Fonts
 
-```latex
+```tex
 \usepackage{fontspec}
 \setmonofont{fontname}[Scale=0.8]
 ```
@@ -105,4 +105,25 @@ Normally goes:
       the two environment variables
         - TEXLIVE_INSTALL_PREFIX=/home/user/texlive
         - TEXLIVE_INSTALL_TEXDIR=/home/user/texlive/YYYY
+
+## Remove page numbering
+
+```tex
+\pagestyle{empty}
+\thispagestyle{empty} % For single page
+```
+## Colors
+
+```tex
+\definecolor{mypink1}{rgb}{0.858, 0.188, 0.478}
+\definecolor{mypink2}{RGB}{219, 48, 122}
+\definecolor{mypink3}{cmyk}{0, 0.7808, 0.4429, 0.1412}
+\definecolor{mygray}{gray}{0.6}
+```
+
+## Font Sizes
+
+```tex
+\tiny \scriptsize \footnotesize \small \normalsize \large \Large \LARGE \huge \Huge
+```
 
