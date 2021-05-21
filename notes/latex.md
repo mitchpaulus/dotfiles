@@ -71,12 +71,24 @@ biber and biblatex are the newer programs. Key features for `biber`:
 1. @STRING { identifier = "Value" }
 2. @PREAMBLE { ? }
 3. @COMMENT { "Any comment" }
-4. @entry { tags = "values", ... }
+4. @entry {id, tags = "values", ... }
 
 **Tags**
 
 - Case insensitive
 - Can surround with either curly braces or quotations. Escape either of these with '\' if required.
+
+### `biber` and `biblatex` with `elsarticle`
+
+[See answer here](https://tex.stackexchange.com/a/511500/237947). Use
+`nonatbib` option for `elsarticle`, like
+
+```tex
+\documentclass[nonatbib]{elsarticle}
+\makeatletter
+\let\c@author\relax
+\makeatother
+```
 
 ### Biblatex compilation
 
@@ -86,6 +98,12 @@ Normally goes:
    compilation if the `biblatex` package is used.
 2. `biber <basename>`
 3. `pdflatex` or `lualatex`, etc. until convergence.
+
+
+### Bibtex gotchas
+
+Had non ASCII characters in the .bib file on accident. `bibtex` does not
+gracefully handle this situation.
 
 ### Basic compilation steps
 
@@ -127,3 +145,7 @@ Normally goes:
 \tiny \scriptsize \footnotesize \small \normalsize \large \Large \LARGE \huge \Huge
 ```
 
+## Relax
+
+`\relax` is a single token, a noop. Used often to stop expansion of
+another command.
