@@ -38,12 +38,12 @@
             "cursorColor" : "#FFFFFF",
             "cursorShape" : "filledBox",
             "fontFace" : "Iosevka",
-            "fontSize" : 14,
+            "fontSize" : 12,
             "guid" : "{2c4de342-38b7-51cf-b940-2309a097f518}",
             "historySize" : 9001,
             "icon" : "ms-appx:///ProfileIcons/{9acb9455-ca41-5af7-950f-6bca1bc9722f}.png",
             "name" : "Ubuntu",
-            "padding" : "20, 20",
+            "padding" : "10, 10",
             "useAcrylic": true,
             "experimental.retroTerminalEffect": false
         },
@@ -282,23 +282,27 @@
     // Add custom keybindings to this array.
     // To unbind a key combination from your defaults.json, set the command to "unbound".
     // To learn more about keybindings, visit https://aka.ms/terminal-keybindings
-    "keybindings":
+    "actions":
     [
-
         // No op a few existing key bindings.
         { "command": null, "keys": [ "ctrl+shift+w" ] },
         { "command": null, "keys": [ "alt+down" ] },
         { "command": null, "keys": [ "alt+left" ] },
         { "command": null, "keys": [ "alt+right" ] },
         { "command": null, "keys": [ "alt+up" ] },
-        // Copy and paste are bound to Ctrl+Shift+C and Ctrl+Shift+V in your defaults.json.
-        // These two lines additionally bind them to Ctrl+C and Ctrl+V.
-        // To learn more about selection, visit https://aka.ms/terminal-selection
-        { "command": {"action": "copy", "singleLine": false }, "keys": "ctrl+c" },
-        { "command": "paste", "keys": "ctrl+v" },
 
-        // Press Ctrl+Shift+F to open the search box
-        { "command": "find", "keys": "ctrl+shift+f" },
+        // Make Windows Terminal match tmux settings
+        { "command": "newTab", "keys": "alt+enter" },
+        { "command": { "action": "splitPane", "split": "auto", "splitMode": "duplicate" }, "keys": "alt+;" },
+        { "command": { "action": "splitPane", "split": "horizontal", "splitMode": "duplicate" }, "keys": "alt+-" },
+        { "command": { "action": "moveFocus", "direction": "down" }, "keys": "alt+j" },
+        { "command": { "action": "moveFocus", "direction": "left" }, "keys": "alt+h" },
+        { "command": { "action": "moveFocus", "direction": "right" }, "keys": "alt+l" },
+        { "command": { "action": "moveFocus", "direction": "up" }, "keys": "alt+k" },
+        { "command": { "action": "moveFocus", "direction": "previous" }, "keys": "ctrl+alt+left" },
+        { "command": "nextTab", "keys": "alt+n" },
+        { "command": "prevTab", "keys": "alt+p" },
+        { "command": "closePane", "keys": "alt+o" },
 
         // Press Alt+Shift+D to open a new pane.
         // - "split": "auto" makes this pane open in the direction that provides the most surface area.
