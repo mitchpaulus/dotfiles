@@ -17,6 +17,7 @@ vim.cmd [[ Plug 'mboughaba/i3config.vim' ]]
 vim.cmd [[ Plug 'leafgarland/typescript-vim' ]]
 vim.cmd [[ Plug 'arcticicestudio/nord-vim' ]]
 vim.cmd [[ Plug 'mitchpaulus/autocorrect.vim' ]]
+vim.cmd [[ Plug 'mitchpaulus/axon-vim' ]]
 vim.cmd [[ Plug 'mitchpaulus/energyplus-vim' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-andover-plain-english' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-siemens-ppcl' ]]
@@ -102,7 +103,7 @@ end
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
-vim.g.markdown_fenced_languages = { 'python', 'gnuplot', 'vim', 'sh', 'vim', 'axon', 'lua' }
+vim.g.markdown_fenced_languages = { 'python', 'gnuplot', 'vim', 'sh', 'vim', 'axon', 'lua', 'tex' }
 vim.g.markdown_syntax_conceal = 0
 
 silent = { silent = true, noremap = true }
