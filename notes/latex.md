@@ -42,6 +42,7 @@ definition.
 ```tex
 \usepackage{fontspec}
 \setmonofont{fontname}[Scale=0.8]
+\setmainfont{fontname.otf} % Load from file
 ```
 
 I don't think Latex has the concept of setting a different font size

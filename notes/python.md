@@ -328,6 +328,11 @@ Few places to check:
 
 ## `requests`
 
+```python
+import requests
+
+
+```
 
 ## JSON
 
