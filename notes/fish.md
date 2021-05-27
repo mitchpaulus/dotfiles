@@ -29,3 +29,9 @@ Substring: `string sub -s start -e end -l length <string>`
 
 
 Length: `string length <string>`
+
+## Process Substitution
+
+```fish
+sort (command | psub) (command2 | psub)
+```
