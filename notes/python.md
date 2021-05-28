@@ -32,8 +32,8 @@
 - lambda syntax, `lambda var1, var2: expression`
 
 - Write to File:
-     ```
-     with open('Path') as file:
+     ```python
+     with open('Path', 'wt') as file:
         file.write(string_var)
      ```
 
@@ -361,6 +361,8 @@ class ClassName:
 
 ## Dictionaries
 
+[Data Structures Documentation](https://docs.python.org/3.8/tutorial/datastructures.html)
+
 - `list(d)`: return list of keys
 - `len(d)`: return number of keys
 - `d[key]`: get value for key, exception if doesn't exist
@@ -375,6 +377,7 @@ class ClassName:
   explicit default given.
 - `keys()`
 - `pop(key, [default])`: Can have exception.
+- `d.items()`: returns iterable of key, value tuples
 
 ## String Operations
 
@@ -388,4 +391,10 @@ class ClassName:
 os.mkdir('dirname')
 os.path.join('path/', 'file')
 os.remove('file')
+```
+
+## Check type of object
+
+```python
+print(type(my_object))
 ```
