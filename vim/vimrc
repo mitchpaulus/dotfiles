@@ -388,7 +388,7 @@ nnoremap <F10> :<C-u>set paste<CR>"+P:set nopaste<CR>
 
 " Open and close parenthesis. Idea from:
 " http://xahlee.info/kbd/best_way_to_insert_brackets.html
-inoremap <C-j> ()<Left>
+inoremap <C-j> <Esc>/<++><CR>cgn
 
 " [S]ession [w]rite
 nnoremap <leader>sw :mksession! ~/defaultsession.vim<cr>
