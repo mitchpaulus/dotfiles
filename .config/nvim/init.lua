@@ -359,6 +359,11 @@ filetypeAutocmds = {
 	{ 'antlr4', 'nnoremap', '<localleader>c', ':!antlr4 %<CR>' },
 	{ 'antlr4', 'nnoremap', '<localleader>j', ':!antlrj<Space>%<CR>', },
 
+    { 'axon', 'inoremap', '<localleader>do', 'do<CR>end<Esc>ko' },
+    { 'axon', 'inoremap', '<localleader>ll', '() =><Esc>3hi' },
+    { 'axon', 'inoremap', '<localleader>ld', 'do<CR><CR>end<Esc>2k$F)i' },
+    { 'axon', 'inoremap', '<localleader>if', 'if () <++> else <++><Esc>F)i' },
+
 	-- make a header 1 line, deleting trailing whitespace first.
 	--{ 'markdown', 'nnoremap', '<silent>', '<leader>h1 :<c-u>call<Space><SID>MakeHeading("=")<cr>', },
 	--{ 'markdown', 'nnoremap', '<silent>', '<leader>h2 :<c-u>call<Space><SID>MakeHeading("-")<cr>', },
