@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Commit updated notes
+
+git add 'notes/*.md' && \
+git commit -m "Update notes" && \
+git push
