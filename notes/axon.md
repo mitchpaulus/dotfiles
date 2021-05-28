@@ -68,10 +68,10 @@ diff(orig, {dis:"New Dis", -oldTag})
 // set/add val tag transiently
 diff(orig, {val:123}, {transient})
 
-diff :: orig_dict -> dict -> flag_dict
-diff :: orig, changes, flags
+// diff :: orig_dict -> dict -> flag_dict
+// diff :: orig, changes, flags
 
-flag_dict :: dict with 'add', 'remove', 'transient', or 'force' tags
+// flag_dict :: dict with 'add', 'remove', 'transient', or 'force' tags
 ```
 
 ## List Functions
