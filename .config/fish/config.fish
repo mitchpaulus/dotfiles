@@ -142,6 +142,15 @@ function g
     cd (fzf -1 < ~/.config/goto/dirs.txt | awk -F "	" '$1')
 end
 
+function eil --description "[E]dit [i]nit.[l]ua"
+    set init_file  "$DOTFILES/.config/nvim/init.lua"
+    if test -e "$init_file"
+        "$EDITOR" "$init_file"
+    else
+        printf "%s not found.\n" "$init_file"
+    end
+end
+
 function ev --description "Edit vimrc file"
     if test -e "$HOME/.config/nvim/init.vim"
         "$EDITOR" "$HOME/.config/nvim/init.vim"
