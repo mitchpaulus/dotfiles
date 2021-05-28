@@ -101,6 +101,8 @@ end
 function r
     if test -n "$REPOS"
         "$FILEMANAGER" "$REPOS"
+    else
+        printf "The environment variable REPOS is not set\n"
     end
 end
 
