@@ -699,6 +699,11 @@ autocmd!
 autocmd FileType antlr4 nnoremap <localleader>c :!antlr4 %<CR>
 autocmd FileType antlr4 nnoremap <localleader>j :!antlrj %<CR>
 
+autocmd FileType axon inoremap <localleader>do do<CR>end<Esc>ko
+autocmd FileType axon inoremap <localleader>ll () =><Esc>3hi
+autocmd FileType axon inoremap <localleader>ld () => do<CR><CR>end<Esc>2k$F)i
+autocmd FileType axon inoremap <localleader>if if () <++> else <++><Esc>F)i
+
 " make a header 1 line, deleting trailing whitespace first.
 autocmd FileType markdown nnoremap <silent> <leader>h1 :<c-u>call <SID>MakeHeading("=")<cr>
 autocmd FileType markdown nnoremap <silent> <leader>h2 :<c-u>call <SID>MakeHeading("-")<cr>
