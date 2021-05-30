@@ -59,6 +59,12 @@ function __path_add
     end
 end
 
+function add_date
+    commandline -i (date '+%Y-%m-%d')
+end
+
+bind \ed add_date
+
 __path_add "$DOTFILES"/scripts/
 __path_add "$TEXLIVE_INSTALL_PREFIX"/2021/bin/x86_64-linux
 __path_add /usr/local/texlive/2020/bin/x86_64-linux
