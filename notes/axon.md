@@ -225,7 +225,6 @@ g.removeCols(["area"])                     >> remove a list of columns
 g.keepCols(["dis"])                        >> remove all cols except given list
 g.addRow({dis:"Site-D", area: 4000ft²})    >> add new row to end of grid
 g.addRows([{dis:"Site-D"},{dis:"Site-E"}]) >> add list of new rows to grid
-
 ```
 
 ## Folds
@@ -326,7 +325,7 @@ grammar: https://skyfoundry.com/doc/docHaystack/Filters
 
 `try`, `catch`, `throw`
 
-```
+```axon
 throw {dis:"deep doo-doo!"}  // as dict
 throw "deep doo-doo!"        // convenience for above
 ```
