@@ -31,4 +31,10 @@ to "decompose" a parameter into it's parts while still needing the
 parameter as a whole somewhere in your
 function.](https://stackoverflow.com/a/1153609/5932184)
 
+## Strings
 
+Pretty much go to `Data.Text` right way when dealing with text.
+
+```haskell
+import qualified Data.Text as T
+```
