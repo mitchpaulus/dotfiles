@@ -63,9 +63,15 @@ function add_date
     commandline -i (date '+%Y-%m-%d')
 end
 
+function fish_underscore_command
+    commandline (underscore_files (commandline))
+end
+
 bind \ed add_date
+bind \eu fish_underscore_command
 
 __path_add "$DOTFILES"/scripts/
+__path_add "$DOTFILES"/haskell
 __path_add "$TEXLIVE_INSTALL_PREFIX"/2021/bin/x86_64-linux
 __path_add /usr/local/texlive/2020/bin/x86_64-linux
 __path_add "$HOME/.gem/ruby/2.7.0/bin"
