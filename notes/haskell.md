@@ -1,5 +1,7 @@
 # Haskell
 
+[Learn X in Y for Haskell](https://learnxinyminutes.com/docs/haskell/)
+
 ## IO
 
 - Get command line arguments: `getArgs` from `System.Environment`
@@ -7,6 +9,8 @@
 
 
 ## Records
+
+- data Record = Record { field :: Type, field2 :: Type }
 
 - Update record field `variable { singleField = something }`
 
@@ -38,3 +42,5 @@ Pretty much go to `Data.Text` right way when dealing with text.
 ```haskell
 import qualified Data.Text as T
 ```
+
+
