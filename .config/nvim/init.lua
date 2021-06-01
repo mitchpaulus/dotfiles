@@ -179,8 +179,8 @@ normalNoRecurseMappings = {
 	-- Clear the previous search (c[lear] h[ighlight])
 	{ '<leader>ch', ':nohlsearch<CR>' },
 
-	{ 'ev', ':<C-u>edit $MYVIMRC<CR>' },
-	{ 'sv', ':<C-u>luafile $MYVIMRC<CR>' },
+	{ '<leader>ev', ':<C-u>edit $MYVIMRC<CR>' },
+	{ '<leader>sv', ':<C-u>luafile $MYVIMRC<CR>' },
 
 	{ '<C-n>', ':bnext<CR>' },
 }
