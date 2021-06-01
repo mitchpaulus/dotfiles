@@ -20,6 +20,8 @@
     - `%~t1` - Expands `%1` to date and time of file.
     - `%~z1` - Expands `%1` to size of the file.
 
-
+- Shutdown/Restart
+    - `shutdown /s`: Shutdown
+    -  `shutdown /r`: Restart
 
 
