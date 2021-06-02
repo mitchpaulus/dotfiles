@@ -10,3 +10,9 @@ by default.
 {.} path without file extension
 {/.} basename without file extension
 ```
+
+```
+-d, --max-depth <depth>
+-t, --type <type>  f, d, l, x, e (empty)
+-x, --exec <cmd>
+```
