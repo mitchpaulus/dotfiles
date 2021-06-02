@@ -9,4 +9,10 @@ EOF
 exit 0
 fi
 
-cut -d '	' -f "$1" "$2"
+if test "$#" -le 2; then
+    # Use standard input
+    cut -d '	' -f "$1" -
+else
+    # Use file
+    cut -d '	' -f "$1" "$2"
+fi
