@@ -195,6 +195,10 @@ function ag
     pwd >> ~/.config/goto/dirs.txt
 end
 
+function al --description "Get .autocorrect length"
+    wc -l ~/.autocorrect
+end
+
 function i --description 'Edit idf files'
     "$EDITOR" *.idf
 end
