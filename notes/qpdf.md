@@ -19,7 +19,7 @@ Can use `ldd` command to check whether things link correctly.
 
 Used like:
 
-```
+```sh
 ldd /usr/local/bin/qpdf
 ```
 
@@ -30,7 +30,7 @@ After rechecking these paths that were listed in the
 [this post](https://stackoverflow.com/a/47929012/5932184), which
 mentioned running
 
-```
+```sh
 sudo ldconfig
 ```
 
@@ -44,12 +44,12 @@ Print number of pages in PDF: `qpdf --show-npages file.pdf`
 
 Get useful document information in JSON form:
 
-```
+```sh
 qpdf --json [--json-key=key]
 ```
 
 Get bookmark details:
-```
+```sh
 qpdf --json --json-key=outlines
 ```
 
@@ -57,7 +57,7 @@ Concatenate pages from multiple pdfs:
 
 Page selection:
 
-```
+```sh
 --pages input-file [ --password=password ] [ page-range ] [ ... ] --
 ```
 
@@ -67,3 +67,11 @@ Concatenate all pages of PDFs:
 qpdf --empty out.pdf --pages *.pdf --
 ```
 
+## Joining various pages from separate files
+
+Note that only *one* `--pages` option should be given, terminated with
+a `--`.
+
+```sh
+qpdf --pages file1.pdf 1-2 file2.pdf 3-4 -- --empty output.pdf
+```
