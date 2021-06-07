@@ -472,6 +472,8 @@ filetypeAutocmds = {
 	{ 'neobem', 'inoremap', '<localleader>r', '<  ><Esc>hi', },
 	{ 'neobem', 'inoremap', '<localleader>c', '✓', },
 
+    { 'python', 'inoremap' '<localleader>wo', 'with open('') as file:<Esc>F\'i' },
+
 	{ 'python,nbem', 'iabbrev', 'improt', 'import', },
 
 	{ 'compass', 'inoremap', '<localleader>b', '<!-- Compass:  --><CR><CR><!-- Compass --><Esc>2k0f:la', },
