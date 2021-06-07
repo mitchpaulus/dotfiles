@@ -52,6 +52,14 @@ function fish_prompt
     end
 end
 
+function fish_greeting
+    if command -v random_remind >/dev/null 2>&1
+        random_remind
+    else
+        printf '%s\n' "$fish_greeting"
+    end
+end
+
 function __path_add
     # If the directory exists and isn't in the path, add it.
     if not contains $argv[1] $PATH; and test -d $argv[1]
