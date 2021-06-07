@@ -322,8 +322,7 @@ Few places to check:
 - [VM options](https://www.jetbrains.com/help/pycharm/working-with-consoles.html):
   - Add `-Dconsole.encoding=UTF-8` to `PYCHARM_HOME/bin/pycharm.exe.vmoptions` or `PYCHARM_HOME/bin/pycharm.vmoptions`
   - Can get there from Help -> Edit Custom VM Options
-- Set File encodings in general settings: File | Settings | File
-  Encodings
+- Set File encodings in general settings: File | Settings | File Encodings
 - Make sure to explicitly open files with desired encoding: `open("file", encoding='utf-8')`
 
 ## `requests`
@@ -379,10 +378,45 @@ class ClassName:
 - `pop(key, [default])`: Can have exception.
 - `d.items()`: returns iterable of key, value tuples
 
+## Sets
+
+```python
+myset = { 1, 2, 3 }
+3 in myset
+
+len(s)
+x in s
+x not in s
+isdisjoint(other_set)
+issubset(other_set) or set <= other_set
+set < other # Proper subset set <= other_set and set != other_set
+issuperset(other_set) or set >= other_set
+set > other # Proper superset set >= other_set and set != other_set
+s.union(*other_sets) or set | other_set | ...
+s.intersection(*other_sets) or set & other_set & ...
+s.difference(*other_sets) or set - other_set - ...
+s.symmetric_difference(other_sets) or set ^ other_set
+s.copy()
+
+## Mutability
+
+s.update(*other_sets) or |= operator
+s.intersection_update(*other_sets) or &= operator
+s.difference_update(*other_sets) or -= operator
+s.symmetric_difference_update(other_set) or ^- operator
+
+s.add(element)
+s.remove(element) # exception if not in set
+s.discard(element)
+s.pop()
+s.clear()
+```
+
 ## String Operations
 
 `str.lower()`
 `str.endswith('example')`
+`str.strip()`
 
 
 ## OS operations
