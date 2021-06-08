@@ -19,3 +19,6 @@ scripts/printmath
 # fzf added files
 fzf_key_bindings.fish
 .config/fish/functions/fish_user_key_bindings.fish
+
+haskell/linear_reset_excel
+haskell/underscore_files
