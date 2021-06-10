@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+
+# Inspired by: https://unix.stackexchange.com/a/359838/296724
+# Why use python? Because I don't have time to deal with RFC 4180 subtlities
+# right now. May add some command line argument ability someday.
+#
+# Use with standard input.
+#
+# csv2tsv < file.csv
+# program | csv2tsv
+
+import csv
+import sys
+
+reader = csv.reader(sys.stdin)
+writer = csv.writer(sys.stdout, dialect="excel-tab")
+writer.writerows(reader)
