@@ -93,6 +93,8 @@ set -gxp INFOPATH "$TEXLIVE_INSTALL_PREFIX"/2021/texmf-dist/doc/man
 
 set -gx CLASSPATH ".:/usr/local/lib/antlr-4.8-complete.jar:$CLASSPATH"
 
+set -gx AWKPATH ".:/usr/local/share/awk:$DOTFILES/awk_functions"
+
 set -gx DOTREMINDERS ~/.config/remind/remind.rem
 
 set -gx FZF_DEFAULT_OPTS '--reverse --margin 10% --border'
