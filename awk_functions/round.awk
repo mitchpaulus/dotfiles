@@ -24,3 +24,9 @@ function round(x,   ival, aval, fraction)
          return ival
    }
 }
+
+# Ceiling
+function ceil(x,         ival) {
+    ival = int(x)
+    return ival == x ? ival : ival + 1
+}
