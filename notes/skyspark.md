@@ -141,4 +141,35 @@ different settings do.
 readAll(zone and air and temp and not sp).hisRead(2016-03).hisFindPeriods(x => x > 72°F).findAll(x => x["v0"] > 30min)
 
 
+## What is a "Symbol" type?
+
+From [here](https://skyfoundry.com/doc/haystack/Symbol)
+
+> Symbol is a name to a def in the meta-model namespace
+
+## Rule Debugging
+
+[Rule debugging help](https://skyfoundry.com/doc/docAppNotes/DebuggingSystemPerformance#ruleDebugDetailsExplained).
+
+Folio Cache symbols
+ - ⚫ Hit: rule function returned a non-null dict result
+ - ⚪ Miss: rule function returned null result
+ - ❌ Err: rule function raised an exception
+ - ? Unknown: rule function has not been run yet
+
+
+ ## Important PPTX Sections
+
+ - Spark Rules (slide 86)
+
+ ## Programmatically update rule cache
+
+ See [here](https://skyfoundry.com/forum/topic/2021).
+
+ `sparkRecompute` will all nulls:
+ ```axon
+sparkRecompute(null, null, null)
+// or
+sparkRebuildCache()
+ ```
 

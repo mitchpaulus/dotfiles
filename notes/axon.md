@@ -330,3 +330,14 @@ throw {dis:"deep doo-doo!"}  // as dict
 throw "deep doo-doo!"        // convenience for above
 ```
 
+## Spark Rules
+
+Important reminders:
+
+- `hisFindPeriods` only takes into account the *first* column of a
+  history grid. So will typically need to use a interpolate into a `map`
+  function first.
+
+- Can use the built in function `matchPointVal` to help convert
+  non-boolean values to booleans.
+
