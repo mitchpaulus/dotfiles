@@ -12,9 +12,15 @@ split(string, array, [fieldsep], [seps]) = Num Elements
 %[N$][-][ ][+][#][0]['][width][.prec][a||c|d|e|f|F|g|G|o|s||u|x]
 ```
 
-## AWKPATH
+## AWKPATH (gawk)
 
 Can use `AWKPATH` environment variable to easily specify files on the
 command line. This can be used to easily load library's of functions.
 
 Default value is `.:/usr/local/share/awk`
+
+Use like:
+```awk
+@include "file.awk"
+```
+

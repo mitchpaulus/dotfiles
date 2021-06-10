@@ -35,3 +35,8 @@ Length: `string length <string>`
 ```fish
 sort (command | psub) (command2 | psub)
 ```
+
+## History
+
+`fish` doesn't provide any history settings - it stores up to 256k
+*unique* history items. [See GitHub Issue #2674](https://github.com/fish-shell/fish-shell/issues/2674)
