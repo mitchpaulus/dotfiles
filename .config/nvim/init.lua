@@ -473,6 +473,7 @@ filetypeAutocmds = {
 	{ 'neobem', 'inoremap', '<localleader>c', '✓', },
 
     { 'python', 'inoremap' '<localleader>wo', 'with open('') as file:<Esc>F\'i' },
+    { 'python', 'inoremap' '<localleader>im', 'if __name__ == "__main__":<Cr>' },
 
 	{ 'python,nbem', 'iabbrev', 'improt', 'import', },
 
