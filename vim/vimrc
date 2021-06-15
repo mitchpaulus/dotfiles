@@ -81,6 +81,9 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 
+  -- Critical to have the noinsert option
+  vim.api.nvim_set_option('completeopt', 'menuone,noinsert')
+
   -- Set some keybinds conditional on server capabilities
   if client.resolved_capabilities.document_formatting then
     buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
@@ -491,7 +494,7 @@ set guioptions-=e
 set guioptions-=L
 set guioptions-=R
 
-set completeopt=menu,menuone,noinsert
+set completeopt=menuone,preview
 set shortmess+=c
 
 " Concealed text is completely hidden unless it has a custom replacement character defined
