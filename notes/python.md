@@ -100,6 +100,16 @@ Type Aliasing:
 Vector = list[float]
 ```
 
+Other examples:
+
+```python
+Callable[[input_type1, input_type2], return_type]  # For function typing
+arg: int = 1  # Variable typing python 3.6+
+a: int  # Don't need to initialize to type
+```
+
+Also see [mypy documentation](https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html)
+
 ## String Formatting
 https://docs.python.org/3/library/string.html#format-string-syntax
 https://docs.python.org/3/library/string.html#formatspec
@@ -358,6 +368,7 @@ class ClassName:
         <Statements>...
 ```
 
+
 ## Dictionaries
 
 [Data Structures Documentation](https://docs.python.org/3.8/tutorial/datastructures.html)
@@ -431,4 +442,16 @@ os.remove('file')
 
 ```python
 print(type(my_object))
+```
+
+## Variable Scoping
+
+"LEGB" rule - Python searches namespaces going up from Local, Enclosing,
+Global, to Built in.
+
+## Read Standard Input
+
+```python
+import sys
+lines = sys.stdin.readlines()
 ```

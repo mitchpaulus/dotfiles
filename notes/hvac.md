@@ -111,4 +111,7 @@ Miles ASHRAE Journal, Feb 2021, Pg. 14.
       avoiding the "saturation region" in which more flow results in
       little additional heat transfer.
 
+## COP to kW/ton
+
+COP = 3.516 / (kW/ton)
 
