@@ -28,7 +28,7 @@ BEGIN {
 
     # Loop over lines of the template
     for (i = 1; i <= n; i++) {
-        temp = form[i]
+        template_line = form[i]
 
         # Go backwards, in case there are multiple digit substiuttions.
         # Example, if you did #1 befor #10, you'd be left with the #1
@@ -37,17 +37,17 @@ BEGIN {
             # Clean commas from substitution (this is for numbers like 1,000)
             #gsub(/,/, "", $j)
 
-            gsub("#" j, $j, temp)
+            gsub("#" j, $j, template_line)
         }
 
-        if ($0 ~ /FILENAME/) {
-            split($0, split_filename, "\t")
+        if (template_line ~ /FILENAME/) {
+            split(template_line, split_filename, "\t")
             filename = split_filename[2]
-            next
+            continue
         }
 
-        if (filename == "") { print temp }
-        else { print temp > filename }
+        if (filename == "") { print template_line }
+        else { print template_line > filename }
     }
 
     close(filename)
