@@ -7,3 +7,10 @@
 3. The default profile should load.
 4. Make changes, save to profile.
 5. End program, take out USB and put it back in.
+
+## Program
+
+[link](http://amazonfiles.s3.amazonaws.com/smkd72.rar)
+
+Can search for 'smkd72' folder to try to find program if downloaded
+previously.

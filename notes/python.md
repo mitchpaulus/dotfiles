@@ -192,9 +192,19 @@ Operator          Method
 
 ## Module Loading
 
-- https://leemendelowitz.github.io/blog/how-does-python-find-packages.html
+My frustration with the Python module loading system cannot be
+understated. Example: [Importing files from different
+folder](https://stackoverflow.com/q/4383571/5932184). Viewed 2 MILLION
+TIMES. By default, you CAN'T and are forced to play games with the path.
 
-Python searches directories in `sys.path`. Can check current value
+- https://leemendelowitz.github.io/blog/how-does-python-find-packages.html
+- [https://realpython.com/absolute-vs-relative-python-imports/#a-quick-recap-on-imports](https://realpython.com/absolute-vs-relative-python-imports/#a-quick-recap-on-imports)
+
+In order:
+
+1. From above, Python first searches `sys.modules`, cache of previous imported modules
+2. Searches through list of built in modules
+3.  Python searches directories in `sys.path`. Can check current value
 using:
 
 ```python
@@ -223,6 +233,9 @@ the settings, see
 
 From [here](https://packaging.python.org/guides/tool-recommendations/),
 `Pipenv` is hot new thing for managing packages for a project.
+
+Packages = a folder with python files
+Modules  = a file with a .py extension (or it's built-in or is in C and dynamically loaded).
 
 ## Linear Regression
 
@@ -454,4 +467,13 @@ Global, to Built in.
 ```python
 import sys
 lines = sys.stdin.readlines()
+```
+
+## Date and Time operations
+
+`datetime` module.
+
+```python
+from datetime import time
+my_time = time(11, 37)
 ```

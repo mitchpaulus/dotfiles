@@ -9,8 +9,9 @@ split(string, array, [fieldsep], [seps]) = Num Elements
 ## `printf`
 
 ```
-%[N$][-][ ][+][#][0]['][width][.prec][a||c|d|e|f|F|g|G|o|s||u|x]
+%[N$][-][ ][+][#][0]['][width][.prec][(a|A)|c|(d|i)|e|f|F|g|G|o|s||u|x]
 ```
+
 
 ## AWKPATH (gawk)
 
@@ -24,3 +25,10 @@ Use like:
 @include "file.awk"
 ```
 
+## Time
+
+```awk
+mktime("YYYY MM DD HH MM SS [DST]", [utc-flag]) # Returns Unix time, seconds since 1970
+strftime("format", [unix_timestamp], [utc-flag]) # Return formatted time
+systime() # Return current Unix time
+```
