@@ -76,3 +76,38 @@ function woy(year, month, day,           day_of_week, day_of_the_year, days_in_f
     # The plus 1 is for the first partial week.
     return remaining_number_of_weeks + 1
 }
+
+function mdy_to_ymd(date_string,                split_date) {
+    split(date_string, split_date, "/")
+    return (split_date[3] "-" sprintf("%02d", split_date[1]) "-" sprintf("%02d", split_date[2]))
+}
+
+function year(iso_date_string) {
+    return substr(iso_date_string, 1, 4)
+}
+
+function month(iso_date_string) {
+    return substr(iso_date_string, 6, 2)
+}
+
+function day(iso_date_string) {
+    return substr(iso_date_string, 9, 2)
+}
+
+function iso_date_to_unix(iso_date_string) {
+    return mktime(year(iso_date_string) " " month(iso_date_string) " " day(iso_date_string) "00 00 00")
+}
+
+function add_month(year, month, to_add,           adj_year, adj_month, month_num, new_year, new_month, returnArray) {
+    adj_year = year - 1
+    adj_month = month - 1
+
+    month_num = adj_year * 12 + adj_month + to_add
+
+    new_year = (month_num / 12) + 1
+    new_month = (month_num % 12) + 1
+
+    returnArray[1] = new_year
+    returnArray[2] = new_month
+}
+
