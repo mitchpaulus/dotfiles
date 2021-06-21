@@ -4,7 +4,7 @@ if test "$1" = "-h" || test "$1" = "--help"; then
     cat <<EOF
 tabcut <field specifier> <file>
 
-This script uses normal `cut` program to do actual work.
+This script uses normal 'cut' program to do actual work.
 EOF
 exit 0
 fi
