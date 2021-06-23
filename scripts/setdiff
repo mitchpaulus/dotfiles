@@ -1,0 +1,15 @@
+#!/bin/sh
+
+if test "$1" = "-h" || test "$1" = "--help"; then
+    cat <<EOF
+setdiff - set difference
+
+USAGE: setdiff file1 file2
+
+Returns the set difference file1 - file2, or things that are in file1,
+but also not in file2.
+EOF
+exit 0
+fi
+
+sort "$1" "$2" "$2" | uniq -u
