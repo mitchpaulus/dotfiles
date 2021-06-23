@@ -102,3 +102,7 @@ Add `let g:markdown_fenced_languages`{.vim} to vimrc.
 ## Using `<cmd>` in mappings: See `:h :map-cmd` or `:h <Cmd>`
 Alternative to using `:<C-u>` in mappings.
 
+
+## Debugging
+
+`echom` is your friend.

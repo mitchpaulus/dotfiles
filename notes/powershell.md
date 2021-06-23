@@ -8,6 +8,8 @@ New-Item -ItemType SymbolicLink -Path path\to\new\file.txt -Target path\to\alrea
 
 # Common default aliases
 
+Can view these aliases using 'Get-Alias'
+
 ```
 cat -> Get-Content
 cd -> Set-Location

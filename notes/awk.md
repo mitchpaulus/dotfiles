@@ -32,3 +32,5 @@ mktime("YYYY MM DD HH MM SS [DST]", [utc-flag]) # Returns Unix time, seconds sin
 strftime("format", [unix_timestamp], [utc-flag]) # Return formatted time
 systime() # Return current Unix time
 ```
+
+To split on whitespace runs, use `FS=" "`
