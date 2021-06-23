@@ -160,6 +160,14 @@ function chext --description 'Change extension of file'
     printf "%s%s" (string match -r '.*\.' $argv[1]) $argv[2]
 end
 
+function cphis --description "Fuzzy search and copy a line from history to clipboard"
+    if command -v clip.exe >/dev/null 2>/dev/null
+        history | fzf | tr -d '\r\n' | clip.exe
+    else
+        printf "Need to update this function to work with other clipboards.\n"
+    end
+end
+
 function t --wraps=task
     task $argv
 end
