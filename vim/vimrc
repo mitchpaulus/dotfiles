@@ -480,7 +480,7 @@ set laststatus=2               " Always show the statusbar
 set nowrap                     " No word wrap.
 set lbr                        " Want line breaks at whitespace
 set tabstop=4                  " show existing tab with 4 spaces width
-set shiftwidth=4               " when indenting with '>', use 4 spaces width
+set shiftwidth=0               " When 0, follows whatever the tabstop option is.
 set expandtab                  " On pressing tab, insert 4 spaces
 set cmdheight=2                " Make the command window height 2 to avoid the hit-enter prompts
 set history=1000               " Remember up to 1000 ex commands.
@@ -715,6 +715,7 @@ autocmd FileType markdown nnoremap <silent> <leader>h1 :<c-u>call <SID>MakeHeadi
 autocmd FileType markdown nnoremap <silent> <leader>h2 :<c-u>call <SID>MakeHeading("-")<cr>
 autocmd FileType markdown,tex,text setlocal textwidth=72
 autocmd FileType markdown,tex,text setlocal spell
+autocmd FileType markdown setlocal tabstop=2
 autocmd FileType help nnoremap <leader>hh mnA~<esc>`n
 autocmd FileType help nnoremap <leader>hl mn78i=<esc>`n
 autocmd FileType help setlocal nospell
