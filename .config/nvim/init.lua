@@ -20,6 +20,7 @@ vim.cmd [[ Plug 'mitchpaulus/autocorrect.vim' ]]
 vim.cmd [[ Plug 'mitchpaulus/axon-vim' ]]
 vim.cmd [[ Plug 'mitchpaulus/energyplus-vim' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-andover-plain-english' ]]
+vim.cmd [[ Plug 'mitchpaulus/vim-awk-indent-fix' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-siemens-ppcl' ]]
 vim.cmd [[ Plug 'mitchpaulus/neobem-vim' ]]
 vim.cmd [[ Plug 'nvim-lua/completion-nvim' ]]
@@ -443,8 +444,8 @@ filetypeAutocmds = {
 
 	{ 'awk', 'inoremap', ',!', '#!/usr/bin/awk -E<cr>', },
 	{ 'awk', 'inoremap', ',b', 'BEGIN { FS=OFS="" }<esc>2hi', },
-	{ 'awk', 'inoremap', ',for', 'for (i = ; i < <++>; i++) {<cr>    <++><cr>}<esc>2k^f;i', },
-	{ 'awk', 'inoremap', ',if', 'if () {<cr>    <++><cr>}<esc>2k^f(a', },
+	{ 'awk', 'inoremap', ',for', 'for (i = ; i <= <++>; i++) {<cr><++><cr>}<esc>2k^f;i', },
+	{ 'awk', 'inoremap', ',if', 'if () {<cr><++><cr>}<esc>2k^f(a', },
 	{ 'awk', 'inoremap', ',pf', 'printf("")<esc>hi', },
 	{ 'awk', 'inoremap', ',sh', '#!/usr/bin/awk -E<CR>', },
 	{ 'awk', 'inoremap', '<localleader>q', '\\042', },

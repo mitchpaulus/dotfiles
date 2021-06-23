@@ -1,6 +1,9 @@
 " Plugins {{{1
 set nocompatible  " be iMproved, required for Vundle
 
+" Programming would be craziness without.
+filetype plugin indent on
+
 " Automatically pull vim-plug if required. From
 " https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
 if has('unix')
@@ -37,6 +40,7 @@ Plug 'mitchpaulus/autocorrect.vim'
 Plug 'mitchpaulus/axon-vim'
 Plug 'mitchpaulus/energyplus-vim'
 Plug 'mitchpaulus/vim-andover-plain-english'
+Plug 'mitchpaulus/vim-awk-indent-fix'
 Plug 'mitchpaulus/vim-siemens-ppcl'
 Plug 'mitchpaulus/neobem-vim'
 Plug 'nvim-lua/completion-nvim'
@@ -615,7 +619,6 @@ nnoremap <leader>gl :diffget //3<cr>
 
 " Vimtex {{{2
 "For vimtex
-filetype plugin indent on
 let g:vimtex_view_enabled = 0
 let g:tex_flavor="latex"
 let g:vimtex_quickfix_latexlog = {'overfull': 0, 'underfull':0}
@@ -787,8 +790,8 @@ autocmd FileType tex nnoremap ]e /\\begin{equation}<cr>:nohlsearch<cr>
 
 autocmd FileType awk inoremap ,! #!/usr/bin/awk -E<cr>
 autocmd FileType awk inoremap ,b BEGIN { FS=OFS="" }<esc>2hi
-autocmd FileType awk inoremap ,for for (i = ; i < <++>; i++) {<cr>    <++><cr>}<esc>2k^f;i
-autocmd FileType awk inoremap ,if if () {<cr>    <++><cr>}<esc>2k^f(a
+autocmd FileType awk inoremap ,for for (i = ; i <= <++>; i++) {<cr><++><cr>}<esc>2k^f;i
+autocmd FileType awk inoremap ,if if () {<cr><++><cr>}<esc>2k^f(a
 autocmd FileType awk inoremap ,pf printf("")<esc>hi
 autocmd FileType awk inoremap ,sh #!/usr/bin/awk -E<CR>
 autocmd FileType awk inoremap <localleader>q \042
@@ -797,7 +800,6 @@ autocmd FileType awk inoremap <localleader>sp split(string, array, FS)
 autocmd FileType sh inoremap ,sh #!/bin/sh<CR>
 autocmd FileType sh,bash nnoremap <localleader>h :read $DOTFILES/snipfiles/shell_help.sh<Cr>
 autocmd FileType sh,fish,bash inoremap ,v "$"<Left>
-
 
 autocmd FileType matlab inoremap ,f function [output] = functionname(inputvariable)<CR><CR>end<Esc>2k
 
