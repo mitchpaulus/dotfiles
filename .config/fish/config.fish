@@ -229,6 +229,13 @@ function gn --description 'Go to notes directory'
     cd "$DOTFILES"/notes
 end
 
+function cs --description '[C]reate [s]cript. Just go to the scripts directory if no file name.'
+    cd "$DOTFILES"/scripts
+    if count $argv > /dev/null
+        "$EDITOR" $argv[1]
+    end
+end
+
 function gr --description 'Go to code repositories';
     if test -d "$REPOS"
         cd "$REPOS"

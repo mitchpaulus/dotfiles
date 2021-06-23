@@ -10,6 +10,7 @@ env VAR=value command
 
 - 1-based
 - `set -a VARIABLE_NAME VALUES...` to append. `-p` to prepend.
+- Can get length using `count` built-in
 
 ## Command Substitution
 
@@ -40,3 +41,11 @@ sort (command | psub) (command2 | psub)
 
 `fish` doesn't provide any history settings - it stores up to 256k
 *unique* history items. [See GitHub Issue #2674](https://github.com/fish-shell/fish-shell/issues/2674)
+
+## Check for arguments
+
+From [Stack](https://stackoverflow.com/a/29643375/5932184)
+```fish
+if count $argv > /dev/null
+```
+
