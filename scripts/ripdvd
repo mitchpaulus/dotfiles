@@ -1,0 +1,3 @@
+#!/bin/sh
+
+cat "$1"/VIDEO_TS/*.[Vv][Oo][Bb] | ffmpeg -i - -vcodec h264 -acodec aac "$1"/"$(basename "$1")".mp4
