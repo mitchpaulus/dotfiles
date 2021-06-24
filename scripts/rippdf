@@ -1,7 +1,9 @@
 #!/bin/sh
 
-[ "$1" = "-h" ] || [ "$1" = "--help" ] && printf "rippdf\n\nUSAGE:\nrippdf input.pdf pages output.pdf\n" && exit 0
+[ "$1" = "-h" ] || [ "$1" = "--help" ] && \
+    printf "rippdf\n\nUSAGE:\nrippdf input.pdf pages output.pdf\n\npages option uses qpdf syntax." && \
+    exit 0
 
-[ $# -lt 3 ] && printf "3 arguments required\n" && exit 1
+[ $# -lt 3 ] && printf "3 arguments required.\n" && exit 1
 
 qpdf --empty --pages "$1" "$2" -- "$3"
