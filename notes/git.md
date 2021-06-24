@@ -6,7 +6,7 @@ In the past, I've had some issues with file permissions in the
 interaction between WSL and git. The original WSL file system would make
 all the files executable by default.
 
-GIt files are either 644 (rw-r--r--) or 755 (rwxr-xr-x).
+Git files are either 644 (rw-r--r--) or 755 (rwxr-xr-x).
 
 ## Line Endings
 

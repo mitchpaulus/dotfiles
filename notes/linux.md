@@ -5,7 +5,35 @@
 - Order is user, group, all others
 - u: user who owns file, g: other users in group, o: all other users, a: all users ('ugo')
 
-- In Octal = User, Group, All Others
+- In Octal = Special permissions User, Group, All Others
+- General default permissions, directory: 755, file: 644. This comes
+  from typical `umask` of 0022.
+- Special permission go in order:
+    - Set UID (+4)
+    - Set GID (+2)
+    - Set Sticky Bit (only matters for directories)
+
+[Useful Stack Overflow](https://askubuntu.com/a/581295)
+
+### Directory Permissions
+
+[From Stack](https://unix.stackexchange.com/a/18098/296724)
+
+The execute permission on directories allows accessing files inside the
+directory. The read permission allows enumerating the directory entries.
+The write permission allows creating and removing entries in it.
+
+Having read or write permission on a directory without execute
+permission is not useful. Having execute but not read permission is
+occasionally useful: it allows accessing files only if you know their
+exact name, a sort of primitive password protection.
+
+So in practice the useful permissions on a directory are:
+
+    ---: no access
+    --x: can access files whose name is known (occasionally useful)
+    r-x: normal read-only access
+    rwx: normal read and write access
 
 
 ## User Management
