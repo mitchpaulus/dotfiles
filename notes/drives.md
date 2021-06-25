@@ -18,3 +18,9 @@
 - Plowing land for cultivating crops is called as formatting.
 - Planting trees and crops are called is akin to disks/partitions.
 - Allowing persons to enter at a particular gate is called mounting.
+
+## SSDs
+
+SSDs have the concept of TRIM or trimming. On Windows, can optimize SSD:
+
+Search 'Defrag' -> select SSD, click Optimize
