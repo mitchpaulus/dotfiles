@@ -225,8 +225,15 @@ function en --description 'Edit a note'
     set file (fd --type f -e md '' "$DOTFILES"/notes/ -x printf "%s\n" '{/}' | sed 's/\.md//' | fzf -1); and "$EDITOR" "$DOTFILES"/notes/"$file".md
 end
 
-function gn --description 'Go to notes directory'
-    cd "$DOTFILES"/notes
+function gn --description 'Go to notes directory'; cn; end
+
+function cn --description 'Create note'
+    # If file name given, edit file directly, otherwise cd to directory.
+    if count $argv > /dev/null
+        "$EDITOR" $argv[1]
+    else
+        cd "$DOTFILES"/notes
+    end
 end
 
 function cs --description '[C]reate [s]cript. Just go to the scripts directory if no file name.'
