@@ -22,3 +22,5 @@ fzf_key_bindings.fish
 
 haskell/linear_reset_excel
 haskell/underscore_files
+
+vim/vimrc

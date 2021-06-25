@@ -56,6 +56,9 @@ endif
 
 call plug#end()
 
+" Using the marker line below to separate out nvim specific stuff, to better
+" keep the pure vimrc in sync.
+" NVIM START
 if has("nvim-0.5.0")
 
 lua << EOF
@@ -119,7 +122,7 @@ end
 EOF
 
 endif
-
+" NVIM END
 
 
 " General Mappings {{{1
