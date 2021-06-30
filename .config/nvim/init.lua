@@ -512,6 +512,14 @@ createAugroup(bufEnterAutocmds, 'bufenter', 'BufEnter')
 -- around.
 vim.cmd([[autocmd BufWrite * execute "normal! mz" |  keeppatterns %s/\v\s+$//e | normal `z]])
 
+vim.api.nvim_exec([[
+" Figure out what syntax group item under cursor is
+function! SynGroup()
+    let l:s = synID(line('.'), col('.'), 1)
+    echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
+endfunction
+]], false)
+
 -- Make sure we are aware of when we are in insert mode.
 --vim.cmd([[autocmd InsertEnter * setlocal statusline=%#ErrorMsg#\ INSERT\ %.50F%=%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding}]])
 --vim.cmd([[autocmd InsertLeave * setlocal statusline=%!g:basestatusline]])
