@@ -104,7 +104,7 @@ end
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
-vim.g.markdown_fenced_languages = { 'python', 'gnuplot', 'vim', 'sh', 'vim', 'axon', 'lua', 'tex', 'haskell' }
+vim.g.markdown_fenced_languages = { 'python', 'gnuplot', 'vim', 'sh', 'vim', 'axon', 'lua', 'tex', 'haskell', 'neobem' }
 vim.g.markdown_syntax_conceal = 0
 
 silent = { silent = true, noremap = true }
