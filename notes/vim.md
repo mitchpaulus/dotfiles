@@ -26,6 +26,15 @@ General process is:
 3. `let b:current_syntax="newtype"` at the end of the file.
 
 
+Other considerations:
+
+- Should use default option in `highlight default`, so that other
+  peoples configuration isn't overwritten.
+
+- Can use `@Spell` and `@NoSpell` flags to mark where spell checking
+  should and shouldn't occur. [link](https://unix.stackexchange.com/a/31155/296724).
+
+
 ## Constantly Reload File for Demo
 
 From [link](https://www.reddit.com/r/vim/comments/ktd2kw/run_a_vim_command_in_loop_each_n_seconds/):

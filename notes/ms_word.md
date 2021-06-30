@@ -96,3 +96,7 @@ article](https://www.lifewire.com/fix-spell-check-not-working-in-word-4693118)
 has a great list of troubleshooting steps.
 
 1.
+
+## Moving Table Rows
+
+`SHIFT-ALT-<Up|Down>`

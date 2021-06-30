@@ -173,3 +173,12 @@ sparkRecompute(null, null, null)
 sparkRebuildCache()
  ```
 
+## Histories
+
+- `hisAppendNA`: Important tag for limiting interpolation/COV data.
+  [See his docs](https://skyfoundry.com/doc/lib-his/doc.html)
+
+
+## Default options for Spark app
+
+It doesn't look like this is possible today. See [forum](https://skyfoundry.com/forum/topic/3669).

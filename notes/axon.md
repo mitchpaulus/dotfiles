@@ -261,6 +261,10 @@ parseNumber("12kW", false)
 ## Regex
 
 ```axon
+// Uses Java regular expression syntax.
+// Case sensitive by default. Can use flags within pattern,
+// https://skyfoundry.com/forum/topic/4716
+//
 // check match for ENTIRE string
 reMatches(r"AHU-(\d+)", "AHU")     // false
 reMatches(r"AHU-(\d+)", "AHU-10")  // true
@@ -280,6 +284,7 @@ reGroups(r"(Clg|Hgt)-(\d+)", "<Hgt-7>") // ["Hgt-7", "Hgt", "7"]
 ## Functional Programming
 
 filter: `findAll`
+firstOrDefault: `find`
 # map :: Grid -> (Dict -> Dict) -> [Grid | null]
 SelectMany: `flatMap`
 

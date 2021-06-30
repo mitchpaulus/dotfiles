@@ -67,3 +67,17 @@ unzip zipfilename -d extractDir  # Only one file can be processed at a time.
 ```
 
 
+## API/ABI
+
+[From SO](https://stackoverflow.com/a/41402442/5932184)
+
+> An oversimplified summary:
+>   API: "Here are all the functions you may call."
+>   ABI: "This is *how* to call a function."
+
+## Where to put Program Files?
+
+[From here](https://askubuntu.com/a/551932), looks like `opt` is the
+best place for program files, then symlink the binaries to ~/.local/bin
+or equivalent.
+
