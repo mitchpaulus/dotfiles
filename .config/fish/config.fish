@@ -61,7 +61,7 @@ function fish_greeting
 end
 
 function __path_add
-    # If the directory exists and isn't in the path, add it.
+    # If the directory exists and isn't in the path, add it to the beginning of the path.
     if not contains $argv[1] $PATH; and test -d $argv[1]
         set -gxp PATH $argv[1]
     end
@@ -82,6 +82,7 @@ __path_add "$DOTFILES"/scripts/
 __path_add "$DOTFILES"/haskell
 __path_add "$TEXLIVE_INSTALL_PREFIX"/2021/bin/x86_64-linux
 __path_add /usr/local/texlive/2020/bin/x86_64-linux
+__path_add "/opt/fantom-1.0.76/bin"
 __path_add "$HOME/.gem/ruby/2.7.0/bin"
 __path_add "$HOME/.gem/ruby/3.0.0/bin"
 __path_add "$HOME/bin"
@@ -100,6 +101,9 @@ set -gx DOTREMINDERS ~/.config/remind/remind.rem
 set -gx FZF_DEFAULT_OPTS '--reverse --margin 10% --border'
 
 set -gx BAT_THEME 'Monokai Extended'
+
+# Required for Haxall - See https://github.com/haxall/haxall
+set -gx FAN_BUILD_JDKHOME /usr/java/jdk-14.0.2/
 
 # v for VIM
 function v --wraps="$EDITOR"
