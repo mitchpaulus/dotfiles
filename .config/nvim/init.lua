@@ -183,6 +183,8 @@ normalNoRecurseMappings = {
 	{ '<leader>ev', ':<C-u>edit $MYVIMRC<CR>' },
 	{ '<leader>sv', ':<C-u>luafile $MYVIMRC<CR>' },
 
+    { '<leader>j', '/<++><cr>cgn' },
+
 	{ '<C-n>', ':bnext<CR>' },
 }
 
@@ -226,7 +228,7 @@ insertModeNoRecurseMappings = {
 
     -- Move to end of line when in insert mode
     { '<C-l>', '<Esc>A' },
-    { '<C-j>', '()<Left>' },
+    { '<C-j>', '<Esc>/<++><CR>cgn' },
 }
 
 func_map(function(tbl) inmap(tbl[1], tbl[2]) end, insertModeNoRecurseMappings)
