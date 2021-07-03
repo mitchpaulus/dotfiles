@@ -75,7 +75,6 @@ Good resources:
     - `:helptags $VIMRUNTIME/doc`
 
 
-
 ## LSP Support
 
 [neovim/lsp-config](https://github.com/neovim/nvim-lspconfig)
@@ -83,6 +82,12 @@ Good resources:
 
 Along with 'neovim/lsp-config', need 'nvim-lua/completion-nvim' for auto
 completion like behavior.
+
+Other plugins [from Hacker News](https://news.ycombinator.com/item?id=27713358):
+
+* nvim-compe (autocompletion)
+* vim-vsnip (snippets)
+* lsp_signature.nvim (automatically pop up signature window, note signature_help is built-into core, just manually triggered)
 
 ## General Improvements
 

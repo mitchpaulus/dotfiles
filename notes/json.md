@@ -16,3 +16,14 @@ Also `jq` for querying and filtering data.
 ```sh
 jq -r '.[] | [.full_name, .created_at] | @tsv' 2021-05-20repos.json | sort -k2,2 -r
 ```
+
+## Newtonsoft
+
+```
+var myobj = JsonConvert.DeserializeObject(json)
+```
+
+Types:
+
+JObject for object
+
