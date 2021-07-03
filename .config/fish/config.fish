@@ -75,8 +75,13 @@ function fish_underscore_command
     commandline (underscore_files (commandline))
 end
 
+function awk_begin
+    commandline -i 'BEGIN { FS=OFS="\t" } '
+end
+
 bind \ed add_date
 bind \eu fish_underscore_command
+bind \eB awk_begin
 
 __path_add "$DOTFILES"/scripts/
 __path_add "$DOTFILES"/haskell
