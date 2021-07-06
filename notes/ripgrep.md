@@ -13,6 +13,7 @@ USAGE:
 -v, --invert-match
 -A, --after-context <NUM>
 -o, --only-matching
+-l, --files-with-matches
 ```
 
 ## Patterns
