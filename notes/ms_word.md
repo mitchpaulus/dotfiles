@@ -99,4 +99,39 @@ has a great list of troubleshooting steps.
 
 ## Moving Table Rows
 
+One of the best shortcuts of all time
 `SHIFT-ALT-<Up|Down>`
+
+## Custom Sequences
+
+- CTRL-F9 to create field
+- `seq sequence_name`
+- F9 to update
+
+
+## Grammar for MS Word Fields
+
+[Field format specifiers](https://support.microsoft.com/en-us/office/format-field-results-baa61f5a-5636-4f11-ab4f-6c36ae43508c?ui=en-US&rs=en-US&ad=US)
+[List of field codes](https://support.microsoft.com/en-us/office/list-of-field-codes-in-word-1ad6d91a-55a7-4a8d-b535-cf7888659a51)
+
+```bnf
+<Field>                           :: <Field Name> <Instructions> <Field Specific Switches> <General Switches>
+<Field Name>                      :: "seq" | *See list of remaining field codes*
+
+<General Switches>                :: <Format Switch> | <Numeric Format Switch> | <Date-Time format switch>
+
+<Format Switch>                   :: "\*" <Format Switch Type>
+<Format Switch Type>              :: <Capitalization Format> | <Number Format> | <Character Format>
+<Capitalization Format>           :: "Caps" | "FirstCap" | "Upper" | "Lower"
+<Number Format>                   :: "alphabetic" | "Arabic" | "CardText" | "DollarText" | "Hex" | "OrdText" | "Ordinal" | "roman"
+<Character Format>                :: "CharFormat" | "MERGEFORMAT"
+
+<Numeric Format Switch>           :: "\#" <Numeric Format Switch Specifier>
+<Numeric Format Switch Specifier> :: *Combination of lots of format items, can use quotations to surround the value here*
+
+<Date-Time format switch>         :: "\@" <Date-Time Format Specifier>
+
+<Date-Time Format Specifier>      :: *Normal date time specifiers, can use quotations to surround the value here*
+```
+
+

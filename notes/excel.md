@@ -15,3 +15,7 @@
 2. Hold Shift
 3. Click and drag when your have 4 directional arrow (✥)
 
+
+## Listing all Keybindings
+
+[Turns out this is not easy](https://stackoverflow.com/questions/16862306/excel-vba-to-list-key-bindings-onkey)
