@@ -1,4 +1,8 @@
 # Array join, unordered.
+# EX:
+# array[1] = "hello"
+# array[2] = "there"
+# ajoinu(array, ",") == "hello,there"
 function ajoinu(array, join_str,                    first, new_string) {
     first = 1
     new_string = ""
