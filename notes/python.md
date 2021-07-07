@@ -97,7 +97,7 @@ Use `None` as return type for "void" functions.
 Type Aliasing:
 
 ```python
-Vector = list[float]
+Vector = List[float]
 ```
 
 Other examples:
@@ -373,6 +373,8 @@ python_obj = json.load(file_handle)
 
 ## Classes
 
+[Official python documentation](https://docs.python.org/3/tutorial/classes.html)
+
 *namespace*: Mapping from names to objects
 
 ```python
@@ -385,27 +387,6 @@ class ClassName:
     def __init__(self, other_params):
         <Statements>...
 ```
-
-
-## Dictionaries
-
-[Data Structures Documentation](https://docs.python.org/3.8/tutorial/datastructures.html)
-
-- `list(d)`: return list of keys
-- `len(d)`: return number of keys
-- `d[key]`: get value for key, exception if doesn't exist
-- `d[key] = value`: set key pair
-- `del d[key]`: delete key, exception if doesn't exist
-- `key in d`
-- `key not in d` or `not key in d`
-- `iter(d) == iter(d.keys())`
-- `clear()`: remove all items
-- `copy()`: make shallow copy
-- `get(key, [default])`: Get value without exception, `None` if no
-  explicit default given.
-- `keys()`
-- `pop(key, [default])`: Can have exception.
-- `d.items()`: returns iterable of key, value tuples
 
 ## Sets
 
