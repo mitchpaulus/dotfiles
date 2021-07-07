@@ -239,7 +239,12 @@ function gn --description 'Go to notes directory'; cn; end
 function cn --description 'Create note'
     # If file name given, edit file directly, otherwise cd to directory.
     if count $argv > /dev/null
-        "$EDITOR" $argv[1]
+        # Check if I put a ".md" extension at the end.
+        if string match -q '*.md' $argv[1]
+            "$EDITOR" "$DOTFILES"/notes/$argv[1]
+        else
+            "$EDITOR" "$DOTFILES"/notes/$argv[1].md
+        end
     else
         cd "$DOTFILES"/notes
     end
