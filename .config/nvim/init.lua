@@ -180,6 +180,9 @@ normalNoRecurseMappings = {
 	-- Clear the previous search (c[lear] h[ighlight])
 	{ '<leader>ch', ':nohlsearch<CR>' },
 
+    -- Checktime of the file
+    { '<leader>ct', ':<C-u>checktime<cr>' },
+
 	{ '<leader>ev', ':<C-u>edit $MYVIMRC<CR>' },
 	{ '<leader>sv', ':<C-u>luafile $MYVIMRC<CR>' },
 
