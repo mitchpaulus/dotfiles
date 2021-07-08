@@ -8,8 +8,10 @@ from os.path import isfile, join
 onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
 ```
 
+Don't forget the UTF-8 or you'll get hit with issues for °F in Windows
+
 ```python
-with open('file path') as file:
+with open('file path', encoding="utf-8") as file:
    lines = file.readlines()
 ```
 
