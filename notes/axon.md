@@ -346,3 +346,4 @@ Important reminders:
 - Can use the built in function `matchPointVal` to help convert
   non-boolean values to booleans.
 
+- [hisFindPeriods and NA() values](https://skyfoundry.com/forum/topic/2827)

@@ -1,8 +1,24 @@
 #!/bin/sh
 
-[ "$1" = "-h" ] || [ "$1" = "--help" ] && \
-    printf "rippdf\n\nUSAGE:\nrippdf input.pdf pages output.pdf\n\npages option uses qpdf syntax." && \
+if [ "$1" = "-h" ] || [ "$1" = "--help" ] ; then
+    cat <<EOF
+rippdf
+
+USAGE:
+rippdf input.pdf pages output.pdf
+
+The page range is a set of numbers separated by commas, ranges of
+numbers separated dashes, or combinations of those.  The character
+"z" represents the last page.  A number preceded by an "r" indicates
+to count from the end, so "r3-r1" would be the last three pages of the
+document.  Pages can appear in any order.  Ranges can appear with a
+high number followed by a low number, which causes the pages to appear in
+reverse.  Numbers may be repeated.  A page range may be appended with :odd
+to indicate odd pages in the selected range or :even to indicate even
+pages.
+EOF
     exit 0
+fi
 
 [ $# -lt 3 ] && printf "3 arguments required.\n" && exit 1
 
