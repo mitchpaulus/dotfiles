@@ -15,6 +15,7 @@ NR == 1 {
         gsub(/°/, "deg", header)
         gsub(/[^a-zA-Z0-9]/, "_", header)
         gsub(/__+/, "_", header)
+        gsub(/#/, "num", header) # Things like 'Package #', 'Issue #', etc.
 
         gsub(/_$/, "", header)
 
