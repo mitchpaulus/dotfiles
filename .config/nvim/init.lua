@@ -167,6 +167,9 @@ normalNoRecurseMappings = {
 	{ '<F9>',  ':<C-u>set paste<CR>"+p:set nopaste<CR>' },
 	{ '<F10>', ':<C-u>set paste<CR>"+P:set nopaste<CR>' },
 
+    -- Toggle spell setting
+    { 'ss',  '<cmd>set spell!<CR><cmd>echo "Spell is now " . &spell<CR>'  },
+
 	-- Toggle list setting
 	{ '<leader>ll', ':set list!<cr>' },
 
@@ -186,7 +189,7 @@ normalNoRecurseMappings = {
 	{ '<leader>ev', ':<C-u>edit $MYVIMRC<CR>' },
 	{ '<leader>sv', ':<C-u>luafile $MYVIMRC<CR>' },
 
-    { '<leader>j', '/<++><cr>cgn' },
+    { '<leader>j', '/\\V<+\\.\\{-}+><cr>cgn' },
 
 	{ '<C-n>', ':bnext<CR>' },
 }
@@ -231,7 +234,7 @@ insertModeNoRecurseMappings = {
 
     -- Move to end of line when in insert mode
     { '<C-l>', '<Esc>A' },
-    { '<C-j>', '<Esc>/<++><CR>cgn' },
+    { '<C-j>', '<Esc>/\\V<+\\.\\{-}+><CR>cgn' },
 }
 
 func_map(function(tbl) inmap(tbl[1], tbl[2]) end, insertModeNoRecurseMappings)
@@ -451,11 +454,12 @@ filetypeAutocmds = {
 	{ 'awk', 'inoremap', ',!', '#!/usr/bin/awk -E<cr>', },
 	{ 'awk', 'inoremap', ',b', 'BEGIN { FS=OFS="" }<esc>2hi', },
 	{ 'awk', 'inoremap', ',for', 'for (i = ; i <= <++>; i++) {<cr><++><cr>}<esc>2k^f;i', },
+	{ 'awk', 'inoremap', ',fi', 'for (<+var+> in <+array+>) {<cr><++><cr>}<esc>2k^f;i', },
 	{ 'awk', 'inoremap', ',if', 'if () {<cr><++><cr>}<esc>2k^f(a', },
 	{ 'awk', 'inoremap', ',pf', 'printf("")<esc>hi', },
 	{ 'awk', 'inoremap', ',sh', '#!/usr/bin/awk -E<CR>', },
 	{ 'awk', 'inoremap', '<localleader>q', '\\042', },
-	{ 'awk', 'inoremap', '<localleader>sp', 'split(string, array, FS)', },
+	{ 'awk', 'inoremap', '<localleader>sp', 'split(<+string+>, <+array+>, <+FS+>)<Esc>35hi', },
 
 	{ 'sh', 'inoremap', ',sh', '#!/bin/sh<CR>', },
 	{ 'sh,bash', 'nnoremap', '<localleader>h', ':read $DOTFILES/snipfiles/shell_help.sh<Cr>', },
