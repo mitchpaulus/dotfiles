@@ -2,16 +2,25 @@
 
 # Inspired by: https://unix.stackexchange.com/a/359838/296724
 # Why use python? Because I don't have time to deal with RFC 4180 subtlities
-# right now. May add some command line argument ability someday.
+# right now.
 #
-# Use with standard input.
+# Use with standard input or pass single file name (expected file is utf-8).
 #
 # csv2tsv < file.csv
 # program | csv2tsv
+# csv2tsv file.csv
 
 import csv
 import sys
 
-reader = csv.reader(sys.stdin)
-writer = csv.writer(sys.stdout, dialect="excel-tab")
-writer.writerows(reader)
+if (len(sys.argv) > 1):
+    csv_file = open(sys.argv[1], encoding="utf-8")
+else:
+    csv_file = sys.stdin
+
+reader = csv.reader(csv_file, dialect='excel')
+
+for row in reader:
+    # The only two characters that matter here are newlines and tabs. Remove both.
+    new_rows = [field.replace("\n", "\\n").replace("\t", " ") for field in row]
+    print("\t".join(new_rows))
