@@ -20,3 +20,17 @@ Program Files\ = 64 bit programs
 ```powershell
 New-Item -ItemType SymbolicLink -Path path\to\new\file.txt -Target path\to\already\existing\file.txt
 ```
+
+
+## Issue with Windows Explorer and Toolbar
+
+Many times, I can't open a Windows Explorer instance from the toolbar.
+Following the answer
+[here](https://community.spiceworks.com/topic/2258254-frustrating-file-explorer-missing-top-portion-or-top-bar-unresponsive),
+I was able to magically get things working by removing some network
+drive that wasn't often connected.
+
+
+## Restarting Graphics Driver
+
+CTRL+SHIFT+WIN+B, be careful with that one.
