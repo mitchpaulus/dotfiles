@@ -30,7 +30,7 @@ vim.cmd [[ Plug 'dylon/vim-antlr' ]]
 vim.cmd [[ Plug 'mileszs/ack.vim' ]]
 
 if vim.fn.has('nvim-0.5.0') == 1 then
-	vim.cmd [[ Plug 'neovim/nvim-lspconfig' ]]
+    vim.cmd [[ Plug 'neovim/nvim-lspconfig' ]]
 end
 
 vim.fn["plug#end"]()
@@ -110,7 +110,7 @@ vim.g.markdown_syntax_conceal = 0
 silent = { silent = true, noremap = true }
 
 local function nnmap(lhs, rhs)
-	vim.api.nvim_set_keymap("n", lhs, rhs, silent)
+    vim.api.nvim_set_keymap("n", lhs, rhs, silent)
 end
 
 local function inmap(lhs, rhs)
@@ -119,79 +119,79 @@ end
 
 -- https://stackoverflow.com/a/11671820/5932184
 local function func_map(f, tbl)
-	local t = {}
-	for k,v in pairs(tbl) do
-		t[k] = f(v)
-	end
-	return t
+    local t = {}
+    for k,v in pairs(tbl) do
+        t[k] = f(v)
+    end
+    return t
 end
 
 normalNoRecurseMappings = {
-	-- Fast quitting
-	{ 'q', ':q<CR>' },
-	{ 'Q', ':q!<CR>' },
+    -- Fast quitting
+    { 'q', ':q<CR>' },
+    { 'Q', ':q!<CR>' },
 
-	{ 's', ':<C-u>update<CR>' },
+    { 's', ':<C-u>update<CR>' },
 
-	-- Scrolling
-	{ "K", "5k"  },
-	{ "J", "5j"  },
-	-- Need something to remap to join lines
-	{ 'gj', 'J' },
+    -- Scrolling
+    { "K", "5k"  },
+    { "J", "5j"  },
+    -- Need something to remap to join lines
+    { 'gj', 'J' },
 
-	-- Quick mappings for the beginning and ends of lines
-	{ "H", "^" },
-	{ "L", "$" },
+    -- Quick mappings for the beginning and ends of lines
+    { "H", "^" },
+    { "L", "$" },
 
-	-- These mappings are for moving around the windows quickly.
-	{ '<C-h>', '<c-w>h' },
-	{ '<C-j>', '<c-w>j' },
-	{ '<C-k>', '<c-w>k' },
-	{ '<C-l>', '<c-w>l' },
+    -- These mappings are for moving around the windows quickly.
+    { '<C-h>', '<c-w>h' },
+    { '<C-j>', '<c-w>j' },
+    { '<C-k>', '<c-w>k' },
+    { '<C-l>', '<c-w>l' },
 
-	-- Move around buffers and quickfix list
+    -- Move around buffers and quickfix list
         { '[q', ':cprevious<CR>' },
         { ']q', ':cnext<CR>' },
-	{ '[Q', ':cfirst<CR>' },
-	{ ']Q', ':clast<CR>' },
-	{ '[b', ':bprevious<CR>' },
-	{ ']b', ':bnext<CR>' },
-	{ '[B', ':bfirst<CR>' },
-	{ ']B', ':blast<CR>' },
+    { '[Q', ':cfirst<CR>' },
+    { ']Q', ':clast<CR>' },
+    { '[b', ':bprevious<CR>' },
+    { ']b', ':bnext<CR>' },
+    { '[B', ':bfirst<CR>' },
+    { ']B', ':blast<CR>' },
 
-	-- Take first spelling suggestion
-	{ '<F1>', '1z=' },
-	{ '<F2>', ':<C-u>update<CR>' },
-	{ '<F4>', 'ZZ' },
-	{ '<F8>', ':<c-u>set paste!<cr>:set paste?<cr>' },
-	{ '<F9>',  ':<C-u>set paste<CR>"+p:set nopaste<CR>' },
-	{ '<F10>', ':<C-u>set paste<CR>"+P:set nopaste<CR>' },
+    -- Take first spelling suggestion
+    { '<F1>', '1z=' },
+    { '<F2>', ':<C-u>update<CR>' },
+    { '<F4>', 'ZZ' },
+    { '<F8>', ':<c-u>set paste!<cr>:set paste?<cr>' },
+    { '<F9>',  ':<C-u>set paste<CR>"+p:set nopaste<CR>' },
+    { '<F10>', ':<C-u>set paste<CR>"+P:set nopaste<CR>' },
 
     -- Toggle spell setting
     { 'ss',  '<cmd>set spell!<CR><cmd>echo "Spell is now " . &spell<CR>'  },
 
-	-- Toggle list setting
-	{ '<leader>ll', ':set list!<cr>' },
+    -- Toggle list setting
+    { '<leader>ll', ':set list!<cr>' },
 
-	-- I don't use marks, so move q (starting macros) to m (for macros)
-	{ 'm', 'q' },
-	-- Copy entire file to clipboard
-	{ '<leader>y', ':<C-u>%yank +<CR>' },
-	-- Move backwards through spell.
-	{ 'T', '[s' },
+    -- I don't use marks, so move q (starting macros) to m (for macros)
+    { 'm', 'q' },
+    -- Copy entire file to clipboard
+    { '<leader>y', ':<C-u>%yank +<CR>' },
+    -- Move backwards through spell.
+    { 'T', '[s' },
 
-	-- Clear the previous search (c[lear] h[ighlight])
-	{ '<leader>ch', ':nohlsearch<CR>' },
+    -- Clear the previous search (c[lear] h[ighlight])
+    { '<leader>ch', ':nohlsearch<CR>' },
 
     -- Checktime of the file
     { '<leader>ct', ':<C-u>checktime<cr>' },
 
-	{ '<leader>ev', ':<C-u>edit $MYVIMRC<CR>' },
-	{ '<leader>sv', ':<C-u>luafile $MYVIMRC<CR>' },
+    { '<leader>ev', ':<C-u>edit $MYVIMRC<CR>' },
+    { '<leader>sv', ':<C-u>luafile $MYVIMRC<CR>' },
 
     { '<leader>j', '/\\V<+\\.\\{-}+><cr>cgn' },
 
-	{ '<C-n>', ':bnext<CR>' },
+    { '<C-n>', ':bnext<CR>' },
 }
 
 func_map(function(tbl) nnmap(tbl[1], tbl[2]) end, normalNoRecurseMappings)
@@ -244,15 +244,15 @@ vim.api.nvim_set_keymap("v", 'L', '$', silent)
 vim.api.nvim_set_keymap("v", 'H', '^', silent)
 
 local statusLineComponents = {
-	-- Used to put the mode, but if terminal can change cursor shape, it really isn't required.
-	'%f',   -- File name
-	'%=',    -- makes following right aligned
-	'%y ',   -- file type
-	'C:%c ',  -- column number
-	'%p%% ',  -- percentage through file
-	'HEX:%B ', -- Hex value for character under cursor
-	'%{&ff} ',  -- File format (unix vs. dos)
-	'%{&encoding}' -- current encoding
+    -- Used to put the mode, but if terminal can change cursor shape, it really isn't required.
+    '%f',   -- File name
+    '%=',    -- makes following right aligned
+    '%y ',   -- file type
+    'C:%c ',  -- column number
+    '%p%% ',  -- percentage through file
+    'HEX:%B ', -- Hex value for character under cursor
+    '%{&ff} ',  -- File format (unix vs. dos)
+    '%{&encoding}' -- current encoding
 }
 
 vim.api.nvim_set_option('statusline', table.concat(statusLineComponents))
@@ -329,7 +329,7 @@ settings = {
 -- set guioptions-=L
 -- set guioptions-=R
 -- set shortmess+=c
-	-- set grepprg=rg\ --vimgrep
+    -- set grepprg=rg\ --vimgrep
     -- set renderoptions=type:directx
 
 }
@@ -341,11 +341,11 @@ end
 
 -- Search for the current visual selection using '*'. See pg. 212 of Practical Vim
 function vsetsearch()
-	local temp = vim.fn.getreg('s')
-	--let temp = @s
-	vim.cmd 'normal! gv"sy'
-	vim.fn.setreg('/',  '\\V' .. vim.fn.substitute(vim.fn.escape(temp, '/\\'), '\n', '\\n', 'g'))
-	vim.fn.setreg('s', temp)
+    local temp = vim.fn.getreg('s')
+    --let temp = @s
+    vim.cmd 'normal! gv"sy'
+    vim.fn.setreg('/',  '\\V' .. vim.fn.substitute(vim.fn.escape(temp, '/\\'), '\n', '\\n', 'g'))
+    vim.fn.setreg('s', temp)
 end
 
 --vim.api.nvim_set_keymap("v", '*', ':<C-u>lua vsetsearch()', silent)
@@ -365,150 +365,150 @@ end
 
 filetypeAutocmds = {
 
-	{ 'antlr4', 'nnoremap', '<localleader>c', ':!antlr4 %<CR>' },
-	{ 'antlr4', 'nnoremap', '<localleader>j', ':!antlrj<Space>%<CR>', },
+    { 'antlr4', 'nnoremap', '<localleader>c', ':!antlr4 %<CR>' },
+    { 'antlr4', 'nnoremap', '<localleader>j', ':!antlrj<Space>%<CR>', },
 
     { 'axon', 'inoremap', '<localleader>do', 'do<CR>end<Esc>ko' },
     { 'axon', 'inoremap', '<localleader>ll', '() =><Esc>3hi' },
     { 'axon', 'inoremap', '<localleader>ld', 'do<CR><CR>end<Esc>2k$F)i' },
     { 'axon', 'inoremap', '<localleader>if', 'if () <++> else <++><Esc>F)i' },
 
-	-- make a header 1 line, deleting trailing whitespace first.
-	--{ 'markdown', 'nnoremap', '<silent>', '<leader>h1 :<c-u>call<Space><SID>MakeHeading("=")<cr>', },
-	--{ 'markdown', 'nnoremap', '<silent>', '<leader>h2 :<c-u>call<Space><SID>MakeHeading("-")<cr>', },
-	{ 'markdown,tex,text', 'setlocal', 'textwidth=72' },
-	{ 'markdown,tex,text', 'setlocal spell' },
-	{ 'markdown', 'setlocal tabstop=2' },
-	{ 'help', 'nnoremap', '<leader>hh', 'mnA~<esc>`n', },
-	{ 'help', 'nnoremap', '<leader>hl', 'mn78i=<esc>`n', },
-	{ 'help', 'setlocal nospell' },
+    -- make a header 1 line, deleting trailing whitespace first.
+    --{ 'markdown', 'nnoremap', '<silent>', '<leader>h1 :<c-u>call<Space><SID>MakeHeading("=")<cr>', },
+    --{ 'markdown', 'nnoremap', '<silent>', '<leader>h2 :<c-u>call<Space><SID>MakeHeading("-")<cr>', },
+    { 'markdown,tex,text', 'setlocal', 'textwidth=72' },
+    { 'markdown,tex,text', 'setlocal spell' },
+    { 'markdown', 'setlocal tabstop=2' },
+    { 'help', 'nnoremap', '<leader>hh', 'mnA~<esc>`n', },
+    { 'help', 'nnoremap', '<leader>hl', 'mn78i=<esc>`n', },
+    { 'help', 'setlocal nospell' },
 
-	{ 'gnuplot', 'nnoremap', '<localleader>g', ':silent !gnuplot.exe % && start "Plot" %:p:r.png<cr>', },
-	{ 'gnuplot', 'nnoremap', '<localleader>k', ':silent !taskkill.exe /IM Microsoft.Photos.exe /F<cr>', },
-	{ 'gnuplot', 'inoremap', ',hist', '<esc>:0read ~/.vim/snipfiles/hist.gnuplot<cr>', },
+    { 'gnuplot', 'nnoremap', '<localleader>g', ':silent !gnuplot.exe % && start "Plot" %:p:r.png<cr>', },
+    { 'gnuplot', 'nnoremap', '<localleader>k', ':silent !taskkill.exe /IM Microsoft.Photos.exe /F<cr>', },
+    { 'gnuplot', 'inoremap', ',hist', '<esc>:0read ~/.vim/snipfiles/hist.gnuplot<cr>', },
 
-	{ 'make', 'inoremap', ',p', '.PHONY :<Space>', },
+    { 'make', 'inoremap', ',p', '.PHONY :<Space>', },
 
-	-- Quickly enter in ² symbol
-	{ 'markdown,text', 'inoremap', '^2', '<c-v>178', },
-	{ 'markdown,text', 'inoremap', ',l', '[](<++>)<esc>6hi', },
-	{ 'markdown,text', 'inoremap', ',c', '✓', },
-	{ 'markdown,text', 'inoremap', ',x', '✗', },
-	-- Quickly enter in °F
-	{ 'markdown,text', 'inoremap', 'DEGF', '°F', },
+    -- Quickly enter in ² symbol
+    { 'markdown,text', 'inoremap', '^2', '<c-v>178', },
+    { 'markdown,text', 'inoremap', ',l', '[](<++>)<esc>6hi', },
+    { 'markdown,text', 'inoremap', ',c', '✓', },
+    { 'markdown,text', 'inoremap', ',x', '✗', },
+    -- Quickly enter in °F
+    { 'markdown,text', 'inoremap', 'DEGF', '°F', },
 
-	{ 'markdown', 'inoremap', '<localleader>f', '![]()<Esc>2hi', },
-	{ 'markdown', 'inoremap', '<localleader>i', '**<Left>', },
-	{ 'markdown', 'inoremap', '<localleader>b', '****<Left><Left>', },
-	{ 'markdown', 'inoremap', '<localleader>e', '$$  $$<Esc>2hi', },
-	{ 'markdown', 'inoremap', '<localleader>n', '\\begin{equation}<CR>\\end{equation}<Esc>0ko', },
-	{ 'markdown', 'inoremap', '<localleader>m', '$$<Left>', },
+    { 'markdown', 'inoremap', '<localleader>f', '![]()<Esc>2hi', },
+    { 'markdown', 'inoremap', '<localleader>i', '**<Left>', },
+    { 'markdown', 'inoremap', '<localleader>b', '****<Left><Left>', },
+    { 'markdown', 'inoremap', '<localleader>e', '$$  $$<Esc>2hi', },
+    { 'markdown', 'inoremap', '<localleader>n', '\\begin{equation}<CR>\\end{equation}<Esc>0ko', },
+    { 'markdown', 'inoremap', '<localleader>m', '$$<Left>', },
 
-	{ 'gitcommit', 'setlocal spell' },
+    { 'gitcommit', 'setlocal spell' },
 
-	{ 'html', 'inoremap', ',1', '<h1></h1><Esc>4hi', },
-	{ 'html', 'inoremap', ',2', '<h2></h2><Esc>4hi', },
-	{ 'html', 'inoremap', ',3', '<h3></h3><Esc>4hi', },
-	{ 'html', 'inoremap', ',a', '<a href=""></a><Esc>5hi', },
-	{ 'html', 'inoremap', ',b', 'data-bind=""<Left>', },
-	{ 'html', 'inoremap', ',c', 'class=""<Left>', },
-	{ 'html', 'inoremap', ',d', '<div></div><Esc>5hi', },
-	{ 'html', 'inoremap', ',i', '<input  /><Esc>2hi', },
-	{ 'html', 'inoremap', ',l', '<label></label><Esc>7hi', },
-	{ 'html', 'inoremap', ',p', '<lt>p></p><Esc>3hi', },
-	{ 'html', 'inoremap', ',sp', '<span></span><Esc>6hi', },
-	{ 'html', 'inoremap', ',st', '<style></style><Esc>7hi', },
-	{ 'html', 'inoremap', ',u', '<ul><cr><li></li><cr></ul><Esc>k^f>a', },
+    { 'html', 'inoremap', ',1', '<h1></h1><Esc>4hi', },
+    { 'html', 'inoremap', ',2', '<h2></h2><Esc>4hi', },
+    { 'html', 'inoremap', ',3', '<h3></h3><Esc>4hi', },
+    { 'html', 'inoremap', ',a', '<a href=""></a><Esc>5hi', },
+    { 'html', 'inoremap', ',b', 'data-bind=""<Left>', },
+    { 'html', 'inoremap', ',c', 'class=""<Left>', },
+    { 'html', 'inoremap', ',d', '<div></div><Esc>5hi', },
+    { 'html', 'inoremap', ',i', '<input  /><Esc>2hi', },
+    { 'html', 'inoremap', ',l', '<label></label><Esc>7hi', },
+    { 'html', 'inoremap', ',p', '<lt>p></p><Esc>3hi', },
+    { 'html', 'inoremap', ',sp', '<span></span><Esc>6hi', },
+    { 'html', 'inoremap', ',st', '<style></style><Esc>7hi', },
+    { 'html', 'inoremap', ',u', '<ul><cr><li></li><cr></ul><Esc>k^f>a', },
 
-	{ 'javascript,typescript', 'inoremap', ',f', 'function (<++>) {<cr><++><cr>}<Esc>2k^f(i', },
-	{ 'javascript,typescript', 'inoremap', ',>', '() =><Space>', },
+    { 'javascript,typescript', 'inoremap', ',f', 'function (<++>) {<cr><++><cr>}<Esc>2k^f(i', },
+    { 'javascript,typescript', 'inoremap', ',>', '() =><Space>', },
 
-	{ 'typescript', 'nnoremap', '<leader>tc', ':<c-u>!tsc<cr>', },
+    { 'typescript', 'nnoremap', '<leader>tc', ':<c-u>!tsc<cr>', },
 
-	{ 'tex', 'inoremap', '%%%', [[\%]] },
-	{ 'tex', 'inoremap', ',ab', '\\begin{abstract}<Cr><Cr>\\end{abstract}<Esc>k0i', },
-	{ 'tex', 'inoremap', ',au', '\\author{}<Left>', },
-	{ 'tex', 'inoremap', ',base', '<esc>:0read $DOTFILES/snipfiles/base.tex<cr>', },
-	{ 'tex', 'inoremap', ',bf', '\\textbf{} <++><esc>5hi', },
-	{ 'tex', 'inoremap', ',co', '\\newcommand{\\}{<++>}<esc>6hi', },
-	{ 'tex', 'inoremap', ',dot', '\\dot{} <++><esc>5hi', },
-	{ 'tex', 'inoremap', ',en', '\\begin{enumerate}<cr><cr>\\end{enumerate}<esc>ki    <esc>i', },
-	{ 'tex', 'inoremap', ',eq', '\\begin{equation}<cr><cr>\\end{equation}<esc>ki    <esc>i', },
-	{ 'tex', 'inoremap', ',fig', '\\includegraphics{}<Left>', },
-	{ 'tex', 'inoremap', ',fr', '\\frac{}{}<esc>2hi', },
-	{ 'tex', 'inoremap', ',h', '\\title{}<Left>', },
-	{ 'tex', 'inoremap', ',i', '\\item <esc>a', },
-	{ 'tex', 'inoremap', ',lr', '\\left(\\right) <++><esc>11hi', },
-	{ 'tex', 'inoremap', ',ms', '\\section{}<Left>', },
-	{ 'tex', 'inoremap', ',mt', '\\maketitle{}<Cr>', },
-	{ 'tex', 'inoremap', ',p', '\\usepackage{}<esc>i', },
-	{ 'tex', 'inoremap', ',rm', '\\textrm{}<Left>', },
-	{ 'tex', 'inoremap', ',s', '^{} <++><esc>5hi', },
-	{ 'tex', 'inoremap', ',tab', '\\begin{tabular}{}<cr><++><cr>\\end{tabular}<esc>2k^2f{a', },
-	{ 'tex', 'inoremap', ',tx', '\\text{} <++><esc>5hi', },
-	{ 'tex', 'inoremap', ',u', '_{}<Left>', },
-	{ 'tex', 'nnoremap', ',base', ':0read $DOTFILES/snipfiles/base.tex<cr>', },
-	{ 'tex', 'nnoremap', '[e', '?\\begin{equation}<cr>:nohlsearch<cr>', },
-	{ 'tex', 'nnoremap', ']e', '/\\begin{equation}<cr>:nohlsearch<cr>', },
+    { 'tex', 'inoremap', '%%%', [[\%]] },
+    { 'tex', 'inoremap', ',ab', '\\begin{abstract}<Cr><Cr>\\end{abstract}<Esc>k0i', },
+    { 'tex', 'inoremap', ',au', '\\author{}<Left>', },
+    { 'tex', 'inoremap', ',base', '<esc>:0read $DOTFILES/snipfiles/base.tex<cr>', },
+    { 'tex', 'inoremap', ',bf', '\\textbf{} <++><esc>5hi', },
+    { 'tex', 'inoremap', ',co', '\\newcommand{\\}{<++>}<esc>6hi', },
+    { 'tex', 'inoremap', ',dot', '\\dot{} <++><esc>5hi', },
+    { 'tex', 'inoremap', ',en', '\\begin{enumerate}<cr><cr>\\end{enumerate}<esc>ki    <esc>i', },
+    { 'tex', 'inoremap', ',eq', '\\begin{equation}<cr><cr>\\end{equation}<esc>ki    <esc>i', },
+    { 'tex', 'inoremap', ',fig', '\\includegraphics{}<Left>', },
+    { 'tex', 'inoremap', ',fr', '\\frac{}{}<esc>2hi', },
+    { 'tex', 'inoremap', ',h', '\\title{}<Left>', },
+    { 'tex', 'inoremap', ',i', '\\item <esc>a', },
+    { 'tex', 'inoremap', ',lr', '\\left(\\right) <++><esc>11hi', },
+    { 'tex', 'inoremap', ',ms', '\\section{}<Left>', },
+    { 'tex', 'inoremap', ',mt', '\\maketitle{}<Cr>', },
+    { 'tex', 'inoremap', ',p', '\\usepackage{}<esc>i', },
+    { 'tex', 'inoremap', ',rm', '\\textrm{}<Left>', },
+    { 'tex', 'inoremap', ',s', '^{} <++><esc>5hi', },
+    { 'tex', 'inoremap', ',tab', '\\begin{tabular}{}<cr><++><cr>\\end{tabular}<esc>2k^2f{a', },
+    { 'tex', 'inoremap', ',tx', '\\text{} <++><esc>5hi', },
+    { 'tex', 'inoremap', ',u', '_{}<Left>', },
+    { 'tex', 'nnoremap', ',base', ':0read $DOTFILES/snipfiles/base.tex<cr>', },
+    { 'tex', 'nnoremap', '[e', '?\\begin{equation}<cr>:nohlsearch<cr>', },
+    { 'tex', 'nnoremap', ']e', '/\\begin{equation}<cr>:nohlsearch<cr>', },
 
-	{ 'awk', 'inoremap', ',!', '#!/usr/bin/awk -E<cr>', },
-	{ 'awk', 'inoremap', ',b', 'BEGIN { FS=OFS="" }<esc>2hi', },
-	{ 'awk', 'inoremap', ',for', 'for (i = ; i <= <++>; i++) {<cr><++><cr>}<esc>2k^f;i', },
-	{ 'awk', 'inoremap', ',fi', 'for (<+var+> in <+array+>) {<cr><++><cr>}<esc>2k^f;i', },
-	{ 'awk', 'inoremap', ',if', 'if () {<cr><++><cr>}<esc>2k^f(a', },
-	{ 'awk', 'inoremap', ',pf', 'printf("")<esc>hi', },
-	{ 'awk', 'inoremap', ',sh', '#!/usr/bin/awk -E<CR>', },
-	{ 'awk', 'inoremap', '<localleader>q', '\\042', },
-	{ 'awk', 'inoremap', '<localleader>sp', 'split(<+string+>, <+array+>, <+FS+>)<Esc>35hi', },
+    { 'awk', 'inoremap', ',!', '#!/usr/bin/awk -E<cr>', },
+    { 'awk', 'inoremap', ',b', 'BEGIN { FS=OFS="" }<esc>2hi', },
+    { 'awk', 'inoremap', ',for', 'for (i = ; i <= <++>; i++) {<cr><++><cr>}<esc>2k^f;i', },
+    { 'awk', 'inoremap', ',fi', 'for (<+var+> in <+array+>) {<cr><++><cr>}<esc>2k^f;i', },
+    { 'awk', 'inoremap', ',if', 'if () {<cr><++><cr>}<esc>2k^f(a', },
+    { 'awk', 'inoremap', ',pf', 'printf("")<esc>hi', },
+    { 'awk', 'inoremap', ',sh', '#!/usr/bin/awk -E<CR>', },
+    { 'awk', 'inoremap', '<localleader>q', '\\042', },
+    { 'awk', 'inoremap', '<localleader>sp', 'split(<+string+>, <+array+>, <+FS+>)<Esc>35hi', },
 
-	{ 'sh', 'inoremap', ',sh', '#!/bin/sh<CR>', },
-	{ 'sh,bash', 'nnoremap', '<localleader>h', ':read $DOTFILES/snipfiles/shell_help.sh<Cr>', },
-	{ 'sh,fish,bash', 'inoremap', ',v', '"$"<Left>', },
+    { 'sh', 'inoremap', ',sh', '#!/bin/sh<CR>', },
+    { 'sh,bash', 'nnoremap', '<localleader>h', ':read $DOTFILES/snipfiles/shell_help.sh<Cr>', },
+    { 'sh,fish,bash', 'inoremap', ',v', '"$"<Left>', },
 
 
-	{ 'matlab', 'inoremap', ',f', 'function [output] = functionname(inputvariable)<CR><CR>end<Esc>2k', },
+    { 'matlab', 'inoremap', ',f', 'function [output] = functionname(inputvariable)<CR><CR>end<Esc>2k', },
 
-	{ 'make', 'inoremap', ',v', '$()<Left>', },
+    { 'make', 'inoremap', ',v', '$()<Left>', },
 
-	{ 'idf', 'inoremap', '<localleader>i', '! INCLUDE<Space>', },
-	{ 'idf', 'inoremap', '<localleader>r', 'Replace ECM ::', },
-	{ 'idf', 'inoremap', '<localleader>de', 'Delete ECM', },
-	{ 'idf', 'nnoremap', '<localleader>s', '/<C-r>*\\c<CR>', },
-	{ 'idf', 'set', 'errorformat=%l:%c\\', '%m', },
-	{ 'idf', 'set', 'makeprg=idflint\\ %', },
-	{ 'idf,neobem', 'inoremap', '<localleader>l', 'λ', },
-	{ 'idf,neobem', 'nnoremap', '<localleader>t', ':Tabularize /!-\\?/l1l1<CR>', },
-	{ 'neobem', 'nnoremap', '<localleader>c', ':!nbem -o out.idf %<CR>', },
-	{ 'neobem', 'inoremap', '<localleader>f', 'λ  { <++> }<Esc>8hi', },
-	{ 'neobem', 'inoremap', '<localleader>r', '<  ><Esc>hi', },
-	{ 'neobem', 'inoremap', '<localleader>c', '✓', },
+    { 'idf', 'inoremap', '<localleader>i', '! INCLUDE<Space>', },
+    { 'idf', 'inoremap', '<localleader>r', 'Replace ECM ::', },
+    { 'idf', 'inoremap', '<localleader>de', 'Delete ECM', },
+    { 'idf', 'nnoremap', '<localleader>s', '/<C-r>*\\c<CR>', },
+    { 'idf', 'set', 'errorformat=%l:%c\\', '%m', },
+    { 'idf', 'set', 'makeprg=idflint\\ %', },
+    { 'idf,neobem', 'inoremap', '<localleader>l', 'λ', },
+    { 'idf,neobem', 'nnoremap', '<localleader>t', ':Tabularize /!-\\?/l1l1<CR>', },
+    { 'neobem', 'nnoremap', '<localleader>c', ':!nbem -o out.idf %<CR>', },
+    { 'neobem', 'inoremap', '<localleader>f', 'λ  { <++> }<Esc>8hi', },
+    { 'neobem', 'inoremap', '<localleader>r', '<  ><Esc>hi', },
+    { 'neobem', 'inoremap', '<localleader>c', '✓', },
 
     { 'python', 'inoremap', '<localleader>wo', 'with open(\'\') as file:<Esc>F\'i' },
     { 'python', 'inoremap', '<localleader>im', 'if __name__ == "__main__":<Cr>' },
 
-	{ 'python,nbem', 'iabbrev', 'improt', 'import', },
+    { 'python,nbem', 'iabbrev', 'improt', 'import', },
 
-	{ 'compass', 'inoremap', '<localleader>b', '<!-- Compass:  --><CR><CR><!-- Compass --><Esc>2k0f:la', },
+    { 'compass', 'inoremap', '<localleader>b', '<!-- Compass:  --><CR><CR><!-- Compass --><Esc>2k0f:la', },
 }
 
 createAugroup(filetypeAutocmds, 'filetypemappings', 'FileType')
 
 -- Event Type Autocmds {{{1
 bufEnterAutocmds = {
-	{ '*.cshtml', 'set filetype=html' },
-	{ '*.do',    'set filetype=sh' },
-	{ '*.do',     'inoremap ,ex exec >&2<Cr>' },
-	{ '*.do',     'inoremap ,r redo-ifchange<Space>' },
-	{ '*.compass', 'set filetype=compass' },
+    { '*.cshtml', 'set filetype=html' },
+    { '*.do',    'set filetype=sh' },
+    { '*.do',     'inoremap ,ex exec >&2<Cr>' },
+    { '*.do',     'inoremap ,r redo-ifchange<Space>' },
+    { '*.compass', 'set filetype=compass' },
 
     { '*.har', 'set filetype=json' },
 
-	-- doit build system file
-	{ 'dodo.py', 'inoremap ,dep "file_dep": [  ]<Left><Left>' },
-	{ 'dodo.py', 'inoremap ,a "actions": [  ]<Left><Left>' },
-	{ 'dodo.py', 'inoremap ,tar "targets": [  ]<Left><Left>' },
-	{ 'dodo.py', 'inoremap ,doc "doc": ""<Left>' },
-	{ 'dodo.py', 'inoremap ,task <esc>:read $DOTFILES/snipfiles/doit_task.py<cr>' },
+    -- doit build system file
+    { 'dodo.py', 'inoremap ,dep "file_dep": [  ]<Left><Left>' },
+    { 'dodo.py', 'inoremap ,a "actions": [  ]<Left><Left>' },
+    { 'dodo.py', 'inoremap ,tar "targets": [  ]<Left><Left>' },
+    { 'dodo.py', 'inoremap ,doc "doc": ""<Left>' },
+    { 'dodo.py', 'inoremap ,task <esc>:read $DOTFILES/snipfiles/doit_task.py<cr>' },
 }
 
 createAugroup(bufEnterAutocmds, 'bufenter', 'BufEnter')
