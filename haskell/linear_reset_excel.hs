@@ -37,3 +37,10 @@ parsePositional (input:coords) options =
 printExcelReset input x1 y1 x2 y2 =
         "IF(" ++ input ++ " < " ++ x1 ++ ", " ++ y1 ++ ", IF(" ++ input ++ " > " ++ x2 ++ ", " ++ y2 ++ ", "
 
+helpText = unlines [
+    "linear_reset_excel",
+    "",
+    "USAGE:",
+    "linear_reset_excel "
+    ]
+

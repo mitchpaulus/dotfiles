@@ -115,6 +115,17 @@ https://docs.python.org/3/library/string.html#format-string-syntax
 https://docs.python.org/3/library/string.html#formatspec
 https://docs.python.org/3/library/string.html#format-specification-mini-language
 
+```
+format_spec     ::=  [[fill]align][sign][#][0][width][grouping_option][.precision][type]
+fill            ::=  <any character>
+align           ::=  "<" | ">" | "=" | "^"
+sign            ::=  "+" | "-" | " "
+width           ::=  digit+
+grouping_option ::=  "_" | ","
+precision       ::=  digit+
+type            ::=  "b" | "c" | "d" | "e" | "E" | "f" | "F" | "g" | "G" | "n" | "o" | "s" | "x" | "X" | "%"
+```
+
 Common formats:
 `.3f`, `.3g`
 Can put in thousands separator with something like:
