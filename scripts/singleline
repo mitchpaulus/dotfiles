@@ -1,0 +1,24 @@
+#!/usr/bin/awk -E
+
+BEGIN { prev_is_blank = 1 }
+
+{
+    current_is_blank = $0 ~ /^[ \t]*$/
+
+    if (current_is_blank && prev_is_blank) {
+        next
+    }
+    else if (!current_is_blank && prev_is_blank) {
+        printf("%s", $0)
+    }
+    else if (current_is_blank && !prev_is_blank) {
+        printf("\n\n", $0)
+    }
+    else if (!current_is_blank && !prev_is_blank) {
+        gsub(/^ +/, "") # collapse all leading whitespace.  printf(" %s", $0)
+    }
+
+    prev_is_blank = current_is_blank
+}
+
+END { printf("\n") }
