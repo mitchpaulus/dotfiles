@@ -19,3 +19,12 @@
 ## Listing all Keybindings
 
 [Turns out this is not easy](https://stackoverflow.com/questions/16862306/excel-vba-to-list-key-bindings-onkey)
+
+## Key Shortcuts
+
+Delete: Ctrl-(minus)
+Delete Row: Shift-Spacebar, Ctrl-(minus)
+Insert Row: ALT-i, r
+Insert, move right: CTRL-+ (or CTRL-SHIFT-=)
+Insert Column: Shift-Spacebar, CTRL-+
+Insert Column: ALT-i, c

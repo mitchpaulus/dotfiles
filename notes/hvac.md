@@ -115,3 +115,11 @@ Miles ASHRAE Journal, Feb 2021, Pg. 14.
 
 COP = 3.516 / (kW/ton)
 
+
+## 2-pipe vs. 4-pipe
+
+2 pipe means there is single supply and return piping for both heating
+and cooling. The system can only be in one mode at a time.
+
+4 pipe means there is a supply/return for both heating and cooling.
+Systems can be in either heating or cooling at any time.
