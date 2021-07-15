@@ -71,14 +71,13 @@ function add_date
     commandline -i (date '+%Y-%m-%d')
 end
 
+abbr -a ab 'awk \'BEGIN { FS=OFS="\t" }'
+
 function fish_underscore_command
     commandline (underscore_files (commandline))
 end
 
-function awk_begin
-    commandline -i 'BEGIN { FS=OFS="\t" } '
-end
-
+# \e is ALT, mapped to Caps Lock
 bind \ed add_date
 bind \eu fish_underscore_command
 bind \eB awk_begin
@@ -96,7 +95,6 @@ __path_add "$HOME/.local/bin"
 set -gxp MANPATH "$TEXLIVE_INSTALL_PREFIX"/2021/texmf-dist/doc/man
 set -gxp INFOPATH "$TEXLIVE_INSTALL_PREFIX"/2021/texmf-dist/doc/man
 
-
 set -gx CLASSPATH ".:/usr/local/lib/antlr-4.8-complete.jar:$CLASSPATH"
 
 set -gx AWKPATH ".:/usr/local/share/awk:$DOTFILES/awk_functions"
@@ -111,20 +109,18 @@ set -gx BAT_THEME 'Monokai Extended'
 set -gx FAN_BUILD_JDKHOME /usr/java/jdk-14.0.2/
 
 # v for VIM
-function v --wraps="$EDITOR"
-    "$EDITOR" $argv
-end
+abbr -a v $EDITOR
 
-function wttr; curl 'wttr.in/Dallas?format=%l:+%C+%t+%h+%w'; end
+abbr -a wttr 'curl \'wttr.in/Dallas?format=%l:+%C+%t+%h+%w\''
 
 # Git shortcuts
 if command -v git >/dev/null 2>&1
-    function a --wraps='git add';  git add       $argv; end
-    function d --wraps='git diff';  git diff -w $argv; end
-    function s --wraps='git status';  git status -u $argv; end
-    function c --wraps='git commit';  git commit $argv; end
-    function p --wraps='git push';  git push      $argv; end
-    function dc --wraps='git diff'; git diff -w --cached $argv; end
+    abbr -a a 'git add'
+    abbr -a d 'git diff -w'
+    abbr -a s 'git status -u'
+    abbr -a c 'git commit'
+    abbr -a p 'git push'
+    abbr -a dc 'git diff -w --cached'
 end
 
 # function r --wraps=ranger; ranger --choosedir="$HOME/.rangerdir"; cd (cat $HOME/.rangerdir); end
@@ -155,7 +151,7 @@ function lf --wraps=lf
     command lf -last-dir-path "$config_dir"/lf_lastdir $argv; and cd (cat "$config_dir"/lf_lastdir)
 end
 
-function u; cd ..; end
+abbr -a u 'cd ..'
 
 function m
     if test -f Makefile
@@ -222,13 +218,11 @@ function ag
     pwd >> ~/.config/goto/dirs.txt
 end
 
-function al --description "Get .autocorrect length"
-    wc -l ~/.autocorrect
-end
+# Get .autocorrect length
+abbr -a al 'wc -l ~/.autocorrect'
 
-function i --description 'Edit idf files'
-    "$EDITOR" *.idf
-end
+# Edit idf files
+abbr -a i "$EDITOR *.idf"
 
 function en --description 'Edit a note'
     set file (fd --type f -e md '' "$DOTFILES"/notes/ -x printf "%s\n" '{/}' | sed 's/\.md//' | fzf -1); and "$EDITOR" "$DOTFILES"/notes/"$file".md
