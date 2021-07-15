@@ -168,7 +168,7 @@ normalNoRecurseMappings = {
     { '<F10>', ':<C-u>set paste<CR>"+P:set nopaste<CR>' },
 
     -- Toggle spell setting
-    { 'ss',  '<cmd>set spell!<CR><cmd>echo "Spell is now " . &spell<CR>'  },
+    { '<leader>ss',  '<cmd>set spell!<CR><cmd>echo "Spell is now " . &spell<CR>'  },
 
     -- Toggle list setting
     { '<leader>ll', ':set list!<cr>' },
