@@ -34,6 +34,17 @@ inoremap <C-BS> <C-W>
 nnoremap <leader>ch :nohlsearch<cr>
 
 inoremap ,l List<><Left>
+inoremap ,s string
+inoremap ,c class
+inoremap ,d double
+inoremap ,m Dictionary<, ><Esc>2hi
+inoremap ,n new();
+inoremap ,r return
+
+nnoremap J 5j
+nnoremap K 5k
+nnoremap gj J
+
 inoremap <C-L> <Esc>A
 
 set hlsearch   " highlight search
