@@ -35,3 +35,9 @@ systime() # Return current Unix time
 ```
 
 To split on whitespace runs, use `FS=" "`
+
+## Regular Expression Meta Characters
+
+```
+\ ^ $ .  [ ] | ( ) * ?
+```
