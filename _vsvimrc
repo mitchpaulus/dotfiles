@@ -33,13 +33,15 @@ inoremap <C-BS> <C-W>
 "Clear the previous search (c[lear] h[ighlight])
 nnoremap <leader>ch :nohlsearch<cr>
 
-inoremap ,l List<><Left>
-inoremap ,s string
-inoremap ,c class
+inoremap ,c class<Space>
 inoremap ,d double
+inoremap ,l List<><Left>
 inoremap ,m Dictionary<, ><Esc>2hi
-inoremap ,n new();
-inoremap ,r return
+inoremap ,n new();<Esc>
+inoremap ,p public<Space>
+inoremap ,r return<Space>
+inoremap ,s string
+inoremap ,t ToList();<Esc>
 
 nnoremap J 5j
 nnoremap K 5k
