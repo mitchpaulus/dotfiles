@@ -144,10 +144,8 @@ if test -d '/mnt/c/Users/mpaulus/Command Commissioning'
     end
 end
 
-
-function f --wraps="$FILEMANAGER" --description 'When two characters is too many.'
-    "$FILEMANAGER"
-end
+# When more than 1 character is too much
+abbr f "$FILEMANAGER"
 
 function lf --wraps=lf
     set config_dir  "$HOME/.config/lf"
@@ -178,9 +176,7 @@ function cphis --description "Fuzzy search and copy a line from history to clipb
     end
 end
 
-function t --wraps=task
-    task $argv
-end
+abbr t task
 
 function g
     cd (fzf -1 < ~/.config/goto/dirs.txt | awk -F "	" '$1')
