@@ -352,6 +352,11 @@ end
 
 vim.g.AutocorrectFiletypes = { "markdown", "tex", "text", "gitcommit" }
 
+-- NERD Commenter
+vim.g.NERDCustomDelimiters = { axon = { left = "//" }, idf = { left = "!" } }
+-- I like spaces around my delimiters
+vim.g.NERDSpaceDelims = 1
+
 -- FileType AutoCmd Mappings {{{1
 
 local function createAugroup(autocmds, name, event)
