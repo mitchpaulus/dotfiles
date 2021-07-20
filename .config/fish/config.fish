@@ -77,10 +77,15 @@ function fish_underscore_command
     commandline (underscore_files (commandline))
 end
 
+function add_count_lines
+    commandline -i '| wc -l'
+end
+
 # \e is ALT, mapped to Caps Lock
 bind \ed add_date
 bind \eu fish_underscore_command
 bind \eB awk_begin
+bind \ew add_count_lines
 
 __path_add "$DOTFILES"/scripts/
 __path_add "$DOTFILES"/haskell
