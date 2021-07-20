@@ -253,6 +253,9 @@ Modules  = a file with a .py extension (or it's built-in or is in C and dynamica
 > module, the module’s name (as a string) is available as the value of
 > the global variable __name__.
 
+Other useful links:
+ - https://towardsdatascience.com/taming-the-python-import-system-fbee2bf0a1e4
+
 ## Linear Regression
 
 package: scikit-learn
