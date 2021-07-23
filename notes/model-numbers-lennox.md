@@ -1,5 +1,6 @@
 [From here](http://www.central-air-conditioner-and-refrigeration.com/lennox-central-air-conditioner-model-number.html):
 
+## Lennox Serial Number
 Digits 1-2: Division
 
 51 is Columbus
