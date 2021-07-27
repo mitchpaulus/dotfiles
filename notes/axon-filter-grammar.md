@@ -27,3 +27,4 @@ grammar: https://skyfoundry.com/doc/docHaystack/Filters
 <name>       := same as Zinc <id>
 ```
 
+Can use `filterToFunc` and `string.parseFilter`

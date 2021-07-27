@@ -123,3 +123,7 @@ and cooling. The system can only be in one mode at a time.
 
 4 pipe means there is a supply/return for both heating and cooling.
 Systems can be in either heating or cooling at any time.
+
+## Acronyms
+
+XFMR - shortened version of 'transformer'

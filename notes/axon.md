@@ -268,3 +268,4 @@ Important reminders:
   non-boolean values to booleans.
 
 - [hisFindPeriods and NA() values](https://skyfoundry.com/forum/topic/2827)
+
