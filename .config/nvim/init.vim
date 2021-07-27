@@ -500,6 +500,7 @@ set listchars=tab:▸\ ,eol:¬    " But provide better characters when requried
 set guioptions-=e
 set guioptions-=L
 set guioptions-=R
+set nrformats+=alpha
 
 set completeopt=menuone,preview
 set shortmess+=c

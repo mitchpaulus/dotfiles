@@ -313,6 +313,7 @@ vim.api.nvim_buf_set_option(0, 'shiftwidth', 0)      -- 0 makes this follow tabs
 vim.api.nvim_buf_set_option(0, 'synmaxcol', 300)
 vim.api.nvim_buf_set_option(0, 'swapfile', false)
 vim.api.nvim_buf_set_option(0, 'spellfile', os.getenv('DOTFILES') .. '/vim/spell/hvac.utf-8.add')
+vim.api.nvim_buf_set_option(0, 'nrformats', 'bin,hex,alpha')
 
 settings = {
 
