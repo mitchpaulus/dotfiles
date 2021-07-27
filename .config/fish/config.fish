@@ -156,14 +156,6 @@ end
 
 abbr -a u 'cd ..'
 
-function m
-    if test -f Makefile
-        "$EDITOR" Makefile;
-    else
-        printf "Makefile not found\n"
-    end
-end
-
 function chext --description 'Change extension of file'
     printf "%s%s" (string match -r '.*\.' $argv[1]) $argv[2]
 end
@@ -192,15 +184,7 @@ function eil --description "[E]dit [i]nit.[l]ua"
 end
 
 function ev --description "Edit vimrc file"
-    if test -e "$HOME/.config/nvim/init.vim"
-        "$EDITOR" "$HOME/.config/nvim/init.vim"
-    else if  test -e "$HOME/.config/nvim/init.lua"
-        "$EDITOR" "$HOME/.config/nvim/init.lua"
-    else if  test -e "$HOME"/.vimrc
-        "$EDITOR" "$HOME"/.vimrc
-    else
-        printf "vimrc file not found.\n"
-    end
+    eil
 end
 
 # If a build of Neovim from source is found, use that.
