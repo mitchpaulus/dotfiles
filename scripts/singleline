@@ -1,6 +1,22 @@
 #!/usr/bin/awk -E
 
-BEGIN { prev_is_blank = 1 }
+BEGIN {
+    prev_is_blank = 1
+
+    for (i in ARGV) {
+        if (ARGV[i] == "-h" || ARGV[i] == "--help") {
+            print "singleline"
+            print "USAGE:"
+            print ""
+            print "singleline files..."
+            print ""
+            print "This script removes any line splitting, putting entire paragraphs"
+            print "on a single line."
+
+            exit 0
+        }
+    }
+}
 
 {
     current_is_blank = $0 ~ /^[ \t]*$/
@@ -15,7 +31,8 @@ BEGIN { prev_is_blank = 1 }
         printf("\n\n", $0)
     }
     else if (!current_is_blank && !prev_is_blank) {
-        gsub(/^ +/, "") # collapse all leading whitespace.  printf(" %s", $0)
+        gsub(/^ +/, "") # collapse all leading whitespace.
+        printf(" %s", $0)
     }
 
     prev_is_blank = current_is_blank
