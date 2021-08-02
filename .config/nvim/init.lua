@@ -151,8 +151,8 @@ normalNoRecurseMappings = {
     { '<C-l>', '<c-w>l' },
 
     -- Move around buffers and quickfix list
-        { '[q', ':cprevious<CR>' },
-        { ']q', ':cnext<CR>' },
+    { '[q', ':cprevious<CR>' },
+    { ']q', ':cnext<CR>' },
     { '[Q', ':cfirst<CR>' },
     { ']Q', ':clast<CR>' },
     { '[b', ':bprevious<CR>' },
@@ -193,6 +193,9 @@ normalNoRecurseMappings = {
     { '<leader>j', '/\\V<+\\.\\{-}+><cr>cgn' },
 
     { '<C-n>', ':bnext<CR>' },
+
+    -- Yank to the end of the line, without the newline
+    { 'Y', 'yg_'},
 }
 
 func_map(function(tbl) nnmap(tbl[1], tbl[2]) end, normalNoRecurseMappings)
