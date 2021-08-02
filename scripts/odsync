@@ -1,0 +1,5 @@
+#!/bin/sh
+# Force OneDrive to resync
+file="$(uuidgen)".txt && \
+touch "$file" && \
+rm -f "$file"
