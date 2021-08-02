@@ -236,6 +236,12 @@ insertModeNoRecurseMappings = {
     -- Move to end of line when in insert mode
     { '<C-l>', '<Esc>A' },
     { '<C-j>', '<Esc>/\\V<+\\.\\{-}+><CR>cgn' },
+
+    -- Add undo break points while typing
+    { '.', '.<C-g>u'},
+    { '=', '=<C-g>u'},
+    { '!', '!<C-g>u'},
+    { ':', ':<C-g>u'},
 }
 
 func_map(function(tbl) inmap(tbl[1], tbl[2]) end, insertModeNoRecurseMappings)
