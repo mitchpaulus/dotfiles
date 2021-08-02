@@ -4,10 +4,10 @@
 [push]
     default = simple
 [alias]
-	st = status -u
+    st = status -u
     co = checkout
     logg = log --graph --date=format:'%b-%d %H:%M' -n 50 --format=format:'%C(yellow)%d%Creset %s %Cred%an %Cgreen%cd %Cblue%h%Creset'
-	fp = fetch --prune
+    fp = fetch --prune
     pull = pull --ff-only
     branches = branch -a
     remotes = remote -v
@@ -19,4 +19,22 @@
 [include]
     path = ~/.hostgitconfig
 [pull]
-	ff = only
+    ff = only
+
+# Can copy this out for a hostgitconfig setup.
+# Directly from the delta README.
+# [pager]
+#     diff = delta
+#     log = delta
+#     reflog = delta
+#     show = delta
+#
+# [delta]
+#     plus-style = "syntax #012800"
+#     minus-style = "syntax #340001"
+#     navigate = true
+#     side-by-side=true
+#
+# [interactive]
+#     diffFilter = delta --color-only
+
