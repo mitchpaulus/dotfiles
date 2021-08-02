@@ -28,3 +28,16 @@ Insert Row: ALT-i, r
 Insert, move right: CTRL-+ (or CTRL-SHIFT-=)
 Insert Column: Shift-Spacebar, CTRL-+
 Insert Column: ALT-i, c
+
+## Default Encoding
+
+The default encoding for CSV files is Windows-1252. Close to, but not
+exactly the same as ISO-8859-1 (Latin alphabet no. 1).
+
+In LaTeX packages, CP-1252 is referred to as "ansinew".
+
+Converting to/from
+
+```sh
+ iconv -f WINDOWS-1252 -t UTF-8 filename.txt
+```

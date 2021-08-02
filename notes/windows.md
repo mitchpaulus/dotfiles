@@ -21,6 +21,12 @@ Program Files\ = 64 bit programs
 New-Item -ItemType SymbolicLink -Path path\to\new\file.txt -Target path\to\already\existing\file.txt
 ```
 
+By default, symbolic links are relative, unless a drive letter is
+specified in the path.
+
+In order to get OneDrive to resync, create and delete an empty file in
+the directory. Have script file `odsync` to do this file
+creation/deletion.
 
 ## Issue with Windows Explorer and Toolbar
 
@@ -34,3 +40,4 @@ drive that wasn't often connected.
 ## Restarting Graphics Driver
 
 CTRL+SHIFT+WIN+B, be careful with that one.
+
