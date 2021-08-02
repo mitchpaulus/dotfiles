@@ -126,6 +126,7 @@ if command -v git >/dev/null 2>&1
     abbr -a c 'git commit'
     abbr -a p 'git push'
     abbr -a dc 'git diff -w --cached'
+    abbr -a fp 'git fetch --prune'
 end
 
 # function r --wraps=ranger; ranger --choosedir="$HOME/.rangerdir"; cd (cat $HOME/.rangerdir); end
