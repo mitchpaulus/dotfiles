@@ -45,3 +45,11 @@ if printf '%s' $var | grep -q 'pattern'; then ... ; fi
 ## Writing your own shell
 
 [Cool link](https://www.cs.cornell.edu/courses/cs414/2004su/homework/shell/shell.html)
+
+## Pass variable contents to standard input
+
+This is POSIX compatible as well.
+
+```
+printf '%s' "$var" | program
+```
