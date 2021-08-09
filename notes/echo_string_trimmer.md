@@ -9,3 +9,8 @@
 3. Pull line through head, equal line distances on both sides
 4. Hold top of trimmer head while turning the knob clockwise to wind
    line onto spool.
+
+## Spin Direction
+
+Head spins counterclockwise, so walk left to right, keep to the right of
+the head, so it ejects to the left.
