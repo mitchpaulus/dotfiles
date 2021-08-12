@@ -13,4 +13,4 @@
 [link](http://amazonfiles.s3.amazonaws.com/smkd72.rar)
 
 Can search for 'smkd72' folder to try to find program if downloaded
-previously.
+previously. Should be in my 'Portable Programs' folder.

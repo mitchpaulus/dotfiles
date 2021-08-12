@@ -29,6 +29,8 @@ Insert, move right: CTRL-+ (or CTRL-SHIFT-=)
 Insert Column: Shift-Spacebar, CTRL-+
 Insert Column: ALT-i, c
 
+For inserting row, typically use 'SHIFT-<Space>, then <CTRL-SHIFT++>'
+
 ## Default Encoding
 
 The default encoding for CSV files is Windows-1252. Close to, but not
@@ -40,4 +42,12 @@ Converting to/from
 
 ```sh
  iconv -f WINDOWS-1252 -t UTF-8 filename.txt
+```
+
+## String Contains
+
+Source: [https://exceljet.net/formula/cell-contains-specific-text](https://exceljet.net/formula/cell-contains-specific-text)
+
+```
+=ISNUMBER(SEARCH(substring, text))
 ```
