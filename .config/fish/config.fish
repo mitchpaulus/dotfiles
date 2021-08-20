@@ -1,5 +1,32 @@
 #!/usr/bin/fish
 
+set -g fish_prompt_pwd_dir_length 5
+
+set -gx DOTFILES ~/dotfiles
+set -gx FILEMANAGER lf
+
+# Good ole U.S. of A.
+set -gx TEXLIVE_INSTALL_PAPER letter
+set -gx TEXLIVE_INSTALL_PREFIX "$HOME"/texlive
+
+# This from DistroTube https://www.youtube.com/watch?v=ab3rY0X5kD4
+set -gx MANPAGER "nvim -c 'set ft=man' -"
+
+set -g H /mnt/c/Users/mpaulus
+
+set -gxp MANPATH "$TEXLIVE_INSTALL_PREFIX"/2021/texmf-dist/doc/man
+set -gxp INFOPATH "$TEXLIVE_INSTALL_PREFIX"/2021/texmf-dist/doc/man
+
+set -gx CLASSPATH ".:/usr/local/lib/antlr-4.8-complete.jar:$CLASSPATH"
+set -gx AWKPATH ".:/usr/local/share/awk:$DOTFILES/awk_functions"
+set -gx DOTREMINDERS ~/.config/remind/remind.rem
+set -gx FZF_DEFAULT_OPTS '--reverse --margin 10% --border'
+set -gx BAT_THEME 'Monokai Extended'
+# Microsoft doesn't need my telemetry
+set -gx DOTNET_CLI_TELEMETRY_OPTOUT 1
+
+# Required for Haxall - See https://github.com/haxall/haxall
+set -gx FAN_BUILD_JDKHOME /usr/java/jdk-14.0.2/
 
 # Neovim/Vim for all the things
 if command -v nvim >/dev/null 2>&1
@@ -85,33 +112,6 @@ __path_add "$HOME/.gem/ruby/3.0.0/bin"
 __path_add "$HOME/bin"
 __path_add "$HOME/.local/bin"
 
-set -g fish_prompt_pwd_dir_length 5
-
-set -gx DOTFILES ~/dotfiles
-set -gx FILEMANAGER lf
-
-# Good ole U.S. of A.
-set -gx TEXLIVE_INSTALL_PAPER letter
-set -gx TEXLIVE_INSTALL_PREFIX "$HOME"/texlive
-
-# This from DistroTube https://www.youtube.com/watch?v=ab3rY0X5kD4
-set -gx MANPAGER "nvim -c 'set ft=man' -"
-
-set -g H /mnt/c/Users/mpaulus
-
-set -gxp MANPATH "$TEXLIVE_INSTALL_PREFIX"/2021/texmf-dist/doc/man
-set -gxp INFOPATH "$TEXLIVE_INSTALL_PREFIX"/2021/texmf-dist/doc/man
-
-set -gx CLASSPATH ".:/usr/local/lib/antlr-4.8-complete.jar:$CLASSPATH"
-set -gx AWKPATH ".:/usr/local/share/awk:$DOTFILES/awk_functions"
-set -gx DOTREMINDERS ~/.config/remind/remind.rem
-set -gx FZF_DEFAULT_OPTS '--reverse --margin 10% --border'
-set -gx BAT_THEME 'Monokai Extended'
-# Microsoft doesn't need my telemetry
-set -gx DOTNET_CLI_TELEMETRY_OPTOUT 1
-
-# Required for Haxall - See https://github.com/haxall/haxall
-set -gx FAN_BUILD_JDKHOME /usr/java/jdk-14.0.2/
 
 # v for VIM
 abbr -a v $EDITOR
