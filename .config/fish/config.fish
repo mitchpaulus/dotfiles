@@ -127,6 +127,9 @@ if command -v git >/dev/null 2>&1
     abbr -a p 'git push'
     abbr -a dc 'git diff -w --cached'
     abbr -a fp 'git fetch --prune'
+    abbr -a gu 'git add -u'
+    abbr -a ga 'git add -A'
+    abbr -a uc 'git add -u; git commit'
 end
 
 # Go to git repositories
@@ -210,7 +213,8 @@ abbr -a al 'wc -l ~/.autocorrect'
 abbr -a i "$EDITOR *.idf"
 
 function en --description 'Edit a note'
-    set file (fd --type f -e md '' "$DOTFILES"/notes/ -x printf "%s\n" '{/}' | sed 's/\.md//' | fzf -1); and "$EDITOR" "$DOTFILES"/notes/"$file".md
+    set file (fd --type f -e md '' "$DOTFILES"/notes/ -x printf "%s\n" '{/}' | sed 's/\.md//' | fzf -1)
+    and "$EDITOR" "$DOTFILES"/notes/"$file".md
 end
 
 function gn --description 'Go to notes directory'; cn; end
