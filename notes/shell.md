@@ -53,3 +53,8 @@ This is POSIX compatible as well.
 ```
 printf '%s' "$var" | program
 ```
+
+## Maximum Command Length
+
+[Windows](https://stackoverflow.com/a/3205048/5932184)
+Might be 8191 characters, or 32768 characters

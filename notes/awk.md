@@ -41,3 +41,11 @@ To split on whitespace runs, use `FS=" "`
 ```
 \ ^ $ .  [ ] | ( ) * ?
 ```
+
+## Sorting
+
+```awk
+asort(source, dest, how) # Sort by values
+asorti(source, dest, how) # Sort by indices
+```
+

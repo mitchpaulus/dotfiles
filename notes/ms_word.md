@@ -22,18 +22,18 @@ These include (from
 [https://www.customguide.com/word/how-to-use-wildcards-in-word](https://www.customguide.com/word/how-to-use-wildcards-in-word):
 
 ```
-Wildcard 	Purpose		Example
-? 	   Any single character 	h?t will find hat, hot, and h t
-* 	   Any number of characters 	a*d will find ad, ahead, and as compared
-[ ]    One of these characters 	t[ai]n will find tan and tin, but not ton
-[ - ]  One of these characters in a range 	[b-d]ot will find bot, cot, and dot
-[! ]   Not the specific characters 	[!d]ust will find rust and must, but not dust
-< 	The beginning of a word 	<(some) will find something, someone, and somewhere
-> 	The end of a word 	(one)> will find stone, cone, and provolone
-@ 	One or more instances of a character 	cor@al will find coral and corral
-{n} 	Exactly n instances of a character 	^p{2} will find two consecutive paragraph breaks
-{n,} 	At least n instances of a character 	10{2,} will find 100, 1000, and 10000
-{n,m} 	Between n and m instances of a character 	10{2,3} will find only 100 and 1000, not 10000
+Wildcard 	Purpose                               Example
+?      Any single character                     h?t will find hat, hot, and h t
+*      Any number of characters                 a*d will find ad, ahead, and as compared
+[ ]    One of these characters                  t[ai]n will find tan and tin, but not ton
+[ - ]  One of these characters in a range       [b-d]ot will find bot, cot, and dot
+[! ]   Not the specific characters              [!d]ust will find rust and must, but not dust
+<      The beginning of a word                  <(some) will find something, someone, and somewhere
+>      The end of a word                        (one)> will find stone, cone, and provolone
+@      One or more instances of a character     cor@al will find coral and corral
+{n}    Exactly n instances of a character       ^p{2} will find two consecutive paragraph breaks
+{n,}   At least n instances of a character      10{2,} will find 100, 1000, and 10000
+{n,m}  Between n and m instances of a character 10{2,3} will find only 100 and 1000, not 10000
 ```
 
 In the replacement, a useful special character sequence is `^c`. This
