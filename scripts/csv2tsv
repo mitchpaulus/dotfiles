@@ -13,6 +13,21 @@
 import csv
 import sys
 
+
+help_text = (
+"""csv2tsv
+
+USAGE: csv2tsv file
+
+This will take a CSV file, possibly formatted under RFC 4180, and turn it into
+a tab separated file.
+"""
+)
+
+if (any([ arg == "-h" or arg == "--help" for arg in sys.argv])):
+    print(help_text, end='')
+    sys.exit()
+
 if (len(sys.argv) > 1):
     csv_file = open(sys.argv[1], encoding="utf-8")
 else:
@@ -24,3 +39,5 @@ for row in reader:
     # The only two characters that matter here are newlines and tabs. Remove both.
     new_rows = [field.replace("\n", "\\n").replace("\t", " ") for field in row]
     print("\t".join(new_rows))
+
+
