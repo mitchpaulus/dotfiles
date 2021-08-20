@@ -1,0 +1,11 @@
+#!/bin/sh
+# Want to be able to include current clipboard contents in WSL pipelines
+if test "$1" = "-h" || test "$1" = "--help"; then
+    cat <<EOF
+cb - Put clipboard contents to standard output
+
+USAGE: cb
+EOF
+exit 0
+fi
+powershell.exe Get-Clipboard | tr -d '\r' | sed -z '$ s/\n$//'
