@@ -24,7 +24,7 @@ things. [link](https://mywiki.wooledge.org/BashFAQ/028)
 
 Can never remember the syntax for case statements.
 
-```
+```sh
 case word in
     pattern [| pattern]... ) command-list ;;
 esac
@@ -50,7 +50,7 @@ if printf '%s' $var | grep -q 'pattern'; then ... ; fi
 
 This is POSIX compatible as well.
 
-```
+```sh
 printf '%s' "$var" | program
 ```
 
@@ -58,3 +58,9 @@ printf '%s' "$var" | program
 
 [Windows](https://stackoverflow.com/a/3205048/5932184)
 Might be 8191 characters, or 32768 characters
+
+## Iterate over files with spaces
+
+```sh
+find . -name '*.ext' | while read -r file; do ...; done
+```
