@@ -309,6 +309,7 @@ vim.api.nvim_set_option('wildignore', wildignorePatterns)  -- Sane filename char
 
 vim.api.nvim_win_set_option(0, 'relativenumber', true)        -- Relative line numbering
 vim.api.nvim_win_set_option(0, 'number', true)     -- Show the current line number
+vim.api.nvim_win_set_option(0, 'foldmethod', 'marker') -- Never has used manual folds.
 
 vim.api.nvim_win_set_option(0, 'cursorline', false)
 vim.api.nvim_win_set_option(0, 'wrap', false)
