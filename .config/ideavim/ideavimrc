@@ -1,0 +1,50 @@
+" This is a slimmed down vimrc file just for IdeaVim which I use only in
+" PyCharm.
+map <space> <leader>
+
+inoremap jf <Esc>
+
+nnoremap <TAB> <PageDown>zz
+nnoremap <S-TAB> <PageUp>zz
+
+nnoremap s :w<CR>
+
+" Fast saving, but use update not write.
+nnoremap <Leader>w :w<CR>
+
+" stay on current search
+nnoremap * *N
+
+"[C]lear [W]hitespace at End of Line
+nnoremap <leader>cw :%s/\v\s+$//<cr>
+
+" These mappings are for VisualStudio Vim in order to get correct indentation.
+nnoremap S ddO
+nnoremap cc S
+
+" Quick mappings for the beginning and ends of lines
+noremap H ^
+noremap L $
+
+" Want ctrl-backspace to delete whole word in insert mode
+inoremap <C-BS> <C-W>
+
+"Clear the previous search (c[lear] h[ighlight])
+nnoremap <leader>ch :nohlsearch<cr>
+
+set hlsearch   " highlight search
+
+nnoremap J 5j
+nnoremap K 5k
+nnoremap gj J
+
+inoremap <C-L> <Esc>A
+iabbrev ture true
+iabbrev flase false
+iabbrev fasle false
+
+" IdeaVim specific items
+
+" Flash what's been yanked
+set highlightedyank
+
