@@ -477,6 +477,7 @@ filetypeAutocmds = {
     { 'awk', 'inoremap', ',sh', '#!/usr/bin/awk -E<CR>', },
     { 'awk', 'inoremap', '<localleader>q', '\\042', },
     { 'awk', 'inoremap', '<localleader>sp', 'split(<+string+>, <+array+>, <+FS+>)<Esc>35hi', },
+    { 'awk', 'setlocal path+=$DOTFILES/awk_functions' },
 
     { 'sh', 'inoremap', ',sh', '#!/bin/sh<CR>', },
     { 'sh,bash', 'nnoremap', '<localleader>h', ':read $DOTFILES/snipfiles/shell_help.sh<Cr>', },
