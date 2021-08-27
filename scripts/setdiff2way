@@ -1,0 +1,43 @@
+#!/usr/bin/awk -E
+BEGIN {
+    file_num = 0
+}
+
+FNR == 1 { file_num++ }
+
+{
+    if (file_num == 1) {
+        file_one[$0]
+    }
+    else if (file_num == 2) {
+        file_two[$0]
+    }
+}
+
+END {
+
+
+    for (line in file_one) {
+        if (!(line in file_two)) {
+            one_minus_two[line]
+            one_minus_two_count++
+        }
+    }
+
+    printf "A - B (%s)\n", one_minus_two_count
+    for (line in one_minus_two) {
+        print line
+    }
+
+    for (line in file_two) {
+        if (!(line in file_one)) {
+            two_minus_one[line]
+            two_minus_one_count++
+        }
+    }
+
+    printf "B - A (%s)\n", two_minus_one_count
+    for (line in two_minus_one) {
+        print line
+    }
+}
