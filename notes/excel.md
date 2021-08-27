@@ -51,3 +51,7 @@ Source: [https://exceljet.net/formula/cell-contains-specific-text](https://excel
 ```
 =ISNUMBER(SEARCH(substring, text))
 ```
+
+## String Splitting
+
+Typically use combination of `LEFT`, `RIGHT`, `MID`, and `SEARCH`.

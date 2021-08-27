@@ -36,8 +36,10 @@ Following the answer
 I was able to magically get things working by removing some network
 drive that wasn't often connected.
 
-
 ## Restarting Graphics Driver
 
 CTRL+SHIFT+WIN+B, be careful with that one.
 
+## Print all environment variables
+
+`set` in cmd.exe
