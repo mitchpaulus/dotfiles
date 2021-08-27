@@ -55,3 +55,9 @@ Source: [https://exceljet.net/formula/cell-contains-specific-text](https://excel
 ## String Splitting
 
 Typically use combination of `LEFT`, `RIGHT`, `MID`, and `SEARCH`.
+
+## Delete Pivot Table
+
+1. Click in Pivot Table
+2. On Ribbon, Analyze -> Select -> Entire Pivot Table
+3. Press Delete.
