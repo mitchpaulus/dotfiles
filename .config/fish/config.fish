@@ -127,10 +127,10 @@ if command -v git >/dev/null 2>&1
     abbr -a p 'git push'
     abbr -a dc 'git diff -w --cached'
     abbr -a fp 'git fetch --prune'
-    abbr -a gu 'git add -u'
-    abbr -a ga 'git add -A'
+    abbr -a gu 'git add -u; git status -u'
+    abbr -a ga 'git add -A; git status -u'
     abbr -a uc 'git add -u; git commit'
-    abbr -a merge 'git merge --ff-only'
+    abbr -a merge 'git merge --ff-only; git status -u'
 end
 
 # Go to git repositories
