@@ -130,6 +130,7 @@ if command -v git >/dev/null 2>&1
     abbr -a gu 'git add -u'
     abbr -a ga 'git add -A'
     abbr -a uc 'git add -u; git commit'
+    abbr -a merge 'git merge --ff-only'
 end
 
 # Go to git repositories
