@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if test "$1" = "-h" || test "$1" = "--help"; then
     cat <<EOF
@@ -12,4 +12,6 @@ EOF
 exit 0
 fi
 
-sort "$1" "$2" "$2" | uniq -u
+# Critical to make sure that the first file doesn't also have duplicates
+# when making this check.
+sort <(sort -u "$1") "$2" "$2" | uniq -u
