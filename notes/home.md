@@ -28,3 +28,7 @@ Typically have a coarse and fine threads per inch
 #10: 0.1900  ~3/16"
 #12: 0.2160  ~7/32"
 #14: 0.24    ~1/4"
+
+## Home Automation
+
+[SkySpark in the Home](https://www.automatedbuildings.com/news/jul21/articles/adam/210617023801adam.html)

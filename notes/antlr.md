@@ -1,6 +1,5 @@
 # Antlr
 
-
 - Forcing Java classes to be built:
 ```
 antlr4 -Dlanguage=Java *.g4
@@ -47,3 +46,23 @@ Followed instructions for Antlr
 ## Arch/Manjaro
 
 - Believe I used package `jdk-openjdk`
+
+## Associativity
+
+The location of the `<assoc=right/left>` token has moved from the time of
+the book. It now gets put right at the beginning of the alternative,
+rather than after the binary operator. It only seems to affect the
+binary case, not the prefix or suffix.
+
+[Note on left recursion](https://github.com/antlr/antlr4/blob/master/doc/left-recursion.md)
+
+[Technical Paper with Details](https://www.antlr.org/papers/allstar-techreport.pdf)
+
+ - Binary expressions are expressions which contain a recursive
+   invocation of the rule as the first and last element of the
+   alternative.
+ - Suffix expressions contain a recursive invocation of the rule as the
+   first element of the alternative, but not as the last element.
+ - Prefix expressions contain a recursive invocation of the rule as the
+   last element of the alternative, but not as the first element.
+
