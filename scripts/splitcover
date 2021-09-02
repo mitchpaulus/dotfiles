@@ -1,0 +1,18 @@
+#!/bin/sh
+
+set -e
+
+if test "$1" = "-h" || test "$1" = "--help"; then
+    cat <<EOF
+splitcover
+
+USAGE: splitcover pdf_file
+
+Splits a PDF into two parts, the first being the first cover page, and the
+remaining part.
+EOF
+exit 0
+fi
+
+rippdf "$1" 1   "$(mbasename -e "$1")"_cover.pdf
+rippdf "$1" 2-z "$(mbasename -e "$1")"_body.pdf
