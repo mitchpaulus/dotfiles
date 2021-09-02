@@ -503,6 +503,7 @@ filetypeAutocmds = {
 
     { 'python', 'inoremap', '<localleader>wo', 'with open(\'\') as file:<Esc>F\'i' },
     { 'python', 'inoremap', '<localleader>im', 'if __name__ == "__main__":<Cr>' },
+    { 'python', 'inoremap', '<localleader>di', 'def __init__(self) -> None:<Esc>F)i' },
 
     { 'python,nbem', 'iabbrev', 'improt', 'import', },
 
