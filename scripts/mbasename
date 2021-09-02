@@ -1,0 +1,40 @@
+#!/usr/bin/awk -E
+
+BEGIN {
+    remove_extension = 0
+
+    for (i = 1; i < ARGC; i++) {
+        if (ARGV[i] == "-e") {
+            remove_extension = 1
+            continue
+        }
+
+        if (ARGV[i] == "-h" || ARGV[i] == "--help") {
+            print "mbasename"
+            print ""
+            print "USAGE: mbasename [-h | --help] [-e] filepath..."
+            print ""
+            print "OPTIONS:"
+            print " -e Remove final extension"
+            exit 0
+        }
+
+        num_split = split(ARGV[i], split_by_dir, "/")
+
+        file_part = split_by_dir[num_split]
+
+        if (remove_extension) {
+            num_ext_split = split(file_part, split_by_ext, /\./)
+
+            if (num_ext_split == 1) {
+                print file_part
+            }
+            else {
+                extension = split_by_ext[num_ext_split]
+                print substr(file_part, 1,  length(file_part) - length(extension) - 1)
+            }
+        } else {
+            print file_part
+        }
+    }
+}
