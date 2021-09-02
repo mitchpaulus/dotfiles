@@ -1,0 +1,28 @@
+#!/usr/bin/awk -E
+#
+# USAGE: intersect file1 file2
+#
+# Find the set intersection between two files. Handles potential
+# duplicates in each file.
+BEGIN {
+    file_num = 0
+}
+
+FNR == 1 { file_num++ }
+
+{
+    if (file_num == 1) {
+        file_one[$0]
+    }
+    else if (file_num == 2) {
+        file_two[$0]
+    }
+}
+
+END {
+    for (item in file_one) {
+        if (item in file_two) {
+            print item | "sort -V"
+        }
+    }
+}
