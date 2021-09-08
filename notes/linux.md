@@ -40,6 +40,7 @@ So in practice the useful permissions on a directory are:
 
 - Add user: `useradd`. However, this is a low-level utility, recommended
   replacement is `adduser`. [SO](https://unix.stackexchange.com/a/182193/296724). See `man useradd` as well.
+- Config file for `adduser` is at: `/etc/adduser.conf`
 - Add existing user account to group: `usermod -a -G groupname username`.
   `-a` is for append.
   `-G` is for secondary group.

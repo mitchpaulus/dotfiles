@@ -112,6 +112,11 @@ epdoc() { explorer.exe 'C:\EnergyPlusV9-3-0\Documentation'; }
 
 hnotes() { "$EDITOR" '/mnt/c/Users/mpaulus/GoogleDrive/notes/home tasks.md' ; }
 
+alias vim='nvim'
+alias v='nvim'
+
+# [S]ource .[b]ashrc
+alias sb='source ~/.bashrc && printf ".bashrc reloaded.\n"'
 
 export EDITOR=nvim
 
