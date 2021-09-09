@@ -1,0 +1,9 @@
+#!/bin/sh
+
+cd "$(userprofile)" || exit 1
+
+if test "$#" -eq 0; then
+    cmd.exe /C 'SET' | sed 's/\r//g'
+elif test $# -eq 1; then
+    cmd.exe /C "$(printf 'echo %%%s%%'  "$1" )" | tr -d '\r'
+fi

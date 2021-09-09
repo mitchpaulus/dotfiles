@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Print out OneDriveCommercial windows environment variable
+set -e
+# Need to change into a windows dir before cmd.exe or else it complains.
+cd /mnt/c/ || exit 1
+
+printf '%s/Command Commissioning\n' "$(userprofile)"
