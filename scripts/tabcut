@@ -9,7 +9,7 @@ EOF
 exit 0
 fi
 
-if test "$#" -le 2; then
+if test "$#" -lt 2; then
     # Use standard input
     cut -d '	' -f "$1" -
 else
