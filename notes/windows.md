@@ -10,6 +10,26 @@ drivers still hasn't been resolved.
 
 Pretty much am seeing `%USERPROFILE%` as the better option.
 
+Based on documentation [here](https://docs.microsoft.com/en-us/windows/win32/shell/knownfolderid?redirectedfrom=MSDN),
+these are the following environment strings, table near the bottom:
+
+Post-Vista:
+String | Example Path
+-------|-----------
+%ALLUSERSPROFILE%   | C:\ProgramData
+%APPDATA%           | C:\Users\username\AppData\Roaming
+%LOCALAPPDATA%      | C:\Users\username\AppData\Local
+%ProgramData%       | C:\ProgramData
+%ProgramFiles%      | C:\Program Files
+%ProgramFiles(x86)% | C:\Program Files (x86)
+%PUBLIC%            | C:\Users\Public
+%SystemDrive%       | C:
+%USERPROFILE%       | C:\Users\username
+%windir%            | C:\Windows
+
+
+HomeDrive and HomePath not found.
+
 ## C:\Program Files vs C:\Program Files (x86)
 
 x86 = 32 bit programs
@@ -43,3 +63,10 @@ CTRL+SHIFT+WIN+B, be careful with that one.
 ## Print all environment variables
 
 `set` in cmd.exe
+
+## Useful One Drive Environment Variables
+
+Didn't know these existed:
+
+OneDrive=C:\Users\mpaulus\OneDrive - Command Commissioning
+OneDriveCommercial=C:\Users\mpaulus\OneDrive - Command Commissioning

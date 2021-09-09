@@ -36,6 +36,16 @@ So in practice the useful permissions on a directory are:
     rwx: normal read and write access
 
 
+- [Permissions for git directory](https://serverfault.com/a/27040)
+
+```
+setfacl -R -m g:<whatever group>:rwX gitrepo
+find gitrepo -type d | xargs setfacl -R -m d:g:<whatever group>:rwX
+```
+
+ACL = Access Control List
+
+
 ## User Management
 
 - Add user: `useradd`. However, this is a low-level utility, recommended

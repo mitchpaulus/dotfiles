@@ -61,3 +61,11 @@ Typically use combination of `LEFT`, `RIGHT`, `MID`, and `SEARCH`.
 1. Click in Pivot Table
 2. On Ribbon, Analyze -> Select -> Entire Pivot Table
 3. Press Delete.
+
+## Copying Data to New XY Series
+
+If shared X-Axis, can copy columns directly onto plot. Else, Copy the 2
+columns, click on chart, Paste Special.
+
+- Set 'Add cells as': to 'New Series'
+- Make sure 'Categories (X Values) in First Column
