@@ -2,6 +2,6 @@
 
 # Commit updated notes
 
-git add 'notes/*.md' && \
+git add "$DOTFILES/notes/*.md" && \
 git commit -m "Update notes" && \
 git push
