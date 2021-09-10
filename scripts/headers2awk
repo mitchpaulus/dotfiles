@@ -10,6 +10,7 @@ NR == 1 {
 
         header = $i
 
+        gsub(/#/, "num", header)
         gsub(/²/, "2", header)
         gsub(/³/ "3", header)
         gsub(/°/, "deg", header)
