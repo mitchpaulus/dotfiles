@@ -39,3 +39,8 @@ isfile(path)
 isdir(path)
 splitext(path) # 'file.txt' -> ('file', '.txt'), '.file' -> ('.file', '')
 ```
+
+## Creating Directory
+```
+os.makedirs(name, mode=0o777, exist_ok=False)
+```
