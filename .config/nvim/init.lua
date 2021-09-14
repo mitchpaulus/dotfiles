@@ -196,6 +196,9 @@ normalNoRecurseMappings = {
 
     -- Yank to the end of the line, without the newline
     { 'Y', 'yg_'},
+
+    -- Compile Markdown to PDF using pandoc
+    { '<leader>pc',  ':silent !pandoc -V geometry:margin=1in -o "%:p:r.pdf" "%:p"<cr>'  }
 }
 
 func_map(function(tbl) nnmap(tbl[1], tbl[2]) end, normalNoRecurseMappings)

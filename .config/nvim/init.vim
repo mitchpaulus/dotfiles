@@ -174,7 +174,7 @@ xnoremap <leader>y "+y
 nnoremap <leader>ct :<C-u>checktime<cr>
 
 " Compile Pandoc
-nnoremap <leader>pc :silent !pandoc -o "%:p:r.pdf" "%:p"<cr>
+nnoremap <leader>pc :silent !pandoc -V geometry:margin=1in -o "%:p:r.pdf" "%:p"<cr>
 
 " Terminal mode, see pg. 73 Modern Vim
 if has('nvim')

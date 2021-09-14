@@ -8,10 +8,16 @@
 
 Will need `\tightlist` command. Default definition is:
 
-```
+```tex
 \providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 ```
 
 ## Plain Text Target
 
 `--to plain`
+
+## Setting margins or other PDF/Latex options from command line
+
+```sh
+pandoc -V geometry:margin=1in
+```
