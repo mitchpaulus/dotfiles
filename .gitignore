@@ -24,3 +24,6 @@ haskell/linear_reset_excel
 haskell/underscore_files
 
 vim/vimrc
+
+# Don't need cached python files
+*.pyc
