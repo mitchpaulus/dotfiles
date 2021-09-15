@@ -118,6 +118,9 @@ __path_add "$HOME/bin"
 __path_add "$HOME/.local/bin"
 
 
+set -gxp PYTHONPATH "$DOTFILES"/python
+
+
 # v for VIM
 abbr -a v $EDITOR
 
