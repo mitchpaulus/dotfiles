@@ -96,11 +96,16 @@ function add_count_lines
     commandline -i '| wc -l'
 end
 
+function add_copy_to_clip_exe
+    commandline -i '| clip.exe'
+end
+
 # \e is ALT, mapped to Caps Lock
 bind \ed add_date
 bind \eu fish_underscore_command
 bind \eB awk_begin
 bind \ew add_count_lines
+bind \ec add_copy_to_clip_exe
 
 __path_add "$DOTFILES"/scripts/
 __path_add "$DOTFILES"/haskell
