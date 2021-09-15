@@ -372,6 +372,9 @@ vim.g.NERDCustomDelimiters = { axon = { left = "//" }, idf = { left = "!" } }
 -- I like spaces around my delimiters
 vim.g.NERDSpaceDelims = 1
 
+nnmap('<leader>n', ':NERDTree<cr>')
+vim.g.NERDTreeIgnore = { '\\.aux.*$','\\.fls$','\\.lof$','\\.toc$','\\.out$','\\.vrb$','\\.nav$','\\.snm$','\\.bbl$','\\.bib','\\.fdb_latexmk$','\\.xdv','\\.gif','\\.pdf','\\~$','\\.blg$','\\.lot$' }
+
 -- FileType AutoCmd Mappings {{{1
 
 local function createAugroup(autocmds, name, event)
