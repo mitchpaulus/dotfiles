@@ -9,8 +9,9 @@ set -gx FILEMANAGER lf
 set -gx TEXLIVE_INSTALL_PAPER letter
 set -gx TEXLIVE_INSTALL_PREFIX "$HOME"/texlive
 
-# This from DistroTube https://www.youtube.com/watch?v=ab3rY0X5kD4
-set -gx MANPAGER "nvim -c 'set ft=man' -"
+# See https://github.com/neovim/neovim/issues/14090#issuecomment-913837694
+# and https://github.com/neovim/neovim/issues/15487
+set -gx MANPAGER 'nvim +Man!'
 
 set -g H /mnt/c/Users/mpaulus
 
