@@ -1,0 +1,12 @@
+#!/usr/bin/awk -E
+
+# Purpose of the script is to be a stable alternative to `sort -u`
+#
+# Can't use `set` as the name, since that's a builtin for fish shell to set variable values.
+# The 'm' is for Mitch.
+{
+    if (!($0 in lines)) {
+        print
+        lines[$0]
+    }
+}
