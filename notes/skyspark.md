@@ -2,6 +2,8 @@
 
 View current running instances: `ps -aux | grep java`
 
+License files are `.prop` extension
+
 Restarting skyspark
 
 Go to `bin` directory, run `./skyspark >/dev/null 2>/dev/null &` in
@@ -182,3 +184,5 @@ sparkRebuildCache()
 ## Default options for Spark app
 
 It doesn't look like this is possible today. See [forum](https://skyfoundry.com/forum/topic/3669).
+
+

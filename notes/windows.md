@@ -70,3 +70,9 @@ Didn't know these existed:
 
 OneDrive=C:\Users\mpaulus\OneDrive - Command Commissioning
 OneDriveCommercial=C:\Users\mpaulus\OneDrive - Command Commissioning
+
+## What is using USB drive?
+
+https://superuser.com/questions/87364/can-windows-tell-me-what-is-using-my-usb-drive#1102080
+
+

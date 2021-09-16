@@ -1,5 +1,16 @@
 # Typescript
 
+
+## Basic Types
+
+- `string`, `number`, `boolean`, `any`
+```
+interface Point {
+  x: number;
+  y: number;
+}
+```
+
 ## Type Guards
 
 - `typeof`: works for basic types.
@@ -26,3 +37,5 @@ parenthesize the function types or use a type alias.
 ```
 var myvar = ((param) => Type) | OtherType
 ```
+
+
