@@ -168,18 +168,6 @@ end
 
 abbr -a u 'cd ..'
 
-function chext --description 'Change extension of file'
-    printf "%s%s" (string match -r '.*\.' $argv[1]) $argv[2]
-end
-
-function cphis --description "Fuzzy search and copy a line from history to clipboard"
-    if command -v clip.exe >/dev/null 2>/dev/null
-        history | fzf | tr -d '\r\n' | clip.exe
-    else
-        printf "Need to update this function to work with other clipboards.\n"
-    end
-end
-
 abbr t task
 
 function g
@@ -249,20 +237,6 @@ function cs --description '[C]reate [s]cript. Just go to the scripts directory i
     end
 end
 
-function gr --description 'Go to code repositories';
-    if test -d "$REPOS"
-        cd "$REPOS"
-    else
-        printf '$REPOS environment variable not found.\n'
-    end
-end
-
-# Carrying over from source [b]ashrc
-function sb --description 'Reload fish config file'
-    source ~/.config/fish/config.fish
-    printf "Reloaded %s\n" ~/.config/fish/config.fish
-end
-
 # Set up specific commands if working in WSL environment
 if test -n "$WSL_DISTRO_NAME"
     # Command to bring up Windows Explorer in current directory.
@@ -304,20 +278,6 @@ function winmount
         sudo mkdir -p /mnt/"$lowercase_letter"
     end
     sudo mount -t drvfs "$uppercase_letter": /mnt/"$lowercase_letter"
-end
-
-function ta --description "tmux attach"
-    set -l IFS
-    switch (tmux ls 2>&1)
-        case "no server running*"
-            printf "No tmux server currently running\n"
-        case '*'
-            if test (tmux ls | wc -l) -gt 1
-                tmux attach-session -t (tmux ls | awk -F ':' '{print $1}' | fzf)
-            else
-                tmux attach-session -t (tmux ls | awk -F ':' '{print $1;exit}')
-            end
-    end
 end
 
 # ghcup-env
