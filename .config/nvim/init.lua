@@ -256,6 +256,20 @@ vim.api.nvim_set_keymap("v", '<leader>y', '"+y', silent)
 vim.api.nvim_set_keymap("v", 'L', '$', silent)
 vim.api.nvim_set_keymap("v", 'H', '^', silent)
 
+vim.api.nvim_exec( [[
+" Search for the current visual selection using '*'. See pg. 212 of Practical Vim
+function! VSetSearch()
+    let temp = @s
+    norm! gv"sy
+    let @/ = '\V' . substitute(escape(@s, '/\'), '\n', '\\n', 'g')
+    let @s = temp
+endfunction
+
+xnoremap * <Cmd>call VSetSearch()<CR>/<C-R>=@/<CR><CR>
+xnoremap # <Cmd>call VSetSearch()<CR>?<C-R>=@/<CR><CR>
+]], false)
+
+
 local statusLineComponents = {
     -- Used to put the mode, but if terminal can change cursor shape, it really isn't required.
     '%f',   -- File name
