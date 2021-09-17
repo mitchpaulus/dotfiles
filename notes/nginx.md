@@ -49,3 +49,42 @@ Important file locations:
 `/etc/letsencrypt/live/domain.com/fullchain.pem`
 
 `/etc/letsencrypt/live/domain.com/privkey.pem`
+
+
+## SSL Testing
+
+https://www.ssllabs.com/ssltest/index.html
+
+
+## Vulnerabilities
+
+There is the CRIME/BREACH attacks on compression within https. This
+comes up with the `gzip on` directive. It's been hard to determine
+whether my sites are really at risk.
+
+## Config
+
+```
+listen address[:port] [default_server] [ssl]
+listen port [default_server] [ssl]
+```
+
+## Request Processing
+
+From https://nginx.org/en/docs/http/request_processing.html.
+
+1. Decide which server should process request.
+  1. First tests against `listen` directives
+  2. Then tests against `server_name` directives using matching
+     algorithm below
+2. Handle the location
+
+## Matching
+
+1. Exact name
+2. longest wildcard starting with '\*'
+3. longest wildcard ending with '\*'
+4. First matching regular expression (starts with '~' or )
+
+PCRE regular expressions
+
