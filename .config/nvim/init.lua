@@ -3,6 +3,7 @@ vim.fn["plug#begin"]()
 
 vim.cmd [[ Plug 'altercation/vim-colors-solarized' ]]
 vim.cmd [[ Plug 'ctrlpvim/ctrlp.vim' ]]
+vim.cmd [[ Plug 'chr4/nginx.vim' ]]
 vim.cmd [[ Plug 'godlygeek/tabular' ]]
 vim.cmd [[ Plug 'lervag/vimtex' ]]
 vim.cmd [[ Plug 'qpkorr/vim-bufkill' ]]
