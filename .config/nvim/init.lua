@@ -132,7 +132,7 @@ normalNoRecurseMappings = {
     { 'q', ':q<CR>' },
     { 'Q', ':q!<CR>' },
 
-    { 's', ':<C-u>update<CR>' },
+    { 's', '<Cmd>update<CR>' },
 
     -- Scrolling
     { "K", "5k"  },
@@ -162,11 +162,11 @@ normalNoRecurseMappings = {
 
     -- Take first spelling suggestion
     { '<F1>', '1z=' },
-    { '<F2>', ':<C-u>update<CR>' },
+    { '<F2>', '<Cmd>update<CR>' },
     { '<F4>', 'ZZ' },
-    { '<F8>', ':<c-u>set paste!<cr>:set paste?<cr>' },
-    { '<F9>',  ':<C-u>set paste<CR>"+p:set nopaste<CR>' },
-    { '<F10>', ':<C-u>set paste<CR>"+P:set nopaste<CR>' },
+    { '<F8>', '<Cmd>set paste!<cr>:set paste?<cr>' },
+    { '<F9>',  '<Cmd>set paste<CR>"+p:set nopaste<CR>' },
+    { '<F10>', '<Cmd>set paste<CR>"+P:set nopaste<CR>' },
 
     -- Toggle spell setting
     { '<leader>ss',  '<cmd>set spell!<CR><cmd>echo "Spell is now " . &spell<CR>'  },
@@ -177,7 +177,7 @@ normalNoRecurseMappings = {
     -- I don't use marks, so move q (starting macros) to m (for macros)
     { 'm', 'q' },
     -- Copy entire file to clipboard
-    { '<leader>y', ':<C-u>%yank +<CR>' },
+    { '<leader>y', '<Cmd>%yank +<CR>' },
     -- Move backwards through spell.
     { 'T', '[s' },
 
@@ -185,10 +185,10 @@ normalNoRecurseMappings = {
     { '<leader>ch', ':nohlsearch<CR>' },
 
     -- Checktime of the file
-    { '<leader>ct', ':<C-u>checktime<cr>' },
+    { '<leader>ct', '<Cmd>checktime<cr>' },
 
-    { '<leader>ev', ':<C-u>edit $MYVIMRC<CR>' },
-    { '<leader>sv', ':<C-u>luafile $MYVIMRC<CR>' },
+    { '<leader>ev', '<Cmd>edit $MYVIMRC<CR>' },
+    { '<leader>sv', '<Cmd>luafile $MYVIMRC<CR>' },
 
     { '<leader>j', '/\\V<+\\.\\{-}+><cr>cgn' },
 
@@ -460,7 +460,7 @@ filetypeAutocmds = {
     { 'javascript,typescript', 'inoremap', ',f', 'function (<++>) {<cr><++><cr>}<Esc>2k^f(i', },
     { 'javascript,typescript', 'inoremap', ',>', '() =><Space>', },
 
-    { 'typescript', 'nnoremap', '<leader>tc', ':<c-u>!tsc<cr>', },
+    { 'typescript', 'nnoremap', '<leader>tc', '<Cmd>!tsc<cr>', },
 
     { 'tex', 'inoremap', '%%%', [[\%]] },
     { 'tex', 'inoremap', ',ab', '\\begin{abstract}<Cr><Cr>\\end{abstract}<Esc>k0i', },
