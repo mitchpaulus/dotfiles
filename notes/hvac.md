@@ -134,3 +134,13 @@ proportional control of electric power
 
 XFMR - shortened version of 'transformer'
 SCR - Silicon controlled rectifier
+
+## CFM per Ton Rule of Thumb
+
+BAsed on quick internet search, ~400 CFM/ton
+ - Sources
+  - https://www.reference.com/world-view/cfm-per-ton-air-conditioning-vary-afe5e016234707f1
+  - https://hvac-blog.acca.org/400-cfm-per-ton-or-is-it/
+  - https://climesense.com/how-many-cfm-per-ton/
+  - https://inspectapedia.com/aircond/Air_Flow_Rates.php
+  - https://www.eng-tips.com/viewthread.cfm?qid=305846
