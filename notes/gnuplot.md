@@ -37,9 +37,73 @@ plot {<ranges>} <plot-element> {, <plot-element>, <plot-element>}
 ### `with styling`
 
 ```
-with <style> {
-  {(linestyle | ls) <line_style>}
-  | {{linetype  | lt <line_type>}{linewidth | lw <line_width>}{linecolor | lc <colorspec>}{pointtype | pt <point_type>}{pointsize | ps <point_size>}{fill | fs <fillstyle>} {fillcolor | fc <colorspec>}{nohidden3d} {nocontours} {nosurface}{palette}}}
+with <plot-style> {
+  { (linestyle | ls) <line_style> }
+  | {
+    {linetype  | lt <line_type>}
+    {linewidth | lw <line_width>}
+    {linecolor | lc <colorspec>}
+    {pointtype | pt <point_type>}
+    {pointsize | ps <point_size>}
+    {fill | fs <fillstyle>}
+    {fillcolor | fc <colorspec>}
+    {nohidden3d}
+    {nocontours}
+    {nosurface}
+    {palette}
+    }
+}
+
+<plot-style> :
+  boxerrorbars |
+  boxes        | (Histogram)
+  boxplot      | (Box and whisker)
+  boxxyerror   |
+  candlesticks |
+  circles      |
+  ellipses     |
+  dots         | (Tiny dots, useful for when there are many points)
+  filledcurves |
+  financebars  |
+  fsteps       |
+  histeps      |
+  histograms   |
+  image        |
+  impulses     |
+  labels       |
+  lines        | (normal line plot)
+  linespoints  |
+  parallelaxes |
+  points       | (normal scatter plot)
+  steps        |
+  rgbalpha     |
+  rgbimage     |
+  vectors      | (Vector plots)
+  xerrorbars   |
+  xyerrorbars  |
+  yerrorbars   |
+  xerrorlines  |
+  xyerrorlines |
+  yerrorlines  |
+  zerrorfill   |
+```
+
+## Colorspec
+
+```
+rgbcolor "colorname"   # e.g. "blue", can find available using 'show colornames'
+rgbcolor "0xRRGGBB"    # string containing hexadecimal constant
+rgbcolor "0xAARRGGBB"  # string containing hexadecimal constant
+rgbcolor "# RRGGBB"    # string containing hexadecimal in x11 format
+rgbcolor "# AARRGGBB"  # string containing hexadecimal in x11 format
+rgbcolor <integer val> # integer value representing AARRGGBB
+rgbcolor variable      # integer value is read from input file
+palette frac <val>     # <val> runs from 0 to 1
+palette cb <value>     # <val> lies within cbrange
+palette z
+variable               # color index is read from input file
+bgnd                   # background color
+black
 ```
 
 ## Tics
@@ -118,4 +182,8 @@ set xrange restore
                 <lower bound> < * |
                 * < <upper bound> |
                 *
+```
+
+```
+set datafile separator { whitespace | tab | comma | "<chars>" }
 ```
