@@ -259,6 +259,10 @@ if test -f ~/.config/fish/host-config.fish
     source ~/.config/fish/host-config.fish
 end
 
+if test -f ~/.config/fish/secrets.fish
+    source ~/.config/fish/secrets.fish
+end
+
 function update --description 'Universal package update'
     if command -s pacman >/dev/null
         sudo pacman -Syu
