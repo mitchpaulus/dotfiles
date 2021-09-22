@@ -165,12 +165,12 @@ normalNoRecurseMappings = {
     { '<F1>', '1z=' },
     { '<F2>', '<Cmd>update<CR>' },
     { '<F4>', 'ZZ' },
-    { '<F8>', '<Cmd>set paste!<cr>:set paste?<cr>' },
-    { '<F9>',  '<Cmd>set paste<CR>"+p:set nopaste<CR>' },
-    { '<F10>', '<Cmd>set paste<CR>"+P:set nopaste<CR>' },
+    { '<F8>', ':<C-u>set paste!<cr>:set paste?<cr>' },
+    { '<F9>',  ':<C-u>set paste<CR>"+p:set nopaste<CR>' },
+    { '<F10>', ':<C-u>set paste<CR>"+P:set nopaste<CR>' },
 
     -- Toggle spell setting
-    { '<leader>ss',  '<cmd>set spell!<CR><cmd>echo "Spell is now " . &spell<CR>'  },
+    { '<leader>ss',  ':<C-u>set spell!<CR>:<C-u>echo "Spell is now " . &spell<CR>'  },
 
     -- Toggle list setting
     { '<leader>ll', ':set list!<cr>' },
@@ -266,8 +266,8 @@ function! VSetSearch()
     let @s = temp
 endfunction
 
-xnoremap * <Cmd>call VSetSearch()<CR>/<C-R>=@/<CR><CR>
-xnoremap # <Cmd>call VSetSearch()<CR>?<C-R>=@/<CR><CR>
+xnoremap * :<C-u>call VSetSearch()<CR>/<C-R>=@/<CR><CR>
+xnoremap # :<C-u>call VSetSearch()<CR>?<C-R>=@/<CR><CR>
 ]], false)
 
 
