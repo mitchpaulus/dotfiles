@@ -3,6 +3,8 @@
 set -g fish_prompt_pwd_dir_length 5
 
 set -gx DOTFILES ~/dotfiles
+set -gx MPNOTES ~/dotfiles/notes
+set -gx LOCALBIN ~/.local/bin
 set -gx FILEMANAGER lf
 
 # Good ole U.S. of A.
@@ -211,11 +213,13 @@ abbr -a al 'wc -l ~/.autocorrect'
 abbr -a i "$EDITOR *.idf"
 
 function en --description 'Edit a note'
-    set file (fd --type f -e md '' "$DOTFILES"/notes/ -x printf "%s\n" '{/}' | sed 's/\.md//' | fzf -1)
-    and "$EDITOR" "$DOTFILES"/notes/"$file".md
+    set file (fd --type f -e md '' "$MPNOTES" -x printf "%s\n" '{/}' | sed 's/\.md//' | fzf -1)
+    and "$EDITOR" "$MPNOTES"/"$file".md
 end
 
-function gn --description 'Go to notes directory'; cn; end
+function gn --description 'Grep notes';
+    rg $argv[1] $MPNOTES
+end
 
 function cn --description 'Create note'
     # If file name given, edit file directly, otherwise cd to directory.
