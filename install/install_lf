@@ -1,0 +1,14 @@
+#!/bin/sh
+set -e
+
+if test -z "$LOCALBIN"; then
+    printf "Variable LOCALBIN must be set.\n"
+    exit 1
+fi
+
+latest_asset="$(curl -s https://api.github.com/repos/gokcehan/lf/releases/latest)"
+asset="$(printf "%s" "$latest_asset" | jq -r '.assets[] | select(.name | contains("lf-linux-amd64")) | .browser_download_url')"
+name="$(printf "%s" "$latest_asset" | jq -r '.assets[] | select(.name | contains("lf-linux-amd64")) | .name')"
+# Need to follow redirects with '-L' to get the actual file.
+curl --output /tmp/"$name" -L "$asset"
+tar -C "$LOCALBIN" -xf /tmp/"$name"
