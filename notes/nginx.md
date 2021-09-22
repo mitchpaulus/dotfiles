@@ -88,3 +88,10 @@ From https://nginx.org/en/docs/http/request_processing.html.
 
 PCRE regular expressions
 
+
+## Reverse Proxy Notes with SkySpark
+
+Was using nginx as a reverse proxy to send requests to multiple running
+webservers. As a proxy, it didn't see to like having two public IPs
+being pointed to. If I changed the proxy address to `localhost`, things
+worked fine.

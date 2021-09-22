@@ -6,6 +6,8 @@
 from os import listdir
 from os.path import isfile, join
 onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+
+os.listdir(path='.') # Name of entries in the path
 ```
 
 Don't forget the UTF-8 or you'll get hit with issues for °F in Windows
@@ -44,3 +46,4 @@ splitext(path) # 'file.txt' -> ('file', '.txt'), '.file' -> ('.file', '')
 ```
 os.makedirs(name, mode=0o777, exist_ok=False)
 ```
+
