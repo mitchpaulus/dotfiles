@@ -129,6 +129,8 @@ abbr -a v $EDITOR
 
 abbr -a wttr 'curl \'wttr.in/Dallas?format=%l:+%C+%t+%h+%w\''
 
+abbr -a gi "$EDITOR .gitignore"
+
 # Git shortcuts
 if command -v git >/dev/null 2>&1
     abbr -a a 'git add'
