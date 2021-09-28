@@ -2,7 +2,7 @@
 
 grammar: https://skyfoundry.com/doc/docHaystack/Filters
 
-```
+```bnf
 <filter>     :=  <condOr>
 <condOr>     :=  <condAnd> ("or" <condAnd>)\*
 <condAnd>    :=  <term> ("and" <term>)\*
@@ -27,4 +27,6 @@ grammar: https://skyfoundry.com/doc/docHaystack/Filters
 <name>       := same as Zinc <id>
 ```
 
-Can use `filterToFunc` and `string.parseFilter`
+Can use `filterToFunc` to go from filter to function used in `find` or `findAll`.
+Can use `string.parseFilter` to from an arbitrary string to a filter
+expression.
