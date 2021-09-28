@@ -134,4 +134,8 @@ One of the best shortcuts of all time
 <Date-Time Format Specifier>      :: *Normal date time specifiers, can use quotations to surround the value here*
 ```
 
+## Changing Macro Shortcuts
+
+File -> Options -> Customize Ribbon -> Keyboard Shortcuts: Customize ->
+Change Categories to Macros, Select Macro on right
 
