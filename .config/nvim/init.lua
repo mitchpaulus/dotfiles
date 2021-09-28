@@ -417,6 +417,8 @@ filetypeAutocmds = {
     { 'markdown,tex,text', 'setlocal', 'textwidth=72' },
     { 'markdown,tex,text', 'setlocal spell' },
     { 'markdown', 'setlocal tabstop=2' },
+    { 'markdown', 'nnoremap', ']]', '<Cmd>keeppatterns /^#<Cr>' },
+
     { 'help', 'nnoremap', '<leader>hh', 'mnA~<esc>`n', },
     { 'help', 'nnoremap', '<leader>hl', 'mn78i=<esc>`n', },
     { 'help', 'setlocal nospell' },
