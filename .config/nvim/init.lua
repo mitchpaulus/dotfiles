@@ -506,6 +506,7 @@ filetypeAutocmds = {
 
     { 'sh', 'inoremap', ',sh', '#!/bin/sh<CR>', },
     { 'sh,bash', 'nnoremap', '<localleader>h', ':read $DOTFILES/snipfiles/shell_help.sh<Cr>', },
+    { 'sh,bash', 'inoremap', '<localleader>h', ':read $DOTFILES/snipfiles/shell_help.sh<Cr>', },
     { 'sh,fish,bash', 'inoremap', ',v', '"$"<Left>', },
 
 
