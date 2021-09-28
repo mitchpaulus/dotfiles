@@ -220,7 +220,7 @@ function en --description 'Edit a note'
 end
 
 function gn --description 'Grep notes';
-    rg $argv[1] $MPNOTES
+    rg -i $argv[1] $MPNOTES
 end
 
 function cn --description 'Create note'
