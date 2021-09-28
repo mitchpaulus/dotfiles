@@ -5,7 +5,9 @@ pack/
 tmp/
 *.aux
 *.log
+
 notes/*.pdf
+notes/*.docx
 
 # Haskell build files
 *.hi
