@@ -78,6 +78,12 @@ function fish_greeting
     end
 end
 
+# See https://github.com/microsoft/terminal/issues/3158#issuecomment-789043641
+# Removed quoting since it jacked with the syntax highlighting
+function windows-terminal --on-event fish_prompt
+    printf \e]9\;9\;%s\e\\ (wslpath -m "$PWD")
+end
+
 function __path_add
     # If the directory exists and isn't in the path, add it to the beginning of the path.
     if not contains $argv[1] $PATH; and test -d $argv[1]
