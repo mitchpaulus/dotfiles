@@ -1,5 +1,16 @@
 # `test`
 
+For all of these, be sure to wrap variables in quotes, `test` without an
+argument is always true.
+
+From the fish man page:
+> When  using a variable as an argument for a test operator you should almost always enclose it in double-quotes. There are only two
+> situations it is safe to omit the quote marks. The first is when the argument is a literal string  with  no  whitespace  or  other
+> characters  special  to the shell (e.g., semicolon). For example, test -b /my/file. The second is using a variable that expands to
+> exactly one element including if that element is the empty string (e.g., set x ''). If the variable is not set, set  but  with  no
+> value,  or set to more than one value you must enclose it in double-quotes. For example, test "$x" = "$y". Since it is always safe
+> to enclose variables in double-quotes when used as test arguments that is the recommended practice.
+
  -b FILE returns true if FILE is a block device.
  -c FILE returns true if FILE is a character device.
  -d FILE returns true if FILE is a directory.

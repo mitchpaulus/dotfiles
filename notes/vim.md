@@ -73,6 +73,9 @@ Other plugins [from Hacker News](https://news.ycombinator.com/item?id=27713358):
 * vim-vsnip (snippets)
 * lsp_signature.nvim (automatically pop up signature window, note signature_help is built-into core, just manually triggered)
 
+Another completion engine instead of 'nvim-lua/completion-nvim' is
+[ncm2](https://github.com/ncm2/ncm2)
+
 ## General Improvements
 
 - Must remap Caps Lock to Alt
