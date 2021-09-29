@@ -217,7 +217,11 @@ insertModeNoRecurseMappings = {
        either of those characters. The biggest offender was f in if statements.
     3. j is the best leader character, since almost no words end with that.
     4. So jf splits the duty between both hands using strong pointer finger.  ]]
+
+    -- Sometimes I also hold the shift key too long.
     { 'jf', '<esc>' },
+    { 'Jf', '<esc>' },
+    { 'JF', '<esc>' },
     { '<C-BS>', '<C-W>' },
     { '<c-e>', '<c-o>$' },
     { '<c-a>', '<c-o>^' },
