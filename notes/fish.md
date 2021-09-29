@@ -49,3 +49,13 @@ From [Stack](https://stackoverflow.com/a/29643375/5932184)
 if count $argv > /dev/null
 ```
 
+
+## Events
+
+Can bind functions to events like:
+
+```fish
+function myfunc --on-event fish_prompt
+```
+
+can list functions using: `function --help`
