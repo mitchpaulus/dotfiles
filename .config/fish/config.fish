@@ -78,10 +78,15 @@ function fish_greeting
     end
 end
 
-# See https://github.com/microsoft/terminal/issues/3158#issuecomment-789043641
+# See
+# - https://github.com/microsoft/terminal/issues/3158#issuecomment-789043641
+# - https://github.com/microsoft/terminal/pull/8330
+# - https://github.com/microsoft/terminal/issues/8166
 # Removed quoting since it jacked with the syntax highlighting
-function windows-terminal --on-event fish_prompt
-    printf \e]9\;9\;%s\e\\ (wslpath -m "$PWD")
+if test -n "$WT_SESSION"
+    function windows-terminal --on-event fish_prompt
+        printf \e]9\;9\;%s\e\\ (wslpath -m "$PWD")
+    end
 end
 
 function __path_add
