@@ -3,6 +3,7 @@
 case "$1" in
     *.xlsx) excelchop "$1" ;;
     *.zip) unzip -l "$1" ;;
+    *.docx) pandoc --to plain "$1" ;;
     *) bat-lf-previewer.sh "$1" ;;
 esac
 
