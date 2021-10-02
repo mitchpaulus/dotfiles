@@ -12,3 +12,12 @@ Janet is a functional and imperative programming language.
 - Lisp like
 - dynamic
 - Good for embedding
+
+## [Unison](https://www.unisonweb.org/)
+
+- Functional, code is content addressed.
+
+## [The next great functilnal language](https://www.slideshare.net/jdegoes/the-next-great-functional-programming-language)
+
+Not really a language, but features that are pretty cool.
+
