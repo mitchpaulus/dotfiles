@@ -30,6 +30,7 @@ vim.cmd [[ Plug 'PProvost/vim-ps1' ]]
 vim.cmd [[ Plug 'dag/vim-fish' ]]
 vim.cmd [[ Plug 'dylon/vim-antlr' ]]
 vim.cmd [[ Plug 'mileszs/ack.vim' ]]
+vim.cmd [[ Plug 'unisonweb/unison', { 'branch': 'trunk', 'rtp': 'editor-support/vim' } ]]
 
 if vim.fn.has('nvim-0.5.0') == 1 then
     vim.cmd [[ Plug 'neovim/nvim-lspconfig' ]]
