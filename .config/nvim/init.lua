@@ -297,7 +297,7 @@ vim.api.nvim_set_option('scrolloff', 8)
 vim.api.nvim_set_option('sidescrolloff', 10)
 vim.api.nvim_set_option('hidden', true)  -- Stop asking me to write file
 vim.api.nvim_set_option('mouse', 'a')  -- The mouse can be useful
-vim.api.nvim_set_option('isfname', '@,48-57,/,\\,.,-,_,+,(,),[,],@-@')  -- Sane filename characters.
+vim.api.nvim_set_option('isfname', '@,48-57,/,\\,.,-,_,+,(,),[,],@-@,~')  -- Sane filename characters, plus ~ for home.
 vim.api.nvim_set_option('listchars', 'tab:▸ ,eol:¬,trail:-,nbsp:+')
 vim.api.nvim_set_option('showmode', false)
 vim.api.nvim_set_option('shiftround', true)
