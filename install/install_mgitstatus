@@ -1,7 +1,8 @@
 #!/bin/sh
 
 # Check if already installed
-if command -v multi-git-status; then
+if command -v mgitstatus; then
+    printf 'mgitstatus already installed.\n'
     exit 0
 fi
 
