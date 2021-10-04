@@ -1,0 +1,18 @@
+#!/bin/sh
+set -e
+
+if test -z "$LOCALBIN"; then
+    printf "Variable LOCALBIN must be set.\n"
+    exit 1
+fi
+
+name=$(github_latest_release lierdakil/pandoc-crossref Linux.tar)
+
+printf "Uncompressing %s.. in /tmp\n" "$name"
+tar -C /tmp -xvf /tmp/"$name"
+
+printf 'Moving /tmp/pandoc-crossref to %s\n' "$LOCALBIN"
+mv /tmp/pandoc-crossref "$LOCALBIN"
+
+printf 'Moving /tmp/pandoc-crossref.1 to /usr/local/man/man1/pandoc-crossref.1\n'
+sudo mv /tmp/pandoc-crossref.1 /usr/local/man/man1/pandoc-crossref.1
