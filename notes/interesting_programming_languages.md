@@ -4,7 +4,6 @@
 
 "Logic" Programming language. Functional
 
-
 ## [Janet](https://janet-lang.org/)
 
 Janet is a functional and imperative programming language.
@@ -21,3 +20,7 @@ Janet is a functional and imperative programming language.
 
 Not really a language, but features that are pretty cool.
 
+
+## [murex shell](https://murex.rocks/)
+
+A better bash with types?
