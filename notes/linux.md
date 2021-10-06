@@ -69,15 +69,6 @@ ACL = Access Control List
 
 3 clipboards: primary, secondary, and clipboard.
 
-## Zip Files
-
-```sh
-zip zipfilename files...
-fd | zip -@ zipfilename  # Using files from standard input, one per line.
-unzip zipfilename -d extractDir  # Only one file can be processed at a time.
-```
-
-
 ## API/ABI
 
 [From SO](https://stackoverflow.com/a/41402442/5932184)

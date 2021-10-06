@@ -43,7 +43,15 @@ splitext(path) # 'file.txt' -> ('file', '.txt'), '.file' -> ('.file', '')
 ```
 
 ## Creating Directory
-```
+
+```python
 os.makedirs(name, mode=0o777, exist_ok=False)
 ```
 
+## Moving Files
+
+```
+os.rename
+os.replace
+shutil.move
+```
