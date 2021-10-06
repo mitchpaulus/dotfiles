@@ -1,1 +1,2 @@
-https://kbknapp.dev/atom.xml
+https://kbknapp.dev/atom.xml	Kevin K's blog
+https://feeds.feedblitz.com/marginalrevolution	Tyler Cowen
