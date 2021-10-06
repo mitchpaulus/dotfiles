@@ -2,5 +2,18 @@
 
 # USAGE:
 # writebookmarks bookmarks.txt output.pdf
+# Typically the bookmarks.txt file would be created with the
+# 'pdfbookmark' script
+
+if test "$1" = "-h" || test "$1" = "--help"; then
+    cat <<EOF
+USAGE:
+writebookmarks bookmarks.txt output.pdf
+
+Typically the bookmarks.txt file would be created with the
+'pdfbookmark' script
+EOF
+exit 0
+fi
 
 gs -o tmp -sDEVICE=pdfwrite "$1" -f "$2" && mv tmp "$2"
