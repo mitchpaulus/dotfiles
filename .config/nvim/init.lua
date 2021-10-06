@@ -254,6 +254,9 @@ insertModeNoRecurseMappings = {
     { '=', '=<C-g>u'},
     { '!', '!<C-g>u'},
     { ':', ':<C-g>u'},
+
+    -- I need to use this ALL the time, shell files, etc.
+    { '<localleader>ab', 'BEGIN { FS=OFS="\\t" }' },
 }
 
 func_map(function(tbl) inmap(tbl[1], tbl[2]) end, insertModeNoRecurseMappings)
