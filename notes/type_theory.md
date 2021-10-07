@@ -46,3 +46,12 @@ Good comment [here](https://stackoverflow.com/a/42720468/5932184):
 > type, it is covariant. On the other hand, if a type parameter is used as
 > an argument type, it is contravariant. If it is used both as a return
 > type and as an argument type, it is invariant.
+
+## Dependent Types
+
+Dependent types allow you to parameterize a type from a value. For
+example (https://stackoverflow.com/a/9374698/5932184):
+
+```
+type BoundedInt(n) = { i:Int | i <= n }
+```

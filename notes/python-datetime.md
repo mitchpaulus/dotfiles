@@ -17,6 +17,16 @@ datetime.fold
 # Intance methods
 datetime.date() -> date
 datetime.time() -> time
+
+
+# timedelta
+
+timedelta(days, seconds, microseconds, milliseconds, minutes, hours, weeks)
+
+# Can add and subtract from datetime/date classes
+
+
+
 ```
 
 - Objects of these types are immutable.
