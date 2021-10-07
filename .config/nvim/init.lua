@@ -557,6 +557,7 @@ bufEnterAutocmds = {
     { '*.do',     'inoremap ,r redo-ifchange<Space>' },
     { '*.compass', 'set filetype=compass' },
 
+    { '*.gnuplot', 'set filetype=gnuplot'},
     { '*.har', 'set filetype=json' },
 
     -- doit build system file
