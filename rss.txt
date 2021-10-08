@@ -1,2 +1,3 @@
 https://kbknapp.dev/atom.xml	Kevin K's blog
 https://feeds.feedblitz.com/marginalrevolution	Tyler Cowen
+https://benhoyt.com/writings/rss.xml	Ben Hoyt
