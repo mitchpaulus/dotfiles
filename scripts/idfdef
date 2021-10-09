@@ -2,11 +2,15 @@
 
 set -e
 
+# Allow myself to set the directory arbitrarily in a particular dir. Also serves
+# as cached location, so the directory doesn't have to be searched for each time.
 if test -f "$HOME"/.config/idf-default-objects/dir; then
     DIR="$(cat "$HOME"/.config/idf-default-objects/dir)"
 else
+    # Search for directory named 'idf-default-objects'
     REPODIR="$(fd --type d idf-default-objects "$HOME")"
     if test -n "$REPODIR"; then
+        # Get the latest version available
         DIR="$(fd --type d '^[0-9]' "$REPODIR" | sort -V -r | head -n 1)"
         mkdir -p "$HOME"/.config/idf-default-objects
         # Write the file location to a cached location
@@ -17,11 +21,16 @@ else
     fi
 fi
 
-#/mnt/c/Users/mpaulus/source/repos/idf-default-objects/9_4
+if test ! -d "$DIR"; then
+    printf 'The cached directory "%s" at "%s" does not exist.' "$DIR" "$HOME"/.config/idf-default-objects/dir
+    exit 1
+fi
 
+filepath="$DIR"/"$(fd '.' "$DIR" -x basename | fzf)"
 
+# Send filenames into fzf, then use appropriate clipboard functionality
 if test -n "$WSL_DISTRO_NAME"; then
-    clip.exe < "$DIR"/"$(fd '.' "$DIR" -x basename | fzf)"
+    clip.exe < "$filepath"
 else
-    xclip -selection clipboard < "$DIR"/"$(fd '.' "$DIR" -x basename | fzf)"
+    xclip -selection clipboard < "$filepath"
 fi
