@@ -16,7 +16,7 @@ Janet is a functional and imperative programming language.
 
 - Functional, code is content addressed.
 
-## [The next great functilnal language](https://www.slideshare.net/jdegoes/the-next-great-functional-programming-language)
+## [The next great functional language](https://www.slideshare.net/jdegoes/the-next-great-functional-programming-language)
 
 Not really a language, but features that are pretty cool.
 
