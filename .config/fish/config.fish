@@ -165,6 +165,10 @@ end
 
 # Go to git repositories
 function r
+    if test -z "$FILEMANAGER"
+        printf 'The environment variable FILEMANAGER is not set\n'
+    end
+
     if test -n "$REPOS"
         "$FILEMANAGER" "$REPOS"
     else
@@ -205,10 +209,6 @@ function eil --description "[E]dit [i]nit.[l]ua"
     end
 end
 
-function ev --description "Edit vimrc file"
-    eil
-end
-
 # If a build of Neovim from source is found, use that.
 if test -f "$REPOS"/neovim/build/bin/nvim
     function nvim --description 'Source build of Neovim' --wraps 'nvim'
@@ -232,7 +232,7 @@ abbr -a al 'wc -l ~/.autocorrect'
 abbr -a i "$EDITOR *.idf"
 
 function en --description 'Edit a note'
-    set file (fd --type f -e md '' "$MPNOTES" -x printf "%s\n" '{/}' | sed 's/\.md//' | fzf -1)
+    set file (select_note)
     and "$EDITOR" "$MPNOTES"/"$file".md
 end
 
@@ -288,24 +288,6 @@ function update --description 'Universal package update'
     else if command -s apt >/dev/null
         sudo apt update
     end
-end
-
-function compass
-    if test -d "$REPOS/Compass/"
-        tmux new-session -c "$REPOS"/Compass/ -s Compass
-    else
-        printf 'Did not find compass repository at %s/Compass\n' "$REPOS"
-    end
-end
-
-function winmount
-    set lowercase_letter (string lower $argv[1])
-    set uppercase_letter (string upper $argv[1])
-
-    if [ ! -d /mnt/"$lowercase_letter" ]
-        sudo mkdir -p /mnt/"$lowercase_letter"
-    end
-    sudo mount -t drvfs "$uppercase_letter": /mnt/"$lowercase_letter"
 end
 
 # ghcup-env
