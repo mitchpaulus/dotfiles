@@ -137,10 +137,25 @@ SCR - Silicon controlled rectifier
 
 ## CFM per Ton Rule of Thumb
 
-BAsed on quick internet search, ~400 CFM/ton
+Based on quick internet search, ~400 CFM/ton
  - Sources
   - https://www.reference.com/world-view/cfm-per-ton-air-conditioning-vary-afe5e016234707f1
   - https://hvac-blog.acca.org/400-cfm-per-ton-or-is-it/
   - https://climesense.com/how-many-cfm-per-ton/
   - https://inspectapedia.com/aircond/Air_Flow_Rates.php
   - https://www.eng-tips.com/viewthread.cfm?qid=305846
+
+
+## Trim and Respond logic
+
+ASHRAE Guideline 36 is all in on Trim and Respond logic. The context
+behind this is that there was an ASHRAE research project RP-1455.
+
+Advantages:
+
+1. Easier to tune
+2. Can "respond" more quickly than "trim".
+3. Less polling
+4. Allows for easier ignoring, weighting of specific zones.
+
+[link](https://tayloreng.egnyte.com/dl/e1DzRUmHTl/ASHRAE_Journal_-_Trim_and_Respond.pdf_)

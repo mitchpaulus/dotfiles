@@ -24,3 +24,7 @@ Not really a language, but features that are pretty cool.
 ## [murex shell](https://murex.rocks/)
 
 A better bash with types?
+
+## [Elm](https://elm-lang.org/)
+
+A functional programming language targeted at HTML frontends.
