@@ -20,3 +20,9 @@ M = month, 1 to 12
 MM = month, 01 to 12
 tt = AM/PM
 ```
+
+## Numeric Formatting
+
+```
+F{num} : Fixed point, with number of digits.
+```
