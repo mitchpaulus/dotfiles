@@ -121,6 +121,10 @@ local function inmap(lhs, rhs)
     vim.api.nvim_set_keymap("i", lhs, rhs, silent)
 end
 
+local function cnmap(lhs, rhs)
+    vim.api.nvim_set_keymap("c", lhs, rhs, silent)
+end
+
 -- https://stackoverflow.com/a/11671820/5932184
 local function func_map(f, tbl)
     local t = {}
@@ -261,6 +265,12 @@ insertModeNoRecurseMappings = {
 }
 
 func_map(function(tbl) inmap(tbl[1], tbl[2]) end, insertModeNoRecurseMappings)
+
+-- https://stackoverflow.com/a/60355468/5932184
+vim.api.nvim_exec( [[
+cnoremap <expr> <C-P> wildmenumode() ? "\<C-P>" : "\<Up>"
+cnoremap <expr> <C-N> wildmenumode() ? "\<C-N>" : "\<Down>"
+]], false)
 
 vim.api.nvim_set_keymap("v", '<leader>y', '"+y', silent)
 vim.api.nvim_set_keymap("v", 'L', '$', silent)

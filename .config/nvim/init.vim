@@ -264,6 +264,7 @@ nnoremap <silent> ]B :blast<CR>
 "inoremap <leader><c-u> <esc>hviwUea
 nnoremap <leader><c-u> viwU
 
+" https://stackoverflow.com/a/60355468/5932184
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 cnoremap <C-b> <Left>
