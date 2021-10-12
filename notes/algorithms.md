@@ -52,3 +52,24 @@ public static string ToSigFigs(this double value, int sigFigs)
 }
 
 ```
+
+## Is Point in Polygon?
+
+Great algorithm, first saw at: https://web.cs.ucdavis.edu/~okreylos/TAship/Spring2000/PointInPolygon.html
+
+Determine whether point $P$ is in polygon $Q$
+
+1. Initialize intersectionCount to 0.
+2. For each edge $e$ of $Q$, defined by $p_1$ and $p2$, check the
+   following:
+   1. If $p_{1y}$ < $P_y$ and $p_{2y}$ < $P_y$, do nothing, both points
+      are below ray.
+   2. If $p_{1y}$ >= $P_y$ and $p_{2y}$ >= $P_y$, do nothing, both points
+      are above ray.
+   3. Otherwise, calculate the intersection point $S$ of the edge $e$
+      and the horizontal line $y=P_y$. If $S_x >= P_x$, increment
+      intersectionCount.
+3. After all edges have been checked, $P$ is inside $Q$, if and only
+   if intersectionCount is *odd*.
+
+

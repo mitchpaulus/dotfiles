@@ -54,3 +54,21 @@ $$
 a_1 a_2 + b_1 b_2 = 0
 $$
 
+## Intersection of 2 Lines
+
+$$
+A \equiv l_1 l_2 = \left[ \frac{b_1 c_2 - b_2 c_1}{a_1 b_2 - a_2 b_1}, \frac{c_1 a_2 - c_2 a_1 }{a_1 b_2 - a_2 b_1}  \right]
+$$
+
+## Parallel to a Line
+
+$$
+k= <a:b:-ax - by>
+$$
+
+## Altitude to a line
+
+$$
+n = <-b: a: bx-ay>
+$$
+
