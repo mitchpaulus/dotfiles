@@ -1,15 +1,16 @@
 # View Note
 
-function vn
+function vn --description="view note"
 
     set note (select_note)
 
-    set pdfname "$MPNOTES/$note.pdf"
-
-    if test ! -f "$pdfname"
-        pandoc -o "$pdfname" "$MPNOTES/$note.md"
+    if test "$status" -eq 0
+        set pdfname "$MPNOTES/$note.pdf"
+        redo-ifchange "$pdfname"
     end
 
-    xdg-open "$pdfname" > /dev/null 2> /dev/null
-
+    if test -f "$pdfname"
+        xdg-open "$pdfname" > /dev/null 2> /dev/null
+        # pandoc --pdf-engine=lualatex -o "$pdfname" "$MPNOTES/$note.md"
+    end
 end
