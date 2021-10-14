@@ -72,3 +72,26 @@ $$
 n = <-b: a: bx-ay>
 $$
 
+# Trigonometry
+
+## Spread
+
+$$
+s(l_1, l_2) \equiv \frac{ \left(  a_1 b_2 - a_2 b_1 \right)^2}{ \left( a_1^2 + b_1^2   \right)\left( a_2^2 + b_2^2   \right)}
+$$
+
+## Cross
+
+$$
+c(l_1, l_2) \equiv \frac{ \left(  a_1 a_2 - b_1 b_2 \right)^2}{ \left( a_1^2 + b_1^2   \right)\left( a_2^2 + b_2^2   \right)}
+$$
+
+$$
+s + c = 1
+$$
+
+## Twist
+
+$$
+t(l_1, l_2) \equiv \frac{ \left(  a_1 b_2 - a_2 b_1 \right)^2  }{ \left(  a_1 a_2 - b_1 b_2 \right)^2  }
+$$

@@ -32,6 +32,10 @@ Algorithms:
 
   - [Wikipedia](https://en.wikipedia.org/wiki/Weiler%E2%80%93Atherton_clipping_algorithm)
 
+4. Vatti algorithm
+
+  - Bala R. Vatti. "A generic solution to polygon clipping", Communications of the ACM, Vol 35, Issue 7 (July 1992) pp. 56–63.
+
 To get intersecting area of polygons, can follow this up with a shoelace
 algorithm.
 
