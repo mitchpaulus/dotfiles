@@ -295,8 +295,20 @@ deactivate
 
 ## Processes/System Calls
 
+[subprocess docs](https://docs.python.org/3/library/subprocess.html#subprocess.run)
+
 ```python
 import subprocess
+
+subprocess.run(args, *, stdin=None, input=None, stdout=None, stderr=None, capture_output=False, shell=False,
+               cwd=None, timeout=None, check=False, encoding=None, errors=None, text=None, env=None,
+               universal_newlines=None, **other_popen_kwargs) -> CompletedProcess
+
+# CompletedProcess:
+#   args: List[str] | str
+#   returncode: int
+#   stdout
+#   stderr
 
 completed_process = subprocess.run(["command", "arg1", "arg2"])
 ```

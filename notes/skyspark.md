@@ -186,3 +186,7 @@ sparkRebuildCache()
 It doesn't look like this is possible today. See [forum](https://skyfoundry.com/forum/topic/3669).
 
 
+## SCRAM authentication
+
+[Good Walkthrough](http://www.alienfactory.co.uk/articles/skyspark-scram-over-sasl)
+

@@ -83,3 +83,9 @@ ACL = Access Control List
 best place for program files, then symlink the binaries to ~/.local/bin
 or equivalent.
 
+
+## Changing Default Shell
+
+```
+sudo chsh -s /usr/bin/fish mp
+```

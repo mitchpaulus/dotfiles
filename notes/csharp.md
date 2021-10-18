@@ -26,3 +26,13 @@ tt = AM/PM
 ```
 F{num} : Fixed point, with number of digits.
 ```
+
+## Time Zones
+
+See [this blog on cross-platform time zone issues](https://devblogs.microsoft.com/dotnet/cross-platform-time-zones-with-net-core/)
+
+```C#
+TimeZoneInfo tzInfo = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time");
+
+```
+

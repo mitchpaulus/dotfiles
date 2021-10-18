@@ -29,6 +29,9 @@ Character | Meaning
    't'    | text mode (default)
    '+'    | open for updating (reading and writing)
 
+
+[os.path](https://docs.python.org/3/library/os.path.html)
+
 ```python
 import os.path
 
@@ -37,21 +40,24 @@ split(path) # '/folder/file.txt' -> ('/folder', 'file.txt')
 basename(path) # tail of split
 dirname(path) # head of split
 
-isfile(path)
-isdir(path)
+isfile(path) # Can accept relative paths
+isdir(path)  # Can accept relative paths
 splitext(path) # 'file.txt' -> ('file', '.txt'), '.file' -> ('.file', '')
 ```
 
 ## Creating Directory
 
+[os documentation](https://docs.python.org/3/library/os.html)
+
 ```python
-os.makedirs(name, mode=0o777, exist_ok=False)
+os.makedirs(name: str, mode=0o777, exist_ok=False) -> None:
 ```
 
 ## Moving Files
 
-```
-os.rename
-os.replace
+```python
+# os versions need to be file -> file or dir -> dir.
+os.rename(src: path-like, dst: path-like)  # only real difference is how this is handled on Windows?
+os.replace(src: path-like, dst: path-like)
 shutil.move
 ```

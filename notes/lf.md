@@ -24,3 +24,23 @@ modifier.
 ```
 map J push 5j
 ```
+
+
+## Variables
+
+```
+f Current file selection as full path
+fs Selected files with `filesep`, full paths
+fx  Same as `fs` if it makes sense, otherwise f
+```
+
+## Prefixes
+
+```
+:  read (default)  builtin/custom command
+$  shell           shell command
+%  shell-pipe      shell command running with the ui
+!  shell-wait      shell command waiting for key press
+&  shell-async     shell command running asynchronously
+```
+
