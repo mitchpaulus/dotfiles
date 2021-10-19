@@ -190,3 +190,16 @@ It doesn't look like this is possible today. See [forum](https://skyfoundry.com/
 
 [Good Walkthrough](http://www.alienfactory.co.uk/articles/skyspark-scram-over-sasl)
 
+
+## CurPoints
+
+Monday 2021-10-18: Tried to implement `curVal` by committing to the
+database via the `commit` HTTP REST API op. Turns out the `transient`
+flag is required, otherwise a `Cannot set tag persistently` error
+results. From the documentation, it appears like CurPoints should only
+really exist through the connector framework.
+
+I still could probably do it, just may have to use the `eval`
+functionality.
+
+[Forum discussion](https://skyfoundry.com/forum/topic/2330)

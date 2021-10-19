@@ -2,7 +2,7 @@
 
 https://docs.python.org/3/library/datetime.html
 
-```
+```python
 import datetime
 
 # https://docs.python.org/3/library/datetime.html#datetime-objects
@@ -14,7 +14,7 @@ date.year, month, day, hour, minute, second, microsecond
 datetime.tzinfo
 datetime.fold
 
-# Intance methods
+# Instance methods
 datetime.date() -> date
 datetime.time() -> time
 

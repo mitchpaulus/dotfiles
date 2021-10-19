@@ -22,6 +22,14 @@ $$
   - $V$: Effective tower volume, ft^3
   - $L$: Water mass flowrate, lb/h
 
+## Min CW Flow over Cooling Towers
+
+- From 'Variable Flow over Multiple Cooling Towers for Energy Savings',
+  by Gray Stauffer, Wednesday 2021-03-10:
+  - Easier for cross flow towers
+    - 30% turn down for cross flow
+    - only 70% for counter flow.
+
 ## York Chillers
 
 From [link
@@ -30,6 +38,7 @@ they provide a formula for minimum CWST.
 
 $$\textrm{CWST_{min}} = \textrm{CHWST} - \textrm{CW Range} + 5°F + 12 (PLR)$$
 
+Page 38. See `GoogleDrive\hvac\160.76-EG1.pdf`
 
 Model Number Nomenclature:
 

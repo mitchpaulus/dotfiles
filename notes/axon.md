@@ -269,3 +269,12 @@ Important reminders:
 
 - [hisFindPeriods and NA() values](https://skyfoundry.com/forum/topic/2827)
 
+
+## Cur Points
+
+Required tags:
+
+ - `cur`
+ - `curVal`
+ - `curStatus`
+ - `curErr`

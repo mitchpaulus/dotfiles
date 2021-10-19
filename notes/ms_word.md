@@ -106,8 +106,14 @@ One of the best shortcuts of all time
 
 - CTRL-F9 to create field
 - `seq sequence_name`
+- ` { SEQ Identifier [Bookmark] [Switches]... }`
 - F9 to update
-
+- Special switches:
+  - `\c` Repeats the closest preceding sequence number.
+  - `\h`: Hides the field result.
+  - `\n`: Inserts the next sequence number for the specified items.
+  - `\r <n>` Resets the sequence number to the specified number *n*.
+  - `\s`: Resets the sequence number at the heading level following the "s"
 
 ## Grammar for MS Word Fields
 
@@ -123,7 +129,7 @@ One of the best shortcuts of all time
 <Format Switch>                   :: "\*" <Format Switch Type>
 <Format Switch Type>              :: <Capitalization Format> | <Number Format> | <Character Format>
 <Capitalization Format>           :: "Caps" | "FirstCap" | "Upper" | "Lower"
-<Number Format>                   :: "alphabetic" | "Arabic" | "CardText" | "DollarText" | "Hex" | "OrdText" | "Ordinal" | "roman"
+<Number Format>                   :: "alphabetic" | "ALPHABETIC" | "Arabic" | "CardText" | "DollarText" | "Hex" | "OrdText" | "Ordinal" | "roman"
 <Character Format>                :: "CharFormat" | "MERGEFORMAT"
 
 <Numeric Format Switch>           :: "\#" <Numeric Format Switch Specifier>
@@ -139,3 +145,12 @@ One of the best shortcuts of all time
 File -> Options -> Customize Ribbon -> Keyboard Shortcuts: Customize ->
 Change Categories to Macros, Select Macro on right
 
+
+## Indenting and Tabs for Numeric Lists
+
+```
+Tab Stop = Left Indent + Hanging Indent.
+```
+
+Hanging Indent usually needs to be at least 0.3" to look appropriate and
+work well when the numeric numbers get large.
