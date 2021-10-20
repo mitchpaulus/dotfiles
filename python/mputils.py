@@ -37,5 +37,9 @@ def find_all_regex(regex_pattern: str, path: str):
 
 
 def read_tsv(file_path: str) -> List[List[str]]:
+    """
+    Read a tsv file, returning list of list of strings. The final stirng does
+    not contain the new line character. Reads the file as UTF-8.
+    """
     with open(file_path, encoding="utf-8") as file:
         return [line.split('\t') for line in file.read().splitlines()]
