@@ -1,6 +1,7 @@
 # Bash/Sh
 
-- "$@" is all the input variables, properly quoted.
+- `"$@"` is all the input variables, properly quoted.
+- `"$*"` == `"$1c$2c"`
 
 ## Set built in
 
