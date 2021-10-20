@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+
+latest_asset="$(curl -s https://api.github.com/repos/jgm/pandoc/releases/latest)"
+asset="$(printf "%s" "$latest_asset" | jq -r '.assets[] | select(.name | contains("amd64.deb")) | .browser_download_url')"
+name="$(printf "%s" "$latest_asset" | jq -r '.assets[] | select(.name | contains("amd64.deb")) | .name')"
+# Need to follow redirects with '-L' to get the actual file.
+curl --output /tmp/"$name" -L "$asset"
+sudo dpkg -i /tmp/"$name"
