@@ -2,4 +2,4 @@
 
 hour="$(date +%H)"
 
-( [ $hour -gt 12 ] && date '+%R (%-I:%M %p)' ) || date '+%H:%M'
+( [ "$hour" -gt 12 ] && date '+%R (%-I:%M %p)' ) || date '+%H:%M'

@@ -1,0 +1,2 @@
+#!/bin/sh
+head -n 1 "$1" | grep -q '^#!/bin/sh'

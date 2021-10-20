@@ -1,0 +1,25 @@
+#!/bin/sh
+
+if test "$1" = "-h" || test "$1" = "--help"; then
+    cat <<EOF
+newreport
+
+Creates a new technical memo from our company library.
+EOF
+exit 0
+fi
+
+if test -n "$1"; then
+
+    file_name="$*"
+
+    case "$file_name" in
+
+        *.docx)
+            cp '/mnt/c/Users/mpaulus/Command Commissioning/Library - Resources/Templates/ccllc-technical-memo-template.docx' "$file_name" ;;
+        *)
+            cp '/mnt/c/Users/mpaulus/Command Commissioning/Library - Resources/Templates/ccllc-technical-memo-template.docx' "$file_name".docx ;;
+    esac
+else
+    printf "No file name passed.\n"
+fi

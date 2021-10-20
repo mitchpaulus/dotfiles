@@ -20,4 +20,7 @@ format=$format%%%02x
 set -- "$@" "'$head"
 string=$tail
 done
+# The variable expansion is to create the printf format, so
+# having the varialbe in the format is desired.
+# shellcheck disable=SC2059
 printf "$format\\n" "$@"
