@@ -15,8 +15,6 @@ FNR == 1 { file_num++ }
 }
 
 END {
-
-
     for (line in file_one) {
         if (!(line in file_two)) {
             one_minus_two[line]
@@ -24,9 +22,13 @@ END {
         }
     }
 
-    printf "A - B (%s)\n", one_minus_two_count
-    for (line in one_minus_two) {
-        print line
+    if (one_minus_two_count > 0) {
+        printf "A - B (%s)\n", one_minus_two_count
+        for (line in one_minus_two) {
+            print line | "sort -V"
+        }
+
+        close("sort -V")
     }
 
     for (line in file_two) {
@@ -36,8 +38,11 @@ END {
         }
     }
 
-    printf "B - A (%s)\n", two_minus_one_count
-    for (line in two_minus_one) {
-        print line
+    if (two_minus_one_count > 0) {
+        printf "B - A (%s)\n", two_minus_one_count
+        for (line in two_minus_one) {
+            print line | "sort -V"
+        }
+        close("sort -V")
     }
 }
