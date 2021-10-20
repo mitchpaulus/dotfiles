@@ -47,3 +47,4 @@ import qualified Data.Text as T
 ## Useful links
 
 [Reddit post](https://www.reddit.com/r/haskell/comments/npxfba/ive_tried_to_learn_haskell_several_times_but_keep/)
+[Applicative Functors original paper](https://www.staff.city.ac.uk/~ross/papers/Applicative.pdf)
