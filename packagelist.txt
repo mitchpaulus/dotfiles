@@ -1,5 +1,6 @@
 # vim:nospell
 fd
+fzf
 maxima
 neofetch
 neovim

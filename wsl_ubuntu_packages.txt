@@ -4,6 +4,7 @@ curl
 datamash
 dos2unix
 exiftran
+fzf
 git
 gnuplot
 imagemagick
