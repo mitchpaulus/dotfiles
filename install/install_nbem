@@ -1,0 +1,23 @@
+#!/bin/sh
+set -e
+
+if test -z "$LOCALBIN"; then
+    printf "Variable LOCALBIN must be set.\n"
+    exit 1
+fi
+
+if test -z "$HOME"; then
+    printf 'Variable HOME must be set.\n'
+    exit 1
+fi
+
+latest_asset="$(curl -s https://api.github.com/repos/mitchpaulus/neobem/releases/latest)"
+asset="$(printf "%s" "$latest_asset" | jq -r '.assets[] | select(.name | contains("linux-x64")) | .browser_download_url')"
+name="$(printf "%s" "$latest_asset" | jq -r '.assets[] | select(.name | contains("linux-x64")) | .name')"
+# Need to follow redirects with '-L' to get the actual file.
+curl --output /tmp/"$name" -L "$asset"
+
+mkdir -p "$HOME"/.local/neobem
+rm -rf "$HOME"/.local/neobem/*
+unzip /tmp/"$name" -d "$HOME"/.local/neobem
+ln -s -r -f -t "$LOCALBIN" "$HOME"/.local/neobem/nbem
