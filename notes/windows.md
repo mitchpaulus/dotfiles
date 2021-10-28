@@ -27,6 +27,9 @@ String | Example Path
 %USERPROFILE%       | C:\Users\username
 %windir%            | C:\Windows
 
+The `Roaming` folder can follow the user on different computers within
+the same domain. The `Local` folder is local to the machine.
+
 
 HomeDrive and HomePath not found.
 

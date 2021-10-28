@@ -33,6 +33,5 @@ See [this blog on cross-platform time zone issues](https://devblogs.microsoft.co
 
 ```C#
 TimeZoneInfo tzInfo = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time");
-
 ```
 

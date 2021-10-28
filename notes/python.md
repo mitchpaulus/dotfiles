@@ -10,6 +10,8 @@
     - Split: `str_object.split(string_to_split_on)`
     - Replace `str_object.replace(old, new[, max])` returns new string
 - Truthiness
+    - Object is `True` unless it defines a `__bool__()` method that
+      returns `False` or a `__len__()` method that returns 0.
     - All values are considered "truthy" except for the following, which are "falsy":
             1. None
             2. False
@@ -82,6 +84,19 @@ Index like lists: `tuple = (item1, item2); tuple[0] == item1`
 `range(start, stop, step)`. `stop` value is exclusive.
 `range(stop)` gives 0 to 1 less than stop.
 `range(4)` gives [0, 1, 2, 3]
+
+## Lists
+
+```python
+list.append(item)
+list.extend(other_list)
+list.insert(i, x)
+list.remove(x)
+list.pop([i])
+list.clear()
+list.sort(*,key=None,reverse=False)
+list.copy() # shallow copy
+```
 
 
 ## Typing
@@ -389,6 +404,8 @@ import requests
 
 ## JSON
 
+[JSON docs](https://docs.python.org/3/library/json.html)
+
 `import json`
 ```python
 # load from string
@@ -396,6 +413,21 @@ python_obj = json.loads('[ "a string" ]')
 # from file
 python_obj = json.load(file_handle)
 ```
+
+Conversion Table:
+
+JSON          | Python
+--------------|---------
+object        | dict
+array         | list
+string        | str
+number (int)  | int
+number (real) | float
+true          | True
+false         | False
+null          | None
+
+
 
 ## Classes
 

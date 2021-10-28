@@ -61,3 +61,8 @@ os.rename(src: path-like, dst: path-like)  # only real difference is how this is
 os.replace(src: path-like, dst: path-like)
 shutil.move
 ```
+
+## Walking Directories
+
+[os.walk](https://docs.python.org/3/library/os.html#os.walk)
+
