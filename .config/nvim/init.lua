@@ -65,6 +65,8 @@ if vim.fn.has('nvim-0.5.0') == 1 then
           buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
           buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
           buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+          buf_set_keymap('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+          buf_set_keymap('v', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 
           -- Critical to have the noinsert option
           vim.api.nvim_set_option('completeopt', 'menuone,noinsert')
@@ -540,7 +542,8 @@ filetypeAutocmds = {
     { 'idf', 'set', 'makeprg=idflint\\ %', },
     { 'idf,neobem', 'inoremap', '<localleader>l', 'λ', },
     { 'idf,neobem', 'nnoremap', '<localleader>t', ':Tabularize /!-\\?/l1l1<CR>', },
-    { 'neobem', 'nnoremap', '<localleader>c', ':!nbem -o out.idf %<CR>', },
+    { 'neobem', 'nnoremap', '<localleader>c', ':!nbem -o %:t:r.idf %<CR>', },
+    { 'neobem', 'nnoremap', '<localleader>f', '<cmd>%!nbem -f %<CR>', },
     { 'neobem', 'inoremap', '<localleader>f', 'λ  { <++> }<Esc>8hi', },
     { 'neobem', 'inoremap', '<localleader>r', '<  ><Esc>hi', },
     { 'neobem', 'inoremap', '<localleader>c', '✓', },
