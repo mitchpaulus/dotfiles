@@ -3,3 +3,5 @@ https://feeds.feedblitz.com/marginalrevolution	Tyler Cowen
 https://benhoyt.com/writings/rss.xml	Ben Hoyt
 https://cdn.jwz.org/blog/feed/ Jamie Zawinski
 https://chrispenner.ca/atom.xml	Chris Penner
+http://feeds.feedburner.com/incodeblog	Justin Le - Applied Math/Comp.  Sci
+https://bloerg.net/atom.xml	Matthias Vogelgesang - Metropolis Beamer
