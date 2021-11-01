@@ -69,3 +69,9 @@ columns, click on chart, Paste Special.
 
 - Set 'Add cells as': to 'New Series'
 - Make sure 'Categories (X Values) in First Column
+
+
+## Dynamic Range for Pivot Table
+
+- Make sure that it's a fully absolute range in the `INDIRECT` function.
+  - Like, sheet name and everything: `Sheet1!$A$1:$B$2`
