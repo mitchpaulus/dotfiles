@@ -129,8 +129,8 @@ bind \ec add_copy_to_clip_exe
 
 __path_add "$DOTFILES"/scripts/
 __path_add "$DOTFILES"/haskell
-__path_add "$TEXLIVE_INSTALL_PREFIX"/2021/bin/x86_64-linux
 __path_add /usr/local/texlive/2020/bin/x86_64-linux
+__path_add "$TEXLIVE_INSTALL_PREFIX"/2021/bin/x86_64-linux
 __path_add "/opt/fantom-1.0.76/bin"
 __path_add "$HOME/.gem/ruby/2.7.0/bin"
 __path_add "$HOME/.gem/ruby/3.0.0/bin"
