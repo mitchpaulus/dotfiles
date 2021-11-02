@@ -87,3 +87,21 @@ Pipes: Simple Transformations
 - roman
 - <left|center|right> n "leftborder" "rightborder"
 
+
+## Columns in Presentations
+
+```
+# Use fenced divs
+
+:::: columns
+
+:::: column
+Stuff
+::::
+
+:::: column
+Stuff
+::::
+```
+
+

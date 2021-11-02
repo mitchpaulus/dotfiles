@@ -150,3 +150,9 @@ gracefully handle this situation.
 
 `\relax` is a single token, a noop. Used often to stop expansion of
 another command.
+
+## New Environments
+
+```
+\newenvironment{name}[numargs][Default arg1]...{stuff before}{stuff after}
+```

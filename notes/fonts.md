@@ -25,3 +25,15 @@ sudo fc-cache
 ## X bitmap fonts
 
 - On Arch, package is 'xorg-fonts-misc'
+
+## Listing Fonts
+
+```sh
+fc-list
+```
+
+## Add font to Latex
+
+```
+mktextfm 'fontfile' # Maybe?
+```
