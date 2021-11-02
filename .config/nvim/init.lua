@@ -8,6 +8,7 @@ vim.cmd [[ Plug 'ctrlpvim/ctrlp.vim' ]]
 vim.cmd [[ Plug 'dag/vim-fish' ]]
 vim.cmd [[ Plug 'dylon/vim-antlr' ]]
 vim.cmd [[ Plug 'godlygeek/tabular' ]]
+vim.cmd [[ Plug 'hrsh7th/vim-vsnip' ]]
 vim.cmd [[ Plug 'leafgarland/typescript-vim' ]]
 vim.cmd [[ Plug 'lervag/vimtex' ]]
 vim.cmd [[ Plug 'mboughaba/i3config.vim' ]]
@@ -19,7 +20,7 @@ vim.cmd [[ Plug 'mitchpaulus/neobem-vim' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-andover-plain-english' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-awk-indent-fix' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-siemens-ppcl' ]]
-vim.cmd [[ Plug 'nvim-lua/completion-nvim' ]]
+-- vim.cmd [[ Plug 'nvim-lua/completion-nvim' ]]
 vim.cmd [[ Plug 'PProvost/vim-ps1' ]]
 vim.cmd [[ Plug 'qpkorr/vim-bufkill' ]]
 vim.cmd [[ Plug 'scrooloose/nerdcommenter' ]]
@@ -32,6 +33,15 @@ vim.cmd [[ Plug 'tpope/vim-fugitive' ]]
 vim.cmd [[ Plug 'tpope/vim-surround' ]]
 vim.cmd [[ Plug 'unisonweb/unison', { 'branch': 'trunk', 'rtp': 'editor-support/vim' } ]]
 
+vim.cmd [[ Plug 'hrsh7th/cmp-nvim-lsp' ]]
+vim.cmd [[ Plug 'hrsh7th/cmp-buffer' ]]
+vim.cmd [[ Plug 'hrsh7th/cmp-path' ]]
+vim.cmd [[ Plug 'hrsh7th/cmp-cmdline' ]]
+vim.cmd [[ Plug 'hrsh7th/nvim-cmp' ]]
+
+vim.cmd [[ Plug 'hrsh7th/cmp-vsnip' ]]
+vim.cmd [[ Plug 'hrsh7th/vim-vsnip' ]]
+
 if vim.fn.has('nvim-0.5.0') == 1 then
     vim.cmd [[ Plug 'neovim/nvim-lspconfig' ]]
 end
@@ -39,6 +49,54 @@ end
 vim.fn["plug#end"]()
 
 if vim.fn.has('nvim-0.5.0') == 1 then
+
+  -- Setup nvim-cmp.
+  local cmp = require'cmp'
+
+  cmp.setup({
+    snippet = {
+      -- REQUIRED - you must specify a snippet engine
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+        -- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
+      end,
+    },
+    mapping = {
+      ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+      ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+      ['<C-e>'] = cmp.mapping({
+        i = cmp.mapping.abort(),
+        c = cmp.mapping.close(),
+      }),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    },
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'vsnip' }, -- For vsnip users.
+    }, {
+      { name = 'buffer' },
+    })
+  })
+
+  -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline('/', {
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+
+  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline(':', {
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      { name = 'cmdline' }
+    })
+  })
+
     local function setupLsp()
         local nvim_lsp = require('lspconfig')
         local on_attach = function(client, bufnr)
@@ -46,7 +104,7 @@ if vim.fn.has('nvim-0.5.0') == 1 then
           local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
           buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-          require'completion'.on_attach()
+          -- require'completion'.on_attach()
 
           -- Mappings.
           local opts = { noremap=true, silent=true }
@@ -97,13 +155,16 @@ if vim.fn.has('nvim-0.5.0') == 1 then
         -- and map buffer local keybindings when the language server attaches
         local servers = { "bashls", "vimls", "texlab", "hls", "pyright", "tsserver" }
         for _, lsp in ipairs(servers) do
-          nvim_lsp[lsp].setup { on_attach = on_attach }
+          -- Setup lspconfig. Update capabilities with nvim-cmp stuff
+          local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+          nvim_lsp[lsp].setup { on_attach = on_attach, capabilities = capabilities }
         end
     end
 
     -- Wrap this up so we don't fail if we haven't installed the package yet.
     local status, err = pcall(setupLsp)
     if not status then print(err) end
+
 end
 
 
@@ -410,6 +471,41 @@ vim.g.NERDSpaceDelims = 1
 nnmap('<leader>n', ':NERDTree<cr>')
 vim.g.NERDTreeIgnore = { '\\.aux.*$','\\.fls$','\\.lof$','\\.toc$','\\.out$','\\.vrb$','\\.nav$','\\.snm$','\\.bbl$','\\.bib','\\.fdb_latexmk$','\\.xdv','\\.gif','\\.pdf','\\~$','\\.blg$','\\.lot$' }
 
+
+-- vim-vsnip {{{
+-- https://github.com/hrsh7th/vim-vsnip
+-- Taken nearly directly out of the README.
+vim.api.nvim_exec([[
+" NOTE: You can use other key to expand snippet.
+
+" Expand
+" imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+" smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+
+" Expand or jump
+imap <expr> <C-j>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-j>'
+smap <expr> <C-j>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-j>'
+
+" Jump forward or backward
+imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+
+" Select or cut text to use as $TM_SELECTED_TEXT in the next snippet.
+" See https://github.com/hrsh7th/vim-vsnip/pull/50
+" nmap        s   <Plug>(vsnip-select-text)
+" xmap        s   <Plug>(vsnip-select-text)
+" nmap        S   <Plug>(vsnip-cut-text)
+" xmap        S   <Plug>(vsnip-cut-text)
+
+" If you want to use snippet for multiple filetypes, you can `g:vsnip_filetypes` for it.
+let g:vsnip_filetypes = {}
+let g:vsnip_filetypes.neobem = ['idf']
+let g:vsnip_filetypes.typescriptreact = ['typescript']
+
+]], false)
+-- }}}
 -- FileType AutoCmd Mappings {{{1
 
 local function createAugroup(autocmds, name, event)
@@ -487,6 +583,7 @@ filetypeAutocmds = {
 
     { 'typescript', 'nnoremap', '<leader>tc', '<Cmd>!tsc<cr>', },
 
+    { 'tex', 'setlocal conceallevel=0' },
     { 'tex', 'inoremap', '%%%', [[\%]] },
     { 'tex', 'inoremap', ',ab', '\\begin{abstract}<Cr><Cr>\\end{abstract}<Esc>k0i', },
     { 'tex', 'inoremap', ',au', '\\author{}<Left>', },
