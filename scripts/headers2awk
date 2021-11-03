@@ -33,7 +33,7 @@ NR == 1 {
         header = tolower(header)
 
         if (python_form) {
-            printf "%s = %d\n", header, i
+            printf "        self.%s = line[%d]\n", header, i - 1
         }
         else {
             printf "%s = $%s\n", header, i

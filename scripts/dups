@@ -4,5 +4,5 @@
 if test -n "$1"; then
     sort "$1" | uniq -cd
 else
-    sort | uniq -cd
+    sort - | uniq -cd
 fi

@@ -16,6 +16,8 @@ def groupby(iterable: Iterable, key_selector, value_selector=None):
         value = value_selector(item)
         output_dict[key].append(value)
 
+    return output_dict
+
 
 # From https://stackoverflow.com/a/1724723/5932184
 def find_all(name: str, path: str):
