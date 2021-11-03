@@ -1,0 +1,48 @@
+{
+
+	"Lambda Definition": {
+		"prefix": ["\\"],
+		"body": [ "λ ${1:arg1} { $2 }" ],
+		"description": "Lambda Definition"
+	},
+
+	"Load Excel": {
+		"prefix": ["xl"],
+		"body": [
+			"load({ 'type': 'Excel', 'path': '${1:file path}', 'range': '${2:A1}'${3:, 'sheet': '${4:Sheet1}' }})"
+		],
+		"description": "Load Excel"
+	},
+
+	"If Then Else": {
+		"prefix": ["if"],
+		"body": ["if ${1:condition} then ${2:expression} else ${3:expression}" ],
+		"description": "If expression"
+	},
+	"Let Expression": {
+		"prefix": ["let"],
+		"body": [ "let ${1:identifier} = ${2:expression} in ${3:expression}" ],
+		"description": "Let expression"
+	},
+	"Inline Table": {
+		"prefix": ["tab"],
+		"body": [
+			"---------------------",
+			" '$1'",
+			"---------------------",
+			"$2",
+			"---------------------"
+		],
+		"description": "Inline Table"
+	},
+	"Structure": {
+		"prefix": ["st"],
+		"body": [ "{ $1: $2, }" ],
+		"description": "Structure"
+	},
+	"Structure Field": {
+		"prefix": ["f"],
+		"body": ["$1: $2,"],
+		"description": "Structure Field"
+	}
+}

@@ -1,0 +1,30 @@
+{
+
+	"if main": {
+		"prefix": ["im"],
+		"body": [
+			"if __name__ == \"__main__\":",
+			"    $0"
+		],
+		"description": "if main statement"
+	},
+	"function definition": {
+		"prefix": ["d"],
+		"body": [
+			"def $1($2):",
+			"    $0"
+		],
+		"description": "Function definition"
+	},
+	"tab join": {
+		"prefix": ["jo"],
+		"body": ["\"\\t\".join($0)"],
+		"description": "Join iterable with tabs"
+	},
+	"print": {
+		"prefix": ["p"],
+		"body": ["print($1)"],
+		"description": "print function"
+	}
+
+}
