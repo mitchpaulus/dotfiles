@@ -28,3 +28,7 @@ A better bash with types?
 ## [Elm](https://elm-lang.org/)
 
 A functional programming language targeted at HTML frontends.
+
+## [V](https://vlang.io/)
+
+Meant to be simple and compile fast.
