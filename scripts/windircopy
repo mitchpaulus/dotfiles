@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# The purpose of this script is to copy the current directory full path, in Windows form.
+# like:
+# C:\Users\mpaulus\etc
+# Using printf so that the extraneous newlines are removed.
+printf '%s' "$(wslpath -w "$(pwd)")" | clip.exe
