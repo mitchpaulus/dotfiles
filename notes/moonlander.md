@@ -7,3 +7,11 @@
 - Need way to do CTRL-F9 and other CTRL F key combinations
 
 - Add Win+<Num> layer, so can quickly switch applications on Windows.
+
+## People
+
+- [Link](https://people.zsa.io)
+
+- https://people.zsa.io/nchinda-nchinda/ : Used backspace in the upper
+  right.
+
