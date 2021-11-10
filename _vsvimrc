@@ -52,12 +52,14 @@ inoremap <C-L> <Esc>A
 set hlsearch   " highlight search
 
 " All the ways to misspell common keywords in C#
+iabbrev fasle false
+iabbrev flase false
+iabbrev parital partial
+iabbrev partila partial
 iabbrev pbuilc public
 iabbrev pbulci public
 iabbrev pbulic public
+iabbrev pulbic public
+iabbrev stirng string
 iabbrev ture true
-iabbrev flase false
-iabbrev fasle false
-iabbrev parital partial
-iabbrev partila partial
 
