@@ -9,12 +9,21 @@
 		"description": "if main statement"
 	},
 	"function definition": {
-		"prefix": ["d"],
+		"prefix": ["de"],
 		"body": [
 			"def $1($2):",
 			"    $0"
 		],
 		"description": "Function definition"
+	},
+	"class function definition": {
+		"prefix": ["ds"],
+		"body": [
+			"def $1(self${2:, }):",
+			"    $0"
+		],
+		"description": "Function definition with the 'self' parameter"
+
 	},
 	"tab join": {
 		"prefix": ["jo"],
