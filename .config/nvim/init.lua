@@ -7,6 +7,7 @@ vim.cmd [[ Plug 'chr4/nginx.vim' ]]
 vim.cmd [[ Plug 'ctrlpvim/ctrlp.vim' ]]
 vim.cmd [[ Plug 'dag/vim-fish' ]]
 vim.cmd [[ Plug 'dylon/vim-antlr' ]]
+vim.cmd [[ Plug 'github/copilot.vim' ]]
 vim.cmd [[ Plug 'godlygeek/tabular' ]]
 vim.cmd [[ Plug 'hrsh7th/vim-vsnip' ]]
 vim.cmd [[ Plug 'leafgarland/typescript-vim' ]]
@@ -470,7 +471,6 @@ vim.g.NERDSpaceDelims = 1
 
 nnmap('<leader>n', ':NERDTree<cr>')
 vim.g.NERDTreeIgnore = { '\\.aux.*$','\\.fls$','\\.lof$','\\.toc$','\\.out$','\\.vrb$','\\.nav$','\\.snm$','\\.bbl$','\\.bib','\\.fdb_latexmk$','\\.xdv','\\.gif','\\.pdf','\\~$','\\.blg$','\\.lot$' }
-
 
 -- vim-vsnip {{{
 -- https://github.com/hrsh7th/vim-vsnip

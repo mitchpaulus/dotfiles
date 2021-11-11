@@ -35,3 +35,15 @@ See [this blog on cross-platform time zone issues](https://devblogs.microsoft.co
 TimeZoneInfo tzInfo = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time");
 ```
 
+## Line Splitting
+
+![From SO](https://stackoverflow.com/a/6873727/5932184)
+
+```c#
+using (StringReader sr = new StringReader(text)) {
+    string line;
+    while ((line = sr.ReadLine()) != null) {
+        // do something
+    }
+}
+```

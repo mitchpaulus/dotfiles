@@ -25,3 +25,6 @@ Helpful help sections
 
 vim.inpsect(<thing>) # Human readable
 ```
+
+Most of the global lua neovim commands are under the `vim.api`
+namespace.
