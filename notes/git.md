@@ -57,3 +57,9 @@ Figured out the right path rename from [here](https://making.close.com/posts/spl
 ## Move Remote
 
 `git remote set-url <remote> <URL>`
+
+## Show configuration options
+
+```sh
+git config --list --show-origin
+```
