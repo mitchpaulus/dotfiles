@@ -1,11 +1,39 @@
 {
     "vim.insertModeKeyBindingsNonRecursive": [
         {
-            "before": ["j", "k"],
+            "before": ["j", "f"],
             "after": ["<Esc>"]
+        },
+        {
+            "before": ["<C-L>"],
+            "after": ["<Esc>", "A"]
+        },
+        {
+            "before": [",", "c"],
+            "after": ["c", "l", "a", "s", "s"]
+        },
+        {
+            "before": [",", "d"],
+            "after": ["d", "o", "u", "b", "l", "e"]
+        },
+        {
+            "before": [",", "l"],
+            "after": ["L", "i", "s", "t", "<", ">", "<Left>"]
+        },
+        {
+            "before": [",", "p"],
+            "after": ["p", "u", "b", "l", "i", "c"]
+        },
+        {
+            "before": [",", "s"],
+            "after": ["s", "t", "r", "i", "n", "g"]
         }
     ],
     "vim.normalModeKeyBindingsNonRecursive" : [
+        {
+            "before": ["s"],
+            "after": [":", "w", "<CR>"]
+        },
         {
             "before": ["H"],
             "after": ["^"]
@@ -17,7 +45,16 @@
         {
             "before": ["<Tab>"],
             "after": ["<PageDown>", "z", "z"]
+        },
+        {
+            "before": ["<C-d>"],
+            "after": ["5", "j"]
+        },
+        {
+            "before": ["<C-u>"],
+            "after": ["5", "k"]
         }
     ],
-    "vim.leader" : "<space>"
+    "vim.leader": "<space>",
+    "editor.inlineSuggest.enabled": true
 }
