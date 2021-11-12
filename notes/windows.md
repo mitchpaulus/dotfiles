@@ -47,6 +47,11 @@ New-Item -ItemType SymbolicLink -Path path\to\new\file.txt -Target path\to\alrea
 By default, symbolic links are relative, unless a drive letter is
 specified in the path.
 
+Based on blog
+[here](https://blogs.windows.com/windowsdeveloper/2016/12/02/symlinks-windows-10/),
+if you use `mklink` from cmd.exe, you don't need the admin privileges.
+Going through the PowerShell route still requires admin privileges.
+
 In order to get OneDrive to resync, create and delete an empty file in
 the directory. Have script file `odsync` to do this file
 creation/deletion.
