@@ -43,10 +43,6 @@ inoremap ,r return<Space>
 inoremap ,s string
 inoremap ,t ToList();<Esc>
 
-nnoremap J 5j
-nnoremap K 5k
-nnoremap gj J
-
 inoremap <C-L> <Esc>A
 
 set hlsearch   " highlight search

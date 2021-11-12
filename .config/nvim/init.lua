@@ -196,17 +196,14 @@ local function func_map(f, tbl)
     end
     return t
 end
-
 normalNoRecurseMappings = {
+
     -- Fast quitting
     { 'q', ':q<CR>' },
     { 'Q', ':q!<CR>' },
 
     { 's', '<Cmd>update<CR>' },
 
-    -- Scrolling
-    { "K", "5k"  },
-    { "J", "5j"  },
     -- Need something to remap to join lines
     { 'gj', 'J' },
 
@@ -414,6 +411,7 @@ vim.api.nvim_win_set_option(0, 'foldmethod', 'marker') -- Never has used manual 
 vim.api.nvim_win_set_option(0, 'cursorline', false)
 vim.api.nvim_win_set_option(0, 'wrap', false)
 vim.api.nvim_win_set_option(0, 'conceallevel', 2) -- Concealed text is completely hidden unless it has a custom replacement character defined
+vim.api.nvim_win_set_option(0, 'scroll', 5)
 
 vim.api.nvim_buf_set_option(0, 'spelllang', 'en_us') -- U.S. only spelling
 
@@ -623,7 +621,7 @@ filetypeAutocmds = {
 
     { 'sh', 'inoremap', ',sh', '#!/bin/sh<CR>', },
     { 'sh,bash', 'nnoremap', '<localleader>h', ':read $DOTFILES/snipfiles/shell_help.sh<Cr>', },
-    { 'sh,bash', 'inoremap', '<localleader>h', ':read $DOTFILES/snipfiles/shell_help.sh<Cr>', },
+    { 'sh,bash', 'inoremap', '<localleader>h', '<cmd>read $DOTFILES/snipfiles/shell_help.sh<Cr>', },
     { 'sh,fish,bash', 'inoremap', ',v', '"$"<Left>', },
 
 
