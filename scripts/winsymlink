@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# Make a Windows symbolic link using WSL features.
+
+if test "$1" = "-h" || test "$1" = "--help"; then
+    cat <<EOF
+Usage: $0 [OPTIONS] <PATH> <TARGET>
+
+PATH: The path to the file or directory to create a symbolic link for.
+TARGET: The path to the target of the symbolic link.
+
+OPTIONS:
+
+    -h, --help
+        Print this help message and exit.
+
+NOTES:
+
+The PATH argument is passed on directly. This needs to be in Windows format.
+The second argument is passed on to 'wslpath' to convert it to the Windows
+format, and will fail if it is not a valid file.
+EOF
+exit 0
+fi
+
+
+cmd.exe /c mklink "$1" "$(wslpath -w "$2")"
