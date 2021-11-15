@@ -48,3 +48,15 @@ import qualified Data.Text as T
 
 [Reddit post](https://www.reddit.com/r/haskell/comments/npxfba/ive_tried_to_learn_haskell_several_times_but_keep/)
 [Applicative Functors original paper](https://www.staff.city.ac.uk/~ross/papers/Applicative.pdf)
+
+## Type Classes
+
+Type classes are defined by specifying a set of function or constant
+names, together with their respective types, that must exist for every
+type that belongs to the class.
+
+```haskell
+class Monad m where
+  return :: a -> m a
+  (>>=)  :: m a -> (a -> m b) -> m b
+```
