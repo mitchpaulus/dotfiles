@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -e
+
+# This script is used to bring up fzf prompt for editing configuation files
+
+config_file="$(awk 'BEGIN { FS="\t" } { print $1 } ' "$DOTFILES"/config_files.txt | fzf)"
+actual_path="$(awk -v config="$config_file" 'BEGIN { FS="\t" } $1 == config { print $2; exit }'  "$DOTFILES"/config_files.txt )"
+
+"$EDITOR" "$(printf '%s' "$actual_path" | sed 's@~@'"$HOME"@ | sed 's@$DOTFILES@'"$DOTFILES"@ )"

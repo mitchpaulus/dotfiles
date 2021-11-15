@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Follow the symlinks to the real executable.
+realpath "$(which "$1")"
