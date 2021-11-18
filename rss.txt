@@ -7,3 +7,4 @@ http://feeds.feedburner.com/incodeblog	Justin Le - Applied Math/Comp.  Sci
 https://bloerg.net/atom.xml	Matthias Vogelgesang - Metropolis Beamer
 http://feeds.haacked.com/haacked	Phil Haack
 https://phaazon.net/blog/feed	Dimitri Sabadie - Rust/Haskell/Neovim
+http://feeds.feedburner.com/reesedev	John Reese - Go/Kubernetes/DevOps
