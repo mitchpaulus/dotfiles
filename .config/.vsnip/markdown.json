@@ -1,0 +1,9 @@
+{
+	"link": {
+		"prefix": ["li"],
+		"body": [
+		   "[$1]($2)$0"
+		],
+		"description": "Inserts a link"
+	}
+}
