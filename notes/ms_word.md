@@ -154,3 +154,21 @@ Tab Stop = Left Indent + Hanging Indent.
 
 Hanging Indent usually needs to be at least 0.3" to look appropriate and
 work well when the numeric numbers get large.
+
+## Numbering Explained
+
+[Great site](https://wordmvp.com/FAQs/Numbering/WordsNumberingExplained.htm)
+
+### Related VBA
+
+[`Lists` object](https://docs.microsoft.com/en-us/office/vba/api/word.lists)
+
+[List object](https://docs.microsoft.com/en-us/office/vba/api/word.list)
+
+
+```vba
+For Each li In ActiveDocument.Lists
+ MsgBox li.CountNumberedItems
+Next li
+```
+

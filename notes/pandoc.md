@@ -104,4 +104,8 @@ Stuff
 ::::
 ```
 
+## Default MS Word Template
 
+```
+pandoc -o custom-reference.docx --print-default-data-file reference.docx
+```

@@ -12,14 +12,14 @@ antlr4() {
 }
 ```
 
-```
+```sh
 grun() {
     java org.antlr.v4.runtime.misc.TestRig
 }
 ```
 
 Run grun like:
-```
+```sh
 grun GrammarName rule options..
 ```
 
@@ -41,6 +41,17 @@ Followed instructions for Antlr
 - Best directions for getting the required runtime is on the [downloads page](https://www.antlr.org/download.html).
   There they specify that you need the `Antlr4.Runtime.Standard`
   package.
+
+- The language name for the grammar file or on the command line is:
+  `CSharp`
+
+  ```
+  -Dlanguage CSharp
+  # or
+  options {
+    language = CSharp
+  }
+  ```
 
 
 ## Arch/Manjaro
@@ -66,3 +77,16 @@ binary case, not the prefix or suffix.
  - Prefix expressions contain a recursive invocation of the rule as the
    last element of the alternative, but not as the first element.
 
+## Lexing/Parsing Examples
+
+```C#
+ANTLRInputStream inputStream = new ANTLRInputStream(Stream stream);
+
+NameLexer lexer = new NameLexer(inputStream);
+
+CommonTokenStream tokens = new CommonTokenStream(lexer);
+
+NameParser parser = new NameParser(tokens);
+
+var tree = parser.rule();
+```

@@ -55,3 +55,13 @@ example (https://stackoverflow.com/a/9374698/5932184):
 ```
 type BoundedInt(n) = { i:Int | i <= n }
 ```
+
+## Hindley/Milner type system
+
+Widely accepted approach for "parametric polymorphism", which is when a
+function is defined over multiple types, acting in the *same way* for
+each type.
+
+This is in contrast to "ad hoc polymorphism", in which functions can act
+*differently* for each type. See '[Ad hoc
+polymorphism](https://doi.org/10.1145/75277.75283)'.

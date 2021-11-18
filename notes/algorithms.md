@@ -77,3 +77,14 @@ Determine whether point $P$ is in polygon $Q$
    if intersectionCount is *odd*.
 
 
+## Rational Approximations
+
+[From here.](https://www.maa.org/sites/default/files/321917011764.pdf.bannered.pdf)
+
+Given real number X:
+
+algorithm:
+ - Take floor of X, or nearest integer <= X, save as [X]
+ - Get remainder {X} by X - [X]
+ - {X} < 1, so take 1 / {X} to get Y
+
