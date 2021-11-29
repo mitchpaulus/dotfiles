@@ -1,10 +1,10 @@
 #!/bin/sh
 
 # Check if already installed
-if command -v mgitstatus; then
-    printf 'mgitstatus already installed.\n'
-    exit 0
-fi
+# if command -v mgitstatus; then
+#     printf 'mgitstatus already installed.\n'
+#     exit 0
+# fi
 
 if test -z "$REPOS"; then
     printf 'Repository environment variable REPOS not set.\n'
@@ -21,4 +21,4 @@ fi
 
 cd "$REPOS"/multi-git-status || exit 1
 
-sudo make install
+git pull && sudo make install
