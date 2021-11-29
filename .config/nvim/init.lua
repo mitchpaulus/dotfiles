@@ -72,7 +72,7 @@ if vim.fn.has('nvim-0.5.0') == 1 then
         i = cmp.mapping.abort(),
         c = cmp.mapping.close(),
       }),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }),
+      ['<C-y>'] = cmp.mapping.confirm({ select = true }),
     },
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
@@ -540,6 +540,7 @@ filetypeAutocmds = {
     { 'json', 'setlocal conceallevel=0' },
 
     { 'gnuplot', 'nnoremap', '<localleader>g', ':silent !gnuplot.exe % && start "Plot" %:p:r.png<cr>', },
+    { 'gnuplot', 'nnoremap', '<localleader>c', ':silent !gnuplot.exe % && start "Plot" %:p:r.png<cr>', },
     { 'gnuplot', 'nnoremap', '<localleader>k', ':silent !taskkill.exe /IM Microsoft.Photos.exe /F<cr>', },
     { 'gnuplot', 'inoremap', ',hist', '<esc>:0read ~/.vim/snipfiles/hist.gnuplot<cr>', },
 
@@ -553,6 +554,7 @@ filetypeAutocmds = {
     -- Quickly enter in °F
     { 'markdown,text', 'inoremap', 'DEGF', '°F', },
 
+    { 'markdown', 'inoremap <localleader>aj (adj.)', },
     { 'markdown', 'inoremap', '<localleader>f', '![]()<Esc>2hi', },
     { 'markdown', 'inoremap', '<localleader>i', '**<Left>', },
     { 'markdown', 'inoremap', '<localleader>b', '****<Left><Left>', },
