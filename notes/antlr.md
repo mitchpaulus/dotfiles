@@ -40,7 +40,11 @@ Followed instructions for Antlr
 
 - Best directions for getting the required runtime is on the [downloads page](https://www.antlr.org/download.html).
   There they specify that you need the `Antlr4.Runtime.Standard`
-  package.
+  package from NuGet.
+
+  ```sh
+  dotnet add package 'Antlr4.Runtime.Standard'
+  ```
 
 - The language name for the grammar file or on the command line is:
   `CSharp`
@@ -89,4 +93,18 @@ CommonTokenStream tokens = new CommonTokenStream(lexer);
 NameParser parser = new NameParser(tokens);
 
 var tree = parser.rule();
+
+
+MyListener listener = new MyListener();
+ParseTreeWalker walker = new Walker();
+walker.Walk(listener, tree)
+
+```
+
+## Matching Strings
+
+```antlr
+// See pg. 78 of Definitive ANTLR Reference.
+STRING : '"' (ESC|.)*? '"' ;
+fragment ESC : '\\"'  | '\\\\' ;
 ```

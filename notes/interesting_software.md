@@ -11,3 +11,7 @@ A terminal file manager that uses short commands.
 A minimal PDF viewer with some nice features for technical articles.
 
 - [GitHub](https://github.com/ahrm/sioyek)
+
+## lightspeed.nvim
+
+[GitHub](https://github.com/ggandor/lightspeed.nvim)

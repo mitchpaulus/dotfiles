@@ -10,8 +10,15 @@ Typical file looks like
 
 ```
 strict digraph graphname {
-  node1 -> node2
+  node1 [label="label with spaces"]
+  node1 -> node2 [label="edge label"]
   ...
+}
+```
+
+```
+digraph {
+  abc [color = red]
 }
 ```
 
