@@ -1,0 +1,2 @@
+#!/bin/sh
+OfficeToPDF.exe '/bookmarks' '/readonly' '/noquit' '/working_dir' 'C:\Users\mpaulus\tmp' "$@"
