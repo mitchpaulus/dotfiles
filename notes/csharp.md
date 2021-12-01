@@ -18,6 +18,7 @@ m    = minute, 0 to 59
 mm   = minute, 00 to 60
 M    = month, 1 to 12
 MM   = month, 01 to 12
+ss   = second, 00 to 59
 tt   = AM/PM
 ```
 
@@ -46,4 +47,19 @@ using (StringReader sr = new StringReader(text)) {
         // do something
     }
 }
+```
+
+## Emailing
+
+```C#
+using System.Net.Mail;
+
+mailClient = new SMTPClient("mail.host.com");
+mailClient.Credentials = new NetworkCredential("user", "pass");
+MailMessage msg = new();
+msg.From = new MailAddress("email@host.com");
+msg.To.Add(to);
+msg.Subject = subject;
+msg.Body = message;
+mailClient.Send(msg);
 ```

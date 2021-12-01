@@ -88,3 +88,27 @@ algorithm:
  - Get remainder {X} by X - [X]
  - {X} < 1, so take 1 / {X} to get Y
 
+
+## Version Sorting
+
+[From gnu.org ](https://www.gnu.org/software/coreutils/manual/html_node/Version_002dsort-ordering-rules.html)
+
+The version sort ordering rules are:
+
+1. The strings are compared from left to right.
+2. First the initial part of each string consisting entirely of non-digit characters is determined.
+   1. These two parts (one of which may be empty) are compared
+      lexically. If a difference is found it is returned.
+   2. The lexical comparison is a comparison of ASCII values modified so that:
+      - all the letters sort earlier than all the non-letters and
+      - so that a tilde sorts before anything, even the end of a part.
+3. Then the initial part of the remainder of each string which consists
+   entirely of digit characters is determined. The numerical values of
+   these two parts are compared, and any difference found is returned as
+   the result of the comparison.
+   1. For these purposes an empty string (which can only occur at the
+      end of one or both version strings being compared) counts as zero.
+4. These two steps (comparing and removing initial non-digit strings and
+   initial digit strings) are repeated until a difference is found or
+   both strings are exhausted.
+

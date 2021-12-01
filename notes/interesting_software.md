@@ -15,3 +15,9 @@ A minimal PDF viewer with some nice features for technical articles.
 ## lightspeed.nvim
 
 [GitHub](https://github.com/ggandor/lightspeed.nvim)
+
+## OfficeToPDF
+
+I've waited so long for this:
+[https://github.com/cognidox/OfficeToPDF](https://github.com/cognidox/OfficeToPDF)
+
