@@ -21,3 +21,8 @@ Options:
   ASP.NET (Chrome and IE)'
 
 - Turn on parts of 'Code Lens' for the usages count.
+
+
+## Resharper
+
+- Turn off 'inlay hints': Environment -> Inlay Hints
