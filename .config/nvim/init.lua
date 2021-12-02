@@ -470,6 +470,10 @@ vim.g.NERDSpaceDelims = 1
 nnmap('<leader>n', ':NERDTree<cr>')
 vim.g.NERDTreeIgnore = { '\\.aux.*$','\\.fls$','\\.lof$','\\.toc$','\\.out$','\\.vrb$','\\.nav$','\\.snm$','\\.bbl$','\\.bib','\\.fdb_latexmk$','\\.xdv','\\.gif','\\.pdf','\\~$','\\.blg$','\\.lot$' }
 
+vim.g.copilot_filetypes = {
+    fish = false,
+}
+
 -- vim-vsnip {{{
 -- https://github.com/hrsh7th/vim-vsnip
 -- Taken nearly directly out of the README.
