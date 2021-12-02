@@ -1,0 +1,2 @@
+#!/bin/sh
+tasklist.exe '/FI' 'IMAGENAME eq EXPLORER.EXE' '/FO:LIST' '/V'

@@ -1,0 +1,23 @@
+#!/usr/bin/python3
+import subprocess
+import csv
+import io
+
+completed_process = subprocess.run(["tasklist.exe", '/FI', 'IMAGENAME eq EXPLORER.EXE', '/FO:CSV', '/V'], capture_output=True)
+
+csvfile = io.StringIO(completed_process.stdout.decode('utf-8') )
+
+reader = csv.reader(csvfile, dialect='excel')
+
+# "Image Name","PID","Session Name","Session#","Mem Usage","Status","User Name","CPU Time","Window Title"
+line = 0
+for row in reader:
+    # skip header
+    line = line + 1
+    if line == 1:
+        continue
+
+    title = row[-1]
+    if title != "N/A":
+        pid = row[1]
+        subprocess.run(["taskkill.exe", '/PID', pid, '/F'])
