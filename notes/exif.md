@@ -1,5 +1,7 @@
 # Exif Data
 
+[Link to standard?](https://www.cipa.jp/std/documents/e/DC-X008-Translation-2019-E.pdf)
+
 ## Tags
 
 `DateTimeOriginal`: This seems to a be good one to set to mark when the
