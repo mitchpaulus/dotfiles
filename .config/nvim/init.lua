@@ -168,6 +168,7 @@ if vim.fn.has('nvim-0.5.0') == 1 then
 
 end
 
+vim.api.nvim_set_keymap("t", "jf", "<C-\\><C-n>" , {noremap = true, silent = true})
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
