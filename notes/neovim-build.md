@@ -11,4 +11,6 @@ Good resources:
     - `make CMAKE_INSTALL_PREFIX=$HOME/local/nvim install`
     - Run directly from the build using: `env VIMRUNTIME=/path/to/neovim/runtime /path/to/build/bin/nvim`
 4. Build docs using the EX command while running the new Neovim:
-    - `:helptags $VIMRUNTIME/doc`
+    - `:helptags $VIMRUNTIME/doc` or
+    - `:helptags ALL`
+
