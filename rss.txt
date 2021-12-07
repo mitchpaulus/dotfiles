@@ -10,3 +10,4 @@ https://phaazon.net/blog/feed	Dimitri Sabadie - Rust/Haskell/Neovim
 http://feeds.feedburner.com/reesedev	John Reese - Go/Kubernetes/DevOps
 https://waylonwalker.com/rss.xml	Waylon Walker
 https://daringfireball.net/feeds/main	Daring Fireball - John Gruber
+https://oli.me.uk/feed.xml	Oliver Cladwell's blog - On languages, text editors and tools
