@@ -47,6 +47,17 @@ using (StringReader sr = new StringReader(text)) {
         // do something
     }
 }
+// or
+public static IEnumerable<string> SplitLines(this string input)
+{
+    using StringReader sr = new StringReader(input);
+    string line;
+    while ((line = sr.ReadLine()) != null)
+    {
+        yield return line;
+    }
+}
+
 ```
 
 ## Emailing
