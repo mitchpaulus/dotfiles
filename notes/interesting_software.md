@@ -21,3 +21,7 @@ A minimal PDF viewer with some nice features for technical articles.
 I've waited so long for this:
 [https://github.com/cognidox/OfficeToPDF](https://github.com/cognidox/OfficeToPDF)
 
+
+## Sam text editor
+
+Made by Rob Pike. <http://doc.cat-v.org/plan_9/4th_edition/papers/sam/>
