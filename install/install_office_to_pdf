@@ -1,0 +1,14 @@
+#!/bin/sh
+set -e
+
+if test -z "$LOCALBIN"; then
+    printf "Variable LOCALBIN must be set.\n"
+    exit 1
+fi
+
+latest_asset="$(curl -s https://api.github.com/repos/cognidox/OfficeToPDF/releases/latest)"
+asset="$(printf "%s" "$latest_asset" | jq -r '.assets[] | select(.name | contains("OfficeToPDF.exe")) | .browser_download_url')"
+name="$(printf "%s" "$latest_asset" | jq -r '.assets[] | select(.name | contains("OfficeToPDF.exe")) | .name')"
+# Need to follow redirects with '-L' to get the actual file.
+curl --output "$LOCALBIN"/"$name" -L "$asset"
+
