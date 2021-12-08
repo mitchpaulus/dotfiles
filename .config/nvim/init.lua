@@ -197,6 +197,7 @@ local function func_map(f, tbl)
     end
     return t
 end
+
 normalNoRecurseMappings = {
 
     -- Fast quitting
@@ -266,7 +267,15 @@ normalNoRecurseMappings = {
     { 'Y', 'yg_'},
 
     -- Compile Markdown to PDF using pandoc
-    { '<leader>pc',  ':silent !pandoc -V geometry:margin=1in -o "%:p:r.pdf" "%:p"<cr>'  }
+    { '<leader>pc',  ':silent !pandoc -V geometry:margin=1in -o "%:p:r.pdf" "%:p"<cr>'  },
+
+    -- Open and close quickfix
+    { '<leader>qo', '<Cmd>silent :cw<CR>' },
+    { '<leader>qc', '<Cmd>silent :cclose<CR>' },
+
+    -- Re-indent after putting
+    { 'p', 'p==' },
+    { 'P', 'P==' },
 }
 
 func_map(function(tbl) nnmap(tbl[1], tbl[2]) end, normalNoRecurseMappings)
@@ -350,6 +359,10 @@ xnoremap * :<C-u>call VSetSearch()<CR>/<C-R>=@/<CR><CR>
 xnoremap # :<C-u>call VSetSearch()<CR>?<C-R>=@/<CR><CR>
 ]], false)
 
+-- Use ripgrep instead of grep if available.
+if vim.fn.executable('rg') then
+    vim.o.grepprg = "rg --vimgrep"
+end
 
 local statusLineComponents = {
     -- Used to put the mode, but if terminal can change cursor shape, it really isn't required.
@@ -508,6 +521,28 @@ let g:vsnip_filetypes.neobem = ['idf']
 let g:vsnip_filetypes.typescriptreact = ['typescript']
 
 ]], false)
+-- }}}
+-- ack.vim  {{{2
+
+-- Use ripgrep for searching ⚡️
+-- Options include:
+-- --vimgrep -> Needed to parse the rg response properly for ack.vim
+-- --type-not sql -> Avoid huge sql file dumps as it slows down the search
+-- --smart-case -> Search case insensitive if all lowercase pattern, Search case sensitively otherwise
+vim.g.ackprg = 'rg --vimgrep --smart-case --type-not sql'
+
+-- Auto close the Quickfix list after pressing '<enter>' on a list item
+vim.g.quickfix_auto_close = 1
+
+-- Any empty ack search will search for the work the cursor is on
+vim.g.ack_use_cword_for_empty_search = 1
+
+-- Don't jump to first match
+vim.cmd [[ cnoreabbrev Ack Ack! ]]
+
+-- Maps <leader>/ so we're ready to type the search keyword
+vim.api.nvim_set_keymap("n", '<leader>/', ':<C-u>Ack! ', { noremap = true, silent = false })
+
 -- }}}
 -- FileType AutoCmd Mappings {{{1
 
