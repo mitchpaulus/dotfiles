@@ -24,10 +24,8 @@ begin; set -l IFS; set data (cat data.txt); end
 
 ## Strings
 
-
 Substring: `string sub -s start -e end -l length <string>`
 1-index based, can use negative values as well.
-
 
 Length: `string length <string>`
 
@@ -45,10 +43,10 @@ sort (command | psub) (command2 | psub)
 ## Check for arguments
 
 From [Stack](https://stackoverflow.com/a/29643375/5932184)
+
 ```fish
 if count $argv > /dev/null
 ```
-
 
 ## Events
 
@@ -59,3 +57,5 @@ function myfunc --on-event fish_prompt
 ```
 
 can list functions using: `function --help`
+
+[When an alias should actually be an abbr](https://www.sean.sh/log/when-an-alias-should-actually-be-an-abbr/)
