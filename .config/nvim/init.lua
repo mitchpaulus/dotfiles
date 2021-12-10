@@ -55,6 +55,10 @@ if vim.fn.has('nvim-0.5.0') == 1 then
   local cmp = require'cmp'
 
   cmp.setup({
+    completion = {
+        keyword_length = 3,
+    },
+
     snippet = {
       -- REQUIRED - you must specify a snippet engine
       expand = function(args)
