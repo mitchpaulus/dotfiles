@@ -1,0 +1,9 @@
+#!/bin/sh
+
+outlook_line="$(tasklist.exe | grep OUTLOOK)"
+
+if test $? -eq 0;
+then
+    pid="$(printf '%s' "$outlook_line" | awk '{print $2}')"
+    taskkill.exe /T /PID  "$pid" > /dev/null 2>&1
+fi
