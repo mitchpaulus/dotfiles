@@ -2,7 +2,6 @@
 
 From <https://stackoverflow.com/a/65596807/5932184>, for .NET:
 
-
 There are plenty of HTML Template engines/generators.
 
 Just pick any depending on your needs.

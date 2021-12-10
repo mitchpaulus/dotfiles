@@ -2,6 +2,9 @@
 
 - `"$@"` is all the input variables, properly quoted.
 - `"$*"` == `"$1c$2c"`
+- `$?` expands to the exit status of the most recently executed
+  foreground pipeline
+- `$#` expands to the number of positional parameters in decimal.
 
 ## Set built in
 

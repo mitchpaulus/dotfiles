@@ -35,3 +35,8 @@ InsertCrossReference	Alt+R
 Normal.Module1.TableCaption	Alt+T
 Normal.Module1.GenTable	Ctrl+Shift+T
 ```
+
+Other great shortcuts:
+
+- ALT+SHIFT+(UP|DOWN): Move table row up or down. Also works with
+  multiple rows selected.
