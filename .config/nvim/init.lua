@@ -368,6 +368,13 @@ if vim.fn.executable('rg') then
     vim.o.grepprg = "rg --vimgrep"
 end
 
+vim.api.nvim_exec( [[
+" Reload file every second
+function! NbemWatch()
+    call timer_start(1000, { id -> execute('let l:winview=winsaveview() | checktime | call winrestview(l:winview) ' ) }, { 'repeat': -1 } )
+endfunction
+]], false)
+
 local statusLineComponents = {
     -- Used to put the mode, but if terminal can change cursor shape, it really isn't required.
     '%f',   -- File name
