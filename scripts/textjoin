@@ -2,12 +2,27 @@
 
 # USAGE:
 # textjoin joinchar file
-
+# If file looks like this with a joinchar of ',':
+#
+# line1
+# line2
+# line3
+#
+# then the output will be:
+# line1,line2,line3
 if test "$1" = "-h" -o "$1" = "--help"; then
     printf "textjoin\n"
     printf "\n"
     printf "USAGE:\n"
     printf "textjoin delimiter file\n"
+    printf "\n"
+    printf "If file looks like this with a delimiter of ',':\n"
+    printf "line1\n"
+    printf "line2\n"
+    printf "line3\n"
+    printf "\n"
+    printf "then the output will be:\n"
+    printf "line1,line2,line3\n"
     exit 0
 fi
 
