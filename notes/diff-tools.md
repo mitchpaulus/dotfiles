@@ -6,10 +6,10 @@
 2. colordiff
 3. wdiff
 4. Vimdiff
-5. Kompare (KDE)
-6. DiffMerge
+5. Kompare (KDE) - GUI, Linux
+6. DiffMerge - GUI, Cross Platform
 7. Meld
-8. Diffuse
+8. Diffuse - Linux
 9. XXdiff
 10. KDiff3
 11. TkDiff

@@ -74,3 +74,9 @@ msg.Subject = subject;
 msg.Body = message;
 mailClient.Send(msg);
 ```
+
+## IO
+
+```
+Directory.EnumerateFiles(string dir) -> List of full file paths.
+```

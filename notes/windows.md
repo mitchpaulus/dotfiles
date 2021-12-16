@@ -84,3 +84,9 @@ OneDriveCommercial=C:\Users\mpaulus\OneDrive - Command Commissioning
 https://superuser.com/questions/87364/can-windows-tell-me-what-is-using-my-usb-drive#1102080
 
 
+## Performance Debugging
+
+Links to 'Windows Performance Recorder':
+ - <https://answers.microsoft.com/en-us/windows/forum/all/extremely-high-100-disk-usage-windows-10/fa7099e9-2c56-49e7-ad6d-7a278d08e711>
+ - <https://answers.microsoft.com/en-us/windows/forum/all/windows-performance-recorder/a1648e8c-50c7-4243-9f1d-4216385c7ff3>
+
