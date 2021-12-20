@@ -13,3 +13,18 @@
 9. XXdiff
 10. KDiff3
 11. TkDiff
+
+
+## `diff2html`
+
+Great tool to show diffs in HTML format, using the output from the Unix `diff`tool.
+[GitHub for main program](https://github.com/rtfpessoa/diff2html).
+[GitHub for CLI](https://github.com/rtfpessoa/diff2html-cli).
+
+Can use like:
+
+```sh
+diff -u --label AHU.08C/CoolingDemand "$old_dir"/AHU.08C --label AHU.08C/CoolingDemand AHU.08C | diff2html -i stdin -o stdout -s side > AHU.08C.html
+```
+
+The `-u` option is important to make the tool work.
