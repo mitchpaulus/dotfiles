@@ -156,3 +156,8 @@ another command.
 ```
 \newenvironment{name}[numargs][Default arg1]...{stuff before}{stuff after}
 ```
+
+## siunitx
+
+From v2 to v3, the option `number-unit-product` was changed to
+`quantity-product`.
