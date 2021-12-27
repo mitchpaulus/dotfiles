@@ -20,3 +20,19 @@ point):
 2. Normalization Form KD (NFKD): Characters are decomposed by compatibility
 3. Normalization Form C (NFC): Characters are decomposed and then re-composed by canonical equivalence
 4. Normalization Form KC (NFKC): Characters are decomposed by compatibility, then re-composed by canonical equivalence
+
+
+## BOM
+
+The BOM character is FEFF at the beginning of the data stream. The
+actual bytes that you will find depend on the encoding.
+
+See [Unicode Page on BOM](https://www.unicode.org/faq/utf_bom.html#BOM)
+
+Bytes       | Encoding Form
+------------|---------------
+00 00 FE FF | UTF-32, big-endian
+FF FE 00 00 | UTF-32, little-endian
+FE FF       | UTF-16, big-endian
+FF FE       | UTF-16, little-endian
+EF BB BF    | UTF-8

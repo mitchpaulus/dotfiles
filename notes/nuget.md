@@ -54,3 +54,10 @@ Needed three things:
 dotnet nuget push "bin/Release/CCLLC.AndoverDmp.0.1.0.nupkg" --api-key ghp_asdfasdfasdfasdfasdf  --source github
 ```
 
+
+## Packaging Local
+
+1. Get nuget.exe CLI - Note this is different than using `dotnet nuget`.
+   Some of the same functionality, but they aren't necessarily the same.
+
+2. `nuget.exe add Lib.0.5.0.nupkg -Source  C:\Users\mpaulus\Nuget`
