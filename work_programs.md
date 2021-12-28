@@ -7,3 +7,4 @@
 - Facility Grid (Windows Store)
 - Visual Studio
 - Resharper
+- Dbeaver

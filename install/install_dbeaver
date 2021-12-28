@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Make temporary file in /tmp/dbeaver
+mkdir -p /tmp/dbeaver
+
+curl -L -s 'https://dbeaver.io/files/dbeaver-ce-latest-x86_64-setup.exe' -o /tmp/dbeaver/dbeaver.exe
+
+chmod +x /tmp/dbeaver/dbeaver.exe
+
+/tmp/dbeaver/dbeaver.exe
