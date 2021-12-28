@@ -8,3 +8,14 @@
 - Visual Studio
 - Resharper
 - Dbeaver
+- Grammarly
+- FileZilla
+- GitHub Desktop/Git for Windows
+- Insync
+- WinAM/Mapper
+- Logitech Options
+- Mendeley Desktop
+- Temptrol Coil Selection Software: <http://clickonce.nortekair.com/apps/coilselection/temtrol/index.html>
+- Typora?
+- EnergyPlus
+- CTI Toolkit (Demo) <https://www.coolingtechnology.org/product-page/cti-toolkit-software-demo-1>
