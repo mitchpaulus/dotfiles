@@ -1,0 +1,57 @@
+{
+	"h1": {
+		"prefix": "h1",
+		"body": [ "<h1>$0</h1>" ],
+		"description": "Heading 1"
+	},
+	"h2": {
+		"prefix": "h2",
+		"body": [ "<h2>$0</h2>" ],
+		"description": "Heading 2"
+	},
+	"h3": {
+		"prefix": "h3",
+		"body": [ "<h3>$0</h3>" ],
+		"description": "Heading 3"
+	},
+	"a": {
+		"prefix": "a",
+		"body": [ "<a href=\"$1\">$0</a>" ],
+		"description": "Link"
+	},
+	"p": {
+		"prefix": "p",
+		"body": [ "<p>$0</p>" ],
+		"description": "Paragraph"
+	},
+	"ul": {
+		"prefix": "ul",
+		"body": [ "<ul>$0</ul>" ],
+		"description": "Unordered list"
+	},
+	"li": {
+		"prefix": "li",
+		"body": [ "<li>$0</li>" ],
+		"description": "List item"
+	},
+	"div": {
+		"prefix": "div",
+		"body": [ "<div>$0</div>" ],
+		"description": "Div"
+	},
+	"{": {
+		"prefix": "{",
+		"body": [ "{{ $0 }}" ],
+		"description": "Liquid tag"
+	},
+	"for": {
+		"prefix": "for",
+		"body": [ "{%- for $1 -%}\n$0\n{%- endfor -%}" ],
+		"description": "Liquid for loop"
+	},
+	"if": {
+		"prefix": "if",
+		"body": [ "{%- if $1 -%}\n$0\n{%- endif -%}" ],
+		"description": "Liquid if statement"
+	}
+}
