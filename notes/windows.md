@@ -44,6 +44,10 @@ Program Files\ = 64 bit programs
 New-Item -ItemType SymbolicLink -Path path\to\new\file.txt -Target path\to\already\existing\file.txt
 ```
 
+```cmd
+MKLINK [/D | /H | /J] Link Target
+```
+
 By default, symbolic links are relative, unless a drive letter is
 specified in the path.
 
