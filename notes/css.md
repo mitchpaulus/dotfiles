@@ -23,3 +23,10 @@
 ### Children
 
 - `flex: grow-factor shrink-factor default-size`
+
+
+## Sticky
+
+```
+position: static | relative | absolute | fixed | sticky
+```
