@@ -1,0 +1,8 @@
+#!/bin/sh
+
+cat <<EOF
+*.tokens
+*.interp
+*.class
+*.java
+EOF
