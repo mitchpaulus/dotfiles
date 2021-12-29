@@ -161,3 +161,7 @@ another command.
 
 From v2 to v3, the option `number-unit-product` was changed to
 `quantity-product`.
+
+## References
+
+[Not so short introduction to Latex2e](https://tobi.oetiker.ch/lshort/lshort.pdf)
