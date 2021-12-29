@@ -262,6 +262,10 @@ function cs --description '[C]reate [s]cript. Just go to the scripts directory i
     cd "$DOTFILES"/scripts
     if count $argv > /dev/null
         "$EDITOR" $argv[1]
+
+        if test -e $argv[1]
+            chmod +x $argv[1]
+        end
     end
 end
 
