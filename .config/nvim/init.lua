@@ -23,7 +23,6 @@ vim.cmd [[ Plug 'mitchpaulus/vim-awk-indent-fix' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-siemens-ppcl' ]]
 -- vim.cmd [[ Plug 'nvim-lua/completion-nvim' ]]
 vim.cmd [[ Plug 'PProvost/vim-ps1' ]]
-vim.cmd [[ Plug 'qpkorr/vim-bufkill' ]]
 vim.cmd [[ Plug 'scrooloose/nerdcommenter' ]]
 vim.cmd [[ Plug 'scrooloose/nerdtree' ]]
 vim.cmd [[ Plug 'sickill/vim-monokai' ]]
@@ -675,6 +674,7 @@ filetypeAutocmds = {
     { 'sh', 'inoremap', ',sh', '#!/bin/sh<CR>', },
     { 'sh,bash', 'nnoremap', '<localleader>h', ':read $DOTFILES/snipfiles/shell_help.sh<Cr>', },
     { 'sh,bash', 'inoremap', '<localleader>h', '<cmd>read $DOTFILES/snipfiles/shell_help.sh<Cr>', },
+    { 'sh,bash', 'nnoremap', '<localleader>s', '<cmd>!shellcheck %<Cr>', },
     { 'sh,fish,bash', 'inoremap', ',v', '"$"<Left>', },
 
 

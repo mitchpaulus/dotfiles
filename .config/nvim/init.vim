@@ -25,7 +25,6 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'godlygeek/tabular'
 Plug 'lervag/vimtex'
-Plug 'qpkorr/vim-bufkill'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 Plug 'sickill/vim-monokai'
@@ -339,8 +338,6 @@ if has('nvim')
 endif
 
 nnoremap <c-c> <c-w>c
- " Delete buffer using the qpkorr/vim-bufkill package.
-nnoremap <c-d> :BD<cr>
  " Move backwards in spell check. T is 'backwards til' and I never use it.
 nnoremap T [s
 nnoremap <kPlus> <c-w>+
