@@ -15,6 +15,8 @@ def usage():
     print("github_releases.py")
     print("USAGE:")
     print(" latest_release owner repo | python3 github_releases.py regex")
+    print("")
+    print("This will print the asset URL on the first line and the file name on the second line.")
 
 if __name__ == "__main__":
     i = 1

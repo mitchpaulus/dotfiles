@@ -1,4 +1,19 @@
 #!/bin/sh
+set -e
+
+# Print help if any arguments are '-h' or '--help'
+if test "$1" = "-h" -o "$1" = "--help" -o $# -eq 0; then
+    cat <<EOF
+Usage: latest_release <repo>
+
+<repo> : owner/repo | owner repo
+EOF
+exit 0
+
+elif test $# -gt 2; then
+    echo "Error: Only expected one or two arguments"
+    exit 1
+fi
 
 if test $# -eq 1; then
     curl -s https://api.github.com/repos/"$1"/releases/latest

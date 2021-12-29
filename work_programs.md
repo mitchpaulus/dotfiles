@@ -6,6 +6,7 @@
 - Sumatra PDF (Windows Store)
 - Facility Grid (Windows Store)
 - Visual Studio
+- SQL Server Management Studio
 - Resharper
 - Dbeaver
 - Grammarly
@@ -18,4 +19,5 @@
 - Temptrol Coil Selection Software: <http://clickonce.nortekair.com/apps/coilselection/temtrol/index.html>
 - Typora?
 - EnergyPlus
+- OpenStudio/PAT
 - CTI Toolkit (Demo) <https://www.coolingtechnology.org/product-page/cti-toolkit-software-demo-1>
