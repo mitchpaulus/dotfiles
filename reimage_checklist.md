@@ -1,0 +1,1 @@
+- Check for 'host' configs that are not version controlled
