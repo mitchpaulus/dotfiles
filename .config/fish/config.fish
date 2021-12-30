@@ -152,6 +152,8 @@ abbr -a gi "$EDITOR .gitignore"
 # Consecutive numbering by default.
 abbr -a mdformat 'mdformat --number'
 
+abbr -a x 'chmod +x'
+
 # Git shortcuts
 if command -v git >/dev/null 2>&1
     abbr -a a 'git add'
