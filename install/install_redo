@@ -1,0 +1,18 @@
+#!/bin/sh
+
+if test -z "$REPOS"; then
+    printf 'Repository environment variable REPOS not set.\n'
+    exit 1
+fi
+
+cd "$REPOS" || exit 2
+
+if test -d redo; then
+    printf 'Looks like the repo is already cloned.\n'
+else
+    git clone https://github.com/apenwarr/redo.git
+fi
+
+cd "$REPOS"/redo || exit 1
+
+git pull && ./do test && DESTDIR='' PREFIX=/usr/local sudo -E ./do install
