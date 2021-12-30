@@ -1,4 +1,5 @@
 # vim:nospell
+curl
 fd
 fzf
 maxima
@@ -7,5 +8,6 @@ neovim
 pandoc
 pandoc-citeproc
 pandoc-crossref
+shellcheck
 ruby
 vlc

@@ -21,3 +21,8 @@
 - EnergyPlus
 - OpenStudio/PAT
 - CTI Toolkit (Demo) <https://www.coolingtechnology.org/product-page/cti-toolkit-software-demo-1>
+- Dotnet Ubuntu (WSL) <https://docs.microsoft.com/en-us/dotnet/core/install/linux-ubuntu>
+- Screenshot Utility Setup (NirCmd)
+- Database backup
+- AMD graphics card driver (Win10-Win11-Radeon-PRO-Software-21.Q4-Dec3)
+

@@ -18,6 +18,7 @@ ranger
 ripgrep
 rmlint
 shellcheck
+taskwarrior
 tmux
 unzip
 zip
