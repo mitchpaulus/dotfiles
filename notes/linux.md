@@ -89,3 +89,14 @@ or equivalent.
 ```
 sudo chsh -s /usr/bin/fish mp
 ```
+
+## System Calls
+
+```c
+fd = int open(const char *pathname, int flags);
+// fd usually small positive integer
+// -1 for error, check `errno` to get description
+
+#include <unistd.h>
+ssize_t read(int fd, void *buf, size_t count);
+```

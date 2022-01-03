@@ -4,6 +4,10 @@
 
 - Uses KDE syntax, definition [here](https://docs.kde.org/stable5/en/kate/katepart/highlight.html)
 
+- Can use in Kate, possibly putting in this directory? From <https://github.com/jgm/highlighting-kate/blob/master/xml/maxima.xml>
+
+  - `Usage: place maxima.xml in $KDEDIR/share/apps/katepart/syntax`
+
 ## Tex target
 
 Will need `\tightlist` command. Default definition is:
