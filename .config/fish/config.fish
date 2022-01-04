@@ -31,6 +31,17 @@ set -gx DOTNET_CLI_TELEMETRY_OPTOUT 1
 # Required for Haxall - See https://github.com/haxall/haxall
 set -gx FAN_BUILD_JDKHOME /usr/java/jdk-14.0.2/
 
+path_prepend "$DOTFILES"/scripts/
+path_prepend "$DOTFILES"/python
+path_prepend "$DOTFILES"/haskell
+path_prepend /usr/local/texlive/2020/bin/x86_64-linux
+path_prepend "$TEXLIVE_INSTALL_PREFIX"/2021/bin/x86_64-linux
+path_prepend "/opt/fantom-1.0.76/bin"
+path_prepend "$HOME/.gem/ruby/2.7.0/bin"
+path_prepend "$HOME/.gem/ruby/3.0.0/bin"
+path_prepend "$HOME/bin"
+path_prepend "$HOME/.local/bin"
+
 # Neovim/Vim for all the things
 if command -v nvim >/dev/null 2>&1
     set -gx EDITOR nvim
@@ -39,7 +50,6 @@ else if command -v vim >/dev/null 2>&1
     set -gx EDITOR vim
     set -gx VISUAL vim
 end
-
 
 if command -v exa >/dev/null 2>&1
     function ls --wraps exa
@@ -95,13 +105,6 @@ if test -n "$WT_SESSION"
     end
 end
 
-function __path_add
-    # If the directory exists and isn't in the path, add it to the beginning of the path.
-    if not contains $argv[1] $PATH; and test -d $argv[1]
-        set -gxp PATH $argv[1]
-    end
-end
-
 function add_date
     commandline -i (date '+%Y-%m-%d')
 end
@@ -127,16 +130,6 @@ bind \eB awk_begin
 bind \ew add_count_lines
 bind \ec add_copy_to_clip_exe
 
-__path_add "$DOTFILES"/scripts/
-__path_add "$DOTFILES"/python
-__path_add "$DOTFILES"/haskell
-__path_add /usr/local/texlive/2020/bin/x86_64-linux
-__path_add "$TEXLIVE_INSTALL_PREFIX"/2021/bin/x86_64-linux
-__path_add "/opt/fantom-1.0.76/bin"
-__path_add "$HOME/.gem/ruby/2.7.0/bin"
-__path_add "$HOME/.gem/ruby/3.0.0/bin"
-__path_add "$HOME/bin"
-__path_add "$HOME/.local/bin"
 
 
 set -gxp PYTHONPATH "$DOTFILES"/python
@@ -167,6 +160,11 @@ if command -v git >/dev/null 2>&1
     abbr -a ga 'git add -A; git status -u'
     abbr -a uc 'git add -u; git commit'
     abbr -a merge 'git merge --ff-only; git status -u'
+end
+
+# On basic Ubuntu install, python3 is installed, but no symlink for python
+if not command --query python; and command --query python3
+    ln -s -r (command -s python3) $LOCALBIN/python
 end
 
 # Go to git repositories
@@ -283,6 +281,7 @@ if test -n "$WSL_DISTRO_NAME"
     set -gx OPENER wsl-opener
 end
 
+
 # Load configuration special to given computer
 if test -f ~/.config/fish/host-config.fish
     source ~/.config/fish/host-config.fish
@@ -303,8 +302,8 @@ end
 # ghcup-env
 set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX "$HOME"
 if test -f "$HOME"/.ghcup/env
-     __path_add "$HOME"/.cabal/bin
-     __path_add /home/mitch/.ghcup/bin
+     path_prepend "$HOME"/.cabal/bin
+     path_prepend /home/mitch/.ghcup/bin
  end
 #
 # Yet another version manager. nvm = node version manager.
