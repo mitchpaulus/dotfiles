@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Autocorrect Update
+if test -e ~/.local/share/nvim/plugged/autocorrect.vim/updatecorrections.sh; then
+    cd ~/.local/share/nvim/plugged/autocorrect.vim
+    ./updatecorrections.sh
+else
+    printf "Did not find autocorrect.vim\n"
+fi
