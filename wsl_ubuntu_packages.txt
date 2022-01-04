@@ -1,4 +1,6 @@
 bash-completion
+build-essential
+cmake
 cmatrix
 curl
 datamash
@@ -8,17 +10,14 @@ fzf
 git
 gnuplot
 imagemagick
+jq
 make
 maxima
 ncdu
 neofetch
-pandoc
 parallel
-ranger
-ripgrep
 rmlint
 shellcheck
 taskwarrior
-tmux
 unzip
 zip
