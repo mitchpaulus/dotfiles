@@ -37,7 +37,7 @@
             "commandline" : "wsl.exe -d Ubuntu",
             "cursorColor" : "#FFFFFF",
             "cursorShape" : "filledBox",
-            "fontFace" : "Iosevka",
+            "fontFace" : "Iosevka Term",
             "fontSize" : 12,
             "guid" : "{2c4de342-38b7-51cf-b940-2309a097f518}",
             "historySize" : 9001,
