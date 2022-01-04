@@ -120,6 +120,21 @@ alias sb='source ~/.bashrc && printf ".bashrc reloaded.\n"'
 
 export EDITOR=nvim
 
+mkdir -p "$HOME"/dotfiles
+export DOTFILES="$HOME"/dotfiles
+mkdir -p "$HOME"/repos
+export REPOS="$HOME"/repos
+mkdir -p "$HOME"/.local/bin
+export LOCALBIN="$HOME"/.local/bin
+
+if ! printf '%s' "$PYTHONPATH" | grep -q "$DOTFILES"/python; then
+    if test -n "$PYTHONPATH"; then
+        export PYTHONPATH="$DOTFILES"/python:"$PYTHONPATH"
+    else
+        export PYTHONPATH="$DOTFILES"/python
+    fi
+fi
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -196,6 +211,8 @@ if [[ $(command -v stack) ]]; then
 fi
 
 pathadd "$HOME"/dotfiles/scripts/
+pathadd "$HOME"/.local/bin
+pathadd "$DOTFILES"/python
 
 # Add computer specific commands and overwrites.
 if [[ -f ~/.host-bashrc ]]; then
