@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Test if command 'npm' exists
+if command -v npm >/dev/null 2>&1; then
+    npm i -g vim-language-server
+else
+    printf 'npm is not installed.\n'
+fi
