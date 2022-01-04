@@ -1,0 +1,21 @@
+[credential]
+    # Used to be helper = "/mnt/c/Program\\ Files/Git/mingw64/libexec/git-core/git-credential-manager.exe"
+    helper = "/mnt/c/Program\\ Files/Git/mingw64/libexec/git-core/git-credential-manager-core.exe"
+
+# Directly from the delta README.
+[pager]
+    diff = delta
+    log = delta
+    reflog = delta
+    show = delta
+
+[delta]
+    plus-style = "syntax #012800"
+    minus-style = "syntax #340001"
+    navigate = true
+    side-by-side=true
+
+[interactive]
+    diffFilter = delta --color-only
+
+# vim:ft=gitconfig

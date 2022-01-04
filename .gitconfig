@@ -17,7 +17,7 @@
     stat = !git diff --stat $(git merge-base HEAD Dev_branch)
     review = !nvim $(git files) +\"bufdo Gdiffsplit Dev_branch\"
 [include]
-    path = ~/.hostgitconfig
+    path = ~/.config/git/hostgitconfig
 [pull]
     ff = only
 
