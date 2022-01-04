@@ -62,7 +62,7 @@ install_bash_language_server() {
 # Try installing various dotfiles
 #           final destination                   relative repo location
 checkfile   ~/.config/i3/config                 i3/config
-checkfile   ~/.config/nvim/init.vim             vim/vimrc
+checkfile   ~/.config/nvim/init.lua             .config/nvim/init.lua
 checkfile   ~/.bashrc                           .bashrc
 checkfile   ~/.bash_aliases                     .bash_aliases
 checkfile   ~/.config/alacritty/alacritty.yml   .config/alacritty/alacritty.yml
