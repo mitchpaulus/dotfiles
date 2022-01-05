@@ -28,6 +28,8 @@ set -gx BAT_THEME 'Monokai Extended'
 # Microsoft doesn't need my telemetry
 set -gx DOTNET_CLI_TELEMETRY_OPTOUT 1
 
+set -gx TASKRC $HOME/.config/taskwarrior/.taskrc
+
 # Required for Haxall - See https://github.com/haxall/haxall
 set -gx FAN_BUILD_JDKHOME /usr/java/jdk-14.0.2/
 
@@ -198,7 +200,7 @@ end
 
 abbr -a u 'cd ..'
 
-abbr t task
+abbr -a t task
 
 function g
     cd (fzf -1 < ~/.config/goto/dirs.txt | awk -F "	" '$1')
