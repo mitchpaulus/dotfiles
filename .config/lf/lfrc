@@ -1,2 +1,3 @@
-set icons
-map e $env VIMRUNTIME="$REPOS"/neovim/runtime "$REPOS"/neovim/build/bin/nvim "$f"
+set hidden on
+# set icons
+# map e $env VIMRUNTIME="$REPOS"/neovim/runtime "$REPOS"/neovim/build/bin/nvim "$f"
