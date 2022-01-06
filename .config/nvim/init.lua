@@ -127,8 +127,8 @@ if vim.fn.has('nvim-0.5.0') == 1 then
           buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
           buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
           buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-          buf_set_keymap('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-          buf_set_keymap('v', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+          buf_set_keymap('n', '<space>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+          buf_set_keymap('v', '<space>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 
           -- Critical to have the noinsert option
           vim.api.nvim_set_option('completeopt', 'menuone,noinsert')
