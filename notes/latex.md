@@ -60,6 +60,17 @@ Preprocessing Programs (.bib -> .bbl): biber, BibTeX
 
 Database files: .bib (biber has extended options vs. BibTeX)
 
+Basic `biblatex` usage:
+
+```latex
+\usepackage{biblatex}
+\addbibresource{bib.bib}
+\cite{key}
+\printbibliography[options]{}
+```
+
+For no heading, use option `heading=none` in the `printbibliography` statement.
+
 biber and biblatex are the newer programs. Key features for `biber`:
 
 1. Full Unicode support (huge)
