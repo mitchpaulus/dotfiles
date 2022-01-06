@@ -1,0 +1,3 @@
+#!/bin/sh
+
+cp "$DOTFILES"/_vsvimrc  "$(wslpath -u "$(winenv USERPROFILE)")"/_vsvimrc
