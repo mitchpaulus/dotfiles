@@ -439,11 +439,12 @@ vim.api.nvim_win_set_option(0, 'scroll', 5)
 
 vim.api.nvim_buf_set_option(0, 'spelllang', 'en_us') -- U.S. only spelling
 
-vim.api.nvim_buf_set_option(0, 'expandtab', true) -- Yes, I use spaces
-vim.api.nvim_buf_set_option(0, 'tabstop', 4)      -- Default of 8 is absurd
-vim.api.nvim_buf_set_option(0, 'shiftwidth', 0)      -- 0 makes this follow tabstop
-vim.api.nvim_buf_set_option(0, 'synmaxcol', 300)
-vim.api.nvim_buf_set_option(0, 'swapfile', false)
+vim.api.nvim_set_option('expandtab', true) -- Yes, I use spaces
+vim.api.nvim_set_option('tabstop', 4)      -- Default of 8 is absurd
+vim.api.nvim_set_option('shiftwidth', 0)      -- 0 makes this follow tabstop
+vim.api.nvim_set_option('synmaxcol', 300)
+
+vim.api.nvim_set_option('swapfile', false)
 vim.api.nvim_buf_set_option(0, 'spellfile', os.getenv('DOTFILES') .. '/vim/spell/hvac.utf-8.add')
 vim.api.nvim_buf_set_option(0, 'nrformats', 'bin,hex,alpha')
 
