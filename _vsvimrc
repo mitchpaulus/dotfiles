@@ -1,6 +1,8 @@
 " This is a slimmed down vimrc file just for VsVim which operates only in
 " Visual Studio.
 
+set backspace=indent,eol,start
+
 map <space> <leader>
 
 inoremap jf <Esc>
