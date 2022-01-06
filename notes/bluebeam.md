@@ -9,3 +9,7 @@
 
 - Can add leaders to callouts (Q) using Shift-click on the bend circle,
   or right clicking, and selecting 'Add Leader'
+
+## Text Boxes
+
+No border? Set width to 0pt.
