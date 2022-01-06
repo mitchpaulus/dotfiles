@@ -25,6 +25,10 @@ set -gx AWKPATH ".:/usr/local/share/awk:$DOTFILES/awk_functions"
 set -gx DOTREMINDERS ~/.config/remind/remind.rem
 set -gx FZF_DEFAULT_OPTS '--reverse --margin 10% --border'
 set -gx BAT_THEME 'Monokai Extended'
+
+# Recommended by jekyll
+set -gx GEM_HOME $HOME/gems
+
 # Microsoft doesn't need my telemetry
 set -gx DOTNET_CLI_TELEMETRY_OPTOUT 1
 
@@ -39,6 +43,9 @@ path_prepend "$DOTFILES"/haskell
 path_prepend /usr/local/texlive/2020/bin/x86_64-linux
 path_prepend "$TEXLIVE_INSTALL_PREFIX"/2021/bin/x86_64-linux
 path_prepend "/opt/fantom-1.0.76/bin"
+# Recommended by jekyll
+path_prepend $HOME/gems/bin
+path_prepend $HOME/.local/share/gem/ruby/3.0.0/bin
 path_prepend "$HOME/.gem/ruby/2.7.0/bin"
 path_prepend "$HOME/.gem/ruby/3.0.0/bin"
 path_prepend "$HOME/bin"
@@ -132,10 +139,7 @@ bind \eB awk_begin
 bind \ew add_count_lines
 bind \ec add_copy_to_clip_exe
 
-
-
 set -gxp PYTHONPATH "$DOTFILES"/python
-
 
 # v for VIM
 abbr -a v $EDITOR
