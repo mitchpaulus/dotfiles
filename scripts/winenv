@@ -1,9 +1,32 @@
 #!/bin/sh
 
+# This script can get *Windows* environment variables from
+# within WSL.
+
+if test "$1" = "-h" || test "$1" = "--help"; then
+    cat <<EOF
+winenv - Print Windows environment variables in WSL
+
+Usage:
+    winenv [VARIABLE | -h | --help]
+
+Examples:
+    winenv
+    winenv USERPROFILE
+EOF
+exit 0
+fi
+
 cd "$(userprofile)" || exit 1
 
 if test "$#" -eq 0; then
     cmd.exe /C 'SET' | sed 's/\r//g'
 elif test $# -eq 1; then
-    cmd.exe /C "$(printf 'echo %%%s%%'  "$1" )" | tr -d '\r'
+    RESULT="$(cmd.exe /C "$(printf 'IF DEFINED %s (echo %%%s%%)' "$1" "$1" )" | tr -d '\r')"
+    if test -z "$RESULT"; then
+        exit 1
+    else
+        printf '%s\n' "$RESULT"
+        exit 0
+    fi
 fi
