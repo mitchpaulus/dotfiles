@@ -11,8 +11,9 @@
 
 # Default open: cmd open &$OPENER $f
 set hidden on
+set mouse on
 map <esc> quit
 
 # Changing to syncronous mode instead of the default asyncronous mode because I want to use the terminal editor for most things.
-cmd open $ $OPENER $f
+cmd open $ "$OPENER" "$f"
 # map e $env VIMRUNTIME="$REPOS"/neovim/runtime "$REPOS"/neovim/build/bin/nvim "$f"
