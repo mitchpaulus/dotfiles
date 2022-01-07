@@ -9,3 +9,7 @@ may have even smaller packet size.
 
 For large responses, both requester and device need to support
 segmentation.
+
+## Port
+
+Default port is 47808 (BAC0 in hex). Protocol is IP/UDP.
