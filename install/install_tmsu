@@ -19,7 +19,8 @@ sudo rm -rf /usr/local/tmsu/*
 sudo mv "$expected_extracted_dir"/* /usr/local/tmsu
 
 for file in /usr/local/tmsu/bin/*; do
-    sudo ln -s -f "$file" /usr/local/bin
+    sudo ln -s -f -t /usr/local/bin "$file"
 done
 
-sudo ln -s -f /usr/local/tmsu/man/tmsu.1.gz /usr/local/share/man/man1
+mkdir -p /usr/local/share/man/man1
+sudo ln -s -f /usr/local/tmsu/man/tmsu.1.gz /usr/local/share/man/man1/tmsu.1.gz
