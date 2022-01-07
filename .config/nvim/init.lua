@@ -426,48 +426,23 @@ local wildignorePatterns = table.concat({
     '.git/*',
     'venv/*',
 }, ',')
+
 vim.api.nvim_set_option('wildignore', wildignorePatterns)  -- Sane filename characters.
-
-vim.api.nvim_win_set_option(0, 'relativenumber', true)        -- Relative line numbering
-vim.api.nvim_win_set_option(0, 'number', true)     -- Show the current line number
-vim.api.nvim_win_set_option(0, 'foldmethod', 'marker') -- Never has used manual folds.
-
-vim.api.nvim_win_set_option(0, 'cursorline', false)
-vim.api.nvim_win_set_option(0, 'wrap', false)
-vim.api.nvim_win_set_option(0, 'conceallevel', 2) -- Concealed text is completely hidden unless it has a custom replacement character defined
-vim.api.nvim_win_set_option(0, 'scroll', 5)
-
-vim.api.nvim_buf_set_option(0, 'spelllang', 'en_us') -- U.S. only spelling
-
+vim.api.nvim_set_option('relativenumber', true)        -- Relative line numbering
+vim.api.nvim_set_option('number', true)     -- Show the current line number
+vim.api.nvim_set_option('foldmethod', 'marker') -- Never has used manual folds.
+vim.api.nvim_set_option('cursorline', false)
+vim.api.nvim_set_option('wrap', false)
+vim.api.nvim_set_option('conceallevel', 2) -- Concealed text is completely hidden unless it has a custom replacement character defined
+vim.api.nvim_set_option('scroll', 5)
+vim.api.nvim_set_option('spelllang', 'en_us') -- U.S. only spelling
 vim.api.nvim_set_option('expandtab', true) -- Yes, I use spaces
 vim.api.nvim_set_option('tabstop', 4)      -- Default of 8 is absurd
 vim.api.nvim_set_option('shiftwidth', 0)      -- 0 makes this follow tabstop
 vim.api.nvim_set_option('synmaxcol', 300)
-
 vim.api.nvim_set_option('swapfile', false)
-vim.api.nvim_buf_set_option(0, 'spellfile', os.getenv('DOTFILES') .. '/vim/spell/hvac.utf-8.add')
-vim.api.nvim_buf_set_option(0, 'nrformats', 'bin,hex,alpha')
-
-settings = {
-
-
--- nnoremap <leader>sp :<c-u>set paste!<cr>:set paste?<cr>
--- nnoremap <leader>ss :set spell!<cr>:echo "Spell is now " . &spell<cr>
--- inoremap <F9> <C-o>:set paste<CR><C-r>+<C-o>:set nopaste<CR>
--- nnoremap <F8> :<c-u>set paste!<cr>:set paste?<cr>
--- nnoremap <F9> :<C-u>set paste<CR>"+p:set nopaste<CR>
--- nnoremap <F10> :<C-u>set paste<CR>"+P:set nopaste<CR>
--- set laststatus=2               " Always show the statusbar
--- set cmdheight=2                " Make the command window height 2 to avoid the hit-enter prompts
--- set sessionoptions=buffers,curdir,winpos,winsize
--- set guioptions-=e
--- set guioptions-=L
--- set guioptions-=R
--- set shortmess+=c
-    -- set grepprg=rg\ --vimgrep
-    -- set renderoptions=type:directx
-
-}
+vim.api.nvim_set_option('spellfile', os.getenv('DOTFILES') .. '/vim/spell/hvac.utf-8.add')
+vim.api.nvim_set_option('nrformats', 'bin,hex,alpha')
 
 -- Colorscheme, try monokai
 if not pcall(function() vim.cmd('colorscheme monokai') end) then
