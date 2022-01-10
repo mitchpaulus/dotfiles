@@ -11,7 +11,7 @@
 
 # Default open: cmd open &$OPENER $f
 set hidden on
-set mouse on
+# set mouse on
 map <esc> quit
 
 # Changing to syncronous mode instead of the default asyncronous mode because I want to use the terminal editor for most things.
