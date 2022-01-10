@@ -38,3 +38,13 @@ Meant to be simple and compile fast.
 Kitten is a statically typed, stack-based functional programming
 language designed to be simple and fast. It is a concatenative language,
 combining aspects of imperative and pure functional programming.
+
+## [Lux](https://github.com/LuxLang/lux)
+
+Functional, statically typed, compiles to JVM, JavaScript, Python, Lua, or Ruby
+
+The language is mostly inspired by the following 3 languages:
+
+- Clojure (syntax, overall look & feel)
+- Haskell (functional programming)
+- Standard ML (module system)
