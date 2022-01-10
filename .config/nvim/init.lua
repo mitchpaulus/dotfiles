@@ -507,6 +507,8 @@ let g:vsnip_filetypes.neobem = ['idf']
 let g:vsnip_filetypes.typescriptreact = ['typescript']
 
 ]], false)
+
+vim.g.vsnip_snippet_dirs = { os.getenv('HOME') .. '/.config/vsnip',  os.getenv('HOME') .. '/.vsnip' }
 -- }}}
 -- ack.vim  {{{2
 
