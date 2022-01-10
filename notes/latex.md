@@ -149,6 +149,7 @@ gracefully handle this situation.
 \definecolor{mypink2}{RGB}{219, 48, 122}
 \definecolor{mypink3}{cmyk}{0, 0.7808, 0.4429, 0.1412}
 \definecolor{mygray}{gray}{0.6}
+\definecolor{color}{HTML}{FFAABB}
 ```
 
 ## Font Sizes
@@ -176,3 +177,45 @@ From v2 to v3, the option `number-unit-product` was changed to
 ## References
 
 [Not so short introduction to Latex2e](https://tobi.oetiker.ch/lshort/lshort.pdf)
+
+
+## Percent % after Curly Brace `{`
+
+- <https://tex.stackexchange.com/questions/40946/why-the-end-of-line-in-macro-definitions>
+- Prevents TeX from turning end of line character into space.
+
+
+## Personal Tex Files
+
+```
+% Find personal directory location
+kpsewhich -var-value=TEXMFHOME
+```
+
+## Tex Directory Structure (TDS)
+
+Source documentation: <https://tug.org/tds/tds.pdf>
+
+```
+$HOME/texmf/tex/latex/myfile.tex
+```
+
+## Hyperref
+
+<https://www.overleaf.com/learn/latex/Hyperlinks>
+
+```tex
+\hypersetup{
+  hyperindex=true,   % Makes the page numbers of index entries into hyperlinks
+  linktocpage=false, % Makes the page numbers instead of the text to be link in the Table of contents.
+  breaklinks=false,  % Allows links to be broken into multiple lines.
+  colorlinks=false,  % Colours the text for links and anchors, these colours will appear in the printed version
+  linkcolor=red,     % Colour for normal internal links
+  anchorcolor=black, % Colour for anchor (target) text
+  citecolor=green,   % Colour for bibliographical citations
+  filecolor=cyan,    % Colour for links that open local files
+  urlcolor=magenta,  % Colour for linked URLs
+  frenchlinks=false, % Use small caps instead of colours for links
+}
+```
+
