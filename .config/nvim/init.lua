@@ -427,7 +427,7 @@ local wildignorePatterns = table.concat({
     'venv/*',
 }, ',')
 
-vim.o.wildignore = wildignorePatterns  -- Sane filename characters.
+vim.o.wildignore = wildignorePatterns
 vim.o.relativenumber = true        -- Relative line numbering
 vim.o.number = true     -- Show the current line number
 vim.o.foldmethod = 'marker' -- Never has used manual folds.
