@@ -1,0 +1,2 @@
+#!/bin/sh
+"$DOTFILES"/install/install_deb sharkdp/bat 'bat_[0-9]+\.[0-9]+\.[0-9]+_amd64.deb'

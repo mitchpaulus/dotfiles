@@ -12,9 +12,10 @@
 # Default open: cmd open &$OPENER $f
 set hidden on
 # set mouse on
+set previewer lf-preview
 map <esc> quit
 
-map t push %tmsu<space>tag<space>"$f"<space>
+map t push !tmsu<space>tag<space>"$f"<space>
 
 # Unmap single y
 map y
