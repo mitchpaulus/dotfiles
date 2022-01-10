@@ -386,22 +386,22 @@ local statusLineComponents = {
     '%{&encoding}' -- current encoding
 }
 
-vim.api.nvim_set_option('statusline', table.concat(statusLineComponents))
+vim.o.statusline = table.concat(statusLineComponents)
 
-vim.api.nvim_set_option('hlsearch', true)   -- highlight search
-vim.api.nvim_set_option('incsearch', true)  -- highlight temporary searches
-vim.api.nvim_set_option('lazyredraw', true)  -- don't update screen during macros
-vim.api.nvim_set_option('scrolloff', 8)
-vim.api.nvim_set_option('sidescrolloff', 10)
-vim.api.nvim_set_option('hidden', true)  -- Stop asking me to write file
-vim.api.nvim_set_option('mouse', 'a')  -- The mouse can be useful
-vim.api.nvim_set_option('isfname', '@,48-57,/,\\,.,-,_,+,(,),[,],@-@,~')  -- Sane filename characters, plus ~ for home.
-vim.api.nvim_set_option('listchars', 'tab:▸ ,eol:¬,trail:-,nbsp:+')
-vim.api.nvim_set_option('showmode', false)
-vim.api.nvim_set_option('shiftround', true)
-vim.api.nvim_set_option('spellsuggest', 'best,9')
+vim.o.hlsearch = true   -- highlight search
+vim.o.incsearch = true  -- highlight temporary searches
+vim.o.lazyredraw = true  -- don't update screen during macros
+vim.o.scrolloff = 8
+vim.o.sidescrolloff = 10
+vim.o.hidden = true  -- Stop asking me to write file
+vim.o.mouse = 'a'  -- The mouse can be useful
+vim.o.isfname = '@,48-57,/,.,-,_,+,,,#,$,%,~,='
+vim.o.listchars = 'tab:▸ ,eol:¬,trail:-,nbsp:+'
+vim.o.showmode = true
+vim.o.shiftround = true
+vim.o.spellsuggest = 'best,9'
 -- Remove the noinsert option if we aren't in LSP mode.
-vim.api.nvim_set_option('completeopt', 'menuone,preview')
+vim.o.completeopt = 'menuone,preview'
 
 local wildignorePatterns = table.concat({
     '*.aux',
@@ -427,22 +427,22 @@ local wildignorePatterns = table.concat({
     'venv/*',
 }, ',')
 
-vim.api.nvim_set_option('wildignore', wildignorePatterns)  -- Sane filename characters.
-vim.api.nvim_set_option('relativenumber', true)        -- Relative line numbering
-vim.api.nvim_set_option('number', true)     -- Show the current line number
-vim.api.nvim_set_option('foldmethod', 'marker') -- Never has used manual folds.
-vim.api.nvim_set_option('cursorline', false)
-vim.api.nvim_set_option('wrap', false)
-vim.api.nvim_set_option('conceallevel', 2) -- Concealed text is completely hidden unless it has a custom replacement character defined
-vim.api.nvim_set_option('scroll', 5)
-vim.api.nvim_set_option('spelllang', 'en_us') -- U.S. only spelling
-vim.api.nvim_set_option('expandtab', true) -- Yes, I use spaces
-vim.api.nvim_set_option('tabstop', 4)      -- Default of 8 is absurd
-vim.api.nvim_set_option('shiftwidth', 0)      -- 0 makes this follow tabstop
-vim.api.nvim_set_option('synmaxcol', 300)
-vim.api.nvim_set_option('swapfile', false)
-vim.api.nvim_set_option('spellfile', os.getenv('DOTFILES') .. '/vim/spell/hvac.utf-8.add')
-vim.api.nvim_set_option('nrformats', 'bin,hex,alpha')
+vim.o.wildignore = wildignorePatterns  -- Sane filename characters.
+vim.o.relativenumber = true        -- Relative line numbering
+vim.o.number = true     -- Show the current line number
+vim.o.foldmethod = 'marker' -- Never has used manual folds.
+vim.o.cursorline = false
+vim.o.wrap = false
+vim.o.conceallevel = 2 -- Concealed text is completely hidden unless it has a custom replacement character defined
+vim.o.scroll = 5
+vim.o.spelllang = 'en_us' -- U.S. only spelling
+vim.o.expandtab = true -- Yes, I use spaces
+vim.o.tabstop = 4      -- Default of 8 is absurd
+vim.o.shiftwidth = 0      -- 0 makes this follow tabstop
+vim.o.synmaxcol = 300
+vim.o.swapfile = false
+vim.o.spellfile = os.getenv('DOTFILES') .. '/vim/spell/hvac.utf-8.add'
+vim.o.nrformats = 'bin,hex,alpha'
 
 -- Colorscheme, try monokai
 if not pcall(function() vim.cmd('colorscheme monokai') end) then
@@ -554,7 +554,7 @@ filetypeAutocmds = {
     -- make a header 1 line, deleting trailing whitespace first.
     --{ 'markdown', 'nnoremap', '<silent>', '<leader>h1 :<c-u>call<Space><SID>MakeHeading("=")<cr>', },
     --{ 'markdown', 'nnoremap', '<silent>', '<leader>h2 :<c-u>call<Space><SID>MakeHeading("-")<cr>', },
-    { 'markdown,tex,text', 'setlocal', 'textwidth=72' },
+    -- { 'markdown,tex,text', 'setlocal', 'textwidth=72' },
     { 'markdown,tex,text', 'setlocal spell' },
     { 'markdown', 'setlocal tabstop=2' },
     { 'markdown', 'nnoremap', ']]', '<Cmd>keeppatterns /^#<Cr>' },
@@ -635,6 +635,10 @@ filetypeAutocmds = {
     { 'tex', 'nnoremap', ',base', ':0read $DOTFILES/snipfiles/base.tex<cr>', },
     { 'tex', 'nnoremap', '[e', '?\\begin{equation}<cr>:nohlsearch<cr>', },
     { 'tex', 'nnoremap', ']e', '/\\begin{equation}<cr>:nohlsearch<cr>', },
+    { 'tex', 'vnoremap <localleader>b s\\textbf{<c-r>"}' },
+    { 'tex', 'vnoremap <localleader>p :! pandoc --to=latex -<CR><Esc>' },
+    -- vimtex has a mapping lL for compiling selected, so use two-char mapping here.
+    { 'tex', 'vnoremap <localleader>li s\\href{}{<c-r>"}<Esc>2F{a' },
 
     { 'awk', 'inoremap', ',!', '#!/usr/bin/awk -E<cr>', },
     { 'awk', 'inoremap', ',b', 'BEGIN { FS=OFS="" }<esc>2hi', },
@@ -650,7 +654,7 @@ filetypeAutocmds = {
     { 'sh', 'inoremap', ',sh', '#!/bin/sh<CR>', },
     { 'sh,bash', 'nnoremap', '<localleader>h', ':read $DOTFILES/snipfiles/shell_help.sh<Cr>', },
     { 'sh,bash', 'inoremap', '<localleader>h', '<cmd>read $DOTFILES/snipfiles/shell_help.sh<Cr>', },
-    { 'sh,bash', 'nnoremap', '<localleader>s', '<cmd>!shellcheck %<Cr>', },
+    { 'sh,bash', 'nnoremap', '<localleader>s', '<cmd>!shellcheck "%"<Cr>', },
     { 'sh,fish,bash', 'inoremap', ',v', '"$"<Left>', },
 
 
