@@ -5,7 +5,7 @@
 # Prefixes:
 # :  read (default)  builtin/custom command
 # $  shell           shell command
-# %  shell-pipe      shell command running with the ui
+# %  shell-pipe      shell command running with the ui (standard output of command is printed to statusline)
 # !  shell-wait      shell command waiting for key press
 # &  shell-async     shell command running asynchronously
 
@@ -13,6 +13,8 @@
 set hidden on
 # set mouse on
 map <esc> quit
+
+map t push %tmsu<space>tag<space>"$f"<space>
 
 # Unmap single y
 map y
@@ -23,22 +25,16 @@ map yp copy-fullpath
 map yw copy-windows-full-path
 map yc copy-command-path
 
-cmd copy-filename ${{
-    basename "$f" | tr -d '\n' | clip
-}}
-cmd copy-fullpath ${{
-    printf '%s' "$f" | clip
-}}
-cmd copy-windows-full-path ${{
+cmd copy-filename & basename "$f" | tr -d '\n' | clip
+cmd copy-fullpath & printf '%s' "$f" | clip
+cmd copy-windows-full-path &{{
     if command -v wslpath >/dev/null 2>/dev/null; then
         wslpath -w "$f" | tr -d '\n' | clip
     else
         printf '%s' "$f" | wslpathmp | tr -d '\n' | clip
     fi
 }}
-cmd copy-command-path ${{
-    CCLLCCopyToClip.exe "$(wslpath -w "$f")"
-}}
+cmd copy-command-path & CCLLCCopyToClip.exe "$(wslpath -w "$f")"
 
 # Changing to syncronous mode instead of the default asyncronous mode because I want to use the terminal editor for most things.
 cmd open $ "$OPENER" "$f"
