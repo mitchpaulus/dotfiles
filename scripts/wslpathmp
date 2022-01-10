@@ -1,0 +1,27 @@
+#!/bin/sh
+
+if test "$1" = "-h" || test "$1" = "--help"; then
+    cat <<EOF
+wslpathmp - Mitch Paulus version of wslpath
+
+I want to make sure that I always have a 'wslpath'-like command available.
+It should be available in a WSL environment, but I may run into cases in other
+environments where I need to use it. This attempts to recreate the basic functionality.
+EOF
+exit 0
+fi
+
+awk '{
+    # Replace all forward slashes with backslashes
+
+    # If the begins with `/mnt/c/` then replace it with `C:\\`
+    if (match($0, /^\/mnt\/[a-zA-Z]\//)) {
+        updated_path = substr($0, 6, 1) ":\\\\" substr($0, 8);
+        gsub(/\//, "\\", updated_path);
+        print updated_path;
+    }
+    else {
+        gsub(/\//, "\\", $0);
+        print $0
+    }
+}'

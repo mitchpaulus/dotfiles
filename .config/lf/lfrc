@@ -14,6 +14,32 @@ set hidden on
 # set mouse on
 map <esc> quit
 
+# Unmap single y
+map y
+
+map yy copy
+map yf copy-filename
+map yp copy-fullpath
+map yw copy-windows-full-path
+map yc copy-command-path
+
+cmd copy-filename ${{
+    basename "$f" | tr -d '\n' | clip
+}}
+cmd copy-fullpath ${{
+    printf '%s' "$f" | clip
+}}
+cmd copy-windows-full-path ${{
+    if command -v wslpath >/dev/null 2>/dev/null; then
+        wslpath -w "$f" | tr -d '\n' | clip
+    else
+        printf '%s' "$f" | wslpathmp | tr -d '\n' | clip
+    fi
+}}
+cmd copy-command-path ${{
+    CCLLCCopyToClip.exe "$(wslpath -w "$f")"
+}}
+
 # Changing to syncronous mode instead of the default asyncronous mode because I want to use the terminal editor for most things.
 cmd open $ "$OPENER" "$f"
 # map e $env VIMRUNTIME="$REPOS"/neovim/runtime "$REPOS"/neovim/build/bin/nvim "$f"
