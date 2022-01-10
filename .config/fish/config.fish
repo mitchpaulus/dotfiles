@@ -275,16 +275,24 @@ function cs --description '[C]reate [s]cript. Just go to the scripts directory i
     end
 end
 
+# OPENER is used in the lf file mananger when using the 'l' key.
+if test -n "$WSL_DISTRO_NAME"
+    # This is located in a separate repo that will have to be cloned
+    # See: https://github.com/mitchpaulus/wsl-opener
+    set -gx OPENER wsl-opener
+else
+    # This is a script in this dotfiles repo, so should always be good to go.
+    set -gx OPENER unix-opener
+end
+
+
+
 # Set up specific commands if working in WSL environment
 if test -n "$WSL_DISTRO_NAME"
     # Command to bring up Windows Explorer in current directory.
     function eh
         explorer.exe (wslpath -w (pwd))
     end
-
-    # This is a variable used by `lf`. wsl-opener is a personal opener script
-    # See: https://github.com/mitchpaulus/wsl-opener
-    set -gx OPENER wsl-opener
 end
 
 
