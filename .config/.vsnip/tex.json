@@ -1,0 +1,7 @@
+{
+    "href": {
+        "prefix": ["li"],
+        "body": [ "\\href{${1:URL}}{${2:Link Text}}$0" ],
+        "description": "Hyperref link"
+    }
+}
