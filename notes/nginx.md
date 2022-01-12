@@ -95,3 +95,17 @@ Was using nginx as a reverse proxy to send requests to multiple running
 webservers. As a proxy, it didn't see to like having two public IPs
 being pointed to. If I changed the proxy address to `localhost`, things
 worked fine.
+
+## Test Configuration
+
+Useful to test new updates before bringing down the web server.
+
+```sh
+sudo nginx -t
+```
+
+## Slashes or no Slashes on `location`s
+
+<https://dev.to/danielkun/nginx-everything-about-proxypass-2ona#:~:text=A%20proxy_pass%20is%20usually%20used%20when%20there%20is,microservices%20that%20are%20responsible%20for%20the%20specific%20locations.>
+
+General advice is to end with slash on everything.
