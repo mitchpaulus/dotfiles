@@ -1,5 +1,17 @@
 #!/usr/bin/awk -E
+#
+# USAGE:
+# setdiff2way file1 file2
+#
+# DESCRIPTION:
+# Prints lines in file1 that are not in file2, and then the revserse.
 BEGIN {
+    # If two arguments are not given, print usage and exit. The program
+    # name is counted as first argument.
+    if (ARGC != 3) {
+        print "Usage: setdiff2way file1 file2"
+        exit 1
+    }
     file_num = 0
 }
 
