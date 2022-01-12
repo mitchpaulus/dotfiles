@@ -5,6 +5,7 @@
 - Windows Terminal (Windows Store)
 - Sumatra PDF (Windows Store)
 - Facility Grid (Windows Store)
+- Pandora (Windows Store)
 - Visual Studio
 - SQL Server Management Studio
 - Resharper
