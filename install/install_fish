@@ -1,6 +1,15 @@
 #!/bin/sh
 set -e
 
+verify_installed() {
+    command -v "$1" >/dev/null 2>&1 || { echo >&2 "$1 is required but it's not installed. Aborting."; exit 1; }
+}
+
+# Verify required commands are installed
+verify_installed cmake
+verify_installed latest_release
+verify_installed github_releases.py
+
 latest_release="$(latest_release fish-shell fish-shell)"
 download="$(printf "%s" "$latest_release" | github_releases.py 'fish-[0-9]\.[0-9]\.[0-9].tar.xz')"
 asset="$(printf "%s" "$download" | awk 'NR == 1')"

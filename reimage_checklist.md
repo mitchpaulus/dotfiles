@@ -1,1 +1,2 @@
 - Check for 'host' configs that are not version controlled
+- Check for SSH key/Server access
