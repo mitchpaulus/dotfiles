@@ -203,3 +203,10 @@ I still could probably do it, just may have to use the `eval`
 functionality.
 
 [Forum discussion](https://skyfoundry.com/forum/topic/2330)
+
+
+## IT Operations and Maintenance
+
+See [link](https://skyfoundry.com/doc/docAppNotes/ITOperationsAndMaintenance)
+
+

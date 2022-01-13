@@ -47,3 +47,24 @@ the previous default.
 C:\ on /mnt/c type drvfs (rw,noatime,uid=1000,gid=1000,case=off)
 D: on /mnt/d type drvfs (rw,relatime,metadata,case=off)
 ```
+
+## References
+
+- [WSL File System Support](https://docs.microsoft.com/en-us/archive/blogs/wsl/wsl-file-system-support)
+
+
+## Testing Tuesday 2022-01-11
+
+No wsl.conf. Output of `mount -l`.
+
+```
+drvfs on /mnt/c type 9p (rw,noatime,dirsync,aname=drvfs;path=C:\;uid=1000;gid=1000;symlinkroot=/mnt/,mmap,access=client,msize=262144,trans=virtio)
+drvfs on /mnt/d type 9p (rw,noatime,dirsync,aname=drvfs;path=D:\;uid=1000;gid=1000;symlinkroot=/mnt/,mmap,access=client,msize=262144,trans=virtio)
+```
+
+With `wsl.conf` and contents installed to `etc/wsl.conf`:
+
+```
+[automount]
+options=metadata
+```

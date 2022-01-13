@@ -1,5 +1,9 @@
 # Linux
 
+## References
+
+- <https://explainshell.com/>: Helps explain shell syntax you might come across
+
 ## Permissions
 
 - Order is user, group, all others
@@ -100,3 +104,8 @@ fd = int open(const char *pathname, int flags);
 #include <unistd.h>
 ssize_t read(int fd, void *buf, size_t count);
 ```
+
+## UIDs, GIDs
+
+All users have a UID, stored in `/etc/passwd`. Each user must belong to a minimum of one group.
+A user also has a *primary* associated group. Group information is in `/etc/group`

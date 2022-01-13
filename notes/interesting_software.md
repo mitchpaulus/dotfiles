@@ -31,3 +31,11 @@ Made by Rob Pike. <http://doc.cat-v.org/plan_9/4th_edition/papers/sam/>
 ## TMSU
 
 [Tool for tagging files.](https://github.com/oniony/TMSU)
+
+## Gerrit Code Review
+
+[Code review tool.](https://www.gerritcodereview.com/)
+
+## chezmoi
+
+[Dotfile management](https://www.chezmoi.io/)

@@ -94,3 +94,10 @@ Links to 'Windows Performance Recorder':
  - <https://answers.microsoft.com/en-us/windows/forum/all/extremely-high-100-disk-usage-windows-10/fa7099e9-2c56-49e7-ad6d-7a278d08e711>
  - <https://answers.microsoft.com/en-us/windows/forum/all/windows-performance-recorder/a1648e8c-50c7-4243-9f1d-4216385c7ff3>
 
+## Issues with Second Monitor not showing
+
+Tuesday 2022-01-11: Keeps resetting to "Only display 1" or "Only display 2" after restart.
+From this post [on AMD 12-11-2021 11:27 AM](https://community.amd.com/t5/drivers-software/quot-extend-these-displays-quot-options-resetting-automatically/td-p/500478),
+a workaround is to 'Duplicate', and then 'Extend'.
+It's only an issue with the AMD drivers.
+
