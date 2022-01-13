@@ -381,7 +381,7 @@ local statusLineComponents = {
     '%y ',   -- file type
     'C:%c ',  -- column number
     '%p%% ',  -- percentage through file
-    'HEX:%B ', -- Hex value for character under cursor
+    'HEX:%2B ', -- Hex value for character under cursor
     '%{&ff} ',  -- File format (unix vs. dos)
     '%{&encoding}' -- current encoding
 }
