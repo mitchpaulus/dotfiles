@@ -39,3 +39,7 @@ Made by Rob Pike. <http://doc.cat-v.org/plan_9/4th_edition/papers/sam/>
 ## chezmoi
 
 [Dotfile management](https://www.chezmoi.io/)
+
+## Meta Talks about Softwrae
+
+[Good compilation of talks: ](https://github.com/hellerve/programming-talks)
