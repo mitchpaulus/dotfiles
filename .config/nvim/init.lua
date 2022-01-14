@@ -444,10 +444,12 @@ vim.o.swapfile = false
 vim.o.spellfile = os.getenv('DOTFILES') .. '/vim/spell/hvac.utf-8.add'
 vim.o.nrformats = 'bin,hex,alpha'
 
--- Colorscheme, try monokai
-if not pcall(function() vim.cmd('colorscheme monokai') end) then
+-- Nah, just use desert.  Colorscheme, try monokai
 vim.cmd('colorscheme desert')
-end
+
+-- if not pcall(function() vim.cmd('colorscheme monokai') end) then
+-- vim.cmd('colorscheme desert')
+-- end
 
 -- Search for the current visual selection using '*'. See pg. 212 of Practical Vim
 function vsetsearch()
