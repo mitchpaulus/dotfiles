@@ -20,6 +20,8 @@ map t push !tmsu<space>tag<space>"$f"<space>
 # Unmap single y
 map y
 
+map <f-5> reload
+
 map yy copy
 map yf copy-filename
 map yp copy-fullpath
