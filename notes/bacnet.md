@@ -13,3 +13,7 @@ segmentation.
 ## Port
 
 Default port is 47808 (BAC0 in hex). Protocol is IP/UDP.
+
+## BACnet SC
+
+<http://www.bacnet.org/Bibliography/B-SC-Whitepaper-v15_Final_20190521.pdf>
