@@ -260,7 +260,7 @@ normalNoRecurseMappings = {
     { '<leader>ct', '<Cmd>checktime<cr>' },
 
     { '<leader>ev', '<Cmd>edit $MYVIMRC<CR>' },
-    { '<leader>sv', '<Cmd>luafile $MYVIMRC<CR>' },
+    { '<leader>sv', '<Cmd>source $MYVIMRC<CR>' },
 
     { '<leader>j', '/\\V<+\\.\\{-}+><cr>cgn' },
 
@@ -643,6 +643,7 @@ filetypeAutocmds = {
     { 'tex', 'vnoremap <localleader>p :! pandoc --to=latex -<CR><Esc>' },
     -- vimtex has a mapping lL for compiling selected, so use two-char mapping here.
     { 'tex', 'vnoremap <localleader>li s\\href{}{<c-r>"}<Esc>2F{a' },
+    { 'tex', 'vnoremap <localleader>i s\\textit{<c-r>"}<Esc>' },
 
     { 'awk', 'inoremap', ',!', '#!/usr/bin/awk -E<cr>', },
     { 'awk', 'inoremap', ',b', 'BEGIN { FS=OFS="" }<esc>2hi', },
