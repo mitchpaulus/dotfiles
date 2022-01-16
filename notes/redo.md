@@ -44,7 +44,6 @@ I think some of the issue has to do with default file permissions given within W
 One thing is that the redirection for the `redo/version/vars.do` file does not seem to work with base install.
 Was able to solve it by forcing redirect to unique temporary file instead of passing file descriptors around.
 
-
 ### Tests
 
 1. Clean clone, metadata enabled in WSL. `./do build` fails in \_version.py
@@ -56,4 +55,49 @@ Was able to solve it by forcing redirect to unique temporary file instead of pas
 3. `$PREFIX/share/doc/redo`
 4. Man page to `$PREFIX/share/man/man1/`
 
+## Building
 
+Typical output from building:
+
+```
+do  bin/all
+do    redo/version/all
+do      redo/version/vars
+do        redo/version/gitvars
+do      redo/version/_version.py
+do    redo/py
+do      redo/whichpython
+Trying: intentionally-missing
+Trying: python
+do    redo/sh
+ dash...               warnings  s47a W48 W94 W115
+ /usr/xpg4/bin/sh...   missing
+ ash...                missing
+ posh...               missing
+ lksh...               missing
+ mksh...               missing
+ ksh...                missing
+ ksh88...              missing
+ ksh93...              missing
+ pdksh...              missing
+ zsh...                warnings  W2a W47c W89c W118
+ bash...               warnings  W48 W89c W118
+ busybox...            missing
+ /bin/sh...            warnings  W48 W89c W118
+Selected mostly good shell: /usr/bin/dash
+do    bin/list
+do    bin/redo-always
+do    bin/redo-ifchange
+do    bin/redo-ifcreate
+do    bin/redo-log
+do    bin/redo-ood
+do    bin/redo
+do    bin/redo-sources
+do    bin/redo-stamp
+do    bin/redo-targets
+do    bin/redo-unlocked
+do    bin/redo-whichdo
+do: Removing stamp files...
+redo  bin/all
+redo    redo/version/all
+```
