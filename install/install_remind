@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Install script for remind
+
+curl -o /tmp/remind-03.03.11.tar.gz  'https://dianne.skoll.ca/projects/remind/download/remind-03.03.11.tar.gz'
+
+# Instructions straight from the remind website
+tar xfz /tmp/remind-03.03.11.tar.gz && cd /tmp/remind-03.03.11 && ./configure && make && make test && sudo make install
