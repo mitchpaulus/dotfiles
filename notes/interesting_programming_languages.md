@@ -48,3 +48,7 @@ The language is mostly inspired by the following 3 languages:
 - Clojure (syntax, overall look & feel)
 - Haskell (functional programming)
 - Standard ML (module system)
+
+## [Futhark](https://futhark-lang.org/)
+
+Futhark is a small programming language designed to be compiled to efficient parallel code.
