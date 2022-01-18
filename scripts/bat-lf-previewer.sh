@@ -9,10 +9,10 @@
 
 unset COLORTERM
 
-# if two arguments
-if $# -eq 2; then
-    bat --italic-text always --color always --style 'plain' --theme 'ansi-dark' --line-range :"$2" "$1"
+# if two arguments (program counts as one)
+if test "$#" -eq 3; then
+    bat --italic-text always --color always --style 'plain' --theme 'ansi' --line-range ":$2" "$1"
 else
-    bat --italic-text always --color always --style 'plain' --theme 'ansi-dark' "$1"
+    bat --italic-text always --color always --style 'plain' --theme 'ansi' "$1"
 fi
 
