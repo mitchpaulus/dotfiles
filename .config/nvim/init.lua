@@ -447,6 +447,9 @@ vim.o.nrformats = 'bin,hex,alpha'
 -- Nah, just use desert.  Colorscheme, try monokai
 vim.cmd('colorscheme desert')
 
+-- Modern terminals are great am i right?
+vim.o.termguicolors = true
+
 -- if not pcall(function() vim.cmd('colorscheme monokai') end) then
 -- vim.cmd('colorscheme desert')
 -- end
