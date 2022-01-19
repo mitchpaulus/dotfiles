@@ -2,10 +2,8 @@
 
 ## Algebraic Types
 
-1. Product Types == Tuples, Records.  data Type = Type { field1 :: Type2, field2 :: Type2 }
-
+1. Product Types == Tuples, Records.           data Type = Type { field1 :: Type2, field2 :: Type2 }
 2. Sum Types == Coproduct == Disjoint Unions.  data Type = Either | Or
-
 
 Typically denote things as
 
@@ -18,7 +16,7 @@ evaluate to.
 ## Covariant, Contravariant, Invariant Generic Types
 
 Sources:
- - https://mypy.readthedocs.io/en/stable/generics.html#variance-of-generic-types
+ - <https://mypy.readthedocs.io/en/stable/generics.html#variance-of-generic-types>
  - [Why are Arrays invariant, but Lists covariant](https://stackoverflow.com/q/6684493/5932184)
  - [Covariance, Invariance and Contravariance explained in plain English](https://stackoverflow.com/q/8481301/5932184)
  - [Covariance and contravariance in C#, part 1](https://ericlippert.com/2007/10/16/covariance-and-contravariance-in-c-part-1/)
@@ -50,7 +48,7 @@ Good comment [here](https://stackoverflow.com/a/42720468/5932184):
 ## Dependent Types
 
 Dependent types allow you to parameterize a type from a value. For
-example (https://stackoverflow.com/a/9374698/5932184):
+example (<https://stackoverflow.com/a/9374698/5932184>):
 
 ```
 type BoundedInt(n) = { i:Int | i <= n }
@@ -63,5 +61,4 @@ function is defined over multiple types, acting in the *same way* for
 each type.
 
 This is in contrast to "ad hoc polymorphism", in which functions can act
-*differently* for each type. See '[Ad hoc
-polymorphism](https://doi.org/10.1145/75277.75283)'.
+*differently* for each type. See '[Ad hoc polymorphism](https://doi.org/10.1145/75277.75283)'.
