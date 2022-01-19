@@ -1,0 +1,83 @@
+#!/usr/bin/python3
+
+# This script requies the following programs/environement variables to be installed:
+# - tmsu
+# - fzf
+# - wsl-opener
+# - $FILEMANAGER
+
+import subprocess
+from typing import Set
+import os
+import sys
+
+def files_for_tags(selected_tag_set: Set[str]) -> Set[str]:
+    arguments = ['tmsu', 'files'] + list(selected_tag_set)
+    result = subprocess.run(arguments, capture_output=True, encoding='utf-8')
+    return set(result.stdout.splitlines())
+
+def tags_from_files(files: Set[str]) -> Set[str]:
+    # Some day we may run into a limit for the number of files in a single query.
+    # But today is not that day.
+    arguments = ['tmsu', 'tags'] + list(files)
+    result = subprocess.run(arguments, capture_output=True, encoding='utf-8')
+    tags = set()
+
+    for line in result.stdout.splitlines():
+        split_line = line.split(':')
+        all_tags = split_line[1].split()
+        tags.update(all_tags)
+
+    return tags
+
+def handle_selection(selection: str, selected_tag_set: Set[str]) -> None:
+    # Check if selection is a file.
+    if os.path.isfile(selection):
+        # Try to open the file
+        subprocess.run(['wsl-opener', selection])
+        sys.exit()
+    elif os.path.isdir(selection):
+        # Try to open the directory.
+        # Get environement variable FILEMANAGER
+        # and open the directory with that filemanager
+        filemanager = os.environ.get('FILEMANAGER')
+
+        if filemanager is not None:
+            subprocess.run([filemanager, selection])
+        else:
+            print('No $FILEMANAGER found')
+        sys.exit()
+    else: # Assume that the selection was a tag
+        selected_tag_set.add(selection.strip())
+        query(selected_tag_set)
+
+def query(selected_tag_set: Set[str]) -> None:
+    files = files_for_tags(selected_tag_set)
+
+    # Automatically handle a single file.
+    if len(files) == 1:
+        handle_selection(list(files)[0], selected_tag_set)
+
+    tags = tags_from_files(files)
+
+    file_list = list(files)
+    file_list.sort()
+
+    tag_list = list(tags - selected_tag_set)
+    tag_list.sort()
+
+    lines = [line + '\n' for line in  tag_list + file_list]
+
+    fzf_input = ''.join(lines)
+
+    # Have to run fzf like this otherwise it hangs
+    process = subprocess.Popen(['fzf'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, encoding='utf-8')
+    (stdout, _) = process.communicate(input=fzf_input)
+
+    # Trim trailing newlines on stdout
+    stdout = stdout.rstrip('\n')
+
+    handle_selection(stdout, selected_tag_set)
+
+if __name__ == "__main__":
+    query(set())
