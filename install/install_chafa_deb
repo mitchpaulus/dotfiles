@@ -1,0 +1,2 @@
+#!/bin/sh
+sudo add-apt-repository ppa:hpjansson/chafa && sudo apt update && sudo apt install chafa

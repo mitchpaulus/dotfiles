@@ -13,6 +13,7 @@ case "$1" in
     *.xlsx|*.XLSX) excelchop "$1" ;;
     *.zip|*.ZIP) unzip -l "$1" ;;
     *.docx|.DOCX) pandoc --to plain "$1" ;;
+    *.png|*.PNG|*.jpg|*.JPG) chafa "$1" ;;
     *) bat-lf-previewer.sh "$1" "$3" ;;
 esac
 
