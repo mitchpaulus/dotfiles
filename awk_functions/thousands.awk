@@ -1,17 +1,17 @@
 BEGIN {
     # Test cases
-    print rev("123456789.123456789")
-    print thousands("123456789.123456789")
-    print thousands("")
-    print thousands("1")
-    print thousands("12")
-    print thousands("123")
-    print thousands("1234")
-    print thousands("12345")
-    print thousands("123456")
-    print thousands("1234567")
-    print thousands("12345678")
-    print thousands("123456789")
+    # print rev("123456789.123456789")
+    # print thousands("123456789.123456789")
+    # print thousands("")
+    # print thousands("1")
+    # print thousands("12")
+    # print thousands("123")
+    # print thousands("1234")
+    # print thousands("12345")
+    # print thousands("123456")
+    # print thousands("1234567")
+    # print thousands("12345678")
+    # print thousands("123456789")
 }
 
 # Add thousands separator to number
