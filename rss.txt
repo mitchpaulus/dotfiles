@@ -14,3 +14,4 @@ https://oli.me.uk/feed.xml	Oliver Cladwell's blog - On languages, text editors a
 https://fogg.uk/feed.xml	Josh Fogg - Mathematics
 https://www.eia.gov/rss/todayinenergy.xml	EIA - Today in Energy
 https://debarghyadas.com/writes/feed.xml	Debarghya Das
+https://markkarpov.com/feed.atom	Mark Karpov - Haskell
