@@ -27,6 +27,7 @@
 - [Chris Martin blog](https://chris-martin.org/)
 - [Their book](https://joyofhaskell.com/)
 - [Another book: Haskell from first principles](https://www.goodreads.com/book/show/25587599-haskell-programming-from-first-principles)
+- [Type Classes](https://typeclasses.com/): Haskell and Nix training. $30/month
 
 ## 'as-patterns'
 
