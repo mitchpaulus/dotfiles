@@ -131,7 +131,7 @@ if vim.fn.has('nvim-0.5.0') == 1 then
           buf_set_keymap('v', '<space>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 
           -- Critical to have the noinsert option
-          vim.api.nvim_set_option('completeopt', 'menuone,noinsert')
+          vim.o.completeopt = 'menuone,noinsert'
 
           -- Set some keybinds conditional on server capabilities
           if client.resolved_capabilities.document_formatting then
@@ -401,7 +401,7 @@ vim.o.showmode = true
 vim.o.shiftround = true
 vim.o.spellsuggest = 'best,9'
 -- Remove the noinsert option if we aren't in LSP mode.
-vim.o.completeopt = 'menuone,preview'
+vim.o.completeopt = 'menu,preview'
 
 local wildignorePatterns = table.concat({
     '*.aux',
@@ -466,6 +466,16 @@ end
 --vim.api.nvim_set_keymap("v", '*', ':<C-u>lua vsetsearch()', silent)
 
 vim.g.AutocorrectFiletypes = { "markdown", "tex", "text", "gitcommit" }
+
+function check(value)    print(vim.inspect(value)) end
+function in_lsp_buffer() return next(vim.lsp.buf_get_clients()) ~= nil end
+function fix_completeopt()
+    if in_lsp_buffer() then
+        vim.o.completeopt = 'menuone,noinsert'
+    else
+        vim.o.completeopt = 'menu,preview'
+    end
+end
 
 -- NERD Commenter
 vim.g.NERDCustomDelimiters = { axon = { left = "//" }, idf = { left = "!" } }
@@ -715,6 +725,8 @@ bufEnterAutocmds = {
     { 'dodo.py', 'inoremap ,tar "targets": [  ]<Left><Left>' },
     { 'dodo.py', 'inoremap ,doc "doc": ""<Left>' },
     { 'dodo.py', 'inoremap ,task <esc>:read $DOTFILES/snipfiles/doit_task.py<cr>' },
+
+    { '*', 'lua fix_completeopt()' },
 }
 
 createAugroup(bufEnterAutocmds, 'bufenter', 'BufEnter')
