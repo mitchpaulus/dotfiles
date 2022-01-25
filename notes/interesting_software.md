@@ -24,7 +24,7 @@ I've waited so long for this: <https://github.com/cognidox/OfficeToPDF>.
 
 Made by Rob Pike. <http://doc.cat-v.org/plan_9/4th_edition/papers/sam/>
 
-## Markdown For matters
+## Markdown Formatters
 
 - [mdformat](https://pypi.org/project/mdformat/). Written in Python.
 
@@ -40,6 +40,14 @@ Made by Rob Pike. <http://doc.cat-v.org/plan_9/4th_edition/papers/sam/>
 
 [Dotfile management](https://www.chezmoi.io/)
 
-## Meta Talks about Softwrae
+## Meta Talks about Software
 
 [Good compilation of talks: ](https://github.com/hellerve/programming-talks)
+
+## Minify
+
+[Minifier for HTML, CSS, etc.](https://github.com/tdewolff/minify)
+
+## Nirsoft FolderChangesView
+
+[Watch what files are created during software installs/uninstalls.](https://www.howtogeek.com/205144/how-to-monitor-file-and-folder-changes-in-windows/)
