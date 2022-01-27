@@ -621,6 +621,7 @@ filetypeAutocmds = {
     { 'html', 'inoremap', ',sp', '<span></span><Esc>6hi', },
     { 'html', 'inoremap', ',st', '<style></style><Esc>7hi', },
     { 'html', 'inoremap', ',u', '<ul><cr><li></li><cr></ul><Esc>k^f>a', },
+    { 'html', 'vnoremap <localleader>p :! pandoc --to=html -<CR><Esc>' },
 
     { 'javascript,typescript', 'inoremap', ',f', 'function (<++>) {<cr><++><cr>}<Esc>2k^f(i', },
     { 'javascript,typescript', 'inoremap', ',>', '() =><Space>', },
@@ -666,7 +667,7 @@ filetypeAutocmds = {
     { 'awk', 'inoremap', ',if', 'if () {<cr><++><cr>}<esc>2k^f(a', },
     { 'awk', 'inoremap', ',pf', 'printf("")<esc>hi', },
     { 'awk', 'inoremap', ',sh', '#!/usr/bin/awk -E<CR>', },
-    { 'awk', 'inoremap', '<localleader>q', '\\042', },
+    { 'awk', 'inoremap', '<localleader>q', '\\"', },
     { 'awk', 'inoremap', '<localleader>sp', 'split(<+string+>, <+array+>, <+FS+>)<Esc>35hi', },
     { 'awk', 'setlocal path+=$DOTFILES/awk_functions' },
 
