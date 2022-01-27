@@ -1,4 +1,27 @@
-# Installation errors
+# QPDF
+
+Great PDF manipulation command line program.
+
+## Installation
+
+Hosted on [SourceForge](https://sourceforge.net/projects/qpdf/)
+
+Now has an appimage which is probably the easiest to install.
+
+However, note that you can't seemingly change the name of the extension,
+or provide a simple symlink. Had to wrap a shell script around it:
+
+```sh
+#!/bin/sh
+
+# Stupid wrapper around AppImage to make it work
+
+qpdf.AppImage "$@"
+```
+
+Not the first person to run into this issue: <https://askubuntu.com/questions/1214584/how-to-make-a-symlink-to-an-appimage>
+
+## Installation errors
 
 When installing on WSL Ubuntu, get error
 
