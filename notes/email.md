@@ -36,3 +36,10 @@ email directly, <a href="https://SampleDomainissues/1">view it on GitHub Enterpr
 }
 ]</script>
 ```
+
+
+## IMAP vs POP3
+
+IMAP: Internet Mail Access Protocol. More modern than POP3. 2-Way.
+
+POP3: Post Office Protocol 3. 1 Way.
