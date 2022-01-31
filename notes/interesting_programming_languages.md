@@ -51,3 +51,7 @@ The language is mostly inspired by the following 3 languages:
 ## [Futhark](https://futhark-lang.org/)
 
 Futhark is a small programming language designed to be compiled to efficient parallel code.
+
+## [F\*](http://www.fstar-lang.org/)
+
+F\* (pronounced F star) is a general-purpose functional programming language with effects aimed at program verification.
