@@ -293,8 +293,15 @@ end
 # Set up specific commands if working in WSL environment
 if test -n "$WSL_DISTRO_NAME"
     # Command to bring up Windows Explorer in current directory.
-    function eh
-        explorer.exe (wslpath -w (pwd))
+    # Use 'Files' if installed.
+    if command --query files.exe
+        function eh
+            files.exe (wslpath -w (pwd))
+        end
+    else
+        function eh
+            explorer.exe (wslpath -w (pwd))
+        end
     end
 end
 
