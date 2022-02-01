@@ -16,7 +16,7 @@ Don't forget the UTF-8 or you'll get hit with issues for °F in Windows
 
 ```python
 with open('file path', encoding="utf-8") as file:
-   lines = file.readlines()
+   lines = file.readlines() # These have the newlines in the string, may need to .strip()
 ```
 
 Character | Meaning

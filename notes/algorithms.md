@@ -110,3 +110,9 @@ The version sort ordering rules are:
 4. These two steps (comparing and removing initial non-digit strings and
    initial digit strings) are repeated until a difference is found or
    both strings are exhausted.
+
+## String Compraison
+
+1. [Levenshtein Distance](https://en.wikipedia.org/wiki/Levenshtein_distance).
+   - [Imlementations in various languages](https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance)
+2. [Needleman-Wunsch or Smith-Waterman](https://stackoverflow.com/a/10445032/5932184)
