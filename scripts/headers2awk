@@ -28,7 +28,9 @@ NR == 1 {
         gsub(/__+/, "_", header)
         gsub(/#/, "num", header) # Things like 'Package #', 'Issue #', etc.
 
+        # Trim leading and trailing underscores
         gsub(/_$/, "", header)
+        gsub(/^_+/, "", header)
 
         header = tolower(header)
 
