@@ -22,6 +22,10 @@ d.update(other)              # Update dictionary, other overrides
 
 d | other                    # New dictionary, other overrides d (3.9+)
 d |= other                   # modify d in place. (3.9+)
+
+
+for key in dict:
+   ...
 ```
 
 
