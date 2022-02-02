@@ -37,7 +37,12 @@ vim.cmd [[ Plug 'unisonweb/unison', { 'branch': 'trunk', 'rtp': 'editor-support/
 vim.cmd [[ Plug 'hrsh7th/cmp-nvim-lsp' ]]
 vim.cmd [[ Plug 'hrsh7th/cmp-buffer' ]]
 vim.cmd [[ Plug 'hrsh7th/cmp-path' ]]
-vim.cmd [[ Plug 'hrsh7th/cmp-cmdline' ]]
+
+in_wsl = os.getenv('WSL_DISTRO_NAME') ~= nil
+
+-- if not in_wsl then load 'hrsh7th/cmp-cmdline'. Seems to break in WSL.
+if not in_wsl then vim.cmd [[ Plug 'hrsh7th/cmp-cmdline' ]] end
+
 vim.cmd [[ Plug 'hrsh7th/nvim-cmp' ]]
 
 vim.cmd [[ Plug 'hrsh7th/cmp-vsnip' ]]
@@ -94,13 +99,10 @@ if vim.fn.has('nvim-0.5.0') == 1 then
   })
 
   -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-  cmp.setup.cmdline(':', {
-    sources = cmp.config.sources({
-      { name = 'path' }
-    }, {
-      { name = 'cmdline' }
-    })
-  })
+  if not in_wsl then
+      ex_cmdline_sources = cmp.config.sources({{ name = 'path'    }}, {{ name = 'cmdline' }})
+      cmp.setup.cmdline(':', { sources = ex_cmdline_sources  })
+  end
 
     local function setupLsp()
         local nvim_lsp = require('lspconfig')
