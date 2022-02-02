@@ -20,7 +20,13 @@ set -g H /mnt/c/Users/mpaulus
 # set -gxp MANPATH "$TEXLIVE_INSTALL_PREFIX"/2021/texmf-dist/doc/man
 # set -gxp INFOPATH "$TEXLIVE_INSTALL_PREFIX"/2021/texmf-dist/doc/man
 
-set -gx CLASSPATH ".:/usr/local/lib/antlr-4.8-complete.jar:$CLASSPATH"
+# Search for ANTLR stuff. Recommended location is /usr/local/lib/antlr-x.x.x-complete.jar
+set ANTLR_JAR (find /usr/local/lib -name 'antlr-*-complete.jar')
+
+if count $ANTLR_JAR > /dev/null
+    set -gx CLASSPATH ".:"$ANTLR_JAR[1]":$CLASSPATH"
+end
+
 set -gx AWKPATH ".:/usr/local/share/awk:$DOTFILES/awk_functions"
 set -gx DOTREMINDERS ~/.config/remind/remind.rem
 set -gx FZF_DEFAULT_OPTS '--reverse --margin 10% --border'
@@ -34,9 +40,12 @@ set -gx DOTNET_CLI_TELEMETRY_OPTOUT 1
 
 set -gx TASKRC $HOME/.config/taskwarrior/.taskrc
 
-# Required for Haxall - See https://github.com/haxall/haxall
-set -gx FAN_BUILD_JDKHOME /usr/java/jdk-14.0.2/
+set -gx JAVA_HOME /usr/local/jdk-17.0.2/
 
+# Required for Haxall - See https://github.com/haxall/haxall
+set -gx FAN_BUILD_JDKHOME "$JAVA_HOME"
+
+path_prepend "$JAVA_HOME"/bin
 path_prepend "$DOTFILES"/scripts/
 path_prepend "$DOTFILES"/python
 path_prepend "$DOTFILES"/haskell
