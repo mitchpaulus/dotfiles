@@ -733,6 +733,13 @@ bufEnterAutocmds = {
 
 createAugroup(bufEnterAutocmds, 'bufenter', 'BufEnter')
 
+vim.cmd [[
+augroup MPEvents
+autocmd!
+autocmd TermOpen * startinsert
+augroup END
+]]
+
 -- Remove trailing whitespace. Use keeppatterns so that
 -- the search history isn't ruined with the \v\s+$ junk.
 -- Setting the marks is required so that the cursor doesn't jump
