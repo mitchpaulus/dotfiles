@@ -1,17 +1,58 @@
 #!/usr/bin/awk -E
 #
 # USAGE:
-# setdiff2way file1 file2
+# setdiff2way [options]... file1 file2
+#
+# OPTIONS:
+#  -1 n  set column to extract from file1 (default: 1)
+#  -2 n  set column to extract from file2 (default: 1)
 #
 # DESCRIPTION:
 # Prints lines in file1 that are not in file2, and then the revserse.
 BEGIN {
     # If two arguments are not given, print usage and exit. The program
     # name is counted as first argument.
-    if (ARGC != 3) {
-        print "Usage: setdiff2way file1 file2"
-        exit 1
+
+    FS="\t"
+
+    col_file_1 = 1
+    col_file_2 = 1
+
+    name_file_1 = "A"
+    name_file_2 = "B"
+
+    print_shared = 0
+
+    for (i = 1; i < ARGC; i++) {
+        if (ARGV[i] == "--1col") {
+            col_file_1 = ARGV[i + 1]
+            ARGV[i] = ""
+            ARGV[i + 1] = ""
+            i++
+        } else if (ARGV[i] == "--2col") {
+            col_file_2 = ARGV[i + 1]
+            ARGV[i] = ""
+            ARGV[i + 1] = ""
+            i++
+        }
+        else if (ARGV[i] == "--1name") {
+            name_file_1 = ARGV[i + 1]
+            ARGV[i] = ""
+            ARGV[i + 1] = ""
+            i++
+        }
+        else if (ARGV[i] == "--2name") {
+            name_file_2 = ARGV[i + 1]
+            ARGV[i] = ""
+            ARGV[i + 1] = ""
+            i++
+        }
+        else if (ARGV[i] == "--shared") {
+            print_shared = 1
+            ARGV[i] = ""
+        }
     }
+
     file_num = 0
 }
 
@@ -19,10 +60,10 @@ FNR == 1 { file_num++ }
 
 {
     if (file_num == 1) {
-        file_one[$0]
+        file_one[$col_file_1]
     }
     else if (file_num == 2) {
-        file_two[$0]
+        file_two[$col_file_2]
     }
 }
 
@@ -35,7 +76,7 @@ END {
     }
 
     if (one_minus_two_count > 0) {
-        printf "A - B (%s)\n", one_minus_two_count
+        printf "%s - %s (%s)\n", name_file_1, name_file_2, one_minus_two_count
         for (line in one_minus_two) {
             print line | "sort -V"
         }
@@ -51,10 +92,28 @@ END {
     }
 
     if (two_minus_one_count > 0) {
-        printf "B - A (%s)\n", two_minus_one_count
+        printf "%s - %s (%s)\n", name_file_2, name_file_1, two_minus_one_count
         for (line in two_minus_one) {
             print line | "sort -V"
         }
         close("sort -V")
+    }
+
+    if (print_shared) {
+        for (item in file_one) {
+            if (item in file_two) {
+                shared[item]
+                shared_count++
+            }
+        }
+
+        if (shared_count > 0) {
+            printf "%s & %s (%s)\n", name_file_1, name_file_2, shared_count
+            for (item in shared) {
+                print item | "sort -V"
+            }
+            close("sort -V")
+        }
+
     }
 }
