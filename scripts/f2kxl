@@ -1,0 +1,3 @@
+#!/bin/sh
+# Print formula to go from F to K
+printf '=(%s + 459.67) * 5 / 9' "$1"
