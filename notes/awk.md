@@ -49,3 +49,18 @@ asort(source, dest, how) # Sort by values
 asorti(source, dest, how) # Sort by indices
 ```
 
+## Command line arguments
+
+```awk
+# awk -f file.awk 1 2 3
+ARGC = 4
+Arg 0: 'awk'
+Arg 1: '1'
+Arg 2: '2'
+Arg 3: '3'
+
+# Remove argument as file to process, set to ""
+ARGV[1] = ""
+```
+
+Set `ARGV[i]` to `''` to remove as a file name.
