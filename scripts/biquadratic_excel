@@ -5,18 +5,93 @@ BEGIN {
         print "biquadratic_excel"
         print ""
         print "USAGE:"
-        print "    bibiquadratic_excel <START_COL> <START ROW> <X_CELL> <Y_CELL> [SHEET]"
+        print "    bibiquadratic_excel [--horiz] <START_COL> <START ROW> <X_CELL> <Y_CELL> [SHEET]"
         print ""
         print "Dollar signs ($) will be added to the start range by default."
+        print "Note assumed order of coefficients is:"
+        print " Constant"
+        print " x"
+        print " x^2"
+        print " y"
+        print " y^2"
+        print " x*y"
         exit 0
     }
 
-    start_col = ARGV[1]
-    start_row = ARGV[2]
-    x_cell = ARGV[3]
-    y_cell = ARGV[4]
+    # {{{ letter number mappings
 
-    sheet = ARGV[5]
+    col_letters_to_num["A"] = 1
+    col_letters_to_num["B"] = 2
+    col_letters_to_num["C"] = 3
+    col_letters_to_num["D"] = 4
+    col_letters_to_num["E"] = 5
+    col_letters_to_num["F"] = 6
+    col_letters_to_num["G"] = 7
+    col_letters_to_num["H"] = 8
+    col_letters_to_num["I"] = 9
+    col_letters_to_num["J"] = 10
+    col_letters_to_num["K"] = 11
+    col_letters_to_num["L"] = 12
+    col_letters_to_num["M"] = 13
+    col_letters_to_num["N"] = 14
+    col_letters_to_num["O"] = 15
+    col_letters_to_num["P"] = 16
+    col_letters_to_num["Q"] = 17
+    col_letters_to_num["R"] = 18
+    col_letters_to_num["S"] = 19
+    col_letters_to_num["T"] = 20
+    col_letters_to_num["U"] = 21
+    col_letters_to_num["V"] = 22
+    col_letters_to_num["W"] = 23
+    col_letters_to_num["X"] = 24
+    col_letters_to_num["Y"] = 25
+    col_letters_to_num["Z"] = 26
+    col_numbers_to_letters[1] = "A"
+    col_numbers_to_letters[2] = "B"
+    col_numbers_to_letters[3] = "C"
+    col_numbers_to_letters[4] = "D"
+    col_numbers_to_letters[5] = "E"
+    col_numbers_to_letters[6] = "F"
+    col_numbers_to_letters[7] = "G"
+    col_numbers_to_letters[8] = "H"
+    col_numbers_to_letters[9] = "I"
+    col_numbers_to_letters[10] = "J"
+    col_numbers_to_letters[11] = "K"
+    col_numbers_to_letters[12] = "L"
+    col_numbers_to_letters[13] = "M"
+    col_numbers_to_letters[14] = "N"
+    col_numbers_to_letters[15] = "O"
+    col_numbers_to_letters[16] = "P"
+    col_numbers_to_letters[17] = "Q"
+    col_numbers_to_letters[18] = "R"
+    col_numbers_to_letters[19] = "S"
+    col_numbers_to_letters[20] = "T"
+    col_numbers_to_letters[21] = "U"
+    col_numbers_to_letters[22] = "V"
+    col_numbers_to_letters[23] = "W"
+    col_numbers_to_letters[24] = "X"
+    col_numbers_to_letters[25] = "Y"
+    col_numbers_to_letters[26] = "Z"
+
+    # }}}
+
+    vertical = 1
+
+    for (i = 1; i < ARGC; i++) {
+        if (ARGV[i] == "--horiz") {
+            vertical = 0
+        }
+        else {
+            if (i + 3 >= ARGC) { print "ERROR: Too few arguments." }
+
+            start_col = ARGV[i]
+            start_row = ARGV[i + 1]
+            x_cell    = ARGV[i + 2]
+            y_cell    = ARGV[i + 3]
+            sheet     = ARGV[i + 4]
+            i += 4
+        }
+    }
 
     if (sheet != "") {
         total_sheet = "'" sheet "'!"
@@ -25,13 +100,24 @@ BEGIN {
         total_sheet = ""
     }
 
-    constant = total_sheet "$" start_col "$" start_row
-    x        = total_sheet "$" start_col "$" (start_row + 1)
-    xx       = total_sheet "$" start_col "$" (start_row + 2)
-    y        = total_sheet "$" start_col "$" (start_row + 3)
-    yy       = total_sheet "$" start_col "$" (start_row + 4)
-    xy       = total_sheet "$" start_col "$" (start_row + 5)
+    start_col_num = col_letters_to_num[start_col]
 
+    if (vertical) {
+        constant = total_sheet "$" start_col "$" start_row
+        x        = total_sheet "$" start_col "$" (start_row + 1)
+        xx       = total_sheet "$" start_col "$" (start_row + 2)
+        y        = total_sheet "$" start_col "$" (start_row + 3)
+        yy       = total_sheet "$" start_col "$" (start_row + 4)
+        xy       = total_sheet "$" start_col "$" (start_row + 5)
+    }
+    else {
+        constant = total_sheet "$" start_col "$" start_row
+        x        = total_sheet "$" col_numbers_to_letters[(start_col_num + 1)] "$" start_row
+        xx       = total_sheet "$" col_numbers_to_letters[(start_col_num + 2)] "$" start_row
+        y        = total_sheet "$" col_numbers_to_letters[(start_col_num + 3)] "$" start_row
+        yy       = total_sheet "$" col_numbers_to_letters[(start_col_num + 4)] "$" start_row
+        xy       = total_sheet "$" col_numbers_to_letters[(start_col_num + 5)] "$" start_row
+    }
 
     printf "=%s + (%s * %s) + (%s * %s * %s) + (%s * %s) + (%s * %s * %s) + (%s * %s * %s)", constant, x, x_cell, xx, x_cell, x_cell, y, y_cell, yy, y_cell, y_cell, xy, x_cell, y_cell
 }
