@@ -195,6 +195,15 @@ local function cnmap(lhs, rhs)
     vim.api.nvim_set_keymap("c", lhs, rhs, silent)
 end
 
+local function vnmap(lhs, rhs)
+    vim.api.nvim_set_keymap("v", lhs, rhs, silent)
+end
+
+vnmap("<localleader>f2c", "s(<c-r>\" - 32) * 5/9")
+
+vnmap("<leader>=", ":Tab /=/<CR>")
+
+
 -- https://stackoverflow.com/a/11671820/5932184
 local function func_map(f, tbl)
     local t = {}
@@ -507,8 +516,8 @@ imap <expr> <C-j>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-j
 smap <expr> <C-j>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-j>'
 
 " Jump forward or backward
-imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+"imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+" smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
 imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
 smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
 
