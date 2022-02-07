@@ -16,3 +16,4 @@ https://www.eia.gov/rss/todayinenergy.xml	EIA - Today in Energy
 https://debarghyadas.com/writes/feed.xml	Debarghya Das
 https://markkarpov.com/feed.atom	Mark Karpov - Haskell
 https://www.vincentprouillet.com/rss.xml	Vincent Prouillet - Developer and Entrepreneur
+https://jaydaigle.net/feed.xml	Jaydaigle - Mathematics
