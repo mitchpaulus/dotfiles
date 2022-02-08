@@ -59,3 +59,13 @@ Made by Rob Pike. <http://doc.cat-v.org/plan_9/4th_edition/papers/sam/>
 ## Onivim
 
 [Neovim like VS Code](https://v2.onivim.io/)
+
+## Rows
+
+[Attempting to reinvent spreadsheets](https://rows.com/)
+
+## GAMS
+
+[General Algebraic Modeling System](https://ww.gams.com/).
+Optimization and domain modeling.
+

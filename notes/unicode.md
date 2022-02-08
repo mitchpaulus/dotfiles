@@ -36,3 +36,9 @@ FF FE 00 00 | UTF-32, little-endian
 FE FF       | UTF-16, big-endian
 FF FE       | UTF-16, little-endian
 EF BB BF    | UTF-8
+
+
+## Overhats and overbars
+
+0302: Overhat
+0305: Overbar
