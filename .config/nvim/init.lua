@@ -200,6 +200,7 @@ local function vnmap(lhs, rhs)
 end
 
 vnmap("<localleader>f2c", "s(<c-r>\" - 32) * 5/9")
+vnmap("<localleader>f2k", "s(<c-r>\" + 459.67) * 5/9")
 
 vnmap("<leader>=", ":Tab /=/<CR>")
 
@@ -333,6 +334,8 @@ insertModeNoRecurseMappings = {
     { '<F3>', '``<Left>' },
     { '<F4>', '```<CR><CR>```<Esc>kI' },
     { '<F9>', '<C-o>:set paste<CR><C-r>+<C-o>:set nopaste<CR>' },
+    -- Often try F10 instead of F9, just do the same pasting in insert mode.
+    { '<F10>', '<C-o>:set paste<CR><C-r>+<C-o>:set nopaste<CR>' },
 
 
     -- Move to end of line when in insert mode
