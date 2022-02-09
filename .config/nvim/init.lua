@@ -277,6 +277,9 @@ normalNoRecurseMappings = {
 
     { '<leader>j', '/\\V<+\\.\\{-}+><cr>cgn' },
 
+    -- Remove all stray carriage returns
+    { '<leader>r', '<Cmd>%s/\\r//g<CR>' },
+
     { '<C-n>', ':bnext<CR>' },
 
     -- Yank to the end of the line, without the newline
