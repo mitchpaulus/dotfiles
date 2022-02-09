@@ -1,3 +1,7 @@
 function antlr4
-    java -jar /usr/local/lib/antlr-4.8-complete.jar $argv
+    if count $ANTLR_JAR > /dev/null
+        java -jar $ANTLR_JAR[1] $argv
+    else
+        printf "The ANTLR jar file was not found. Usually should be at /usr/local/lib/antlr-xx-complete.jar\n"
+    end
 end
