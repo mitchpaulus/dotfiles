@@ -8,13 +8,13 @@ javac *.java
 
 ```sh
 antlr4() {
-    java -jar /usr/local/lib/antlr-4.x-complete.jar
+    java -jar /usr/local/lib/antlr-4.x-complete.jar "$@"
 }
 ```
 
 ```sh
 grun() {
-    java org.antlr.v4.runtime.misc.TestRig
+    java org.antlr.v4.runtime.misc.TestRig "$@"
 }
 ```
 
@@ -108,6 +108,24 @@ walker.Walk(listener, tree)
 STRING : '"' (ESC|.)*? '"' ;
 fragment ESC : '\\"'  | '\\\\' ;
 ```
+
+## Recursive Lexing for Tokens
+
+[Great example](https://stackoverflow.com/questions/2555818/).
+
+## `ClassCastException` on split parser and lexer grammars
+
+- [GitHub issue](https://github.com/antlr/antlr4/issues/859)
+
+When running `grun`, if you have split lexer/parser like GrammarParser.g4 and GrammarLexer.g4,
+you still run `grun` *without* the `Parser` or `Lexer` text.
+
+Like:
+
+```
+grun Grammar entryRule
+```
+
 
 ## Error Handlers
 
