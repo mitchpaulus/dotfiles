@@ -48,6 +48,8 @@ Made by Rob Pike. <http://doc.cat-v.org/plan_9/4th_edition/papers/sam/>
 
 [Minifier for HTML, CSS, etc.](https://github.com/tdewolff/minify)
 
+Available in the Ubuntu repositories as `minify` package.
+
 ## Nirsoft FolderChangesView
 
 [Watch what files are created during software installs/uninstalls.](https://www.howtogeek.com/205144/how-to-monitor-file-and-folder-changes-in-windows/)
