@@ -69,3 +69,6 @@ Made by Rob Pike. <http://doc.cat-v.org/plan_9/4th_edition/papers/sam/>
 [General Algebraic Modeling System](https://ww.gams.com/).
 Optimization and domain modeling.
 
+## `entr`
+
+[Run commands when files/directories change](http://eradman.com/entrproject/)

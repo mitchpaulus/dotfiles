@@ -11,9 +11,9 @@ Types:
 5. inbook
 6. incollection
 7. inproceedings
-8. manual
+8. manual  R: title, O: author, organization, address, edition, month, year, note
 9. mastersthesis
-10. misc
+10. misc  O: author, title, howpublished, month, year, note
 11. phdthesis
 12. proceedings
 13. techreport

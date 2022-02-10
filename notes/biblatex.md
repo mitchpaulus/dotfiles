@@ -20,7 +20,7 @@ Standard entries:
 - dataset
 - manual
 - misc
-- online
+- online  R: author/editor, title, year/date, doi/eprint/url  O: subtitle, titleaddon, language, version, note, organization, month, addendum, pubstate, eprintclass, eprinttype, urldate
 - patent
 - periodical
 - suppperiodical
