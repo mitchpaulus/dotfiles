@@ -723,6 +723,8 @@ filetypeAutocmds = {
     { 'python,nbem', 'iabbrev', 'improt', 'import', },
 
     { 'compass', 'inoremap', '<localleader>b', '<!-- Compass:  --><CR><CR><!-- Compass --><Esc>2k0f:la', },
+
+    { 'ce', 'inoremap', '<localleader>p \\prop{}<Left>' },
 }
 
 createAugroup(filetypeAutocmds, 'filetypemappings', 'FileType')
@@ -737,6 +739,8 @@ bufEnterAutocmds = {
 
     { '*.gnuplot', 'set filetype=gnuplot'},
     { '*.har', 'set filetype=json' },
+
+    { '*.ce', 'set filetype=ce' },
 
     -- doit build system file
     { 'dodo.py', 'inoremap ,dep "file_dep": [  ]<Left><Left>' },
