@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+if test -n "$WSLENV"; then
+    PREV_DIR="$(pwd)"
+    cd /mnt/c/ || exit 1
+    DIR="$(fd --type d Documentation /mnt/c/EnergyPlus* | awk '$0 !~ /installerResources/' | sort -rV | head -n 1)"
+    cmd.exe /C start '' "$(wslpath -w "$DIR")"
+    cd "$PREV_DIR" || exit 1
+fi
+
