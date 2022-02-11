@@ -1,0 +1,47 @@
+#!/usr/bin/awk -E
+
+BEGIN {
+    for (i in ARGV) {
+        if (ARGV[i] == "-h" || ARGV[i] == "--help") {
+            print "Usage: "
+            print "  " ARGV[0] " X Y [file]"
+            print "  " ARGV[0] " -h"
+            print ""
+            print "  X: column number"
+            print "  Y: row number"
+            print "  file: file to read from (default: stdin)"
+            exited = 1
+            exit 0
+        }
+    }
+
+    if (ARGC < 3) {
+        print "2 arguments required: X Y [file]"
+        exit 1
+    }
+
+    x = ARGV[1]
+    y = ARGV[2]
+
+    ARGV[1] = ""
+    ARGV[2] = ""
+}
+
+NR == 1 { b0 = $0; next }
+NR == 2 { b1 = $0; next }
+NR == 3 { b2 = $0; next }
+NR == 4 { b3 = $0; next }
+NR == 5 { b4 = $0; next }
+NR == 6 { b5 = $0; next }
+
+END {
+    if (exited) { exit 0 }
+    term0 = sprintf("%s", b0)
+    term1 = sprintf("%s * %s", b1, x)
+    term2 = sprintf("%s * %s * %s", b2, x, x)
+    term3 = sprintf("%s * %s", b3, y)
+    term4 = sprintf("%s * %s * %s", b4, y, y)
+    term5 = sprintf("%s * %s * %s", b5, x, y)
+    printf "%s + (%s) + (%s) + (%s) + (%s) + (%s)\n", term0, term1, term2, term3, term4, term5
+}
+

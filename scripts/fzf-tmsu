@@ -54,6 +54,10 @@ def handle_selection(selection: str, selected_tag_set: Set[str]) -> None:
 def query(selected_tag_set: Set[str]) -> None:
     files = files_for_tags(selected_tag_set)
 
+    if len(files) == 0:
+        print('No files found from current directory location')
+        sys.exit()
+
     # Automatically handle a single file.
     if len(files) == 1:
         handle_selection(list(files)[0], selected_tag_set)
@@ -73,6 +77,9 @@ def query(selected_tag_set: Set[str]) -> None:
     # Have to run fzf like this otherwise it hangs
     process = subprocess.Popen(['fzf'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, encoding='utf-8')
     (stdout, _) = process.communicate(input=fzf_input)
+
+    if process.returncode != 0:
+        sys.exit()
 
     # Trim trailing newlines on stdout
     stdout = stdout.rstrip('\n')
