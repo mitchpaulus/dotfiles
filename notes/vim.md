@@ -107,3 +107,13 @@ Alternative to using `:<C-u>` in mappings.
 ## Debugging
 
 `echom` is your friend.
+
+## Printing all mappings to file
+
+<https://stackoverflow.com/a/15756785/5932184>
+
+```
+:redir! > vim_keys.txt
+:silent verbose map
+:redir END
+```
