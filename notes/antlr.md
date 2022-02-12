@@ -129,5 +129,8 @@ grun Grammar entryRule
 
 ## Error Handlers
 
-
+```C#
+lexer.RemoveErrorListeners()
+parser.RemoveErrorListeners()
+```
 

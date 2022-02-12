@@ -74,3 +74,8 @@ Optimization and domain modeling.
 ## `entr`
 
 [Run commands when files/directories change](http://eradman.com/entrproject/)
+
+## `bibtex-tidy`
+
+A formatter for bibtex files. [GitHub](https://github.com/FlamingTempura/bibtex-tidy)
+
