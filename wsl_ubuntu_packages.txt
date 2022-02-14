@@ -16,6 +16,7 @@ maxima
 ncdu
 neofetch
 parallel
+pwgen
 rmlint
 shellcheck
 taskwarrior
