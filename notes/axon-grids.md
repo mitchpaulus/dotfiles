@@ -30,7 +30,7 @@ g.all r => r->area > 2000ft²  >> false
 g.sort("area")                             >> sort by area column
 g.sortr("area")                            >> reverse sort by area column
 g.sort((a,b)=>...)                         >> sort with function
-g.map r => r.set("area", r->area.to(1m²))  >> area ft² -> m²
+g.map r => r.set("area", r->area.to(1m²))  >> area ft² -> m²  // https://skyfoundry.com/doc/lib-axon/func~map
 g.find r => r->dis == "Site-A"             >> find row where dis == "Site-A"
 g.findAll r => r->area < 2000              >> grid with rows where area < 2000
 rowToName: (r) => r->dis[-1..-1].lower     >> func to map "Site-A" -> "a"
@@ -48,3 +48,15 @@ g.addRow({dis:"Site-D", area: 4000ft²})    >> add new row to end of grid
 g.addRows([{dis:"Site-D"},{dis:"Site-E"}]) >> add list of new rows to grid
 ```
 
+## History Grid Transformations
+
+```axon
+grid.hisRollup(grid,
+grid.hisMap(grid, (val: value, ts: DateTime, his: Point Dictionary, haystack::GbRow) => T) // https://skyfoundry.com/doc/lib-hisKit/func~hisMap
+grid.hisFindAll(grid, (val: value, ts: DateTime, his: Point Dictionary, haystack::GbRow) => bool) // https://skyfoundry.com/doc/lib-hisKit/func~hisFindAll
+grid.hisFindPeriods(
+grid.hisFoldCols(
+grid.hisJoin(
+grid.hisPeriodIntersection(
+grid.hisPeriodUnion(
+```

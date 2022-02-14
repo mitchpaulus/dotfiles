@@ -79,3 +79,6 @@ Optimization and domain modeling.
 
 A formatter for bibtex files. [GitHub](https://github.com/FlamingTempura/bibtex-tidy)
 
+## `jless`
+
+[Command line page for JSON](https://github.com/PaulJuliusMartinez/jless)

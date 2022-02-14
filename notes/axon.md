@@ -278,3 +278,8 @@ Required tags:
  - `curVal`
  - `curStatus`
  - `curErr`
+
+## Debugging
+
+`debugType`
+
