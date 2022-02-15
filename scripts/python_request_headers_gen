@@ -1,0 +1,16 @@
+#!/usr/bin/awk -E
+BEGIN {
+    FS=OFS=": "
+    print "headers = {"
+}
+
+{
+    gsub(/"/, "\\\"", $2);
+
+    $1 = "\"" $1 "\"";
+    $2 = "\"" $2 "\"";
+
+    printf "%s: %s,\n", $1, $2
+}
+
+END { print "}" }

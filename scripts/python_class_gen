@@ -1,0 +1,16 @@
+#!/usr/bin/awk -E
+
+NR == 1 { class_name = $0 }
+NR >  1 {
+    props[NR] = $0
+}
+
+END {
+    printf "class %s:\n", class_name
+    printf "    def __init__(self, line: List[str]):\n"
+
+    for (i in props) {
+        printf "        self.%s = line[%d]\n", props[i], i - 2
+    }
+}
+
