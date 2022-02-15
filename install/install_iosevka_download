@@ -10,4 +10,5 @@ FOLDER=/tmp/"$(basename "$name" .zip)"
 mkdir -p "$FOLDER"
 curl --output /tmp/"$name" -L "$asset"
 
+# Unzip in tmp directory
 unzip /tmp/"$name" -d "$FOLDER"
