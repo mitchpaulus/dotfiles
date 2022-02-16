@@ -5,5 +5,19 @@
 		   "[$1]($2)$0"
 		],
 		"description": "Inserts a link"
-	}
+	},
+    "fraction": {
+        "prefix": ["fr"],
+        "body": [
+            "\\frac{$1}{$2}$0"
+        ],
+        "description": "Fraction in Tex Equations"
+    },
+    "dot": {
+        "prefix": ["dot"],
+        "body": [
+            "\\dot{$1}$0"
+        ],
+        "description": "Dot in Tex Equations"
+    }
 }
