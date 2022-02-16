@@ -16,6 +16,10 @@ speed is usually known from the manufacturer.
 For NTU, you can rearrange Eq. 9 from the paper to solve for NTU as a
 function of $\epsilon_a$ and $m^{*}$.
 
+$$
+\textrm{NTU} = \frac{\ln \left( \frac{1 - \epsilon_{a}}{ 1 - m^{*} \epsilon_{a}}  \right) }{ m^{*} - 1 }
+$$
+
 $\epsilon_a$ can be solved for using Equation 8 and operational data.
 
 - $Q$ is typically derived from the water side of the energy balance,
@@ -31,6 +35,10 @@ $\epsilon_a$ can be solved for using Equation 8 and operational data.
 $m^{*}$ (Eq 10) is known from the two flow rates, air and water. The
 specific heats, including the $C_s$ value can be calculated from
 measured quantities.
+
+$$
+m^{*} = \frac{\dot{m}_{a} C_{s} }{ \dot{m}_{w} C_{pw} }
+$$
 
 With historical NTU, $\dot{m}_w$, and $\dot{m}_a$ values, you can run a
 linear best fit to get $c$ and $n$.
