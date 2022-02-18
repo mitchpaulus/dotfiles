@@ -5,6 +5,8 @@
 
 ## DateTime Formatting
 
+<https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings>
+
 ```
 d    = Day of month 1-31
 dd   = Day of month 01-31
@@ -18,6 +20,8 @@ m    = minute, 0 to 59
 mm   = minute, 00 to 60
 M    = month, 1 to 12
 MM   = month, 01 to 12
+MMM  = Abbreviated Month name, Jun
+MMMM = Full Month Name, January
 ss   = second, 00 to 59
 tt   = AM/PM
 ```

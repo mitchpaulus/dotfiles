@@ -2,7 +2,7 @@
 
 ## Variable Flow over Cooling Towers
 
-From presentation on 2021-03-10: 2021-03-10_ashrae_variable_flow_over_cooling_towers.pdf
+From presentation on 2021-03-10: `2021-03-10_ashrae_variable_flow_over_cooling_towers.pdf`
 
 - Safer and easier to implement for cross flow cooling towers
   - Can generally turn down to 30% of design for cross flow
@@ -18,3 +18,9 @@ This may have been based on this [source?](https://www.cedengineering.com/userfi
 
 See Bhatia Heat Rejection Options.
 
+
+## Typical Performance Curves
+
+Straight-ish line plotting CWST (Y) vs. Wet-bulb temperature (X).
+
+![Cooling Tower performance curves (Pineda - Cooling Tower Fundamentals).](img/Cooling_Tower_Performance_Curve_Two_Speed.png)
