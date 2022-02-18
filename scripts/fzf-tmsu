@@ -30,23 +30,35 @@ def tags_from_files(files: Set[str]) -> Set[str]:
 
     return tags
 
-def handle_selection(selection: str, selected_tag_set: Set[str]) -> None:
-    # Check if selection is a file.
-    if os.path.isfile(selection):
-        # Try to open the file
-        subprocess.run(['wsl-opener', selection])
-        sys.exit()
-    elif os.path.isdir(selection):
-        # Try to open the directory.
+
+def try_open_dir(directory_path: str) -> None:
+    # Try to open the directory.
         # Get environement variable FILEMANAGER
         # and open the directory with that filemanager
         filemanager = os.environ.get('FILEMANAGER')
 
         if filemanager is not None:
-            subprocess.run([filemanager, selection])
+            subprocess.run([filemanager, directory_path])
         else:
             print('No $FILEMANAGER found')
         sys.exit()
+
+
+def handle_selection(selection: str, selected_tag_set: Set[str]) -> None:
+    # Check if selection is a file.
+    if os.path.isfile(selection):
+        # Try to open the file
+        open_process = subprocess.run(['wsl-opener', selection])
+
+        # check for non-zero exit code
+        if open_process.returncode != 0:
+            # Try to open the directory the file is in
+            file_directory = os.path.dirname(selection)
+            try_open_dir(file_directory)
+
+        sys.exit()
+    elif os.path.isdir(selection):
+        try_open_dir(selection)
     else: # Assume that the selection was a tag
         selected_tag_set.add(selection.strip())
         query(selected_tag_set)
