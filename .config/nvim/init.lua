@@ -17,6 +17,7 @@ vim.cmd [[ Plug 'mechatroner/rainbow_csv' ]]
 vim.cmd [[ Plug 'mileszs/ack.vim' ]]
 vim.cmd [[ Plug 'mitchpaulus/autocorrect.vim' ]]
 vim.cmd [[ Plug 'mitchpaulus/axon-vim' ]]
+vim.cmd [[ Plug 'mitchpaulus/doe2-bdl-vim' ]]
 vim.cmd [[ Plug 'mitchpaulus/energyplus-vim' ]]
 vim.cmd [[ Plug 'mitchpaulus/neobem-vim' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-andover-plain-english' ]]
@@ -609,6 +610,9 @@ filetypeAutocmds = {
     { 'axon', 'inoremap', '<localleader>ll', '() =><Esc>3hi' },
     { 'axon', 'inoremap', '<localleader>ld', 'do<CR><CR>end<Esc>2k$F)i' },
     { 'axon', 'inoremap', '<localleader>if', 'if () <++> else <++><Esc>F)i' },
+
+    { 'cs', 'inoremap', '<localleader>l', 'List<><Left>' },
+    { 'cs', 'inoremap', '<localleader>s', 'string' },
 
     -- make a header 1 line, deleting trailing whitespace first.
     --{ 'markdown', 'nnoremap', '<silent>', '<leader>h1 :<c-u>call<Space><SID>MakeHeading("=")<cr>', },
