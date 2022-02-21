@@ -34,6 +34,28 @@ plot {<ranges>} <plot-element> {, <plot-element>, <plot-element>}
 {with <style options>}
 ```
 
+```
+<data source>: <source>
+  {binary <binary list>}
+  {{nonuniform} matrix}
+  {index <index list> | index "<name>"}
+  {every <every list>}
+  {skip <number-of-lines>}
+  {using <using list>}
+  {smooth <option>}
+  {bins <options>}
+  {volatile} {noautoscale}
+```
+
+```
+<using list>:
+   <entry> {:<entry> {:<entry> ...}} {’format’}
+```
+
+- Skipping header line: <https://jchain.github.io/gnuplot-how-to-skip-the-first-line-in-the-data-file.html>
+  - `plot "foo.dat" every ::1 using 1:2 with lines`
+  - Simpler: `plot 'file.txt` skip 1
+
 ### `with styling`
 
 ```
@@ -187,3 +209,7 @@ set xrange restore
 ```
 set datafile separator { whitespace | tab | comma | "<chars>" }
 ```
+
+## Converting Numbers to Strings
+
+- `sprintf(format, variables)`

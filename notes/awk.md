@@ -13,6 +13,14 @@ match(string, regex) = 1-based Start Index # Also sets RSTART/RLENGTH
 %[N$][-][ ][+][#][0]['][width][.prec][(a|A)|c|(d|i)|e|f|F|g|G|o|s||u|x]
 ```
 
+```
+aA: some crazy floating number format
+c: number as character -> 65 -> 'A'
+d,i: decimal integer
+eE: scientific
+fF: Floating point
+gG: Shorter of scientific or floating
+```
 
 ## AWKPATH (gawk)
 

@@ -7,6 +7,20 @@ else if (year is not divisible by 100) then (it is a leap year)
 else if (year is not divisible by 400) then (it is a common year)
 else (it is a leap year)
 
+Latest leap years are divisible by 4, including 2000.
+
+1988
+1992
+1996
+2000
+2004
+2008
+2012
+2016
+2020
+2024
+2028
+
 ## Day of the Week Algorithm
 
 [Wikipedia Entry](https://en.wikipedia.org/wiki/Determination_of_the_day_of_the_week#cite_note-20)

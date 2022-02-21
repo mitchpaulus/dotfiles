@@ -22,4 +22,6 @@ $$
 
 ## Natural Gas
 
-- MCF or mcf: One thousand cubic feet. It is approximately 1 million BTU.
+- MCF or mcf: One thousand cubic feet, 1000 ft³. It is approximately 1 million BTU.
+
+- MMBTU: One million BTUs, 1,000,000 BTU, 1x10^6
