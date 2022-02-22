@@ -628,7 +628,8 @@ filetypeAutocmds = {
 
     { 'json', 'setlocal conceallevel=0' },
 
-    { 'gnuplot', 'nnoremap', '<localleader>g', ':silent !gnuplot.exe % && start "Plot" %:p:r.png<cr>', },
+    { 'gnuplot', 'nnoremap', '<localleader>gw', ':silent !gnuplot.exe % && start "Plot" %:p:r.png<cr>', },
+    { 'gnuplot', 'nnoremap', '<localleader>gu', ':!gnuplot %; and wsl-opener %:p:r.png<cr>', },
     { 'gnuplot', 'nnoremap', '<localleader>c', ':silent !gnuplot.exe % && start "Plot" %:p:r.png<cr>', },
     { 'gnuplot', 'nnoremap', '<localleader>k', ':silent !taskkill.exe /IM Microsoft.Photos.exe /F<cr>', },
     { 'gnuplot', 'inoremap', ',hist', '<esc>:0read ~/.vim/snipfiles/hist.gnuplot<cr>', },
