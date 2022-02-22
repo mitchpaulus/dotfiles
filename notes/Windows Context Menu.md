@@ -1,0 +1,2 @@
+- <https://blogs.windows.com/windowsdeveloper/2021/07/19/extending-the-context-menu-and-share-dialog-in-windows-11/>
+- <https://docs.microsoft.com/en-us/windows/win32/shell/handlers>
