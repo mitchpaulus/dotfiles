@@ -94,11 +94,9 @@ NameParser parser = new NameParser(tokens);
 
 var tree = parser.rule();
 
-
 MyListener listener = new MyListener();
 ParseTreeWalker walker = new Walker();
 walker.Walk(listener, tree)
-
 ```
 
 ## Matching Strings
@@ -133,4 +131,81 @@ grun Grammar entryRule
 lexer.RemoveErrorListeners()
 parser.RemoveErrorListeners()
 ```
+
+## Additional code in lexers/parsers
+
+```
+@lexer::members {
+   // code in target language...
+}
+@parser::members {
+  //
+}
+```
+
+## Test Rig Code
+
+Once you have some semantic predicates or other member code that isn't in the Java language,
+you might have to incorporate the `grun` testing features into whatever target language you're working on.
+The code for the `grun` TestRig is at: `tool/src/org/antlr4/v4/gui/TestRig.java`.
+
+Showing tokens (`--tokens`):
+
+```java
+if ( showTokens ) {
+  for (Token tok : tokens.getTokens()) {
+    if ( tok instanceof CommonToken ) {
+      System.out.println(((CommonToken)tok).toString(lexer));
+    }
+    else {
+      System.out.println(tok.toString());
+    }
+  }
+}
+...
+
+if ( printTree ) {
+  System.out.println(tree.toStringTree(parser));
+}
+if ( gui ) {
+  Trees.inspect(tree, parser);
+}
+if ( psFile!=null ) {
+  Trees.save(tree, parser, psFile); // Generate postscript
+}
+```
+
+## Token `toString`
+
+From `runtime/Java/src/org/antlr/v4/runtime/CommonToken.java`
+
+```java
+public String toString(Recognizer r) {
+
+  String channelStr = "";
+  if ( channel>0 ) {
+    channelStr=",channel="+channel;
+  }
+  String txt = getText();
+  if ( txt!=null ) {
+    txt = txt.replace("\n","\\n");
+    txt = txt.replace("\r","\\r");
+    txt = txt.replace("\t","\\t");
+  }
+  else {
+    txt = "<no text>";
+  }
+  String typeString = String.valueOf(type);
+  if ( r!=null ) {
+    typeString = r.getVocabulary().getDisplayName(type);
+  }
+  return "[@"+getTokenIndex()+","+start+":"+stop+"='"+txt+"',<"+typeString+">"+channelStr+","+line+":"+getCharPositionInLine()+"]";
+}
+```
+
+
+
+
+
+
 
