@@ -739,6 +739,7 @@ filetypeAutocmds = {
     { 'idf,neobem', 'nnoremap', '<localleader>t', ':Tabularize /!-\\?/l1l1<CR>', },
     { 'neobem', 'nnoremap', '<localleader>c', ':!nbem -o %:t:r.idf %<CR>', },
     { 'neobem', 'nnoremap', '<localleader>f', '<cmd>%!nbem -f %<CR>', },
+    { 'neobem', 'nnoremap', '<localleader>d', '<cmd>%!nbem -f --doe2 %<CR>', },
     { 'neobem', 'inoremap', '<localleader>f', 'λ  { <++> }<Esc>8hi', },
     { 'neobem', 'inoremap', '<localleader>r', '<  ><Esc>hi', },
     { 'neobem', 'inoremap', '<localleader>c', '✓', },
