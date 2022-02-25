@@ -1,8 +1,8 @@
 import os
-from typing import List, Union, Iterable
+from typing import List, Union, Iterable, Any
 import re
 
-def groupby(iterable: Iterable, key_selector, value_selector=None):
+def groupby(iterable: Iterable[Any], key_selector, value_selector=None):
     if value_selector is None:
         value_selector = lambda x: x
 
