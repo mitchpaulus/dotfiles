@@ -301,7 +301,7 @@ normalNoRecurseMappings = {
     { '<leader>j', '/\\V<+\\.\\{-}+><cr>cgn' },
 
     -- Remove all stray carriage returns
-    { '<leader>r', '<Cmd>%s/\\r//g<CR>' },
+    { '<leader>cr', '<Cmd>%s/\\r//g<CR>' },
 
     { '<C-n>', ':bnext<CR>' },
 
@@ -321,6 +321,9 @@ normalNoRecurseMappings = {
 
     { '<leader>=', '<Cmd>Tab /=/<CR>' },
 }
+
+vim.api.nvim_set_keymap("n", '<leader>g', ':%s/',    { noremap = true, silent = false })
+vim.api.nvim_set_keymap("n", '<leader>r', ':read! ', { noremap = true, silent = false })
 
 func_map(function(tbl) nnmap(tbl[1], tbl[2]) end, normalNoRecurseMappings)
 
