@@ -82,3 +82,7 @@ A formatter for bibtex files. [GitHub](https://github.com/FlamingTempura/bibtex-
 ## `jless`
 
 [Command line page for JSON](https://github.com/PaulJuliusMartinez/jless)
+
+## `as-tree`
+
+Simple and useful utility for showing stuff as a tree. [GitHub](https://github.com/jez/as-tree)

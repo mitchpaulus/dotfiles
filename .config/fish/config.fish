@@ -166,6 +166,7 @@ abbr -a gi "$EDITOR .gitignore"
 abbr -a mdformat 'mdformat --number'
 
 abbr -a x 'chmod +x'
+abbr -a md 'mkdir'
 
 # Git shortcuts
 if command -v git >/dev/null 2>&1
