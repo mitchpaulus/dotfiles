@@ -1,0 +1,22 @@
+{
+    "Separator": {
+        "prefix": "sep",
+        "body": ["set datafile separator $0"],
+        "description": "Sets the separator for the data file."
+    },
+    "terminal": {
+        "prefix": "term",
+        "body": ["set terminal pngcairo size 1600,1200 fontscale 2"],
+        "description": "Sets the terminal for the plot."
+    },
+    "x label": {
+        "prefix": "xl",
+        "body": ["set xlabel \"$0\""],
+        "description": "Sets the x label."
+    },
+    "y label": {
+        "prefix": "yl",
+        "body": ["set ylabel \"$0\""],
+        "description": "Sets the y label."
+    }
+}
