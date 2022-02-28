@@ -1,0 +1,19 @@
+#!/bin/sh
+set -e
+
+if test -z "$LOCALBIN"; then
+    printf "Variable LOCALBIN must be set.\n"
+    exit 1
+fi
+
+latest_release="$(latest_release jez as-tree)"
+download="$(printf "%s" "$latest_release" | github_releases.py 'as-tree-[0-9]+\.[0-9]+\.[0-9]+-linux.zip')"
+asset="$(printf "%s" "$download" | awk 'NR == 1')"
+name="$(printf "%s" "$download" | awk 'NR == 2')"
+# Need to follow redirects with '-L' to get the actual file.
+# Curling to
+printf "Curling to '%s'\n" /tmp/"$name" >&2
+curl --output /tmp/"$name" -L "$asset"
+
+# Should be a single executable file.
+unzip /tmp/"$name" -d "$LOCALBIN"
