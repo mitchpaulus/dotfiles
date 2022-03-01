@@ -13,3 +13,9 @@
 To Record:
 - Start Time
 - TUL for each exercise
+
+## Floor Press
+
+- Elbow to wrist distance = 16 inches
+- Radius of weight = 9 inches
+- Need a block ~ 7 inches tall
