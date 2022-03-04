@@ -1,6 +1,8 @@
 # Alerton Visual Logic
 
+`BR` stands for branch point - used for points that link blocks within the diagram.
 
+[Reference](https://hvac-talk.com/vbb/threads/2051121-Alerton-BacTalk-Visuallogic-PI-Function)
 
 ## Analog Input Comparator
 
@@ -47,3 +49,21 @@ Output previous  | Set Current   | Reset Current   | Output
 1                | 0             | 1               | 0
 1                | 1             | 0               | 1
 1                | 1             | 1               | 0
+
+## Velocity Pressure to FPM Converter
+
+Looks like gauge - has 'Zero' 'Out' and 'K' on the meter.
+
+Output = k √ (vp_input - zero)
+
+## Delay on Break/Make
+
+Delay on break -> delay going from On to Off
+Delay on make -> delay going from Off to On
+
+Opposite transitions for each have no delay. Delays are in seconds.
+
+## Sample and Hold
+
+When the CTRL input is ON, the output and the stored value are set equal to the input.
+When the CTRL input is OFF, the output is set to the last stored value.
