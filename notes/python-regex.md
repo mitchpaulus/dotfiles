@@ -48,6 +48,6 @@ Match.start([group])
 Match.end([group])
 Match.span([group])  # Tuple of Match.start/Match.end
 # Can get the text from the total match with match.group()
-Match.group([group1,...]) -> str | Tuple[str, ...] # Return string of group.
+Match.group([group1,...]) -> str | Tuple[str, ...] # Return string of group. Group 0 is entire match.
 
 ```

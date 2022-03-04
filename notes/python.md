@@ -218,10 +218,9 @@ Operator          Method
 
 ## Module Loading
 
-My frustration with the Python module loading system cannot be
-understated. Example: [Importing files from different
-folder](https://stackoverflow.com/q/4383571/5932184). Viewed 2 MILLION
-TIMES. By default, you CAN'T and are forced to play games with the path.
+My frustration with the Python module loading system cannot be understated.
+Example: [Importing files from different folder](https://stackoverflow.com/q/4383571/5932184).
+Viewed 2 MILLION TIMES. By default, you CAN'T and are forced to play games with the path.
 
 - https://leemendelowitz.github.io/blog/how-does-python-find-packages.html
 - [https://realpython.com/absolute-vs-relative-python-imports/#a-quick-recap-on-imports](https://realpython.com/absolute-vs-relative-python-imports/#a-quick-recap-on-imports)
@@ -270,6 +269,10 @@ Modules  = a file with a .py extension (or it's built-in or is in C and dynamica
 
 Other useful links:
  - https://towardsdatascience.com/taming-the-python-import-system-fbee2bf0a1e4
+
+From SO: <https://stackoverflow.com/a/16985066/5932184>, found this link.
+From Guido himself: <https://mail.python.org/pipermail/python-3000/2007-April/006793.html>
+TLDR: running scripts *within* a module is an antipattern.
 
 ## Linear Regression
 

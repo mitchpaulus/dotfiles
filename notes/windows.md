@@ -101,3 +101,15 @@ From this post [on AMD 12-11-2021 11:27 AM](https://community.amd.com/t5/drivers
 a workaround is to 'Duplicate', and then 'Extend'.
 It's only an issue with the AMD drivers.
 
+
+## Issues with Taskbar
+
+I was finding that sometimes I couldn't click on Icon in the taskbar.
+Turns out its a crazy windows bug when Visual Studio 2022 is open.
+See <https://techcommunity.microsoft.com/t5/report-an-issue/windows-11-clicking-taskbar-icon-doesn-t-always-switch-to-that/m-p/3015066>
+and <https://developercommunity.visualstudio.com/t/Window-switching-in-Window-11-taskbar-st/1597282>.
+
+Used workaround:
+
+[Workaround]
+Unchecking the Option “Enable Diagnostic Tools while Debugging” in Visual Studio options resolves the problem for me as well. Looking forward to a fix…
