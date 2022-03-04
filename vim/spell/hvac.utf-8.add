@@ -163,6 +163,7 @@ IP
 ISD
 Inline
 Interoperability
+Inverter
 JACE
 JACEs
 JCI
@@ -317,6 +318,7 @@ TMY
 TRI
 TSO
 TSV
+TUI
 Temtrol
 Thermophysics
 Tikz
@@ -405,6 +407,7 @@ ducted
 enthalpy
 exchanger
 exchangers
+factor
 frontend
 gbXML
 gnuplot
