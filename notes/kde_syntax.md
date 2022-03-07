@@ -93,7 +93,7 @@ Other default styles:
 
 ## Validation
 
-There is a validator script that is part of the
+There is a validation script that is part of the
 <https://invent.kde.org/frameworks/syntax-highlighting.git> repository.
 [This is the GitHub mirror](https://github.com/KDE/syntax-highlighting)
 

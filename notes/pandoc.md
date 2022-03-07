@@ -8,6 +8,16 @@
 
   - `Usage: place maxima.xml in $KDEDIR/share/apps/katepart/syntax`
 
+Based on this [page](https://api.kde.org/frameworks/syntax-highlighting/html/#syntax-definition-files),
+
+For local user 	$HOME/.local/share/org.kde.syntax-highlighting/syntax/
+For Flatpak packages 	$HOME/.var/app/package-name/data/org.kde.syntax-highlighting/syntax/
+For Snap packages 	$HOME/snap/package-name/current/.local/share/org.kde.syntax-highlighting/syntax/
+On Windows® 	&#37;USERPROFILE&#37;&#92;AppData&#92;Local&#92;org.kde.syntax-highlighting&#92;syntax&#92;
+On macOS® 	$HOME/Library/Application Support/org.kde.syntax-highlighting/syntax/
+
+Also described in <https://docs.kde.org/trunk5/en/kate/katepart/highlight.html>
+
 ## Tex target
 
 Will need `\tightlist` command. Default definition is:

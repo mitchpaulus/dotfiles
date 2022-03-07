@@ -55,3 +55,7 @@ Futhark is a small programming language designed to be compiled to efficient par
 ## [F\*](http://www.fstar-lang.org/)
 
 F\* (pronounced F star) is a general-purpose functional programming language with effects aimed at program verification.
+
+## [Languages ranked by expressiveness](https://redmonk.com/dberkholz/2013/03/25/programming-languages-ranked-by-expressiveness/)
+
+Nice post trying to empirically determine which languages are more *expressive* than others.
