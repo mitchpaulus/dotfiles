@@ -1,0 +1,3 @@
+#!/bin/sh
+# Create MIT LICENSE file
+mit > LICENSE
