@@ -288,6 +288,8 @@ normalNoRecurseMappings = {
     { '<leader>y', '<Cmd>%yank +<CR>' },
     -- Move backwards through spell.
     { 'T', '[s' },
+    -- "[B]reak at [c]ommas
+    { '<leader>bc', '<Cmd>s/,/\r/g<Cr>' },
 
     -- Clear the previous search (c[lear] h[ighlight])
     { '<leader>ch', ':nohlsearch<CR>' },
@@ -624,6 +626,7 @@ filetypeAutocmds = {
     { 'markdown,tex,text', 'setlocal spell' },
     { 'markdown', 'setlocal tabstop=2' },
     { 'markdown', 'nnoremap', ']]', '<Cmd>keeppatterns /^#<Cr>' },
+    { 'markdown', 'nnoremap <localleader>- <Cmd>keeppatterns s/[^<bar>]/-/g<Cr>' },
 
     { 'help', 'nnoremap', '<leader>hh', 'mnA~<esc>`n', },
     { 'help', 'nnoremap', '<leader>hl', 'mn78i=<esc>`n', },
