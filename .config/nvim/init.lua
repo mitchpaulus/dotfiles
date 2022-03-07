@@ -655,6 +655,7 @@ filetypeAutocmds = {
     { 'markdown', 'inoremap', '<localleader>n', '\\begin{equation}<CR>\\end{equation}<Esc>0ko', },
     { 'markdown', 'inoremap', '<localleader>m', '$$<Left>', },
     { 'markdown', 'vnoremap <localleader>l s[<c-r>"]()<Left>' },
+    { 'markdown', 'vnoremap <localleader>i s*<c-r>"*' },
 
     { 'gitcommit', 'setlocal spell' },
 
