@@ -7,23 +7,52 @@
 #  n
 
 BEGIN {
-
+    OFS="\t"
+    xcol = 1
+    ycol = 2
+    skip = 0
     for (i = 1; i <= ARGC; i++) {
         if (ARGV[i] == "--help" || ARGV[i] == "-h") {
             printf "slr.awk - Simple Linear Regression from the Terminal\n\nUSAGE:\nslr.awk <file>\n\nThe file should be a whitespace delimited text file with X values\nin the first column and Y values in the second column.\nReturns\n\nIntercept\nSlope\nCount\n"
             early_exit = 1
             exit 0
         }
+        else if (ARGV[i] == "-x") {
+            xcol = ARGV[i + 1]
+            ARGV[i] = ""
+            ARGV[i + 1] = ""
+            i++
+        }
+        else if (ARGV[i] == "-y") {
+            ycol = ARGV[i + 1]
+            ARGV[i] = ""
+            ARGV[i + 1] = ""
+            i++
+        }
+        else if (ARGV[i] == "--skip") {
+            skip = ARGV[i + 1]
+            ARGV[i] = ""
+            ARGV[i + 1] = ""
+            i++
+        }
+        else if (ARGV[i] == "-d") {
+            FS = ARGV[i + 1]
+            ARGV[i] = ""
+            ARGV[i + 1] = ""
+            i++
+        }
     }
 }
 
+
+
 # SLR
 
-NF == 2 && $1 != "" && $2 != "" {
-    sum_x += $1
-    sum_y += $2
-    x[NR] = $1
-    y[NR] = $2
+NF >= 2 && $xcol != "" && $ycol != "" && NR > skip {
+    sum_x += $xcol
+    sum_y += $ycol
+    x[NR] = $xcol
+    y[NR] = $ycol
     n++
 }
 
