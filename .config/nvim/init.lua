@@ -300,6 +300,8 @@ normalNoRecurseMappings = {
     { '<leader>ev', '<Cmd>edit $MYVIMRC<CR>' },
     { '<leader>sv', '<Cmd>source $MYVIMRC<CR>' },
 
+    { '<leader>t', '<Cmd>terminal<CR>' },
+
     { '<leader>j', '/\\V<+\\.\\{-}+><cr>cgn' },
 
     -- Remove all stray carriage returns
@@ -514,6 +516,8 @@ end
 --vim.api.nvim_set_keymap("v", '*', ':<C-u>lua vsetsearch()', silent)
 
 vim.g.AutocorrectFiletypes = { "markdown", "tex", "text", "gitcommit" }
+vim.g.AutocorrectDisableDefaultMappings = true
+vim.api.nvim_set_keymap("n", "<leader>a", "<Plug>(AutocorrectAddToAbbrev)" , {noremap = false, silent = true})
 
 function check(value)    print(vim.inspect(value)) end
 function in_lsp_buffer() return next(vim.lsp.buf_get_clients()) ~= nil end
