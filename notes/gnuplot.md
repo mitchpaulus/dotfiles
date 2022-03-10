@@ -34,6 +34,11 @@ plot {<ranges>} <plot-element> {, <plot-element>, <plot-element>}
 {with <style options>}
 ```
 
+Functions
+```
+[0:10] x * 10 + 2
+```
+
 ```
 <data source>: <source>
   {binary <binary list>}
@@ -107,7 +112,7 @@ with <plot-style> {
   xerrorlines  |
   xyerrorlines |
   yerrorlines  |
-  zerrorfill   |
+  zerrorfill
 ```
 
 ## Colorspec

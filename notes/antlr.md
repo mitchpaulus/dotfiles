@@ -23,6 +23,8 @@ Run grun like:
 grun GrammarName rule options..
 ```
 
+Make sure the java classes have been compiled.
+
 - Add visitor classes `-visitor` CLI option
 
 
