@@ -1,8 +1,12 @@
 import os
-from typing import List, Union, Iterable, Any
+from typing import List, Union, Iterable, TypeVar, Callable, Dict
 import re
 
-def groupby(iterable: Iterable[Any], key_selector, value_selector=None):
+T1 = TypeVar('T1')
+T2 = TypeVar('T2')
+T3 = TypeVar('T3')
+
+def groupby(iterable: Iterable[T1], key_selector: Callable[[T1], T2], value_selector:Callable[[T1], T3]=None) -> Dict[T2, List[T3]]:
     if value_selector is None:
         value_selector = lambda x: x
 
@@ -20,7 +24,7 @@ def groupby(iterable: Iterable[Any], key_selector, value_selector=None):
 
 
 # From https://stackoverflow.com/a/1724723/5932184
-def find_all(name: str, path: str):
+def find_all(name: str, path: str) -> List[str]:
     result = []
     for root, dirs, files in os.walk(path):
         if name in files:
@@ -28,7 +32,7 @@ def find_all(name: str, path: str):
     return result
 
 
-def find_all_regex(regex_pattern: str, path: str):
+def find_all_regex(regex_pattern: str, path: str) -> List[str]:
     regex = re.compile(regex_pattern)
     result = []
     for root, dirs, files in os.walk(path):
@@ -54,7 +58,7 @@ def convert_to_int_if_possible(s: str) -> Union[int, str]:
     """
     return int(s) if s.isdigit() else s
 
-def alphanum_key(s):
+def alphanum_key(s) -> List[Union[str, int]]:
     """ Turn a string into a list of string and number chunks.
         "z23a" -> ["z", 23, "a"]
     """
