@@ -19,6 +19,7 @@ vim.cmd [[ Plug 'mitchpaulus/autocorrect.vim' ]]
 vim.cmd [[ Plug 'mitchpaulus/axon-vim' ]]
 vim.cmd [[ Plug 'mitchpaulus/doe2-bdl-vim' ]]
 vim.cmd [[ Plug 'mitchpaulus/energyplus-vim' ]]
+vim.cmd [[ Plug 'mitchpaulus/mplot.vim' ]]
 vim.cmd [[ Plug 'mitchpaulus/neobem-vim' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-andover-plain-english' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-awk-indent-fix' ]]
@@ -385,6 +386,9 @@ insertModeNoRecurseMappings = {
 
     -- I need to use this ALL the time, shell files, etc.
     { '<localleader>ab', 'BEGIN { FS=OFS="\\t" }' },
+
+    -- Company brand standard hex color
+    { '<localleader>c', '004987' },
 }
 
 func_map(function(tbl) inmap(tbl[1], tbl[2]) end, insertModeNoRecurseMappings)
@@ -614,6 +618,7 @@ filetypeAutocmds = {
 
     { 'antlr4', 'nnoremap', '<localleader>c', ':!antlr4 %<CR>' },
     { 'antlr4', 'nnoremap', '<localleader>j', ':!antlrj<Space>%<CR>', },
+    { 'antlr4', 'inoremap', '<localleader>s', 'STRING : \'\\\' (ESC<bar>.)*? \'\\"\' ;', },
 
     { 'axon', 'inoremap', '<localleader>do', 'do<CR>end<Esc>ko' },
     { 'axon', 'inoremap', '<localleader>ll', '() =><Esc>3hi' },
