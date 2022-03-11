@@ -20,7 +20,7 @@ grun() {
 
 Run grun like:
 ```sh
-grun GrammarName rule options..
+grun GrammarName rule [-tree] [-tokens] ..
 ```
 
 Make sure the java classes have been compiled.
