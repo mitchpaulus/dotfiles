@@ -117,3 +117,32 @@ Alternative to using `:<C-u>` in mappings.
 :silent verbose map
 :redir END
 ```
+
+
+## Two character sequences that don't occur in English
+
+This is important for text editing mappings.
+
+From Joseph Lin: <https://www.quora.com/What-are-all-of-the-two-letter-combinations-that-never-occur-in-an-English-dictionary>
+
+Used SIL International English dictionary wordlist
+
+```
+bq bz
+cf cj cv cx
+fq fv fx fz
+gq gv gx
+hx hz
+jb jd jf jg jh jl jm jp jq jr js jt jv jw jx jy jz
+kq kx kz
+mx mz
+pq pv px
+qb qc qd qf qg qh qj qk ql qm qn qp qq qv qw qx qy qz
+sx
+tq
+vb vf vh vj vk vm vp vq vw vx
+wq wv wx
+xd xj xk xr xz
+yq yy
+zf zr zx
+```

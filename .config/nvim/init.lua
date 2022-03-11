@@ -199,6 +199,7 @@ if vim.fn.has('nvim-0.5.0') == 1 then
 end
 
 vim.api.nvim_set_keymap("t", "jf", "<C-\\><C-n>" , {noremap = true, silent = true})
+vim.api.nvim_set_keymap("t", "jb", "<C-\\><C-n><C-^>" , {noremap = true, silent = true})
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
@@ -303,7 +304,8 @@ normalNoRecurseMappings = {
 
     { '<leader>t', '<Cmd>terminal<CR>' },
 
-    { '<leader>j', '/\\V<+\\.\\{-}+><cr>cgn' },
+    -- [j]ump to alternative buffer
+    { '<leader>j', '<Cmd>normal <C-^><CR>' },
 
     -- Remove all stray carriage returns
     { '<leader>cr', '<Cmd>%s/\\r//g<CR>' },
@@ -329,6 +331,8 @@ normalNoRecurseMappings = {
 
 vim.api.nvim_set_keymap("n", '<leader>g', ':%s/',    { noremap = true, silent = false })
 vim.api.nvim_set_keymap("n", '<leader>r', ':read! ', { noremap = true, silent = false })
+
+vim.api.nvim_set_keymap("t", '<C-^>', '<Cmd>execute "norm \\<C-^>"<CR>', { noremap = true, silent = true })
 
 func_map(function(tbl) nnmap(tbl[1], tbl[2]) end, normalNoRecurseMappings)
 
@@ -804,7 +808,10 @@ createAugroup(bufEnterAutocmds, 'bufenter', 'BufEnter')
 vim.cmd [[
 augroup MPEvents
 autocmd!
-autocmd TermOpen * startinsert
+autocmd TermOpen * setlocal nonumber norelativenumber | echom "Term Open.."
+autocmd BufWinEnter term://* startinsert | echom "Term BufWinEnter.."
+autocmd BufEnter term://* startinsert | echom "Term BufEnter.."
+autocmd WinEnter term://* startinsert | echom "Term WinEnter.."
 augroup END
 ]]
 
