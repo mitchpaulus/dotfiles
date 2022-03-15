@@ -98,5 +98,21 @@ def query(selected_tag_set: Set[str]) -> None:
 
     handle_selection(stdout, selected_tag_set)
 
+def help_text() -> str:
+    return '''
+fzf-tmsu
+
+USAGE: fzf-tmsu
+
+Uses fzf and tmsu to quickly select files/directories from tags.
+'''
+
 if __name__ == "__main__":
+    index = 0
+    while index < len(sys.argv):
+        if sys.argv[index] == '-h' or sys.argv[index] == '--help':
+            print(help_text(), end='')
+            sys.exit()
+        index += 1
+
     query(set())
