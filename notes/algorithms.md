@@ -57,6 +57,13 @@ public static string ToSigFigs(this double value, int sigFigs)
 
 ```
 
+## Rounding
+
+```awk
+# Language with integer truncation - this doesn't take care of negatives.
+value = int((value / 100000) + 0.5) * 100000
+```
+
 ## Is Point in Polygon?
 
 Great algorithm, first saw at: https://web.cs.ucdavis.edu/~okreylos/TAship/Spring2000/PointInPolygon.html

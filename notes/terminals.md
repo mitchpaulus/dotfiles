@@ -38,4 +38,4 @@ Right Arrow sends 1B (esc) - 5B ('[' which is CSI) - 43 ('C')
       = (equal)      | =        | SS3 X       | -        | -
       ---------------+----------+-------------+----------+----------
 
-
+- <https://terminalguide.namepad.de/>

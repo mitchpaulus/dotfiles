@@ -1,5 +1,11 @@
 # Antlr
 
+## Installation
+
+Download from link at <www.antlr.org>, 'Complete ANTLR x.x.x java binaries jar.
+Single JAR file. Put in `/usr/local/lib/`. Dotfiles will search for that dir.
+
+
 - Forcing Java classes to be built:
 ```
 antlr4 -Dlanguage=Java *.g4
