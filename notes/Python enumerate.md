@@ -1,6 +1,5 @@
 # Python `enumerate`
 
 ```python
-# index is 0 based
-for index, item in enumerate(iterable):
+for index, item in enumerate(iterable):  # 0-based index
 ```

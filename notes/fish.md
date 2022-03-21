@@ -59,3 +59,13 @@ function myfunc --on-event fish_prompt
 can list functions using: `function --help`
 
 [When an alias should actually be an abbr](https://www.sean.sh/log/when-an-alias-should-actually-be-an-abbr/)
+
+
+## Key Bindings
+
+Emacs bindings are default, or execute command `fish_default_key_bindings` to go back
+For default vim bindings, execute command `fish_vi_key_bindings`.
+
+Useful command line functions:
+
+- down-or-search/up-or-search, typically bound to \cn and \cp
