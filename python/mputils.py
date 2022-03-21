@@ -1,5 +1,5 @@
 import os
-from typing import List, Union, Iterable, TypeVar, Callable, Dict
+from typing import List, Union, Iterable, TypeVar, Callable, Dict, Any
 import re
 
 T1 = TypeVar('T1')
@@ -42,13 +42,13 @@ def find_all_regex(regex_pattern: str, path: str) -> List[str]:
     return result
 
 
-def read_tsv(file_path: str) -> List[List[str]]:
+def read_tsv(file_path: str, delim="\t", skip=0) -> List[List[str]]:
     """
     Read a tsv file, returning list of list of strings. The final stirng does
     not contain the new line character. Reads the file as UTF-8.
     """
     with open(file_path, encoding="utf-8") as file:
-        return [line.split('\t') for line in file.read().splitlines()]
+        return [line.split(delim) for line in file.read().splitlines()][skip:]
 
 
 def convert_to_int_if_possible(s: str) -> Union[int, str]:
@@ -63,6 +63,12 @@ def alphanum_key(s) -> List[Union[str, int]]:
         "z23a" -> ["z", 23, "a"]
     """
     return [convert_to_int_if_possible(c) for c in re.split('([0-9]+)', s)]
+
+def str_list(l: List[Any]) -> List[str]:
+    """
+    Return a string representation of the given list.
+    """
+    return [str(x) for x in l]
 
 # Basically taken from https://stackoverflow.com/a/2669120/5932184
 def version_sort(l: Iterable[str]) -> List[str]:
