@@ -764,6 +764,7 @@ filetypeAutocmds = {
     { 'neobem', 'inoremap', '<localleader>r', '<  ><Esc>hi', },
     { 'neobem', 'inoremap', '<localleader>c', '✓', },
 
+    { 'python', 'nnoremap', '<localleader>gc', 'vip:!python_class_gen<CR>' },
     { 'python', 'inoremap', '<localleader>wo', 'with open(\'\') as file:<Esc>F\'i' },
     { 'python', 'inoremap', '<localleader>im', 'if __name__ == "__main__":<Cr>' },
     { 'python', 'inoremap', '<localleader>di', 'def __init__(self) -> None:<Esc>F)i' },
