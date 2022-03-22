@@ -204,6 +204,9 @@ $HOME/texmf/tex/latex/myfile.tex
 
 <https://www.overleaf.com/learn/latex/Hyperlinks>
 
+To remove boxes, confusingly set `colorlinks` to `true`. This makes the links colored.
+To remove that color, specify that the `linkcolor` be black.
+
 ```tex
 \hypersetup{
   hyperindex=true,   % Makes the page numbers of index entries into hyperlinks
