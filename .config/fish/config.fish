@@ -159,6 +159,9 @@ set fish_cursor_insert line
 bind -M insert jf to_normal_mode
 bind -M insert \cn down-or-search
 bind -M insert \cp up-or-search
+bind -M insert \ey accept-autosuggestion
+bind -M insert \cf accept-autosuggestion
+bind -M insert \eo exit
 bind H beginning-of-line
 bind L end-of-line
 

@@ -1,0 +1,15 @@
+#!/usr/bin/awk -E
+
+BEGIN {
+
+    max = ARGV[1]
+    ARGV[1] = ""
+
+    i = 1;
+    total = 1;
+    while (i <= max) {
+        printf("%d! = %d\n", i, total);
+        i++;
+        total *= i;
+    }
+}
