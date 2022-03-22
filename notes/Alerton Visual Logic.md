@@ -67,3 +67,7 @@ Opposite transitions for each have no delay. Delays are in seconds.
 
 When the CTRL input is ON, the output and the stored value are set equal to the input.
 When the CTRL input is OFF, the output is set to the last stored value.
+
+## Switch
+
+The binary input comes from the top - if true, Uses ON analog input, otherwise the OFF analog input.
