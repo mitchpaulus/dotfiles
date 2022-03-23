@@ -19,5 +19,46 @@
             "\\dot{$1}$0"
         ],
         "description": "Dot in Tex Equations"
+    },
+    "histogram": {
+        "prefix": ["hist"],
+        "body": [
+            "<!-- Compass: Histogram -->",
+            "Scope: $1",
+            "Label: $2",
+            "IgnoreLabels: $3",
+            "<!-- Compass -->"
+        ],
+        "description": "Compass Histogram"
+    },
+    "default": {
+        "prefix": ["default"],
+        "body": [
+            "<!-- Compass: Default -->",
+            "Scope: $1",
+            "StartDate: $2",
+            "EndDate: $3",
+            "MinuteInterval: $4",
+            "<!-- Compass -->"
+        ],
+        "description": "Compass Default"
+    },
+    "StartDate": {
+        "prefix": ["sd"],
+        "body": [
+            "StartDate: $1"
+        ],
+        "description": "Compass StartDate"
+    },
+    "LabelStatisticsTable": {
+        "prefix": ["lst", "ls", "stats"],
+        "body": [
+            "<!-- Compass: LabelStatisticsTable -->",
+            "Scope: $1",
+            "Label: $2",
+            "IgnoreLabels: $3",
+            "<!-- Compass -->"
+        ],
+        "description": "Compass LabelStatisticsTable"
     }
 }
