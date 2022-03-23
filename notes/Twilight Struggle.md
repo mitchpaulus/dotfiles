@@ -32,3 +32,7 @@ Lone Gunman, Mid, 1 Op
 Grain Sales to Soviets, Mid, US 2 Op
 Tear down this wall, Late, US 3 Op
 
+14 Western Europe countries
+
+With 7 items, there are (7 + 14 - 1)! / 7! (14-1)! = 20! / 7! 13! = 77,520 possibilities.
+In practice, the search space is way smaller since you'll almost always be putting items on the battleground countries.
