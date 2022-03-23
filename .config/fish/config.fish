@@ -150,7 +150,7 @@ bind \eB awk_begin
 bind \ew add_count_lines
 bind \ec add_copy_to_clip_exe
 
-bind \e1 1
+bind -M insert \e1 1
 
 # ALT-o to exit, don't need to set the command in each terminal emulator with this here.
 bind \eo exit
