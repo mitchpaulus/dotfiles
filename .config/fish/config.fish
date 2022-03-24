@@ -179,6 +179,7 @@ abbr -a mdformat 'mdformat --number'
 
 abbr -a x 'chmod +x'
 abbr -a md 'mkdir'
+abbr -a mk 'mkdir'
 
 # Git shortcuts
 if command -v git >/dev/null 2>&1
