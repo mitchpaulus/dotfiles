@@ -1,0 +1,42 @@
+#!/usr/bin/awk -E
+
+BEGIN {
+
+    for (i = 1; i < ARGC; i++) {
+        if (ARGV[i] == "-n") {
+            name = ARGV[i+1];
+            name_or_type_set = 1
+            ARGV[i] = ""
+            ARGV[i+1] = ""
+            i++;
+        }
+        else if (ARGV[i] == "-t") {
+            type = ARGV[i+1];
+            name_or_type_set = 1
+            ARGV[i] = ""
+            ARGV[i+1] = ""
+            i++;
+        }
+    }
+}
+
+NR == 1 && name_or_type_set == 0 {
+    name = $1
+    type = $2
+}
+
+NR > 1 || name_or_type_set == 1 {
+    if (name_or_type_set) {
+        values[NR - 1] = $0
+    }
+    else {
+        values[NR - 2] = $0
+    }
+}
+
+END {
+    printf "Dim %s(0 To %d) as %s\n", name, NR - 2, type
+    for (i = 0; i <= NR - 2; i++) {
+        printf("%s(%d) = %s\n", name, i, values[i])
+    }
+}
