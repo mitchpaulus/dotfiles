@@ -218,3 +218,45 @@ set datafile separator { whitespace | tab | comma | "<chars>" }
 ## Converting Numbers to Strings
 
 - `sprintf(format, variables)`
+
+## Time
+
+```gnuplot
+# Suppose the file "data" contains records like
+03/21/95 10:00 6.02e23
+# This file can be plotted by
+set xdata time
+set timefmt "%m/%d/%y"
+set xrange ["03/21/95":"03/22/95"]
+set format x "%m/%d"
+set timefmt "%m/%d/%y %H:%M"
+plot "data" using 1:3
+```
+
+%a abbreviated name of day of the week
+%A full name of day of the week
+%b or %h abbreviated name of the month
+%B full name of the month
+%d day of the month, 01–31
+%D shorthand for "%m/%d/%y" (only output)
+%F shorthand for "%Y-%m-%d" (only output)
+%k hour, 0–23 (one or two digits)
+%H hour, 00–23 (always two digits)
+%l hour, 1–12 (one or two digits)
+%I hour, 01–12 (always two digits)
+%j day of the year, 001–366
+%m month, 01–12
+%M minute, 00–60
+%p ”am” or ”pm”
+%r shorthand for "%I:%M:%S %p" (only output)
+%R shorthand for %H:%M" (only output)
+%S second, integer 00–60 on output, (double) on input
+%s number of seconds since start of year 1970
+%T shorthand for "%H:%M:%S" (only output)
+%U week of the year (CDC/MMWR ”epi week”) (ignored on input)
+%w day of the week, 0–6 (Sunday = 0)
+%W week of the year (ISO 8601 week date) (ignored on input)
+%y year, 0-99 in range 1969-2068
+%Y year, 4-digit
+%z timezone, [+-]hh:mm
+%Z timezone name, ignored string

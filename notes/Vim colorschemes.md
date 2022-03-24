@@ -22,8 +22,10 @@ ctermfg=<color-nr>
 color-nr = <digit> | <color-name>
 digit = '0' .. '16'
 color-name = See table below
-```
 
+guifg=<color>
+color=#rrggbb
+```
 
 NR-16   NR-8    COLOR NAME
 0	      0	      Black
