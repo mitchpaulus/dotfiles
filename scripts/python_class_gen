@@ -1,16 +1,45 @@
 #!/usr/bin/awk -E
 
-NR == 1 { class_name = $0 }
+BEGIN {
+    all = 0
+    for (i = 1; i <= ARGC; i++) {
+        if (ARGV[i] == "-a") {
+            all = 1
+            ARGV[i] = ""
+        }
+    }
+}
+
+NR == 1 {
+    # Make sure first character is capitalized
+    class_name = toupper(substr($0,1,1)) substr($0, 2)
+}
 NR >  1 {
     props[NR] = $0
 }
 
 END {
-    printf "class %s:\n", class_name
-    printf "    def __init__(self, line: List[str]):\n"
+    if (all) {
+        printf "class %s:\n", class_name
+        printf "    def __init__(self"
 
-    for (i in props) {
-        printf "        self.%s = line[%d]\n", props[i], i - 2
+        for (i in props) {
+            printf ", %s", props[i]
+        }
+        printf "):\n"
+
+        for (i in props) {
+            printf "        self.%s = %s\n", props[i], props[i]
+        }
     }
+    else {
+        printf "class %s:\n", class_name
+        printf "    def __init__(self, line: List[str]):\n"
+
+        for (i in props) {
+            printf "        self.%s = line[%d]\n", props[i], i - 2
+        }
+    }
+
 }
 
