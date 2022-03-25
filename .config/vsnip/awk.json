@@ -1,0 +1,20 @@
+{
+    "Argument Parsing": {
+        "prefix": ["arg"],
+        "body": [
+            "  for (i = 1; i < ARGC; i++) {",
+            "    $0",
+            "  }"
+        ],
+        "description": "Argument Parsing"
+    },
+    "Argument Item": {
+        "prefix": ["ai"],
+        "body": [
+            "if (ARGV[i] == \"-$1\" || ARGV[i] == \"--$2\") {",
+            "  $0",
+            "}"
+        ],
+        "description": "Argument Item"
+    }
+}
