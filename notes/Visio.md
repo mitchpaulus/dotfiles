@@ -36,6 +36,15 @@ Sub reports()
 End Sub
 ```
 
+# Creating Reports Wizard
+
+<https://argondigital.com/blog/product-management/my-favorite-hidden-visio-feature-extracting-data-from-visio-drawings/>
+
+Review -> Shape Reports
+
+
+By default, reports saved to "Documents" will automatically be loaded.
+
 # Data Structure
 
 <https://hub.packtpub.com/understanding-shapesheet-microsoft-visio-2010/>
@@ -71,3 +80,9 @@ Value	Description	Automation constant
 5 Date or time value. Displays days, months, and years, or seconds, minutes, and hours, or a combined date and time value. Specify a format picture in the Format cell. visPropTypeDate
 6 Duration value. Displays elapsed time. Specify a format picture in the Format cell. visPropTypeDuration
 7 Currency value. Uses the system's current Regional Settings. Specify a format picture in the Format cell. visPropTypeCurrency
+
+
+# Visio Sections/Cell Indices
+<https://docs.microsoft.com/en-us/office/vba/api/visio.vissectionindices>
+
+<https://docs.microsoft.com/en-us/office/vba/api/visio.viscellindices>

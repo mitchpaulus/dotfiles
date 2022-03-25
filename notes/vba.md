@@ -17,7 +17,6 @@ Next Item
 
 If Something = Other Then
 
-
 End If
 ```
 

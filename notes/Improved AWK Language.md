@@ -11,5 +11,7 @@ I want to create a new version for myself that is better for the types of engine
 - First class functions
 - Easy number formatting.
 - Static type checking, add typing for columns
+- String Interpolation
+- HEREDOC string entry
 
 - Built-in String splitting operators

@@ -92,3 +92,7 @@ Simple and useful utility for showing stuff as a tree. [GitHub](https://github.c
 [Some interesting Python libraries for great CLIs](https://medium.com/better-programming/designing-beautiful-command-line-applications-with-python-72bd2f972ea)
 
 [Textual](https://github.com/Textualize/textual)
+
+## Kiwix
+
+Offline browsing. <https://www.kiwix.org/en/about/>
