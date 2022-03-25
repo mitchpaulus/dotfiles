@@ -1,0 +1,11 @@
+#!/usr/bin/env python
+
+# Read in standard input and print out the number of lines
+import sys
+
+lines = sys.stdin.readlines()
+
+# split on commas, strip fields of first line
+fields = [f.strip() for f in lines[0].split(',')]
+
+print(" & vbTab & ".join(fields), end="\n", file=sys.stdout)
