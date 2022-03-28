@@ -15,7 +15,8 @@ NR == 1 {
     class_name = toupper(substr($0,1,1)) substr($0, 2)
 }
 NR >  1 {
-    props[NR] = $0
+    props[NR] = $1
+    types[NR] = $2
 }
 
 END {
@@ -24,7 +25,8 @@ END {
         printf "    def __init__(self"
 
         for (i in props) {
-            printf ", %s", props[i]
+            prop_with_type = types[i] == "" ? props[i] : sprintf("%s: %s", props[i], types[i])
+            printf ", %s", prop_with_type
         }
         printf "):\n"
 
