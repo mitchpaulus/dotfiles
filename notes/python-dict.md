@@ -3,6 +3,8 @@
 [Data Structures Documentation](https://docs.python.org/3.8/tutorial/datastructures.html)
 [Dict Reference](https://docs.python.org/3/library/stdtypes.html#mapping-types-dict)
 
+To be a key, needs to be hashable - have a __hash__() and __eq__() method.
+
 ```python
 list(d)                      # return list of keys
 len(d)                       # return number of keys
