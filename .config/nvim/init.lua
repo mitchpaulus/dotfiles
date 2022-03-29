@@ -810,10 +810,8 @@ createAugroup(bufEnterAutocmds, 'bufenter', 'BufEnter')
 vim.cmd [[
 augroup MPEvents
 autocmd!
-autocmd TermOpen * setlocal nonumber norelativenumber | echom "Term Open.."
-autocmd BufWinEnter term://* startinsert | echom "Term BufWinEnter.."
-autocmd BufEnter term://* startinsert | echom "Term BufEnter.."
-autocmd WinEnter term://* startinsert | echom "Term WinEnter.."
+autocmd TermOpen * setlocal nonumber norelativenumber | startinsert | echom "Term Open.."
+autocmd BufEnter term://* startinsert
 augroup END
 ]]
 
