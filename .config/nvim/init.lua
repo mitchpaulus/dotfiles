@@ -198,7 +198,9 @@ if vim.fn.has('nvim-0.5.0') == 1 then
     if not status then print(err) end
 end
 
+-- terminal mode mappings
 vim.api.nvim_set_keymap("t", "jf", "<C-\\><C-n>" , {noremap = true, silent = true})
+-- 'jb' for [j]ump [b]ack
 vim.api.nvim_set_keymap("t", "jb", "<C-\\><C-n><C-^>" , {noremap = true, silent = true})
 
 vim.g.mapleader = ' '
@@ -208,20 +210,14 @@ vim.g.markdown_syntax_conceal = 0
 
 silent = { silent = true, noremap = true }
 
-local function nnmap(lhs, rhs)
-    vim.api.nvim_set_keymap("n", lhs, rhs, silent)
-end
+local function nnmap(lhs, rhs) vim.api.nvim_set_keymap("n", lhs, rhs, silent) end
+local function inmap(lhs, rhs) vim.api.nvim_set_keymap("i", lhs, rhs, silent) end
+local function cnmap(lhs, rhs) vim.api.nvim_set_keymap("c", lhs, rhs, silent) end
+local function vnmap(lhs, rhs) vim.api.nvim_set_keymap("v", lhs, rhs, silent) end
 
-local function inmap(lhs, rhs)
-    vim.api.nvim_set_keymap("i", lhs, rhs, silent)
-end
-
-local function cnmap(lhs, rhs)
-    vim.api.nvim_set_keymap("c", lhs, rhs, silent)
-end
-
-local function vnmap(lhs, rhs)
-    vim.api.nvim_set_keymap("v", lhs, rhs, silent)
+function open_terminal()
+    buf_num = vim.fn.bufnr("term:*")
+    if buf_num < 0 then vim.cmd("terminal") else vim.cmd("buffer " .. buf_num) end
 end
 
 vnmap("<localleader>f2c", "s(<c-r>\" - 32) * 5/9")
@@ -302,7 +298,7 @@ normalNoRecurseMappings = {
     { '<leader>ev', '<Cmd>edit $MYVIMRC<CR>' },
     { '<leader>sv', '<Cmd>source $MYVIMRC<CR>' },
 
-    { '<leader>t', '<Cmd>terminal<CR>' },
+    { '<leader>t', '<Cmd>lua open_terminal()<CR>' },
 
     -- [j]ump to alternative buffer
     { '<leader>j', '<Cmd>normal <C-^><CR>' },
