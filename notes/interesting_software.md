@@ -96,3 +96,11 @@ Simple and useful utility for showing stuff as a tree. [GitHub](https://github.c
 ## Kiwix
 
 Offline browsing. <https://www.kiwix.org/en/about/>
+
+## Database Viewing
+
+[DBeaver](https://dbeaver.io/)
+
+## Autojump
+
+[Fast directory traversal](https://github.com/wting/autojump)

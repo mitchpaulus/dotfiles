@@ -43,6 +43,8 @@ In this order:
 <thead> or <tbody> Must contain 0 or more <tr> elements
 <tr> contains either <td> or <th> elements
 
+`colspan="2" rowspan="2"` - used on `<td>` or `<th>` elements.
+
 ## Flow Elements
 
 - `<a>`
