@@ -1,6 +1,7 @@
 import os
 from typing import List, Union, Iterable, TypeVar, Callable, Dict, Any
 import re
+import math
 
 T1 = TypeVar('T1')
 T2 = TypeVar('T2')
@@ -25,6 +26,9 @@ def groupby(iterable: Iterable[T1], key_selector: Callable[[T1], T2], value_sele
 
 # From https://stackoverflow.com/a/1724723/5932184
 def find_all(name: str, path: str) -> List[str]:
+    """
+    Find all files in path (including subdirectories) with filename name.
+    """
     result = []
     for root, dirs, files in os.walk(path):
         if name in files:
@@ -42,7 +46,7 @@ def find_all_regex(regex_pattern: str, path: str) -> List[str]:
     return result
 
 
-def read_tsv(file_path: str, delim="\t", skip=0) -> List[List[str]]:
+def read_tsv(file_path: str, delim: str="\t", skip: int=0) -> List[List[str]]:
     """
     Read a tsv file, returning list of list of strings. The final stirng does
     not contain the new line character. Reads the file as UTF-8.
@@ -78,3 +82,16 @@ def version_sort(l: Iterable[str]) -> List[str]:
 def version_sort_in_place(l: List[str]):
     """ Sort the given list in the way that humans expect."""
     l.sort(key=alphanum_key)
+
+def percentile(array: List[float], percent: float) -> float:
+    """
+    Returns the percentile of the list of data.
+    See https://en.wikipedia.org/wiki/Percentile, Nearest-Rank method.
+    :param array: List of data
+    :param percent: Percentile to return (0-100)
+    """
+    index = math.ceil((percent / 100) * len(array))
+    # Clamp index between 0 and len(array)
+    index = max(1, min(index, len(array) - 1))
+
+    return sorted(array)[index - 1]

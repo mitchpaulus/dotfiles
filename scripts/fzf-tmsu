@@ -7,7 +7,7 @@
 # - $FILEMANAGER
 
 import subprocess
-from typing import Set
+from typing import Set, Union
 import os
 import sys
 
@@ -44,7 +44,7 @@ def try_open_dir(directory_path: str) -> None:
         sys.exit()
 
 
-def handle_selection(selection: str, selected_tag_set: Set[str]) -> None:
+def handle_selection(selection: str, selected_tag_set: Set[str], database_path: Union[str, None]) -> None:
     # Check if selection is a file.
     if os.path.isfile(selection):
         # Try to open the file
@@ -61,9 +61,9 @@ def handle_selection(selection: str, selected_tag_set: Set[str]) -> None:
         try_open_dir(selection)
     else: # Assume that the selection was a tag
         selected_tag_set.add(selection.strip())
-        query(selected_tag_set)
+        query(selected_tag_set, database_path)
 
-def query(selected_tag_set: Set[str]) -> None:
+def query(selected_tag_set: Set[str], database_path: Union[str, None]) -> None:
     files = files_for_tags(selected_tag_set)
 
     if len(files) == 0:
@@ -72,7 +72,7 @@ def query(selected_tag_set: Set[str]) -> None:
 
     # Automatically handle a single file.
     if len(files) == 1:
-        handle_selection(list(files)[0], selected_tag_set)
+        handle_selection(list(files)[0], selected_tag_set, database_path)
 
     tags = tags_from_files(files)
 
@@ -96,7 +96,7 @@ def query(selected_tag_set: Set[str]) -> None:
     # Trim trailing newlines on stdout
     stdout = stdout.rstrip('\n')
 
-    handle_selection(stdout, selected_tag_set)
+    handle_selection(stdout, selected_tag_set, database_path)
 
 def help_text() -> str:
     return '''
@@ -109,10 +109,13 @@ Uses fzf and tmsu to quickly select files/directories from tags.
 
 if __name__ == "__main__":
     index = 0
+    database_path = None
     while index < len(sys.argv):
         if sys.argv[index] == '-h' or sys.argv[index] == '--help':
             print(help_text(), end='')
             sys.exit()
+        else:
+            database_path = sys.argv[index]
         index += 1
 
-    query(set())
+    query(set(), database_path)
