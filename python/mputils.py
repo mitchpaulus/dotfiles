@@ -2,6 +2,8 @@ import os
 from typing import List, Union, Iterable, TypeVar, Callable, Dict, Any
 import re
 import math
+import traceback
+import sys
 
 T1 = TypeVar('T1')
 T2 = TypeVar('T2')
@@ -51,8 +53,18 @@ def read_tsv(file_path: str, delim: str="\t", skip: int=0) -> List[List[str]]:
     Read a tsv file, returning list of list of strings. The final stirng does
     not contain the new line character. Reads the file as UTF-8.
     """
-    with open(file_path, encoding="utf-8") as file:
-        return [line.split(delim) for line in file.read().splitlines()][skip:]
+    try:
+        with open(file_path, encoding="utf-8") as file:
+            return [line.split(delim) for line in file.read().splitlines()][skip:]
+    except FileNotFoundError:
+        print("File not found: '{}'".format(file_path), file=sys.stderr)
+        raise
+    except UnicodeDecodeError:
+        print("Unable to read file '{}' as UTF-8".format(file_path), file=sys.stderr)
+        raise
+    except Exception:
+        print("Unable to read file '{}'".format(file_path), file=sys.stderr)
+        raise
 
 
 def convert_to_int_if_possible(s: str) -> Union[int, str]:
