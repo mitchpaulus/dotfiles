@@ -409,12 +409,30 @@ import requests
 
 [JSON docs](https://docs.python.org/3/library/json.html)
 
-`import json`
+The `s` stands for [s]tring.
+Have `load` and `dump`.
+
 ```python
+`import json`
 # load from string
 python_obj = json.loads('[ "a string" ]')
 # from file
 python_obj = json.load(file_handle)
+# Writing to JSON
+string_output = json.dumps(python_object)
+
+# Custom Encoder
+def my_encoder(obj):
+  if isinstance(obj, MyClass):
+     return {
+       'specical key': 'special value'
+     }
+  else:
+    pass
+
+output = json.dumps(python_obj, default=my_encoder)
+
+
 ```
 
 Conversion Table:
