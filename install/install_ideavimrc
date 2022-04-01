@@ -1,0 +1,4 @@
+#!/bin/sh
+
+HOMEDIR="$(wslpath -u "$(winenv USERPROFILE)")"
+cp "$DOTFILES"/_vsvimrc "$HOMEDIR"/.ideavimrc
