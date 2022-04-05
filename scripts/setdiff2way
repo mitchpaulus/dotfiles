@@ -23,15 +23,20 @@ BEGIN {
 
     print_shared = 0
 
+    start_row_file_1 = 1
+    start_row_file_2 = 1
+
     for (i = 1; i < ARGC; i++) {
         if (ARGV[i] == "-h" || ARGV[i] == "--help") {
             print "Usage: setdiff2way [options]... file1 file2"
             print "Options:"
-            print "  (-1 | --1col) n set column to extract from file1 (default: 1)"
-            print "  (-2 | --2col) n set column to extract from file2 (default: 1)"
-            print "  --1name name  set name for file 1 (default: A)"
-            print "  --1name name  set name for file 2 (default: B)"
-            print "  -s           print shared lines"
+            print "  (-1 | --1col) n  set column to extract from file1 (default: 1)"
+            print "  (-2 | --2col) n  set column to extract from file2 (default: 1)"
+            print "  --1name name     set name for file 1 (default: A)"
+            print "  --1name name     set name for file 2 (default: B)"
+            print "  -s               print shared lines"
+            print "  --h1             skip header line in file 1"
+            print "  --h2             skip header line in file 2"
             exit 0
         }
         else if (ARGV[i] == "--1col" || ARGV[i] == "-1") {
@@ -61,6 +66,14 @@ BEGIN {
             print_shared = 1
             ARGV[i] = ""
         }
+        else if (ARGV[i] == "--h1") {
+            start_row_file_1 = 2
+            ARGV[i] = ""
+        }
+        else if (ARGV[i] == "--h2") {
+            start_row_file_2 = 2
+            ARGV[i] = ""
+        }
     }
 
     file_num = 0
@@ -69,10 +82,10 @@ BEGIN {
 FNR == 1 { file_num++ }
 
 {
-    if (file_num == 1) {
+    if (file_num == 1 && FNR >= start_row_file_1) {
         file_one[$col_file_1]
     }
-    else if (file_num == 2) {
+    else if (file_num == 2 && FNR >= start_row_file_2) {
         file_two[$col_file_2]
     }
 }
