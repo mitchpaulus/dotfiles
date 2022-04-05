@@ -69,10 +69,15 @@ Set value to 'NaN': `float('NaN')`
 ```python
 import unittest
 
-class MyTest(unittest.TestCase):
-    def mytest(self):
+# Must begin with Test
+class TestSomeStuff(unittest.TestCase):
+    # Must begin with Test
+    def test_something(self):
         ...
         self.assertTrue(expr)
+
+if __name__ == '__main__':
+  unittest.main()
 ```
 
 ## Tuples
