@@ -657,6 +657,7 @@ filetypeAutocmds = {
     { 'markdown,text', 'inoremap', ',x', '✗', },
     -- Quickly enter in °F
     { 'markdown,text', 'inoremap', 'DEGF', '°F', },
+    { 'markdown,text', 'inoremap', '<localleader>y', '2022-', },
 
     { 'markdown', 'inoremap <localleader>aj (adj.)', },
     { 'markdown', 'inoremap', '<localleader>f', '![]()<Esc>2hi', },
