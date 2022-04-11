@@ -18,9 +18,34 @@ This may have been based on this [source?](https://www.cedengineering.com/userfi
 
 See Bhatia Heat Rejection Options.
 
+EnergyPlus uses the following assumption for air flow rate, I/O `CoolingTower:TwoSpeed`. 190 is pressure rise, in Pa.
+V is in m3/s. P is power in watts.
+
+$$
+V = \frac{0.5 Power}{190}
+$$
+
 
 ## Typical Performance Curves
 
 Straight-ish line plotting CWST (Y) vs. Wet-bulb temperature (X).
 
 ![Cooling Tower performance curves (Pineda - Cooling Tower Fundamentals).](img/Cooling_Tower_Performance_Curve_Two_Speed.png)
+
+
+## YorkCalc
+
+Based on paper:
+
+"CALIBRATION OF AN ENERGYPLUS CENTRAL COOLING PLANT MODEL WITH MEASUREMENTS AND INTER-PROGRAM COMPARISON"
+
+The coefficients are:
+Y = Approach = CWST - Twb
+
+Twb
+Tr = CWRT - CWST
+LG = (mw / mwd) / (ma / mad)
+
+where d is for design.
+
+27 coefficients. All combinations up to cubic for all parameters.

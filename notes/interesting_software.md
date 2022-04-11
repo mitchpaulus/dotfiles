@@ -104,3 +104,7 @@ Offline browsing. <https://www.kiwix.org/en/about/>
 ## Autojump
 
 [Fast directory traversal](https://github.com/wting/autojump)
+
+## Brent A. Yorgey
+
+Not really software, but interesting work: <http://ozark.hendrix.edu/~yorgey/index.html>
