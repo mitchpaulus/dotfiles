@@ -78,7 +78,7 @@ if vim.fn.has('nvim-0.5.0') == 1 then
         mapping = {
             -- ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
             -- ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-            ['<C-s>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+            ['<C-SPACE>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
             ['<C-e>'] = cmp.mapping({
                 i = cmp.mapping.abort(),
                 c = cmp.mapping.close(),
@@ -362,7 +362,6 @@ insertModeNoRecurseMappings = {
     { '<C-F>', '<C-X><C-F>' },
 
     { '<C-@>', '' },
-    { '<C-Space>', '<Space>' },
 
     -- Function keys, mostly to put in tilde's
     { '<F1>', '`' },
