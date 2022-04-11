@@ -169,6 +169,14 @@ if vim.fn.has('nvim-0.5.0') == 1 then
             nvim_lsp[lsp].setup { on_attach = on_attach, capabilities = capabilities }
         end
 
+        -- OmniSharp stuff
+        local omnisharp_bin = "/usr/local/omnisharp/OmniSharp"
+        -- check if omnisharp is installed
+        if vim.fn.executable(omnisharp_bin) == 1 then
+            local pid = vim.fn.getpid()
+            nvim_lsp.omnisharp.setup { on_attach = on_attach, capabilities = capabilities, cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid)  } }
+        end
+
         -- See https://github.com/Beaglefoot/awk-language-server
         -- Might not have to explicitly do this in Neovim 0.7.
         -- Install with `npm install -g awk-language-server`
