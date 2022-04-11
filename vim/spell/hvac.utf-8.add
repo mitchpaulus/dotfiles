@@ -36,6 +36,7 @@ BMS
 BOM
 Brittanie
 CAV
+CBECC
 CCIP
 CCIPs
 CCIR
@@ -381,6 +382,7 @@ barcode
 benchmarking
 boolean
 cGMP
+canonicalize
 checkbox
 collinear
 compile
