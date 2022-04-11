@@ -123,3 +123,8 @@ Stuff
 ```
 pandoc -o custom-reference.docx --print-default-data-file reference.docx
 ```
+
+## Image Width
+
+`![](file.jpg){ width=50% }`
+

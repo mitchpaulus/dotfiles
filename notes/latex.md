@@ -222,3 +222,15 @@ To remove that color, specify that the `linkcolor` be black.
 }
 ```
 
+## Authors and Affiliation
+
+```
+\usepackage{authblk}
+
+\author[1,2]{name}
+\author[3]{other}
+\affil[1]{ something }
+\affil[2]{ something else}
+
+```
+
