@@ -1,0 +1,25 @@
+#!/bin/sh
+
+fd -e 'do' | awk '
+    # Split on forward slash
+    BEGIN { OFS=FS="/" }
+
+    $NF ~ /^default/ { next }
+
+    {
+        # Split $NF on periods
+        num_split = split($NF, split_array, ".")
+
+        # Print if 3 or more components
+        # This removes targets like all.do, clean.do, etc.
+        if (num_split >= 3) {
+            # If $0 starts with "./", remove it
+            gsub(/^\.\//, "", $0)
+
+            # Remove ".do" extension from the end
+            gsub(/\.do$/, "", $NF)
+
+            print
+        }
+    }
+'
