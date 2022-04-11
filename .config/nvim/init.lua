@@ -63,7 +63,7 @@ if vim.fn.has('nvim-0.5.0') == 1 then
 
     cmp.setup({
         completion = {
-            keyword_length = 3,
+            keyword_length = 2,
         },
 
         snippet = {
@@ -76,8 +76,8 @@ if vim.fn.has('nvim-0.5.0') == 1 then
             end,
         },
         mapping = {
-            ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-            ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+            -- ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+            -- ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
             ['<C-s>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
             ['<C-e>'] = cmp.mapping({
                 i = cmp.mapping.abort(),
