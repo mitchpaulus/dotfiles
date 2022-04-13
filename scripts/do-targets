@@ -22,4 +22,4 @@ fd -e 'do' | awk '
             print
         }
     }
-'
+' | sort -f -V
