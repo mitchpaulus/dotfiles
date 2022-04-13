@@ -1,0 +1,4 @@
+[mypy]
+namespace_packages=True
+
+# vim:ft=dosini
