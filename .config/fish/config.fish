@@ -166,6 +166,7 @@ bind H beginning-of-line
 bind L end-of-line
 
 set -gxp PYTHONPATH "$DOTFILES"/python
+set -gxp MYPYPATH "$DOTFILES"/python
 
 # v for VIM
 abbr -a v $EDITOR
