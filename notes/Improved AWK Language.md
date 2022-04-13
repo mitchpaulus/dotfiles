@@ -15,3 +15,6 @@ I want to create a new version for myself that is better for the types of engine
 - HEREDOC string entry
 
 - Built-in String splitting operators
+
+- Field array slicing syntax
+  - Something like `$2:4 ~ /something/`, where this basically checks whether *all* columns 2 through 4 match the regex.

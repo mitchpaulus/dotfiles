@@ -31,6 +31,7 @@ $$
 Straight-ish line plotting CWST (Y) vs. Wet-bulb temperature (X).
 
 ![Cooling Tower performance curves (Pineda - Cooling Tower Fundamentals).](img/Cooling_Tower_Performance_Curve_Two_Speed.png)
+![Performance Curves for Mechanical Draft Cooling Towers - Hallett 1975](img/Cooling_Tower_Performance2.png)
 
 
 ## YorkCalc

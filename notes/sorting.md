@@ -24,3 +24,11 @@ def sorted_nicely(l):
     alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ]
     return sorted(l, key = alphanum_key)
 ```
+
+
+## `sort`
+
+```
+-f: Ignore "fold" case
+-V: Version sort
+```
