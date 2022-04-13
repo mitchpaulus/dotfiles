@@ -1,5 +1,5 @@
 import os
-from typing import List, Union, Iterable, TypeVar, Callable, Dict, Any
+from typing import List, Union, Iterable, TypeVar, Callable, Dict, Any, cast
 import re
 import math
 import traceback
@@ -9,18 +9,22 @@ T1 = TypeVar('T1')
 T2 = TypeVar('T2')
 T3 = TypeVar('T3')
 
-def groupby(iterable: Iterable[T1], key_selector: Callable[[T1], T2], value_selector:Callable[[T1], T3]=None) -> Dict[T2, List[T3]]:
-    if value_selector is None:
-        value_selector = lambda x: x
+def groupby(iterable: Iterable[T1], key_selector: Callable[[T1], T2], value_selector:Union[Callable[[T1], T3], None]=None) -> Dict[T2, List[T3]]:
+    # This is straight boilerplate to deal with mypy
+    def identity(x: T1) -> T3:
+        y = cast(T3, x)
+        return y
 
-    output_dict = {}
+    chosen_value_selector: Callable[[T1], T3] = value_selector or identity
+
+    output_dict: Dict[T2, List[T3]] = {}
 
     for item in iterable:
         key = key_selector(item)
         if key not in output_dict:
             output_dict[key] = []
 
-        value = value_selector(item)
+        value = chosen_value_selector(item)
         output_dict[key].append(value)
 
     return output_dict
