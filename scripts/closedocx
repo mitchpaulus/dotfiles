@@ -1,0 +1,2 @@
+#!/bin/sh
+nircmd.exe win child process WINWORD.exe close ititle "$1"
