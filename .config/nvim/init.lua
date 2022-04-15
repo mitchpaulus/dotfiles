@@ -25,6 +25,7 @@ vim.cmd [[ Plug 'mitchpaulus/vim-andover-plain-english' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-awk-indent-fix' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-siemens-ppcl' ]]
 -- vim.cmd [[ Plug 'nvim-lua/completion-nvim' ]]
+vim.cmd [[ Plug 'mracos/mermaid.vim' ]]
 vim.cmd [[ Plug 'PProvost/vim-ps1' ]]
 vim.cmd [[ Plug 'scrooloose/nerdcommenter' ]]
 vim.cmd [[ Plug 'scrooloose/nerdtree' ]]
@@ -676,6 +677,7 @@ filetypeAutocmds = {
     { 'markdown', 'inoremap', '<localleader>m', '$$<Left>', },
     { 'markdown', 'vnoremap <localleader>l s[<c-r>"]()<Left>' },
     { 'markdown', 'vnoremap <localleader>i s*<c-r>"*' },
+    { 'markdown', 'vnoremap <localleader>b s**<c-r>"**' },
 
     { 'gitcommit', 'setlocal spell' },
 
