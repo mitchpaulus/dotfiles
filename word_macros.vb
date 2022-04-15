@@ -236,3 +236,86 @@ Sub ReplaceTableCaptions()
 
 End Sub
 
+Sub Level1AlphabeticStart()
+'
+' Level1Alphabetic Macro
+'
+'
+    Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldEmpty, _
+        PreserveFormatting:=False
+    Selection.TypeText Text:="seq level1 \r 1 \* ALPHABETIC"
+    Selection.Fields.Update
+    Selection.MoveRight Unit:=wdCharacter, Count:=1
+    Selection.TypeText Text:="." & vbTab
+End Sub
+
+Sub Level1AlphabeticNext()
+'
+' Level1Alphabetic Macro
+'
+'
+    Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldEmpty, _
+        PreserveFormatting:=False
+    Selection.TypeText Text:="seq level1 \* ALPHABETIC"
+    Selection.Fields.Update
+    Selection.MoveRight Unit:=wdCharacter, Count:=1
+    Selection.TypeText Text:="." & vbTab
+End Sub
+
+
+Sub Level2Start()
+'
+' Level1Alphabetic Macro
+'
+'
+    Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldEmpty, _
+        PreserveFormatting:=False
+    Selection.TypeText Text:="seq level2 \r 1"
+    Selection.Fields.Update
+    Selection.MoveRight Unit:=wdCharacter, Count:=1
+    Selection.TypeText Text:="." & vbTab
+End Sub
+
+Sub Level2Next()
+'
+' Level1Alphabetic Macro
+'
+'
+    Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldEmpty, _
+        PreserveFormatting:=False
+    Selection.TypeText Text:="seq level2"
+    Selection.Fields.Update
+    Selection.MoveRight Unit:=wdCharacter, Count:=1
+    Selection.TypeText Text:="." & vbTab
+End Sub
+
+
+Sub LevelN(levelNum As String, isStart As Boolean)
+'
+' Level1Alphabetic Macro
+    Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldEmpty, _
+        PreserveFormatting:=False
+    If isStart Then
+        Selection.TypeText Text:="seq level" & levelNum & " \r 1"
+    Else
+        Selection.TypeText Text:="seq level" & levelNum
+    End If
+
+    Selection.Fields.Update
+    Selection.MoveRight Unit:=wdCharacter, Count:=1
+    Selection.TypeText Text:="." & vbTab
+End Sub
+
+Sub Level3Start()
+    Call LevelN("3", True)
+End Sub
+Sub Level3Next()
+    Call LevelN("3", False)
+End Sub
+Sub Level4Start()
+    Call LevelN("4", True)
+End Sub
+Sub Level4Next()
+    Call LevelN("4", False)
+End Sub
+
