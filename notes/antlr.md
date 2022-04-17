@@ -93,6 +93,9 @@ binary case, not the prefix or suffix.
 
 ```C#
 ANTLRInputStream inputStream = new ANTLRInputStream(Stream stream);
+// or
+ANTLRInputStream inputStream = new ANTLRInputStream(string contents);
+
 
 NameLexer lexer = new NameLexer(inputStream);
 

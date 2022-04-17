@@ -121,8 +121,8 @@ with <plot-style> {
 rgbcolor "colorname"   # e.g. "blue", can find available using 'show colornames'
 rgbcolor "0xRRGGBB"    # string containing hexadecimal constant
 rgbcolor "0xAARRGGBB"  # string containing hexadecimal constant
-rgbcolor "# RRGGBB"    # string containing hexadecimal in x11 format
-rgbcolor "# AARRGGBB"  # string containing hexadecimal in x11 format
+rgbcolor "#RRGGBB"    # string containing hexadecimal in x11 format
+rgbcolor "#AARRGGBB"  # string containing hexadecimal in x11 format
 rgbcolor <integer val> # integer value representing AARRGGBB
 rgbcolor variable      # integer value is read from input file
 palette frac <val>     # <val> runs from 0 to 1
@@ -260,3 +260,36 @@ plot "data" using 1:3
 %Y year, 4-digit
 %z timezone, [+-]hh:mm
 %Z timezone name, ignored string
+
+## Font Size Rendering
+
+Notes to myself on gnuplot font rendering.
+tags: ppi dpi fonts gnuplot
+
+On my computer at least: The fonts are rendered at 144 pixels per inch
+The stored resolution of the PNG image is 96 ppi.
+
+So for a high quality figure, can size the image for 3 * 144 = 432 ppi.
+The fontscale property has to be set to 3 then to match the font size of
+the text in the rest of the document.
+
+The 144 likely comes from the fact that with my high resolution
+displays, the font size is set to 150%, which would take the default
+cairo/pango resolution of 96 and scale it to 144. Note that this is only
+when using the Windows executable, if using the Unix version, this goes
+back to the 96 ppi.
+
+The size of a font typically measure from the lowest point of a
+descender to the highest point of an ascender. Check out
+
+`https://graphicdesign.stackexchange.com/questions/4035/what-does-the-size-of-the-font-translate-to-exactly`
+
+A point is 1/72 of an inch. Have to be careful
+
+From answer on [SO](https://stackoverflow.com/a/27336389),
+PNGs have metadata about image resolution in pixels/meter about image resolution in pixels/meter.
+`imagemagick` can update that meta data with a command like
+
+```
+gnuplot - | magick png:- -units PixelsPerInch -density 384 plot.png
+```

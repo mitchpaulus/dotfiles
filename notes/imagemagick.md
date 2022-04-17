@@ -25,3 +25,4 @@ convert -density 1000 -units PixelsPerInch my_example.pdf -resize 6000  -trim my
 The first one will have the desired width. The second one resizes to the
 right width, then crops that image, making the final image smaller than
 desired.
+
