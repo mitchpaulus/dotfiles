@@ -59,3 +59,8 @@ F\* (pronounced F star) is a general-purpose functional programming language wit
 ## [Languages ranked by expressiveness](https://redmonk.com/dberkholz/2013/03/25/programming-languages-ranked-by-expressiveness/)
 
 Nice post trying to empirically determine which languages are more *expressive* than others.
+
+## Hazel
+
+Live functional programming environment featuring "typed holes". <https://hazel.org/>
+

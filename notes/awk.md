@@ -4,7 +4,7 @@
 gsub(regex, substitution, [text=$0]) = num substitutions
 substr(string, start-pos-1-based, [numChars])
 split(string, array, [fieldsep], [seps]) = Num Elements
-match(string, regex) = 1-based Start Index # Also sets RSTART/RLENGTH
+match(string, regex) = 1-based Start Index # Also sets RSTART/RLENGTH, get match with substr(str, RSTART, RLENGTH)
 ```
 
 ## `printf`

@@ -108,3 +108,5 @@ Offline browsing. <https://www.kiwix.org/en/about/>
 ## Brent A. Yorgey
 
 Not really software, but interesting work: <http://ozark.hendrix.edu/~yorgey/index.html>
+
+## lightspeed.vim
