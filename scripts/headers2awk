@@ -6,7 +6,6 @@
 BEGIN {
     FS=OFS="\t"
     python_form = 0
-
     column_letters = 0
 
     for (i = 1; i <= ARGC; i++) {
@@ -17,6 +16,12 @@ BEGIN {
         else if (ARGV[i] == "-c") {
             column_letters = 1
             ARGV[i] = ""
+        }
+        else if (ARGV[i] == "-h") {
+            print "Usage: " $0 " [-p] [-c] <file>"
+            print "  -p: output Python form"
+            print "  -c: output column letters in comments"
+            exit 0
         }
     }
 
