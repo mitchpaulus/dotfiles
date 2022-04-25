@@ -1,0 +1,87 @@
+#!/usr/bin/awk -E
+
+BEGIN {
+    OFS="\t"
+    FS="\t"
+    col = 1
+    skip = 0
+
+    min_value = 100000000000
+    max_value = -1000000000000000
+
+    bin_size = "Not set"
+
+    for (i = 1; i < ARGC; i++) {
+        if (ARGV[i] == "-c") {
+            # Check that ARGV[i + 1] exists
+            if (ARGV[i + 1] == "") {
+                print "Error: -c requires an argument" > "/dev/stderr"
+                exit 1
+            }
+            col = ARGV[i+1]
+            # Check that col is a number
+            if (col !~ /^[0-9]+$/) {
+                print "Error: -c requires a number" > "/dev/stderr"
+                exit 1
+            }
+            ARGV[i] = ""
+            ARGV[i+1] = ""
+            i++
+        }
+        else if (ARGV[i] == "-h" || ARGV[i] == "--help") {
+            print "Usage: " $0 " [-c column] file1 file2 ..."
+            exit
+        }
+        else if (ARGV[i] == "-d" || ARGV[i] == "--delim") {
+            # Check that ARGV[i + 1] exists
+            if (i + 1 >= ARGC) {
+                print "Missing delimiter after -d" > "/dev/stderr"
+                exit 1
+            }
+            FS = ARGV[i+1]
+            ARGV[i] = ""
+            ARGV[i+1] = ""
+            i++
+        }
+        else if (ARGV[i] == "-s" || ARGV[i] == "--skip") {
+            skip = 1
+            ARGV[i] = ""
+        }
+        else {
+            bin_size = ARGV[i]
+            print "Set bin size to " bin_size
+            ARGV[i] = ""
+            i = ARGC
+        }
+    }
+
+    if (bin_size == "Not set") {
+        print "Error: bin size not set" > "/dev/stderr"
+        exit 1
+    }
+}
+
+# Check if value in column col is a number
+$col ~ /^[0-9.]+$/ {
+    # Take the floor of value / bin_size
+    if ($col < 0) { bin = int(($col - 1) / bin_size) }
+    else { bin = int($col / bin_size) }
+    bins[bin]++
+    total++
+    if (bin < min_value) {
+        min_value = bin
+    }
+    else if (bin > max_value) {
+        max_value = bin
+    }
+}
+
+END {
+    for (i = min_value; i <= max_value; i++) {
+        left_edge = i * bin_size
+        right_edge = (i + 1) * bin_size
+        count = bins[i]
+        percent = count / total * 100
+        print left_edge, right_edge, count, percent
+    }
+}
