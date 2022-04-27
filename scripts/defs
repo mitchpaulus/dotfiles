@@ -1,0 +1,2 @@
+#!/bin/sh
+awk '/^def /' *.py | sort | bat -l python
