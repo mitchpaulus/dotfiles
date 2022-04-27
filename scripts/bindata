@@ -49,8 +49,8 @@ BEGIN {
         }
         else {
             bin_size = ARGV[i]
-            print "Set bin size to " bin_size
             ARGV[i] = ""
+            # The rest of items after a bin size are asumed to be files
             i = ARGC
         }
     }
