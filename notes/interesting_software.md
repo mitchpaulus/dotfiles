@@ -110,3 +110,7 @@ Offline browsing. <https://www.kiwix.org/en/about/>
 Not really software, but interesting work: <http://ozark.hendrix.edu/~yorgey/index.html>
 
 ## lightspeed.vim
+
+## Beeminder
+
+App for tracking toward goals.
