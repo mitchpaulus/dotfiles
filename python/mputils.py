@@ -2,7 +2,6 @@ import os
 from typing import List, Union, Iterable, TypeVar, Callable, Dict, Any, cast
 import re
 import math
-import traceback
 import sys
 
 T1 = TypeVar('T1')
@@ -36,7 +35,7 @@ def find_all(name: str, path: str) -> List[str]:
     Find all files in path (including subdirectories) with filename name.
     """
     result = []
-    for root, dirs, files in os.walk(path):
+    for root, _, files in os.walk(path):
         if name in files:
             result.append(os.path.join(root, name))
     return result
@@ -45,7 +44,7 @@ def find_all(name: str, path: str) -> List[str]:
 def find_all_regex(regex_pattern: str, path: str) -> List[str]:
     regex = re.compile(regex_pattern)
     result = []
-    for root, dirs, files in os.walk(path):
+    for root, _, files in os.walk(path):
         for file in files:
             if regex.search(file):
                 result.append(os.path.join(root, file))
@@ -111,3 +110,42 @@ def percentile(array: List[float], percent: float) -> float:
     index = max(1, min(index, len(array) - 1))
 
     return sorted(array)[index - 1]
+
+
+def york_tools_model_coefficents(twb: float, ct_range: float, lg_ratio: float):
+    """
+    Purpose is to build coefficients matching the YorkTools cooling tower model.
+    """
+    r = ct_range
+    lg = lg_ratio
+    coeffs = [
+        1,                           # 0
+        twb,                         # 1
+        twb * twb,                   # 2
+        r,                           # 3
+        twb * r,                     # 4
+        twb * twb * r,               # 5
+        r * r,                       # 6
+        twb * r * r,                 # 7
+        twb * twb * r * r,           # 8
+        lg,                          # 9
+        twb * lg,                    # 10
+        twb * twb * lg,              # 11
+        r * lg,                      # 12
+        twb * r * lg,                # 13
+        twb * twb * r * lg,          # 14
+        r * r * lg,                  # 15
+        twb * r * r * lg,            # 16
+        twb * twb * r * r * lg,      # 17
+        lg * lg,                     # 18
+        twb * lg * lg,               # 19
+        twb * twb * lg * lg,         # 20
+        r * lg * lg,                 # 21
+        twb * r * lg * lg,           # 22
+        twb * twb * r * lg * lg,     # 23
+        r * r * lg * lg,             # 24
+        twb * r * r * lg * lg,       # 25
+        twb * twb * r * r * lg * lg, # 26
+     ]
+    return coeffs
+
