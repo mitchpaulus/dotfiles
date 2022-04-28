@@ -20,3 +20,5 @@ https://jaydaigle.net/feed.xml	Jaydaigle - Mathematics
 https://www.jakeworth.com/rss.xml	Jake Worth - Software Engineer
 https://www.willmcgugan.com/feeds/posts/	Will McGugan - Software Engineer
 https://notes.volution.ro/index.xml	Volution Notes
+https://jonascarpay.com/rss.xml	Jonas Carpay
+https://functor.tokyo/blog/feed	Functor.Tokyo
