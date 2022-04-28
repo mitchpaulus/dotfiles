@@ -622,9 +622,13 @@ local function createAugroup(autocmds, name, event)
     vim.cmd('augroup END')
 end
 
+
+filetype_autocmds_id = vim.api.nvim_create_augroup('filetype_autocmds', { clear = true })
+
+vim.api.nvim_create_autocmd('FileType', { pattern = 'antlr4', group = filetype_autocmds_id, command = 'nnoremap <localleader>c :!antlr4 %<CR>' })
+
 filetypeAutocmds = {
 
-    { 'antlr4', 'nnoremap', '<localleader>c', ':!antlr4 %<CR>' },
     { 'antlr4', 'nnoremap', '<localleader>j', ':!antlrj<Space>%<CR>', },
     { 'antlr4', 'inoremap', '<localleader>s', 'STRING : \'\\\' (ESC<bar>.)*? \'\\"\' ;', },
 
@@ -813,13 +817,9 @@ bufEnterAutocmds = {
 
 createAugroup(bufEnterAutocmds, 'bufenter', 'BufEnter')
 
-vim.cmd [[
-augroup MPEvents
-autocmd!
-autocmd TermOpen * setlocal nonumber norelativenumber | startinsert | echom "Term Open.."
-autocmd BufEnter term://* startinsert
-augroup END
-]]
+vim.api.nvim_create_augroup('MPEvents', { clear = true })
+vim.api.nvim_create_autocmd('TermOpen', { pattern = '*',        group = 'MPEvents', command = 'setlocal nonumber norelativenumber | startinsert | echom "Term Open.."' })
+vim.api.nvim_create_autocmd('BufEnter', { pattern = "term://*", group = 'MPEvents', command = 'startinsert' })
 
 -- Remove trailing whitespace. Use keeppatterns so that
 -- the search history isn't ruined with the \v\s+$ junk.
