@@ -28,3 +28,10 @@ vim.inpsect(<thing>) # Human readable
 
 Most of the global lua neovim commands are under the `vim.api`
 namespace.
+
+```lua
+-- looping over array https://stackoverflow.com/a/39991824/5932184
+for _, value in ipairs(list) do
+    doStuff(value)
+end
+```

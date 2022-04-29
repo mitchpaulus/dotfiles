@@ -613,197 +613,189 @@ vim.api.nvim_set_keymap("n", '<leader>/', ':<C-u>Ack! ', { noremap = true, silen
 -- }}}
 -- FileType AutoCmd Mappings {{{1
 
-local function createAugroup(autocmds, name, event)
-    vim.cmd('augroup ' .. name)
-    vim.cmd('autocmd!')
-    for _, autocmd in ipairs(autocmds) do
-        vim.cmd('autocmd ' .. event .. ' ' .. table.concat(autocmd, ' '))
-    end
-    vim.cmd('augroup END')
-end
-
-
 filetype_autocmds_id = vim.api.nvim_create_augroup('filetype_autocmds', { clear = true })
+local function addToFiletypeAugroup(pattern, command)
+    vim.api.nvim_create_autocmd('FileType', { pattern = pattern, group = filetype_autocmds_id, command = command })
+end
 
 vim.api.nvim_create_autocmd('FileType', { pattern = 'antlr4', group = filetype_autocmds_id, command = 'nnoremap <localleader>c :!antlr4 %<CR>' })
 
 filetypeAutocmds = {
+    { 'antlr4', 'nnoremap <localleader>c :!antlr4 %<CR>' },
+    { 'antlr4', 'nnoremap <localleader>j :!antlrj<Space>%<CR>', },
+    { 'antlr4', 'inoremap <localleader>s STRING : \'\\\' (ESC<bar>.)*? \'\\"\' ;', },
 
-    { 'antlr4', 'nnoremap', '<localleader>j', ':!antlrj<Space>%<CR>', },
-    { 'antlr4', 'inoremap', '<localleader>s', 'STRING : \'\\\' (ESC<bar>.)*? \'\\"\' ;', },
+    { 'axon', 'inoremap <localleader>do do<CR>end<Esc>ko' },
+    { 'axon', 'inoremap <localleader>ll () =><Esc>3hi' },
+    { 'axon', 'inoremap <localleader>ld do<CR><CR>end<Esc>2k$F)i' },
+    { 'axon', 'inoremap <localleader>if if () <++> else <++><Esc>F)i' },
 
-    { 'axon', 'inoremap', '<localleader>do', 'do<CR>end<Esc>ko' },
-    { 'axon', 'inoremap', '<localleader>ll', '() =><Esc>3hi' },
-    { 'axon', 'inoremap', '<localleader>ld', 'do<CR><CR>end<Esc>2k$F)i' },
-    { 'axon', 'inoremap', '<localleader>if', 'if () <++> else <++><Esc>F)i' },
-
-    { 'cs', 'inoremap', '<localleader>l', 'List<><Left>' },
-    { 'cs', 'inoremap', '<localleader>s', 'string' },
+    { 'cs', 'inoremap <localleader>l List<><Left>' },
+    { 'cs', 'inoremap <localleader>s string' },
 
     -- make a header 1 line, deleting trailing whitespace first.
-    --{ 'markdown', 'nnoremap', '<silent>', '<leader>h1 :<c-u>call<Space><SID>MakeHeading("=")<cr>', },
-    --{ 'markdown', 'nnoremap', '<silent>', '<leader>h2 :<c-u>call<Space><SID>MakeHeading("-")<cr>', },
-    -- { 'markdown,tex,text', 'setlocal', 'textwidth=72' },
+    --{ 'markdown', 'nnoremap <silent> <leader>h1 :<c-u>call<Space><SID>MakeHeading("=")<cr>', },
+    --{ 'markdown', 'nnoremap <silent> <leader>h2 :<c-u>call<Space><SID>MakeHeading("-")<cr>', },
+    -- { 'markdown,tex,text', 'setlocal textwidth=72' },
     { 'markdown,tex,text', 'setlocal spell' },
     { 'markdown', 'setlocal tabstop=2' },
-    { 'markdown', 'nnoremap', ']]', '<Cmd>keeppatterns /^#<Cr>' },
+    { 'markdown', 'nnoremap ]] <Cmd>keeppatterns /^#<Cr>' },
     { 'markdown', 'nnoremap <localleader>- <Cmd>keeppatterns s/[^<bar>]/-/g<Cr>' },
 
-    { 'help', 'nnoremap', '<leader>hh', 'mnA~<esc>`n', },
-    { 'help', 'nnoremap', '<leader>hl', 'mn78i=<esc>`n', },
+    { 'help', 'nnoremap <leader>hh mnA~<esc>`n', },
+    { 'help', 'nnoremap <leader>hl mn78i=<esc>`n', },
     { 'help', 'setlocal nospell' },
 
     { 'json', 'setlocal conceallevel=0' },
 
-    { 'gnuplot', 'nnoremap', '<localleader>gw', ':silent !gnuplot.exe % && start "Plot" %:p:r.png<cr>', },
-    { 'gnuplot', 'nnoremap', '<localleader>gu', ':!gnuplot %; and wsl-opener %:p:r.png<cr>', },
-    { 'gnuplot', 'nnoremap', '<localleader>c', ':silent !gnuplot.exe % && start "Plot" %:p:r.png<cr>', },
-    { 'gnuplot', 'nnoremap', '<localleader>k', ':silent !taskkill.exe /IM Microsoft.Photos.exe /F<cr>', },
-    { 'gnuplot', 'inoremap', ',hist', '<esc>:0read ~/.vim/snipfiles/hist.gnuplot<cr>', },
+    { 'gnuplot', 'nnoremap <localleader>gw :silent !gnuplot.exe % && start "Plot" %:p:r.png<cr>', },
+    { 'gnuplot', 'nnoremap <localleader>gu :!gnuplot %; and wsl-opener %:p:r.png<cr>', },
+    { 'gnuplot', 'nnoremap <localleader>c :silent !gnuplot.exe % && start "Plot" %:p:r.png<cr>', },
+    { 'gnuplot', 'nnoremap <localleader>k :silent !taskkill.exe /IM Microsoft.Photos.exe /F<cr>', },
+    { 'gnuplot', 'inoremap ,hist <esc>:0read ~/.vim/snipfiles/hist.gnuplot<cr>', },
 
-    { 'make', 'inoremap', ',p', '.PHONY :<Space>', },
+    { 'make', 'inoremap ,p .PHONY :<Space>', },
 
     -- Quickly enter in ² symbol
-    { 'markdown,text', 'inoremap', '^2', '<c-v>178', },
-    { 'markdown,text', 'inoremap', ',l', '[](<++>)<esc>6hi', },
-    { 'markdown,text', 'inoremap', ',c', '✓', },
-    { 'markdown,text', 'inoremap', ',x', '✗', },
+    { 'markdown,text', 'inoremap ^2 <c-v>178', },
+    { 'markdown,text', 'inoremap ,l [](<++>)<esc>6hi', },
+    { 'markdown,text', 'inoremap ,c ✓', },
+    { 'markdown,text', 'inoremap ,x ✗', },
     -- Quickly enter in °F
-    { 'markdown,text', 'inoremap', 'DEGF', '°F', },
-    { 'markdown,text', 'inoremap', '<localleader>y', '2022-', },
+    { 'markdown,text', 'inoremap DEGF °F', },
+    { 'markdown,text', 'inoremap <localleader>y 2022-', },
 
     { 'markdown', 'inoremap <localleader>aj (adj.)', },
-    { 'markdown', 'inoremap', '<localleader>f', '![]()<Esc>2hi', },
-    { 'markdown', 'inoremap', '<localleader>i', '**<Left>', },
-    { 'markdown', 'inoremap', '<localleader>b', '****<Left><Left>', },
-    { 'markdown', 'inoremap', '<localleader>e', '$$  $$<Esc>2hi', },
-    { 'markdown', 'inoremap', '<localleader>n', '\\begin{equation}<CR>\\end{equation}<Esc>0ko', },
-    { 'markdown', 'inoremap', '<localleader>m', '$$<Left>', },
+    { 'markdown', 'inoremap <localleader>f ![]()<Esc>2hi', },
+    { 'markdown', 'inoremap <localleader>i **<Left>', },
+    { 'markdown', 'inoremap <localleader>b ****<Left><Left>', },
+    { 'markdown', 'inoremap <localleader>e $$  $$<Esc>2hi', },
+    { 'markdown', 'inoremap <localleader>n \\begin{equation}<CR>\\end{equation}<Esc>0ko', },
+    { 'markdown', 'inoremap <localleader>m $$<Left>', },
     { 'markdown', 'vnoremap <localleader>l s[<c-r>"]()<Left>' },
     { 'markdown', 'vnoremap <localleader>i s*<c-r>"*' },
     { 'markdown', 'vnoremap <localleader>b s**<c-r>"**' },
 
     { 'gitcommit', 'setlocal spell' },
 
-    { 'html', 'inoremap', ',1', '<h1></h1><Esc>4hi', },
-    { 'html', 'inoremap', ',2', '<h2></h2><Esc>4hi', },
-    { 'html', 'inoremap', ',3', '<h3></h3><Esc>4hi', },
-    { 'html', 'inoremap', ',a', '<a href=""></a><Esc>5hi', },
-    { 'html', 'inoremap', ',b', 'data-bind=""<Left>', },
-    { 'html', 'inoremap', ',c', 'class=""<Left>', },
-    { 'html', 'inoremap', ',d', '<div></div><Esc>5hi', },
-    { 'html', 'inoremap', ',i', '<input  /><Esc>2hi', },
-    { 'html', 'inoremap', ',l', '<label></label><Esc>7hi', },
-    { 'html', 'inoremap', ',p', '<lt>p></p><Esc>3hi', },
-    { 'html', 'inoremap', ',sp', '<span></span><Esc>6hi', },
-    { 'html', 'inoremap', ',st', '<style></style><Esc>7hi', },
-    { 'html', 'inoremap', ',u', '<ul><cr><li></li><cr></ul><Esc>k^f>a', },
+    { 'html', 'inoremap ,1 <h1></h1><Esc>4hi', },
+    { 'html', 'inoremap ,2 <h2></h2><Esc>4hi', },
+    { 'html', 'inoremap ,3 <h3></h3><Esc>4hi', },
+    { 'html', 'inoremap ,a <a href=""></a><Esc>5hi', },
+    { 'html', 'inoremap ,b data-bind=""<Left>', },
+    { 'html', 'inoremap ,c class=""<Left>', },
+    { 'html', 'inoremap ,d <div></div><Esc>5hi', },
+    { 'html', 'inoremap ,i <input  /><Esc>2hi', },
+    { 'html', 'inoremap ,l <label></label><Esc>7hi', },
+    { 'html', 'inoremap ,p <lt>p></p><Esc>3hi', },
+    { 'html', 'inoremap ,sp <span></span><Esc>6hi', },
+    { 'html', 'inoremap ,st <style></style><Esc>7hi', },
+    { 'html', 'inoremap ,u <ul><cr><li></li><cr></ul><Esc>k^f>a', },
     { 'html', 'vnoremap <localleader>p :! pandoc --to=html -<CR><Esc>' },
 
-    { 'javascript,typescript', 'inoremap', ',f', 'function (<++>) {<cr><++><cr>}<Esc>2k^f(i', },
-    { 'javascript,typescript', 'inoremap', ',>', '() =><Space>', },
+    { 'javascript,typescript', 'inoremap ,f function (<++>) {<cr><++><cr>}<Esc>2k^f(i', },
+    { 'javascript,typescript', 'inoremap ,> () =><Space>', },
 
-    { 'typescript', 'nnoremap', '<leader>tc', '<Cmd>!tsc<cr>', },
+    { 'typescript', 'nnoremap <leader>tc <Cmd>!tsc<cr>', },
 
     { 'tex', 'setlocal conceallevel=0' },
-    { 'tex', 'inoremap', '%%%', [[\%]] },
-    { 'tex', 'inoremap', ',ab', '\\begin{abstract}<Cr><Cr>\\end{abstract}<Esc>k0i', },
-    { 'tex', 'inoremap', ',au', '\\author{}<Left>', },
-    { 'tex', 'inoremap', ',base', '<esc>:0read $DOTFILES/snipfiles/base.tex<cr>', },
-    { 'tex', 'inoremap', ',bf', '\\textbf{} <++><esc>5hi', },
-    { 'tex', 'inoremap', ',co', '\\newcommand{\\}{<++>}<esc>6hi', },
-    { 'tex', 'inoremap', ',dot', '\\dot{} <++><esc>5hi', },
-    { 'tex', 'inoremap', ',en', '\\begin{enumerate}<cr><cr>\\end{enumerate}<esc>ki    <esc>i', },
-    { 'tex', 'inoremap', ',eq', '\\begin{equation}<cr><cr>\\end{equation}<esc>ki    <esc>i', },
-    { 'tex', 'inoremap', ',fig', '\\includegraphics{}<Left>', },
-    { 'tex', 'inoremap', ',fr', '\\frac{}{}<esc>2hi', },
-    { 'tex', 'inoremap', ',h', '\\title{}<Left>', },
-    { 'tex', 'inoremap', ',i', '\\item <esc>a', },
-    { 'tex', 'inoremap', ',lr', '\\left(\\right) <++><esc>11hi', },
-    { 'tex', 'inoremap', ',ms', '\\section{}<Left>', },
-    { 'tex', 'inoremap', ',mt', '\\maketitle{}<Cr>', },
-    { 'tex', 'inoremap', ',p', '\\usepackage{}<esc>i', },
-    { 'tex', 'inoremap', ',rm', '\\textrm{}<Left>', },
-    { 'tex', 'inoremap', ',s', '^{} <++><esc>5hi', },
-    { 'tex', 'inoremap', ',tab', '\\begin{tabular}{}<cr><++><cr>\\end{tabular}<esc>2k^2f{a', },
-    { 'tex', 'inoremap', ',tx', '\\text{} <++><esc>5hi', },
-    { 'tex', 'inoremap', ',u', '_{}<Left>', },
-    { 'tex', 'nnoremap', ',base', ':0read $DOTFILES/snipfiles/base.tex<cr>', },
-    { 'tex', 'nnoremap', '[e', '?\\begin{equation}<cr>:nohlsearch<cr>', },
-    { 'tex', 'nnoremap', ']e', '/\\begin{equation}<cr>:nohlsearch<cr>', },
+    { 'tex', 'inoremap %%%', [[\%]] },
+    { 'tex', 'inoremap ,ab \\begin{abstract}<Cr><Cr>\\end{abstract}<Esc>k0i', },
+    { 'tex', 'inoremap ,au \\author{}<Left>', },
+    { 'tex', 'inoremap ,base <esc>:0read $DOTFILES/snipfiles/base.tex<cr>', },
+    { 'tex', 'inoremap ,bf \\textbf{} <++><esc>5hi', },
+    { 'tex', 'inoremap ,co \\newcommand{\\}{<++>}<esc>6hi', },
+    { 'tex', 'inoremap ,dot \\dot{} <++><esc>5hi', },
+    { 'tex', 'inoremap ,en \\begin{enumerate}<cr><cr>\\end{enumerate}<esc>ki    <esc>i', },
+    { 'tex', 'inoremap ,eq \\begin{equation}<cr><cr>\\end{equation}<esc>ki    <esc>i', },
+    { 'tex', 'inoremap ,fig \\includegraphics{}<Left>', },
+    { 'tex', 'inoremap ,fr \\frac{}{}<esc>2hi', },
+    { 'tex', 'inoremap ,h \\title{}<Left>', },
+    { 'tex', 'inoremap ,i \\item <esc>a', },
+    { 'tex', 'inoremap ,lr \\left(\\right) <++><esc>11hi', },
+    { 'tex', 'inoremap ,ms \\section{}<Left>', },
+    { 'tex', 'inoremap ,mt \\maketitle{}<Cr>', },
+    { 'tex', 'inoremap ,p \\usepackage{}<esc>i', },
+    { 'tex', 'inoremap ,rm \\textrm{}<Left>', },
+    { 'tex', 'inoremap ,s ^{} <++><esc>5hi', },
+    { 'tex', 'inoremap ,tab \\begin{tabular}{}<cr><++><cr>\\end{tabular}<esc>2k^2f{a', },
+    { 'tex', 'inoremap ,tx \\text{} <++><esc>5hi', },
+    { 'tex', 'inoremap ,u _{}<Left>', },
+    { 'tex', 'nnoremap ,base :0read $DOTFILES/snipfiles/base.tex<cr>', },
+    { 'tex', 'nnoremap [e ?\\begin{equation}<cr>:nohlsearch<cr>', },
+    { 'tex', 'nnoremap ]e /\\begin{equation}<cr>:nohlsearch<cr>', },
     { 'tex', 'vnoremap <localleader>b s\\textbf{<c-r>"}' },
     { 'tex', 'vnoremap <localleader>p :! pandoc --to=latex -<CR><Esc>' },
     -- vimtex has a mapping lL for compiling selected, so use two-char mapping here.
     { 'tex', 'vnoremap <localleader>li s\\href{}{<c-r>"}<Esc>2F{a' },
     { 'tex', 'vnoremap <localleader>i s\\textit{<c-r>"}<Esc>' },
 
-    { 'awk', 'inoremap', ',!', '#!/usr/bin/awk -E<cr>', },
-    { 'awk', 'inoremap', ',b', 'BEGIN { FS=OFS="" }<esc>2hi', },
-    { 'awk', 'inoremap', ',for', 'for (i = ; i <= <++>; i++) {<cr><++><cr>}<esc>2k^f;i', },
-    { 'awk', 'inoremap', ',fi', 'for (<+var+> in <+array+>) {<cr><++><cr>}<esc>2k^f;i', },
-    { 'awk', 'inoremap', ',if', 'if () {<cr><++><cr>}<esc>2k^f(a', },
-    { 'awk', 'inoremap', ',pf', 'printf("")<esc>hi', },
-    { 'awk', 'inoremap', ',sh', '#!/usr/bin/awk -E<CR>', },
-    { 'awk', 'inoremap', '<localleader>q', '\\"', },
-    { 'awk', 'inoremap', '<localleader>sp', 'split(<+string+>, <+array+>, <+FS+>)<Esc>35hi', },
+    { 'awk', 'inoremap ,! #!/usr/bin/awk -E<cr>', },
+    { 'awk', 'inoremap ,b BEGIN { FS=OFS="" }<esc>2hi', },
+    { 'awk', 'inoremap ,for for (i = ; i <= <++>; i++) {<cr><++><cr>}<esc>2k^f;i', },
+    { 'awk', 'inoremap ,fi for (<+var+> in <+array+>) {<cr><++><cr>}<esc>2k^f;i', },
+    { 'awk', 'inoremap ,if if () {<cr><++><cr>}<esc>2k^f(a', },
+    { 'awk', 'inoremap ,pf printf("")<esc>hi', },
+    { 'awk', 'inoremap ,sh #!/usr/bin/awk -E<CR>', },
+    { 'awk', 'inoremap <localleader>q \\"', },
+    { 'awk', 'inoremap <localleader>sp split(<+string+>, <+array+>, <+FS+>)<Esc>35hi', },
     { 'awk', 'setlocal path+=$DOTFILES/awk_functions' },
 
-    { 'sh', 'inoremap', ',sh', '#!/bin/sh<CR>', },
-    { 'sh,bash', 'nnoremap', '<localleader>h', ':read $DOTFILES/snipfiles/shell_help.sh<Cr>', },
-    { 'sh,bash', 'inoremap', '<localleader>h', '<cmd>read $DOTFILES/snipfiles/shell_help.sh<Cr>', },
-    { 'sh,bash', 'nnoremap', '<localleader>s', '<cmd>!shellcheck "%"<Cr>', },
-    { 'sh,fish,bash', 'inoremap', ',v', '"$"<Left>', },
+    { 'sh', 'inoremap ,sh #!/bin/sh<CR>', },
+    { 'sh,bash', 'nnoremap <localleader>h :read $DOTFILES/snipfiles/shell_help.sh<Cr>', },
+    { 'sh,bash', 'inoremap <localleader>h <cmd>read $DOTFILES/snipfiles/shell_help.sh<Cr>', },
+    { 'sh,bash', 'nnoremap <localleader>s <cmd>!shellcheck "%"<Cr>', },
+    { 'sh,fish,bash', 'inoremap ,v "$"<Left>', },
 
+    { 'matlab', 'inoremap ,f function [output] = functionname(inputvariable)<CR><CR>end<Esc>2k', },
 
-    { 'matlab', 'inoremap', ',f', 'function [output] = functionname(inputvariable)<CR><CR>end<Esc>2k', },
+    { 'make', 'inoremap ,v $()<Left>', },
 
-    { 'make', 'inoremap', ',v', '$()<Left>', },
+    { 'idf', 'inoremap <localleader>i ! INCLUDE<Space>', },
+    { 'idf', 'inoremap <localleader>r Replace ECM ::', },
+    { 'idf', 'inoremap <localleader>de Delete ECM', },
+    { 'idf', 'nnoremap <localleader>s /<C-r>*\\c<CR>', },
+    { 'idf', 'set errorformat=%l:%c\\ %m', },
+    { 'idf', 'set makeprg=idflint\\ %', },
+    { 'idf,neobem', 'inoremap <localleader>l λ', },
+    { 'idf,neobem', 'nnoremap <localleader>t :Tabularize /!-\\?/l1l1<CR>', },
+    { 'neobem', 'nnoremap <localleader>c :!nbem -o %:t:r.idf %<CR>', },
+    { 'neobem', 'nnoremap <localleader>f <cmd>%!nbem -f %<CR>', },
+    { 'neobem', 'nnoremap <localleader>d <cmd>%!nbem -f --doe2 %<CR>', },
+    { 'neobem', 'inoremap <localleader>f λ  { <++> }<Esc>8hi', },
+    { 'neobem', 'inoremap <localleader>r <  ><Esc>hi', },
+    { 'neobem', 'inoremap <localleader>c ✓', },
 
-    { 'idf', 'inoremap', '<localleader>i', '! INCLUDE<Space>', },
-    { 'idf', 'inoremap', '<localleader>r', 'Replace ECM ::', },
-    { 'idf', 'inoremap', '<localleader>de', 'Delete ECM', },
-    { 'idf', 'nnoremap', '<localleader>s', '/<C-r>*\\c<CR>', },
-    { 'idf', 'set', 'errorformat=%l:%c\\', '%m', },
-    { 'idf', 'set', 'makeprg=idflint\\ %', },
-    { 'idf,neobem', 'inoremap', '<localleader>l', 'λ', },
-    { 'idf,neobem', 'nnoremap', '<localleader>t', ':Tabularize /!-\\?/l1l1<CR>', },
-    { 'neobem', 'nnoremap', '<localleader>c', ':!nbem -o %:t:r.idf %<CR>', },
-    { 'neobem', 'nnoremap', '<localleader>f', '<cmd>%!nbem -f %<CR>', },
-    { 'neobem', 'nnoremap', '<localleader>d', '<cmd>%!nbem -f --doe2 %<CR>', },
-    { 'neobem', 'inoremap', '<localleader>f', 'λ  { <++> }<Esc>8hi', },
-    { 'neobem', 'inoremap', '<localleader>r', '<  ><Esc>hi', },
-    { 'neobem', 'inoremap', '<localleader>c', '✓', },
+    { 'python', 'nnoremap <localleader>gc vip:!python_class_gen<CR>' },
+    { 'python', 'nnoremap <localleader>ga vip:!python_class_gen -a<CR>' },
+    { 'python', 'inoremap <localleader>wo with open(\'\') as file:<Esc>F\'i' },
+    { 'python', 'inoremap <localleader>im if __name__ == "__main__":<Cr>' },
+    { 'python', 'inoremap <localleader>di def __init__(self) -> None:<Esc>F)i' },
+    { 'python', 'inoremap <localleader>sh #!/usr/bin/env python3' },
+    { 'python', 'iabbrev r return' },
+    { 'python', 'iabbrev l lambda' },
 
-    { 'python', 'nnoremap', '<localleader>gc', 'vip:!python_class_gen<CR>' },
-    { 'python', 'nnoremap', '<localleader>ga', 'vip:!python_class_gen -a<CR>' },
-    { 'python', 'inoremap', '<localleader>wo', 'with open(\'\') as file:<Esc>F\'i' },
-    { 'python', 'inoremap', '<localleader>im', 'if __name__ == "__main__":<Cr>' },
-    { 'python', 'inoremap', '<localleader>di', 'def __init__(self) -> None:<Esc>F)i' },
-    { 'python', 'inoremap', '<localleader>sh', '#!/usr/bin/env python3' },
-    { 'python', 'iabbrev', 'r', 'return' },
-    { 'python', 'iabbrev', 'l', 'lambda' },
+    { 'python,nbem', 'iabbrev improt import', },
 
-    { 'python,nbem', 'iabbrev', 'improt', 'import', },
+    { 'compass', 'inoremap <localleader>b <!-- Compass:  --><CR><CR><!-- Compass --><Esc>2k0f:la', },
 
-    { 'compass', 'inoremap', '<localleader>b', '<!-- Compass:  --><CR><CR><!-- Compass --><Esc>2k0f:la', },
-
-    { 'ce', 'inoremap', '<localleader>p \\prop{}<Left>' },
+    { 'ce', 'inoremap <localleader>p \\prop{}<Left>' },
 }
 
-createAugroup(filetypeAutocmds, 'filetypemappings', 'FileType')
+for _, autocmd in pairs(filetypeAutocmds) do
+    addToFiletypeAugroup(autocmd[1], autocmd[2])
+end
 
 -- Event Type Autocmds {{{1
 bufEnterAutocmds = {
-    { '*.cshtml', 'set filetype=html' },
-    { '*.do',    'set filetype=sh' },
-    { '*.do',     'inoremap ,ex exec >&2<Cr>' },
-    { '*.do',     'inoremap ,r redo-ifchange<Space>' },
+    { '*.cshtml' , 'set filetype=html' },
+    { '*.do'     , 'set filetype=sh' },
+    { '*.do'     , 'inoremap ,ex exec >&2<Cr>' },
+    { '*.do'     , 'inoremap ,r redo-ifchange<Space>' },
     { '*.compass', 'set filetype=compass' },
-
     { '*.gnuplot', 'set filetype=gnuplot'},
-    { '*.har', 'set filetype=json' },
-
-    { '*.ce', 'set filetype=ce' },
+    { '*.har'    , 'set filetype=json' },
+    { '*.ce'     , 'set filetype=ce' },
 
     -- doit build system file
     { 'dodo.py', 'inoremap ,dep "file_dep": [  ]<Left><Left>' },
@@ -815,7 +807,11 @@ bufEnterAutocmds = {
     { '*', 'lua fix_completeopt()' },
 }
 
-createAugroup(bufEnterAutocmds, 'bufenter', 'BufEnter')
+bufenter_augroup_id = vim.api.nvim_create_augroup('bufenter_augroup', { clear = true })
+for _, autocmd in ipairs(bufEnterAutocmds) do
+    vim.api.nvim_create_autocmd('BufEnter', { pattern = autocmd[1], group = bufenter_augroup_id, command = autocmd[2] })
+end
+
 
 vim.api.nvim_create_augroup('MPEvents', { clear = true })
 vim.api.nvim_create_autocmd('TermOpen', { pattern = '*',        group = 'MPEvents', command = 'setlocal nonumber norelativenumber | startinsert | echom "Term Open.."' })
