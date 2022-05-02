@@ -1,0 +1,22 @@
+#!/usr/bin/awk -E
+#
+# This script for detecting duplicates also prints the lines that they occur in.
+BEGIN {
+    OFS="\t"
+}
+
+{
+    if ($0 in lines) {
+        lines[$0] = lines[$0] " " NR
+        dups[$0]
+    }
+    else {
+        lines[$0] = NR
+    }
+}
+
+END {
+    for (dup in dups) {
+        print lines[dup], dup
+    }
+}
