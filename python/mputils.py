@@ -28,6 +28,19 @@ def groupby(iterable: Iterable[T1], key_selector: Callable[[T1], T2], value_sele
 
     return output_dict
 
+def flatmap(f: Callable[[T1], Iterable[T2]], l: Iterable[T1]) -> List[T2]:
+    """
+    Apply the given function to each element of the given iterable, and
+    flatten the result.
+    """
+    return [x for y in l for x in f(y)]
+
+def flatten(l: List[List[T1]]) -> List[T1]:
+    """
+    Flatten the given list of lists.
+    """
+    return [item for sublist in l for item in sublist]
+
 
 # From https://stackoverflow.com/a/1724723/5932184
 def find_all(name: str, path: str) -> List[str]:

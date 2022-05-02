@@ -79,7 +79,7 @@ NR == 1 {
 
         if (python_form) {
             if (column_letters) {
-                printf "        self.%s = line[%d]  # %s\n", header, i - 1, letters[i - 1]
+                printf "        self.%s = line[%d]  # %s\n", header, i - 1, letters[i]
             }
             else {
                 printf "        self.%s = line[%d]\n", header, i - 1

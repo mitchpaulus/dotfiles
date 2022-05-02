@@ -10,6 +10,7 @@ vim.cmd [[ Plug 'dylon/vim-antlr' ]]
 vim.cmd [[ Plug 'github/copilot.vim' ]]
 vim.cmd [[ Plug 'godlygeek/tabular' ]]
 vim.cmd [[ Plug 'hrsh7th/vim-vsnip' ]]
+vim.cmd [[ Plug 'junegunn/vim-peekaboo' ]]
 vim.cmd [[ Plug 'leafgarland/typescript-vim' ]]
 vim.cmd [[ Plug 'lervag/vimtex' ]]
 vim.cmd [[ Plug 'mboughaba/i3config.vim' ]]
@@ -87,6 +88,8 @@ if vim.fn.has('nvim-0.5.0') == 1 then
                 c = cmp.mapping.close(),
             }),
             ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+            ['<C-p>'] = cmp.mapping.select_prev_item(),
+            ['<C-n>'] = cmp.mapping.select_next_item(),
         },
         sources = cmp.config.sources({
             { name = 'nvim_lsp' },

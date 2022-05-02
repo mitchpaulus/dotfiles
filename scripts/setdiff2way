@@ -33,7 +33,7 @@ BEGIN {
             print "  (-1 | --1col) n  set column to extract from file1 (default: 1)"
             print "  (-2 | --2col) n  set column to extract from file2 (default: 1)"
             print "  --1name name     set name for file 1 (default: A)"
-            print "  --1name name     set name for file 2 (default: B)"
+            print "  --2name name     set name for file 2 (default: B)"
             print "  -s               print shared lines"
             print "  --h1             skip header line in file 1"
             print "  --h2             skip header line in file 2"
