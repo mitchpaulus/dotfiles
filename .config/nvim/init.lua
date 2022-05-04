@@ -25,14 +25,12 @@ vim.cmd [[ Plug 'mitchpaulus/neobem-vim' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-andover-plain-english' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-awk-indent-fix' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-siemens-ppcl' ]]
--- vim.cmd [[ Plug 'nvim-lua/completion-nvim' ]]
 vim.cmd [[ Plug 'mracos/mermaid.vim' ]]
 vim.cmd [[ Plug 'PProvost/vim-ps1' ]]
 vim.cmd [[ Plug 'rstacruz/vim-closer' ]]
 vim.cmd [[ Plug 'scrooloose/nerdcommenter' ]]
 vim.cmd [[ Plug 'scrooloose/nerdtree' ]]
 vim.cmd [[ Plug 'sickill/vim-monokai' ]]
--- vim.cmd [[ Plug 'SirVer/ultisnips' ]]
 vim.cmd [[ Plug 'sjl/gundo.vim' ]]
 vim.cmd [[ Plug 'subnut/nvim-ghost.nvim', {'do': ':call nvim_ghost#installer#install()'} ]]
 vim.cmd [[ Plug 'tpope/vim-endwise' ]]
@@ -66,10 +64,7 @@ if vim.fn.has('nvim-0.5.0') == 1 then
     local cmp = require'cmp'
 
     cmp.setup({
-        completion = {
-            keyword_length = 2,
-        },
-
+        completion = { keyword_length = 2 },
         snippet = {
             -- REQUIRED - you must specify a snippet engine
             expand = function(args)
@@ -139,7 +134,7 @@ if vim.fn.has('nvim-0.5.0') == 1 then
             buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
             buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
             buf_set_keymap('n', '<space>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-            buf_set_keymap('v', '<space>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+            buf_set_keymap('v', '<space>la', '<Esc>:<C-u>lua vim.lsp.buf.range_code_action()<CR>', opts)
 
             -- Critical to have the noinsert option
             vim.o.completeopt = 'menuone,noinsert'
