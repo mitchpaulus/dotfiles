@@ -25,13 +25,15 @@ END {
         printf "    def __init__(self"
 
         for (i in props) {
-            prop_with_type = types[i] == "" ? props[i] : sprintf("%s: %s", props[i], types[i])
+            lower_prop = tolower(props[i])
+            prop_with_type = types[i] == "" ? lower_prop : sprintf("%s: %s", lower_prop, types[i])
             printf ", %s", prop_with_type
         }
         printf "):\n"
 
         for (i in props) {
-            printf "        self.%s = %s\n", props[i], props[i]
+            lower_prop = tolower(props[i])
+            printf "        self.%s = %s\n", lower_prop, lower_prop
         }
     }
     else {
@@ -39,9 +41,7 @@ END {
         printf "    def __init__(self, line: List[str]):\n"
 
         for (i in props) {
-            printf "        self.%s = line[%d]\n", props[i], i - 2
+            printf "        self.%s = line[%d]\n", tolower(props[i]), i - 2
         }
     }
-
 }
-

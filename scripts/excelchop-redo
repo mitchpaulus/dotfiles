@@ -1,0 +1,26 @@
+#!/usr/bin/awk -E
+#
+# Expect 2 line input:
+#  1. The Excel file name
+#  2. The excelchop options
+NR == 1 {
+    file = $0
+
+    # Trim the file name
+    gsub(/^ */, "", file)
+    gsub(/ *$/, "", file)
+}
+
+NR == 2 {
+    options = $0
+    # Trim the options
+    gsub(/^ */, "", options)
+    gsub(/ *$/, "", options)
+}
+
+END {
+    printf "EXCELFILE='%s'\n", file
+    printf "redo-ifchange '$EXCELFILE'\n"
+    printf "excelchop %s '$EXCELFILE'\n", options, file
+}
+
