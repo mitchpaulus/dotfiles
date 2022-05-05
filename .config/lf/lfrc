@@ -29,6 +29,8 @@ map yw copy-windows-full-path
 map yc copy-command-path
 # Short for 'yank data'
 map yd copy-contents
+# Short for 'yank text'
+map yt copy-contents
 
 cmd copy-filename & basename "$f" | tr -d '\n' | clip
 cmd copy-fullpath & printf '%s' "$f" | clip
@@ -41,6 +43,7 @@ cmd copy-windows-full-path &{{
     fi
 }}
 cmd copy-command-path & CCLLCCopyToClip.exe "$(wslpath -w "$f")"
+
 
 # Changing to syncronous mode instead of the default asyncronous mode because I want to use the terminal editor for most things.
 cmd open $ "$OPENER" "$f"
