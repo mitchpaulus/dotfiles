@@ -17,3 +17,21 @@ DOAS systems will likely be covered in next version in 2024, based on
 RP-1865, Optimizing Supply Air Temperature Control for Dedicated Outdoor
 Air Systems.
 
+
+## Reference pages
+
+T&R logic: pg. 44
+Importance multipliers: pg. 44.
+CWST Reset: 214
+
+Variable	Value
+SP0
+SPmin
+SPmax
+Td
+T
+I
+R
+SPtrim
+SPres
+SPres-max

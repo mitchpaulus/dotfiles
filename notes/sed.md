@@ -10,3 +10,10 @@ Grammar
 <single address> : <line number> | '$' | <step-address> | <regex>
 <step address> : <integer> '~' <integer>   # first~step
 ```
+
+Regex
+
+```
+\+
+\.
+```
