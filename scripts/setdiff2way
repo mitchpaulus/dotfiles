@@ -34,29 +34,51 @@ BEGIN {
             print "  (-2 | --2col) n  set column to extract from file2 (default: 1)"
             print "  --1name name     set name for file 1 (default: A)"
             print "  --2name name     set name for file 2 (default: B)"
+            print "  -d delim         set field delimiter (default: tab)"
             print "  -s               print shared lines"
             print "  --h1             skip header line in file 1"
             print "  --h2             skip header line in file 2"
             exit 0
         }
         else if (ARGV[i] == "--1col" || ARGV[i] == "-1") {
+            # Check that the next argument exists.
+            if (ARGC <= i + 1) {
+                print "Error: missing argument for option " ARGV[i]
+                exit 1
+            }
             col_file_1 = ARGV[i + 1]
             ARGV[i] = ""
             ARGV[i + 1] = ""
             i++
-        } else if (ARGV[i] == "--2col" || ARGV[i] == "-2") {
+        }
+        else if (ARGV[i] == "--2col" || ARGV[i] == "-2") {
+            # Check that the next argument exists.
+            if (ARGC <= i + 1) {
+                print "Error: missing argument for option " ARGV[i]
+                exit 1
+            }
             col_file_2 = ARGV[i + 1]
             ARGV[i] = ""
             ARGV[i + 1] = ""
             i++
         }
         else if (ARGV[i] == "--1name") {
+            # Check that the next argument exists.
+            if (ARGC <= i + 1) {
+                print "Error: missing argument for option " ARGV[i]
+                exit 1
+            }
             name_file_1 = ARGV[i + 1]
             ARGV[i] = ""
             ARGV[i + 1] = ""
             i++
         }
         else if (ARGV[i] == "--2name") {
+            # Check that the next argument exists.
+            if (ARGC <= i + 1) {
+                print "Error: missing argument for option " ARGV[i]
+                exit 1
+            }
             name_file_2 = ARGV[i + 1]
             ARGV[i] = ""
             ARGV[i + 1] = ""
@@ -73,6 +95,17 @@ BEGIN {
         else if (ARGV[i] == "--h2") {
             start_row_file_2 = 2
             ARGV[i] = ""
+        }
+        else if (ARGV[i] == "-d") {
+            # Check that the next argument exists.
+            if (ARGC <= i + 1) {
+                print "Missing delimiter argument"
+                exit 1
+            }
+            FS = ARGV[i + 1]
+            ARGV[i] = ""
+            ARGV[i + 1] = ""
+            i++
         }
     }
 
