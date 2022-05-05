@@ -26,6 +26,9 @@ vim.cmd [[ Plug 'mitchpaulus/vim-andover-plain-english' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-awk-indent-fix' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-siemens-ppcl' ]]
 vim.cmd [[ Plug 'mracos/mermaid.vim' ]]
+vim.cmd [[ Plug 'nvim-telescope/telescope.nvim' ]]
+vim.cmd [[ Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' } ]]
+vim.cmd [[ Plug 'nvim-lua/plenary.nvim' ]]
 vim.cmd [[ Plug 'PProvost/vim-ps1' ]]
 vim.cmd [[ Plug 'rstacruz/vim-closer' ]]
 vim.cmd [[ Plug 'scrooloose/nerdcommenter' ]]
@@ -258,6 +261,12 @@ normalNoRecurseMappings = {
     -- Quick mappings for the beginning and ends of lines
     { "H", "^" },
     { "L", "$" },
+
+    -- Telescope mappings
+    { '<leader>ff', "<cmd>lua require('telescope.builtin').find_files()<cr>" },
+    { '<leader>fg', "<cmd>lua require('telescope.builtin').live_grep()<cr>" },
+    { '<leader>fb', "<cmd>lua require('telescope.builtin').buffers()<cr>" },
+    { '<leader>fh', "<cmd>lua require('telescope.builtin').help_tags()<cr>" },
 
     -- These mappings are for moving around the windows quickly.
     { '<C-h>', '<c-w>h' },
