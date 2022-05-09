@@ -39,3 +39,5 @@ Right Arrow sends 1B (esc) - 5B ('[' which is CSI) - 43 ('C')
       ---------------+----------+-------------+----------+----------
 
 - <https://terminalguide.namepad.de/>
+
+[Escape codes](https://github.com/dylanaraps/pure-bash-bible#escape-sequences)
