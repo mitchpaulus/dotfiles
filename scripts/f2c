@@ -14,6 +14,12 @@ BEGIN {
         }
     }
 
+    # Check if ARGV[1] is a number
+    if (ARGV[1] !~ /^[0-9.]+$/) {
+        # Assume its an Excel cell reference, so print formula to copy
+        print sprintf("=(%s - 32) * 5/9", ARGV[1])
+    }
+
     print (ARGV[1] - 32) * 5 / 9
 
     # Make sure this isn't read as a filename

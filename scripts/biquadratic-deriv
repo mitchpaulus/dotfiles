@@ -1,0 +1,66 @@
+#!/usr/bin/awk -E
+#
+# I already have a corresponding script that prints out the biquadratic formulation.
+# This is going to be similar, just taking the first derivative.
+BEGIN {
+    for (i in ARGV) {
+        if (ARGV[i] == "-h" || ARGV[i] == "--help") {
+            print "Usage: "
+            print "  biquadratic-deriv <1 | 2> X Y [file]"
+            print "  biquadratic-deriv  -h"
+            print ""
+            print "  <1 | 2> derivative for first or second parameter"
+            print "  X: column number"
+            print "  Y: row number"
+            print "  file: file to read from (default: stdin)"
+            exited = 1
+            exit 0
+        }
+    }
+
+    if (ARGC < 4) {
+        print "3 arguments required: X Y [file]"
+        exit 1
+    }
+
+    param = ARGV[1]
+    x = ARGV[2]
+    y = ARGV[3]
+
+    ARGV[1] = ""
+    ARGV[2] = ""
+    ARGV[3] = ""
+}
+
+# Using the first fields allows files that file comments or other noise.
+NR == 1 { b0 = $1; next }
+NR == 2 { b1 = $1; next }
+NR == 3 { b2 = $1; next }
+NR == 4 { b3 = $1; next }
+NR == 5 { b4 = $1; next }
+NR == 6 { b5 = $1; next }
+
+END {
+    if (exited) { exit 0 }
+
+    if (param == "1") {
+        term0 = sprintf("%s", b1)
+        term1 = sprintf("2 * %s * %s", b2, x)
+        term2 = sprintf("%s * %s", b5, y)
+
+        printf "%s + (%s) + (%s)\n", term0, term1, term2
+    }
+    else if (param == "2") {
+        term0 = sprintf("%s", b3)
+        term1 = sprintf("2 * %s * %s", b4, y)
+        term2 = sprintf("%s * %s", b5, x)
+
+        printf "%s + (%s) + (%s)\n", term0, term1, term2
+    }
+    else {
+        print "Invalid parameter. Expected 1 or 2."
+        exit 1
+    }
+
+}
+
