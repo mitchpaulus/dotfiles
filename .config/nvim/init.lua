@@ -61,6 +61,15 @@ end
 
 vim.fn["plug#end"]()
 
+if in_wsl then
+    vim.g.clipboard = {
+        name = 'wsl clipboard',
+        copy =  { ["+"] = { "clip.exe" },   ["*"] = { "clip.exe" } },
+        paste = { ["+"] = { "nvim_paste" }, ["*"] = { "nvim_paste" } },
+        cache_enabled = true
+    }
+end
+
 if vim.fn.has('nvim-0.5.0') == 1 then
 
     -- Setup nvim-cmp.
