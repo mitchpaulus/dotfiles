@@ -1,0 +1,8 @@
+#!/bin/sh
+# This script quickly makes the test PNG for pngcairo to see the options for line width, style, etc.
+gnuplot -e "set terminal pngcairo; set output 'test.png'; test"
+
+# If environment variable WSLENV exists and wsl-opener command available, use it to open the image
+if [ -n "$WSLENV" ] && [ -x "$(command -v wsl-opener)" ]; then
+    wsl-opener test.png
+fi
