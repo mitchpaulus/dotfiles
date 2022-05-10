@@ -245,7 +245,7 @@ See https://skyfoundry.com/forum/topic/2111
 
 ## Grammer
 
-[link](https://skyfoundry.com/doc/docSkySpark/AxonGrammar)
+[link](https://skyfoundry.com/doc/docHaxall/AxonGrammar)
 
 ## Exception Handling
 
