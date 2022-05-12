@@ -29,3 +29,9 @@ Library: Control Systems ($284)
 
 DDC Controls ($90) - 10 PDHs
 HVAC Control Systems ($265) - 33.5 PDHs
+
+# Minimum Ventilation
+
+RP-1515: Thermal and air quality acceptability in buildings
+that reduce energy by reducing minimum airflow from overhead
+diffusers.
