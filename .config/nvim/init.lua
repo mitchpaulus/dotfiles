@@ -415,6 +415,9 @@ insertModeNoRecurseMappings = {
 
     -- Company brand standard hex color
     { '<localleader>c', '004987' },
+
+    -- Shebangs
+    { '<localleader>sh', '#!/bin/sh' },
 }
 
 func_map(function(tbl) inmap(tbl[1], tbl[2]) end, insertModeNoRecurseMappings)
@@ -834,6 +837,7 @@ end
 vim.api.nvim_create_augroup('MPEvents', { clear = true })
 vim.api.nvim_create_autocmd('TermOpen', { pattern = '*',        group = 'MPEvents', command = 'setlocal nonumber norelativenumber | startinsert | echom "Term Open.."' })
 vim.api.nvim_create_autocmd('BufEnter', { pattern = "term://*", group = 'MPEvents', command = 'startinsert' })
+vim.api.nvim_create_autocmd('TextYankPost', { pattern = '*', group = 'MPEvents', command = 'silent! lua vim.highlight.on_yank { timeout = 500 }' })
 
 -- Remove trailing whitespace. Use keeppatterns so that
 -- the search history isn't ruined with the \v\s+$ junk.
