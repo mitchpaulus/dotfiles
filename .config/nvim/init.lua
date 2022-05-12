@@ -1,4 +1,6 @@
 -- Packages
+in_wsl = os.getenv('WSL_DISTRO_NAME') ~= nil
+
 vim.fn["plug#begin"]()
 
 vim.cmd [[ Plug 'altercation/vim-colors-solarized' ]]
@@ -45,19 +47,15 @@ vim.cmd [[ Plug 'hrsh7th/cmp-nvim-lsp' ]]
 vim.cmd [[ Plug 'hrsh7th/cmp-buffer' ]]
 vim.cmd [[ Plug 'hrsh7th/cmp-path' ]]
 
-in_wsl = os.getenv('WSL_DISTRO_NAME') ~= nil
 
 -- if not in_wsl then load 'hrsh7th/cmp-cmdline'. Seems to break in WSL.
 if not in_wsl then vim.cmd [[ Plug 'hrsh7th/cmp-cmdline' ]] end
 
 vim.cmd [[ Plug 'hrsh7th/nvim-cmp' ]]
-
 vim.cmd [[ Plug 'hrsh7th/cmp-vsnip' ]]
 vim.cmd [[ Plug 'hrsh7th/vim-vsnip' ]]
 
-if vim.fn.has('nvim-0.5.0') == 1 then
-    vim.cmd [[ Plug 'neovim/nvim-lspconfig' ]]
-end
+vim.cmd [[ Plug 'neovim/nvim-lspconfig' ]]
 
 vim.fn["plug#end"]()
 
@@ -70,154 +68,128 @@ if in_wsl then
     }
 end
 
-if vim.fn.has('nvim-0.5.0') == 1 then
+-- Setup nvim-cmp.
+local cmp = require'cmp'
 
-    -- Setup nvim-cmp.
-    local cmp = require'cmp'
-
-    cmp.setup({
-        completion = { keyword_length = 2 },
-        snippet = {
-            -- REQUIRED - you must specify a snippet engine
-            expand = function(args)
-                vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-                -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-                -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
-                -- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
-            end,
-        },
-        mapping = {
-            -- ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-            -- ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-            ['<C-SPACE>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-            ['<C-e>'] = cmp.mapping({
-                i = cmp.mapping.abort(),
-                c = cmp.mapping.close(),
-            }),
-            ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-            ['<C-p>'] = cmp.mapping.select_prev_item(),
-            ['<C-n>'] = cmp.mapping.select_next_item(),
-        },
-        sources = cmp.config.sources({
-            { name = 'nvim_lsp' },
-            { name = 'vsnip' }, -- For vsnip users.
-        }, {
-            { name = 'buffer' },
-        })
+cmp.setup({
+    completion = { keyword_length = 2 },
+    snippet = {
+        -- REQUIRED - you must specify a snippet engine
+        expand = function(args)
+            vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+            -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+            -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+            -- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
+        end,
+    },
+    mapping = {
+        -- ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+        -- ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+        ['<C-SPACE>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+        ['<C-e>'] = cmp.mapping({
+            i = cmp.mapping.abort(),
+            c = cmp.mapping.close(),
+        }),
+        ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+    },
+    sources = cmp.config.sources({
+        { name = 'nvim_lsp' },
+        { name = 'vsnip' }, -- For vsnip users.
+    }, {
+        { name = 'buffer' },
     })
+})
 
-    -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-    cmp.setup.cmdline('/', {
-        sources = {
-            { name = 'buffer' }
-        }
-    })
+-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline('/', {
+    sources = {
+        { name = 'buffer' }
+    }
+})
 
-    -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-    if not in_wsl then
-        ex_cmdline_sources = cmp.config.sources({{ name = 'path'    }}, {{ name = 'cmdline' }})
-        cmp.setup.cmdline(':', { sources = ex_cmdline_sources  })
-    end
-
-    local function setupLsp()
-        local nvim_lsp = require('lspconfig')
-        local on_attach = function(client, bufnr)
-            local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-            local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-            buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-            -- require'completion'.on_attach()
-
-            -- Mappings.
-            local opts = { noremap=true, silent=true }
-            buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-            buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-            buf_set_keymap('n', '<C-k>', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-            buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-            -- buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-            buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-            buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-            buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-            buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-            buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-            buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-            buf_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.get()<CR>', opts)
-            buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-            buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-            buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
-            buf_set_keymap('n', '<space>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-            buf_set_keymap('v', '<space>la', '<Esc>:<C-u>lua vim.lsp.buf.range_code_action()<CR>', opts)
-
-            -- Critical to have the noinsert option
-            vim.o.completeopt = 'menuone,noinsert'
-
-            -- Set some keybinds conditional on server capabilities
-            if client.resolved_capabilities.document_formatting then
-                buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-            elseif client.resolved_capabilities.document_range_formatting then
-                buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
-            end
-
-            -- Set autocommands conditional on server_capabilities
-            if client.resolved_capabilities.document_highlight then
-                vim.api.nvim_exec([[
-                hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
-                hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
-                hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
-                augroup lsp_document_highlight
-                autocmd! * <buffer>
-                autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-                autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-                augroup END
-                ]], false)
-            end
-        end
-
-        -- Use a loop to conveniently both setup defined servers
-        -- and map buffer local keybindings when the language server attaches
-        local servers = { "bashls", "vimls", "texlab", "hls", "pyright", "tsserver" }
-        local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-        for _, lsp in ipairs(servers) do
-            -- Setup lspconfig. Update capabilities with nvim-cmp stuff
-            nvim_lsp[lsp].setup { on_attach = on_attach, capabilities = capabilities }
-        end
-
-        -- OmniSharp stuff
-        local omnisharp_bin = "/usr/local/omnisharp/OmniSharp"
-        -- check if omnisharp is installed
-        if vim.fn.executable(omnisharp_bin) == 1 then
-            local pid = vim.fn.getpid()
-            nvim_lsp.omnisharp.setup { on_attach = on_attach, capabilities = capabilities, cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid)  } }
-        end
-
-        -- See https://github.com/Beaglefoot/awk-language-server
-        -- Might not have to explicitly do this in Neovim 0.7.
-        -- Install with `npm install -g awk-language-server`
-        local configs = require('lspconfig.configs')
-        if not configs.awklsp then
-            configs.awklsp = {
-                default_config = {
-                    cmd = { 'awk-language-server' },
-                    filetypes = { 'awk' },
-                    single_file_support = true,
-                    handlers = {
-                        ['workspace/workspaceFolders'] = function()
-                            return {{
-                                uri = 'file://' .. vim.fn.getcwd(),
-                                name = 'current_dir',
-                            }}
-                        end
-                    }
-                },
-            }
-        end
-        nvim_lsp.awklsp.setup { on_attach = on_attach, capabilities = capabilities }
-    end
-
-    -- Wrap this up so we don't fail if we haven't installed the package yet.
-    local status, err = pcall(setupLsp)
-    if not status then print(err) end
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+if not in_wsl then
+    ex_cmdline_sources = cmp.config.sources({{ name = 'path'    }}, {{ name = 'cmdline' }})
+    cmp.setup.cmdline(':', { sources = ex_cmdline_sources  })
 end
+
+local function setupLsp()
+    local nvim_lsp = require('lspconfig')
+    local on_attach = function(client, bufnr)
+        local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+        local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+        buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+        -- require'completion'.on_attach()
+
+        -- Mappings.
+        local opts = { noremap=true, silent=true }
+        buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+        buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+        buf_set_keymap('n', '<C-k>', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+        buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+        -- buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+        buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+        buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+        buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+        buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+        buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+        buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+        buf_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.get()<CR>', opts)
+        buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+        buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+        buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
+        buf_set_keymap('n', '<space>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+        buf_set_keymap('v', '<space>la', '<Esc>:<C-u>lua vim.lsp.buf.range_code_action()<CR>', opts)
+
+        -- Critical to have the noinsert option
+        vim.o.completeopt = 'menuone,noinsert'
+
+        -- Set some keybinds conditional on server capabilities
+        if client.resolved_capabilities.document_formatting then
+            buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+        elseif client.resolved_capabilities.document_range_formatting then
+            buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
+        end
+
+        -- Set autocommands conditional on server_capabilities
+        if client.resolved_capabilities.document_highlight then
+            vim.api.nvim_exec([[
+            hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
+            hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
+            hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
+            augroup lsp_document_highlight
+            autocmd! * <buffer>
+            autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+            autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+            augroup END
+            ]], false)
+        end
+    end
+
+    -- Use a loop to conveniently both setup defined servers
+    -- and map buffer local keybindings when the language server attaches
+    local servers = { "bashls", "vimls", "texlab", "hls", "pyright", "tsserver", "awk_ls" }
+    local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+    for _, lsp in ipairs(servers) do
+        -- Setup lspconfig. Update capabilities with nvim-cmp stuff
+        nvim_lsp[lsp].setup { on_attach = on_attach, capabilities = capabilities }
+    end
+
+    -- OmniSharp stuff
+    local omnisharp_bin = "/usr/local/omnisharp/OmniSharp"
+    -- check if omnisharp is installed
+    if vim.fn.executable(omnisharp_bin) == 1 then
+        local pid = vim.fn.getpid()
+        nvim_lsp.omnisharp.setup { on_attach = on_attach, capabilities = capabilities, cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid)  } }
+    end
+end
+
+-- Wrap this up so we don't fail if we haven't installed the package yet.
+local status, err = pcall(setupLsp)
+if not status then print(err) end
 
 -- terminal mode mappings
 vim.api.nvim_set_keymap("t", "jf", "<C-\\><C-n>" , {noremap = true, silent = true})
