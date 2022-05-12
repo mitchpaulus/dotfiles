@@ -1,0 +1,67 @@
+#!/usr/bin/awk -E
+BEGIN {
+    # Check that the number of arguments is correct.
+    # Need arguments for the following:
+    # - wetbulb
+    # - r
+    # - lg
+
+    if (ARGC < 4) {
+        print "Usage: york_excel <wetbulb> <r> <lg>"
+        print "Requires 3 arguments, received " ARGC
+        exited_early = 1
+        exit 1
+    }
+
+    # Set the variables.
+    wetbulb = ARGV[1]
+    r       = ARGV[2]
+    lg      = ARGV[3]
+    ARGV[1] = ""
+    ARGV[2] = ""
+    ARGV[3] = ""
+}
+
+NR <= 27 {
+    coeffs[NR] = $1
+}
+
+END {
+   if (exited_early) { exit }
+
+   term[1]  = sprintf("%f",  coeffs[1])
+   term[2]  = sprintf("%s*%s",  coeffs[2] ,  wetbulb)
+   term[3]  = sprintf("%s*%s*%s",  coeffs[3] ,  wetbulb ,  wetbulb)
+   term[4]  = sprintf("%s*%s",  coeffs[4] ,  r)
+   term[5]  = sprintf("%s*%s*%s",  coeffs[5] ,  wetbulb ,  r)
+   term[6]  = sprintf("%s*%s*%s*%s",  coeffs[6] ,  wetbulb ,  wetbulb ,  r)
+   term[7]  = sprintf("%s*%s*%s",  coeffs[7] ,  r ,  r)
+   term[8]  = sprintf("%s*%s*%s*%s",  coeffs[8] ,  wetbulb ,  r ,  r)
+   term[9]  = sprintf("%s*%s*%s*%s*%s",  coeffs[9] ,  wetbulb ,  wetbulb ,  r ,  r)
+   term[10] = sprintf("%s*%s",  coeffs[10] ,  lg)
+   term[11] = sprintf("%s*%s*%s",  coeffs[11] ,  wetbulb ,  lg)
+   term[12] = sprintf("%s*%s*%s*%s",  coeffs[12] ,  wetbulb ,  wetbulb ,  lg)
+   term[13] = sprintf("%s*%s*%s",  coeffs[13] ,  r ,  lg)
+   term[14] = sprintf("%s*%s*%s*%s",  coeffs[14] ,  wetbulb ,  r ,  lg)
+   term[15] = sprintf("%s*%s*%s*%s*%s",  coeffs[15] ,  wetbulb ,  wetbulb ,  r ,  lg)
+   term[16] = sprintf("%s*%s*%s*%s",  coeffs[16] ,  r ,  r ,  lg)
+   term[17] = sprintf("%s*%s*%s*%s*%s",  coeffs[17] ,  wetbulb ,  r ,  r ,  lg)
+   term[18] = sprintf("%s*%s*%s*%s*%s*%s",  coeffs[18] ,  wetbulb ,  wetbulb ,  r ,  r ,  lg)
+   term[19] = sprintf("%s*%s*%s",  coeffs[19] ,  lg ,  lg)
+   term[20] = sprintf("%s*%s*%s*%s",  coeffs[20] ,  wetbulb ,  lg ,  lg)
+   term[21] = sprintf("%s*%s*%s*%s*%s",  coeffs[21] ,  wetbulb ,  wetbulb ,  lg ,  lg)
+   term[22] = sprintf("%s*%s*%s*%s",  coeffs[22] ,  r ,  lg ,  lg)
+   term[23] = sprintf("%s*%s*%s*%s*%s",  coeffs[23] ,  wetbulb ,  r ,  lg ,  lg)
+   term[24] = sprintf("%s*%s*%s*%s*%s*%s",  coeffs[24] ,  wetbulb ,  wetbulb ,  r ,  lg ,  lg)
+   term[25] = sprintf("%s*%s*%s*%s*%s",  coeffs[25] ,  r ,  r ,  lg ,  lg)
+   term[26] = sprintf("%s*%s*%s*%s*%s*%s",  coeffs[26] ,  wetbulb ,  r ,  r ,  lg ,  lg)
+   term[27] = sprintf("%s*%s*%s*%s*%s*%s*%s",  coeffs[27] ,  wetbulb ,  wetbulb ,  r ,  r ,  lg ,  lg)
+
+    for (i = 1; i <= 27; i++) {
+        if (i == 1) {
+            printf "%s", term[i]
+        } else {
+            printf " + (%s)", term[i]
+        }
+    }
+}
