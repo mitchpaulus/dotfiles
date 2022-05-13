@@ -1,0 +1,4 @@
+- Normal citations
+  - `[@key1; @key2]` = `\cite{key1}`
+  - `[-@key]`        = `\parencite{key}`
+  - `@key`           = `\textcite{key}`
