@@ -13,4 +13,4 @@ curl --output /tmp/"$name" -L "$asset"
 # Unzip in tmp directory
 unzip /tmp/"$name" -d "$FOLDER"
 
-printf "Move font file from %s to proper location\n" "$FOLDER" >&2
+printf "Move font file from '%s' to proper location\n" "$FOLDER" >&2

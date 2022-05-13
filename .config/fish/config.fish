@@ -51,6 +51,7 @@ path_prepend "$DOTFILES"/python
 path_prepend "$DOTFILES"/haskell
 path_prepend /usr/local/texlive/2020/bin/x86_64-linux
 path_prepend "$TEXLIVE_INSTALL_PREFIX"/2021/bin/x86_64-linux
+path_prepend "$TEXLIVE_INSTALL_PREFIX"/2022/bin/x86_64-linux
 path_prepend "/opt/fantom-1.0.76/bin"
 # Recommended by jekyll
 path_prepend $HOME/gems/bin
