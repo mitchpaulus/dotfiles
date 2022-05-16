@@ -118,3 +118,7 @@ App for tracking toward goals.
 ## Make a LISP (MAL)
 
 <https://github.com/kanaka/mal>
+
+## Parsec.app
+
+Remote desktop software: <https://parsec.app/>

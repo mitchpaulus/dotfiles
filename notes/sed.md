@@ -17,3 +17,5 @@ Regex
 \+
 \.
 ```
+
+The `-z` option causes `sed` to separate the lines by NULLs instead of newlines.
