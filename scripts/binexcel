@@ -1,0 +1,58 @@
+#!/usr/bin/awk -E
+
+BEGIN {
+    for (i = 1; i < ARGC; i++) {
+        if (ARGV[i] == "-h" || ARGV[i] == "--help") {
+            print "Usage: binexcel average_col criteria_col bin_greater_than_cell" ;
+            print "Ex: binexcel A B C10" ;
+            exit 0;
+        }
+    }
+
+    # {{{ Letters
+    next_letter["A"] = "B";
+    next_letter["B"] = "C";
+    next_letter["C"] = "D";
+    next_letter["D"] = "E";
+    next_letter["E"] = "F";
+    next_letter["F"] = "G";
+    next_letter["G"] = "H";
+    next_letter["H"] = "I";
+    next_letter["I"] = "J";
+    next_letter["J"] = "K";
+    next_letter["K"] = "L";
+    next_letter["L"] = "M";
+    next_letter["M"] = "N";
+    next_letter["N"] = "O";
+    next_letter["O"] = "P";
+    next_letter["P"] = "Q";
+    next_letter["Q"] = "R";
+    next_letter["R"] = "S";
+    next_letter["S"] = "T";
+    next_letter["T"] = "U";
+    next_letter["U"] = "V";
+    next_letter["V"] = "W";
+    next_letter["W"] = "X";
+    next_letter["X"] = "Y";
+    next_letter["Y"] = "Z";
+    next_letter["Z"] = "AA";
+    next_letter["AA"] = "AB";
+    # }}}
+
+    # binexcel col_of_interest criteria_col bin_greater_than_cell average_or_count
+    average_col           = ARGV[1]
+    criteria_col          = ARGV[2];
+    bin_greater_than_cell = ARGV[3];
+
+    ARGV[1] = "";
+    ARGV[2] = "";
+    ARGV[3] = "";
+
+    excel_function = "AVERAGEIFS"
+
+    match(bin_greater_than_cell, /^[A-Z]+/)
+    bin_letter = substr(bin_greater_than_cell, 1, RLENGTH);
+    bin_row    = substr(bin_greater_than_cell, RLENGTH + 1);
+
+    printf "=%s(%s:%s,%s:%s,\">\"&%s,%s:%s,\"<=\"&%s)\n", excel_function, average_col, average_col, criteria_col, criteria_col, bin_greater_than_cell, criteria_col, criteria_col, (next_letter[bin_letter] bin_row) ;
+}
