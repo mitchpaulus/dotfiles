@@ -1,7 +1,7 @@
 # Compilers
 
 [Cool graph showing what compiles to what:](https://github.com/mohd-akram/languages)
-
+[Textbook on Compiler design](http://cs.rowan.edu/~bergmann/books/Compiler_Design/java/CompilerDesignBook.pdf)
 
 ## Predictive Parsing / Recursive Descent
 
@@ -33,3 +33,5 @@
 
   }
   ```
+
+

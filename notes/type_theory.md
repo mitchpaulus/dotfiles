@@ -9,9 +9,7 @@ Typically denote things as
 
 Term: Type
 
-Types are typically thought of as set of values that a term might
-evaluate to.
-
+Types are typically thought of as set of values that a term might evaluate to.
 
 ## Covariant, Contravariant, Invariant Generic Types
 
