@@ -122,3 +122,12 @@ App for tracking toward goals.
 ## Parsec.app
 
 Remote desktop software: <https://parsec.app/>
+
+## Photo Prism
+
+<https://github.com/photoprism/photoprism>
+<https://photoprism.app/>
+
+## Toipe
+
+[Terminal typing tester](https://github.com/Samyak2/toipe)
