@@ -334,6 +334,10 @@ if test -n "$WSL_DISTRO_NAME"
     end
 end
 
+# Nix Package Manager
+if test -d ~/.nix-profile
+    nix_setup
+end
 
 # Load configuration special to given computer
 if test -f ~/.config/fish/host-config.fish
