@@ -82,6 +82,11 @@ def read_tsv(file_path: str, delim: str="\t", skip: int=0) -> List[List[str]]:
         print("Unable to read file '{}'".format(file_path), file=sys.stderr)
         raise
 
+def read_tsv_standard_input(delim: str = "\t", skip: int = 0) -> List[List[str]]:
+    """
+    Read a tsv file from standard input, returning list of list of strings.
+    """
+    return [line.split(delim) for line in sys.stdin.read().splitlines()][skip:]
 
 def convert_to_int_if_possible(s: str) -> Union[int, str]:
     """
