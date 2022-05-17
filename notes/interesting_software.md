@@ -131,3 +131,8 @@ Remote desktop software: <https://parsec.app/>
 ## Toipe
 
 [Terminal typing tester](https://github.com/Samyak2/toipe)
+
+## Nick Black
+
+<https://github.com/dankamongmen>
+
