@@ -71,6 +71,7 @@ CVRMSE
 CWST
 Citi
 Citi
+Claraxio
 Claridge
 ClickOnce
 Climatec
@@ -195,6 +196,7 @@ MEEN
 MEP
 MERRA
 MERV
+METCO
 MMBTU
 MSTP
 MWDC
@@ -225,6 +227,7 @@ Neovim
 Nessel
 Nexant
 Niagra
+Novant
 Nusselt
 OA
 OAD
@@ -428,6 +431,7 @@ integrations
 internet
 irradiance
 keybinding
+l
 lexer
 linting
 misclassifications
@@ -496,5 +500,3 @@ workflow
 workflow
 workflows
 ΔT
-Claraxio
-l
