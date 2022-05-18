@@ -4,20 +4,19 @@ As they say, progress not perfection.
 
 ## Using
 
-* OS: Little of everything, one Arch, one Manjaro, two Windows. Looking
-  into NixOS.
+* OS: Little of everything, one [Arch](https://archlinux.org/),
+  one [Manjaro](https://manjaro.org/), two Windows.
+  Looking into [NixOS](https://nixos.org/).
 
-* EDITOR: ~~Vim~~ Neovim, I've made the switch.
+* EDITOR: ~~Vim~~ [Neovim](https://neovim.io), I've made the switch.
 
-* TERMINAL: [Alacritty](https://github.com/alacritty/alacritty) for the
-  most part on Linux. [Windows Terminal](https://github.com/Microsoft/Terminal) in
-  WSL.
+* TERMINAL: [Alacritty](https://github.com/alacritty/alacritty) for the most part on Linux.
+  [Windows Terminal](https://github.com/Microsoft/Terminal) in WSL.
 
-* SHELL: `fish`. So much more pleasant to work in on a daily basis.
+* SHELL: [`fish`](https://fishshell.com/). So much more pleasant to work in on a daily basis.
   ~~Bash, default shell. Though looking into zsh~~.
 
-* BROWSER: Firefox, It's not Google Chrome and works pretty well with vim-vixen
-  extension.
+* BROWSER: Firefox, It's not Google Chrome and works pretty well with vim-vixen extension.
 
 * FONT: Fira Code, Monospaced font with fancy programming ligatures.
 
@@ -27,4 +26,4 @@ As they say, progress not perfection.
 
 * WM: Pretty much live in `tmux`, but have KDE plasma on one computer, i3 on another, and WSL on Windows at main work.
 
-* FILE MANAGER: `lf`
+* FILE MANAGER: [`lf`](https://github.com/gokcehan/lf)
