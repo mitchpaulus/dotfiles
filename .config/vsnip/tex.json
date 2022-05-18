@@ -3,5 +3,29 @@
         "prefix": ["li"],
         "body": [ "\\href{${1:URL}}{${2:Link Text}}$0" ],
         "description": "Hyperref link"
+    },
+    "frac": {
+        "prefix": ["frac", "fr"],
+        "body": [ "\\frac{${1:numerator}}{${2:denominator}}$0" ],
+        "description": "Fraction"
+    },
+    "equation": {
+        "prefix": ["equation", "eq"],
+        "body": [ "\\begin{equation}",
+                    "  ${1:equation}",
+                   "\\end{equation}" ],
+        "description": "Equation"
+    },
+    "document": {
+        "prefix": ["document", "doc"],
+        "body": [ "\\begin{document}",
+                    "${2:document}",
+                    "\\end{document}" ],
+        "description": "Document"
+    },
+    "leftright": {
+        "prefix": ["lr"],
+        "body": [ "\\left(${1:left}\\right)$0" ],
+        "description": "Left/Right"
     }
 }
