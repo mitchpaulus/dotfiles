@@ -21,3 +21,9 @@ The installation requirements then say to source the file
 Unfortunately, this expects to be running a POSIX-like shell like bash.
 I still want to use fish.
 So I rewrote that shell script as a fish function.
+
+## Haskell
+
+packages:
+  - ghc
+  - cabal-install

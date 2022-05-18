@@ -7,7 +7,6 @@
 - Get command line arguments: `getArgs` from `System.Environment`
 - Run external programs: `System.Process`
 
-
 ## Records
 
 - data Record = Record { field :: Type, field2 :: Type }
@@ -20,6 +19,8 @@
 - ["What are Monads? Fallacy](https://two-wrongs.com/the-what-are-monads-fallacy)
     - Start by learning the usage of the `Maybe`, `Either`, `IO` monads,
       using `>>=` and `do` operator.
+
+- [Monads Demystified](https://blog.reverberate.org/2015/08/monads-demystified.html)
 
 ## Type Classes (site/company)
 
@@ -44,7 +45,6 @@ Pretty much go to `Data.Text` right way when dealing with text.
 import qualified Data.Text as T
 ```
 
-
 ## Useful links
 
 [Reddit post](https://www.reddit.com/r/haskell/comments/npxfba/ive_tried_to_learn_haskell_several_times_but_keep/)
@@ -52,9 +52,8 @@ import qualified Data.Text as T
 
 ## Type Classes
 
-Type classes are defined by specifying a set of function or constant
-names, together with their respective types, that must exist for every
-type that belongs to the class.
+Type classes are defined by specifying a set of function or constant names,
+together with their respective types, that must exist for every type that belongs to the class.
 
 ```haskell
 class Monad m where
@@ -65,3 +64,8 @@ class Monad m where
 ## Setup with Nix
 
 <https://github.com/aveltras/setting-up-a-haskell-development-environment-with-nix>
+
+
+## Cabal
+
+Puts packages and binaries at `~/.cabal/`
