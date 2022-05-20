@@ -136,3 +136,6 @@ Remote desktop software: <https://parsec.app/>
 
 <https://github.com/dankamongmen>
 
+## Markdoc
+
+[Stripes internal extended Markdown format](https://markdoc.io/)

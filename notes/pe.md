@@ -9,3 +9,7 @@
 - Can use NCEES website for tracking. Call it CPC (Continuing
   Professional Competency)
 
+
+## Thursday 2022-05-19
+
+2019 - Surveying and Engineering merged in TX.

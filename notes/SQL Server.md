@@ -71,3 +71,9 @@ Error: Couldn't find file.
 - Check that the file name it's looking for matches the actual file name. I've found them to be different.
   So there is probably something within the MDF file definition itself, in which the real file name on the system must match.
 - If there was no LDF or log file, probably will have to remove that from the list as well.
+
+
+## Disk Size
+
+Can run standard reports out of SQL Server Management Studio.
+Right-click on table, 'Reports' -> 'Standard Reports' -> 'Disk Usage' / 'Disk Usage by Table'
