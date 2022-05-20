@@ -20,16 +20,24 @@ There have been issues regarding the clock in WSL2. Running the command
 
 ## Internet issues with WSL 2
 
-Cisco Anyconnect and WSL2 do not play well with each other. See GitHub
-issue: https://github.com/microsoft/WSL/issues/4277.
+Cisco Anyconnect and WSL2 do not play well with each other.
 
-Internet seems to work as long as WSL2 is started *before* the VPN is
-started. Got that hint from:
+See GitHub issues:
+ - <https://github.com/microsoft/WSL/issues/4277>
+ - <https://github.com/microsoft/WSL/issues/5068>
+ - <https://github.com/microsoft/WSL/issues/4246>
 
-https://askubuntu.com/a/1264985
+Other references:
+ - <https://gist.github.com/pyther/b7c03579a5ea55fe431561b502ec1ba8>
+ - <https://gist.github.com/machuu/7663aa653828d81efbc2aaad6e3b1431>
+ - <https://jamespotz.github.io/blog/how-to-fix-wsl2-and-cisco-vpn>
+ - <https://superuser.com/questions/1630487/no-internet-connection-ubuntu-wsl-while-vpn>
+
+Internet seems to work as long as WSL2 is started *before* the VPN is started.
+[Source](https://askubuntu.com/a/1264985).
 
 Here's a related YouTube video?
-https://www.youtube.com/watch?v=yR2NsssY7z8
+<https://www.youtube.com/watch?v=yR2NsssY7z8>
 
 ## File Permissions
 

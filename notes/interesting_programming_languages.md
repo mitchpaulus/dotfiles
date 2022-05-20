@@ -69,3 +69,10 @@ Live functional programming environment featuring "typed holes". <https://hazel.
 <https://shenlanguage.org/index.html>. Functional LISP like language.
 Interesting author: <https://www.marktarver.com/index.htm>.
 
+## [Frink](https://frinklang.org/)
+
+Programming language for physical calculations. Written by Alan Eliasen.
+Deployed as single, dependency-free jar file.
+[Frink Syntax Highlighting](https://github.com/ccraciun/frink.vim).
+Maybe build a simpler syntax on top?
+

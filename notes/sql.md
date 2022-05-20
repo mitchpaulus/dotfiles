@@ -34,3 +34,15 @@ INSERT INTO Table (Column1, Column2, ...) VALUES (Value1, Value2, ...);
 ## Converting from UTC to Time Zone
 
 SELECT CONVERT(datetime2, [UTC Datetime Column] at time zone 'UTC' at time zone 'Central Standard Time')
+
+## Update
+
+```
+UPDATE table_name
+SET column1 = value1, column2 = value2, ...
+WHERE condition;
+```
+
+## Operations
+
+String concatenation: `+`.
