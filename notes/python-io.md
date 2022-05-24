@@ -42,7 +42,7 @@ dirname(path) # head of split
 
 isfile(path) # Can accept relative paths
 isdir(path)  # Can accept relative paths
-splitext(path) # 'file.txt' -> ('file', '.txt'), '.file' -> ('.file', '')
+splitext(path) # 'file.txt' -> ('file', '.txt'), '.file' -> ('.file', ''), 'foo.bar.txt' -> ('foo.bar', '.txt')
 ```
 
 ## Creating Directory

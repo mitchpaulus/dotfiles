@@ -118,8 +118,26 @@ The version sort ordering rules are:
    initial digit strings) are repeated until a difference is found or
    both strings are exhausted.
 
-## String Compraison
+## String Comparison
 
 1. [Levenshtein Distance](https://en.wikipedia.org/wiki/Levenshtein_distance).
    - [Imlementations in various languages](https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance)
 2. [Needleman-Wunsch or Smith-Waterman](https://stackoverflow.com/a/10445032/5932184)
+
+
+## Batching List
+
+```c#
+public static List<List<T>> Batch<T>(this List<T> list, int groups)
+{
+    int groupSize = Math.DivRem(list.Count, groups, out int remainder);
+    List<List<T>> batches = new();
+    // Group into batches, the last batch gets the remaining items
+    for (int i = 0; i < groups; i++)
+    {
+        batches.Add(list.GetRange(i * groupSize, i < groups - 1 ? groupSize : groupSize + remainder));
+    }
+    return batches;
+}
+```
+

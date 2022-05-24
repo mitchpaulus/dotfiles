@@ -48,3 +48,9 @@ Tricks to memorize:
    $B/2$ as negative, wouldn't change result).
 
 3. Square and square roots go together.
+
+Otherwise, normal quadratic equation is:
+
+$$
+\frac{ -b \pm \sqrt{b² - 4ac}{2a} }
+$$

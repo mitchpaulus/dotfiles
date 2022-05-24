@@ -6,6 +6,7 @@ class FixedVariable:
 class Materials:
     Shaded, Shiny, Transparent, Matte = range(4)
 
+# From standard library
 from enum import Enum
 class Color(Enum):
      red = 1
