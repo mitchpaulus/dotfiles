@@ -580,6 +580,7 @@ let g:vsnip_filetypes.typescriptreact = ['typescript']
 
 ]], false)
 
+vim.g.vsnip_snippet_dir = os.getenv('HOME') .. '/.config/vsnip'
 vim.g.vsnip_snippet_dirs = { os.getenv('HOME') .. '/.config/vsnip',  os.getenv('HOME') .. '/.vsnip' }
 -- }}}
 -- ack.vim  {{{2
@@ -701,6 +702,7 @@ filetypeAutocmds = {
     { 'tex', 'inoremap ,dot \\dot{} <++><esc>5hi', },
     { 'tex', 'inoremap ,en \\begin{enumerate}<cr><cr>\\end{enumerate}<esc>ki    <esc>i', },
     { 'tex', 'inoremap ,eq \\begin{equation}<cr><cr>\\end{equation}<esc>ki    <esc>i', },
+    { 'tex', 'inoremap ,ei \\(\\)<esc>hi' },
     { 'tex', 'inoremap ,fig \\includegraphics{}<Left>', },
     { 'tex', 'inoremap ,fr \\frac{}{}<esc>2hi', },
     { 'tex', 'inoremap ,h \\title{}<Left>', },
@@ -710,7 +712,7 @@ filetypeAutocmds = {
     { 'tex', 'inoremap ,mt \\maketitle{}<Cr>', },
     { 'tex', 'inoremap ,p \\usepackage{}<esc>i', },
     { 'tex', 'inoremap ,rm \\textrm{}<Left>', },
-    { 'tex', 'inoremap ,s ^{} <++><esc>5hi', },
+    { 'tex', 'inoremap ,s ^{}<esc>i', },
     { 'tex', 'inoremap ,tab \\begin{tabular}{}<cr><++><cr>\\end{tabular}<esc>2k^2f{a', },
     { 'tex', 'inoremap ,tx \\text{} <++><esc>5hi', },
     { 'tex', 'inoremap ,u _{}<Left>', },
@@ -722,6 +724,7 @@ filetypeAutocmds = {
     -- vimtex has a mapping lL for compiling selected, so use two-char mapping here.
     { 'tex', 'vnoremap <localleader>li s\\href{}{<c-r>"}<Esc>2F{a' },
     { 'tex', 'vnoremap <localleader>i s\\textit{<c-r>"}<Esc>' },
+    { 'tex', 'vnoremap <localleader>lr s\\left(<c-r>"\\right)<Esc>' },
 
     { 'awk', 'inoremap ,! #!/usr/bin/awk -E<cr>', },
     { 'awk', 'inoremap ,b BEGIN { FS=OFS="" }<esc>2hi', },
