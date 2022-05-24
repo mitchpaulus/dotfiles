@@ -26,6 +26,9 @@ BEGIN {
     start_row_file_1 = 1
     start_row_file_2 = 1
 
+    suppress_one_minus_two = 0
+    suppress_two_minus_one = 0
+
     for (i = 1; i < ARGC; i++) {
         if (ARGV[i] == "-h" || ARGV[i] == "--help") {
             print "Usage: setdiff2way [options]... file1 file2"
@@ -38,6 +41,8 @@ BEGIN {
             print "  -s               print shared lines"
             print "  --h1             skip header line in file 1"
             print "  --h2             skip header line in file 2"
+            print "  --x1             suppress printing A - B"
+            print "  --x2             suppress printing B - A"
             exit 0
         }
         else if (ARGV[i] == "--1col" || ARGV[i] == "-1") {
@@ -96,6 +101,14 @@ BEGIN {
             start_row_file_2 = 2
             ARGV[i] = ""
         }
+        else if (ARGV[i] == "--x1") {
+            suppress_one_minus_two = 1
+            ARGV[i] = ""
+        }
+        else if (ARGV[i] == "--x2") {
+            suppress_two_minus_one = 1
+            ARGV[i] = ""
+        }
         else if (ARGV[i] == "-d") {
             # Check that the next argument exists.
             if (ARGC <= i + 1) {
@@ -124,35 +137,39 @@ FNR == 1 { file_num++ }
 }
 
 END {
-    for (line in file_one) {
-        if (!(line in file_two)) {
-            one_minus_two[line]
-            one_minus_two_count++
+    if (!suppress_one_minus_two) {
+        for (line in file_one) {
+            if (!(line in file_two)) {
+                one_minus_two[line]
+                one_minus_two_count++
+            }
+        }
+
+        if (one_minus_two_count > 0) {
+            printf "%s - %s (%s)\n", name_file_1, name_file_2, one_minus_two_count
+            for (line in one_minus_two) {
+                print line | "sort -V"
+            }
+
+            close("sort -V")
         }
     }
 
-    if (one_minus_two_count > 0) {
-        printf "%s - %s (%s)\n", name_file_1, name_file_2, one_minus_two_count
-        for (line in one_minus_two) {
-            print line | "sort -V"
+    if (!suppress_two_minus_one) {
+        for (line in file_two) {
+            if (!(line in file_one)) {
+                two_minus_one[line]
+                two_minus_one_count++
+            }
         }
 
-        close("sort -V")
-    }
-
-    for (line in file_two) {
-        if (!(line in file_one)) {
-            two_minus_one[line]
-            two_minus_one_count++
+        if (two_minus_one_count > 0) {
+            printf "%s - %s (%s)\n", name_file_2, name_file_1, two_minus_one_count
+            for (line in two_minus_one) {
+                print line | "sort -V"
+            }
+            close("sort -V")
         }
-    }
-
-    if (two_minus_one_count > 0) {
-        printf "%s - %s (%s)\n", name_file_2, name_file_1, two_minus_one_count
-        for (line in two_minus_one) {
-            print line | "sort -V"
-        }
-        close("sort -V")
     }
 
     if (print_shared) {
