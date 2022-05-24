@@ -27,5 +27,10 @@
         "prefix": ["lr"],
         "body": [ "\\left(${1:left}\\right)$0" ],
         "description": "Left/Right"
+    },
+    "newcommand": {
+        "prefix": ["co"],
+        "body": [ "\\newcommand{\\\\$1}{$2}$0" ],
+        "description": "New Command"
     }
 }
