@@ -1,4 +1,5 @@
 import os
+import datetime
 from typing import List, Union, Iterable, TypeVar, Callable, Dict, Any, cast
 import re
 import math
@@ -166,4 +167,10 @@ def york_tools_model_coefficents(twb: float, ct_range: float, lg_ratio: float):
         twb * twb * r * r * lg * lg, # 26
      ]
     return coeffs
+
+def haystack_commit_update_zinc_meta() -> str:
+    """
+    Return the Zinc metadata for a commit update. No newline.
+    """
+    return 'ver: "3.0" commit: "update"'
 
