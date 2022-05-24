@@ -401,8 +401,8 @@ cnoremap <expr> <C-N> wildmenumode() ? "\<C-N>" : "\<Down>"
 ]], false)
 
 vim.api.nvim_set_keymap("v", '<leader>y', '"+y', silent)
-vim.api.nvim_set_keymap("v", 'L', '$', silent)
-vim.api.nvim_set_keymap("v", 'H', '^', silent)
+vim.api.nvim_set_keymap("x", 'L', '$', silent)
+vim.api.nvim_set_keymap("x", 'H', '^', silent)
 
 vim.api.nvim_exec( [[
 " Search for the current visual selection using '*'. See pg. 212 of Practical Vim
