@@ -19,3 +19,7 @@ Most common:
 - linux-arm64
 - osx-x64
 
+
+## Incorrect warning with NETSDK1179
+
+See <https://github.com/dotnet/sdk/issues/25300>
