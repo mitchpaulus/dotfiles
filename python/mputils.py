@@ -111,7 +111,7 @@ def alphanum_key(s) -> List[Union[str, int]]:
     """ Turn a string into a list of string and number chunks.
         "z23a" -> ["z", 23, "a"]
     """
-    return [convert_to_int_if_possible(c) for c in re.split('([0-9]+)', s)]
+    return [convert_to_int_if_possible(c) for c in re.split('([0-9]+)', s) if convert_to_int_if_possible(c) != ""]
 
 def str_list(l: List[Any]) -> List[str]:
     """
@@ -124,9 +124,21 @@ def version_sort(l: Iterable[str]) -> List[str]:
     """ Sort the given iterable in the way that humans expect."""
     return sorted(l, key=alphanum_key)
 
+def version_sort_by(l: Iterable[T1], key_selector: Callable[[T1], str]) -> List[T1]:
+    """
+    Sort the given iterable in the way that humans expect.
+    """
+    return sorted(l, key = lambda x: alphanum_key(key_selector(x)))
+
 def version_sort_in_place(l: List[str]):
     """ Sort the given list in the way that humans expect."""
     l.sort(key=alphanum_key)
+
+def version_sort_by_in_place(l: List[T1], key_selector: Callable[[T1], str]):
+    """
+    Sort the given list in the way that humans expect.
+    """
+    l.sort(key = lambda x: alphanum_key(key_selector(x)))
 
 def percentile(array: List[float], percent: float) -> float:
     """
