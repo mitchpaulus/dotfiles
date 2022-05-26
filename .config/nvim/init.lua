@@ -496,7 +496,11 @@ vim.o.tabstop = 4      -- Default of 8 is absurd
 vim.o.shiftwidth = 0      -- 0 makes this follow tabstop
 vim.o.synmaxcol = 300
 vim.o.swapfile = false
-vim.o.spellfile = os.getenv('DOTFILES') .. '/vim/spell/hvac.utf-8.add'
+
+if os.getenv('DOTFILES') ~= nil then
+    vim.o.spellfile = os.getenv('DOTFILES') .. '/vim/spell/hvac.utf-8.add'
+end
+
 vim.o.nrformats = 'bin,hex,alpha'
 
 -- Nah, just use desert.  Colorscheme, try monokai
