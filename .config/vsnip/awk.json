@@ -16,5 +16,10 @@
             "}"
         ],
         "description": "Argument Item"
+    },
+    "split": {
+        "prefix": ["sp"],
+        "body": [ "${1:num_split} = split(${2:str}, split_${2:str}, ${3:\":\"});" ],
+        "description": "split"
     }
 }
