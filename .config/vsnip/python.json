@@ -34,6 +34,10 @@
 		"prefix": ["p"],
 		"body": ["print($1)"],
 		"description": "print function"
-	}
-
+	},
+    "map": {
+        "prefix": ["map"],
+        "body": ["map(${1:function}, ${2:iterable})"],
+        "description": "map function"
+    }
 }
