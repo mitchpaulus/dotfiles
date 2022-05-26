@@ -139,3 +139,7 @@ Remote desktop software: <https://parsec.app/>
 ## Markdoc
 
 [Stripes internal extended Markdown format](https://markdoc.io/)
+
+## [exercism](https://exercism.org/)
+
+
