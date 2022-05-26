@@ -44,9 +44,13 @@ def flatten(l: List[List[T1]]) -> List[T1]:
 
 
 # From https://stackoverflow.com/a/1724723/5932184
-def find_all(name: str, path: str) -> List[str]:
+def find_all(name: str, path: str = ".") -> List[str]:
     """
-    Find all files in path (including subdirectories) with filename name.
+    Find all files in path (including subdirectories) with 'name' contained within the file name.
+
+    :param name: The name to search for
+    :param path: The path to search in (defaults to current directory)
+    :return: A list of full file paths
     """
     result = []
     for root, _, files in os.walk(path):
@@ -55,7 +59,14 @@ def find_all(name: str, path: str) -> List[str]:
     return result
 
 
-def find_all_regex(regex_pattern: str, path: str) -> List[str]:
+def find_all_regex(regex_pattern: str, path: str = ".") -> List[str]:
+    """
+    Find all files in path (including subdirectories) matching the given regex.
+
+    :param regex_pattern: The regex to search for
+    :param path: The path to search in (defaults to current directory)
+    :return: A list of full file paths
+    """
     regex = re.compile(regex_pattern)
     result = []
     for root, _, files in os.walk(path):
