@@ -41,3 +41,27 @@ Right Arrow sends 1B (esc) - 5B ('[' which is CSI) - 43 ('C')
 - <https://terminalguide.namepad.de/>
 
 [Escape codes](https://github.com/dylanaraps/pure-bash-bible#escape-sequences)
+
+
+## Cursor shape
+
+[Source](https://superuser.com/a/607479/685547)
+
+```sh
+echo -e -n "\x1b[\x30 q" # changes to blinking block
+echo -e -n "\x1b[\x31 q" # changes to blinking block also
+echo -e -n "\x1b[\x32 q" # changes to steady block
+echo -e -n "\x1b[\x33 q" # changes to blinking underline
+echo -e -n "\x1b[\x34 q" # changes to steady underline
+echo -e -n "\x1b[\x35 q" # changes to blinking bar
+echo -e -n "\x1b[\x36 q" # changes to steady bar
+```
+
+### Issue with Neovim
+
+See:
+  - <https://github.com/neovim/neovim/issues/4867#issuecomment-291249173>
+  - <https://github.com/neovim/neovim/issues/12283>
+  - <https://github.com/neovim/neovim/issues/6779>
+  - <https://github.com/neovim/neovim/issues/4396>
+  - <https://github.com/neovim/neovim/wiki/FAQ#cursor-style-isnt-restored-after-exiting-or-suspending-and-resuming-nvim>
