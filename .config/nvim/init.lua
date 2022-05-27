@@ -797,6 +797,7 @@ bufEnterAutocmds = {
     { '*.gnuplot', 'set filetype=gnuplot'},
     { '*.har'    , 'set filetype=json' },
     { '*.ce'     , 'set filetype=ce' },
+    { '.gitignore', 'set filetype=conf' }, -- close enough
 
     -- doit build system file
     { 'dodo.py', 'inoremap ,dep "file_dep": [  ]<Left><Left>' },
