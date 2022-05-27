@@ -168,9 +168,8 @@ bind \eo exit
 # bind -M insert \ey accept-autosuggestion
 # bind -M insert \cf accept-autosuggestion
 # bind -M insert \eo exit
-
-bind H beginning-of-line
-bind L end-of-line
+# bind H beginning-of-line
+# bind L end-of-line
 
 set -gxp PYTHONPATH "$DOTFILES"/python
 set -gxp MYPYPATH "$DOTFILES"/python
