@@ -1,0 +1,2 @@
+- Prevent using new browser instance: In options,
+  - Projects and Solutions -> Web Projects -> Uncheck 'Stop debugger when browser window is closed, close browser when debugging stops'
