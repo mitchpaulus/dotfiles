@@ -766,14 +766,15 @@ filetypeAutocmds = {
     { 'neobem', 'inoremap <localleader>r <  ><Esc>hi', },
     { 'neobem', 'inoremap <localleader>c ✓', },
 
-    { 'python', 'nnoremap <localleader>gc vip:!python_class_gen<CR>' },
-    { 'python', 'nnoremap <localleader>ga vip:!python_class_gen -a<CR>' },
-    { 'python', 'inoremap <localleader>wo with open(\'\') as file:<Esc>F\'i' },
-    { 'python', 'inoremap <localleader>im if __name__ == "__main__":<Cr>' },
-    { 'python', 'inoremap <localleader>di def __init__(self) -> None:<Esc>F)i' },
-    { 'python', 'inoremap <localleader>sh #!/usr/bin/env python3' },
-    { 'python', 'iabbrev r return' },
     { 'python', 'iabbrev l lambda' },
+    { 'python', 'iabbrev r return' },
+    { 'python', 'inoremap <localleader>di def __init__(self) -> None:<Esc>F)i' },
+    { 'python', 'inoremap <localleader>im if __name__ == "__main__":<Cr>' },
+    { 'python', 'inoremap <localleader>mp import mputils' },
+    { 'python', 'inoremap <localleader>sh #!/usr/bin/env python3' },
+    { 'python', 'inoremap <localleader>wo with open(\'\') as file:<Esc>F\'i' },
+    { 'python', 'nnoremap <localleader>ga vip:!python_class_gen -a<CR>' },
+    { 'python', 'nnoremap <localleader>gc vip:!python_class_gen<CR>' },
 
     { 'python,nbem', 'iabbrev improt import', },
 
