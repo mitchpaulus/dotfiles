@@ -143,7 +143,9 @@ function add_copy_to_clip_exe
     commandline -i '| clip.exe'
 end
 
-fish_vi_key_bindings
+# 2022-05-26, gave it a try. But I don't find myself using any of the bindings.
+# fish_vi_key_bindings
+fish_default_key_bindings
 
 # \e is ALT, mapped to Caps Lock
 bind \ed add_date
@@ -152,18 +154,21 @@ bind \eB awk_begin
 bind \ew add_count_lines
 bind \ec add_copy_to_clip_exe
 
-bind -M insert \e1 1
-
 # ALT-o to exit, don't need to set the command in each terminal emulator with this here.
 bind \eo exit
 
-set fish_cursor_insert line
-bind -M insert jf to_normal_mode
-bind -M insert \cn down-or-search
-bind -M insert \cp up-or-search
-bind -M insert \ey accept-autosuggestion
-bind -M insert \cf accept-autosuggestion
-bind -M insert \eo exit
+# Historical Vi binding stuff
+# set fish_cursor_insert line
+# bind -M insert \e1 1
+# bind -M insert \ew add_count_lines
+# bind -M insert \ed add_date
+# bind -M insert jf to_normal_mode
+# bind -M insert \cn down-or-search
+# bind -M insert \cp up-or-search
+# bind -M insert \ey accept-autosuggestion
+# bind -M insert \cf accept-autosuggestion
+# bind -M insert \eo exit
+
 bind H beginning-of-line
 bind L end-of-line
 
