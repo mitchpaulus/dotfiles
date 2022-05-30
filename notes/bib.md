@@ -13,3 +13,8 @@ I've seen it done in several forms, here's one:
  }
 ```
 
+
+## References
+
+[Miscellaneous Tips](https://www.ece.ucdavis.edu/~jowens/biberrors.html)
+  - Use `~` for non-breaking space
