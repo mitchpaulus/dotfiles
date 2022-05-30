@@ -664,15 +664,17 @@ filetypeAutocmds = {
     { 'markdown,text', 'inoremap <localleader>y 2022-', },
 
     { 'markdown', 'inoremap <localleader>aj (adj.)', },
-    { 'markdown', 'inoremap <localleader>f ![]()<Esc>2hi', },
-    { 'markdown', 'inoremap <localleader>i **<Left>', },
     { 'markdown', 'inoremap <localleader>b ****<Left><Left>', },
     { 'markdown', 'inoremap <localleader>e $$  $$<Esc>2hi', },
-    { 'markdown', 'inoremap <localleader>n \\begin{equation}<CR>\\end{equation}<Esc>0ko', },
+    { 'markdown', 'inoremap <localleader>fi ![]()<Esc>2hi', },
+    { 'markdown', 'inoremap <localleader>fr \\frac{}{}<esc>2hi', },
+    { 'markdown', 'inoremap <localleader>i **<Left>', },
     { 'markdown', 'inoremap <localleader>m $$<Left>', },
-    { 'markdown', 'vnoremap <localleader>l s[<c-r>"]()<Left>' },
-    { 'markdown', 'vnoremap <localleader>i s*<c-r>"*' },
+    { 'markdown', 'inoremap <localleader>n \\begin{equation}<CR>\\end{equation}<Esc>0ko', },
+    { 'markdown', 'inoremap <localleader>u _{}<Left>', },
     { 'markdown', 'vnoremap <localleader>b s**<c-r>"**' },
+    { 'markdown', 'vnoremap <localleader>i s*<c-r>"*' },
+    { 'markdown', 'vnoremap <localleader>l s[<c-r>"]()<Left>' },
 
     { 'gitcommit', 'setlocal spell' },
 
