@@ -1,0 +1,3 @@
+#!/bin/sh
+# Check if first line of file has '#!'
+head -n 1 "$1" | grep -q '^#!'
