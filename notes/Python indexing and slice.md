@@ -18,3 +18,20 @@ my_class.__getitem__(slice_obj)
 
 References:
 - <https://docs.python.org/3/library/functions.html#slice>
+
+
+```python
+class MyTest:
+    def __getitem__(self, param):
+        print(str(type(param)) + ": " + param.__repr__())
+
+    def __str__(self):
+        return "MyTest Class"
+
+    def __repr__(self):
+        return "MyTest Class"
+
+test = MyTest()
+
+test[1::MyTest(), MyTest(), :]
+```

@@ -32,7 +32,7 @@ Definition of "normalization", from the git documentation:
 
 ## Cleaning up a repository
 
-From [https://www.git-scm.com/docs/gitattributes#_end_of_line_conversion](https://www.git-scm.com/docs/gitattributes#_end_of_line_conversion):
+From <https://www.git-scm.com/docs/gitattributes#_end_of_line_conversion>:
 
 ```sh
 $ echo "* text=auto" >.gitattributes
@@ -47,6 +47,7 @@ TLDR: `git filter-repo --path 'path/to/folder' --path-rename '/path/to/folder/:'
 
 Uses [git-filter-repo](https://github.com/newren/git-filter-repo).
 Figured out the right path rename from [here](https://making.close.com/posts/splitting-sub-folders-out-into-new-git-repository).
+Also see: <https://docs.github.com/en/get-started/using-git/splitting-a-subfolder-out-into-a-new-repository>
 
 
 ## Remove Untracked files

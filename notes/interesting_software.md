@@ -142,4 +142,7 @@ Remote desktop software: <https://parsec.app/>
 
 ## [exercism](https://exercism.org/)
 
+## [git filter-repo](https://github.com/newren/git-filter-repo)
+
+Git history rewriting. Most useful to pull out a portion of an existing repository into a new one, without losing all the logs.
 
