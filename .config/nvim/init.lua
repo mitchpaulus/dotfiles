@@ -295,7 +295,7 @@ normalNoRecurseMappings = {
     { '<leader>ct', '<Cmd>checktime<cr>' },
 
     { '<leader>ev', '<Cmd>edit $MYVIMRC<CR>' },
-    { '<leader>sv', '<Cmd>source $MYVIMRC<CR>' },
+    { '<leader>sv', '<Cmd>source $MYVIMRC | echo "Sourced " . $MYVIMRC<CR>' },
 
     { '<leader>t', '<Cmd>lua open_terminal()<CR>' },
 
@@ -355,6 +355,7 @@ insertModeNoRecurseMappings = {
 
     -- HVAC stuff
     { '<localleader>df', '°F' },
+    { '<localleader>dp', 'ΔP' },
     { '<localleader>dt', 'ΔT' },
 
     -- Faster file name completion
@@ -742,6 +743,7 @@ filetypeAutocmds = {
     { 'awk', 'inoremap <localleader>q \\"', },
     { 'awk', 'inoremap <localleader>sp split(<+string+>, <+array+>, <+FS+>)<Esc>35hi', },
     { 'awk', 'setlocal path+=$DOTFILES/awk_functions' },
+    { 'awk', 'nnoremap <localleader>h i<C-r>=system("headers2awk -c", @+)<Cr>' },
 
     { 'sh', 'inoremap ,sh #!/bin/sh<CR>', },
     { 'sh,bash', 'nnoremap <localleader>h :read $DOTFILES/snipfiles/shell_help.sh<Cr>', },
@@ -777,6 +779,7 @@ filetypeAutocmds = {
     { 'python', 'inoremap <localleader>wo with open(\'\') as file:<Esc>F\'i' },
     { 'python', 'nnoremap <localleader>ga vip:!python_class_gen -a<CR>' },
     { 'python', 'nnoremap <localleader>gc vip:!python_class_gen<CR>' },
+    { 'python', 'xnoremap <localleader>sl s[str(l) for l in <C-r>"]' },
 
     { 'python,nbem', 'iabbrev improt import', },
 

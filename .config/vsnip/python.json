@@ -1,5 +1,4 @@
 {
-
 	"if main": {
 		"prefix": ["im"],
 		"body": [
@@ -39,5 +38,10 @@
         "prefix": ["map"],
         "body": ["map(${1:function}, ${2:iterable})"],
         "description": "map function"
+    },
+    "string list": {
+        "prefix": ["sl"],
+        "body": ["[str(l) for l in ${1:iterable}]"],
+        "description": "string list"
     }
 }
