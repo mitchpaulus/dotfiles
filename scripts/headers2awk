@@ -5,6 +5,10 @@
 
 BEGIN {
     FS=OFS="\t"
+    # Assume what's passed is just header line.
+    # However, sometimes there can be a newline within a header cell.
+    # By default, Excel will copy that newline, wrapping field in quotes.
+    RS="asdfasdfasdfasdfasdf"
     python_form = 0
     column_letters = 0
 
