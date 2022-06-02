@@ -146,3 +146,6 @@ Remote desktop software: <https://parsec.app/>
 
 Git history rewriting. Most useful to pull out a portion of an existing repository into a new one, without losing all the logs.
 
+## [Manubot](https://manubot.org/)
+
+Like Pandoc Scholar.

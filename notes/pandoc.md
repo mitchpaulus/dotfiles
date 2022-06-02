@@ -32,8 +32,10 @@ Will need `\tightlist` command. Default definition is:
 
 ## Setting margins or other PDF/Latex options from command line
 
+<https://unix.stackexchange.com/a/397495/296724>
+
 ```sh
-pandoc -V geometry:margin=1in
+pandoc -V geometry:"margin=1in, landscape"
 ```
 
 
