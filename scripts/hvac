@@ -1,0 +1,54 @@
+#!/usr/bin/awk -E
+
+BEGIN {
+    print "What calc?"
+
+    print "1. Water Flow from Tons/ΔT"
+    print "2. Tons from Water Flow and ΔT"
+    print "3. ΔT from Water Flow and Tons"
+
+    invalid = 1
+
+    while (invalid) {
+        getline num < "/dev/tty"
+        if (num == 1) {
+
+            printf "Tons: "
+            getline tons < "/dev/tty"
+
+            printf "ΔT: "
+            getline dt < "/dev/tty"
+
+            print "Water flow = " (tons * 24 / dt) " GPM"
+            invalid = 0
+        }
+        else if (num == 2) {
+
+            printf "Water flow: "
+            getline wf < "/dev/tty"
+
+            printf "ΔT: "
+            getline dt < "/dev/tty"
+
+            print "Tons = " (wf * dt / 24) " tons"
+            invalid = 0
+        }
+        else if (num == 3) {
+
+            printf "Water flow: "
+            getline wf < "/dev/tty"
+
+            printf "Tons: "
+            getline tons < "/dev/tty"
+
+            print "ΔT = " (tons * 24 / wf) "°F"
+            invalid = 0
+        }
+        else {
+            print "Invalid choice, try again."
+            invalid = 1
+        }
+    }
+}
+
+
