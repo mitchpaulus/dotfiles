@@ -149,3 +149,7 @@ Git history rewriting. Most useful to pull out a portion of an existing reposito
 ## [Manubot](https://manubot.org/)
 
 Like Pandoc Scholar.
+
+## [Black](https://github.com/psf/black)
+
+Another formatter.
