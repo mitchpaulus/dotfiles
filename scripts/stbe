@@ -1,2 +1,2 @@
 #!/bin/sh
-printf 'Science and Technology for the Built Environment' | clip.exe
+printf 'Science and Technology for the Built Environment' | clip
