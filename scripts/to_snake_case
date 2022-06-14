@@ -1,0 +1,31 @@
+#!/usr/bin/awk -E
+
+{
+
+    header = $0
+
+    # Count number of leading spaces in the line
+
+    n = match($0, /^ */)
+
+    gsub(/²/, "2", header)
+    gsub(/³/, "3", header)
+    gsub(/°/, "deg", header)
+    gsub("#", "num", header) # Things like 'Package #', 'Issue #', etc.
+    gsub(/[^a-zA-Z0-9]/, "_", header)
+    gsub(/__+/, "_", header)
+
+    # Trim leading and trailing underscores
+    gsub(/_$/, "", header)
+    gsub(/^_+/, "", header)
+
+    header = tolower(header)
+
+
+    # print RLENGTH spaces, then header
+
+    for (i = 0; i < RLENGTH; i++) {
+        printf(" ")
+    }
+    printf("%s\n", header)
+}
