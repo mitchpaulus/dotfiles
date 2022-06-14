@@ -780,6 +780,7 @@ filetypeAutocmds = {
     { 'python', 'nnoremap <localleader>ga vip:!python_class_gen -a<CR>' },
     { 'python', 'nnoremap <localleader>gc vip:!python_class_gen<CR>' },
     { 'python', 'xnoremap <localleader>sl s[str(l) for l in <C-r>"]' },
+    { 'python', 'xnoremap <localleader>e senumerate(<C-r>")<Left>' },
 
     { 'python,nbem', 'iabbrev improt import', },
 
@@ -803,6 +804,8 @@ bufEnterAutocmds = {
     { '*.har'    , 'set filetype=json' },
     { '*.ce'     , 'set filetype=ce' },
     { '.gitignore', 'set filetype=conf' }, -- close enough
+    { '.gitignore', 'inoremap ,dt :read !do-targets' },
+
 
     -- doit build system file
     { 'dodo.py', 'inoremap ,dep "file_dep": [  ]<Left><Left>' },

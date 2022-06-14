@@ -43,5 +43,10 @@
         "prefix": ["sl"],
         "body": ["[str(l) for l in ${1:iterable}]"],
         "description": "string list"
+    },
+    "list comprehension": {
+        "prefix": ["lc"],
+        "body": ["[${2:expression} for ${1:element} in ${3:$TM_SELECTED_TEXT}]"],
+        "description": "list comprehension"
     }
 }
