@@ -89,7 +89,7 @@ BEGIN {
             ARGV[i + 1] = ""
             i++
         }
-        else if (ARGV[i] == "--shared") {
+        else if (ARGV[i] == "--shared" || ARGV[i] == "-s") {
             print_shared = 1
             ARGV[i] = ""
         }
