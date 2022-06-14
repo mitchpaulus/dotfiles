@@ -1,6 +1,13 @@
 import unittest
 import psychrometrics
 import mputils
+import re
+
+def sorted_nicely( l ):
+    """ Sort the given iterable in the way that humans expect."""
+    convert = lambda text: int(text) if text.isdigit() else text
+    alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ]
+    return sorted(l, key = alphanum_key)
 
 class TestPsychrometrics(unittest.TestCase):
     def test_sat_pressure(self):
@@ -44,6 +51,18 @@ class TestSorting(unittest.TestCase):
         self.assertEqual(test_list[0], "1")
         self.assertEqual(test_list[1], "3")
         self.assertEqual(test_list[2], "20")
+
+    def test_version_sort_mix(self):
+        test_list = ["1a", "a1"]
+        mputils.version_sort_in_place(test_list)
+
+
+    def test_version_sort_stack_overflow(self):
+        s = set(['booklet', '4 sheets', '48 sheets', '12 sheets'])
+        for x in sorted_nicely(s):
+            print(x)
+        for x in mputils.version_sort(s):
+            print(x)
 
 if __name__ == "__main__":
     unittest.main()
