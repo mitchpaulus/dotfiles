@@ -69,3 +69,16 @@ class Monad m where
 ## Cabal
 
 Puts packages and binaries at `~/.cabal/`
+
+## Stream Fusion
+
+- Streams are what I think they are: linear access to a potentially unbounded list of data.
+- General term for eliminating intermediate data structures that grow with stream processing is *deforestation*.
+- In the context of stream processing, it's typically called *stream fusion*.
+
+References:
+
+P. L. Wadler. Deforestation: Transforming programs to eliminate trees. Theoretical Computer Science, 73(2):231–248, June 1990.
+[URL:](http://homepages.inf.ed.ac.uk/wadler/topics/deforestation.html).
+
+Kiselyov, Biboudis, Palladinos, Smaragdakis: Stream Fusion, to Completeness
