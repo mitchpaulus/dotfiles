@@ -7,6 +7,7 @@ import requests
 from typing import Any, cast
 import subprocess
 
+
 class GitHubAsset:
     def __init__(self, asset: Any):
         self.id = asset['id']
@@ -17,13 +18,12 @@ class GitHubReleaseResponse:
     def __init__(self, data: Any):
         self.assets = list(map(GitHubAsset, data['assets']))
 
-
-def check_for_local_bin() -> bool:
+def localbin_defined() -> bool:
     # Check that LOCALBIN environment variable is set
     return os.environ.get('LOCALBIN') is not None
 
 def install_git_filter_repo():
-    if not check_for_local_bin():
+    if not localbin_defined():
         print('LOCALBIN environment variable not set.', file=sys.stderr)
         sys.exit(1)
 
@@ -95,6 +95,43 @@ def install_git_filter_repo():
     os.symlink(os.path.join(os.environ['HOME'], '.local', 'git-filter-repo', 'git-filter-repo'), symlink_dest)
 
 
+def install_json_tui(local_dir: str):
+    latest_release = latest_github_release('ArthurSonzogni', 'json-tui')
+
+    # Get assest matching regex 'json-tui-.*-Linux.sh'
+    asset = next((a for a in latest_release.assets if a.name.startswith('json-tui-') and a.name.endswith('-Linux.sh')), None)
+
+    if asset is None:
+        print('Error: Unable to find json-tui-X.X.X-Linux.sh asset', file=sys.stderr)
+        sys.exit(1)
+
+    asset = cast(GitHubAsset, asset)
+
+    # Download asset
+    print(f'Downloading {asset.name}...', file=sys.stderr)
+    response = requests.get(asset.browser_download_url)
+
+    if response.status_code != 200:
+        print(f'Error downloading {asset.browser_download_url}: {response.status_code}', file=sys.stderr)
+        sys.exit(1)
+
+    # Download file to /tmp, overwriting any existing file. Make sure the file is executable.
+    print(f'Saving {asset.name} to /tmp/{asset.name}', file=sys.stderr)
+
+    with open('/tmp/' + asset.name, 'wb') as f:
+        f.write(response.content)
+
+    os.chmod('/tmp/' + asset.name, 0o755)
+
+    # Run the downloaded script, with arguments --prefix=<LOCALBIN> and --include-subdir
+    print(f'Running {asset.name}', file=sys.stderr)
+    completed_process = subprocess.run(['/tmp/' + asset.name, '--prefix=' + local_dir, '--include-subdir'])
+
+    if completed_process.returncode != 0:
+        print(f'Error running {asset.name}', file=sys.stderr)
+        sys.exit(1)
+
+
 def latest_github_release(username: str, repo: str) -> GitHubReleaseResponse:
     """
     Get the latest release from GitHub.
@@ -113,9 +150,24 @@ def latest_github_release(username: str, repo: str) -> GitHubReleaseResponse:
 
 
 if __name__ == "__main__":
-    idx = 1
+    local_bin_dir = os.environ.get('LOCALBIN')
+    if local_bin_dir is None:
+        print('LOCALBIN environment variable not set.', file=sys.stderr)
+        sys.exit(1)
 
+    home_dir = os.environ.get('HOME')
+    if home_dir is None:
+        print('HOME environment variable not set.', file=sys.stderr)
+        sys.exit(1)
+
+    local_dir = os.path.join(home_dir, '.local')
+    if not os.path.exists(local_dir):
+        print(f'Creating {local_dir}', file=sys.stderr)
+        os.mkdir(local_dir)
+
+    idx = 1
     program = None
+
     while (idx < len(sys.argv)):
         if (sys.argv[idx] == "-h"):
             print("""
@@ -131,6 +183,8 @@ if __name__ == "__main__":
 
     if program == "git-filter-repo":
         install_git_filter_repo()
+    elif program == "json-tui":
+        install_json_tui(local_dir)
     else:
         print(f"Error: Unknown program '{program}'", file=sys.stderr)
         sys.exit(1)
