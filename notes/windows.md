@@ -113,3 +113,26 @@ Used workaround:
 
 [Workaround]
 Unchecking the Option “Enable Diagnostic Tools while Debugging” in Visual Studio options resolves the problem for me as well. Looking forward to a fix…
+
+## Special Directories/Folders Locations
+
+Right click on 'Documents' -> Properties -> Location
+Typically, it is in the `%USERPROFILE%\Documents` location.
+If OneDrive is present, that will usually update the `%USERPROFILE%` environment variable.
+
+[Registry Locations](https://www.repairwin.com/change-personal-folders-location-using-registry-windows-8-7-vista/)
+
+- `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders`
+
+Directories defined:
+
+- {374DE290-123F-4565-9164-39C4925E467B}  –>   %USERPROFILE%\Downloads
+- Desktop  –>   %USERPROFILE%\Desktop
+- Favorites  –>   %USERPROFILE%\Favorites
+- My Music   –>   %USERPROFILE%\Music
+- My Pictures  –>   %USERPROFILE%\Pictures
+- My Video  –>   %USERPROFILE%\Videos
+- Personal  –>   %USERPROFILE%\Documents
+- Programs  –>   %USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs
+- Start Menu  –>   %USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu
+- Startup  –>   %USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup

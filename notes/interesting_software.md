@@ -153,3 +153,7 @@ Like Pandoc Scholar.
 ## [Black](https://github.com/psf/black)
 
 Another formatter.
+
+## [12 ft](https://12ft.io/)
+
+Remove paywalls.
