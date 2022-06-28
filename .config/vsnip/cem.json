@@ -1,0 +1,30 @@
+{
+    "Default": {
+        "prefix": ["def", "default"],
+        "body": [
+            "<!-- Compass: Default -->",
+            "$0",
+            "<!-- Compass -->"
+        ]
+    },
+    "Stats Table": {
+        "prefix": ["stats", "st", "lst"],
+        "body": ["<!-- Compass: LabelStatisticsTable -->",
+                 "Label: CC Command",
+                 "Statistics: Min, 5 Percentile, Median, 95 Percentile, Max, % Ignored",
+                 "TableSorting: 4 desc",
+                 "<!-- Compass -->"
+        ],
+        "description": "Label Statistics Table"
+    },
+    "Start Date": {
+        "prefix": ["start", "sd"],
+        "body": [ "StartDate: $0" ],
+        "description": "Start Date"
+    },
+    "End Date": {
+        "prefix": ["end", "ed"],
+        "body": [ "EndDate: $0" ],
+        "description": "End Date"
+    }
+}
