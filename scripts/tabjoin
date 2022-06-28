@@ -1,0 +1,7 @@
+#!/usr/bin/awk -E
+
+# Join all lines with tab character.
+# Usage: ./join.sh <file>
+
+BEGIN { ORS="\t" }
+{ print }

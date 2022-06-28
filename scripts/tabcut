@@ -11,7 +11,7 @@ fi
 
 if test "$#" -lt 2; then
     # Use standard input
-    cut -d '	' -f "$1" -
+    cut -d '	' -f "$1" /dev/stdin
 else
     # Use file
     cut -d '	' -f "$1" "$2"
