@@ -13,6 +13,9 @@
 # Files
 data.location=/mnt/c/Users/mpaulus/OneDrive - Command Commissioning/tasks
 
+# Prevent the override message
+verbose=no
+
 # Color theme (uncomment one to use)
 #include /usr/share/taskwarrior/light-16.theme
 #include /usr/share/taskwarrior/light-256.theme

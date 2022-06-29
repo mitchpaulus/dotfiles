@@ -21,3 +21,8 @@
      - ~/.task/pending.data, not finished tasks
      - ~/.task/completed.data, done tasks
      - ~/.task/undo.data, data for undoing things
+
+## Annoying header on TASKRC override
+
+See <https://github.com/GothenburgBitFactory/taskwarrior/issues/442>. Should be fixed in 2.6.
+See <https://unix.stackexchange.com/questions/367151/how-to-override-warning-in-taskwarrior>
