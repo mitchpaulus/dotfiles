@@ -1,3 +1,12 @@
 #!/bin/sh
 
+
+if test "$1" = "-h" || test "$1" = "--help"; then
+    cat <<EOF
+Create a PDF from file using pandoc.
+Uses lualatex and makes margins 1in all around.
+EOF
+exit 0
+fi
+
 pandoc --pdf-engine=lualatex -V geometry:margin=1in -o "${1%%.*}".pdf "$1"
