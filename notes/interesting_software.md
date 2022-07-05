@@ -157,3 +157,7 @@ Another formatter.
 ## [12 ft](https://12ft.io/)
 
 Remove paywalls.
+
+## [DocOpt](http://docopt.org/)
+
+CLI parsing from help documentation.

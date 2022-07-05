@@ -1,0 +1,6 @@
+complete -c HelpGen -s v -l version -d "Print version information"
+complete -c HelpGen -s h -l help -d "Print help"
+complete -c HelpGen --exclusive -s l -l lang -a 'cs awk' -d "Output language: cs, awk."
+complete -c HelpGen -l fish -d "Print fish completions. Requires -p or --prog."
+complete -c HelpGen --exclusive -s p -l prog -d "Set program name for fish completions."
+complete -c HelpGen -l vim-fold -d "Wrap code in vim fold markers '{{{'"
