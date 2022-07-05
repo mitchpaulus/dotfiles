@@ -22,6 +22,8 @@ Step :
 
 ## Deploying Release on tag
 
+<https://github.com/softprops/action-gh-release>
+
 ```yaml
 name: release
 on:
