@@ -26,5 +26,25 @@
         "prefix": ["end", "ed"],
         "body": [ "EndDate: $0" ],
         "description": "End Date"
+    },
+    "TrendCompletionTable": {
+        "prefix": ["tc", "trend"],
+        "body": [
+            "<!-- Compass: TrendCompletionTable -->",
+            "MinuteInterval: $0",
+            "<!-- Compass -->"
+        ],
+        "description": "Trend Completion Table"
+    },
+    "Histogram": {
+        "prefix": ["hist", "histogram"],
+        "body": [
+            "<!-- Compass: Histogram -->",
+            "Label: $0",
+            "BinWidth: $1",
+            "HistogramYAxis: Percent",
+            "<!-- Compass -->"
+        ],
+        "description": "Histogram"
     }
 }
