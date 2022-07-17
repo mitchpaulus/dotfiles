@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# See: https://askubuntu.com/a/256449
+
+if test "$1" = "-h" || test "$1" = "--help"; then
+    cat <<EOF
+Usage:
+ pdfcompress INPUT_FILE OUTPUT_FILE
+ pdfcompress [-h | --help]
+EOF
+exit 0
+fi
+
+gs \
+    -sDEVICE=pdfwrite \
+    -dCompatibilityLevel=1.4 \
+    -dPDFSETTINGS=/ebook \
+    -dNOPAUSE \
+    -dQUIET \
+    -dBATCH \
+    -sOutputFile="$2" \
+    "$1"
