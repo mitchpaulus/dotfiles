@@ -26,3 +26,8 @@ The first one will have the desired width. The second one resizes to the
 right width, then crops that image, making the final image smaller than
 desired.
 
+## Permissions
+
+When dealing with PDF conversions, always need to update the policy file.
+Go to `/etc/ImageMagick-6/policy.xml` and update the policies at the end of the file. 
+Will usually have a comment above saying 'disable ghostscript format types'

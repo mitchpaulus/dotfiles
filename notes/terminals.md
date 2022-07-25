@@ -90,13 +90,13 @@ Right Arrow sends 1B (esc) - 5B ('[' which is CSI) - 43 ('C')
 
 | Sequence    | What does it do?                                         |
 | --------    | ----------------                                         |
-| `\e[K`      | Erase from cursor position to end of line.
-| `\e[1K`     | Erase from cursor position to start of line.
-| `\e[2K`     | Erase the entire current line.
-| `\e[J`      | Erase from the current line to the bottom of the screen.
-| `\e[1J`     | Erase from the current line to the top of the screen.
-| `\e[2J`     | Clear the screen.
-| `\e[2J\e[H` | Clear the screen and move cursor to `0,0`.
+| `\e[K`      | Erase from cursor position to end of line.               |
+| `\e[1K`     | Erase from cursor position to start of line.             |
+| `\e[2K`     | Erase the entire current line.                           |
+| `\e[J`      | Erase from the current line to the bottom of the screen. |
+| `\e[1J`     | Erase from the current line to the top of the screen.    |
+| `\e[2J`     | Clear the screen.                                        |
+| `\e[2J\e[H` | Clear the screen and move cursor to `0,0`.               |
 
 
 ## Cursor shape
@@ -121,3 +121,12 @@ See:
   - <https://github.com/neovim/neovim/issues/6779>
   - <https://github.com/neovim/neovim/issues/4396>
   - <https://github.com/neovim/neovim/wiki/FAQ#cursor-style-isnt-restored-after-exiting-or-suspending-and-resuming-nvim>
+
+### Showing/Hiding Cursor
+
+<https://stackoverflow.com/questions/2649733/hide-cursor-on-remote-terminal>
+
+```
+\e[?25h   // Show cursor
+\e[?25l   // Hide cursor
+```
