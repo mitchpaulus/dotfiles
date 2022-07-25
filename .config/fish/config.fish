@@ -127,6 +127,10 @@ if test -n "$WT_SESSION"
     end
 end
 
+function add_help
+    commandline -i -- --help
+end
+
 function add_date
     commandline -i (date '+%Y-%m-%d')
 end
@@ -161,6 +165,7 @@ bind \e1 1
 # ALT-o to exit, don't need to set the command in each terminal emulator with this here.
 bind \eo exit
 
+bind qh add_help
 
 # Historical Vi binding stuff
 # set fish_cursor_insert line
@@ -244,8 +249,8 @@ function lf --wraps=lf
 end
 
 abbr -a u 'cd ..'
-
 abbr -a t task
+abbr -a mkdri mkdir
 
 function g
     cd (fzf -1 < ~/.config/goto/dirs.txt | awk -F "	" '$1')
