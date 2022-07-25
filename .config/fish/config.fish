@@ -66,9 +66,11 @@ path_prepend "/mnt/d/PortablePrograms/tabula-win-1.2.1/tabula"
 if command -v nvim >/dev/null 2>&1
     set -gx EDITOR nvim
     set -gx VISUAL nvim
+    set -gx SUDO_EDITOR (which nvim)
 else if command -v vim >/dev/null 2>&1
     set -gx EDITOR vim
     set -gx VISUAL vim
+    set -gx SUDO_EDITOR (which vim)
 end
 
 if command -v exa >/dev/null 2>&1
