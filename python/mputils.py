@@ -145,6 +145,12 @@ def percentile(array: List[float], percent: float) -> float:
     """
     Returns the percentile of the list of data.
     See https://en.wikipedia.org/wiki/Percentile, Nearest-Rank method.
+    Definition from Wikipedia:
+    One definition of percentile, often given in texts,
+    is that the P-th percentile {\displaystyle (0<P\leq 100)}(0<P\leq 100) of a list of N ordered values (sorted from least to greatest)
+    is the smallest value in the list such that no more than P percent of the data is strictly less than the value
+    and at least P percent of the data is less than or equal to that value.
+    This is obtained by first calculating the ordinal rank and then taking the value from the ordered list that corresponds to that rank.
     :param array: List of data
     :param percent: Percentile to return (0-100)
     """
@@ -154,6 +160,13 @@ def percentile(array: List[float], percent: float) -> float:
 
     return sorted(array)[index - 1]
 
+def median(array: List[float]) -> float:
+    if len(array) == 0:
+        raise ValueError("Cannot calculate median of empty list")
+    if len(array) % 2 == 0:
+        return (array[len(array) // 2 - 1] + array[len(array) // 2]) / 2
+    else:
+        return array[len(array) // 2]
 
 def york_tools_model_coefficents(twb: float, ct_range: float, lg_ratio: float):
     """
@@ -221,3 +234,13 @@ def levenshtein(s1, s2):
         previous_row = current_row
 
     return previous_row[-1]
+
+def first(iterable: Iterable[T1], predicate: Callable[[T1], bool]) -> Union[T1, None]:
+    """
+    Return the first element in the given iterable that matches the given predicate, or None if no element matches.
+    """
+    for x in iterable:
+        if predicate(x):
+            return x
+    return None
+
