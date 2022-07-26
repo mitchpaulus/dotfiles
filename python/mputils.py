@@ -163,10 +163,12 @@ def percentile(array: List[float], percent: float) -> float:
 def median(array: List[float]) -> float:
     if len(array) == 0:
         raise ValueError("Cannot calculate median of empty list")
-    if len(array) % 2 == 0:
-        return (array[len(array) // 2 - 1] + array[len(array) // 2]) / 2
+
+    sorted_array = sorted(array)
+    if len(sorted_array) % 2 == 0:
+        return (sorted_array[len(sorted_array) // 2 - 1] + sorted_array[len(sorted_array) // 2]) / 2
     else:
-        return array[len(array) // 2]
+        return sorted_array[len(sorted_array) // 2]
 
 def york_tools_model_coefficents(twb: float, ct_range: float, lg_ratio: float):
     """
