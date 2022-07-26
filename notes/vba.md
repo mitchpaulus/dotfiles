@@ -32,3 +32,17 @@ Close #FileNum
 Variable Types: `VarType`: <https://docs.microsoft.com/en-us/office/vba/Language/Reference/user-interface-help/vartype-function>
 
 
+```vba
+MsgBox "String"
+
+"String" & "Concatenation"
+
+' String constants
+vbCrLf ' Chr(13) + Chr(10)
+vbTab  ' Chr(9)
+
+Trim("String   ") ' "String"
+
+Len("String") = 6
+Left("string", 2) = 2
+```
