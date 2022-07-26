@@ -318,4 +318,25 @@ End Sub
 Sub Level4Next()
     Call LevelN("4", False)
 End Sub
+Sub Level5Start()
+    Call LevelN("5", True)
+End Sub
+Sub Level5Next()
+    Call LevelN("5", False)
+End Sub
+
+Sub TocPrint()
+    Dim pgh As Paragraph
+    Dim text As String
+
+    For Each pgh In ActiveDocument.Paragraphs
+        If pgh.Style = "Heading 1" Then
+            ' Remove final newline character
+            text = text.Substring(0, text.Length - 1)
+            text = Trim(pgh.Range.Text)
+            text = text & vbTab & pgh.Range.Information(wdActiveEndPageNumber) & vbLf
+            Selection.InsertAfter (text)
+        End If
+    Next pgh
+End Sub
 
