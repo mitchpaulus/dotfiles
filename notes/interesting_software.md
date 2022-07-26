@@ -165,3 +165,6 @@ CLI parsing from help documentation.
 ## [img2pdf](https://pypi.org/project/img2pdf/)
 
 Lossless conversion from image files to PDFs. Far better quality than `convert` from ImageMagick.
+
+## [hydra.nvim](https://github.com/anuvyklack/hydra.nvim)
+

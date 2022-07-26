@@ -28,6 +28,8 @@ d |= other                   # modify d in place. (3.9+)
 
 for key in dict:
    ...
+
+dict_comprehension = { t.key: t.value for t in iterable }
 ```
 
 
