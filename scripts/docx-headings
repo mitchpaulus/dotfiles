@@ -1,0 +1,51 @@
+#!/usr/bin/python3
+
+import docx
+import sys
+import os
+
+
+# @v @h -- f document
+
+if __name__ == "__main__":
+    helpDesired = False
+    version = False
+    document = ""
+    idx = 1
+
+    while idx < len(sys.argv):
+        if sys.argv[idx] == "-h" or sys.argv[idx] == "--help":
+            helpDesired = True
+            idx += 1
+        elif sys.argv[idx] == "-v" or sys.argv[idx] == "--version":
+            version = True; idx += 1
+        else:
+            document = sys.argv[idx]
+            idx += 1
+            # Expected that all arguments are consumed at this point.
+            if idx < len(sys.argv):
+                print(f"More positional arguments were passed than expected.\n", file=sys.stderr)
+                sys.exit(1)
+
+    if helpDesired:
+        print(f"Usage: docx-headings [OPTION]... [FILE]")
+        print("\nOptions:")
+        print("  -h, --help\t\tShow this help message and exit")
+        print("  -v, --version\t\tShow version information and exit")
+        print("\nArguments:")
+        print("  FILE\t\t\tThe file to process")
+        sys.exit(0)
+
+    if version:
+        print(f"docx-headings version 0.1.0")
+        sys.exit(0)
+
+    # Check if document is a valid file.
+    if os.path.isfile(document):
+        doc = docx.Document(document)
+        for paragraph in doc.paragraphs:
+
+            # If paragraph is a heading, print it.
+            if "Heading" in paragraph.style.name:
+                print(paragraph._p.xml)
+
