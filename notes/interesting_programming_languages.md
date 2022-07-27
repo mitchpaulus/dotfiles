@@ -76,3 +76,8 @@ Deployed as single, dependency-free jar file.
 [Frink Syntax Highlighting](https://github.com/ccraciun/frink.vim).
 Maybe build a simpler syntax on top?
 
+## [OK?](https://github.com/jesseduffield/OK)
+
+Very interesting compiler enforced design decisions.
+
+
