@@ -80,4 +80,5 @@ Maybe build a simpler syntax on top?
 
 Very interesting compiler enforced design decisions.
 
-
+  - Only one comparer `>=`
+  - No if statement, only switch
