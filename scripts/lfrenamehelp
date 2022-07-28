@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+import sys
+
+file_path = sys.argv[1]
+
+# Get index of final '/'
+index = file_path.rfind('/')
+
+filename = file_path[index+1:]
+
+if len(filename) == 0:
+    sys.exit(0)
+
+if filename[0] == '.':
+    sys.exit(0)
+
+right_most_dot = filename.rfind('.')
+num_lefts = len(filename) - right_most_dot if right_most_dot > 0 else 0
+
+# get string of num_lefts '<left>' characters. This has to be all lowercase
+left_str = '<left>' * num_lefts
+
+output = f'{left_str}'
+print(output)
