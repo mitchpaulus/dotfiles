@@ -4,9 +4,19 @@
 import os
 import sys
 import requests
-from typing import Any, cast
+from typing import Any, cast, TypeVar, Callable, Iterable, Union
 import subprocess
 
+
+T1 = TypeVar('T1')
+def first(iterable: Iterable[T1], predicate: Callable[[T1], bool]) -> Union[T1, None]:
+    """
+    Return the first element in the given iterable that matches the given predicate, or None if no element matches.
+    """
+    for x in iterable:
+        if predicate(x):
+            return x
+    return None
 
 class GitHubAsset:
     def __init__(self, asset: Any):
@@ -21,6 +31,38 @@ class GitHubReleaseResponse:
 def localbin_defined() -> bool:
     # Check that LOCALBIN environment variable is set
     return os.environ.get('LOCALBIN') is not None
+
+def latest_github_release(username: str, repo: str) -> GitHubReleaseResponse:
+    """
+    Get the latest release from GitHub.
+    """
+    url = f'https://api.github.com/repos/{username}/{repo}/releases/latest'
+    response = requests.get(url)
+    if response.status_code != 200:
+        print(f'Error: {response.status_code}', file=sys.stderr)
+        sys.exit(1)
+    try:
+        decoded_json = response.json()
+        return GitHubReleaseResponse(decoded_json)
+    except requests.exceptions.JSONDecodeError:
+        print('Error: Unable to parse JSON from GitHub releases', file=sys.stderr)
+        sys.exit(1)
+
+
+def get_github_asset(username: str, repo: str, predicate: Callable[[GitHubAsset], bool]) -> GitHubAsset:
+    # Get latest release from GitHub
+    latest_release = latest_github_release(username, repo)
+
+    # Find first asset matching regex 'git-filter-repo-.*.tar.xz'
+    asset = next((a for a in latest_release.assets if predicate(a)), None)
+
+    if asset is None:
+        print(f'Error: Unable to find {username}/{repo} asset matching predicate', file=sys.stderr)
+        sys.exit(1)
+
+    asset = cast(GitHubAsset, asset)
+    return asset
+
 
 def install_git_filter_repo():
     if not localbin_defined():
@@ -131,22 +173,38 @@ def install_json_tui(local_dir: str):
         print(f'Error running {asset.name}', file=sys.stderr)
         sys.exit(1)
 
+def install_lazygit():
+    local_bin_dir = cast(str, os.environ.get('LOCALBIN'))
+    asset = get_github_asset('jesseduffield', 'lazygit', lambda a: a.name.startswith('lazygit') and a.name.endswith('Linux_x86_64.tar.gz'))
 
-def latest_github_release(username: str, repo: str) -> GitHubReleaseResponse:
-    """
-    Get the latest release from GitHub.
-    """
-    url = f'https://api.github.com/repos/{username}/{repo}/releases/latest'
-    response = requests.get(url)
+    # Download asset
+    print(f'Downloading {asset.name}...', file=sys.stderr)
+    response = requests.get(asset.browser_download_url)
+
     if response.status_code != 200:
-        print(f'Error: {response.status_code}', file=sys.stderr)
+        print(f'Error downloading {asset.browser_download_url}: {response.status_code}', file=sys.stderr)
         sys.exit(1)
-    try:
-        decoded_json = response.json()
-        return GitHubReleaseResponse(decoded_json)
-    except requests.exceptions.JSONDecodeError:
-        print('Error: Unable to parse JSON from GitHub releases', file=sys.stderr)
+
+    # Save asset
+    tar_xz_path = os.path.join('/tmp/', asset.name)
+    print(f"Saving '{tar_xz_path}'", file=sys.stderr)
+    with open(tar_xz_path, 'wb') as f:
+        f.write(response.content)
+
+    # Extract the 'lazygit' executable from the tar.xz archive
+    print(f'Extracting {asset.name} archive...', file=sys.stderr)
+    completed_process = subprocess.run(['tar', '-xf', tar_xz_path, 'lazygit'], cwd='/tmp/')
+    if completed_process.returncode != 0:
+        print(f'Error extracting {asset.name} archive', file=sys.stderr)
         sys.exit(1)
+
+    # Remove the tar.xz archive
+    print(f"Removing '{asset.name}' archive...", file=sys.stderr)
+    os.remove(tar_xz_path)
+
+    # Move '/tmp/lazygit' to LOCALBIN, overwriting if necessary
+    print(f"Moving lazygit to {local_bin_dir}", file=sys.stderr)
+    os.rename('/tmp/lazygit', os.path.join(local_bin_dir, 'lazygit'))
 
 
 if __name__ == "__main__":
@@ -154,6 +212,8 @@ if __name__ == "__main__":
     if local_bin_dir is None:
         print('LOCALBIN environment variable not set.', file=sys.stderr)
         sys.exit(1)
+
+    local_bin_dir = cast(str, local_bin_dir)
 
     home_dir = os.environ.get('HOME')
     if home_dir is None:
@@ -181,11 +241,27 @@ if __name__ == "__main__":
             program = sys.argv[idx]
         idx += 1
 
-    if program == "git-filter-repo":
-        install_git_filter_repo()
-    elif program == "json-tui":
-        install_json_tui(local_dir)
-    else:
-        print(f"Error: Unknown program '{program}'", file=sys.stderr)
+    programs = {
+        "git-filter-repo": install_git_filter_repo,
+        "json-tui": lambda: install_json_tui(local_dir),
+        "lazygit": install_lazygit,
+    }
+
+    if program is None:
+        print('Error: No program specified.', file=sys.stderr)
+        print('Possible programs:', file=sys.stderr)
+        for program in programs:
+            print(f' {program}', file=sys.stderr)
         sys.exit(1)
+
+    program_func = programs.get(program)
+
+    if program_func is None:
+        print(f'Error: Unknown program "{program}"', file=sys.stderr)
+        print(f'Possible programs:', file=sys.stderr)
+        for program in programs:
+            print(f' {program}', file=sys.stderr)
+        sys.exit(1)
+
+    program_func()
 
