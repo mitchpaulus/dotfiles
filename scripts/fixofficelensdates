@@ -1,0 +1,63 @@
+#!/usr/bin/env python3
+import re
+from os import listdir, rename
+
+
+def convert_date(input_file_name: str) -> str:
+    """
+    By default, the office lens file names have non ISO standard dates like:
+    YYYY_MM_DD H_mm AM
+    I want:
+    YYYY-MM-DD HH:mm
+    """
+    split_date = input_file_name.split(" ")
+    date = split_date[0]
+
+    # Check that date portion matches YYYY_MM_DD
+    if len(date) != 10:
+        return input_file_name
+
+    if not re.match(r"^\d{4}_\d{2}_\d{2}$", date):
+        return input_file_name
+
+    # Check that time portion matches H_mm
+    time = split_date[1]
+    # Split on colon, check for two integer parts
+    time_parts = time.split("_")
+    if len(time_parts) != 2:
+        return input_file_name
+
+    try:
+        hour = int(time_parts[0])
+        minute = int(time_parts[1])
+    except ValueError:
+        return input_file_name
+
+    if hour < 0 or hour > 12:
+        return input_file_name
+    if minute < 0 or minute > 59:
+        return input_file_name
+
+    # Check for AM or PM
+    am_pm = split_date[2]
+    if am_pm != "AM" and am_pm != "PM":
+        return input_file_name
+
+    # Convert to ISO format
+    iso_date = date.replace("_", "-")
+
+    hour_military = hour + (12 if am_pm == "PM" else 0)
+    iso_time = f"{hour_military:02d}{minute:02d}"
+
+    # Return ISO date, plus any remaining parts of the file name, separated by spaces
+    return f"{iso_date} {iso_time} {' '.join(split_date[3:])}"
+
+
+if __name__ == "__main__":
+    # Loop over all files in the current directory, convert the date and rename the file.
+    for file_name in sorted(listdir(".")):
+        converted_name = convert_date(file_name)
+        if converted_name != file_name:
+            # Move the file
+            rename(file_name, converted_name)
+
