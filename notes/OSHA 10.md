@@ -129,14 +129,44 @@ Flags are 24x24"
 
 Hard hat types:
 
-Type 1: Helmets with a full brim
-Type 2: Brimless helmets with a peak extending forward from the crown.
-Class G: General service, limited voltage. Intended for protection against impact hazards. Used in mining, construction, and manufacturing.
-Class E: Utility service, high voltage. Used by electrical workers.
+Type 1: Helmets with a full brim, protect from blow to top of head.
+Type 2: Brimless helmets with a peak extending forward from the crown. Protect from blow to top and side of head.
+Class G: General service, limited voltage. Intended for protection against impact hazards. Used in mining, construction, and manufacturing. 2,200 Volt testing.
+Class E: Utility service, high voltage. Used by electrical workers. 20,000 Volts.
 Class C: Special service, no voltage protection. Designed for lightweight comfort and impact protection. Used where there is a possibility of bumping the head against a fixed object.
+
+ANSI Z-89.1 is helmet standard.
+
+
 
 ## Nail Guns
 
 37,000 emergency room visits.
 - carpenters: 2 out of 5 were injured at some point in 4 years of training.
 - keep hands 12" away from point of impact
+
+- PPE standards often start from ANSI
+
+- Provided at no cost to employee, except
+
+- Steel toe shoes
+- Prescription safety glasses
+- Logging boots (29 CFR 1910.266(d)(1)(v)
+- Items the employee has broken or lost
+
+## Hearing Protection
+
+If employees are exposed to noise >= 90 dBA averaged over an eight-hour period, requires hearing conservation program and regular testing.
+
+## Foot Protection
+
+- Electricity *conductive* shoes help protect against the build up of static electricity.
+- Don't use foot powder when using *conductive* shoes. Provides insulation.
+
+Electrical hazard rated shoes
+
+- ASTM F2413-05
+- CAN/CSA-Z195-M92, Section 4.3
+- ASTM F1116-08
+
+Backs are most injured body part, then hands.
