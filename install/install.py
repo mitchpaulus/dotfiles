@@ -206,6 +206,36 @@ def install_lazygit():
     print(f"Moving lazygit to {local_bin_dir}", file=sys.stderr)
     os.rename('/tmp/lazygit', os.path.join(local_bin_dir, 'lazygit'))
 
+def install_excelchop():
+    asset = get_github_asset('mitchpaulus', 'excelchop', lambda a: a.name.startswith('linux-x64-framework-dependent'))
+    print(f'Downloading {asset.name}...', file=sys.stderr)
+    response = requests.get(asset.browser_download_url)
+
+    if response.status_code != 200:
+        print(f'Error downloading {asset.browser_download_url}: {response.status_code}', file=sys.stderr)
+        sys.exit(1)
+
+    # Save asset
+    tar_xz_path = os.path.join('/tmp/', asset.name)
+    print(f"Saving '{tar_xz_path}'", file=sys.stderr)
+    with open(tar_xz_path, 'wb') as f:
+        f.write(response.content)
+
+    # Extract the 'excelchop' executable from the tar.xz archive
+    print(f'Extracting {asset.name} archive...', file=sys.stderr)
+    completed_process = subprocess.run(['tar', '-xf', tar_xz_path, 'excelchop'], cwd='/tmp/')
+    if completed_process.returncode != 0:
+        print(f'Error extracting {asset.name} archive', file=sys.stderr)
+        sys.exit(1)
+
+    # Remove the tar.xz archive
+    print(f"Removing '{asset.name}' archive...", file=sys.stderr)
+    os.remove(tar_xz_path)
+
+    # Move '/tmp/lazygit' to LOCALBIN, overwriting if necessary
+    print(f"Moving lazygit to {local_bin_dir}", file=sys.stderr)
+    os.rename('/tmp/excelchop', os.path.join(local_bin_dir, 'excelchop'))
+
 
 if __name__ == "__main__":
     local_bin_dir = os.environ.get('LOCALBIN')
@@ -245,6 +275,7 @@ if __name__ == "__main__":
         "git-filter-repo": install_git_filter_repo,
         "json-tui": lambda: install_json_tui(local_dir),
         "lazygit": install_lazygit,
+        "excelchop": install_excelchop,
     }
 
     if program is None:
