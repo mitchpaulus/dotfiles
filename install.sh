@@ -70,6 +70,7 @@ checkfile   ~/.config/git/config                .gitconfig
 checkfile   ~/.config/i3blocks/config           i3blocks/config
 checkfile   ~/.config/tmux/bash_completion_tmux.sh           scripts/bash_completion_tmux.sh
 checkfile   ~/.config/fish                      .config/fish/
+checkfile   ~/.config/lf/lfrc                   .config/lf/lfrc
 
 if [ ! -L ~/.tmux.conf ]; then
     prompt "Which version of tmux.conf do you want? 1 = new, 2 = old, 3 = skip "
