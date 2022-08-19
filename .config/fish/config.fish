@@ -7,6 +7,13 @@ set -gx MPNOTES ~/dotfiles/notes
 set -gx LOCALBIN ~/.local/bin
 set -gx FILEMANAGER lf
 
+# See https://github.com/pypa/pipenv/issues/5075
+# My annoyance with the Python ecosystem grows.
+set -gx SETUPTOOLS_USE_DISTUTILS stdlib
+
+# Make LOCALBIN directory if it doesn't exist
+mkdir -p $LOCALBIN
+
 # Good ole U.S. of A.
 set -gx TEXLIVE_INSTALL_PAPER letter
 set -gx TEXLIVE_INSTALL_PREFIX "$HOME"/texlive
@@ -61,6 +68,7 @@ path_prepend "$HOME/.gem/ruby/3.0.0/bin"
 path_prepend "$HOME/bin"
 path_prepend "$HOME/.local/bin"
 path_prepend "/mnt/d/PortablePrograms/tabula-win-1.2.1/tabula"
+path_prepend $HOME/.pyenv/bin
 
 # Neovim/Vim for all the things
 if command -v nvim >/dev/null 2>&1
@@ -197,6 +205,7 @@ abbr -a mdformat 'mdformat --number'
 abbr -a x 'chmod +x'
 abbr -a md 'mkdir'
 abbr -a mk 'mkdir'
+abbr -a pf 'printf'
 
 # Git shortcuts
 if command -v git >/dev/null 2>&1
