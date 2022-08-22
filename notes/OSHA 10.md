@@ -145,6 +145,47 @@ ANSI Z-89.1 is helmet standard.
 - carpenters: 2 out of 5 were injured at some point in 4 years of training.
 - keep hands 12" away from point of impact
 
+## Abrasive Wheels
+
+- Test using sound or ring test
+
+## Caught In Between Hazards
+
+Top 4 causes of construction fatalities:
+
+1. Falls
+2. Struck by
+3. Caught in between
+4. Electrocution
+
+1926.1424 OSHA requires Work Area Control for swing radius hazards.
+
+- Jacking equipment must be capable of supporting at least two and one-half times the load being lifted during jacking operations.
+- 1926.502 Subpart M: Fall protection guidelines
+- 5ft deep trench needs adequate protective systems.
+
+Trench safety strategies:
+  - sloping
+  - shoring
+  - benching
+  - trench shield systems.
+
+BBS = behavior based safety
+
+Human performance snares
+  - Time constraints
+  - Interruptions or distractions
+  - Multitasking
+  - Overconfidence
+  - Vague guidance
+  - Overnight shift work
+  - Peer pressure
+  - Change
+  - Physical environment
+  - Mental stress
+
+# PPE
+
 - PPE standards often start from ANSI
 
 - Provided at no cost to employee, except
@@ -170,5 +211,4 @@ Electrical hazard rated shoes
 - ASTM F1116-08
 
 Backs are most injured body part, then hands.
-
 
