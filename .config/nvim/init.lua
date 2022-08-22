@@ -806,6 +806,9 @@ bufEnterAutocmds = {
     { '.gitignore', 'set filetype=conf' }, -- close enough
     { '.gitignore', 'inoremap ,dt :read !do-targets' },
 
+    -- The Windows Terminal settings file ('settings.json') is JSON5 with comments.
+    -- jsonc filetype seems to handle it alright.
+    { 'settings.json', 'set ft=jsonc' },
 
     -- doit build system file
     { 'dodo.py', 'inoremap ,dep "file_dep": [  ]<Left><Left>' },
@@ -814,6 +817,8 @@ bufEnterAutocmds = {
     { 'dodo.py', 'inoremap ,doc "doc": ""<Left>' },
     { 'dodo.py', 'inoremap ,task <esc>:read $DOTFILES/snipfiles/doit_task.py<cr>' },
 
+    -- This is a function defined here, to make sure the completeopt option is
+    -- updated properly for whether we're in a LSP setting or not.
     { '*', 'lua fix_completeopt()' },
 }
 
