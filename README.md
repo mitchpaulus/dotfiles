@@ -10,7 +10,7 @@ As they say, progress not perfection.
 
 * EDITOR: ~~Vim~~ [Neovim](https://neovim.io), I've made the switch.
 
-* TERMINAL: [Alacritty](https://github.com/alacritty/alacritty) for the most part on Linux.
+* TERMINAL: [Alacritty](https://github.com/alacritty/alacritty) or [Konsole](https://konsole.kde.org/) for the most part on Linux.
   [Windows Terminal](https://github.com/Microsoft/Terminal) in WSL.
 
 * SHELL: [`fish`](https://fishshell.com/). So much more pleasant to work in on a daily basis.
@@ -18,12 +18,12 @@ As they say, progress not perfection.
 
 * BROWSER: Firefox, It's not Google Chrome and works pretty well with vim-vixen extension.
 
-* FONT: Fira Code, Monospaced font with fancy programming ligatures.
+* FONT: [Iosevka](https://typeof.net/Iosevka/). Otherwise, Fira Code, Monospaced font with fancy programming ligatures.
 
-* PDF: Zathura, PDF viewing. Okular on Manjaro.
+* PDF: Zathura, PDF viewing. Okular on Manjaro. Bluebeam for work.
 
 * COMPOSITOR: Compton, for transparency, etc.
 
-* WM: Pretty much live in `tmux`, but have KDE plasma on one computer, i3 on another, and WSL on Windows at main work.
+* WM: Have KDE plasma on one computer, i3 on another, and WSL on Windows at main work. Often, `tmux` within a terminal.
 
-* FILE MANAGER: [`lf`](https://github.com/gokcehan/lf)
+* FILE MANAGER: [`lf`](https://github.com/gokcehan/lf).
