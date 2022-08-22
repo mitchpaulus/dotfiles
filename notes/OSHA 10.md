@@ -138,6 +138,9 @@ Class C: Special service, no voltage protection. Designed for lightweight comfor
 ANSI Z-89.1 is helmet standard.
 
 
+## Noise
+
+90 decibels averaged over 8 hour period limit.
 
 ## Nail Guns
 
@@ -211,4 +214,106 @@ Electrical hazard rated shoes
 - ASTM F1116-08
 
 Backs are most injured body part, then hands.
+
+Foundry or "Gaiter" style boots feature quick release fasteners or elasticized insets to allow fast removal.
+
+## Gloves
+
+- Aluminized gloves used for insulating hands from intense heat.
+
+Natural rubber
+- Low cost, good physical properties, dexterity
+- Poor vs. oils, greases, and organics.
+- Use against: some bases, alcohols, dilute water solutions; fair vs. aldehydes, ketones
+
+Natural rubber blends
+- Low cost, dexterity, better chemical resistance than natural rubber vs. some chemicals
+- Physical properties frequently inferior to other available materials
+- Use against: Same as natural rubber
+
+Polyvinyl chloride (PVC)
+- Low cost, medium resistance to some chemicals
+- Plasticizers can be stripped
+- Use against: Some acids and bases, slats, other water solutions, alcohols
+
+Neoprene
+- Medium costs, medium chemical resistance, medium physical properties
+- Poor for halogenated and aromatci hydrocarbons
+- Use against: Select oxidizing acids, anilines, phenol, glycol ethers
+
+Nitrile
+- Low cost, dexterity
+- Poor vs. benzene, methylene chloride, trichloroethylene, and many ketones
+- Use against: Some oils, greases, aliphatic chemicals, xylene, percholoroethylene, trichloroethane; fair vs. toluene
+
+Butyl
+- Specialty glove, polar organics
+- Expensive, poor vs. hydrocarbons, chlorinated solvents
+- Use against: Some glycol ethers, ketones, esters
+
+Polyvinyl alcohol (PVA)
+- Specialty glove, resists a range of organics, good physical properties
+- Expensive, water sensitive, poor vs. light alcohols
+- Use against: Select aliphatics, aromatics, chlorinated solvents, ketones (except acetone), esters, ethers
+
+Fluoroelastomer (Viton)
+- Specialty glove, organic solvents
+- Extremely expensive, poor physical properties, poor vs. some ketones, esters, amines
+- Use against: Aromatics, chlorinated solvents, also aliphatics and alcohols.
+
+Norfoil (Silver Shields)
+- Excellent chemical resistance
+- Poor fit, easily punctures, poor grip, stiff
+- Use against: Use for HazMat work.
+
+## Respirators
+
+1. Air purifying respirators
+2. Supplied air respirators
+
+# Module 4: Health Hazards in Construction
+
+Focus on OSHA 29 CFR 1926 Subpart D
+
+## Silica
+
+50 micrograms per cubic meter averaged over an 8 hour work shift.
+
+Silicosis Types
+- Acute silicosis: Develops after a few months or as long as 2 years following high concentration exposure.
+- Chronic Silicosis: Usually occurs over 15-20 years
+
+## Asbestos
+
+4 Classes:
+1. Class I: Most hazardous, removal of thermal system insulation and sprayed-on or troweled-on surfacing asbestos containing materials.
+2. Class IV: custodial activities in asbestos clean up
+
+PEL: Permissible exposure limit, 0.1 fibers per cubic centimeter (f/cc) of air, averaged over an 8 hour work shift.
+Short term limit of 1 f/cc, averaged over 30 minutes.
+
+- Employer must provide medical examinations for workers who for 30 or more days per year, engage in Class 1 through 3 work.
+- Records must be kept for 30 years
+
+## MDA - Methylenedianiline
+
+- Light brown, crystalline solid with a faint amino-like odor.
+- Used to coat exterior surfaces, such as concrete structure, pipes, and floors.
+- PEL: 10 parts per billion as 8 hour weighted average, or short term of 100 ppb over 15 minute sampling period.
+- Action level: 5 ppb over 8 hour TWA. Monitoring must then begin.
+
+## Lead
+
+- Toxic to reproductive systems
+- Most commonly exposure via inhalation
+  - Abrasive blasting
+  - Welding, cutting, and burning on steel structures
+- PEL: 50 micrograms per cubic meter of air, 8 hr TWA.
+
+
+Health effects
+
+Silica: Silicosis, lung cancer, loss of body weight
+MDA: Jaundice, Vomiting
+Lead: Birth defects, metallic taste in the mouth, colic with sever abdominal pain
 

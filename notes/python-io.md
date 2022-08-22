@@ -30,6 +30,10 @@ Character | Meaning
    '+'    | open for updating (reading and writing)
 
 
+`newline` parameter controls how newlines are handled in 'text' mode.
+The default is 'Universal newlines', meaning all newlines are converted to Unix '\n'.
+
+
 [os.path](https://docs.python.org/3/library/os.path.html)
 
 ```python
