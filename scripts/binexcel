@@ -9,7 +9,7 @@ BEGIN {
 
     for (i = 1; i < ARGC; i++) {
         if (ARGV[i] == "-h" || ARGV[i] == "--help") {
-            print "Usage: binexcel [-c] average_col criteria_col bin_greater_than_cell" ;
+            print "Usage: binexcel [-c] <Avg or Count col> <Creiteria Col> <Bin > Cell>" ;
             print "Ex: binexcel A B C10" ;
             exit 0;
         }
@@ -30,7 +30,7 @@ BEGIN {
 
     if (arg1 == "" || arg2 == "" || arg3 == "") {
         print "Missing positional arguments (Need 3)"
-        print "Usage: binexcel [-c] average_col criteria_col bin_greater_than_cell" ;
+        print "Usage: binexcel [-c] <Avg or Count col> <Creiteria Col> <Bin > Cell>" ;
         print "Ex: binexcel A B C10" ;
         exit 0;
     }
@@ -73,7 +73,12 @@ BEGIN {
     ARGV[2] = "";
     ARGV[3] = "";
 
-    excel_function = "AVERAGEIFS"
+    if (type == "COUNT") {
+        excel_function = "COUNTIF"
+    }
+    else {
+        excel_function = "AVERAGEIFS"
+    }
 
     match(bin_greater_than_cell, /^[A-Z]+/)
     bin_letter = substr(bin_greater_than_cell, 1, RLENGTH);

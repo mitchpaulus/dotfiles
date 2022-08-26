@@ -246,3 +246,13 @@ def first(iterable: Iterable[T1], predicate: Callable[[T1], bool]) -> Union[T1, 
             return x
     return None
 
+def sanitize_fn(fn: str) -> str:
+    """
+    Return a sanitized version of the given filename.
+    """
+    sanitized = re.sub(r'[^a-zA-Z0-9 _\-\.]', '_', fn)
+    # Remove multiple underscores in a row
+    sanitized = re.sub(r'_{2,}', '_', sanitized)
+    # Remove underscores at the beginning or end
+    sanitized = re.sub(r'^_|_$', '', sanitized)
+    return sanitized
