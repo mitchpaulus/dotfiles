@@ -1,0 +1,4 @@
+#!/usr/bin/awk -E
+BEGIN { }
+{ total = total + $0 }
+END { print total / NR }
