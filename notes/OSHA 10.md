@@ -317,3 +317,15 @@ Silica: Silicosis, lung cancer, loss of body weight
 MDA: Jaundice, Vomiting
 Lead: Birth defects, metallic taste in the mouth, colic with sever abdominal pain
 
+
+# Cranes
+
+- 71 to 82 fatalities per year
+- 30% of electrocutions involved cranes
+- 11% accidents caused by mechanical failures
+
+Why?
+  - Instability
+  - Lack of communication
+  - Lack of training
+  - Inadequate maintenance or inspection
