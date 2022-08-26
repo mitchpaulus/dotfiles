@@ -3,6 +3,7 @@
 References:
 
 - [Nix from the Ground Up](https://www.zombiezen.com/blog/2021/12/nix-from-the-ground-up/)
+- [Nix dev](https://nix.dev/)
 
 ## Installation
 
@@ -27,3 +28,4 @@ So I rewrote that shell script as a fish function.
 packages:
   - ghc
   - cabal-install
+
