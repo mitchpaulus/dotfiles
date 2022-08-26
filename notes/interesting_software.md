@@ -168,3 +168,6 @@ Lossless conversion from image files to PDFs. Far better quality than `convert` 
 
 ## [hydra.nvim](https://github.com/anuvyklack/hydra.nvim)
 
+## [sad](https://github.com/ms-jpq/sadhttps://github.com/ms-jpq/sad)
+
+`sed` replacement.

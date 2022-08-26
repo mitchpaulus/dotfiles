@@ -9,3 +9,11 @@ certain file names or directories, for example `.git`.
 
 References:
 - [Useful GitHub comment](https://github.com/microsoft/language-server-protocol/issues/964#issuecomment-618867090)
+
+## Completion
+
+[lsp-config wiki](https://github.com/neovim/nvim-lspconfig/wiki/Autocompletion)
+[Reddit post](https://www.reddit.com/r/neovim/comments/q58l17/autocompletion_plugin_alternatives/)
+
+<https://github.com/ms-jpq/coq_nvim>
+
