@@ -842,13 +842,12 @@ vim.api.nvim_create_autocmd('TextYankPost', { pattern = '*', group = 'MPEvents',
 -- around.
 vim.cmd([[autocmd BufWrite * execute "normal! mz" |  keeppatterns %s/\v\s+$//e | normal `z]])
 
-vim.api.nvim_exec([[
-" Figure out what syntax group item under cursor is
-function! SynGroup()
-    let l:s = synID(line('.'), col('.'), 1)
-    echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
-endfunction
-]], false)
+-- Determine the syntax group and resulting highlight gruop under the cursor
+function syngroup()
+    syn_id = vim.fn.synID(vim.fn.line('.'), vim.fn.col('.'), true)
+    print(vim.fn.synIDattr(syn_id, 'name') .. ' -> ' .. vim.fn.synIDattr(vim.fn.synIDtrans(syn_id), 'name'))
+end
+vim.api.nvim_create_user_command('Syngroup', syngroup, { nargs = 0 })
 
 -- Make sure we are aware of when we are in insert mode.
 --vim.cmd([[autocmd InsertEnter * setlocal statusline=%#ErrorMsg#\ INSERT\ %.50F%=%y,C:%c,%p%%,HEX:%B,%{&ff},%{&encoding}]])
