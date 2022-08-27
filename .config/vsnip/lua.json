@@ -1,0 +1,9 @@
+{
+    "imap": {
+        "prefix": "im",
+        "body": [
+            "vim.api.nvim_set_keymap('i', $1, $2, {noremap = true, silent = true})"
+        ],
+        "description": "Insert mode keymap, non recursive"
+    }
+}
