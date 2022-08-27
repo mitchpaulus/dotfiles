@@ -85,7 +85,7 @@ cmp.setup({
     mapping = {
         -- ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
         -- ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-        ['<C-SPACE>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+        ['<C-L>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
         ['<C-e>'] = cmp.mapping({
             i = cmp.mapping.abort(),
             c = cmp.mapping.close(),
@@ -213,6 +213,7 @@ function open_terminal()
     if buf_num < 0 then vim.cmd("terminal") else vim.cmd("buffer " .. buf_num) end
 end
 
+-- These are visual mode mappings to convert Fahrenheit to Celsius and Kelvin
 vnmap("<localleader>f2c", "s(<c-r>\" - 32) * 5/9")
 vnmap("<localleader>f2k", "s(<c-r>\" + 459.67) * 5/9")
 
@@ -391,6 +392,8 @@ insertModeNoRecurseMappings = {
 
     -- Shebangs
     { '<localleader>sh', '#!/bin/sh' },
+
+    { '<C-Space>', '<Space>' },
 }
 
 func_map(function(tbl) inmap(tbl[1], tbl[2]) end, insertModeNoRecurseMappings)
