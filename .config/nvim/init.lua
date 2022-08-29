@@ -399,10 +399,10 @@ insertModeNoRecurseMappings = {
 func_map(function(tbl) inmap(tbl[1], tbl[2]) end, insertModeNoRecurseMappings)
 
 -- https://stackoverflow.com/a/60355468/5932184
-vim.api.nvim_exec( [[
-cnoremap <expr> <C-P> wildmenumode() ? "\<C-P>" : "\<Up>"
-cnoremap <expr> <C-N> wildmenumode() ? "\<C-N>" : "\<Down>"
-]], false)
+-- vim.api.nvim_exec( [[
+-- cnoremap <expr> <C-P> wildmenumode() ? "\<C-P>" : "\<Up>"
+-- cnoremap <expr> <C-N> wildmenumode() ? "\<C-N>" : "\<Down>"
+-- ]], false)
 
 vim.api.nvim_set_keymap("v", '<leader>y', '"+y', silent)
 vim.api.nvim_set_keymap("x", 'L', '$', silent)
@@ -840,7 +840,9 @@ vim.api.nvim_create_autocmd('TextYankPost', { pattern = '*', group = 'MPEvents',
 -- the search history isn't ruined with the \v\s+$ junk.
 -- Setting the marks is required so that the cursor doesn't jump
 -- around.
-vim.cmd([[autocmd BufWrite * execute "normal! mz" |  keeppatterns %s/\v\s+$//e | normal `z]])
+-- vim.cmd([[autocmd BufWrite * execute "normal! mz" |  keeppatterns %s/\v\s+$//e | normal `z]])
+vim.api.nvim_create_autocmd('BufWrite', { pattern = '*', group = 'MPEvents', command = 'execute "normal! mz" |  keeppatterns %s/\\v\\s+$//e | normal `z' })
+
 
 -- Determine the syntax group and resulting highlight gruop under the cursor
 function syngroup()
