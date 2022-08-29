@@ -445,6 +445,7 @@ l
 lexer
 linting
 misclassifications
+monospace
 namespace
 namespaces
 neobem
@@ -460,6 +461,7 @@ overline
 pandoc
 parameterization
 parameterize
+parameterizing
 parsers
 pneumatics
 polytubing
