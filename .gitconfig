@@ -20,6 +20,8 @@
     path = ~/.config/git/hostgitconfig
 [pull]
     ff = only
+[push]
+    autoSetupRemote = true
 
 # Can copy this out for a hostgitconfig setup.
 # Directly from the delta README.
