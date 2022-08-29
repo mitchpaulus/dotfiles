@@ -27,12 +27,13 @@
     // To learn more about profiles, visit https://aka.ms/terminal-profile-settings
     "profiles":
     {
+        // Put settings here that you want to apply to all profiles.
         "defaults":
         {
             "fontFace" : "Iosevka Term",
             "fontSize" : 10,
-            "experimental.retroTerminalEffect": false
-            // Put settings here that you want to apply to all profiles.
+            "experimental.retroTerminalEffect": false,
+            "experimental.useAtlasEngine":  true
         },
         "list": [
         {
