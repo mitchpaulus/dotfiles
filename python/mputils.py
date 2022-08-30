@@ -256,3 +256,23 @@ def sanitize_fn(fn: str) -> str:
     # Remove underscores at the beginning or end
     sanitized = re.sub(r'^_|_$', '', sanitized)
     return sanitized
+
+def dirs(path = None) -> List[str]:
+    """
+    Return a list of all directories in the given path. In version sorted order.
+    """
+    if path is None:
+        path = os.getcwd()
+    dirs = [x for x in os.listdir(path) if os.path.isdir(os.path.join(path, x))]
+    version_sort_in_place(dirs)
+    return dirs
+
+def files(path = None) -> List[str]:
+    """
+    Return a list of all files in the given path. In version sorted order.
+    """
+    if path is None:
+        path = os.getcwd()
+    files = [x for x in os.listdir(path) if os.path.isfile(os.path.join(path, x))]
+    version_sort_in_place(files)
+    return files
