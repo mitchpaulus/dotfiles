@@ -276,3 +276,17 @@ def files(path = None) -> List[str]:
     files = [x for x in os.listdir(path) if os.path.isfile(os.path.join(path, x))]
     version_sort_in_place(files)
     return files
+
+def csv_headers(file: str) -> List[str]:
+    """
+    Return the headers of the given CSV file. This does not handle quoted headers.
+    """
+    # Read the first line of the file
+    datetime_like_columns = set(['date', 'time', 'datetime', 'timestamp', 'time stamp'])
+    if isinstance(file, str):
+        with open(file, 'r') as f:
+            line = f.readline()
+            headers = [f.strip() for f in line.strip().split(',') if f.lower().strip() not in datetime_like_columns]
+        return headers
+    else:
+        raise ValueError("Expected file path as input, got {}".format(type(file)))

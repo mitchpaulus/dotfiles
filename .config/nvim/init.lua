@@ -295,7 +295,9 @@ normalNoRecurseMappings = {
     -- Checktime of the file
     { '<leader>ct', '<Cmd>checktime<cr>' },
 
+    -- Edit [v]imrc, [p]ython utilties
     { '<leader>ev', '<Cmd>edit $MYVIMRC<CR>' },
+    { '<leader>ep', '<Cmd>edit $DOTFILES/python/mputils.py<CR>' },
     { '<leader>sv', '<Cmd>source $MYVIMRC | echo "Sourced " . $MYVIMRC<CR>' },
 
     { '<leader>t', '<Cmd>lua open_terminal()<CR>' },
