@@ -205,6 +205,7 @@ abbr -a mdformat 'mdformat --number'
 abbr -a x 'chmod +x'
 abbr -a md 'mkdir'
 abbr -a mk 'mkdir'
+abbr -a mkd 'mkdir'
 abbr -a pf 'printf'
 
 # Git shortcuts
