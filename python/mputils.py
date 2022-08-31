@@ -1,5 +1,4 @@
 import os
-import datetime
 from typing import List, Union, Iterable, TypeVar, Callable, Dict, Any, cast
 import re
 import math
@@ -147,7 +146,7 @@ def percentile(array: List[float], percent: float) -> float:
     See https://en.wikipedia.org/wiki/Percentile, Nearest-Rank method.
     Definition from Wikipedia:
     One definition of percentile, often given in texts,
-    is that the P-th percentile {\displaystyle (0<P\leq 100)}(0<P\leq 100) of a list of N ordered values (sorted from least to greatest)
+    is that the P-th percentile (0<P<=100) of a list of N ordered values (sorted from least to greatest)
     is the smallest value in the list such that no more than P percent of the data is strictly less than the value
     and at least P percent of the data is less than or equal to that value.
     This is obtained by first calculating the ordinal rank and then taking the value from the ordered list that corresponds to that rank.
