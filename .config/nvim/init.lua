@@ -845,6 +845,23 @@ vim.api.nvim_create_autocmd('TextYankPost', { pattern = '*', group = 'MPEvents',
 -- vim.cmd([[autocmd BufWrite * execute "normal! mz" |  keeppatterns %s/\v\s+$//e | normal `z]])
 vim.api.nvim_create_autocmd('BufWrite', { pattern = '*', group = 'MPEvents', command = 'execute "normal! mz" |  keeppatterns %s/\\v\\s+$//e | normal `z' })
 
+function remove_trailing_blank_lines()
+    -- Get number of lines in buffer. 0 is only for unloaded buffer.
+    local line_count = vim.api.nvim_buf_line_count(0)
+    if line_count < 2 then return end
+
+    -- Get contents of final line
+    local last_line = vim.api.nvim_buf_get_lines(0, -2, -1, false)[1]
+    -- If it's blank or whitespace, delete it
+    if last_line:match('^%s*$') then
+        vim.api.nvim_buf_set_lines(0, -2, -1, false, {})
+        -- recurse until no more blank lines
+        remove_trailing_blank_lines()
+    end
+end
+
+-- Remove trailing blank lines of save
+vim.api.nvim_create_autocmd('BufWrite', { pattern = '*', group = 'MPEvents', callback = remove_trailing_blank_lines })
 
 -- Determine the syntax group and resulting highlight gruop under the cursor
 function syngroup()
