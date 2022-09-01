@@ -172,3 +172,6 @@ For Each li In ActiveDocument.Lists
 Next li
 ```
 
+## Insert paragraph before table
+
+Put cursor in upper left hand cell. CTRL-SHIFT-ENTER.

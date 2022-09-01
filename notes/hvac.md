@@ -168,3 +168,11 @@ Advantages:
 4. Allows for easier ignoring, weighting of specific zones.
 
 [link](https://tayloreng.egnyte.com/dl/e1DzRUmHTl/ASHRAE_Journal_-_Trim_and_Respond.pdf_)
+
+
+## End of line resistors (ELR, EOLR, DEOLR)
+
+Basically they allow some supervisory control to verify whether the wiring has been broken resulting in an open or short circuit.
+
+- <https://www.alarmgrid.com/blog/ever-wonder-why-they-re-called-end-of-line-resistors>
+- <http://www.controlandinstrumentation.com/systems/endoflineresistors.html>

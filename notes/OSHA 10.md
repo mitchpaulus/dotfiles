@@ -329,3 +329,23 @@ Why?
   - Lack of communication
   - Lack of training
   - Inadequate maintenance or inspection
+
+4 basic principles
+
+1. Center of gravity
+2. Leverage
+3. Stability
+4. Structural Integrity
+
+Sheaves: The boom hoisting sheave must have pitch diameters of no less than 15 times the nominal diameter of the rope used.
+
+Wire rope rules
+
+- Six randomly distributed broken wires in one lay or three broken wires in one strand in one lay
+- Wear of 1/3 the original diameter of outside individual wires with kinking, crushing, bird caging, or any other damage resulting in distortion of the rope structure
+- Evidence of any heat damage from any cause
+- In standing ropes, more than two broken wires in one lay in section beyond end connections or more than one broken wire at an end connection.
+
+A derrick is a lifting device composed at minimum of a one guyed mast, as in a gin pole, which may be articulated over a load by adjusting its guys
+
+Lifting personnel. Don't exceed 50% of the capacity.
