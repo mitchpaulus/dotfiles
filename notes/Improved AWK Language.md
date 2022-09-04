@@ -18,3 +18,10 @@ I want to create a new version for myself that is better for the types of engine
 
 - Field array slicing syntax
   - Something like `$2:4 ~ /something/`, where this basically checks whether *all* columns 2 through 4 match the regex.
+
+
+## Other language considerations
+
+[Comments](https://www.reddit.com/r/ProgrammingLanguages/comments/w6ntc8/favorite_comment_syntax_in_programming_languages/)
+
+Like the concept of variable length delimiters.
