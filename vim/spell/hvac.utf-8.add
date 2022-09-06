@@ -165,6 +165,7 @@ IKEA
 IOT
 IP
 ISD
+InfluxDB
 Inline
 Interoperability
 Inverter
@@ -493,6 +494,7 @@ subdirectory
 submittal
 submittals
 superset
+timestamp
 tmux
 transpiler
 uncompress
