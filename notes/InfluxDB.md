@@ -17,7 +17,7 @@ Tags are meta data to describe our field data.
 Buckets can have retention policies.
 
 
-## POints
+## Points
 
 In InfluxDB, a point represents a single data record, similar to a row in a SQL database table. Each point:
 
@@ -30,7 +30,7 @@ In InfluxDB, a point represents a single data record, similar to a row in a SQL 
 A collection of data in the InfluxDB data structure that shares a measurement, tag set, and bucket.
 
 
-## WritePrecision
+## Write Precision
 
 Can write at different levels of time precision.
 
@@ -40,3 +40,24 @@ MS = "ms"  (millisecond)
 S = "s" (second)
 US = "us" (?)
 NS = "ns" (nanosecond = default)
+
+## Where is the data located?
+
+<https://docs.influxdata.com/influxdb/v2.4/reference/internals/file-system-layout/?t=Linux>
+
+If installed standalone
+
+Path	Default
+Engine path	  ~/.influxdbv2/engine/
+Bolt path	    ~/.influxdbv2/influxd.bolt
+SQLite path	  ~/.influxdbv2/influxd.sqlite
+Configs path	~/.influxdbv2/configs
+
+If installed as package:
+
+Path	Default
+Engine path	/var/lib/influxdb/engine/
+Bolt path	/var/lib/influxdb/influxd.bolt
+SQLite path	/var/lib/influxdb/influxd.sqlite
+Configs path	/var/lib/influxdb/configs
+Default config file path	/etc/influxdb/config.toml

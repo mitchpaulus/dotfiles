@@ -348,4 +348,57 @@ Wire rope rules
 
 A derrick is a lifting device composed at minimum of a one guyed mast, as in a gin pole, which may be articulated over a load by adjusting its guys
 
-Lifting personnel. Don't exceed 50% of the capacity.
+Lifting personnel. Don't exceed 50% of the capacity. Also "supports its own weight and five times the maximum load"
+
+Master links and shackles: Support at least five times the maximum intended load.
+Rotation resistant rope: Used in slings that support at least ten times the maximum intended load.
+
+# Stairways and Ladders
+
+24% of 645 construction fatalities in 2009 resulted from falls on ladders and on stairs.
+
+Scaffolding standard separate.
+
+- Stairway or ladder required where the elevation between 2 steps in 19 inches or more.
+- Stairways should be installed at an angle between 30 and 50 degrees from the horizontal.
+  Variations in riser height or tread depth shall not be over 1/4 inch in any stairway system.
+- Where doors or gates open directly to a stairway, a platform must be provided that is at least 20 inches in width beyond the swing of the door.
+- Stairway landings at least 30" deep or 22 inches wide, at every 12 feet or less of vertical rise, which are not permanent.
+- Stairways must be installed at least 30 degrees, and no more than 50 degrees, from the horizontal.
+- The clearance of temporary handrails must be at least three inches between handrail and walls, stair rail systems, and other objects.
+- Handrails must be provided to all stairways that have four or more risers, or are higher than 30"
+- If there is a fall hazard of more than 30" on an exposed side of the stairs then a stair rail system must be provided.
+- Handrails and top rails must be capable of 200 lbs.
+- Height of stair rails must not be less than 36" from the upper surface of the stair rail system to the surface of the tread, in line with the face of the riser at forward edge of the tread.
+- The height of handrails shall be not more than 37" nor less than 30" from the upper surface of the handrail to the surface of the tread, in line with the face of the riser at the forward edge of the tread.
+- When the top edge of a stair rail system also serves as a handrail, the height of the top edge shall be not more than 37 inches nor less than 36 inches from the upper surface of the stair rail system to the surface of the tread, in line with the face of the riser at the forward edge of the tread.
+- 3" clearance between rails and walls or other objects.
+
+## Ladders
+
+- rungs should be spaced 10 to 14 inches from each other.
+- Portable ladders must withstand 4x maximum load.
+- Side rails should be > 11.5 inches apart for portable, 16 inches for fixed ladders.
+- double cleated ladders or two or more single ladders should be provided when only means of access and > 25 employees with 2 way traffic
+- 4:1 ratio for ladder angle (75.5° angle)
+- Side rails must extend > 3 ft above top surface for extension ladder.
+- Tall ladders > 24 ft in height need at least one of the following
+  - ladder safety device
+  - self-retracting lifelines with rest platforms every 150 ft or less
+  - Cage or well, and multiple ladder section, each section not exceeding 50 ft.
+- Fixed ladders must support 2 loads of 250 lbs, concentrated between any two consecutive attachments.
+- Minimum toe clearance shall be 7".
+- 30" perpendicular clearance on the climbing side of the ladder, except for unmovable obstruction, which can be 24" provided there is a deflection device.
+- Fixed ladder with only a cage or a well shall not exceed 50ft.
+- ladders having pitch in excess of 90° from the horizontal not permitted.
+- Step across distance shall not exceed 12".
+
+
+Duty Ratings
+
+Ladder type, Working load (lbs), Working load (kg)
+- Special: IAA, 375, 170.4
+- Extra heavy duty: IA, 300, 136.2
+- Heavy duty: I, 250, 113.5
+- Medium duty: II, 225, 102.2
+- Light duty: III, 200, 90.8
