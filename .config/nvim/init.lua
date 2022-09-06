@@ -848,7 +848,11 @@ vim.api.nvim_create_autocmd('BufWrite', { pattern = '*', group = 'MPEvents', com
 function remove_trailing_blank_lines()
     -- Get number of lines in buffer. 0 is only for unloaded buffer.
     local line_count = vim.api.nvim_buf_line_count(0)
-    if line_count < 2 then return end
+    if line_count < 2 then
+        -- Save at the end.
+        vim.cmd('update')
+        return
+    end
 
     -- Get contents of final line
     local last_line = vim.api.nvim_buf_get_lines(0, -2, -1, false)[1]
@@ -858,10 +862,11 @@ function remove_trailing_blank_lines()
         -- recurse until no more blank lines
         remove_trailing_blank_lines()
     end
+    vim.cmd('update')
 end
 
--- Remove trailing blank lines of save
-vim.api.nvim_create_autocmd('BufWrite', { pattern = '*', group = 'MPEvents', callback = remove_trailing_blank_lines })
+-- Remove trailing blank lines only before quitting file. Was a bit annoying on every save.
+vim.api.nvim_create_autocmd('QuitPre', { pattern = '*', group = 'MPEvents', callback = remove_trailing_blank_lines })
 
 -- Determine the syntax group and resulting highlight gruop under the cursor
 function syngroup()
