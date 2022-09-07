@@ -402,3 +402,19 @@ Ladder type, Working load (lbs), Working load (kg)
 - Heavy duty: I, 250, 113.5
 - Medium duty: II, 225, 102.2
 - Light duty: III, 200, 90.8
+
+# Asbestos
+
+Medium risk activities
+ - Taking out mounting screw from cement products containing asbestos
+ - False ceiling removal.
+ - Destroying block wall
+ - Taking apart drywall that contains assists in the joint-filling material
+
+After completion of tasks, all polyethylene sheets and work area barriers should be sprinkled with water.
+
+High risk activities
+- Removing/maintaining/cleaning anything with large amounts of friable asbestos fibers.
+
+- Maintain low pressure
+- Floor and work area must be covered with polyethylene sheets extended at least 12 inches up the wall.

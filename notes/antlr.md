@@ -213,10 +213,3 @@ public String toString(Recognizer r) {
   return "[@"+getTokenIndex()+","+start+":"+stop+"='"+txt+"',<"+typeString+">"+channelStr+","+line+":"+getCharPositionInLine()+"]";
 }
 ```
-
-
-
-
-
-
-
