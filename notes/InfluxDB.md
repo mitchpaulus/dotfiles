@@ -61,3 +61,14 @@ Bolt path	/var/lib/influxdb/influxd.bolt
 SQLite path	/var/lib/influxdb/influxd.sqlite
 Configs path	/var/lib/influxdb/configs
 Default config file path	/etc/influxdb/config.toml
+
+## Installation
+
+Easy installation. Download zip with single file binary. Run it.
+Normally capture the output to files:
+
+```sh
+./influxd >stdin.txt 2>stdout.txt &
+```
+
+Migration to new database is just running new executable as long as the data hasn't moved from locations above.

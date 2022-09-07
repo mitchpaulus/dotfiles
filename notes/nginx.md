@@ -50,6 +50,33 @@ Important file locations:
 
 `/etc/letsencrypt/live/domain.com/privkey.pem`
 
+This should add lines like:
+
+```
+server {
+    server_name my_server.com
+
+    # Added
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/db.command-cx.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/db.command-cx.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+
+# Whole block added
+server {
+    if ($host = my_server.com) {
+      return 301 https://$host$request_uri;
+    }
+
+    server_name my_server.com
+    listen 80;
+    return 404
+}
+```
+
+See <https://serverfault.com/questions/1107062/explain-certbots-https-redirect-configuration> for the reasoning on the "return 404" stuff of the http redirect block.
 
 ## SSL Testing
 
