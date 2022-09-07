@@ -403,7 +403,135 @@ Ladder type, Working load (lbs), Working load (kg)
 - Medium duty: II, 225, 102.2
 - Light duty: III, 200, 90.8
 
+# Lead
+
+Early signs:
+
+- Loss of appetite
+- Metallic taste
+- Irritability
+- Moodiness
+- Joint and muscle ache
+- Trouble sleeping
+- Lack of concentration
+- Fatigue
+- Decreased sex drive
+- Headaches
+
+Typically enters via inhalation or ingestion
+- Can consume while eating or drinking contaminated food or beverages.
+
+Activities:
+- Lead-based paints
+- Melting and casting lead and babbitt metal
+- Soldering
+- Reclaiming lead-acid batteries
+- Grinding or sanding, machining, cutting or heating lead containing materials.
+
+Other hazards:
+- Anemia
+- Damage to cells in the kidneys
+- Reduced sperm count
+
+Later signs:
+- Anemia
+- Kidney failure
+- stomach pains
+- High blood pressure
+- convulsions or seizures
+- Constipation or diarrhea
+- Tremors
+- Nausea
+- Wrist or foot drop
+- Reduced fertility
+
+Action level: 30 micrograms per cubic meter, Permissible exposure level (PEL) 50 micrograms/m³
+If you have > 40 micrograms/100g you must be testing at least every other month.
+If > 50 must not enter and lead contaminated areas until two consecutive test show < 40.
+Annual medical exams to all > 40
+
+Quarterly monitoring > PEL
+6 month monitoring > Action level < PEL
+
+## Lead Control Measures
+
+- Exhaust ventilation. HEPA vacuum system
+- Encapsulation. Epoxy coating, acrylic, or flexible wall coverings. Vinyl tiles or linoleum flooring.
+- Substitution.
+- Process Modification. Ex: Hydro-blasting or Vacuum blasting.
+- Isolation
+
+When removing lead based paints, use a no flame electrical heat gun type softener. < 700°F.
+
+## Housekeeping
+
+- All lead must be cleaned every day or after every work shift.
+- If exposed above PEL, must be provided with a clean changing area.
+- Must shower if required.
+- Don't sweep up dust, use HEPA vacuum.
+
+## Respirators
+
+- Air purifying respirators. Passes air through filter.
+- Atmosphere supplying respirators.
+  - Supplied air respirator (SAR)
+  - Self contained breathing apparatus. (SCBA)
+
+## Record Keeping
+
+- Name, SSN, job classification
+- sampling procedures, date, number, duration, location, and results.
+- Type of respirator
+
 # Asbestos
+
+Types:
+  - Chrysotile. White asbestos. Most common.
+  - Amosite. Brown asbestos. Second most common. 4-6% of building materials in the US.
+  - Crocidolite. Blue asbestos. Least common. 1-4$ of building materials in the US.
+
+Fiber masses break into tiny particles. When inhaled cause severe health problems.
+
+ACBM: Asbestos containing building material. Common usages:
+  - Insulation
+  - Fireproofing
+  - Acoustical or soundproofing
+
+"Friability" is a key property of how hazardous the asbestos is.
+  - fibrous or fluffy sprayed on materials, high friability
+  - Vinyl asbestos floor tile or roofing felts, less friability
+
+Risk factors:
+  - Smoking
+  - Amount and duration
+  - Age
+
+Related diseases:
+- asbestosis (causes scarring of the lungs). No effective treatment.
+- lung cancer (Latency period of 15-30 years). Largest number of related deaths.
+- mesothelioma (cancer of the lining of the lung and chest. Latency period of 15-50 years)
+- other cancers
+
+
+Sign specifications
+- Danger
+- Asbestos
+- Cancer and Lung Disease
+- Hazard
+- Authorized Personnel Only
+- Avoid Creating Dust
+- If needed: "Respirators and protective clothing are required in this area."
+
+Warning Labels
+- Danger
+- Contains Asbestos Fibers
+- Avoid Creating Dust
+- Cancer and Lung Disease Hazards
+
+Employer must not use employee rotation as a means of compliance.
+PEL: 0.1 fibers per cubic centimeter of air (0.1f/cc) averaged over the 8 hour workday
+
+Excursion limit: 1.0 fiber per cubic centimeter of air (1 f/cc) over 30 minutes.
 
 Medium risk activities
  - Taking out mounting screw from cement products containing asbestos
