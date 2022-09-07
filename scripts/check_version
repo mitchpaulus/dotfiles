@@ -1,0 +1,26 @@
+#!/usr/bin/awk -E
+
+# Purpose: Check that the input string is a valid SemVer version number.
+# Should be of form: v1.2.3
+
+# Usage: ./semver-check.sh <version>
+
+BEGIN {
+
+    # Check if argument supplied
+    if (ARGC != 2) {
+        print "Usage: ./semver-check.sh <version>"
+        exit 1
+    }
+
+    version = ARGV[1]
+    ARGV[1] = ""
+
+    # Check if version is of form v1.2.3
+    # If not, exit with error
+    if (version !~ /^v[0-9]+\.[0-9]+\.[0-9]+$/) {
+        # Print to stderr
+        print "Version must be of form v1.2.3" > "/dev/stderr"
+        exit 1
+    }
+}
