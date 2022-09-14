@@ -27,6 +27,7 @@ vim.cmd [[ Plug 'mitchpaulus/neobem-vim' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-andover-plain-english' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-awk-indent-fix' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-siemens-ppcl' ]]
+vim.cmd [[ Plug 'mitchpaulus/xlim-vim' ]]
 vim.cmd [[ Plug 'mracos/mermaid.vim' ]]
 vim.cmd [[ Plug 'nvim-telescope/telescope.nvim' ]]
 vim.cmd [[ Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' } ]]
@@ -151,7 +152,7 @@ local function setupLsp()
         if client.resolved_capabilities.document_formatting then
             buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
         elseif client.resolved_capabilities.document_range_formatting then
-            buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
+            buf_set_keymap("v", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
         end
 
         -- Set autocommands conditional on server_capabilities
@@ -360,6 +361,14 @@ insertModeNoRecurseMappings = {
     { '<localleader>df', '°F' },
     { '<localleader>dp', 'ΔP' },
     { '<localleader>dt', 'ΔT' },
+
+    -- Some greek
+    { '<localleader>eta', 'η' },
+    { '<localleader>mu', 'μ' },
+    { '<localleader>pi', 'π' },
+    { '<localleader>sigma', 'σ' },
+    { '<localleader>tau', 'τ' },
+    { '<localleader>theta', 'θ' },
 
     -- Faster file name completion
     { '<C-F>', '<C-X><C-F>' },
