@@ -9,10 +9,9 @@ These are set up per user, not per repository.
 
 Needed three things:
 
-1. Additional items in .csproj. `RepositoryUrl` does not have the .git
-   added.
+1. Additional items in .csproj. `RepositoryUrl` does not have the .git added.
 
-```
+```xml
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
@@ -38,7 +37,9 @@ Needed three things:
    the location of the 'source', which is then used on the command line
    in step 3.
 
-```
+   Maybe don't need that `<clear />` item?
+
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
     <packageSources>
@@ -61,3 +62,9 @@ dotnet nuget push "bin/Release/CCLLC.AndoverDmp.0.1.0.nupkg" --api-key ghp_asdfa
    Some of the same functionality, but they aren't necessarily the same.
 
 2. `nuget.exe add Lib.0.5.0.nupkg -Source  C:\Users\mpaulus\Nuget`
+
+
+## Exception looking for dll on `pack`
+
+Apparently having `GeneratePackageOnBuild` breaks everything on the CLI.
+<https://github.com/dotnet/sdk/issues/10335>

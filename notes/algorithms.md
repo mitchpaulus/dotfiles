@@ -140,4 +140,3 @@ public static List<List<T>> Batch<T>(this List<T> list, int groups)
     return batches;
 }
 ```
-
