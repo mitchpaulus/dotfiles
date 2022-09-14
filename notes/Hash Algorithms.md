@@ -36,4 +36,3 @@ class A:
             return self.__key() == other.__key()
         return NotImplemented
 ```
-

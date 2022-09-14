@@ -23,4 +23,3 @@ END {
     printf "redo-ifchange '$EXCELFILE'\n"
     printf "excelchop %s '$EXCELFILE'\n", options, file
 }
-

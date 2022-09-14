@@ -13,4 +13,3 @@ Good resources:
 4. Build docs using the EX command while running the new Neovim:
     - `:helptags $VIMRUNTIME/doc` or
     - `:helptags ALL`
-

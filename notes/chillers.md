@@ -51,5 +51,3 @@ Digit 48: Spring Isolators
 Digit 49: Manufacturing Location
 Digit 50: Evaporator and Condenser Size
 Digit 51: Special Option
-
-

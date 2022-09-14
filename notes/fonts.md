@@ -49,4 +49,3 @@ OTF (OpenType Font): Adobe and Microsoft, somewhat based on TTF.
 OTF allows for more features. Ligatures and alternate characters can be
 defined in the single file, vs. TTF which may have had to be additional
 files.
-

@@ -13,4 +13,3 @@ fd '^[^_].*pdf' | sort -V | pdfbookmark > bookmarks.txt
 gs -o tmp -sDEVICE=pdfwrite bookmarks.txt -f _combined.pdf && mv tmp _combined.pdf
 
 rm bookmarks.txt
-

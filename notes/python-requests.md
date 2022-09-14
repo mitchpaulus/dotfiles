@@ -19,4 +19,3 @@ r = requests.post(url, data=payload, cookies=cookies, headers=headers)
 payload = {'key1': 'value1', 'key2': ['value2', 'value3']}
 r = requests.get('https://httpbin.org/get', params=payload)
 ```
-

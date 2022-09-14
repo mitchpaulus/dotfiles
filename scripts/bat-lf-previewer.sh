@@ -15,4 +15,3 @@ if test "$#" -eq 3; then
 else
     bat --italic-text always --color always --style 'plain' --theme 'ansi' "$1"
 fi
-

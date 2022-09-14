@@ -19,5 +19,3 @@ Voltage x Amp-h = Power-h = Wh
 V A = W
 
 Many Lithium Ion batteries will be rated at 3.7 - 3.85 V.
-
-

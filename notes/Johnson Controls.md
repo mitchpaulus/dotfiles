@@ -41,4 +41,3 @@ Types of sideloops available.
 References:
 
 [Sideloops](https://docs.johnsoncontrols.com/bas/api/khub/documents/lDoi_GEQpkD7WFvGN3bY1A/content)
-

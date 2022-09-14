@@ -8,4 +8,3 @@ nix-env -i sage
 ```
 
 [Maxima](https://maxima.sourceforge.io/)
-

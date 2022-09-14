@@ -29,4 +29,3 @@ String == str
 Marker Tag == hszinc.datatypes.MarkerType
 DateTime == datetime.datetime
 ```
-

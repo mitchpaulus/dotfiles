@@ -23,4 +23,3 @@ for row in cur.execute('SELECT * FROM stocks ORDER BY price'):
 # Just be sure any changes have been committed or they will be lost.
 con.close()
 ```
-

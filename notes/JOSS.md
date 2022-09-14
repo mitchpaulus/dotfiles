@@ -38,5 +38,3 @@ Paper
  - State of the field. Do the authors describe how this software compares to other commonly-used packages?
  - Quality of writing
  - References
-
-

@@ -14,5 +14,3 @@ installation steps.
 
 2. Set local gem location in environment variables, gem install
    `jekyll` and `bundler`.
-
-

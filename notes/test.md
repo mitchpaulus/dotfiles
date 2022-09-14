@@ -58,4 +58,3 @@ Expressions can be grouped using parentheses.
 
 • ( EXPRESSION ) returns the value of EXPRESSION.
   Note that parentheses will usually require escaping with \( to avoid being interpreted as a command substitution.
-

@@ -108,4 +108,3 @@ high number followed by a low number, which causes the pages to appear in
 reverse.  Numbers may be repeated.  A page range may be appended with :odd
 to indicate odd pages in the selected range or :even to indicate even
 pages.
-

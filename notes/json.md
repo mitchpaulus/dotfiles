@@ -27,4 +27,3 @@ var myobj = JsonConvert.DeserializeObject(json)
 Types:
 
 JObject for object
-

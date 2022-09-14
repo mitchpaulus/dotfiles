@@ -48,4 +48,3 @@ if __name__ == "__main__":
             # If paragraph is a heading, print it.
             if "Heading" in paragraph.style.name:
                 print(paragraph._p.xml)
-

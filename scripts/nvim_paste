@@ -8,4 +8,3 @@ else
     # Else rely on PowerShell being installed and available.
     powershell.exe Get-Clipboard | tr -d '\r' | sed -z '$ s/\n$//'
 fi
-

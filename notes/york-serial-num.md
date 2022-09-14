@@ -68,4 +68,3 @@ Pos 5-10: Sequential Serial Numbers
 
 Ex: N1L5123456 would be:
 Norman Plant, Oct. 2015, #123456
-

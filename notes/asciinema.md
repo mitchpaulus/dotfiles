@@ -23,4 +23,3 @@ On Playback:
  - rows: number of rows in the terminal
  - size: font size, small, medium, or big
  - t: playback start time, either `ss`, `mm:ss`, or `hh:mm:ss`.
-

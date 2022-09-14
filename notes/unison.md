@@ -43,5 +43,3 @@ set -gxp 'LD_LIBRARY_PATH' $HOME/repos/ncurses/output/ncurses/lib/
 
 Debugged using:
 https://stackoverflow.com/a/63730734/5932184
-
-

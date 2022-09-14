@@ -22,5 +22,3 @@ Year 	Start 	End
 
 
 ## Python
-
-

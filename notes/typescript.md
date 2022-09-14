@@ -37,5 +37,3 @@ parenthesize the function types or use a type alias.
 ```
 var myvar = ((param) => Type) | OtherType
 ```
-
-

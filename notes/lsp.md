@@ -16,4 +16,3 @@ References:
 [Reddit post](https://www.reddit.com/r/neovim/comments/q58l17/autocompletion_plugin_alternatives/)
 
 <https://github.com/ms-jpq/coq_nvim>
-

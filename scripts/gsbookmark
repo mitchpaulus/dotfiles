@@ -5,4 +5,3 @@ BEGIN { FS="\t" }
     page_num = NF == 2 ? $1 : NR
     printf "[/Page %d /View [/XYZ null null null] /Title (%s) /OUT pdfmark\n", page_num, $2
 }
-

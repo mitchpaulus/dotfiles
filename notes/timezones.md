@@ -14,5 +14,3 @@
 
 - Olson/IANA: Main time zone database now controlled by the IANA, and can be found
   at https://www.iana.org/time-zones
-
-

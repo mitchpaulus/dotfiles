@@ -31,5 +31,3 @@ for key in dict:
 
 dict_comprehension = { t.key: t.value for t in iterable }
 ```
-
-

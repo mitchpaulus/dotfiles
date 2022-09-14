@@ -45,4 +45,3 @@ Fields:
 22. type
 23. volume
 24. year
-

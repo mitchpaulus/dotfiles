@@ -44,4 +44,3 @@ NR-16   NR-8    COLOR NAME
 13	    5\*	    Magenta, LightMagenta
 14	    3\*	    Yellow, LightYellow
 15	    7\*	    White
-

@@ -25,6 +25,3 @@ NR > 1 {
 END {
     print "</table>"
 }
-
-
-

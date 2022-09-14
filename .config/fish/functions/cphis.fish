@@ -5,4 +5,3 @@ function cphis --description "Fuzzy search and copy a line from history to clipb
         printf "Need to update this function to work with other clipboards.\n"
     end
 end
-

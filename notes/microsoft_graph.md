@@ -46,4 +46,3 @@ Microsoft.Graph.Auth - Provides an authentication scenario-based wrapper
 of the Microsoft Authentication Library (MSAL) for use with the
 Microsoft Graph SDK. Microsoft.Graph.Auth has a dependency on
 Microsoft.Graph.Core.
-

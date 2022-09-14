@@ -17,4 +17,3 @@ case "$1" in
     *.tar.gz|*.TAR.GZ) tar -tzf "$1" ;;
     *) bat-lf-previewer.sh "$1" "$3" ;;
 esac
-

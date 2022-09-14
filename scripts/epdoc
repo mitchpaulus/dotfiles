@@ -9,4 +9,3 @@ if test -n "$WSLENV"; then
     cmd.exe /C start '' "$(wslpath -w "$DIR")"
     cd "$PREV_DIR" || exit 1
 fi
-

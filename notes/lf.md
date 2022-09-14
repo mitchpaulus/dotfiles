@@ -43,4 +43,3 @@ $  shell           shell command
 !  shell-wait      shell command waiting for key press
 &  shell-async     shell command running asynchronously
 ```
-

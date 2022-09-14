@@ -47,4 +47,3 @@ else:
     print("Only support moving files the moment.")
     sys.exit(1)
     # while os.path.exists(destination):
-

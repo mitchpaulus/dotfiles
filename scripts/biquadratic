@@ -45,4 +45,3 @@ END {
     term5 = sprintf("%s * %s * %s", b5, x, y)
     printf "%s + (%s) + (%s) + (%s) + (%s) + (%s)\n", term0, term1, term2, term3, term4, term5
 }
-

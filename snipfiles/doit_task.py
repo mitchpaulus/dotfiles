@@ -5,4 +5,3 @@ def task_newtask():
             "targets": [ "" ],
             "doc": ""
     }
-

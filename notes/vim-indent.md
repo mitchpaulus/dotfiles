@@ -18,5 +18,3 @@ Other useful Vim functions:
 
 Can view built in indentation scripts in `runtime/indent/` directory in
 the source code.
-
-

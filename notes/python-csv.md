@@ -11,4 +11,3 @@ for row in reader:
 
 filelike_from_string = io.StringIO('test string')
 ```
-

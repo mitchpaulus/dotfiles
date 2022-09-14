@@ -24,5 +24,3 @@ Summary of Mozilla research.
 10. Mobilize community participation guidelines
 11. Standardize incentives and recognition
 12. Design inclusive systems that protect identity
-
-

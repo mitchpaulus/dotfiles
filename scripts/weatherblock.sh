@@ -13,4 +13,3 @@ if [ "$(awk 'BEGIN { FS=OFS="\t" } NR == 1 { printf $1 + 300 }' $weather_file)" 
 fi
 
 awk 'BEGIN { FS=OFS="\t" } { print $2 }' $weather_file
-

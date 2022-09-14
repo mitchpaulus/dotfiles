@@ -282,4 +282,3 @@ Required tags:
 ## Debugging
 
 `debugType`
-

@@ -10,5 +10,3 @@ Default settings location:
 
 To regenerate the profiles, you need to remove the profiles from the main `settings.json` file,
 along with removing the `state.json` file that automatically created.
-
-

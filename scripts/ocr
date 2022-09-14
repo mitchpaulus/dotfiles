@@ -15,4 +15,3 @@ if command -v tesseract >/dev/null 2>&1; then
 else
     printf "tesseract command not found."
 fi
-

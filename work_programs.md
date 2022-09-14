@@ -27,4 +27,3 @@
 - Database backup
 - AMD graphics card driver (Win10-Win11-Radeon-PRO-Software-21.Q4-Dec3)
 - VNC Viewer <https://www.realvnc.com/en/connect/download/viewer/>
-

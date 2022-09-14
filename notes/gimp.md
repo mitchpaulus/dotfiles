@@ -18,5 +18,3 @@ Quote from [Gimp Documentation](https://docs.gimp.org/en/gimp-using-rectangular.
 - In Text Tool, use ALT and click and drag
 - In Move Tool, make sure text layer is selected, click right on the
   text.
-
-

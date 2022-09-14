@@ -69,4 +69,3 @@ shutil.move
 ## Walking Directories
 
 [os.walk](https://docs.python.org/3/library/os.html#os.walk)
-

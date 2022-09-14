@@ -16,5 +16,3 @@ if command -v pacman >/dev/null; then
 fi
 
 gem install bundler jekyll
-
-

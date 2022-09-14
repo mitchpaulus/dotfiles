@@ -76,4 +76,3 @@ helpText = unlines
         "  -o         Set output file name. Don't include extension",
         "  -h, --help Show this help and exit"
     ]
-

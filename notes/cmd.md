@@ -23,5 +23,3 @@
 - Shutdown/Restart
     - `shutdown /s`: Shutdown
     -  `shutdown /r`: Restart
-
-

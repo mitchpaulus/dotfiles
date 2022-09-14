@@ -18,4 +18,3 @@ https://www.trane.com/webcache/<name>.pdf
 ## Chillers
 
 PTON = Unit Capacity. Can be different than NTON, nominal capacity.
-

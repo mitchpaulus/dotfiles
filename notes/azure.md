@@ -12,5 +12,3 @@ Cloud file shares.
 2. Transaction optimized
 3. Hot
 4. Cool
-
-

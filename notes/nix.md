@@ -28,4 +28,3 @@ So I rewrote that shell script as a fish function.
 packages:
   - ghc
   - cabal-install
-

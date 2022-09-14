@@ -60,4 +60,3 @@ if __name__ == "__main__":
         if converted_name != file_name:
             # Move the file
             rename(file_name, converted_name)
-

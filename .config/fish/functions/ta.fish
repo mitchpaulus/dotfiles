@@ -11,4 +11,3 @@ function ta --description "tmux attach"
             end
     end
 end
-

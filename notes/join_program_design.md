@@ -17,4 +17,3 @@ Required configuration
 1. Key column selection for both files.
 2. Delimiter
 3. Inner, outer, left, or right join
-

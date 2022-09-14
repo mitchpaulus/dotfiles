@@ -40,4 +40,3 @@ ISD Format
 99: Dew Point Temperature quality code
 100-104: Air pressure (Hectopascals), Scale factor: 10
 105: Air pressure quality code
-

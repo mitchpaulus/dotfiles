@@ -134,4 +134,3 @@ In this order:
 ## Progress Element
 
 [Cool builtin element for progress.](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress)
-

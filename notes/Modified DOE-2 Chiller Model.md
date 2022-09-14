@@ -7,4 +7,3 @@
 3. EIR as a function of PLR
 
 EIR = 1 / COP = Elec Power In / Cooling Power Out
-
