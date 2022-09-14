@@ -78,7 +78,18 @@ Maybe build a simpler syntax on top?
 
 ## [OK?](https://github.com/jesseduffield/OK)
 
-Very interesting compiler enforced design decisions.
+Some very interesting compiler enforced design decisions for thought, even though it is a joke.
 
   - Only one comparer `>=`
   - No if statement, only switch
+
+## [Nickel](https://github.com/tweag/nickel)
+
+One of a few "configuration" programming languages.
+
+Others to look into:
+
+- CUE
+- Jsonnet
+- Nix
+- Starlark

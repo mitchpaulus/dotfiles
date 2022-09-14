@@ -68,3 +68,8 @@ dotnet nuget push "bin/Release/CCLLC.AndoverDmp.0.1.0.nupkg" --api-key ghp_asdfa
 
 Apparently having `GeneratePackageOnBuild` breaks everything on the CLI.
 <https://github.com/dotnet/sdk/issues/10335>
+
+## Authentication Issues in Visual Studio
+
+Visual Studio will cache credentials.
+If you need to update them, you can go to the `Control Panel` -> ``
