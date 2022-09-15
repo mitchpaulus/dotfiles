@@ -326,6 +326,14 @@ normalNoRecurseMappings = {
     { 'P', 'P==' },
 
     { '<leader>=', '<Cmd>Tab /=/<CR>' },
+
+    -- Check for file changes before insertion
+    { 'i', ':<C-u>checktime<CR>i' },
+    { 'a', ':<C-u>checktime<CR>a' },
+    { 'I', ':<C-u>checktime<CR>I' },
+    { 'A', ':<C-u>checktime<CR>A' },
+    { 'o', ':<C-u>checktime<CR>o' },
+    { 'O', ':<C-u>checktime<CR>O' },
 }
 
 vim.api.nvim_set_keymap("n", '<leader>g', ':%s/',    { noremap = true, silent = false })
