@@ -383,11 +383,12 @@ insertModeNoRecurseMappings = {
 
     { '<C-@>', '' },
 
-    -- Function keys, mostly to put in tilde's
+    -- Function keys, mostly to put in tilde's.
+    -- <C-g>u makes sure I can undo the command if I accidentally press wrong F key.
     { '<F1>', '`' },
     { '<F2>', '```' },
-    { '<F3>', '``<Left>' },
-    { '<F4>', '```<CR><CR>```<Esc>kI' },
+    { '<F3>', '<C-g>u``<Left>' },
+    { '<F4>', '<C-g>u```<CR><CR>```<Esc>kI' },
     { '<F9>', '<C-o>:set paste<CR><C-r>+<C-o>:set nopaste<CR>' },
     -- Often try F10 instead of F9, just do the same pasting in insert mode.
     { '<F10>', '<C-o>:set paste<CR><C-r>+<C-o>:set nopaste<CR>' },
@@ -402,6 +403,7 @@ insertModeNoRecurseMappings = {
     { '=', '=<C-g>u'},
     { '!', '!<C-g>u'},
     { ':', ':<C-g>u'},
+    { '-', '-<C-g>u'},
 
     -- I need to use this ALL the time, shell files, etc.
     { '<localleader>ab', 'BEGIN { FS=OFS="\\t" }' },
