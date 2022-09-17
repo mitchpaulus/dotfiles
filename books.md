@@ -8,6 +8,10 @@
 - The Little Schemer, Daniel Friedman and others
 - The Little Typer, Daniel Friedman and others
 
+# Assembly
+
+<http://programminggroundup.blogspot.com/2007/01/programming-from-ground-up.html>
+
 # Cooling Towers
 
 By Detlev G Kroger
