@@ -3,6 +3,7 @@ from typing import List, Union, Iterable, TypeVar, Callable, Dict, Any, cast
 import re
 import math
 import sys
+import subprocess
 
 T1 = TypeVar('T1')
 T2 = TypeVar('T2')
@@ -289,3 +290,35 @@ def csv_headers(file: str) -> List[str]:
         return headers
     else:
         raise ValueError("Expected file path as input, got {}".format(type(file)))
+
+def excelchop(filepath: str, worksheet = None, excel_range: str = None, selector = None):
+    """
+    Run external command 'excelchop', capturing stdout
+    """
+    args = []
+
+    if worksheet is not None:
+        args.append('-w')
+        args.append(worksheet)
+
+    if excel_range is not None:
+        args.append('-r')
+        args.append(excel_range)
+
+    args.append('-A')
+    args.append(filepath)
+
+    result = subprocess.run(['excelchop'] + args, capture_output=True)
+
+    if result.returncode != 0:
+        raise Exception("excelchop failed with return code {}".format(result.returncode))
+
+    if selector is None:
+        selector = lambda line: line.split('\t')
+
+    lines = []
+    # Loop over all lines
+    for line in result.stdout.decode('utf-8').splitlines(keepends=False):
+        lines.append(selector(line))
+
+    return lines
