@@ -1,0 +1,39 @@
+#!/usr/bin/python3
+
+# read file from stdin
+import sys
+
+# Assume text is tab separated with header. Split into lines and columns
+lines = sys.stdin.readlines()
+lines = [line.rstrip('\n').split('\t') for line in lines]
+
+max_columns = max([len(line) for line in lines])
+
+# Get max length of each column
+max_lengths = [0] * max_columns
+for line in lines:
+    for i, column in enumerate(line):
+        if len(column) > max_lengths[i]:
+            max_lengths[i] = len(column)
+
+# Add left justification to each line in columns
+for i, line in enumerate(lines):
+    # Loop over the max number of columns
+    for j in range(max_columns):
+        # If the column exists, add left justification
+        if j < len(line):
+            lines[i][j] = line[j].ljust(max_lengths[j])
+        # Otherwise add empty string with left justification
+        else:
+            lines[i].append(''.ljust(max_lengths[j]))
+
+# Print pipe table with no beginning or ending pipes
+# Print header
+print(" | ".join(lines[0]))
+
+# Print separator
+print("-|-".join(['-' * length for length in max_lengths]))
+
+# Print data
+for line in lines[1:]:
+    print(" | ".join(line))
