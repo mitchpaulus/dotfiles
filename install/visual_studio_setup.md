@@ -7,6 +7,7 @@ Install:
 ## Extensions
 
 - vsvim
+  - Force CTRL-d and CTRL-u to use the VsVim keybinding, not Visual Studio
 
 
 Options:
