@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# This is an alias to awk, with tab as the field separator, and output field separator
+awk -F'	' -v OFS='	' "$@"
