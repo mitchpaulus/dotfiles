@@ -64,3 +64,15 @@ Also see: <https://docs.github.com/en/get-started/using-git/splitting-a-subfolde
 ```sh
 git config --list --show-origin
 ```
+
+## Recovering lost files
+
+This one really saved my behind (<https://stackoverflow.com/a/1109433/5932184>):
+
+```console
+$ git fsck --cache --no-reflogs --lost-found --dangling HEAD
+```
+
+This prints out a whole bunch of hashes for blob (and commtis and other stuff).
+
+I then looped over the blobs and got the contents using `git show <sha>`, redirecting to a backup file.
