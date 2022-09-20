@@ -3,6 +3,28 @@
 # This script for detecting duplicates also prints the lines that they occur in.
 BEGIN {
     OFS="\t"
+
+    # @h
+    help = 0
+    idx = 0
+    while (idx < ARGC) {
+        if (ARGV[idx] == "-h" || ARGV[idx] == "--help")
+        {
+            help = 1
+            ARGV[idx] = ""
+            idx++;
+        }
+        idx++
+    }
+
+    if (help == 1)
+    {
+        print "Usage: " FILENAME " [options] [file]"
+        print "Options:"
+        print "  -h, --help  Print this help message"
+        exit 0
+    }
+
 }
 
 {
