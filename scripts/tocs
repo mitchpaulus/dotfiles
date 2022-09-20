@@ -1,0 +1,25 @@
+#!/usr/bin/python3
+
+# Purpose of this script is to take a file, and then make it a C# StringBuilder
+
+import sys
+
+def transform_line(line: str):
+    # escape the quotes, strip the trailing newlines
+    line = line.replace("\"", "\\\"")
+    line = line.rstrip('\n')
+    print(f"sb.Append(\"{line}\\n\");\n", end="")
+
+
+# Get the file name. If no filename, read from stdin
+if len(sys.argv) > 1:
+    file_name = sys.argv[1]
+    print("StringBuilder sb = new();\n", end="")
+    # Open the file
+    with  open(file_name, "r") as file:
+        for line in file:
+            transform_line(line)
+else:
+    std_lines = sys.stdin.readlines()
+    for line in std_lines:
+        transform_line(line)
