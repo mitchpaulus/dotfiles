@@ -263,7 +263,8 @@ abbr -a t task
 abbr -a mkdri mkdir
 
 function g
-    cd (fzf -1 < ~/.config/goto/dirs.txt | awk -F "	" '$1')
+    cd '/mnt/c/Users/mpaulus/Command Commissioning/'
+    fzf-tmsu
 end
 
 function eil --description "[E]dit [i]nit.[l]ua"

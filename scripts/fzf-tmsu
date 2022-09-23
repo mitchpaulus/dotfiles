@@ -11,8 +11,12 @@ from typing import Set, Union
 import os
 import sys
 
-def files_for_tags(selected_tag_set: Set[str]) -> Set[str]:
-    arguments = ['tmsu', 'files'] + list(selected_tag_set)
+def files_for_tags(selected_tag_set: Set[str], database_path: Union[str, None]) -> Set[str]:
+    arguments = ['tmsu']
+    if database_path is not None:
+        arguments.extend(['--database', database_path])
+    arguments.append('files')
+    arguments.extend(selected_tag_set)
     result = subprocess.run(arguments, capture_output=True, encoding='utf-8')
     return set(result.stdout.splitlines())
 
@@ -64,7 +68,7 @@ def handle_selection(selection: str, selected_tag_set: Set[str], database_path: 
         query(selected_tag_set, database_path)
 
 def query(selected_tag_set: Set[str], database_path: Union[str, None]) -> None:
-    files = files_for_tags(selected_tag_set)
+    files = files_for_tags(selected_tag_set, database_path)
 
     if len(files) == 0:
         print('No files found from current directory location')
@@ -108,7 +112,7 @@ Uses fzf and tmsu to quickly select files/directories from tags.
 '''
 
 if __name__ == "__main__":
-    index = 0
+    index = 1
     database_path = None
     while index < len(sys.argv):
         if sys.argv[index] == '-h' or sys.argv[index] == '--help':
