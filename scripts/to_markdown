@@ -5,35 +5,50 @@ import sys
 
 # Assume text is tab separated with header. Split into lines and columns
 lines = sys.stdin.readlines()
-lines = [line.rstrip('\n').split('\t') for line in lines]
 
-max_columns = max([len(line) for line in lines])
+# Check if this is already a markdown table. Check by looking at second row. If only hyphens and pipes, then assume it is a markdown table
+lines = [line.rstrip('\n') for line in lines]
+
+# Check if we even have enough lines to consider this as a table
+if len(lines) < 2:
+    sys.exit(1)
+
+# Check if second line is a separator
+if all([x in ['-', '|', ' '] for x in lines[1]]):
+    # Split lines on pipes, remove separator line
+    data = [[d.strip() for d in line.split('|')] for line in lines]
+    data.remove(data[1])
+else:
+    # Split lines on tabs
+    data = [[d.strip() for d in line.split('\t')] for line in lines]
+
+max_columns = max([len(line) for line in data])
 
 # Get max length of each column
 max_lengths = [0] * max_columns
-for line in lines:
+for line in data:
     for i, column in enumerate(line):
         if len(column) > max_lengths[i]:
             max_lengths[i] = len(column)
 
 # Add left justification to each line in columns
-for i, line in enumerate(lines):
+for i, line in enumerate(data):
     # Loop over the max number of columns
     for j in range(max_columns):
         # If the column exists, add left justification
         if j < len(line):
-            lines[i][j] = line[j].ljust(max_lengths[j])
+            data[i][j] = line[j].ljust(max_lengths[j])
         # Otherwise add empty string with left justification
         else:
-            lines[i].append(''.ljust(max_lengths[j]))
+            data[i].append(''.ljust(max_lengths[j]))
 
 # Print pipe table with no beginning or ending pipes
 # Print header
-print(" | ".join(lines[0]))
+print(" | ".join(data[0]).rstrip())
 
 # Print separator
-print("-|-".join(['-' * length for length in max_lengths]))
+print("-|-".join(['-' * length for length in max_lengths]).rstrip())
 
 # Print data
-for line in lines[1:]:
-    print(" | ".join(line))
+for line in data[1:]:
+    print(" | ".join(line).rstrip())
