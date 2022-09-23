@@ -176,3 +176,16 @@ Basically they allow some supervisory control to verify whether the wiring has b
 
 - <https://www.alarmgrid.com/blog/ever-wonder-why-they-re-called-end-of-line-resistors>
 - <http://www.controlandinstrumentation.com/systems/endoflineresistors.html>
+
+## Direct Drive vs Belt Driven
+
+Refs:
+ - <https://eldridgeusa.com/blog/which-are-better-direct-or-belt-drive-fans/>
+ - <https://www.industrialfansdirect.com/blogs/info-center/85154244-belt-driven-vs-direct-drive-fans>
+
+Efficiency: Direct drive more efficient, no belt losses.
+Maintenance: Direct drive doesn't need belt replacements, tightening.
+Reliability: Direct drives can handle high heat when in the air stream.
+Noise: related to propeller speed. Belt drives can spin at whatever rate you can make the pulleys.
+Cost: Depends.
+Overall: Direct drive for most.

@@ -43,3 +43,20 @@ email directly, <a href="https://SampleDomainissues/1">view it on GitHub Enterpr
 IMAP: Internet Mail Access Protocol. More modern than POP3. 2-Way.
 
 POP3: Post Office Protocol 3. 1 Way.
+
+
+## Office 365 IMAP
+
+[Source](https://www.getmailbird.com/setup/access-office365-via-imap-smtp#gmail)
+
+- Office365 IMAP Server: outlook.office365.com
+- IMAP port: 993
+- IMAP Security: SSL
+- IMAP Username: "Your full email address"
+- IMAP password: "Your Office365 password"
+
+## CLI Clients to Try
+
+- Neomutt
+- [aerc](https://aerc-mail.org/)
+- [sup](https://sup-heliotrope.github.io/)
