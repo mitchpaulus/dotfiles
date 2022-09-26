@@ -1,0 +1,71 @@
+#!/usr/bin/awk -E
+
+BEGIN {
+    # Use two letter month codes, except for months with unique first char, add single char as well
+    months["ja"]  = 1;
+    months["jan"] = 1;
+    months["f"]   = 2;
+    months["fe"]  = 2;
+    months["feb"] = 2;
+    months["ma"]  = 3;
+    months["ap"]  = 4;
+    months["apr"] = 4;
+    months["may"] = 5;
+    months["my"]  = 5;
+    months["ju"]  = 6;
+    months["jun"] = 6;
+    months["jl"]  = 7;
+    months["jul"] = 7;
+    months["au"]  = 8;
+    months["s"]   = 9;
+    months["se"]  = 9;
+    months["sep"] = 9;
+    months["o"]   = 10;
+    months["oc"]  = 10;
+    months["oct"] = 10;
+    months["n"]   = 11;
+    months["no"]  = 11;
+    months["nov"] = 11
+    months["d"]   = 12;
+    months["de"]  = 12;
+    months["dec"] = 12;
+    year          = 2022;
+}
+
+{
+
+    # This function should take a string like fe3 and return 2022-02-03.
+    # Default to current year. If we have any issues return the original string.
+    loops = 1
+    start_index = 1
+    while (match(substr($0, start_index), /([a-z]|[a-z][a-z]|[a-z][a-z][a-z])([0-9][0-9]?)/, array) > 0) {
+        month = array[1]
+        day = array[2]
+
+        if (!(month in months)) {
+            start_index = start_index + RSTART + RLENGTH
+            continue
+        }
+        month_num = months[month];
+
+        if (day > 31) {
+            start_index = start_index + RSTART + RLENGTH
+            continue;
+        }
+
+        full_date = sprintf("%04d-%02d-%02d", year, month_num, day);
+
+        # Replace the match with the full date
+        $0 = substr($0, 1, start_index + RSTART - 2) full_date substr($0, start_index + RSTART + RLENGTH - 1)
+
+        # 10 for the full date that was replaced.
+        start_index = start_index + RSTART + 10
+
+        if (loops++ > 3) {
+            print "ERROR: Too many loops";
+            exit 1;
+        }
+    }
+
+    print
+}

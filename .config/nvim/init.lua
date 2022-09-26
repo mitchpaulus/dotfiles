@@ -296,6 +296,9 @@ normalNoRecurseMappings = {
     -- Checktime of the file
     { '<leader>ct', '<Cmd>checktime<cr>' },
 
+    -- Reformat my special date codes
+    { '<leader>d', '<Cmd>%!datecode<cr>' },
+
     -- Edit [v]imrc, [p]ython utilties
     { '<leader>ev', '<Cmd>edit $MYVIMRC<CR>' },
     { '<leader>ep', '<Cmd>edit $DOTFILES/python/mputils.py<CR>' },
