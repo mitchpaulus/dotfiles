@@ -140,3 +140,12 @@ public static List<List<T>> Batch<T>(this List<T> list, int groups)
     return batches;
 }
 ```
+
+## Greatest Common Divisor
+
+<https://en.wikipedia.org/wiki/Greatest_common_divisor>
+
+- Euclid's algorithm is simplest, but can be slow with numbers that are different magnitudes
+- [Euclidean algorithm](https://en.wikipedia.org/wiki/Euclidean_algorithm) is more efficient.
+- [lehmer's GCD Algorithm](https://en.wikipedia.org/wiki/Lehmer%27s_GCD_algorithm) Even more efficient
+- [Binary](https://en.wikipedia.org/wiki/Binary_GCD_algorithm)

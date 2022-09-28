@@ -50,3 +50,11 @@ LG = (mw / mwd) / (ma / mad)
 where d is for design.
 
 27 coefficients. All combinations up to cubic for all parameters.
+
+Parameters are ordered in this programmatic order:
+
+```
+for lg = 0 to 2:
+ for r = 0 to 2:
+  for wb = 0 to 2:
+```
