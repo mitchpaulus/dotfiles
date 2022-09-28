@@ -175,3 +175,7 @@ Lossless conversion from image files to PDFs. Far better quality than `convert` 
 ## [Beekeeper Studio](https://www.beekeeperstudio.io/)
 
 Database management tool
+
+## [Inno Setup](https://jrsoftware.org/isinfo.php)
+
+Windows installer program
