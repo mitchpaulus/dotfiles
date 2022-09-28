@@ -435,6 +435,7 @@ enthalpy
 exchanger
 exchangers
 factor
+formatter
 frontend
 gbXML
 gnuplot
