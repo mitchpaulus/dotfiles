@@ -237,6 +237,35 @@ def install_excelchop():
     os.rename('/tmp/excelchop', os.path.join(local_bin_dir, 'excelchop'))
 
 
+def install_neovim():
+    asset = get_github_asset('neovim', 'neovim', lambda a: a.name == 'nvim.appimage')
+    print(f'Downloading {asset.name}...', file=sys.stderr)
+    response = requests.get(asset.browser_download_url)
+
+    if response.status_code != 200:
+        print(f'Error downloading {asset.browser_download_url}: {response.status_code}', file=sys.stderr)
+        sys.exit(1)
+
+    # Save asset to $HOME/apps. Create directory if necessary.
+    app_dir = os.path.join(os.environ['HOME'], 'apps')
+    if not os.path.exists(app_dir):
+        os.mkdir(app_dir)
+
+    app_path = os.path.join(app_dir, asset.name)
+    print(f"Saving '{app_path}'", file=sys.stderr)
+    with open(app_path, 'wb') as f:
+        f.write(response.content)
+
+    # Make the app executable
+    os.chmod(app_path, 0o755)
+
+    # Symlink to $LOCALBIN if it doesn't exist
+    local_bin_dir = cast(str, os.environ.get('LOCALBIN'))
+    print(f"Symlinking '{app_path}' to '{local_bin_dir}'", file=sys.stderr)
+    if not os.path.exists(os.path.join(local_bin_dir, 'nvim')):
+        os.symlink(app_path, os.path.join(local_bin_dir, 'nvim'))
+
+
 if __name__ == "__main__":
     local_bin_dir = os.environ.get('LOCALBIN')
     if local_bin_dir is None:
@@ -258,25 +287,30 @@ if __name__ == "__main__":
     idx = 1
     program = None
 
-    while (idx < len(sys.argv)):
-        if (sys.argv[idx] == "-h"):
-            print("""
-            Usage:
-                install.py [options] [program]
-            Options:
-                -h, --help: Show this help message and exit.
-            """)
-            sys.exit(0)
-        else:
-            program = sys.argv[idx]
-        idx += 1
-
     programs = {
         "git-filter-repo": install_git_filter_repo,
         "json-tui": lambda: install_json_tui(local_dir),
         "lazygit": install_lazygit,
         "excelchop": install_excelchop,
+        "neovim": install_neovim,
     }
+
+    help_lines = [
+        'Usage: install.py [program]',
+        '',
+        'Available programs:',
+    ]
+    for program_name in programs:
+        help_lines.append(f'  {program_name}')
+
+    while (idx < len(sys.argv)):
+        if (sys.argv[idx] == "-h" or sys.argv[idx] == "--help"):
+            print('\n'.join(help_lines), end='\n')
+            sys.exit(0)
+        else:
+            program = sys.argv[idx]
+        idx += 1
+
 
     if program is None:
         print('Error: No program specified.', file=sys.stderr)
