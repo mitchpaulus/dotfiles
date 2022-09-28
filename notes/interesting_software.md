@@ -179,3 +179,7 @@ Database management tool
 ## [Inno Setup](https://jrsoftware.org/isinfo.php)
 
 Windows installer program
+
+## [Vale](https://vale.sh/)
+
+Prose linter.
