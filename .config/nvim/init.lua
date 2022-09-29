@@ -811,7 +811,7 @@ filetypeAutocmds = {
 
     { 'python,nbem', 'iabbrev improt import', },
 
-    { 'compass', 'inoremap <localleader>b <!-- Compass:  --><CR><CR><!-- Compass --><Esc>2k0f:la', },
+    { 'cem', 'inoremap <localleader>b <!-- Compass:  --><CR><CR><!-- Compass --><Esc>2k0f:la', },
 
     { 'ce', 'inoremap <localleader>p \\prop{}<Left>' },
 }
@@ -826,7 +826,8 @@ bufEnterAutocmds = {
     { '*.do'     , 'set filetype=sh' },
     { '*.do'     , 'inoremap ,ex exec >&2<Cr>' },
     { '*.do'     , 'inoremap ,r redo-ifchange<Space>' },
-    { '*.compass', 'set filetype=compass' },
+    { '*.compass', 'set filetype=cem' },
+    { '*.cem'    , 'set filetype=cem' },
     { '*.gnuplot', 'set filetype=gnuplot'},
     { '*.har'    , 'set filetype=json' },
     { '*.ce'     , 'set filetype=ce' },

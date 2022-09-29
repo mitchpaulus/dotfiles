@@ -10,7 +10,7 @@
     "Stats Table": {
         "prefix": ["stats", "st", "lst"],
         "body": ["<!-- Compass: LabelStatisticsTable -->",
-                 "Label: CC Command",
+                 "Label: $1",
                  "Statistics: Min, 5 Percentile, Median, 95 Percentile, Max, % Ignored",
                  "TableSorting: 4 desc",
                  "<!-- Compass -->"
@@ -40,8 +40,8 @@
         "prefix": ["hist", "histogram"],
         "body": [
             "<!-- Compass: Histogram -->",
-            "Label: $0",
-            "BinWidth: $1",
+            "Label: $1",
+            "BinWidth: $2",
             "HistogramYAxis: Percent",
             "<!-- Compass -->"
         ],
