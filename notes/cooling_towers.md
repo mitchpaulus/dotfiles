@@ -55,6 +55,6 @@ Parameters are ordered in this programmatic order:
 
 ```
 for lg = 0 to 2:
- for r = 0 to 2:
+ for r  = 0 to 2:
   for wb = 0 to 2:
 ```
