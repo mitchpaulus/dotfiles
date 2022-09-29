@@ -222,6 +222,7 @@ if command -v git >/dev/null 2>&1
     abbr -a uc 'git add -u; git commit'
     abbr -a merge 'git merge --ff-only; git status -u'
     abbr -a cl 'git clone'
+    abbr -a stash 'git stash'
 end
 
 # On basic Ubuntu install, python3 is installed, but no symlink for python
