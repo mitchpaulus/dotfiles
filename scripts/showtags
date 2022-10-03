@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# print tags for file, get second field (FS=':'), trimmed whitespace. If empty or only whitespace, print "no tags found..."
+tmsu tags "$1" | awk -F: '{print $2}' | sed 's/^[ \t]*//;s/[ \t]*$//' | sed 's/^$/no tags found.../'

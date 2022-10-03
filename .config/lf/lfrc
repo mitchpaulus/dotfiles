@@ -16,6 +16,8 @@ set previewer lf-preview
 map <esc> quit
 
 map t push !tmsu<space>tag<space>"$f"<space>
+# 'showtags' is script in dotfiles
+map T %showtags "$f"
 
 # Unmap single y
 map y
