@@ -392,9 +392,9 @@ insertModeNoRecurseMappings = {
     { '<F2>', '```' },
     { '<F3>', '<C-g>u``<Left>' },
     { '<F4>', '<C-g>u```<CR><CR>```<Esc>kI' },
-    { '<F9>', '<C-o>:set paste<CR><C-r>+<C-o>:set nopaste<CR>' },
+    { '<F9>', '<C-g>u<C-o>:set paste<CR><C-r>+<C-o>:set nopaste<CR>' },
     -- Often try F10 instead of F9, just do the same pasting in insert mode.
-    { '<F10>', '<C-o>:set paste<CR><C-r>+<C-o>:set nopaste<CR>' },
+    { '<F10>', '<C-g>u<C-o>:set paste<CR><C-r>+<C-o>:set nopaste<CR>' },
 
 
     -- Move to end of line when in insert mode
