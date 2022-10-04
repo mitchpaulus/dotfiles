@@ -149,14 +149,16 @@ local function setupLsp()
         vim.o.completeopt = 'menuone,noinsert'
 
         -- Set some keybinds conditional on server capabilities
-        if client.resolved_capabilities.document_formatting then
+        if client.server_capabilities.documentFormattingProvider then
             buf_set_keymap("n", "<space>i", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-        elseif client.resolved_capabilities.document_range_formatting then
+        elseif client.server_capabilities.documentRangeFormattingProvider then
             buf_set_keymap("v", "<space>i", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
         end
 
         -- Set autocommands conditional on server_capabilities
-        if client.resolved_capabilities.document_highlight then
+        -- To see all capabilities of your language server run
+        -- :lua =vim.lsp.get_active_clients()[1].server_capabilities
+        if client.server_capabilities.documentHighlightProvider then
             vim.api.nvim_exec([[
             hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
             hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
