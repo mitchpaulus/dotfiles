@@ -183,3 +183,7 @@ Windows installer program
 ## [Vale](https://vale.sh/)
 
 Prose linter.
+
+## [maTeXt](https://xigoi.srht.site/matext/)
+
+CLI for TeX -> Text

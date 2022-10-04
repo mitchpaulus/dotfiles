@@ -136,3 +136,10 @@ Directories defined:
 - Programs  –>   %USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs
 - Start Menu  –>   %USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu
 - Startup  –>   %USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+
+## Windows Path variables
+
+There are two PATH related registry keys [Source](https://stackoverflow.com/questions/573817/where-are-environment-variables-stored-in-the-windows-registry):
+
+System: `Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment`
+User: `Computer\HKEY_CURRENT_USER\Environment`
