@@ -1,0 +1,2 @@
+#!/bin/sh
+rev | cut -c "$1"- | rev
