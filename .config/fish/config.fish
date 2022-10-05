@@ -195,6 +195,10 @@ set -gxp MYPYPATH "$DOTFILES"/python
 # v for VIM
 abbr -a v $EDITOR
 
+abbr -a lx "$EDITOR (fd lex -e g4)"
+# Short for ANTLR
+abbr -a an "$EDITOR (fd parser -e g4)"
+
 abbr -a wttr 'curl \'wttr.in/Dallas?format=%l:+%C+%t+%h+%w\''
 
 abbr -a gi "$EDITOR .gitignore"
