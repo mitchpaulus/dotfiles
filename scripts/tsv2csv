@@ -1,0 +1,19 @@
+#!/usr/bin/awk -E
+BEGIN { FS="\t"; OFS="," }
+
+{
+    # Force a separator change
+    $1 = $1
+    for (i=1; i<=NF; i++) {
+        # Check if double quote, comma, CR, or LF is present
+        # If so, wrap the field in double quotes
+        # If not, leave the field as is
+        if (match($i, /["\r\n,]/)) {
+            if (match($i, /"/)) {
+                gsub(/"/, "\"\"", $i)
+            }
+            $i = "\"" $i "\""
+        }
+    }
+    print
+}
