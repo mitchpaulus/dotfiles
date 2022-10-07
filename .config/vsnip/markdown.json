@@ -13,6 +13,13 @@
         ],
         "description": "Fraction in Tex Equations"
     },
+    "lr": {
+        "prefix": ["lr"],
+        "body": [
+            "\\left($1\\right)$0"
+        ],
+        "description": "Left and Right in Tex Equations"
+    },
     "dot": {
         "prefix": ["dot"],
         "body": [
