@@ -1,0 +1,62 @@
+#!/usr/bin/python3
+
+import sys
+
+# USAGE
+# python3 xlim_interpolation <input_file> <input_var> <x_unit> <y_unit>
+
+# Check number of arguments
+if len(sys.argv) != 5:
+    print("USAGE: python3 xlim_interpolation <input_file> <input_var> <x_unit> <y_unit>")
+    sys.exit(1)
+
+# Read arguments
+input_file = sys.argv[1]
+input_var = sys.argv[2]
+x_unit = sys.argv[3]
+y_unit = sys.argv[4]
+
+xy_pairs = []
+
+# Read input file
+with open(input_file, 'r') as f:
+
+    # File expected to be tab delimited, first column is x, second column is y.
+    idx = 0
+    for line in f:
+        line = line.strip()
+        if line:
+            x, y = line.split('\t')
+            xy_pairs.append((float(x), float(y)))
+
+# If less than 2 points, exit
+if len(xy_pairs) < 2:
+    print("ERROR: less than 2 points in input file")
+    sys.exit(1)
+
+# Sort by x
+xy_pairs.sort(key=lambda x: x[0])
+
+
+# Write interpolation lines for xlim language.
+lines = []
+
+# First line
+first_line = f"if {input_var} < {xy_pairs[0][0]} {{{x_unit}}} then {xy_pairs[0][1]} {{{y_unit}}}"
+lines.append(first_line)
+
+# Middle lines
+for i in range(1, len(xy_pairs)):
+    x1, y1 = xy_pairs[i-1]
+    x2, y2 = xy_pairs[i]
+    slope = (y2 - y1) / (x2 - x1)
+    line = f"else if {input_var} < {x2} {{{x_unit}}} then {y1} {{{y_unit}}} + ({slope} {{{y_unit}/{x_unit}}}) * ({input_var} - {x1} {{{x_unit}}})"
+    lines.append(line)
+
+# Last line
+last_line = f"else {xy_pairs[-1][1]} {{{y_unit}}}"
+lines.append(last_line)
+
+# Print lines
+for line in lines:
+    print(line)
