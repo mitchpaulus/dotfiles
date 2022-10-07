@@ -35,6 +35,12 @@ A generic class MyContraGen[T, ...] is called contravariant in type variable T i
 
 If neither of the above is true.
 
+From plain English post:
+
+ - `f` is covariant if A<=B implies that f(A) <= f(B)
+ - `f` is contravariant if A<=B implies that f(B) <= f(A)
+ - `f` is invariant if neither holds
+
 Good comment [here](https://stackoverflow.com/a/42720468/5932184):
 
 > The real answer has to do with the way function types interact with

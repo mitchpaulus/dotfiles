@@ -54,3 +54,11 @@ Otherwise, normal quadratic equation is:
 $$
 \frac{ -b \pm \sqrt{b² - 4ac}{2a} }
 $$
+
+## Minimum of quadratic
+
+$$ \frac{dy}{dx} = 2ax + b $$
+
+$$ 0 = 2ax + b $$
+
+$$ \frac{-b}{2a} $$
