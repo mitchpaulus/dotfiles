@@ -4,6 +4,7 @@ import re
 import math
 import sys
 import subprocess
+import hashlib
 
 T1 = TypeVar('T1')
 T2 = TypeVar('T2')
@@ -250,7 +251,7 @@ def sanitize_fn(fn: str) -> str:
     """
     Return a sanitized version of the given filename.
     """
-    sanitized = re.sub(r'[^a-zA-Z0-9 _\-\.]', '_', fn)
+    sanitized = re.sub(r'[^a-zA-Z0-9_\-\.]', '_', fn)
     # Remove multiple underscores in a row
     sanitized = re.sub(r'_{2,}', '_', sanitized)
     # Remove underscores at the beginning or end
@@ -322,3 +323,45 @@ def excelchop(filepath: str, worksheet = None, excel_range: str = None, selector
         lines.append(selector(line))
 
     return lines
+
+def safe_fn(file_path_to_try):
+    # Check if path exists
+    if not os.path.exists(file_path_to_try):
+        return file_path_to_try
+
+    # Append a number to the end of the file. Use a heuristic to test whether it should have underscore (_1) or space before (1).
+    # If the file path has an underscore, use underscore.
+    # If the file path has a space, use space and parenthesis.
+    # If the file path has neither, use underscore.
+    # If the file path has both, use space and parenthesis.
+    filename, ext = os.path.splitext(os.path.basename(file_path_to_try))
+    if '_' in file_path_to_try:
+        # look for existing _1, _2, etc.
+        match = re.search(r'_(\d+)$', filename)
+        if match:
+            # Increment the number
+            filename = re.sub(r'_(\d+)$', '_{}'.format(int(match.group(1)) + 1), filename)
+        else:
+            # Add _1
+            filename = '{}_1'.format(filename)
+    elif ' ' in file_path_to_try:
+        # look for existing (1), (2), etc.
+        match = re.search(r'\((\d+)\)$', filename)
+        if match:
+            # Increment the number
+            filename = re.sub(r'\((\d+)\)$', '({})'.format(int(match.group(1)) + 1), filename)
+        else:
+            # Add (1)
+            filename = '{} (1)'.format(filename)
+    else:
+        # Add _1
+        filename = '{}_1'.format(filename)
+
+    return os.path.join(os.path.dirname(file_path_to_try), filename + ext)
+
+def sha256(filepath) -> str:
+    """
+    Return the SHA256 hash of the given file.
+    """
+    with open(filepath, 'rb') as f:
+        return hashlib.sha256(f.read()).hexdigest()
