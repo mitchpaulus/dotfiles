@@ -569,7 +569,7 @@ function fix_completeopt()
 end
 
 -- NERD Commenter
-vim.g.NERDCustomDelimiters = { axon = { left = "//" }, idf = { left = "!" } }
+vim.g.NERDCustomDelimiters = { axon = { left = "//" }, idf = { left = "!" }, xlim = { left = "--" } }
 -- I like spaces around my delimiters
 vim.g.NERDSpaceDelims = 1
 
