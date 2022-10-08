@@ -187,6 +187,62 @@ local function setupLsp()
     end
 end
 
+function extmark_test()
+    ns = vim.api.nvim_create_namespace("xlim")
+    vim.api.nvim_buf_set_extmark(0, ns, 0, 0, {
+        virt_text = {{"  test hello", "Comment"}},
+        virt_text_pos = "eol",
+    })
+end
+
+function clear_xlim_marks()
+    ns = vim.api.nvim_create_namespace("xlim")
+    vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
+end
+
+function get_xlim_marks()
+    -- Run external command 'xlim $file' and parse output
+    local file = vim.fn.expand("%:p")
+    -- Use cmd as list to run directly without shell
+    local cmd = { "xlim", "--line-nums", file }
+
+    -- Do asyncrounous call to xlim using Neovim jobs. Use buffered output, waiting for entire job to finish
+    local job_id = vim.fn.jobstart(cmd, {
+        stdout_buffered = true,
+        stderr_buffered = true,
+        on_stdout = function(_, data, _)
+            -- Clear existing marks
+            clear_xlim_marks()
+
+            -- Parse output of xlim
+            for _, line in ipairs(data) do
+                -- Split line into line number and text. Tab separated
+                local line_num, text = string.match(line, "(%d+)\t(.*)")
+
+                if line_num ~= nil and text ~= nil then
+                    -- parse line_num to number
+                    line_num = tonumber(line_num)
+
+                    -- Create extmark
+                    ns = vim.api.nvim_create_namespace("xlim")
+                    vim.api.nvim_buf_set_extmark(0, ns, line_num - 1, 0, {
+                        virt_text = {{text, "Comment"}},
+                        virt_text_pos = "eol",
+                    })
+                end
+            end
+        end,
+        on_stderr = function(_, data, _)
+            -- Print error message
+            print(table.concat(data, "\n"))
+        end,
+    })
+end
+
+-- Make extmark_test() as command
+vim.api.nvim_create_user_command("ExtmarkTest", extmark_test, { nargs = 0 })
+
+
 -- Wrap this up so we don't fail if we haven't installed the package yet.
 local status, err = pcall(setupLsp)
 if not status then print(err) end
