@@ -56,6 +56,56 @@ ${pathSeparator} - the character used by the operating system to separate compon
 
 [Source](https://code.visualstudio.com/docs/editor/debugging#_launchjson-attributes)
 
+Extension can provide two things related to `launch.json` in the `contributes.debuggers` endpoint.
+`initialConfigurations` and `configurationSnippets`.
+
+Required:
+- `type`
+- `request`: `launch` or `attach`
+- `name`
+
+Optional:
+- `presentation`
+- `preLaunchTask`
+- `postDebugTask`
+- `internalConsoleOptions`
+- `debugServer`
+- `serverReadyAction`
+
+- `program`
+- `args`
+- `env`
+- `envFile`
+- `cwd`
+- `port`
+- `stopOnEntry`
+- `console`
+
+## Snippets
+
+<https://code.visualstudio.com/api/language-extensions/snippet-guide>
+
+```
+{
+  "contributes": {
+    "snippets": [
+      {
+        "language": "javascript",
+        "path": "./snippets.json"
+      }
+    ]
+  }
+}
+```
+
+## Problem Matchers
+
+Problem matchers are closely related to a given task.
+The `problemMatchers` contribution point simply adds a new variable that someone can use in their task.
+The `problemPatterns` contribution point adds a new variable that can be use in the `pattern` property of a `problemMatcher`
+
+Task -> problemMatchers -> problemPatterns
+
 ## References
 
 [In depth debugger](https://www.codemag.com/article/1809051/Writing-Your-Own-Debugger-and-Language-Extensions-with-Visual-Studio-Code)

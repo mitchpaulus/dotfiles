@@ -4,6 +4,9 @@ X,Y  -> Absolute
 @X,Y -> Relative
 X..Y -> Relative
 
+Polar:
+`L<A`
+
 # Dimensions
 
 - Manually modify dimension text: Tools -> Modify -> Properties (`mp` command).
@@ -22,7 +25,6 @@ To move position of dimensions:
 
 
 Arrow direction: YOU CAN'T [Source](arrow-dir)
-
 
 [arrow-dir]: https://forum.librecad.org/Selecting-dimension-arrows-direction-td5716286.html
 
