@@ -143,3 +143,7 @@ There are two PATH related registry keys [Source](https://stackoverflow.com/ques
 
 System: `Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment`
 User: `Computer\HKEY_CURRENT_USER\Environment`
+
+## Remove Weather from Toolbar
+
+Right click on toolbar, 'News and interest' -> Turn off
