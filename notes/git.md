@@ -76,3 +76,9 @@ $ git fsck --cache --no-reflogs --lost-found --dangling HEAD
 This prints out a whole bunch of hashes for blob (and commtis and other stuff).
 
 I then looped over the blobs and got the contents using `git show <sha>`, redirecting to a backup file.
+
+## Pushing a tag
+
+```
+git push origin v0.1.0
+```

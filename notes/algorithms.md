@@ -40,6 +40,8 @@ Algorithms:
 To get intersecting area of polygons, can follow this up with a shoelace
 algorithm.
 
+For [rectangles](https://stackoverflow.com/questions/306316/determine-if-two-rectangles-overlap-each-other).
+
 ## Significant Figures
 
 ```C#
