@@ -195,9 +195,8 @@ set -gxp MYPYPATH "$DOTFILES"/python
 # v for VIM
 abbr -a v $EDITOR
 
-abbr -a lx "$EDITOR (fd lex -e g4)"
-# Short for ANTLR
-abbr -a an "$EDITOR (fd parser -e g4)"
+# Short for ANTLR, open all g4 files
+abbr -a an "$EDITOR (fd -e g4)"
 
 abbr -a wttr 'curl \'wttr.in/Dallas?format=%l:+%C+%t+%h+%w\''
 
