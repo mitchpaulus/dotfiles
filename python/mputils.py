@@ -365,3 +365,46 @@ def sha256(filepath) -> str:
     """
     with open(filepath, 'rb') as f:
         return hashlib.sha256(f.read()).hexdigest()
+
+def resolve_path(relative_path: str, base_path: str = None, separator = None) -> str:
+    """
+    Resolve the given relative path to an absolute path.
+    """
+    # raise exception if either relative_path or base_path are empty
+    if not relative_path or not base_path:
+        raise ValueError("relative_path and base_path must be non-empty")
+
+    # First split on either '/' or '\'
+    relative_path_parts: List[str]  = re.split(r'[/\\]', relative_path)
+
+    if base_path is None:
+        base_path = os.getcwd()
+
+    base_path_parts: List[str] = re.split(r'[/\\]', base_path)
+    # Remove any trailing empty parts
+    while base_path_parts and not base_path_parts[-1]:
+        base_path_parts.pop()
+
+    for part in relative_path_parts:
+        if part == '.':
+            continue
+        elif part == '..':
+            try:
+                base_path_parts.pop()
+            except IndexError:
+                raise ValueError(f"Attempted to resolve path '{relative_path}' relative to '{base_path}', but {relative_path} is outside of {base_path}")
+        elif part.strip() == '':
+            continue
+        else:
+            base_path_parts.append(part)
+
+    if separator is None:
+        # Combine back with whatever separator was used most.
+        count_forward_slash = relative_path.count('/') + base_path.count('/')
+        count_back_slash = relative_path.count('\\') + base_path.count('\\')
+        if count_forward_slash >= count_back_slash:
+            separator = '/'
+        else:
+            separator = '\\'
+
+    return separator.join(base_path_parts)

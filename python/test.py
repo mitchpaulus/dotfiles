@@ -64,5 +64,12 @@ class TestSorting(unittest.TestCase):
         for x in mputils.version_sort(s):
             print(x)
 
+
+class TestPathResolve(unittest.TestCase):
+    def test_path_resolve(self):
+        path = mputils.resolve_path('../../test.py', '/mnt/c/Users/mpaulus/')
+        self.assertEqual(path, '/mnt/c/test.py')
+
+
 if __name__ == "__main__":
     unittest.main()
