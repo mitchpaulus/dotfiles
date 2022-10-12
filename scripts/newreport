@@ -1,12 +1,41 @@
-#!/bin/sh
+#!/usr/bin/env python3
 
-if test "$1" = "-h" || test "$1" = "--help"; then
-    cat <<EOF
-newreport
+import sys
+import os
+import shutil
 
-Creates a new technical report from our company library.
-EOF
-exit 0
-fi
+if __name__ == "__main__":
+    # Check for single argument
+    if len(sys.argv) != 2:
+        print("Usage: newreport <report name>")
+        exit(1)
 
-[ -n "$1" ] && cp '/mnt/c/Users/mpaulus/Command Commissioning/Library - Resources/Templates/ccllc-technical-report-template.docx' "$1"
+    # Handle -h or --help
+    if sys.argv[1] == "-h" or sys.argv[1] == "--help":
+        print("Usage: newreport <report name>")
+        exit(0)
+
+    # Get report name
+    report_name = sys.argv[1]
+
+    # If report name doesn't end with .docx, add it
+    if not report_name.endswith(".docx"):
+        report_name += ".docx"
+
+    # Check if report already exists
+    if os.path.exists(report_name):
+        print("Report already exists")
+        exit(1)
+
+    # Copy report template
+    # Check 2 locations:
+    # - '/mnt/c/Users/mpaulus/Command Commissioning/Library - Resources/Templates/ccllc-technical-report-template.docx'
+    # - '/mnt/c/Users/mpaulus/Command Commissioning/Library - Documents/Resources/Templates/ccllc-technical-report-template.docx'
+    # If neither exist, exit
+    if os.path.exists("/mnt/c/Users/mpaulus/Command Commissioning/Library - Resources/Templates/ccllc-technical-report-template.docx"):
+        shutil.copy("/mnt/c/Users/mpaulus/Command Commissioning/Library - Resources/Templates/ccllc-technical-report-template.docx", report_name)
+    elif os.path.exists("/mnt/c/Users/mpaulus/Command Commissioning/Library - Documents/Resources/Templates/ccllc-technical-report-template.docx"):
+        shutil.copy("/mnt/c/Users/mpaulus/Command Commissioning/Library - Documents/Resources/Templates/ccllc-technical-report-template.docx", report_name)
+    else:
+        print("Could not find report template")
+        exit(1)
