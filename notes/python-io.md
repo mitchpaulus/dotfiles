@@ -69,3 +69,12 @@ shutil.move
 ## Walking Directories
 
 [os.walk](https://docs.python.org/3/library/os.html#os.walk)
+
+## `stdin`
+
+```python
+for line in sys.stdin:
+  ... # line has trailing '\n'
+
+whole_file: str = sys.stdin.read()
+```

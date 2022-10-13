@@ -16,7 +16,7 @@ key not in d or not key in d
 iter(d) == iter(d.keys())
 d.clear()                      # remove all items
 d.copy()                       # make shallow copy
-d.get(key, [default])          # Get value without exception, None if no xplicit default given.
+d.get(key, [default])          # Get value without exception, None if no explicit default given.
 d.keys()
 d.pop(key, [default])          # Can have exception.
 d.items()                    # returns iterable of key, value tuples
