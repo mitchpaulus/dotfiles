@@ -13,7 +13,7 @@ checkfile() {
 
         if yesresponse "$response"; then
             printf "Linking %s to %s...\n\n" "$1" "$2"
-            ln -sfr "$2" "$1"
+            ln --symbolic --force --relative "$2" "$1"
         else
             printf "Skipping file %s...\n\n" "$1"
         fi
@@ -22,6 +22,7 @@ checkfile() {
 
         if yesresponse "$response"; then
             printf "Linking %s to %s...\n" "$1" "$2"
+            # Make the required subdirectories if required
             mkdir -p "$(dirname "$1")"
             ln -sfr "$2" "$1"
             printf "\n\n"
@@ -71,15 +72,8 @@ checkfile   ~/.config/i3blocks/config           i3blocks/config
 checkfile   ~/.config/tmux/bash_completion_tmux.sh           scripts/bash_completion_tmux.sh
 checkfile   ~/.config/fish                      .config/fish/
 checkfile   ~/.config/lf/lfrc                   .config/lf/lfrc
-
-if [ ! -L ~/.tmux.conf ]; then
-    prompt "Which version of tmux.conf do you want? 1 = new, 2 = old, 3 = skip "
-    if [ "$response" = "1" ]; then
-        checkfile ~/.tmux.conf "$CURRDIR"/.tmux.conf.new
-    elif [ "$response" = "2" ]; then
-        checkfile ~/.tmux.conf "$CURRDIR"/.tmux.conf
-    fi
-fi
+checkfile   ~/.tmux.conf                        .tmux.conf
+checkfile   ~/.config/vsnip                     .config/vsnip/
 
 if [ ! -f ~/.local/share/nvim/site/autoload/plug.vim ]; then
     prompt "Do you want to download vim-plug? ([y]/n) "
