@@ -19,8 +19,8 @@ settings_file = "/mnt/c/Users/" + username + "/AppData/Local/Packages/Microsoft.
 preview_settings_file = "/mnt/c/Users/" + username + "/AppData/Local/Packages/Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe/LocalState/settings.json"
 
 # print whether the files exist:
-print("Settings file exists: " + str(os.path.exists(settings_file)))
-print("Preview settings file exists: " + str(os.path.exists(preview_settings_file)))
+#  print("Settings file exists: " + str(os.path.exists(settings_file)))
+#  print("Preview settings file exists: " + str(os.path.exists(preview_settings_file)))
 
 def current_key_set(action):
     if "keys" in action:
