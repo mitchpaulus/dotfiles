@@ -14,3 +14,9 @@ do
     aspell check --mode=markdown --lang=en "$file"
 done
 ```
+
+## Named links
+
+[Link text][Link id]
+
+[Link id]: http://link.com "Optional"
