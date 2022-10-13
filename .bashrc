@@ -202,6 +202,15 @@ helpbash() { nvim -R ~/dotfiles/help/bash.markdown; }
 # Mount a Windows network drive like M:\. Use like 'winmount m'
 winmount() { if [ ! -d /mnt/"${1,,}" ]; then sudo mkdir -p /mnt/"${1,,}"; fi ; sudo mount -t drvfs "${1^^}": /mnt/"${1,,}" ; }
 
+chsh_fish() {
+    # Check that /usr/bin/fish is in /etc/shells
+    if ! grep -q /usr/bin/fish /etc/shells; then
+        printf "/usr/bin/fish is not in /etc/shells, install before changing shells\n"
+    else
+        sudo chsh -s /usr/bin/fish
+    fi
+}
+
 # Source git tab-completion if available.
 if [[ -a ~/git-completion.bash ]]; then
     # shellcheck disable=SC1090
