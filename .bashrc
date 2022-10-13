@@ -95,6 +95,15 @@ en() {
     fi
 }
 
+# Grep notes
+gn() {
+    if command -v rg >/dev/null 2>&1; then
+        rg -i "$1" "$MPNOTES"
+    else
+        grep -i "$1" "$MPNOTES"
+    fi
+}
+
 # Go to dotfiles
 gd() { cd ~/dotfiles || return ; }
 
@@ -134,6 +143,8 @@ if ! printf '%s' "$PYTHONPATH" | grep -q "$DOTFILES"/python; then
         export PYTHONPATH="$DOTFILES"/python
     fi
 fi
+
+export MPNOTES="$DOTFILES"/notes
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
