@@ -39,7 +39,11 @@ def update_file(s):
 
     # Wipe the existing actions, put my own
     s["actions"] = [
-        { "command": "unbound", "keys": [ "ctrl+shift+w", "alt+down", "alt+left", "alt+right", "alt+up" ]},
+        { "command": "unbound", "keys": "ctrl+shift+w" },
+        { "command": "unbound", "keys":  "alt+down" },
+        { "command": "unbound", "keys":  "alt+left" },
+        { "command": "unbound", "keys":   "alt+right" },
+        { "command": "unbound", "keys":    "alt+up" },
         { "command": "newTab", "keys": "alt+enter" },
         { "command": { "action": "splitPane", "split": "auto", "splitMode": "duplicate" }, "keys": "alt+;" },
         { "command": { "action": "splitPane", "split": "horizontal", "splitMode": "duplicate" }, "keys": "alt+-" },
