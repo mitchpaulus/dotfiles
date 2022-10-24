@@ -46,7 +46,17 @@ def convert_date(input_file_name: str) -> str:
     # Convert to ISO format
     iso_date = date.replace("_", "-")
 
-    hour_military = hour + (12 if am_pm == "PM" else 0)
+    if hour == 12:
+        if am_pm == "AM":
+            hour_military = 0
+        else:
+            hour_military = 12
+    else:
+        if am_pm == "PM":
+            hour_military = hour + 12
+        else:
+            hour_military = hour
+
     iso_time = f"{hour_military:02d}{minute:02d}"
 
     # Return ISO date, plus any remaining parts of the file name, separated by spaces
