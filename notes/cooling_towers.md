@@ -105,3 +105,25 @@ Have often come across sources that neglect the $c_{p}$ term.
 I recreated Table 1 from the ASHRAE HVAC Systems and Equipment Handbook. Located at:
 
 `hvac/Cooling Tower Performance Calculations.xlsx`
+
+## Cooling Tower Tons
+
+Simple number is 15,000 BTU/hr, which comes from the fact that there is around 25% extra heat load that has to be accounted for from the electricity input.
+Also equates to 3 GPM of CW going from 95°F to 85°F at 78°F wet bulb.
+Source: Chapter 40 ASHRAE HVAC Systems and Equipment.
+
+## Water Treatment
+
+- [Conductivity][Sensorex] is easy measurement to account for mineral concentration.
+- [CT Best Practices][EERE]
+
+Make-Up = Evaporation + Blowdown + Drift + Leaks/Overflows
+
+ - Evaporation: H2O in gas/vapor form, the minimum amount of mass loss that would be desired, where the cooling comes from
+ - Drift: H20 leaving in liquid water droplet form. Bad loss.
+ - Blowdown: Basically flushing water down drain on purpose to dilute dissolved solids.
+ - Leaks/Overflows: What you think they are.
+
+
+[Sensorex]: https://sensorex.com/2022/05/16/effects-high-conductivity-cooling-tower-water/
+[EERE]: https://www.energy.gov/eere/femp/best-management-practice-10-cooling-tower-management
