@@ -1,0 +1,3 @@
+#!/bin/sh
+
+mgitstatus -d 1 -e -w | tee git.txt
