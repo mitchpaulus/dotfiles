@@ -265,6 +265,21 @@ def install_neovim():
     if not os.path.exists(os.path.join(local_bin_dir, 'nvim')):
         os.symlink(app_path, os.path.join(local_bin_dir, 'nvim'))
 
+def install_tabula_cli():
+    asset = get_github_asset('tabulapdf', 'tabula-java', lambda a: a.name.endswith('.jar'))
+    print(f'Downloading {asset.name}...', file=sys.stderr)
+    response = requests.get(asset.browser_download_url)
+
+    if response.status_code != 200:
+        print(f'Error downloading {asset.browser_download_url}: {response.status_code}', file=sys.stderr)
+        sys.exit(1)
+
+    # Save asset to $LOCALBIN.
+    local_bin_dir = cast(str, os.environ.get('LOCALBIN'))
+    jar_path = os.path.join(local_bin_dir, asset.name)
+    print(f"Saving '{jar_path}'", file=sys.stderr)
+    with open(jar_path, 'wb') as f:
+        f.write(response.content)
 
 if __name__ == "__main__":
     local_bin_dir = os.environ.get('LOCALBIN')
@@ -293,6 +308,7 @@ if __name__ == "__main__":
         "lazygit": install_lazygit,
         "excelchop": install_excelchop,
         "neovim": install_neovim,
+        "tabula-cli": install_tabula_cli,
     }
 
     help_lines = [

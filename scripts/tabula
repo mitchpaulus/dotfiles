@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Check for 'tabula.*jar' file in the LOCALBIN
+
+if [ -f $LOCALBIN/tabula*.jar ]; then
+    # Use the latest version if multiple
+    TABULA_JAR=`ls -1 $LOCALBIN/tabula*.jar | tail -1`
+else
+    printf "ERROR: tabula.jar not found in %s\n" $LOCALBIN  >&2
+    exit 1
+fi
+
+# Check for 'java' command
+if [ -z `which java` ]; then
+    printf "ERROR: java command not found\n" >&2
+    exit 1
+fi
+
+# Run tabula.jar
+java -jar $TABULA_JAR --format TSV $@
