@@ -17,4 +17,4 @@ if [ -z `which java` ]; then
 fi
 
 # Run tabula.jar
-java -jar $TABULA_JAR --format TSV $@
+java -jar $TABULA_JAR --format TSV "$@"
