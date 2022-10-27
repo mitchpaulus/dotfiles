@@ -55,8 +55,9 @@ def find_all(name: str, path: str = ".") -> List[str]:
     """
     result = []
     for root, _, files in os.walk(path):
-        if name in files:
-            result.append(os.path.join(root, name))
+        for file in files:
+            if name in file:
+                result.append(os.path.join(root, file))
     return result
 
 
