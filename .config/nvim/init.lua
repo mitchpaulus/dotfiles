@@ -434,8 +434,6 @@ insertModeNoRecurseMappings = {
     { '<localleader>mu', 'μ' },
     { '<localleader>pi', 'π' },
     { '<localleader>sigma', 'σ' },
-    { '<localleader>tau', 'τ' },
-    { '<localleader>theta', 'θ' },
 
     -- Faster file name completion
     { '<C-F>', '<C-X><C-F>' },
