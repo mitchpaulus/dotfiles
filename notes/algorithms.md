@@ -155,3 +155,7 @@ public static List<List<T>> Batch<T>(this List<T> list, int groups)
 ## Generating all combinations
 
 [Heap's algorithm](https://en.wikipedia.org/wiki/Heap%27s_algorithm)
+
+## Integer Factorization
+
+<https://cp-algorithms.com/algebra/factorization.html>

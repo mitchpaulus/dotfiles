@@ -293,3 +293,20 @@ PNGs have metadata about image resolution in pixels/meter about image resolution
 ```
 gnuplot - | magick png:- -units PixelsPerInch -density 384 plot.png
 ```
+
+## Data Blocks
+
+```gnuplot
+$var << EOD
+...
+...
+EOD
+```
+
+## Filtering
+
+Probably easiest to rely on shelling out to awk or some external program.
+
+```gnuplot
+plot "< awk '$1 == 2' data.txt"
+```
