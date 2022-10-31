@@ -2,3 +2,8 @@ alpha α
 DELTA Δ
 degree °
 squareroot √
+micro µ
+pi π
+infinity ∞
+squared ²
+mu µ
