@@ -1,10 +1,11 @@
 import os
-from typing import List, Union, Iterable, TypeVar, Callable, Dict, Any, cast
+from typing import List, Union, Iterable, TypeVar, Callable, Dict, Any, cast, Generator
 import re
 import math
 import sys
 import subprocess
 import hashlib
+import datetime
 
 T1 = TypeVar('T1')
 T2 = TypeVar('T2')
@@ -288,7 +289,7 @@ def dirs(path = None) -> List[str]:
 
 def files(path = None) -> List[str]:
     """
-    Return a list of all files in the given path. In version sorted order.
+    Return a list of all files (non-recursive) in the given path. In version sorted order.
     """
     if path is None:
         path = os.getcwd()
@@ -426,3 +427,213 @@ def resolve_path(relative_path: str, base_path: str = None, separator = None) ->
             separator = '\\'
 
     return separator.join(base_path_parts)
+
+class Stat:
+    def __init__(self, mean: float, median: float, std_dev: float, min_data: float, max_data: float, one_percentile: float, five_percentile: float, twenty_five_percentile: float, seventy_five_percentile: float, ninety_five_percentile: float, ninety_nine_percentile: float):
+        self.mean = mean
+        self.median = median
+        self.std_dev = std_dev
+        self.min = min_data
+        self.max = max_data
+        self.one_percentile = one_percentile
+        self.five_percentile = five_percentile
+        self.twenty_five_percentile = twenty_five_percentile
+        self.seventy_five_percentile = seventy_five_percentile
+        self.ninety_five_percentile = ninety_five_percentile
+        self.ninety_nine_percentile = ninety_nine_percentile
+
+    def __str__(self):
+        lines = [
+            f'Mean: {self.mean}\n',
+            f'Median: {self.median}\n',
+            f'Standard Deviation: {self.std_dev}\n',
+            f'Min: {self.min}\n',
+            f'Max: {self.max}\n',
+            f'1%: {self.one_percentile}\n',
+            f'5%: {self.five_percentile}\n',
+            f'25%: {self.twenty_five_percentile}\n',
+            f'75%: {self.seventy_five_percentile}\n',
+            f'95%: {self.ninety_five_percentile}\n',
+            f'99%: {self.ninety_nine_percentile}\n',
+        ]
+        return ''.join(lines)
+
+    def __repr__(self):
+        return str(self)
+
+
+def stats(data: List[float]) -> Stat:
+    """
+    Return the mean, median, standard deviation, min, and max of the given data.
+    """
+    if not data:
+        raise ValueError("Cannot compute stats on empty data")
+
+    # Calculate mean
+    mean = sum(data) / len(data)
+
+    data.sort()
+    med = median(data)
+    std_dev = math.sqrt(sum([(x - mean) ** 2 for x in data]) / len(data))
+
+    # Calculate 1, 5, 25, 75, 95, and 99 percentiles
+    one_percentile = percentile(data, 1)
+    five_percentile = percentile(data, 5)
+    twenty_five_percentile = percentile(data, 25)
+    seventy_five_percentile = percentile(data, 75)
+    ninety_five_percentile = percentile(data, 95)
+    ninety_nine_percentile = percentile(data, 99)
+
+    return Stat(
+        mean=mean,
+        median=med,
+        std_dev=std_dev,
+        min_data=min(data),
+        max_data=max(data),
+        one_percentile=one_percentile,
+        five_percentile=five_percentile,
+        twenty_five_percentile=twenty_five_percentile,
+        seventy_five_percentile=seventy_five_percentile,
+        ninety_five_percentile=ninety_five_percentile,
+        ninety_nine_percentile=ninety_nine_percentile,
+    )
+
+class Month:
+    def __init__(self, year_month: int, month_year: int):
+        """
+        Create a new Month object. Month is 1-based (1 = January, 2 = February, etc.)
+        One of the inputs must be between 1 and 12.
+        If both are between 1 and 12, the first one is assumed to be the year and the second one is assumed to be the month.
+        """
+        if 1 <= month_year <= 12:
+            self.year = year_month
+            self.month = month_year
+        elif 1 <= year_month <= 12:
+            self.year = month_year
+            self.month = year_month
+        else:
+            raise ValueError("One of the inputs must be between 1 and 12")
+
+    def __eq__(self, other):
+        return self.month == other.month and self.year == other.year
+
+    def __hash__(self):
+        return hash((self.month, self.year))
+
+    def __str__(self):
+        return f'{self.month}/{self.year}'
+
+    def __repr__(self):
+        return str(self)
+
+    def __lt__(self, other):
+        if self.year < other.year:
+            return True
+        elif self.year == other.year:
+            return self.month < other.month
+        else:
+            return False
+
+    def __le__(self, other):
+        if self.year < other.year:
+            return True
+        elif self.year == other.year:
+            return self.month <= other.month
+        else:
+            return False
+
+    def __gt__(self, other):
+        if self.year > other.year:
+            return True
+        elif self.year == other.year:
+            return self.month > other.month
+        else:
+            return False
+
+    def __ge__(self, other):
+        if self.year > other.year:
+            return True
+        elif self.year == other.year:
+            return self.month >= other.month
+        else:
+            return False
+
+    def __add__(self, other):
+        if not isinstance(other, int):
+            raise TypeError("Can only add an int to a Month")
+        return Month.from_int(self.to_int() + other)
+
+    def __sub__(self, other):
+        if not isinstance(other, int):
+            raise TypeError("Can only subtract an int from a Month")
+        return Month.from_int(self.to_int() - other)
+
+    def __radd__(self, other):
+        return self + other
+
+    def __rsub__(self, other):
+        return self - other
+
+    def to_int(self) -> int:
+        """
+        Convert this Month to an integer. The integer is 1-based (1 = January, 2 = February, etc.)
+        """
+        return self.year * 12 + (self.month - 1)
+
+    @staticmethod
+    def from_int(month_int: int) -> 'Month':
+        """
+        Convert an integer to a Month. The integer is 1-based (1 = January, 2 = February, etc.)
+        """
+        year = month_int // 12
+        month = month_int % 12 + 1
+        return Month(month, year)
+
+    @staticmethod
+    def from_date(date: Union[datetime.date, datetime.datetime]) -> 'Month':
+        """
+        Convert a date to a Month.
+        """
+        return Month(date.month, date.year)
+
+    @staticmethod
+    def from_str(month_str: str) -> 'Month':
+        """
+        Convert string to a Month. Use any string of non-numeric characters as the separator.
+        If only one of the values is between 1 and 12, assume that is the month. If both are
+        between 1 and 12, assume the first is the month.
+        """
+        month, year = re.split(r'[^0-9]+', month_str)
+        month = int(month)
+        year = int(year)
+        if 1 <= month <= 12:
+            return Month(month, year)
+        elif 1 <= year <= 12:
+            return Month(year, month)
+        else:
+            raise ValueError("Could not determine month and year from string")
+
+    @staticmethod
+    def from_date_str(date_str: str) -> 'Month':
+        """
+        Convert a date string to a Month. The date string must be in the format YYYY-MM-DD.
+        """
+        date = datetime.datetime.strptime(date_str, '%Y-%m-%d')
+        return Month.from_date(date)
+
+    # Create generator for iterating over months
+    @staticmethod
+    def iter_months(start: 'Month', end: 'Month') -> Generator['Month', None, None]:
+        """
+        Iterate over months from start to end, inclusive.
+        """
+        month = start
+        while month <= end:
+            yield month
+            month += 1
+
+    def iter(self, end: 'Month') -> Generator['Month', None, None]:
+        """
+        Iterate over months from this month to end, inclusive.
+        """
+        return Month.iter_months(self, end)
