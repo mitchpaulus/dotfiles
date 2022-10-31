@@ -60,6 +60,23 @@ def find_all(name: str, path: str = ".") -> List[str]:
                 result.append(os.path.join(root, file))
     return result
 
+def find_all_ext(ext: str, path: str = ".") -> List[str]:
+    """
+    Find all files in path (including subdirectories) with 'name' contained within the file name.
+
+    :param name: The name to search for
+    :param path: The path to search in (defaults to current directory)
+    :return: A list of full file paths
+    """
+    # Force an extension to start with a dot
+    if len(ext) == 0 or ext[0] != ".":
+        ext = "." + ext
+    result = []
+    for root, _, files in os.walk(path):
+        for file in files:
+            if file.endswith(ext):
+                result.append(os.path.join(root, file))
+    return result
 
 def find_all_regex(regex_pattern: str, path: str = ".") -> List[str]:
     """
