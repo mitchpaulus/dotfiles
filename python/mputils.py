@@ -287,13 +287,19 @@ def dirs(path = None) -> List[str]:
     version_sort_in_place(dirs)
     return dirs
 
-def files(path = None) -> List[str]:
+def files(path = None, return_full_path = False) -> List[str]:
     """
-    Return a list of all files (non-recursive) in the given path. In version sorted order.
+    Return a list of all file names (non-recursive) in the given path. By default, not full path. In version sorted order.
     """
     if path is None:
         path = os.getcwd()
-    files = [x for x in os.listdir(path) if os.path.isfile(os.path.join(path, x))]
+
+    files = []
+    for x in os.listdir(path):
+        full_path = os.path.join(path, x)
+        if os.path.isfile(full_path):
+            files.append(x if not return_full_path else full_path)
+
     version_sort_in_place(files)
     return files
 
@@ -311,7 +317,7 @@ def csv_headers(file: str) -> List[str]:
     else:
         raise ValueError("Expected file path as input, got {}".format(type(file)))
 
-def excelchop(filepath: str, worksheet = None, excel_range: str = None, selector = None):
+def excelchop(filepath: str, worksheet: Union[str, None] = None, excel_range: Union[str, None] = None, selector = None):
     """
     Run external command 'excelchop', capturing stdout
     """
