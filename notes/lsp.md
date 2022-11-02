@@ -38,3 +38,11 @@ Python                | <https://github.com/Microsoft/python-language-server>   
 Q#                    | <https://github.com/microsoft/qsharp-compiler>
 TypeCobol             | <https://github.com/TypeCobolTeam/TypeCobol/tree/master/TypeCobol.LanguageServer>
 MiniYAML              | <https://github.com/penev92/Oraide.LanguageServer>
+
+
+## Gotchas
+
+- Properties `activationEvents` and `main` must both be specified or must both be omitted
+- Pretty much need a `tsconfig` - this will set the directory used for main.
+
+- Debug in console - Help -> Toggle Developer Tools in VS Code
