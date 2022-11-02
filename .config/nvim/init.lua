@@ -127,7 +127,7 @@ local function setupLsp()
         local opts = { noremap=true, silent=true }
         buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
         buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-        buf_set_keymap('n', '<C-k>', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+        buf_set_keymap('n', 'gh', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
         buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
         -- buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
         buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
@@ -186,6 +186,24 @@ local function setupLsp()
         nvim_lsp.omnisharp.setup { on_attach = on_attach, capabilities = capabilities, cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid)  } }
     end
 end
+
+-- Setup lsp for xlim, custom language.
+-- executable is 'xlimlsp'
+function setup_xlimlsp()
+    name = 'xlim-lsp'
+    cmd = {'xlimlsp'}
+    -- set root dir to current directory
+    root_dir = vim.fn.getcwd()
+    vim.lsp.start({
+        cmd = cmd,
+        name = name,
+        root_dir = root_dir,
+    })
+
+    -- Set buf keymap gh to hover
+    vim.api.nvim_buf_set_keymap(0, 'n', 'gh', '<Cmd>lua vim.lsp.buf.hover()<CR>', { noremap=true, silent=true })
+end
+
 
 function extmark_test()
     ns = vim.api.nvim_create_namespace("xlim")
@@ -697,6 +715,8 @@ filetype_autocmds_id = vim.api.nvim_create_augroup('filetype_autocmds', { clear 
 local function addToFiletypeAugroup(pattern, command)
     vim.api.nvim_create_autocmd('FileType', { pattern = pattern, group = filetype_autocmds_id, command = command })
 end
+
+vim.api.nvim_create_autocmd('FileType', { pattern = 'xlim', group = filetype_autocmds_id, callback = setup_xlimlsp })
 
 vim.api.nvim_create_autocmd('FileType', { pattern = 'antlr4', group = filetype_autocmds_id, command = 'nnoremap <localleader>c :!antlr4 %<CR>' })
 
