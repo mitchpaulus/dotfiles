@@ -175,6 +175,22 @@ bind \eo exit
 
 bind qh add_help
 
+# The prompt gets all messed up when coming out of the file manager since fish
+# isn't handling it like a normal command. See command below for what CTRL-L does by
+# default in fish - I'm just doing the clear and the repaint. 3J is for erasing saved lines?
+# I read this as required to keep any saved lines when clearing. Not going to worry about it for now.
+# bind --preset \cl echo\ -n\ \(clear\ \|\ string\ replace\ \\e\\\[3J\ \"\"\)\;\ commandline\ -f\ repaint
+function file_manager_and_clear; $FILEMANAGER; clear; commandline -f repaint; end
+function repo_and_clear; r; clear; commandline -f repaint; end
+function jobs_and_clear; j; clear; commandline -f repaint; end
+function dotfiles_and_clear; gd; clear; commandline -f repaint; end
+
+# Don't want to press Enter any more
+bind jf file_manager_and_clear
+bind jr repo_and_clear
+bind jc jobs_and_clear
+bind jd dotfiles_and_clear
+
 # Historical Vi binding stuff
 # set fish_cursor_insert line
 # bind -M insert \e1 1
@@ -253,7 +269,7 @@ if test -d '/mnt/c/Users/mpaulus/Command Commissioning'
 end
 
 # When more than 1 character is too much
-abbr f "$FILEMANAGER"
+abbr -a f "$FILEMANAGER"
 
 function lf --wraps=lf
     set config_dir  "$HOME/.config/lf"
