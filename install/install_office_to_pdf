@@ -11,4 +11,4 @@ asset="$(printf "%s" "$latest_asset" | jq -r '.assets[] | select(.name | contain
 name="$(printf "%s" "$latest_asset" | jq -r '.assets[] | select(.name | contains("OfficeToPDF.exe")) | .name')"
 # Need to follow redirects with '-L' to get the actual file.
 curl --output "$LOCALBIN"/"$name" -L "$asset"
-
+chmod +x "$LOCALBIN"/"$name"
