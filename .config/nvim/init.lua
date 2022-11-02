@@ -141,7 +141,7 @@ local function setupLsp()
         buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
         buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
         buf_set_keymap('n', '<space>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-        buf_set_keymap('v', '<space>la', '<Esc>:<C-u>lua vim.lsp.buf.range_code_action()<CR>', opts)
+        buf_set_keymap('v', '<space>la', ':lua vim.lsp.buf.code_action()<CR>', opts)
 
         -- Critical to have the noinsert option
         vim.o.completeopt = 'menuone,noinsert'
@@ -172,7 +172,7 @@ local function setupLsp()
     -- Use a loop to conveniently both setup defined servers
     -- and map buffer local keybindings when the language server attaches
     local servers = { "bashls", "vimls", "texlab", "hls", "pyright", "tsserver", "awk_ls" }
-    local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+    local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
     for _, lsp in ipairs(servers) do
         -- Setup lspconfig. Update capabilities with nvim-cmp stuff
         nvim_lsp[lsp].setup { on_attach = on_attach, capabilities = capabilities }
