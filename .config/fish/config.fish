@@ -357,15 +357,7 @@ if test -n "$WSL_DISTRO_NAME"
     # This is located in a separate repo that will have to be cloned
     # See: https://github.com/mitchpaulus/wsl-opener
     set -gx OPENER wsl-opener
-else
-    # This is a script in this dotfiles repo, so should always be good to go.
-    set -gx OPENER unix-opener
-end
 
-
-
-# Set up specific commands if working in WSL environment
-if test -n "$WSL_DISTRO_NAME"
     # Command to bring up Windows Explorer in current directory.
     # Use 'Files' if installed.
     if command --query files.exe
@@ -377,21 +369,17 @@ if test -n "$WSL_DISTRO_NAME"
             explorer.exe (wslpath -w (pwd))
         end
     end
+else
+    # This is a script in this dotfiles repo, so should always be good to go.
+    set -gx OPENER unix-opener
 end
 
 # Nix Package Manager
-if test -d ~/.nix-profile
-    nix_setup
-end
+test -d ~/.nix-profile; and nix_setup
 
 # Load configuration special to given computer
-if test -f ~/.config/fish/host-config.fish
-    source ~/.config/fish/host-config.fish
-end
-
-if test -f ~/.config/fish/secrets.fish
-    source ~/.config/fish/secrets.fish
-end
+test -f ~/.config/fish/host-config.fish; and source ~/.config/fish/host-config.fish
+test -f ~/.config/fish/secrets.fish; and source ~/.config/fish/secrets.fish
 
 function update --description 'Universal package update'
     if command -s pacman >/dev/null
