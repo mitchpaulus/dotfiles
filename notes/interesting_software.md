@@ -75,6 +75,9 @@ Optimization and domain modeling.
 
 [Run commands when files/directories change](http://eradman.com/entrproject/)
 
+Note: In WSL, this only works in the Linux directories, not the NTFS ones.
+In my testing, the `ENTR_INOTIFY_WORKAROUND` environment variable is not required (at least in WSL2).
+
 ## `bibtex-tidy`
 
 A formatter for bibtex files. [GitHub](https://github.com/FlamingTempura/bibtex-tidy)
