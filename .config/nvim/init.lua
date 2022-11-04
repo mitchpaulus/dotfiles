@@ -562,29 +562,8 @@ vim.o.spellsuggest = 'best,9'
 vim.o.completeopt = 'menu,preview'
 
 local wildignorePatterns = table.concat({
-    '*.aux',
-    '*.asv',
-    '*.log',
-    '*.swp',
-    '*.nav',
-    '*.toc',
-    '*.out',
-    '*.fdb_latexmk',
-    '*.blg',
-    '*.fls',
-    '*.xdv',
-    '*.bbl',
-    '*.snm',
-    '*.lof',
-    '*.lot',
-    '*.dvi',
-    '*.tmp',
-    '*.synctex.gz',
-    'node_modules/*',
-    '.git/*',
-    'venv/*',
-}, ',')
-
+    '*.aux', '*.asv', '*.log', '*.swp', '*.nav', '*.toc', '*.out', '*.fdb_latexmk', '*.blg', '*.fls', '*.xdv', '*.bbl', '*.snm', '*.lof',
+    '*.lot', '*.dvi', '*.tmp', '*.synctex.gz', 'node_modules/*', '.git/*', 'venv/*', }, ',')
 vim.o.wildignore = wildignorePatterns
 vim.o.relativenumber = true        -- Relative line numbering
 vim.o.number = true     -- Show the current line number
