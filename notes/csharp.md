@@ -61,7 +61,6 @@ public static IEnumerable<string> SplitLines(this string input)
         yield return line;
     }
 }
-
 ```
 
 ## Emailing

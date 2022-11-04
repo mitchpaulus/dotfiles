@@ -190,3 +190,7 @@ Prose linter.
 ## [maTeXt](https://xigoi.srht.site/matext/)
 
 CLI for TeX -> Text
+
+## HTMLMinifier
+
+[Does what it says](https://www.npmjs.com/package/html-minifier)
