@@ -202,6 +202,9 @@ function setup_xlimlsp()
 
     -- Set buf keymap gh to hover
     vim.api.nvim_buf_set_keymap(0, 'n', 'gh', '<Cmd>lua vim.lsp.buf.hover()<CR>', { noremap=true, silent=true })
+    -- buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+    -- set keymap gd to definition
+    vim.api.nvim_buf_set_keymap(0, 'n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', { noremap=true, silent=true })
 end
 
 
