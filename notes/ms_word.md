@@ -111,9 +111,10 @@ One of the best shortcuts of all time
 - Special switches:
   - `\c` Repeats the closest preceding sequence number.
   - `\h`: Hides the field result.
-  - `\n`: Inserts the next sequence number for the specified items.
+  - `\n`: Inserts the next sequence number for the specified items. Default behavior, don't usually need to specify it.
   - `\r <n>` Resets the sequence number to the specified number *n*.
-  - `\s`: Resets the sequence number at the heading level following the "s"
+  - `\s`: Resets the sequence number at the heading level following the "s".
+          This means you don't have to have a different fiedl code for the first item vs. the rest with heading numbering.
 
 ## Grammar for MS Word Fields
 
