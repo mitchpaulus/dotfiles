@@ -114,6 +114,15 @@ def read_tsv(file_path: str, delim: str="\t", skip: int=0) -> List[List[str]]:
         print("Unable to read file '{}'".format(file_path), file=sys.stderr)
         raise
 
+def write_tsv(file_path: str, data: List[List[str]], delim: str="\t") -> None:
+    """
+    Write a tsv file, given a list of list of strings. The final stirng does
+    not contain the new line character. Writes the file as UTF-8.
+    """
+    with open(file_path, "w", encoding="utf-8") as file:
+        for line in data:
+            file.write(delim.join(line) + "\n")
+
 def read_tsv_standard_input(delim: str = "\t", skip: int = 0) -> List[List[str]]:
     """
     Read a tsv file from standard input, returning list of list of strings.
@@ -302,6 +311,12 @@ def files(path = None, return_full_path = False) -> List[str]:
 
     version_sort_in_place(files)
     return files
+
+def tsv_files(path = None, return_full_path = False) -> List[str]:
+    """
+    Return a list of all .tsv file names (non-recursive) in the given path. By default, not full path. In version sorted order.
+    """
+    return [x for x in files(path, return_full_path) if x.endswith('.tsv')]
 
 def csv_headers(file: str) -> List[str]:
     """
