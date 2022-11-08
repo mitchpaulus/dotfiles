@@ -83,3 +83,7 @@ mailClient.Send(msg);
 ```
 Directory.EnumerateFiles(string dir) -> List of full file paths.
 ```
+
+## Structures for improved typing
+
+<https://www.meziantou.net/use-structures-to-improve-the-readability-of-your-code.htm>
