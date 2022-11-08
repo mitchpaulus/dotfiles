@@ -46,5 +46,15 @@
             "<!-- Compass -->"
         ],
         "description": "Histogram"
+    },
+    "Label Plot": {
+        "prefix": ["lp", "labelplot"],
+        "body": [
+            "<!-- Compass: LabelPlot -->",
+            "YLabels: $1",
+            "XLabel: ${2:Time}",
+            "<!-- Compass -->"
+        ],
+        "description": "Label Plot"
     }
 }
