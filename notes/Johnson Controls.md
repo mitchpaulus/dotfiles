@@ -41,3 +41,18 @@ Types of sideloops available.
 References:
 
 [Sideloops](https://docs.johnsoncontrols.com/bas/api/khub/documents/lDoi_GEQpkD7WFvGN3bY1A/content)
+
+## Other Terminology
+
+- IOM: Input/Output expansion module
+- CGM: General purpose controller
+- CVM: VAV box controller
+- SNC: ?
+- SNE: ?
+- NAE: Network automation engine
+- NCE: Network control engine
+- FAC: Advanced application field equipment controller
+- FEC: Field equipment controller
+- VMA: Variable air volume modular assembly
+- CCT: Controller configuration tool.
+- SA bus: Sensor Actuator bus
