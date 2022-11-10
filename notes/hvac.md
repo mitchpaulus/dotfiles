@@ -189,3 +189,14 @@ Reliability: Direct drives can handle high heat when in the air stream.
 Noise: related to propeller speed. Belt drives can spin at whatever rate you can make the pulleys.
 Cost: Depends.
 Overall: Direct drive for most.
+
+## Wet Bult Empirical Regression Formula
+
+From:
+Wet-Bulb Temperature from Relative Humidity and Air Temperature
+Roland Stull
+November 2011
+DOI: 10.1175/JAMC-D-11-0143.1
+American Meteorological Society
+
+Tw = T * atan[ 0.151977 * ( (RH% + 8.313659)^1/2  ) ] + atan(T + RH%) - atan(RH% - 1.676331) +  0.00391838(RH%)^3/2 * atan(0.023101 * RH%) - 4.686035
