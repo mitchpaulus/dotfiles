@@ -828,7 +828,7 @@ filetypeAutocmds = {
     { 'awk', 'setlocal path+=$DOTFILES/awk_functions' },
     { 'awk', 'nnoremap <localleader>h i<C-r>=system("headers2awk -c", @+)<Cr>' },
 
-    { 'sh', 'inoremap ,sh #!/bin/sh<CR>', },
+    { 'sh', 'inoremap ,sh #!/bin/sh<CR><C-U>', },
     { 'sh,bash', 'nnoremap <localleader>h :read $DOTFILES/snipfiles/shell_help.sh<Cr>', },
     { 'sh,bash', 'inoremap <localleader>h <cmd>read $DOTFILES/snipfiles/shell_help.sh<Cr>', },
     { 'sh,bash', 'nnoremap <localleader>s <cmd>!shellcheck "%"<Cr>', },
