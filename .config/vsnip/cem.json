@@ -56,5 +56,10 @@
             "<!-- Compass -->"
         ],
         "description": "Label Plot"
+    },
+    "Ignore Label": {
+        "prefix": ["il", "ignorelabels"],
+        "body": [ "IgnoreLabels: $1" ],
+        "description": "Ignore Label"
     }
 }
