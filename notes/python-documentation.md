@@ -25,3 +25,42 @@ def myfunc(param1, param2):
     SomeCrazyException
    """
 ```
+
+```python
+"""
+This is a reST style.
+
+:param param1: this is a first param
+:param param2: this is a second param
+:returns: this is a description of what is returned
+:raises keyError: raises an exception
+"""
+```
+
+```python
+"""
+My numpydoc description of a kind
+of very exhautive numpydoc format docstring.
+
+Parameters
+----------
+first : array_like
+    the 1st param name `first`
+second :
+    the 2nd param
+third : {'value', 'other'}, optional
+    the 3rd param, by default 'value'
+
+Returns
+-------
+string
+    a value in a string
+
+Raises
+------
+KeyError
+    when a key error
+OtherError
+    when an other error
+"""
+```

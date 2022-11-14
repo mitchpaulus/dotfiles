@@ -5,6 +5,11 @@ References:
 - <https://devconnected.com/input-output-redirection-on-linux-explained>
 - <http://books.gigatux.nl/mirror/kerneldevelopment/0672327201/ch12lev1sec10.html>
 
+[Visual explanation](https://wiki.bash-hackers.org/howto/redirection_tutorial)
+
+From [here](http://www.sichong.site/linux/2021/11/06/dev-stdout-vs-2-a-dive-into-linux-stdio.html),
+You should pretty much always use >& instead of /dev/stderr or /dev/stdout when manipulating STDIO streams.
+
 
 When process is created, gets `task_struct`. Has two things, `fs` and `files`. `fs` has umask info,
 and `files` has the file descriptor table.

@@ -64,6 +64,8 @@ Nice post trying to empirically determine which languages are more *expressive* 
 
 Live functional programming environment featuring "typed holes". <https://hazel.org/>
 
+See presentation at: <https://www.youtube.com/watch?v=UkDSL0U9ndQ&t=1s>
+
 ## Shen
 
 <https://shenlanguage.org/index.html>. Functional LISP like language.
