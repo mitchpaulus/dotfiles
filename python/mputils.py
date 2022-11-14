@@ -332,9 +332,14 @@ def csv_headers(file: str) -> List[str]:
     else:
         raise ValueError("Expected file path as input, got {}".format(type(file)))
 
-def excelchop(filepath: str, worksheet: Union[str, None] = None, excel_range: Union[str, None] = None, selector = None):
+def excelchop(filepath: str, worksheet: Union[str, None] = None, excel_range: Union[str, None] = None, selector: Union[Callable[[List[str]], T1], None] = None, skip:int=0) -> Union[List[List[str]], List[T1]]:
     """
-    Run external command 'excelchop', capturing stdout
+    Run external command 'excelchop', capturing stdout.
+    :param filepath: Path to Excel file
+    :param worksheet: Worksheet name
+    :param excel_range: Excel range
+    :param selector: Selector function to apply to each row. Function that takes a list of strings and returns a value.
+    :return: Output of excelchop, as a list of list of strings by default. If a selector is provided, the output will be a list of the output of the selector.
     """
     args = []
 
@@ -354,13 +359,14 @@ def excelchop(filepath: str, worksheet: Union[str, None] = None, excel_range: Un
     if result.returncode != 0:
         raise Exception("excelchop failed with return code {}".format(result.returncode))
 
-    if selector is None:
-        selector = lambda line: line.split('\t')
-
     lines = []
     # Loop over all lines
-    for line in result.stdout.decode('utf-8').splitlines(keepends=False):
-        lines.append(selector(line))
+    for line in result.stdout.decode('utf-8').splitlines(keepends=False)[skip:]:
+        split_line = line.split('\t')
+        if selector is not None:
+            lines.append(selector(split_line))
+        else:
+            lines.append(split_line)
 
     return lines
 
