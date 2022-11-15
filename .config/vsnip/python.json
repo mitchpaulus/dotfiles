@@ -46,7 +46,7 @@
     },
     "list comprehension": {
         "prefix": ["lc"],
-        "body": ["[${2:expression} for ${1:element} in ${3:$TM_SELECTED_TEXT}]"],
+        "body": ["[${3:expression} for ${2:element} in ${1:$TM_SELECTED_TEXT}]"],
         "description": "list comprehension"
     }
 }
