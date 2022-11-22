@@ -29,6 +29,19 @@ Definition of "normalization", from the git documentation:
              has been committed with CRLF, no conversion is done.
 - Unspecified: Git uses the `core.autocrlf` configuration variable to determine if the file should be converted.
 
+`eol` attribute:
+
+- Set to "crlf" - Windows line endings in the working files
+- Set to "lf" - Unix line endings in the working files
+
+Fixing after setting up .gitattributes (from <https://git-scm.com/docs/gitattributes#_end_of_line_conversion>)
+
+```
+$ echo "* text=auto" >.gitattributes
+$ git add --renormalize .
+$ git status        # Show files that will be normalized
+$ git commit -m "Introduce end-of-line normalization"
+```
 
 ## Cleaning up a repository
 
