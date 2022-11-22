@@ -131,8 +131,8 @@ end
 # - https://learn.microsoft.com/en-us/windows/terminal/tutorials/new-tab-same-directory
 # Removed quoting since it jacked with the syntax highlighting
 if test -n "$WT_SESSION"
-    # On writing the prompt, store the pwd using the 9;9 escape sequence
-    function windows-terminal --on-event fish_prompt
+    # On a change of PWD, store the PWD using the 9;9 escape sequence
+    function windows-terminal --on-variable PWD
         printf \e]9\;9\;%s\e\\ (wslpath -m "$PWD")
     end
 end
