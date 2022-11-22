@@ -664,3 +664,31 @@ class Month:
         Iterate over months from this month to end, inclusive.
         """
         return Month.iter_months(self, end)
+
+def to_md(rows: List[List[Any]]) -> str:
+    """
+    Convert a list of rows to a markdown table.
+    """
+    max_cols = max(len(row) for row in rows)
+
+    # Min width is 2
+    col_widths = [2] * max_cols
+
+    for row in rows:
+        for col, cell in enumerate(row):
+            col_widths[col] = max(col_widths[col], len(str(cell)) + 2)
+
+    first_row = True
+    output_rows = []
+    for row in rows:
+        # Left margin of single space, right margin of single space, left justified
+        contents = [f' {str(cell).ljust(col_widths[col] - 2)} ' for col, cell in enumerate(row)]
+
+        row_str = "|" +  '|'.join(contents) + "|\n"
+        output_rows.append(row_str)
+        if first_row:
+            # Add header separator
+            output_rows.append("|" + "|".join(['-' * col_width for col_width in col_widths]) + "|\n")
+            first_row = False
+
+    return ''.join(output_rows)
