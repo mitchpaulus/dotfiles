@@ -128,8 +128,10 @@ end
 # - https://github.com/microsoft/terminal/issues/3158#issuecomment-789043641
 # - https://github.com/microsoft/terminal/pull/8330
 # - https://github.com/microsoft/terminal/issues/8166
+# - https://learn.microsoft.com/en-us/windows/terminal/tutorials/new-tab-same-directory
 # Removed quoting since it jacked with the syntax highlighting
 if test -n "$WT_SESSION"
+    # On writing the prompt, store the pwd using the 9;9 escape sequence
     function windows-terminal --on-event fish_prompt
         printf \e]9\;9\;%s\e\\ (wslpath -m "$PWD")
     end
@@ -186,10 +188,10 @@ function jobs_and_clear; j; clear; commandline -f repaint; end
 function dotfiles_and_clear; gd; clear; commandline -f repaint; end
 
 # Don't want to press Enter any more
-bind jf file_manager_and_clear
-bind jr repo_and_clear
-bind jc jobs_and_clear
-bind jd dotfiles_and_clear
+bind ';f' file_manager_and_clear
+bind ';r' repo_and_clear
+bind ';c' jobs_and_clear
+bind ';d' dotfiles_and_clear
 
 # Historical Vi binding stuff
 # set fish_cursor_insert line
