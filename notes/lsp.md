@@ -46,3 +46,7 @@ MiniYAML              | <https://github.com/penev92/Oraide.LanguageServer>
 - Pretty much need a `tsconfig` - this will set the directory used for main.
 
 - Debug in console - Help -> Toggle Developer Tools in VS Code
+
+## DocumentSymbols and WorkspaceSymbols
+
+See https://github.com/neovim/neovim/issues/11664 for potential uses of that.
