@@ -205,6 +205,10 @@ function setup_xlimlsp()
     -- buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
     -- set keymap gd to definition
     vim.api.nvim_buf_set_keymap(0, 'n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', { noremap=true, silent=true })
+    vim.api.nvim_buf_set_keymap(0, 'n', '[d', '<Cmd>lua vim.diagnostic.goto_prev()<CR>', { noremap=true, silent=true })
+    vim.api.nvim_buf_set_keymap(0, 'n', ']d', '<Cmd>lua vim.diagnostic.goto_next()<CR>', { noremap=true, silent=true })
+    vim.api.nvim_buf_set_keymap(0, 'n', '<space>q', '<Cmd>lua vim.diagnostic.setloclist()<CR>', { noremap=true, silent=true })
+    vim.api.nvim_buf_set_keymap(0, 'n', 'gr', '<Cmd>lua vim.lsp.buf.references()<CR>', { noremap=true, silent=true })
 end
 
 
