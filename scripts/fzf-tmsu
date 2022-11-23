@@ -11,11 +11,15 @@ from typing import Set, Union
 import os
 import sys
 
-def files_for_tags(selected_tag_set: Set[str], database_path: Union[str, None]) -> Set[str]:
+def files_for_tags(selected_tag_set: Set[str], database_path: Union[str, None], only_dirs = False) -> Set[str]:
     arguments = ['tmsu']
     if database_path is not None:
         arguments.extend(['--database', database_path])
     arguments.append('files')
+    if only_dirs:
+        arguments.append('--directory')
+    else:
+        arguments.append('--file')
     arguments.extend(selected_tag_set)
     result = subprocess.run(arguments, capture_output=True, encoding='utf-8')
     return set(result.stdout.splitlines())
@@ -48,7 +52,7 @@ def try_open_dir(directory_path: str) -> None:
         sys.exit()
 
 
-def handle_selection(selection: str, selected_tag_set: Set[str], database_path: Union[str, None]) -> None:
+def handle_selection(selection: str, selected_tag_set: Set[str], database_path: Union[str, None], only_dirs = False) -> None:
     # Check if selection is a file.
     if os.path.isfile(selection):
         # Try to open the file
@@ -63,12 +67,14 @@ def handle_selection(selection: str, selected_tag_set: Set[str], database_path: 
         sys.exit()
     elif os.path.isdir(selection):
         try_open_dir(selection)
+    elif selection == "d":
+        query(selected_tag_set, database_path, True)
     else: # Assume that the selection was a tag
         selected_tag_set.add(selection.strip())
-        query(selected_tag_set, database_path)
+        query(selected_tag_set, database_path, only_dirs)
 
-def query(selected_tag_set: Set[str], database_path: Union[str, None]) -> None:
-    files = files_for_tags(selected_tag_set, database_path)
+def query(selected_tag_set: Set[str], database_path: Union[str, None], only_dirs = False) -> None:
+    files = files_for_tags(selected_tag_set, database_path, only_dirs)
 
     if len(files) == 0:
         print('No files found from current directory location')
@@ -100,7 +106,7 @@ def query(selected_tag_set: Set[str], database_path: Union[str, None]) -> None:
     # Trim trailing newlines on stdout
     stdout = stdout.rstrip('\n')
 
-    handle_selection(stdout, selected_tag_set, database_path)
+    handle_selection(stdout, selected_tag_set, database_path, only_dirs)
 
 def help_text() -> str:
     return '''
@@ -114,12 +120,15 @@ Uses fzf and tmsu to quickly select files/directories from tags.
 if __name__ == "__main__":
     index = 1
     database_path = None
+    only_dirs = False
     while index < len(sys.argv):
         if sys.argv[index] == '-h' or sys.argv[index] == '--help':
             print(help_text(), end='')
             sys.exit()
+        elif sys.argv[index] == "-d":
+            only_dirs = True
         else:
             database_path = sys.argv[index]
         index += 1
 
-    query(set(), database_path)
+    query(set(), database_path, only_dirs)

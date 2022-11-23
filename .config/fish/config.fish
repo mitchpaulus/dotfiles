@@ -192,7 +192,17 @@ bind jf file_manager_and_clear
 bind ';f' file_manager_and_clear
 bind ';r' repo_and_clear
 bind ';c' jobs_and_clear
+bind jd dotfiles_and_clear
 bind ';d' dotfiles_and_clear
+
+function work_dir_search
+    cd '/mnt/c/Users/mpaulus/Command Commissioning/'
+    fzf-tmsu -d
+    clear
+    commandline -f repaint
+end
+
+bind zd work_dir_search
 
 # Historical Vi binding stuff
 # set fish_cursor_insert line
