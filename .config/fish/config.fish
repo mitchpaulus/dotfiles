@@ -188,6 +188,7 @@ function jobs_and_clear; j; clear; commandline -f repaint; end
 function dotfiles_and_clear; gd; clear; commandline -f repaint; end
 
 # Don't want to press Enter any more
+bind jf file_manager_and_clear
 bind ';f' file_manager_and_clear
 bind ';r' repo_and_clear
 bind ';c' jobs_and_clear
