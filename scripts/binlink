@@ -18,8 +18,28 @@ if [ $# -ne 1 ]; then
 fi
 
 if [ -x "$1" ]; then
-  mkdir -p ~/.local/bin
-  ln -s -r "$1" ~/.local/bin
+    # Check for $LOCALBIN environment variable, and if the directory it points to exists.
+    if [ -n "$LOCALBIN" ] && [ -d "$LOCALBIN" ]; then
+        DIR="$LOCALBIN"
+    else
+        DIR="$HOME/.local/bin"
+    fi
+    mkdir -p "$DIR"
+    # Check if link already exists
+    if [ -L "$DIR/$1" ]; then
+        # Ask user if they want to remove it.
+        printf "Link already exists. Do you want to remove it? [y/N] "
+        read -r answer
+        if [ "$answer" = "y" ] || [ "$answer" = "Y" ]; then
+            rm "$DIR/$1"
+        elif [ "$answer" = "n" ] || [ "$answer" = "N" ] || [ -z "$answer" ]; then
+            exit 0
+        else
+            printf "Invalid answer. Exiting.\n"
+            exit 1
+        fi
+    fi
+    ln -s -r "$1" "$DIR"
 else
   printf "%s is not an executable file\n" "$1"
 fi

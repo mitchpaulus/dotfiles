@@ -259,7 +259,9 @@ end
 
 # On basic Ubuntu install, python3 is installed, but no symlink for python
 if not command --query python; and command --query python3
-    ln -s -r (command -s python3) $LOCALBIN/python
+    if test -d "$LOCALBIN"
+        ln -s -r -f (command -s python3) $LOCALBIN/python
+    end
 end
 
 # Go to git repositories
