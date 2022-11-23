@@ -194,3 +194,12 @@ CLI for TeX -> Text
 ## HTMLMinifier
 
 [Does what it says](https://www.npmjs.com/package/html-minifier)
+
+## WARP
+
+New terminal <https://www.warp.dev/>. Looks to only be on MacOS right now.
+
+## Quitter
+
+Mac only app, inspiration to find analogous app for Windows? <https://marco.org/apps>.
+First heard on the State of the Apps 2022 episode of Cortex.
