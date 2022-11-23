@@ -58,5 +58,10 @@
                  "        break",
                  "$0"],
         "description": "any loop (unsugar what was found at: https://docs.python.org/3/library/functions.html#any)"
+    },
+    "filter": {
+        "prefix": ["filter", "fi"],
+        "body": ["filter(${1:function}, ${2:iterable})"],
+        "description": "filter function"
     }
 }
