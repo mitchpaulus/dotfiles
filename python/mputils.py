@@ -141,7 +141,7 @@ def alphanum_key(s) -> List[Union[str, int]]:
         "z23a" -> ["z", 23, "a"]
     """
     #  return [convert_to_int_if_possible(c) for c in re.split('([0-9]+)', s) if convert_to_int_if_possible(c) != ""]
-    return [convert_to_int_if_possible(c) for c in re.split('([0-9]+)', s)]
+    return [convert_to_int_if_possible(c) for c in re.split('([0-9]+)', s.lower())]
 
 def str_list(l: List[Any]) -> List[str]:
     """
