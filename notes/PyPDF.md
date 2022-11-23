@@ -1,7 +1,15 @@
 # `PyPDF`
 
 ```python
-import PyPDF2
+from PyPDF2 import PdfMerger
+
+merger = PdfMerger()
+
+merger.append(fileobj='file.pdf', outline_item='str', pages=(1, 2), import_outline=True)
+
+# 1-based page number?
+merger.add_outline_item(title='str', pagenum=1, parent
+
 ```
 
  - Pages are 0-based
