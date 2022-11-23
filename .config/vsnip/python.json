@@ -48,5 +48,15 @@
         "prefix": ["lc"],
         "body": ["[${3:expression} for ${2:element} in ${1:$TM_SELECTED_TEXT}]"],
         "description": "list comprehension"
+    },
+    "any loop": {
+        "prefix": ["anyl"],
+        "body": ["${1:boolean} = False",
+                 "for ${2:element} in ${3:iterable}:",
+                 "    if ${4:condition}:",
+                 "        ${1} = True",
+                 "        break",
+                 "$0"],
+        "description": "any loop (unsugar what was found at: https://docs.python.org/3/library/functions.html#any)"
     }
 }
