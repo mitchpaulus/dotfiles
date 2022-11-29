@@ -95,3 +95,7 @@ Others to look into:
 - Jsonnet
 - Nix
 - Starlark
+
+## [Nimble](http://was.tl/projects/nimble/)
+
+Markdown with macros? Only outputs to HTML for now.

@@ -168,6 +168,7 @@ CLI parsing from help documentation.
 ## [img2pdf](https://pypi.org/project/img2pdf/)
 
 Lossless conversion from image files to PDFs. Far better quality than `convert` from ImageMagick.
+tags: PNG, JPEG
 
 ## [hydra.nvim](https://github.com/anuvyklack/hydra.nvim)
 
@@ -203,3 +204,11 @@ New terminal <https://www.warp.dev/>. Looks to only be on MacOS right now.
 
 Mac only app, inspiration to find analogous app for Windows? <https://marco.org/apps>.
 First heard on the State of the Apps 2022 episode of Cortex.
+
+## `pdftoppm`
+
+Convert PDF to PNG - way better quality than ImageMagick.
+
+```
+pdftoppm -png -rx XXX -ry XXX input.pdf output.png
+```
