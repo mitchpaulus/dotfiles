@@ -281,6 +281,24 @@ def install_tabula_cli():
     with open(jar_path, 'wb') as f:
         f.write(response.content)
 
+def install_magcik():
+    # Download file https://imagemagick.org/archive/binaries/magick to $LOCALBIN
+    # Downloading the statically linked binary is so much simpler than dealing with outdated package managers
+    local_bin_dir = cast(str, os.environ.get('LOCALBIN'))
+    magick_path = os.path.join(local_bin_dir, 'magick')
+    print(f"Saving '{magick_path}'", file=sys.stderr)
+    response = requests.get('https://imagemagick.org/archive/binaries/magick')
+    if response.status_code != 200:
+        print(f'Error downloading https://imagemagick.org/archive/binaries/magick: {response.status_code}', file=sys.stderr)
+        sys.exit(1)
+
+    with open(magick_path, 'wb') as f:
+        f.write(response.content)
+
+    # Make the file executable
+    os.chmod(magick_path, 0o755)
+
+
 if __name__ == "__main__":
     local_bin_dir = os.environ.get('LOCALBIN')
     if local_bin_dir is None:
@@ -309,6 +327,7 @@ if __name__ == "__main__":
         "excelchop": install_excelchop,
         "neovim": install_neovim,
         "tabula-cli": install_tabula_cli,
+        "magcik": install_magcik,
     }
 
     help_lines = [
