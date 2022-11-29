@@ -46,3 +46,10 @@ Trim("String   ") ' "String"
 Len("String") = 6
 Left("string", 2) = 2
 ```
+
+## Parenthesis
+
+- <https://learn.microsoft.com/en-us/office/vba/language/concepts/getting-started/using-parentheses-in-code>
+- <https://stackoverflow.com/questions/5413765/what-are-the-rules-governing-usage-of-parenthesis-in-vba-function-calls>
+
+If return value is not used, do not use parenthesis.

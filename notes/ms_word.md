@@ -113,8 +113,13 @@ One of the best shortcuts of all time
   - `\h`: Hides the field result.
   - `\n`: Inserts the next sequence number for the specified items. Default behavior, don't usually need to specify it.
   - `\r <n>` Resets the sequence number to the specified number *n*.
-  - `\s`: Resets the sequence number at the heading level following the "s".
-          This means you don't have to have a different fiedl code for the first item vs. the rest with heading numbering.
+  - `\s <n>`: Resets the sequence number at the heading level following the "s".
+          This means you don't have to have a different field code for the first item vs. the rest with heading numbering.
+
+  - Pattern is:
+  - `{seq h1}`
+  - `{seq h1 \c}.{seq h2 \s 1}`
+  - `{seq h1 \c}.{seq h2 \c}.{seq h3 \s 2}`
 
 ## Grammar for MS Word Fields
 

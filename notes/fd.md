@@ -1,7 +1,7 @@
 # fd
 
-Find all results: `fd -H -I`. -H for hidden, -I for ignored. Smart Case
-by default.
+Find all results: `fd -H -I`. -H for hidden, -I for ignored.
+Smart Case by default.
 
 ```
 {} path
@@ -22,3 +22,5 @@ fd 'pattern' -x printf '%s\n' '{/}'
 # With dir
 fd [FLAGS/OPTIONS] [<pattern>] [<path>...]
 ```
+
+`--strip-cwd-prefix` to remove leading `./`
