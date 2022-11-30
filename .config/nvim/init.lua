@@ -140,7 +140,7 @@ local function setupLsp()
         buf_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.get()<CR>', opts)
         buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
         buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-        buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
+        buf_set_keymap('n', '<localleader>d', '<cmd>lua vim.diagnostic.setqflist<CR>', opts)
         buf_set_keymap('n', '<space>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
         buf_set_keymap('v', '<space>la', ':lua vim.lsp.buf.code_action()<CR>', opts)
 
@@ -208,7 +208,7 @@ function setup_xlimlsp()
     vim.api.nvim_buf_set_keymap(0, 'n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', { noremap=true, silent=true })
     vim.api.nvim_buf_set_keymap(0, 'n', '[d', '<Cmd>lua vim.diagnostic.goto_prev()<CR>', { noremap=true, silent=true })
     vim.api.nvim_buf_set_keymap(0, 'n', ']d', '<Cmd>lua vim.diagnostic.goto_next()<CR>', { noremap=true, silent=true })
-    vim.api.nvim_buf_set_keymap(0, 'n', '<space>q', '<Cmd>lua vim.diagnostic.setloclist()<CR>', { noremap=true, silent=true })
+    vim.api.nvim_buf_set_keymap(0, 'n', '<localleader>d', '<Cmd>lua vim.diagnostic.setqflist()<CR>', { noremap=true, silent=true })
     vim.api.nvim_buf_set_keymap(0, 'n', 'gr', '<Cmd>lua vim.lsp.buf.references()<CR>', { noremap=true, silent=true })
 end
 
@@ -405,8 +405,8 @@ normalNoRecurseMappings = {
     { '<leader>pc',  ':silent !pandoc -V geometry:margin=1in -o "%:p:r.pdf" "%:p"<cr>'  },
 
     -- Open and close quickfix
-    { '<leader>qo', '<Cmd>silent :cw<CR>' },
-    { '<leader>qc', '<Cmd>silent :cclose<CR>' },
+    { '<localleader>o', '<Cmd>silent :cw<CR>' },
+    { '<localleader>c', '<Cmd>silent :cclose<CR>' },
 
     -- Re-indent after putting
     { 'p', 'p==' },
