@@ -548,7 +548,6 @@ local statusLineComponents = {
     '%p%% ',  -- percentage through file
     'HEX:%2B ', -- Hex value for character under cursor
     '%{&ff} ',  -- File format (unix vs. dos)
-    '%{&encoding}' -- current encoding
 }
 
 vim.o.statusline = table.concat(statusLineComponents)
