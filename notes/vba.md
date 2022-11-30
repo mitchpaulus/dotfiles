@@ -25,6 +25,7 @@ Writing to a file:
 ```vba
 FileNum = FreeFile
 Open "C:\Users\mpaulus\properties.txt" For Output As #FileNum
+' Print is an append
 Print #FileNum, Output
 Close #FileNum
 ```
@@ -53,3 +54,13 @@ Left("string", 2) = 2
 - <https://stackoverflow.com/questions/5413765/what-are-the-rules-governing-usage-of-parenthesis-in-vba-function-calls>
 
 If return value is not used, do not use parenthesis.
+
+## Write vs. Print
+
+Print is what I would expect, write literally what I tell it to.
+Write will make you what pass it into a CSV form. If that's what you're into.
+In actuality it's more for compatibility with the corresponding `Input` function.
+<https://wellsr.com/vba/2016/excel/vba-write-to-text-file-print-statement/>
+
+On the text file encoding: <https://stackoverflow.com/questions/40376951/which-string-encoding-do-the-vba-built-in-file-operations-use>
+By default looks like Windows-1252.

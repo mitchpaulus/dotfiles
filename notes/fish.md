@@ -69,3 +69,11 @@ For default vim bindings, execute command `fish_vi_key_bindings`.
 Useful command line functions:
 
 - down-or-search/up-or-search, typically bound to \cn and \cp
+
+## Completions
+
+```
+# Completing option argument. Note that command substitution needs to be wrapped in quotations.
+
+complete -c command -x -a "(command)"
+```
