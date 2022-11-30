@@ -90,6 +90,7 @@ cmp.setup({
             c = cmp.mapping.close(),
         }),
         ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+        ['<C-j>'] = cmp.mapping.confirm({ select = true }),
         ['<C-p>'] = cmp.mapping.select_prev_item(),
         ['<C-n>'] = cmp.mapping.select_next_item(),
     },
