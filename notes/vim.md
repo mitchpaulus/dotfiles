@@ -34,6 +34,7 @@ Other considerations:
 - Can use `@Spell` and `@NoSpell` flags to mark where spell checking
   should and shouldn't occur. [link](https://unix.stackexchange.com/a/31155/296724).
 
+- Have run into issue using the `\zs` and `\ze` patterns. The lookahead/lookbehind assertions seems to work fine.
 
 ## Constantly Reload File for Demo
 
