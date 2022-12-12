@@ -14,7 +14,7 @@ Events -> Workflows -> Jobs -> Steps -> Actions
 ```
 Steps - Step[]
 
-Step : 
+Step :
   name
   uses | run
 ```
@@ -58,3 +58,5 @@ jobs:
         with:
           files: CCLLCDataSync/publish/CCLLCDataSync.exe
 ```
+
+Another action: <https://github.com/ncipollo/release-action>

@@ -9,6 +9,9 @@ From EPA: Guidelines for Industrial Boiler Performance Improvement
 
 Taken from reference book 'Energy Management Handbook" - Chapter 14, page 416.
 
+Refractory: heat-resistant material that lines the high-temperature areas of the furnace.
+Refractory usually consists of castables, bricks, ceramic wools or fibers, and even plastics made from various fireproof compounds.
+
 ## Boiler information to log:
 
 Page 58 (64 of PDF)

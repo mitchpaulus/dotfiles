@@ -1,5 +1,7 @@
 # `PyPDF`
 
+<https://pypdf2.readthedocs.io/en/latest/>
+
 ```python
 from PyPDF2 import PdfMerger
 
