@@ -187,12 +187,18 @@ function repo_and_clear; r; clear; commandline -f repaint; end
 function jobs_and_clear; j; clear; commandline -f repaint; end
 function dotfiles_and_clear; gd; clear; commandline -f repaint; end
 
+function clear_terminal
+    echo -n (clear | string replace \\e\\\[3J ""); commandline -f repaint
+end
+bind zl clear_terminal
+bind zo exit
+
 # Don't want to press Enter any more
-bind jf file_manager_and_clear
+bind jf execute
+bind jd file_manager_and_clear
 bind ';f' file_manager_and_clear
 bind ';r' repo_and_clear
 bind ';c' jobs_and_clear
-bind jd dotfiles_and_clear
 bind ';d' dotfiles_and_clear
 
 function work_dir_search

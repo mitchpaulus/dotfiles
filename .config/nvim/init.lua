@@ -591,6 +591,9 @@ end
 
 vim.o.nrformats = 'bin,hex,alpha'
 
+-- Highlight XlimRegex group #00cec9
+vim.cmd('highlight XlimRegex guifg=#00cec9')
+
 -- Nah, just use desert.  Colorscheme, try monokai
 vim.cmd('colorscheme desert')
 
