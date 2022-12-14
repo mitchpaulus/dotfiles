@@ -159,3 +159,9 @@ public static List<List<T>> Batch<T>(this List<T> list, int groups)
 ## Integer Factorization
 
 <https://cp-algorithms.com/algebra/factorization.html>
+
+## Generalized Reduced Gradient
+
+Used to solve constrained non-linear optimization problems.
+
+*Slack Variable* - extra term added to inequality constraints to make the form an equality constraint.
