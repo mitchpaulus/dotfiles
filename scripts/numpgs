@@ -1,0 +1,6 @@
+#!/usr/bin/python3
+# Print number of pages in PDF file
+from PyPDF2 import PdfReader
+from sys import argv
+rd = PdfReader(argv[1])
+print(len(rd.pages))
