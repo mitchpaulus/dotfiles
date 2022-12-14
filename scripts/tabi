@@ -1,0 +1,15 @@
+#!/usr/bin/awk -E
+#
+# Insert first argument in column 1 in tab delimited file
+
+BEGIN {
+    FS = "\t"
+    OFS = "\t"
+    toinsert = ARGV[1]
+    print toinsert
+    ARGV[1] = ""
+}
+
+{
+    print toinsert, $0
+}
