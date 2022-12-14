@@ -193,6 +193,8 @@ end
 bind zl clear_terminal
 bind zo exit
 
+bind vl forward-char
+
 # Don't want to press Enter any more
 bind jf execute
 bind jd file_manager_and_clear
