@@ -212,3 +212,7 @@ Convert PDF to PNG - way better quality than ImageMagick.
 ```
 pdftoppm -png -rx XXX -ry XXX input.pdf output.png
 ```
+
+## [SoftMaker Office Suite](https://shop.softmaker.com/)
+
+Modify office files natively on Linux?

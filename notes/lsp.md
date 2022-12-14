@@ -50,3 +50,7 @@ MiniYAML              | <https://github.com/penev92/Oraide.LanguageServer>
 ## DocumentSymbols and WorkspaceSymbols
 
 See https://github.com/neovim/neovim/issues/11664 for potential uses of that.
+
+## LSP
+
+Position 0-based
