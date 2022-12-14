@@ -232,6 +232,7 @@ abbr -a v $EDITOR
 
 # Short for ANTLR, open all g4 files
 abbr -a an "$EDITOR (fd -e g4)"
+abbr -a ap "$EDITOR (fd -e g4 Parser)"
 
 abbr -a wttr 'curl \'wttr.in/Dallas?format=%l:+%C+%t+%h+%w\''
 
