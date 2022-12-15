@@ -160,8 +160,19 @@ public static List<List<T>> Batch<T>(this List<T> list, int groups)
 
 <https://cp-algorithms.com/algebra/factorization.html>
 
-## Generalized Reduced Gradient
+## Generalized Reduced Gradient/Simplex
 
 Used to solve constrained non-linear optimization problems.
 
-*Slack Variable* - extra term added to inequality constraints to make the form an equality constraint.
+- *Slack Variable* - extra term added to inequality constraints to make the form an equality constraint.
+
+Solving m linear equations with n unknowns (n\>m)
+
+- Set (n - m) variables to 0 to eliminate them.
+- Solve m x m system of equations
+
+- *Non basic* variables are the ones that are set to 0
+- *Basic* variables are the ones that remain.
+
+- Can always rewrite inequality as less than or equal to.
+  - Multiply both sides by -1 to switch sign direction.
