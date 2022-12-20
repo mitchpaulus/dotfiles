@@ -5,3 +5,4 @@ Important options:
 - `-F name=value`: for form data
 - `-d`: for query parameter data
 - `-L`: follow redirects
+- `-s`: Silent mode

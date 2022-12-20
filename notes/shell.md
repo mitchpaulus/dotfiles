@@ -64,3 +64,7 @@ Might be 8191 characters, or 32768 characters
 ```sh
 find . -name '*.ext' | while read -r file; do ...; done
 ```
+
+## Issues with `set -e`
+
+<http://mywiki.wooledge.org/BashFAQ/105>
