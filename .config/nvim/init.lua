@@ -71,7 +71,6 @@ end
 local cmp = require'cmp'
 
 cmp.setup({
-    completion = { keyword_length = 1 },
     snippet = {
         -- REQUIRED - you must specify a snippet engine
         expand = function(args)
