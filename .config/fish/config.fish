@@ -177,31 +177,46 @@ bind \eo exit
 
 bind qh add_help
 
-# The prompt gets all messed up when coming out of the file manager since fish
-# isn't handling it like a normal command. See command below for what CTRL-L does by
-# default in fish - I'm just doing the clear and the repaint. 3J is for erasing saved lines?
-# I read this as required to keep any saved lines when clearing. Not going to worry about it for now.
-# bind --preset \cl echo\ -n\ \(clear\ \|\ string\ replace\ \\e\\\[3J\ \"\"\)\;\ commandline\ -f\ repaint
-function file_manager_and_clear; $FILEMANAGER; clear; commandline -f repaint; end
-function repo_and_clear; r; clear; commandline -f repaint; end
-function jobs_and_clear; j; clear; commandline -f repaint; end
-function dotfiles_and_clear; gd; clear; commandline -f repaint; end
+function bind_exec
+    commandline $argv[1]
+    and commandline -f execute
+end
+
+function git_status
+    bind_exec 'git status -u'
+end
+
+function git_diff; bind_exec 'git diff'; end
+function git_commit; bind_exec 'git commit'; end
+function repos; bind_exec 'r'; end
+
+function smart_semi_colon
+    if commandline | grep -qw 'for\|while\|if'
+        commandline -i ';'
+    else
+        commandline -f execute
+    end
+end
 
 function clear_terminal
+    # Stolen from default C-L binding
     echo -n (clear | string replace \\e\\\[3J ""); commandline -f repaint
 end
 bind zl clear_terminal
 bind zo exit
 
-bind vl forward-char
-
-# Don't want to press Enter any more
+# Don't want to press Enter any more.
+# Have to execute more than I have to enter in ';'
+bind ';' smart_semi_colon
+bind 'z;' 'commandline -i \;'
 bind jf execute
-bind jd file_manager_and_clear
-bind ';f' file_manager_and_clear
-bind ';r' repo_and_clear
-bind ';c' jobs_and_clear
-bind ';d' dotfiles_and_clear
+
+bind js git_status
+bind jd git_diff
+bind jc git_commit
+bind jr repos
+
+bind vl forward-char
 
 function work_dir_search
     cd '/mnt/c/Users/mpaulus/Command Commissioning/'
