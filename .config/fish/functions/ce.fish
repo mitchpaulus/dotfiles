@@ -6,8 +6,8 @@ function ce --description 'Change Extension'
 
     # Check which argument is longer, assume extension is the shorter of the two.
     if test (string length $argv[1]) -gt (string length $argv[2])
-        path change-extension $argv[2] $argv[1]
+        path change-extension $argv[2] (basename $argv[1])
     else
-        path change-extension $argv[1] $argv[2]
+        path change-extension $argv[1] (basename $argv[2])
     end
 end
