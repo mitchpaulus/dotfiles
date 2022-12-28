@@ -25,8 +25,8 @@ if [ -x "$1" ]; then
         DIR="$HOME/.local/bin"
     fi
     mkdir -p "$DIR"
-    # Check if link already exists
-    if [ -L "$DIR/$1" ]; then
+    # Check if link or file already exists
+    if [ -e "$DIR/$1" ]; then
         # Ask user if they want to remove it.
         printf "Link already exists. Do you want to remove it? [y/N] "
         read -r answer
