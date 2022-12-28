@@ -39,7 +39,7 @@ inoremap ,c class<Space>
 inoremap ,d double
 inoremap ,l List<><Left>
 inoremap ,m Dictionary<, ><Esc>2hi
-inoremap ,n new();<Esc>
+inoremap ,n throw new NotImplementedException();
 inoremap ,p public<Space>
 inoremap ,r return<Space>
 inoremap ,s string
@@ -60,4 +60,3 @@ iabbrev pbulic public
 iabbrev pulbic public
 iabbrev stirng string
 iabbrev ture true
-
