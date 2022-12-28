@@ -279,7 +279,7 @@ vim.api.nvim_set_keymap("t", "jb", "<C-\\><C-n><C-^>" , {noremap = true, silent 
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
-vim.g.markdown_fenced_languages = { 'python', 'gnuplot', 'vim', 'sh', 'vim', 'axon', 'lua','haskell', 'neobem', 'awk' }
+vim.g.markdown_fenced_languages = { 'python', 'gnuplot', 'vim', 'sh', 'vim', 'axon', 'lua','haskell', 'neobem', 'awk', 'xlim' }
 vim.g.markdown_syntax_conceal = 0
 
 silent = { silent = true, noremap = true }
