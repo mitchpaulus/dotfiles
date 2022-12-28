@@ -225,3 +225,8 @@ Can remove with a file called `AssemblyInfo.cs` (Don't think it actually matters
 
 [assembly: CLSCompliant(false)]
 ```
+
+## Rewriting Token Stream
+
+See pg. 54 in "Cool Lexical Features" section
+See pg. 208 For example of accessing hidden channels in the rewriting.

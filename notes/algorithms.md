@@ -176,3 +176,16 @@ Solving m linear equations with n unknowns (n\>m)
 
 - Can always rewrite inequality as less than or equal to.
   - Multiply both sides by -1 to switch sign direction.
+
+## Recursion to Iteration
+
+From ChatGPT:
+One common method for converting recursion to iteration is to use a stack data structure to simulate the function call stack that is used in recursive function calls.
+
+Here is a general outline of the process:
+
+1. Create a stack data structure to store the state of the function at each recursive call.
+2. Modify the recursive function to accept an additional parameter, which will be used to store the state of the function on the stack.
+3. Instead of making a recursive function call, push the state of the function onto the stack and return to the beginning of the function.
+4. At the beginning of the function, check if the stack is empty. If it is, return the final result. If it is not empty, pop the top element off the stack and use it to restore the state of the function.
+5. Continue the function execution from the point where it left off, using the restored state.

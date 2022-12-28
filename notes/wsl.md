@@ -17,6 +17,14 @@ There have been issues regarding the clock in WSL2. Running the command
 
 `https://github.com/microsoft/WSL/issues/4245#issuecomment-510238198`
 
+See also:
+
+- <https://tomssl.com/fixing-clock-drift-in-wsl2-using-windows-terminal/>
+  - Recommends using `ntpdate` and a command like:
+    - `sudo ntpdate time.windows.com`
+- [Stack Overflow](https://stackoverflow.com/questions/65086856/wsl2-clock-is-out-of-sync-with-windows), [SO answer](https://stackoverflow.com/a/67100830/5932184)
+  - Also states that the `ntpdate` is better for getting the exact time.
+  - Uses `pool.ntp.org` instead of the Windows URL above.
 
 ## Internet issues with WSL 2
 
