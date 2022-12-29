@@ -48,7 +48,6 @@ def latest_github_release(username: str, repo: str) -> GitHubReleaseResponse:
         print('Error: Unable to parse JSON from GitHub releases', file=sys.stderr)
         sys.exit(1)
 
-
 def get_github_asset(username: str, repo: str, predicate: Callable[[GitHubAsset], bool]) -> GitHubAsset:
     # Get latest release from GitHub
     latest_release = latest_github_release(username, repo)
@@ -62,6 +61,28 @@ def get_github_asset(username: str, repo: str, predicate: Callable[[GitHubAsset]
 
     asset = cast(GitHubAsset, asset)
     return asset
+
+
+def install_deb(username: str, repo: str, predicate: Callable[[GitHubAsset], bool]):
+    asset = get_github_asset(username, repo, predicate)
+    # Download asset to /tmp
+    print(f"Downloading '{asset.name}' to /tmp", file=sys.stderr)
+    response = requests.get(asset.browser_download_url)
+
+    if response.status_code != 200:
+        print(f'Error downloading {asset.browser_download_url}: {response.status_code}', file=sys.stderr)
+        sys.exit(1)
+
+    with open('/tmp/' + asset.name, 'wb') as f:
+        f.write(response.content)
+
+    # Install the downloaded .deb file
+    print(f'Installing {asset.name}', file=sys.stderr)
+    completed_process = subprocess.run(['sudo', 'dpkg', '-i', '/tmp/' + asset.name])
+
+    if completed_process.returncode != 0:
+        print(f'Error installing {asset.name}', file=sys.stderr)
+        sys.exit(1)
 
 
 def install_git_filter_repo():
@@ -299,6 +320,12 @@ def install_magcik():
     os.chmod(magick_path, 0o755)
 
 
+def install_gh_cli():
+    install_deb('cli', 'cli', lambda a: a.name.startswith('gh_') and a.name.endswith('_amd64.deb'))
+
+def install_powershell():
+    install_deb('PowerShell', 'PowerShell', lambda a: a.name.startswith('powershell') and a.name.endswith('_amd64.deb'))
+
 if __name__ == "__main__":
     local_bin_dir = os.environ.get('LOCALBIN')
     if local_bin_dir is None:
@@ -328,6 +355,8 @@ if __name__ == "__main__":
         "neovim": install_neovim,
         "tabula-cli": install_tabula_cli,
         "magcik": install_magcik,
+        "gh-cli": install_gh_cli,
+        "powershell": install_powershell,
     }
 
     help_lines = [
