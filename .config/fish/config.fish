@@ -280,6 +280,11 @@ if command -v git >/dev/null 2>&1
     abbr -a stash 'git stash'
 end
 
+# When more than 1 character is too much
+abbr -a f "$FILEMANAGER"
+
+abbr -a uuid uuidgen
+
 # On basic Ubuntu install, python3 is installed, but no symlink for python
 if not command --query python; and command --query python3
     if test -d "$LOCALBIN"
@@ -306,8 +311,6 @@ if test -d '/mnt/c/Users/mpaulus/Command Commissioning'
     end
 end
 
-# When more than 1 character is too much
-abbr -a f "$FILEMANAGER"
 
 function lf --wraps=lf
     set config_dir  "$HOME/.config/lf"
