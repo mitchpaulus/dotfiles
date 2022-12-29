@@ -1,0 +1,23 @@
+#!/usr/bin/awk -f
+# Purpose of script is to transpose file
+BEGIN {
+    FS=OFS="\t"
+    max_cols=0
+}
+
+{
+    for (i=1; i<=NF; i++)  { a[NR,i] = $i }
+    if (NF>max_cols) { max_cols = NF }
+}
+
+END {
+    for (row=1; row<=max_cols; row++) {
+        str=a[1,row]
+        for (col=2; col<=NR; col++) {
+            str=str OFS a[col,row]
+        }
+        print str
+    }
+
+
+}

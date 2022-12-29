@@ -1,0 +1,13 @@
+#!/bin/sh
+# Script to remove git tag from local and remote repository
+
+# Check for single argument, the tag name, and exit if not found
+if [ $# -ne 1 ]; then
+    echo "Usage: removetag tagname"
+    exit 1
+fi
+
+# Remove tag from local repository
+git tag -d "$1" || exit 1
+# Remove tag from remote repository
+git push origin :refs/tags/"$1" || exit 1
