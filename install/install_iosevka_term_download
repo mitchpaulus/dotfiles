@@ -1,7 +1,7 @@
 #!/bin/sh
 
 latest_release="$(latest_release be5invis Iosevka)"
-download="$(printf "%s" "$latest_release" | github_releases.py '^ttf-iosevka-[0-9]+\.[0-9]+\.[0-9]+\.zip$')"
+download="$(printf "%s" "$latest_release" | github_releases.py '^ttf-iosevka-term-[0-9]+\.[0-9]+\.[0-9]+\.zip$')"
 asset="$(printf "%s" "$download" | awk 'NR == 1')"
 name="$(printf "%s" "$download" | awk 'NR == 2')"
 
