@@ -177,6 +177,8 @@ bind \eo exit
 
 bind qh add_help
 
+# The purpose of this function is to be able to execute commands from keybindings,
+# without explicitly hitting the Enter key.
 function bind_exec
     commandline $argv[1]
     and commandline -f execute
@@ -189,40 +191,36 @@ end
 function git_diff; bind_exec 'git diff'; end
 function git_commit; bind_exec 'git commit'; end
 function repos; bind_exec 'r'; end
-
-function smart_semi_colon
-    if commandline | grep -qw 'for\|while\|if'
-        commandline -i ';'
-    else
-        commandline -f execute
-    end
-end
+function filemanager; bind_exec 'f'; end
+function workdir; bind_exec 'j'; end
 
 function clear_terminal
     # Stolen from default C-L binding
     echo -n (clear | string replace \\e\\\[3J ""); commandline -f repaint
 end
-bind zl clear_terminal
-bind zo exit
 
 # Don't want to press Enter any more.
 # Have to execute more than I have to enter in ';'
-bind ';' smart_semi_colon
-bind 'z;' 'commandline -i \;'
-bind jf execute
+bind ';r' repos
+bind ';f' filemanager
+bind ';j' workdir
+bind ';c' workdir
 
-bind js git_status
-bind jd git_diff
 bind jc git_commit
+bind jd git_diff
+bind jf execute
 bind jr repos
+bind js git_status
+bind jw workdir
 
 bind vl forward-char
+bind vk clear_terminal
+bind qk exit
 
 function work_dir_search
     cd '/mnt/c/Users/mpaulus/Command Commissioning/'
     fzf-tmsu -d
-    clear
-    commandline -f repaint
+    clear_terminal
 end
 
 bind zd work_dir_search
