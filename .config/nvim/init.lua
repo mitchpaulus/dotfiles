@@ -723,6 +723,8 @@ filetypeAutocmds = {
     { 'cs', 'inoremap <localleader>l List<><Left>' },
     { 'cs', 'inoremap <localleader>s string' },
 
+    { 'gitcommit', 'startinsert' },
+
     -- make a header 1 line, deleting trailing whitespace first.
     --{ 'markdown', 'nnoremap <silent> <leader>h1 :<c-u>call<Space><SID>MakeHeading("=")<cr>', },
     --{ 'markdown', 'nnoremap <silent> <leader>h2 :<c-u>call<Space><SID>MakeHeading("-")<cr>', },
