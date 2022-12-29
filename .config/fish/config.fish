@@ -250,6 +250,7 @@ abbr -a v $EDITOR
 # Short for ANTLR, open all g4 files
 abbr -a an "$EDITOR (fd -e g4)"
 abbr -a ap "$EDITOR (fd -e g4 Parser)"
+abbr -a al "$EDITOR (fd -e g4 Lexer)"
 
 abbr -a wttr 'curl \'wttr.in/Dallas?format=%l:+%C+%t+%h+%w\''
 
@@ -351,8 +352,6 @@ function ag
     pwd >> ~/.config/goto/dirs.txt
 end
 
-# Get .autocorrect length
-abbr -a al 'wc -l ~/.autocorrect'
 
 # Edit idf files
 abbr -a i "$EDITOR *.idf"
