@@ -95,3 +95,11 @@ I then looped over the blobs and got the contents using `git show <sha>`, redire
 ```
 git push origin v0.1.0
 ```
+
+## Remove Tag
+
+```
+git tag -d tagname # local
+git push origin --delete tagname # remote
+removetag tagname # myscript
+```
