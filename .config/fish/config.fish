@@ -27,8 +27,8 @@ set -g H /mnt/c/Users/mpaulus
 # set -gxp MANPATH "$TEXLIVE_INSTALL_PREFIX"/2021/texmf-dist/doc/man
 # set -gxp INFOPATH "$TEXLIVE_INSTALL_PREFIX"/2021/texmf-dist/doc/man
 
-# Search for ANTLR stuff. Recommended location is /usr/local/lib/antlr-x.x.x-complete.jar
-set -gx ANTLR_JAR (find /usr/local/lib -name 'antlr-*-complete.jar')
+# Search for ANTLR stuff. Recommended location is /usr/local/lib/antlr-x.x.x-complete.jar. Sort and get latest.
+set -gx ANTLR_JAR (find /usr/local/lib -name 'antlr-*-complete.jar' | sort -V | tail -n 1)
 
 if count $ANTLR_JAR > /dev/null
     set -gx CLASSPATH ".:"$ANTLR_JAR[1]":$CLASSPATH"

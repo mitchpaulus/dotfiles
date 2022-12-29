@@ -326,6 +326,20 @@ def install_gh_cli():
 def install_powershell():
     install_deb('PowerShell', 'PowerShell', lambda a: a.name.startswith('powershell') and a.name.endswith('_amd64.deb'))
 
+def install_antlr():
+    # Download from https://www.antlr.org/download/antlr-4.11.1-complete.jar
+    # Save to /usr/local/lib, will have to run as root
+    response = requests.get('https://www.antlr.org/download/antlr-4.11.1-complete.jar')
+    if response.status_code != 200:
+        print(f'Error downloading https://www.antlr.org/download/antlr-4.11.1-complete.jar: {response.status_code}', file=sys.stderr)
+        sys.exit(1)
+
+    jar_path = '/usr/local/lib/antlr-4.11.1-complete.jar'
+    print(f"Saving '{jar_path}'", file=sys.stderr)
+    with open(jar_path, 'wb') as f:
+        f.write(response.content)
+
+
 if __name__ == "__main__":
     local_bin_dir = os.environ.get('LOCALBIN')
     if local_bin_dir is None:
@@ -357,18 +371,14 @@ if __name__ == "__main__":
         "magcik": install_magcik,
         "gh-cli": install_gh_cli,
         "powershell": install_powershell,
+        "antlr": install_antlr,
     }
-
-    help_lines = [
-        'Usage: install.py [program]',
-        '',
-        'Available programs:',
-    ]
-    for program_name in programs:
-        help_lines.append(f'  {program_name}')
 
     while (idx < len(sys.argv)):
         if (sys.argv[idx] == "-h" or sys.argv[idx] == "--help"):
+            help_lines = [ 'Usage: install.py [program]', '', 'Available programs:', ]
+            for program_name in programs:
+                help_lines.append(f'  {program_name}')
             print('\n'.join(help_lines), end='\n')
             sys.exit(0)
         else:
