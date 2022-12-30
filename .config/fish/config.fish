@@ -213,7 +213,7 @@ bind jr repos
 bind js git_status
 bind jw workdir
 
-bind vl forward-char
+bind vl forward-char execute
 bind vk clear_terminal
 bind qk exit
 
@@ -262,6 +262,7 @@ abbr -a md 'mkdir'
 abbr -a mk 'mkdir'
 abbr -a mkd 'mkdir'
 abbr -a pf 'printf'
+abbr -a rd 'nvim README.md'
 
 # Git shortcuts
 if command -v git >/dev/null 2>&1
