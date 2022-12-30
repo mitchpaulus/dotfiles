@@ -301,6 +301,8 @@ $var << EOD
 ...
 ...
 EOD
+
+plot $var using 1:2 ...
 ```
 
 ## Filtering
@@ -312,3 +314,10 @@ plot "< awk '$1 == 2' data.txt"
 ```
 
 ## Time
+
+Time is number of seconds from the year 1970.
+
+Can use
+```gnuplot
+integer = strptime("%Y", "2015")
+```
