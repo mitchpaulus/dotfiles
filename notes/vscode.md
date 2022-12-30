@@ -106,6 +106,33 @@ The `problemPatterns` contribution point adds a new variable that can be use in 
 
 Task -> problemMatchers -> problemPatterns
 
+## Reference files within extension
+
+```
+const module = context.asAbsolutePath(path.join('server', 'out', 'server.js'));
+```
+
+## Writing to unique "Channel"
+
+<https://stackoverflow.com/a/58139566>
+
+```TypeScript
+let orange = vscode.window.createOutputChannel("Orange");
+orange.appendLine("I am a banana.");
+```
+
+## `vsce` cheatsheet
+
+<https://michaelcurrin.github.io/dev-cheatsheets/cheatsheets/other/vscode-extensions/vsce-command.html>
+
+## Publishing
+
+PATs:
+
+- Organization: All accessible organizations
+- Scopes:
+  - Marketplace: Manage
+
 ## References
 
 [In depth debugger](https://www.codemag.com/article/1809051/Writing-Your-Own-Debugger-and-Language-Extensions-with-Visual-Studio-Code)

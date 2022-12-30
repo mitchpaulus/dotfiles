@@ -16,6 +16,8 @@ Ubuntu: `libxml2-utils` package
 &#xD; CR
 ```
 
+These have to be escaped within the attribute values.
+
 ## XPath
 
 Expression | Description
