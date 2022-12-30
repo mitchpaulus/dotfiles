@@ -47,12 +47,12 @@ lr_digrams.sort()
 rl_digrams.sort()
 
 # Print digrams
-print('Left-Right Digrams')
+print(f"Left-Right Digrams: {len(lr_digrams)}")
 print('------------------')
 for digram in lr_digrams:
     print(digram)
 
-print('Right-Left Digrams')
+print(f"Right-Left Digrams: {len(rl_digrams)}")
 print('------------------')
 for digram in rl_digrams:
     print(digram)
