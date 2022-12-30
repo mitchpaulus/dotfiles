@@ -258,6 +258,7 @@ abbr -a gi "$EDITOR .gitignore"
 abbr -a mdformat 'mdformat --number'
 
 abbr -a x 'chmod +x'
+abbr -a lg lazygit
 abbr -a md 'mkdir'
 abbr -a mk 'mkdir'
 abbr -a mkd 'mkdir'
