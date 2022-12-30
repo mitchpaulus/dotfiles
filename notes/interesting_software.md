@@ -216,3 +216,9 @@ pdftoppm -png -rx XXX -ry XXX input.pdf output.png
 ## [SoftMaker Office Suite](https://shop.softmaker.com/)
 
 Modify office files natively on Linux?
+
+## [Carbon - Create and share beautiful images of your source code.](https://carbon.now.sh/)
+
+## [Alchemy](https://dawnlabs.github.io/alchemy/)
+
+Alchemy - image to PDF conversion.
