@@ -208,3 +208,13 @@ Tw = T * atan[ 0.151977 * ( (RH% + 8.313659)^1/2  ) ] + atan(T + RH%) - atan(RH%
 Spark spread ($/MWh) = power price ($/MWh) – [natural gas price ($/mmBtu) * heat rate (mmBtu/MWh)]
 
 Benchmark value for heat rate is often 7,000 BTU/kWH ~ 50% conversion efficiency.
+
+## GCV vs NCV
+
+ - Came across the acronym NCV in a boiler flue gas analysis.
+   NCV stands for net calorific value. Equates to LHV.
+
+- From <https://adgefficiency.com/energy-basics-hhv-versus-lhv/>
+
+  higher heating value (HHV) aka gross calorific value (GCV)
+  lower heating value (LHV) aka net calorific value (NCV)
