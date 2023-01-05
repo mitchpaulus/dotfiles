@@ -147,3 +147,26 @@ User: `Computer\HKEY_CURRENT_USER\Environment`
 ## Remove Weather from Toolbar
 
 Right click on toolbar, 'News and interest' -> Turn off
+
+## File Attributes
+
+<https://learn.microsoft.com/en-us/dotnet/api/system.io.fileattributes?redirectedfrom=MSDN&view=net-7.0>
+
+Fields
+
+Archive	32	This file is marked to be included in incremental backup operation. Windows sets this attribute whenever the file is modified, and backup software should clear it when processing the file during incremental backup.
+Compressed	2048	The file is compressed.
+Device	64	Reserved for future use.
+Directory	16	The file is a directory. Directory is supported on Windows, Linux, and macOS.
+Encrypted	16384	The file or directory is encrypted. For a file, this means that all data in the file is encrypted. For a directory, this means that encryption is the default for newly created files and directories.
+Hidden	2	The file is hidden, and thus is not included in an ordinary directory listing. Hidden is supported on Windows, Linux, and macOS.
+IntegrityStream	32768	The file or directory includes data integrity support. When this value is applied to a file, all data streams in the file have integrity support. When this value is applied to a directory, all new files and subdirectories within that directory, by default, include integrity support.
+Normal	128	The file is a standard file that has no special attributes. This attribute is valid only if it is used alone. Normal is supported on Windows, Linux, and macOS.
+NoScrubData	131072	The file or directory is excluded from the data integrity scan. When this value is applied to a directory, by default, all new files and subdirectories within that directory are excluded from data integrity.
+NotContentIndexed	8192	The file will not be indexed by the operating system's content indexing service.
+Offline	4096	The file is offline. The data of the file is not immediately available.
+ReadOnly	1	The file is read-only. ReadOnly is supported on Windows, Linux, and macOS. On Linux and macOS, changing the ReadOnly flag is a permissions operation.
+ReparsePoint	1024	The file contains a reparse point, which is a block of user-defined data associated with a file or a directory. ReparsePoint is supported on Windows, Linux, and macOS.
+SparseFile	512	The file is a sparse file. Sparse files are typically large files whose data consists of mostly zeros.
+System	4	The file is a system file. That is, the file is part of the operating system or is used exclusively by the operating system.
+Temporary	256	The file is temporary. A temporary file contains data that is needed while an application is executing but is not needed after the application is finished. File systems try to keep all the data in memory for quicker access rather than flushing the data back to mass storage. A temporary file should be deleted by the application as soon as it is no longer needed.
