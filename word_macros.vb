@@ -54,6 +54,7 @@ Sub TableCaption()
     Selection.InsertCaption Label:="Table", TitleAutoText:="InsertCaption1", _
         Title:="", Position:=wdCaptionPositionAbove, ExcludeLabel:=0
     Selection.TypeText Text:=". "
+    UpdateCaptionStyling
 End Sub
 
 Sub UpdateCaptionStyling()
@@ -357,7 +358,7 @@ Sub Heading3Num()
     Selection.TypeText "."
     ActiveDocument.Fields.Add Selection.Range, wdFieldSequence, "h2 \c", False
     Selection.TypeText "."
-    ActiveDocument.Fields.Add Selection.Range, wdFieldSequence, "h3 \s 1", False
+    ActiveDocument.Fields.Add Selection.Range, wdFieldSequence, "h3 \s 2", False
     Selection.TypeText ". "
 End Sub
 
@@ -368,6 +369,6 @@ Sub Heading4Num()
     Selection.TypeText "."
     ActiveDocument.Fields.Add Selection.Range, wdFieldSequence, "h3 \c", False
     Selection.TypeText "."
-    ActiveDocument.Fields.Add Selection.Range, wdFieldSequence, "h4 \s 1", False
+    ActiveDocument.Fields.Add Selection.Range, wdFieldSequence, "h4 \s 3", False
     Selection.TypeText ". "
 End Sub
