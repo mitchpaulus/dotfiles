@@ -55,6 +55,8 @@ Left("string", 2) = 2
 
 If return value is not used, do not use parenthesis.
 
+Use `:=` syntax for named parameters, otherwise, just separate with commas.
+
 ## Write vs. Print
 
 Print is what I would expect, write literally what I tell it to.
