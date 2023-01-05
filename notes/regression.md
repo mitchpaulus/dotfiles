@@ -11,3 +11,7 @@ R² = 1 - \frac{\sum_{i}  \left( y_i - \hat{y}_i \right)^2  }{\sum_i y_i^2 }
 $
 
 [Additional Reference](https://stats.stackexchange.com/questions/7357/manually-calculated-r2-doesnt-match-up-with-randomforest-r2-for-testing)
+
+## Standardized Coefficients
+
+- All variances for dependent and independent variables are equal to 1.
