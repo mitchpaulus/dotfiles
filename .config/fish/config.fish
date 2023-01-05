@@ -209,12 +209,11 @@ bind ';c' workdir
 bind jc git_commit
 bind jd git_diff
 bind jf execute
-bind jr repos
-bind js git_status
 bind jw workdir
 
-bind vl forward-char execute
-bind vk clear_terminal
+# moved vl for clearing to match CTRL-l.
+bind vj forward-char execute
+bind vl clear_terminal
 bind qk exit
 
 function work_dir_search
