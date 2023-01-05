@@ -339,3 +339,35 @@ Sub TocPrint()
         End If
     Next pgh
 End Sub
+
+Sub Heading1Num()
+    ActiveDocument.Fields.Add Selection.Range, wdFieldSequence, "h1", False
+    Selection.TypeText ". "
+End Sub
+
+Sub Heading2Num()
+    ActiveDocument.Fields.Add Selection.Range, wdFieldSequence, "h1 \c", False
+    Selection.TypeText "."
+    ActiveDocument.Fields.Add Selection.Range, wdFieldSequence, "h2 \s 1", False
+    Selection.TypeText ". "
+End Sub
+
+Sub Heading3Num()
+    ActiveDocument.Fields.Add Selection.Range, wdFieldSequence, "h1 \c", False
+    Selection.TypeText "."
+    ActiveDocument.Fields.Add Selection.Range, wdFieldSequence, "h2 \c", False
+    Selection.TypeText "."
+    ActiveDocument.Fields.Add Selection.Range, wdFieldSequence, "h3 \s 1", False
+    Selection.TypeText ". "
+End Sub
+
+Sub Heading4Num()
+    ActiveDocument.Fields.Add Selection.Range, wdFieldSequence, "h1 \c", False
+    Selection.TypeText "."
+    ActiveDocument.Fields.Add Selection.Range, wdFieldSequence, "h2 \c", False
+    Selection.TypeText "."
+    ActiveDocument.Fields.Add Selection.Range, wdFieldSequence, "h3 \c", False
+    Selection.TypeText "."
+    ActiveDocument.Fields.Add Selection.Range, wdFieldSequence, "h4 \s 1", False
+    Selection.TypeText ". "
+End Sub
