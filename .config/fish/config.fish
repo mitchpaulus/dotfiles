@@ -211,7 +211,7 @@ bind jd git_diff
 bind jf execute
 bind jw workdir
 
-# moved vl for clearing to match CTRL-l.
+# moved vl for clearing to match CTRL-L.
 bind vj forward-char execute
 bind vl clear_terminal
 bind qk exit
