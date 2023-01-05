@@ -33,7 +33,8 @@ case "$1" in
         mime_type="$(file -L -b --mime-type "$1")"
         case "$mime_type" in
             text/*|*shellscript) "$EDITOR" "$1" ;;
+            # Exit with non-zero code if no match
+            *) exit 1 ;;
         esac
     ;;
-    # Do nothing if we haven't explicitly matched anything
 esac
