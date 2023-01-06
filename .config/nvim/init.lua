@@ -457,7 +457,7 @@ insertModeNoRecurseMappings = {
     { '<localleader>dt', 'ΔT' },
 
     -- Some greek
-    { '<localleader>eta', 'η' },
+    { '<localleader>e', 'η' },
     { '<localleader>mu', 'μ' },
     { '<localleader>pi', 'π' },
     { '<localleader>sigma', 'σ' },
@@ -769,6 +769,8 @@ filetypeAutocmds = {
     { 'markdown', 'vnoremap <localleader>b s**<c-r>"**' },
     { 'markdown', 'vnoremap <localleader>i s*<c-r>"*' },
     { 'markdown', 'vnoremap <localleader>l s[<c-r>"]()<Left>' },
+
+    { 'mplot', 'nnoremap <localleader>b <cmd>!mplot %:S \\| gnuplot -<cr>' },
 
     { 'gitcommit', 'setlocal spell' },
 
