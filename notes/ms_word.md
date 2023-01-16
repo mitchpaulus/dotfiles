@@ -161,6 +161,15 @@ Tab Stop = Left Indent + Hanging Indent.
 Hanging Indent usually needs to be at least 0.3" to look appropriate and
 work well when the numeric numbers get large.
 
+For SOO documents, usually go with:
+
+Level1: Tab stop 0.3 = 0 + 0.3
+Level2: Tab stop 0.675 = 0.375 + 0.3
+Level3: Tab stop 1.05
+Level4: 1.425
+Level5: 1.8
+Level6: 2.175
+
 ## Numbering Explained
 
 [Great site](https://wordmvp.com/FAQs/Numbering/WordsNumberingExplained.htm)

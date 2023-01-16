@@ -66,3 +66,11 @@ In actuality it's more for compatibility with the corresponding `Input` function
 
 On the text file encoding: <https://stackoverflow.com/questions/40376951/which-string-encoding-do-the-vba-built-in-file-operations-use>
 By default looks like Windows-1252.
+
+## Error Handling
+
+From [Here](ErrorHandling):
+
+> The Err object is automatically reset when either a Resume, Exit Sub, Exit Function, Exit Property, or On Error statement is executed.
+
+[ErrorHandling]: https://www.oreilly.com/library/view/vb-vba/1565923588/1565923588_ch07-677-fm2xml.html#:~:text=The%20Err%20object%20is%20automatically,On%20Error%20statement%20is%20executed.

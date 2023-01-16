@@ -222,3 +222,12 @@ Modify office files natively on Linux?
 ## [Alchemy](https://dawnlabs.github.io/alchemy/)
 
 Alchemy - image to PDF conversion.
+
+## [Elicit](https://elicit.org/)
+
+Found on [blog post by Chris Krycho](https://v5.chriskrycho.com/journal/some-notes-on-elicit/).
+ML/AI literature review.
+
+## [Papis](https://github.com/papis/papis)
+
+Command line reference manager.

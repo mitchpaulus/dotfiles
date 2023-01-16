@@ -4,9 +4,9 @@ a - alpha
 b - beta
 g - gamma
 d - delta
-e - epsilon
-z - zeta
-y - eta
+e - epsilon (ε)
+z - zeta (ζ)
+y - eta (η)
 h - theta
 i - iota
 k - kappa
