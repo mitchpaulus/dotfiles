@@ -1,3 +1,4 @@
 lfrc	~/.config/lf/lfrc
 init.vim	~/.config/nvim/init.vim
 init.lua	~/.config/nvim/init.lua
+git config	~/.config/git/config
