@@ -189,3 +189,21 @@ Here is a general outline of the process:
 3. Instead of making a recursive function call, push the state of the function onto the stack and return to the beginning of the function.
 4. At the beginning of the function, check if the stack is empty. If it is, return the final result. If it is not empty, pop the top element off the stack and use it to restore the state of the function.
 5. Continue the function execution from the point where it left off, using the restored state.
+
+## Value at Placeholder Any Base
+
+Divide the number in base 10 by b^(m-1) and take the remainder when divided by b.
+
+```
+num // 4 % 2 # Gives 4's place in binary
+```
+
+## Clustering
+
+Often interested in clustering sets. Like sets of strings of HVAC point types.
+[Useful set similarity metrics](https://stats.stackexchange.com/questions/285367/most-well-known-set-similarity-measures):
+
+ - [Jaccard index](https://en.wikipedia.org/wiki/Jaccard_index): len(intersection) / len(union)
+ - [Sorensen-Dice coefficient](https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient)
+ - [Overlap coefficient](https://en.wikipedia.org/wiki/Overlap_coefficient)
+ - [Tversky index](https://en.wikipedia.org/wiki/Tversky_index)
