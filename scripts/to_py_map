@@ -1,0 +1,3 @@
+#!/usr/bin/awk -E
+BEGIN { FS="\t" }
+{ printf "    \"%s\": \"%s\",\n", $1, $2 }

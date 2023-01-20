@@ -1,0 +1,3 @@
+#!/bin/sh
+
+true > 'tmp.txt' && sleep 5 && rm 'tmp.txt'
