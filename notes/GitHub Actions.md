@@ -60,3 +60,8 @@ jobs:
 ```
 
 Another action: <https://github.com/ncipollo/release-action>
+
+
+## Passing on environment variables
+
+Can use the `$GITHUB_PATH` variable which is a file path you can write to.

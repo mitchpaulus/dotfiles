@@ -639,6 +639,7 @@ vim.g.NERDTreeIgnore = { '\\.aux.*$','\\.fls$','\\.lof$','\\.toc$','\\.out$','\\
 
 vim.g.copilot_filetypes = {
     fish = false,
+    yaml = true,
 }
 
 -- vim-vsnip {{{

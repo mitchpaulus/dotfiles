@@ -62,3 +62,8 @@ $$ \frac{dy}{dx} = 2ax + b $$
 $$ 0 = 2ax + b $$
 
 $$ \frac{-b}{2a} $$
+
+
+## Torsors
+
+<https://math.ucr.edu/home/baez/torsors.html>. Related to affine units.
