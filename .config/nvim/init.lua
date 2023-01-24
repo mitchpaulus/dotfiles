@@ -591,14 +591,18 @@ end
 
 vim.o.nrformats = 'bin,hex,alpha'
 
--- Highlight XlimRegex group #00cec9
-vim.cmd('highlight XlimRegex guifg=#00cec9')
+-- Modern terminals are great am i right?
+vim.o.termguicolors = true
 
 -- Nah, just use desert.  Colorscheme, try monokai
 vim.cmd('colorscheme desert')
+-- Highlight XlimRegex group #00cec9
+vim.cmd('highlight XlimRegex guifg=#00cec9')
 
--- Modern terminals are great am i right?
-vim.o.termguicolors = true
+vim.cmd('highlight Normal guibg=NONE')
+vim.cmd('highlight NonText guibg=NONE')
+vim.cmd('highlight LineNr guifg=#808080')
+vim.cmd('highlight XlimUnit guifg=#fc9c9e')
 
 -- if not pcall(function() vim.cmd('colorscheme monokai') end) then
 -- vim.cmd('colorscheme desert')
