@@ -901,6 +901,7 @@ bufEnterAutocmds = {
     { '*.gnuplot', 'set filetype=gnuplot'},
     { '*.har'    , 'set filetype=json' },
     { '*.ce'     , 'set filetype=ce' },
+    { '*.maxima' , 'set filetype=maxima' },
     { '.gitignore', 'set filetype=conf' }, -- close enough
     { '.gitignore', 'inoremap ,dt :read !do-targets' },
 
