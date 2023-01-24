@@ -30,3 +30,12 @@ If `WriteStepNumber` is true, the `%stepNumber%` placeholder must exist in the t
 // 1-D continuous
 Algorithm { Main = GoldenSection | Fibonacci; }
 ```
+
+## Running
+
+```sh
+# With GUI
+java -jar genopt.jar file.ini
+# Without GUI
+java -classpath genopt.jar genopt.GenOpt file.ini
+```
