@@ -23,7 +23,10 @@ Helpful help sections
 -- For testing, will often do
 -- :lua print(vim.inspect(<thing>))
 
-vim.inpsect(<thing>) # Human readable
+vim.inpsect(thing) # Human readable
+
+lua =expr -- is same as
+lua print(vim.inspect(expr))
 ```
 
 Most of the global lua neovim commands are under the `vim.api`
