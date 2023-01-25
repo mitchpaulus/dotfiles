@@ -1,4 +1,3 @@
-
 Sub AutoFitTables()
 
     Dim tbl As Table
@@ -27,7 +26,7 @@ Sub CCLLCTables()
 
 
     For Each tbl In ActiveDocument.Tables
-            If InStr(tbl.Cell(1, 1).Range.Text, "Field") Or InStr(tbl.Cell(1, 1).Range.Text, "Test") Then
+            If InStr(tbl.Cell(1, 1).Range.text, "Field") Or InStr(tbl.Cell(1, 1).Range.text, "Test") Then
                 tbl.Style = "ccxtable"
             End If
     Next tbl
@@ -42,7 +41,7 @@ Sub FigureCaption()
 '
     Selection.InsertCaption Label:="Figure", TitleAutoText:="InsertCaption1", _
         Title:="", Position:=wdCaptionPositionBelow, ExcludeLabel:=0
-    Selection.TypeText Text:=". "
+    Selection.TypeText text:=". "
 End Sub
 
 Sub TableCaption()
@@ -53,8 +52,8 @@ Sub TableCaption()
 '
     Selection.InsertCaption Label:="Table", TitleAutoText:="InsertCaption1", _
         Title:="", Position:=wdCaptionPositionAbove, ExcludeLabel:=0
-    Selection.TypeText Text:=". "
-    UpdateCaptionStyling
+    Selection.TypeText text:=". "
+
 End Sub
 
 Sub UpdateCaptionStyling()
@@ -72,9 +71,9 @@ Sub UpdateCaptionStyling()
         ' Caption is default style, "Image Caption" is from pandoc generated figure captions, "Table Caption" for pandoc generated tables
         If pgh.Style = "Caption" Or pgh.Style = "Image Caption" Or pgh.Style = "Table Caption" Then
 
-            If InStr(pgh.Range.Text, "Figure") Then
+            If InStr(pgh.Range.text, "Figure") Then
                 pgh.Style = "figure-caption"
-            ElseIf InStr(pgh.Range.Text, "Table") Then
+            ElseIf InStr(pgh.Range.text, "Table") Then
                 pgh.Style = "table-caption"
             End If
         End If
@@ -125,7 +124,7 @@ Sub CrossReferenceTable()
 Dim TableNumber As String
 Dim TrimmedTableNubmer As String
 
-TableNumber = Selection.Text
+TableNumber = Selection.text
 
 TrimmedTableNumber = Trim(TableNumber)
 
@@ -147,9 +146,9 @@ Sub CrossReferenceFigure()
 
 Dim Number As String
 
-FigureNumber = Selection.Text
+FigureNumber = Selection.text
 
-Selection.InsertCrossReference ReferenceType:="Figure", ReferenceKind:= _
+ Selection.InsertCrossReference ReferenceType:="Figure", ReferenceKind:= _
         wdOnlyLabelAndNumber, ReferenceItem:=FigureNumber, InsertAsHyperlink:=True, _
         IncludePosition:=False, SeparateNumbers:=False, SeparatorString:=" "
 
@@ -194,8 +193,8 @@ Sub ReplaceFigureCaptions()
     Selection.Find.ClearFormatting
     Selection.Find.Style = ActiveDocument.Styles("Image Caption")
     With Selection.Find
-        .Text = "Figure [0-9]{1,}:"
-        .Replacement.Text = "^c"
+        .text = "Figure [0-9]{1,}:"
+        .Replacement.text = "^c"
         .Forward = True
         .Wrap = wdFindContinue
         .Format = True
@@ -221,8 +220,8 @@ Sub ReplaceTableCaptions()
     Selection.Find.ClearFormatting
     Selection.Find.Style = ActiveDocument.Styles("Table Caption")
     With Selection.Find
-        .Text = "Table [0-9]{1,}:"
-        .Replacement.Text = "^c"
+        .text = "Table [0-9]{1,}:"
+        .Replacement.text = "^c"
         .Forward = True
         .Wrap = wdFindContinue
         .Format = True
@@ -244,50 +243,34 @@ Sub Level1AlphabeticStart()
 '
     Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldEmpty, _
         PreserveFormatting:=False
-    Selection.TypeText Text:="seq level1 \r 1 \* ALPHABETIC"
+    Selection.TypeText text:="seq level1 \r 1 \* ALPHABETIC"
     Selection.Fields.Update
     Selection.MoveRight Unit:=wdCharacter, Count:=1
-    Selection.TypeText Text:="." & vbTab
+    Selection.TypeText text:="." & vbTab
 End Sub
 
 Sub Level1AlphabeticNext()
-'
-' Level1Alphabetic Macro
-'
-'
-    Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldEmpty, _
-        PreserveFormatting:=False
-    Selection.TypeText Text:="seq level1 \* ALPHABETIC"
+    Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldEmpty, PreserveFormatting:=False
+    Selection.TypeText text:="seq level1 \* ALPHABETIC"
     Selection.Fields.Update
     Selection.MoveRight Unit:=wdCharacter, Count:=1
-    Selection.TypeText Text:="." & vbTab
+    Selection.TypeText text:="." & vbTab
 End Sub
 
-
 Sub Level2Start()
-'
-' Level1Alphabetic Macro
-'
-'
-    Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldEmpty, _
-        PreserveFormatting:=False
-    Selection.TypeText Text:="seq level2 \r 1"
+    Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldEmpty, PreserveFormatting:=False
+    Selection.TypeText text:="seq level2 \r 1"
     Selection.Fields.Update
     Selection.MoveRight Unit:=wdCharacter, Count:=1
-    Selection.TypeText Text:="." & vbTab
+    Selection.TypeText text:="." & vbTab
 End Sub
 
 Sub Level2Next()
-'
-' Level1Alphabetic Macro
-'
-'
-    Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldEmpty, _
-        PreserveFormatting:=False
-    Selection.TypeText Text:="seq level2"
+    Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldEmpty, PreserveFormatting:=False
+    Selection.TypeText text:="seq level2"
     Selection.Fields.Update
     Selection.MoveRight Unit:=wdCharacter, Count:=1
-    Selection.TypeText Text:="." & vbTab
+    Selection.TypeText text:="." & vbTab
 End Sub
 
 
@@ -297,14 +280,14 @@ Sub LevelN(levelNum As String, isStart As Boolean)
     Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldEmpty, _
         PreserveFormatting:=False
     If isStart Then
-        Selection.TypeText Text:="seq level" & levelNum & " \r 1"
+        Selection.TypeText text:="seq level" & levelNum & " \r 1"
     Else
-        Selection.TypeText Text:="seq level" & levelNum
+        Selection.TypeText text:="seq level" & levelNum
     End If
 
     Selection.Fields.Update
     Selection.MoveRight Unit:=wdCharacter, Count:=1
-    Selection.TypeText Text:="." & vbTab
+    Selection.TypeText text:="." & vbTab
 End Sub
 
 Sub Level3Start()
@@ -334,7 +317,7 @@ Sub TocPrint()
         If pgh.Style = "Heading 1" Then
             ' Remove final newline character
             text = text.Substring(0, text.Length - 1)
-            text = Trim(pgh.Range.Text)
+            text = Trim(pgh.Range.text)
             text = text & vbTab & pgh.Range.Information(wdActiveEndPageNumber) & vbLf
             Selection.InsertAfter (text)
         End If
@@ -371,4 +354,64 @@ Sub Heading4Num()
     Selection.TypeText "."
     ActiveDocument.Fields.Add Selection.Range, wdFieldSequence, "h4 \s 3", False
     Selection.TypeText ". "
+End Sub
+
+Sub RemoveHeaderNumbering()
+    ActiveDocument.Styles("Heading 1").LinkToListTemplate ListTemplate:=Nothing
+    ActiveDocument.Styles("Heading 2").LinkToListTemplate ListTemplate:=Nothing
+    ActiveDocument.Styles("Heading 3").LinkToListTemplate ListTemplate:=Nothing
+    ActiveDocument.Styles("Heading 4").LinkToListTemplate ListTemplate:=Nothing
+    ActiveDocument.Styles("Heading 5").LinkToListTemplate ListTemplate:=Nothing
+End Sub
+
+Sub AddSooLevelStyle(Level As Integer, HangingIndent As Single, LeftIndent As Single)
+
+    Dim Style As Style
+    LevelName = "Level" & CStr(Level) & "SOO"
+
+    On Error GoTo AddStyle
+    Set Style = ActiveDocument.Styles(LevelName)
+AddStyle:
+    Set Style = ActiveDocument.Styles.Add(Name:=LevelName, Type:=wdStyleTypeParagraph)
+    On Error GoTo 0
+
+
+    Style.ParagraphFormat.LeftIndent = InchesToPoints((Level - 1) * LeftIndent + HangingIndent)
+    Style.ParagraphFormat.FirstLineIndent = InchesToPoints(-HangingIndent)
+    Style.ParagraphFormat.TabStops.Add Position:=InchesToPoints((Level - 1) * LeftIndent + HangingIndent), Alignment:=wdAlignTabLeft, Leader:=wdTabLeaderSpaces
+    Style.QuickStyle = True
+End Sub
+
+
+Sub AddSooStyles()
+    Dim HangingIndent As Single
+    Dim LeftIndent As Single
+
+    HangingIndent = 0.2
+    LeftIndent = 0.25
+
+    AddSooLevelStyle 1, HangingIndent, LeftIndent
+    AddSooLevelStyle 2, HangingIndent, LeftIndent
+    AddSooLevelStyle 3, HangingIndent, LeftIndent
+    AddSooLevelStyle 4, HangingIndent, LeftIndent
+    AddSooLevelStyle 5, HangingIndent, LeftIndent
+    AddSooLevelStyle 6, HangingIndent, LeftIndent
+
+
+End Sub
+
+Sub DeleteSooLevelStyle(Level As Integer)
+    On Error Resume Next
+    LevelName = "Level" & CStr(Level) & "SOO"
+    ActiveDocument.Styles(LevelName).Delete
+End Sub
+
+
+Sub DeleteSooStyles()
+    DeleteSooLevelStyle 1
+    DeleteSooLevelStyle 2
+    DeleteSooLevelStyle 3
+    DeleteSooLevelStyle 4
+    DeleteSooLevelStyle 5
+    DeleteSooLevelStyle 6
 End Sub
