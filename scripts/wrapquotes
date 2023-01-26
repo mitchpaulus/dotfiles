@@ -1,3 +1,6 @@
 #!/usr/bin/awk -E
 
-{  print "\"" $0 "\""  }
+BEGIN { FS=OFS="\t" }
+
+NF == 1 {  print "\"" $0 "\","  }
+NF == 2 { print "\"" $1 "\": \"" $2 "\"," }
