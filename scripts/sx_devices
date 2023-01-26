@@ -1,0 +1,5 @@
+#!/usr/bin/awk -E
+
+BEGIN { FS=OFS="\t" }
+
+tolower($3) ~ /device/
