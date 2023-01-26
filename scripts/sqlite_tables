@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Get all tables from a sqlite3 database
+sqlite3 "$1" '.schema' | awk '
+/CREATE TABLE/ {
+    table_name = $3
+    # Remove everything after the first (
+    gsub(/\(.*$/, "", table_name)
+    print table_name
+}'

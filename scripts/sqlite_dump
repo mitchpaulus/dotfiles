@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Dump all sqlite data to directory data in current directory
+#
+# Check if directory data exists, if not create it
+if [ ! -d data ]; then
+    mkdir data
+else
+    echo "Directory data exists"
+fi
+
+# Check that the first argument is a file
+if [ ! -f "$1" ]; then
+    echo "First argument is not a file"
+    exit 1
+fi
+
+sqlite_tables "$1" | while read -r table; do
+    sqlite3 -header -separator '	' "$1"  "SELECT * FROM $table" > data/"$table".tsv
+done
