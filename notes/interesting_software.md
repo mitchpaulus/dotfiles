@@ -231,3 +231,7 @@ ML/AI literature review.
 ## [Papis](https://github.com/papis/papis)
 
 Command line reference manager.
+
+## [GitBook](https://www.gitbook.com/pricing)
+
+Free for open source public projects?

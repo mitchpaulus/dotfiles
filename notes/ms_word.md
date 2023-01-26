@@ -190,3 +190,11 @@ Next li
 ## Insert paragraph before table
 
 Put cursor in upper left hand cell. CTRL-SHIFT-ENTER.
+
+
+## Hard Reset Settings
+
+When my autosave wasn't working, cleared the following things and had Word rebuild them:
+
+- Registry key: `Computer\HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\Word`
+- `C:\Users\mpaulus\AppData\Roaming\Microsoft\Templates\Normal.dotm`
