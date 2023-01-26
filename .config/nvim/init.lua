@@ -604,6 +604,8 @@ vim.cmd('highlight NonText guibg=NONE')
 vim.cmd('highlight LineNr guifg=#808080')
 vim.cmd('highlight XlimUnit guifg=#fc9c9e')
 
+vim.cmd('highlight Title guifg=#5ca1b2')
+
 -- if not pcall(function() vim.cmd('colorscheme monokai') end) then
 -- vim.cmd('colorscheme desert')
 -- end
