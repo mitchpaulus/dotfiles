@@ -68,4 +68,3 @@ modbus.point.AnalogOutput
 modbus.point.BinaryInput
 modbus.point.BinaryOutput
 modbus.point.ModbusRegisterGroup
-
