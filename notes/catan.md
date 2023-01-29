@@ -24,24 +24,24 @@ Yellow (Trade/Cloth) Progress Cards
 
 Blue (Politics/Coin) Progress Cards
 
-- 2x Bishop
+- 2x Bishop (Move robber, steal from everyone around)
 - 1x Constitution
-- 2x Deserter
+- 2x Deserter (Swap knights)
 - 2x Diplomat
 - 2x Intrigue
 - 2x Saboteur
-- 3x Spy
+- 3x Spy (Steal progress card)
 - 2x Warlord
 - 2x Wedding
 
 Green (Science/Paper) Progress Cards
 
-- 2x Alchemist
+- 2x Alchemist (Choose dice roll)
 - 2x Crane
 - 1x Engineer
 - 2x Inventor
 - 2x Irrigation
-- 2x Medicine
+- 2x Medicine (Build city for 2 Ore/1 Wheat)
 - 2x Mining
 - 1x Printer
 - 2x Road Building

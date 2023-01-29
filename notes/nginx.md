@@ -1,5 +1,9 @@
 # nginx
 
+## Files
+
+- `/etc/nginx/`: configuration files
+
 ## Creating password protected area of files
 
 - Used a new location directive that looks like:
@@ -98,7 +102,7 @@ listen port [default_server] [ssl]
 
 ## Request Processing
 
-From https://nginx.org/en/docs/http/request_processing.html.
+From <https://nginx.org/en/docs/http/request_processing.html>.
 
 1. Decide which server should process request.
   1. First tests against `listen` directives
