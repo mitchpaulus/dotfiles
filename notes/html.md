@@ -38,6 +38,7 @@ In this order:
 4. either one of the following:
    - zero or more `<tbody>` elements
    - one or more `<tr>` elements
+      <tr> elements can contain (<th> | <td>)*
 5. an optional `<tfoot>` element
 
 <thead> or <tbody> Must contain 0 or more <tr> elements
