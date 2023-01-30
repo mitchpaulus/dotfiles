@@ -731,3 +731,159 @@ def jaccard_index(set1: Set[T1], set2: Set[T1]) -> float:
     # Useful similarity metric for sets.
     # See also: https://stats.stackexchange.com/questions/285367/most-well-known-set-similarity-measures
     return len(set1.intersection(set2)) / len(set1.union(set2))
+
+
+known_hvac_acronyms = {
+    "vfd",
+    "chwv",
+    "chw",
+    "hhw",
+    "ahu"
+    "rh",
+    "hx",
+    "oa",
+}
+
+hvac_acronym_sets = [
+    { "chw", "chilled water" },
+    { "ahu", "ah" },
+    { "rh", "humidity" },
+    { "smk", "smoke" },
+    { "alm", "alarm" },
+    { "tmp", "temp" },
+]
+
+canonicalize_map = {
+    "tmp": "temp",
+    "alm": "alarm",
+    "smk": "smoke",
+    "humidity": "rh",
+    "fltr": "filter",
+    "spd": "speed",
+    "spc": "space",
+    "cnt": "count",
+    "hi": "high",
+    "lo": "low",
+    "pwr": "power",
+    "stpt": "setpoint",
+    "vlts": "volts",
+    "gv": "govt",
+    "allm": "alarm",
+    "a": "alarm",
+    "pmp": "pump",
+}
+
+def canonicalize_acronym(acronym: str) -> str:
+    return canonicalize_map.get(acronym, acronym)
+
+class HvacString:
+    def __init__(self, string: str) -> None:
+        self.string = string
+
+    # Define equality based on hvac_acronym_sets above, case-insensitive, other can be a string as well
+    def __eq__(self, __o: object) -> bool:
+        if isinstance(__o, str) or isinstance(__o, HvacString):
+            other = __o.string if isinstance(__o, HvacString) else __o
+            other = other.lower().strip()
+            # First check for exact match
+            this = self.string.lower().strip()
+            if this == other:
+                return True
+            for acronym_set in hvac_acronym_sets:
+                if other in acronym_set and this in acronym_set:
+                    return True
+            return False
+        else:
+            return False
+
+    def __hash__(self) -> int:
+        return hash(self.string)
+
+def split_on_lower_to_upper(string: str) -> List[str]:
+    output = []
+    current = ""
+    for char in string:
+        if char.isupper() and current:
+            output.append(current)
+            current = ""
+        current += char
+    if current:
+        output.append(current)
+    return output
+
+
+def split_upper_to_lower(string: str) -> List[str]:
+    # Want to split on going from upper to lower case
+    # However, assume that if there is more than 1 upper case letter in a row, it is an acronym
+    # and the last capital letter is the start of a new token
+    output = []
+    current = ""
+    for char in string:
+        if char.isupper():
+            if current and len(current) > 1:
+                output.append(current[:-1])
+                current = current[-1]
+        current += char
+    if current:
+        output.append(current)
+    return output
+
+def to_str_list(s: Union[str, List[str], Iterable[str]]) -> List[str]:
+    if isinstance(s, str):
+        return [s]
+    elif isinstance(s, list):
+        for item in s:
+            if not isinstance(item, str):
+                raise ValueError(f"Expected str or list, got {type(s)}")
+        return s
+    # Check if s implements __iter__
+    elif hasattr(s, "__iter__"):
+        return [str(item) for item in s]
+    else:
+        raise ValueError(f"Expected str or list, got {type(s)}")
+
+def to_list(i: Union[T1, List[T1]]) -> List[T1]:
+    if isinstance(i, list):
+        return i
+    else:
+        return [i]
+
+def hvac_string_tokenize(s: Union[str, Iterable[str]]) -> List[str]:
+    # The purpose of this method is to tokenize a HVAC point name into tokens.
+    initial_list = to_str_list(s)
+    first_split = []
+    for token in initial_list:
+        # Can first split on spaces, any punctuation, and underscores. Anything that is not alphanumeric
+        split_on_punc = re.split(r'[^a-zA-Z0-9]+', token)
+        first_split.extend(split_on_punc)
+
+    # Then split on going from alphabetic to numeric or vice versa
+    second_split = []
+    for token in first_split:
+        second_split.extend(re.split(r'([0-9]+)', token))
+
+    # Remove empty strings
+    second_split = [token for token in second_split if token]
+
+    # Split on any lowercase to uppercase transition
+    third_split = []
+    for token in second_split:
+        third_split.extend(split_on_lower_to_upper(token))
+
+    fourth_split = []
+    for token in third_split:
+        fourth_split.extend(split_upper_to_lower(token))
+
+    return fourth_split
+
+
+def count_same_sim_metric(string_one: Union[str, Iterable[str]], string_two: Union[str, Iterable[str]]) -> int:
+    string_one_tokens = hvac_string_tokenize(to_str_list(string_one))
+    string_two_tokens = hvac_string_tokenize(to_str_list(string_two))
+
+    # Make all lowercase
+    string_one_tokens = [canonicalize_acronym(token.lower()) for token in string_one_tokens]
+    string_two_tokens = [canonicalize_acronym(token.lower()) for token in string_two_tokens]
+
+    # Count the number of tokens that are the same
+    return len(set(string_one_tokens).intersection(set(string_two_tokens)))
