@@ -235,3 +235,7 @@ Command line reference manager.
 ## [GitBook](https://www.gitbook.com/pricing)
 
 Free for open source public projects?
+
+## [Flow CSV viewer](https://apps.microsoft.com/store/detail/flow-csv-viewer/9NQ7Z06VRXBW?hl=en-us&gl=us)
+
+May give this a try.
