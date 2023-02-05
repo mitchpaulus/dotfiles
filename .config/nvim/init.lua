@@ -140,7 +140,7 @@ local function setupLsp()
         buf_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.get()<CR>', opts)
         buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
         buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-        buf_set_keymap('n', '<localleader>d', '<cmd>lua vim.diagnostic.setqflist<CR>', opts)
+        buf_set_keymap('n', '<localleader>d', '<cmd>lua vim.diagnostic.setqflist()<CR>', opts)
         buf_set_keymap('n', '<space>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
         buf_set_keymap('v', '<space>la', ':lua vim.lsp.buf.code_action()<CR>', opts)
 
