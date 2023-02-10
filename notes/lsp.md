@@ -58,3 +58,7 @@ Position 0-based
 ## OmniSharp C\# LSP
 
 - [Handling errors](https://github.com/OmniSharp/csharp-language-server-protocol/issues/144)
+
+## References
+
+- <https://stefan-marr.de/papers/dls-marr-et-al-execution-vs-parse-based-language-servers/>
