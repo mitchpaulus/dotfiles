@@ -499,6 +499,7 @@ psychrometrics
 recalibrated
 recalibrated
 reconnection
+recurse
 refactor
 refactors
 reimplement
@@ -516,6 +517,7 @@ subdirectory
 submittal
 submittals
 superset
+switchgear
 timestamp
 tmux
 transpiler
