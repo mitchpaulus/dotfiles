@@ -1,0 +1,4 @@
+#!/bin/sh
+
+OUTPUT="${1%.*}.docx"
+{ printf "\`\`\`xlim\n"; cat "$1"; printf "\`\`\`\n" ; } | pandoc -o "$OUTPUT" --syntax-definition "$HOME"/.local/share/pandoc/xlim.xml --highlight-style kate
