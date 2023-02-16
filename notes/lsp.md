@@ -62,3 +62,6 @@ Position 0-based
 ## References
 
 - <https://stefan-marr.de/papers/dls-marr-et-al-execution-vs-parse-based-language-servers/>
+- <https://stefan-marr.de/2022/10/effortless-language-servers/>
+- <https://stefan-marr.de/downloads/dls22-marr-et-al-execution-vs-parse-based-language-servers.pdf>
+- <https://www.hpi.uni-potsdam.de/hirschfeld/publications/media/StolpeFelgentreffHumerNiephausHirschfeld_2019_LanguageIndependentDevelopmentEnvironmentSupportForDynamicRuntimes_AcmDL_Preprint.pdf>

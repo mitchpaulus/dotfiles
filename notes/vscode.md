@@ -133,6 +133,43 @@ PATs:
 - Scopes:
   - Marketplace: Manage
 
+## `tasks.json`
+
+[Schema](https://code.visualstudio.com/docs/editor/tasks-appendix)
+
+```json
+// In package.json
+
+    "taskDefinitions": [
+        {
+            "type": "rake",
+            "required": [
+                "task" // This is a pointer to the property name 3 lines below
+            ],
+            "properties": {
+                "task": {
+                    "type": "string",
+                    "description": "The Rake task to customize"
+                },
+                "file": {
+                    "type": "string",
+                    "description": "The Rake file that provides the task. Can be omitted."
+                }
+            }
+        }
+    ]
+```
+
+The schema defined here will show up in the task.definition property within the `resolveTask` method.
+
+- Clearing recent task list
+    - When testing my extensions, I was changing the names of the task types.
+    - VS Code would try to find those when building the list and present a warning.
+    - Can disable/clear the history by changing the `task.quickOpen.history` setting to 0 ([Ref](https://github.com/microsoft/vscode/issues/80649).
+- The actual storage is in a sqlite database like:
+    - ~/.config/Code - OSS/User/workspaceStorage/<sha356hash>/state.vscdb
+    - It's a single key-value table. Key = workbench.tasks.recentlyUsedTasks2
+
 ## References
 
 [In depth debugger](https://www.codemag.com/article/1809051/Writing-Your-Own-Debugger-and-Language-Extensions-with-Visual-Studio-Code)

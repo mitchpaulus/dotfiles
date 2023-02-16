@@ -33,6 +33,9 @@ Then `highlighting` element, with required elements `contexts` and
 1. `attribute` - maps to item defined in `itemData`. Sets the style.
 2. `context` - sets the context to use.
 
+### keyword detection
+
+- `String` attribute links to name of keyword list
 
 ## Other Notes
 

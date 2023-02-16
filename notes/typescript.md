@@ -37,3 +37,7 @@ parenthesize the function types or use a type alias.
 ```
 var myvar = ((param) => Type) | OtherType
 ```
+
+## Running Specific Typescript for npm project
+
+`npx tsc`
