@@ -64,6 +64,9 @@ public static string ToSigFigs(this double value, int sigFigs)
 ```awk
 # Language with integer truncation - this doesn't take care of negatives.
 value = int((value / 100000) + 0.5) * 100000
+
+# With true floor function this works as is for both +/-
+<https://www.youtube.com/watch?v=hTFTwWU_Arc>
 ```
 
 ## Is Point in Polygon?
@@ -207,3 +210,15 @@ Often interested in clustering sets. Like sets of strings of HVAC point types.
  - [Sorensen-Dice coefficient](https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient)
  - [Overlap coefficient](https://en.wikipedia.org/wiki/Overlap_coefficient)
  - [Tversky index](https://en.wikipedia.org/wiki/Tversky_index)
+
+
+## Newton-Raphson
+
+Root finding:
+
+From Numerical Methods text,
+pg. 157, pg. 259.
+
+[Xi+1] = [Xi] - [J]^-1 [F(Xi)]
+
+where [J]^-1 is the inverse Jacobian. Jacobian is the matrix of partial derivatives over the functions.

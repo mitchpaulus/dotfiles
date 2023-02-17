@@ -2,6 +2,9 @@
 
 Don't forget to end each line with ';' or '$'. ';' prints result, '$' hides result.
 
+- `linel`: sets line length.
+- `stardisp` controls whether spaces or \*'s are used to represent multiplication.
+
 # Solving
 
 ```maxima
