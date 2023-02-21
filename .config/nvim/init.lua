@@ -714,7 +714,12 @@ local function addToFiletypeAugroup(pattern, command)
     vim.api.nvim_create_autocmd('FileType', { pattern = pattern, group = filetype_autocmds_id, command = command })
 end
 
+local function set_xlim_makeprg()
+    vim.api.nvim_buf_set_option(0, 'makeprg', 'xlim "%"')
+end
+
 vim.api.nvim_create_autocmd('FileType', { pattern = 'xlim', group = filetype_autocmds_id, callback = setup_xlimlsp })
+vim.api.nvim_create_autocmd('FileType', { pattern = 'xlim', group = filetype_autocmds_id, callback = set_xlim_makeprg })
 
 vim.api.nvim_create_autocmd('FileType', { pattern = 'antlr4', group = filetype_autocmds_id, command = 'nnoremap <localleader>c :!antlr4 %<CR>' })
 
