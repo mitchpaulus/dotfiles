@@ -40,5 +40,14 @@ jacobian([expr1, expr2], [var1, var2])
 
 ```
 
+lratsubst (new, old, expr)
+lratsubst (old = new, expr)
+lratsubst ([ old_1 = new_1, …, old_n = new_n ], expr)
+ratsubst (new, old, expr)
 
+stringout (filename, expr_1, expr_2, expr_3, …)
+stringout (filename, [m, n])
+stringout (filename, input)
+stringout (filename, functions)
+stringout (filename, values)
 From this [SO answer](https://stackoverflow.com/a/51256735/5932184), `ratsubst` might be better in most cases.

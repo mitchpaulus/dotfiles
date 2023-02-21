@@ -17,11 +17,8 @@ Counter Flow
 
 $$
 
-ε = (1 - exp(-NTU * (1 + Cmin/Cmax))) /
+ε = (1 - exp(-NTU * (1 - Cmin/Cmax))) /
     (1 - (Cmin/Cmax)*exp(-NTU * (1 - Cmin/Cmax)))
-
-ε = (1 - exp(-NTU * (1 + R)) /
-    (1 - (R)*exp(-NTU * (1 - R)))
 
 at R = 1
 
