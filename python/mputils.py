@@ -10,6 +10,7 @@ import datetime
 T1 = TypeVar('T1')
 T2 = TypeVar('T2')
 T3 = TypeVar('T3')
+T4 = TypeVar('T4')
 
 def groupby(iterable: Iterable[T1], key_selector: Callable[[T1], T2], value_selector:Union[Callable[[T1], T3], None]=None) -> Dict[T2, List[T3]]:
     # This is straight boilerplate to deal with mypy
@@ -116,7 +117,7 @@ def read_tsv(file_path: str, delim: str="\t", skip: int=0) -> List[List[str]]:
 
 def write_tsv(file_path: str, data: List[List[str]], delim: str="\t") -> None:
     """
-    Write a tsv file, given a list of list of strings. The final stirng does
+    Write a tsv file, given a list of list of strings. The final string does
     not contain the new line character. Writes the file as UTF-8.
     """
     with open(file_path, "w", encoding="utf-8") as file:
@@ -887,3 +888,44 @@ def count_same_sim_metric(string_one: Union[str, Iterable[str]], string_two: Uni
 
     # Count the number of tokens that are the same
     return len(set(string_one_tokens).intersection(set(string_two_tokens)))
+
+
+def pivot(data: Iterable[T1], row_selector: Callable[[T1], T2], col_selector: Callable[[T1], T3], agg: Callable[[T1], T4]) -> Dict[Tuple[T2, T3], List[T4]]:
+    output = {}
+    for item in data:
+        row = row_selector(item)
+        col = col_selector(item)
+        if (row, col) not in output:
+            output[(row, col)] = []
+        output[(row, col)].append(agg(item))
+    return output
+
+
+def pivot_to_list(pivot_table: Dict[Tuple[T2, T3], T4]) -> List[List[str]]:
+    # Pivot table is a dict of tuples to values
+    # Convert to a list of lists
+    # First get the unique rows and columns
+    rows = set()
+    cols = set()
+    for (row, col) in pivot_table:
+        rows.add(row)
+        cols.add(col)
+
+    sorted_rows = version_sort_by(rows, lambda x: str(x))
+    sorted_cols = version_sort_by(cols, lambda x: str(x))
+
+    # print header row
+    rows = []
+    rows.append([""] + [str(s) for s in sorted_cols])
+
+    for row in sorted_rows:
+        row_list = [str(row)]
+        for col in sorted_cols:
+            if (row, col) in pivot_table:
+                items = pivot_table[(row, col)]
+                row_list.append(", ".join([str(item) for item in items]))
+            else:
+                row_list.append("")
+        rows.append(row_list)
+    return rows
+
