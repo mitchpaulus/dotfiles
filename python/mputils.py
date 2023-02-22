@@ -115,7 +115,7 @@ def read_tsv(file_path: str, delim: str="\t", skip: int=0) -> List[List[str]]:
         print("Unable to read file '{}'".format(file_path), file=sys.stderr)
         raise
 
-def write_tsv(file_path: str, data: List[List[str]], delim: str="\t") -> None:
+def write_tsv(file_path: str, data: Iterable[Iterable[str]], delim: str="\t") -> None:
     """
     Write a tsv file, given a list of list of strings. The final string does
     not contain the new line character. Writes the file as UTF-8.

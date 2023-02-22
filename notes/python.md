@@ -513,3 +513,7 @@ lines = sys.stdin.readlines()
 from datetime import time
 my_time = time(11, 37)
 ```
+
+## CSE Common SubExpression Elimination
+
+<https://docs.sympy.org/latest/modules/simplify/simplify.html?highlight=cse#module-sympy.simplify.cse_main>
