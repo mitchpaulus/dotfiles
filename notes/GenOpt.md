@@ -29,6 +29,10 @@ If `WriteStepNumber` is true, the `%stepNumber%` placeholder must exist in the t
 ```
 // 1-D continuous
 Algorithm { Main = GoldenSection | Fibonacci; }
+
+GoldenSection needs either:
+AbsDiffFunction
+IntervalReduction
 ```
 
 ## Running
