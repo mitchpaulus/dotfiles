@@ -63,5 +63,17 @@
         "prefix": ["filter", "fi"],
         "body": ["filter(${1:function}, ${2:iterable})"],
         "description": "filter function"
+    },
+    "for": {
+        "prefix": ["for"],
+        "body": ["for ${2:element} in ${1:iterable}:",
+                 "    $0"],
+        "description": "for loop"
+    },
+    "for wth index": {
+        "prefix": ["fi"],
+        "body": ["for ${2:index}, ${3:element} in enumerate(${1:iterable}):",
+                 "    $0"],
+        "description": "for loop with index"
     }
 }

@@ -62,6 +62,11 @@ BEGIN {
     letters[31] = "AE"
 }
 
+python_form {
+    print "class :"
+    print "    def __init__(self, line: List[str]):"
+}
+
 NR == 1 {
     for (i = 1; i <= NF; i++) {
 
