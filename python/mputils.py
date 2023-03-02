@@ -929,3 +929,31 @@ def pivot_to_list(pivot_table: Dict[Tuple[T2, T3], T4]) -> List[List[str]]:
                 row_list.append("")
         rows.append(row_list)
     return rows
+
+def outer_join(iter1: Iterable[T1], iter2: Iterable[T2], iter1_key: Callable[[T1], T3], iter2_key: Callable[[T2], T3]) -> Iterable[Tuple[Union[T1, None], Union[T2, None]]]:
+    # Build dictionaries for each iterable, keyed by the key function, value is a list of matches
+    dict1 = {}
+    dict2 = {}
+    keys = set()
+
+    for item in iter1:
+        key = iter1_key(item)
+        keys.add(key)
+        dict1.setdefault(key, []).append(item)
+
+    for item in iter2:
+        key = iter2_key(item)
+        keys.add(key)
+        dict2.setdefault(key, []).append(item)
+
+    for key in keys:
+        if key in dict1 and key in dict2:
+            for item1 in dict1[key]:
+                for item2 in dict2[key]:
+                    yield (item1, item2)
+        elif key in dict1:
+            for item1 in dict1[key]:
+                yield (item1, None)
+        elif key in dict2:
+            for item2 in dict2[key]:
+                yield (None, item2)
