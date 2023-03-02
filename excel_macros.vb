@@ -1,7 +1,4 @@
 Sub CommandHeader()
-'
-' CommandHeader Macro
-
     With Selection.Interior
         .Pattern = xlSolid
         .PatternColorIndex = xlAutomatic
@@ -18,4 +15,3 @@ End Sub
 Sub FormatThousands()
     Selection.NumberFormat = "#,##0"
 End Sub
-
