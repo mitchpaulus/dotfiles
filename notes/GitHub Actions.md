@@ -65,3 +65,7 @@ Another action: <https://github.com/ncipollo/release-action>
 ## Passing on environment variables
 
 Can use the `$GITHUB_PATH` variable which is a file path you can write to.
+
+## Don't trigger on tag push
+
+<https://stackoverflow.com/a/71879890/5932184>
