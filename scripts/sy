@@ -1,4 +1,4 @@
 #!/bin/sh
 
 # Purpose: To quickly copy symbols/greek letters to the clipboard in WSL.
-fzf < "$DOTFILES"/greek_letters.txt | awk '{ print $2 }' | tr -d '\n' | clip.exe
+fzf < "$DOTFILES"/greek_letters.txt | awk '{ print $2 }' | tr -d '\n' | clip

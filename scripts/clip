@@ -1,10 +1,8 @@
 #!/bin/sh
 
 # Meant to be cross-platform copy to clipboard
-
 if test -n "$WSL_DISTRO_NAME"; then
-    # Use clip.exe. Expected that this command has standard input passed in.
-    clip.exe
+    wsl_clip
 else
     # Use xclip.
     xclip -selection clipboard

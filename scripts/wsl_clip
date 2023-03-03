@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if command -v win32yank.exe >/dev/null 2>/dev/null; then
+    win32yank.exe -i
+else
+    clip.exe
+fi

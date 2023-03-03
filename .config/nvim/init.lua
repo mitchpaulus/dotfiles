@@ -62,7 +62,7 @@ vim.fn["plug#end"]()
 if in_wsl then
     vim.g.clipboard = {
         name = 'wsl clipboard',
-        copy =  { ["+"] = { "clip.exe" },   ["*"] = { "clip.exe" } },
+        copy =  { ["+"] = { "wsl_clip" },   ["*"] = { "wsl_clip" } },
         paste = { ["+"] = { "nvim_paste" }, ["*"] = { "nvim_paste" } },
         cache_enabled = true
     }
