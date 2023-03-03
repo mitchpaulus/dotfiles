@@ -1,0 +1,25 @@
+{
+    "Golden Section": {
+        "prefix": "gs",
+        "body": [
+            "Algorithm {",
+            "  Main = GoldenSection;",
+            "  AbsDiffFunction = ${1:double};",
+            "}"
+        ],
+        "description": "Golden Section"
+    },
+    "Parameter": {
+        "prefix": "pa",
+        "body": [
+            "Parameter {",
+            "  Name = ${1:name};",
+            "  Ini = ${2:ini};",
+            "  Step = ${3:step};",
+            "  Min = ${4:min};",
+            "  Max = ${5:max};",
+            "}"
+        ],
+        "description": "Parameter"
+    }
+}
