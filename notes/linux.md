@@ -10,8 +10,8 @@
 - u: user who owns file, g: other users in group, o: all other users, a: all users ('ugo')
 
 - In Octal = Special permissions User, Group, All Others
-- General default permissions, directory: 755, file: 644. This comes
-  from typical `umask` of 0022.
+- General default permissions, directory: 755, file: 644.
+  This comes from typical `umask` of 0022.
 - Special permission go in order:
     - Set UID (+4)
     - Set GID (+2)

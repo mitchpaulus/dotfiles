@@ -78,6 +78,20 @@ Also see: <https://docs.github.com/en/get-started/using-git/splitting-a-subfolde
 git config --list --show-origin
 ```
 
+
+```
+/etc/gitconfig or C:\ProgramData\Git\etc\config # System
+
+$XDG_CONFIG_HOME/git/config  or %USERPROFILE%/.gitconfig # Global (also called user)
+~/.gitconfig # Global (also called user)
+~/.config/git/config
+
+${GIT_DIR:.git}/config # Local
+
+$GIT_DIR/config.worktree # Worktree
+```
+
+
 ## Recovering lost files
 
 This one really saved my behind (<https://stackoverflow.com/a/1109433/5932184>):
@@ -86,7 +100,7 @@ This one really saved my behind (<https://stackoverflow.com/a/1109433/5932184>):
 $ git fsck --cache --no-reflogs --lost-found --dangling HEAD
 ```
 
-This prints out a whole bunch of hashes for blob (and commtis and other stuff).
+This prints out a whole bunch of hashes for blob (and commits and other stuff).
 
 I then looped over the blobs and got the contents using `git show <sha>`, redirecting to a backup file.
 
@@ -103,3 +117,14 @@ git tag -d tagname # local
 git push origin --delete tagname # remote
 removetag tagname # myscript
 ```
+
+## Mode Changes
+
+```
+git update-index --chmod=+x files..
+```
+
+Dealing with file permissions with GitHub desktop: <https://stackoverflow.com/a/41368342/5932184>
+
+- delete the line setting core.filemode in $projdir/.git/config
+- in Windows git, run "git config --global core.filemode false"
