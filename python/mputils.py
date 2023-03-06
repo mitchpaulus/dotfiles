@@ -999,7 +999,7 @@ def device_from_path(path: str, sep="/") -> Optional[str]:
         split_item = re.split(r'[ _.-]+', item)
 
         # Check if first item is in device_types and then check if all remaining items are digits
-        if split_item[0] in device_types:
+        if split_item[0].lower() in device_types:
             if all([all([c.isdigit() for c in s]) for s in split_item[1:]]):
                 return item
 
