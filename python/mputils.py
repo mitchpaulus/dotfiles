@@ -1,5 +1,5 @@
 import os
-from typing import List, Union, Iterable, TypeVar, Callable, Dict, Any, cast, Generator, Set, Tuple
+from typing import List, Union, Iterable, TypeVar, Callable, Dict, Any, cast, Generator, Set, Tuple, Optional
 import re
 import math
 import sys
@@ -957,3 +957,50 @@ def outer_join(iter1: Iterable[T1], iter2: Iterable[T2], iter1_key: Callable[[T1
         elif key in dict2:
             for item2 in dict2[key]:
                 yield (None, item2)
+
+device_types = set([
+    'ahu',
+    'vav',
+    'fcu',
+    'chwp',
+    'cwp',
+    'chwpump',
+    'cwpump',
+    'eafan'
+])
+
+non_devices = set([
+    'application',
+    'trends',
+    'log',
+    'logs',
+    'ip network',
+    'bacnet interface'
+])
+
+
+def device_from_path(path: str, sep="/") -> Optional[str]:
+    if len(path) == 0:
+        return None
+
+    separated = path.split(sep)
+
+    # Start from end of separated, work backwards
+    for i in range(len(separated) - 1, -1, -1):
+        item = separated[i]
+
+        if item.lower() in non_devices:
+            continue
+
+        if item.lower().endswith("vfd"):
+            return item
+
+        # Split again on separators: '-', '_', and '.'
+        split_item = re.split(r'[ _.-]+', item)
+
+        # Check if first item is in device_types and then check if all remaining items are digits
+        if split_item[0] in device_types:
+            if all([all([c.isdigit() for c in s]) for s in split_item[1:]]):
+                return item
+
+    return None
