@@ -71,5 +71,11 @@ class TestPathResolve(unittest.TestCase):
         self.assertEqual(path, '/mnt/c/test.py')
 
 
+class TestFindDevice(unittest.TestCase):
+    def test_1(self):
+        test = '/CEC_AHU-2/BACnet Interface/IP Network/VAV_2_1/Application/Values/RmTmp/Value'
+        device = mputils.device_from_path(test)
+        self.assertEqual(device, 'VAV_2_1')
+
 if __name__ == "__main__":
     unittest.main()
