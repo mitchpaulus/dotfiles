@@ -68,3 +68,24 @@ modbus.point.AnalogOutput
 modbus.point.BinaryInput
 modbus.point.BinaryOutput
 modbus.point.ModbusRegisterGroup
+
+
+For graphics, look for base type of Base = 'tgml.TgmlBase' or Base = 'tgml.TGML' in Object Instances
+
+BindingEntry has bound variables.
+Graphics is `SubjectId`
+Point is    `TargetId`
+
+```sql
+SELECT ObjectInstance.name as 'Graphic Name', ObjectInstancePath.Path as 'Graphic Path', ObjectInstance.DESCR as 'Graphic Desc', instance2.Name as 'Ref Point Name', SubjectBinding.TargetProperty, instance2.TypeName, instance2.DESCR as 'Point Desc', path2.Path as 'Point on Graphic Path'
+FROM (ObjectInstance
+ JOIN ObjectType on ObjectInstance.TypeName = ObjectType.name
+ JOIN ObjectInstancePath on ObjectInstancePath.Id = ObjectInstance.Id
+ JOIN BindingEntry as SubjectBinding  on ObjectInstance.Id = SubjectBinding.SubjectId) as table1
+JOIN ObjectInstance as instance2 on instance2.Id = table1.TargetId
+JOIN ObjectInstancePath as path2 on path2.Id = instance2.Id
+where Base = 'tgml.TgmlBase' or Base = 'tgml.TGML'
+```
+
+
+SELECT ObjectInstance.name as 'Graphic Name', ObjectInstancePath.Path as 'Graphic Path', ObjectInstance.DESCR as 'Graphic Desc', instance2.Name as 'Ref Point Name', SubjectBinding.TargetProperty, instance2.TypeName, instance2.DESCR as 'Point Desc', path2.Path as 'Point on Graphic Path' FROM (ObjectInstance JOIN ObjectType on ObjectInstance.TypeName = ObjectType.name JOIN ObjectInstancePath on ObjectInstancePath.Id = ObjectInstance.Id JOIN BindingEntry as SubjectBinding  on ObjectInstance.Id = SubjectBinding.SubjectId) as table1 JOIN ObjectInstance as instance2 on instance2.Id = table1.TargetId JOIN ObjectInstancePath as path2 on path2.Id = instance2.Id where Base = 'tgml.TgmlBase' or Base = 'tgml.TGML'

@@ -67,3 +67,9 @@ $$ \frac{-b}{2a} $$
 ## Torsors
 
 <https://math.ucr.edu/home/baez/torsors.html>. Related to affine units.
+
+
+## Generalized Stokes Theorem
+
+<https://en.wikipedia.org/wiki/Generalized_Stokes_theorem>.
+Basically normal integrals, Green's theorem, Stoke's theorem, and the divergence theorem are all special cases of the same thing.
