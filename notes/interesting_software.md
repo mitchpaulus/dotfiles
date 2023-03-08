@@ -239,3 +239,7 @@ Free for open source public projects?
 ## [Flow CSV viewer](https://apps.microsoft.com/store/detail/flow-csv-viewer/9NQ7Z06VRXBW?hl=en-us&gl=us)
 
 May give this a try.
+
+## [OpenRefine](https://openrefine.org/)
+
+Clean TSV files. Doesn't allow you to refresh the original data though.

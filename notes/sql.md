@@ -46,3 +46,7 @@ WHERE condition;
 ## Operations
 
 String concatenation: `+`.
+
+## Recursion
+
+<https://medium.com/swlh/recursion-in-sql-explained-graphically-679f6a0f143b>
