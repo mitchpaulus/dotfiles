@@ -1,0 +1,43 @@
+#!/usr/bin/python3
+
+# This script needs to convert Python expressions into xlim expressions.
+# In particular, ** needs to be changed to '^' and exp(....) needs to be exp: ... ;
+
+import sys
+import re
+
+def main():
+    for line in sys.stdin:
+        # Change ** to ^
+        line = re.sub(r'\*\*', '^', line)
+
+        # Begin do while loop - need to search for exp( and then check for matching parentheses
+        # search for first occurance of exp(
+        # If not found, we are done
+
+        m = re.search(r'exp\(', line)
+
+        while m:
+            # Found an exp(, now need to find the matching closing paren
+            # Start with the first paren after the exp(
+            paren_count = 1
+            i = m.end()
+            while paren_count > 0:
+                if line[i] == '(':
+                    paren_count += 1
+                elif line[i] == ')':
+                    paren_count -= 1
+                i += 1
+
+            # Now i is the index of the matching closing paren
+            # Replace exp( with exp: and the closing paren with a semicolon
+            line = line[:m.start()] + 'exp: ' + line[m.end():i-1] + ';' + line[i:]
+
+            # Search for the next exp(
+            m = re.search(r'exp\(', line)
+
+        print(line, end='')
+
+
+if __name__ == '__main__':
+    main()
