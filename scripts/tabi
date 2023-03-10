@@ -6,7 +6,6 @@ BEGIN {
     FS = "\t"
     OFS = "\t"
     toinsert = ARGV[1]
-    print toinsert
     ARGV[1] = ""
 }
 
