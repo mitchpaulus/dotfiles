@@ -966,7 +966,8 @@ device_types = set([
     'cwp',
     'chwpump',
     'cwpump',
-    'eafan'
+    'eafan',
+    'btu',
 ])
 
 non_devices = set([
