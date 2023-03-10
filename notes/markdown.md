@@ -20,3 +20,7 @@ done
 [Link text][Link id]
 
 [Link id]: http://link.com "Optional"
+
+## Linting
+
+- <https://earthly.dev/blog/markdown-lint/>

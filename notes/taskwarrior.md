@@ -26,3 +26,7 @@
 
 See <https://github.com/GothenburgBitFactory/taskwarrior/issues/442>. Should be fixed in 2.6.
 See <https://unix.stackexchange.com/questions/367151/how-to-override-warning-in-taskwarrior>
+
+```
+task 123 modify +tag
+```
