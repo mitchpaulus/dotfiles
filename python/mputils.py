@@ -1057,3 +1057,11 @@ def device_from_path(path: str, sep="/") -> Optional[str]:
                 return item
 
     return None
+
+def true_like(text: str) -> bool:
+    clean = str(text).strip().lower()
+    if clean in ['true', 'yes', '1', "t", "y"]:
+        return True
+    elif clean in ['false', 'no', '0', "f", "n", ""]:
+        return False
+    raise ValueError("Cannot convert {} to boolean".format(text))
