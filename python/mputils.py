@@ -710,11 +710,14 @@ def dbscan(points: List[T1], distance_metric: Callable[[T1, T1], float], eps: fl
     labels = [-2] * len(points)
     # -2 stands for undefined
     # -1 stands for noise
-    for idx, p in enumerate(points):
+    for idx in range(len(points)):
+        p = points[idx]
         if labels[idx] != -2:
             continue
+
         neighbor_idxs = []
-        for idx2, q in enumerate(points):
+        for idx2 in range(len(points)):
+            q = points[idx2]
             if distance_metric(p, q) <= eps:
                 neighbor_idxs.append(idx2)
 
@@ -738,7 +741,8 @@ def dbscan(points: List[T1], distance_metric: Callable[[T1, T1], float], eps: fl
                 continue
             labels[q] = C
             neighbor_idxs2 = []
-            for idx4, r in enumerate(points):
+            for idx4 in range(len(points)):
+                r = points[idx4]
                 if distance_metric(points[q], r) <= eps:
                     neighbor_idxs2.append(idx4)
             if len(neighbor_idxs2) >= min_pts:
