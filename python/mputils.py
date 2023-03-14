@@ -725,10 +725,10 @@ def dbscan(points: List[T1], distance_metric: Callable[[T1, T1], float], eps: fl
         C += 1
         labels[idx] = C
 
-        seed_stack = []
+        seed_stack = set([])
         for idx3 in neighbor_idxs:
-            if idx3 != idx:
-                seed_stack.append(idx3)
+            seed_stack.add(idx3)
+        seed_stack.remove(idx)
 
         while len(seed_stack) > 0:
             q = seed_stack.pop()
@@ -743,10 +743,18 @@ def dbscan(points: List[T1], distance_metric: Callable[[T1, T1], float], eps: fl
                     neighbor_idxs2.append(idx4)
             if len(neighbor_idxs2) >= min_pts:
                 for idx5 in neighbor_idxs2:
-                    if idx5 != q:
-                        seed_stack.append(idx5)
+                    seed_stack.add(idx5)
+                seed_stack.remove(q)
 
+    for idx, label in enumerate(labels):
+        if label == -1:
+            noise.append(points[idx])
+        else:
+            if len(clusters) < label:
+                clusters.append([])
+            clusters[label - 1].append(points[idx])
 
+    return clusters, noise
 
 def jaccard_index(set1: Set[T1], set2: Set[T1]) -> float:
     # https://en.wikipedia.org/wiki/Jaccard_index
