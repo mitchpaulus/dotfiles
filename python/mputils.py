@@ -706,27 +706,59 @@ def dbscan(points: List[T1], distance_metric: Callable[[T1, T1], float], eps: fl
     C = 0
     clusters: List[List[T1]] = []
     noise: List[T1] = []
-    unvisited = set(points)
-    while unvisited:
-        p = unvisited.pop()
-        neighbors = [q for q in points if distance_metric(p, q) <= eps]
-        if len(neighbors) < min_pts:
+    # Create list of -2s for labels, length of points
+    labels = [-2] * len(points)
+    # -2 stands for undefined
+    # -1 stands for noise
+    for idx in range(len(points)):
+        p = points[idx]
+        if labels[idx] != -2:
+            continue
+
+        neighbor_idxs = []
+        for idx2 in range(len(points)):
+            q = points[idx2]
+            if distance_metric(p, q) <= eps:
+                neighbor_idxs.append(idx2)
+
+        if len(neighbor_idxs) < min_pts:
             # Noise
-            noise.append(p)
+            labels[idx] = -1
             continue
         C += 1
-        cluster = [p]
-        for q in neighbors:
-            if q in unvisited:
-                unvisited.remove(q)
-                q_neighbors = [r for r in points if distance_metric(q, r) <= eps]
-                if len(q_neighbors) >= min_pts:
-                    neighbors.extend(q_neighbors)
-            if q not in cluster:
-                cluster.append(q)
-        clusters.append(cluster)
-    return clusters, noise
+        labels[idx] = C
 
+        seed_stack = set([])
+        for idx3 in neighbor_idxs:
+            seed_stack.add(idx3)
+        seed_stack.remove(idx)
+
+        while len(seed_stack) > 0:
+            q = seed_stack.pop()
+            if labels[q] == -1:
+                labels[q] = C
+            elif labels[q] != -2:
+                continue
+            labels[q] = C
+            neighbor_idxs2 = []
+            for idx4 in range(len(points)):
+                r = points[idx4]
+                if distance_metric(points[q], r) <= eps:
+                    neighbor_idxs2.append(idx4)
+            if len(neighbor_idxs2) >= min_pts:
+                for idx5 in neighbor_idxs2:
+                    seed_stack.add(idx5)
+                seed_stack.remove(q)
+
+    for idx, label in enumerate(labels):
+        if label == -1:
+            noise.append(points[idx])
+        else:
+            if len(clusters) < label:
+                clusters.append([])
+            clusters[label - 1].append(points[idx])
+
+    return clusters, noise
 
 def jaccard_index(set1: Set[T1], set2: Set[T1]) -> float:
     # https://en.wikipedia.org/wiki/Jaccard_index
@@ -892,6 +924,13 @@ def count_same_sim_metric(string_one: Union[str, Iterable[str]], string_two: Uni
 
 
 def pivot(data: Iterable[T1], row_selector: Callable[[T1], T2], col_selector: Callable[[T1], T3], agg: Callable[[T1], T4]) -> Dict[Tuple[T2, T3], List[T4]]:
+    """
+    This function takes an iterable, a row and column selector, and a transformation function and returns a dictionary data structure representing the pivot table.
+
+    :param data: The data to pivot:
+    :param row_selector: A function that takes an item from data and returns the row value
+    :param col_selector: A function that takes an item from data and returns the column value
+    """
     output = {}
     for item in data:
         row = row_selector(item)
@@ -968,7 +1007,13 @@ device_types = set([
     'cwpump',
     'eafan',
     'btu',
+    'mzahu',
 ])
+
+full_device = set([
+    'energy consumption meter',
+])
+
 
 non_devices = set([
     'application',
@@ -976,7 +1021,9 @@ non_devices = set([
     'log',
     'logs',
     'ip network',
-    'bacnet interface'
+    'bacnet interface',
+    'values',
+    'io bus',
 ])
 
 
@@ -990,10 +1037,15 @@ def device_from_path(path: str, sep="/") -> Optional[str]:
     for i in range(len(separated) - 1, -1, -1):
         item = separated[i]
 
-        if item.lower() in non_devices:
+        lowered = item.lower()
+
+        if lowered in non_devices:
             continue
 
-        if item.lower().endswith("vfd"):
+        if lowered in full_device:
+            return item
+
+        if lowered.endswith("vfd"):
             return item
 
         # Split again on separators: '-', '_', and '.'
