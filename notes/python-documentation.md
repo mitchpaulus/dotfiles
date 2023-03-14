@@ -9,6 +9,8 @@ Within the comments, there are several competing standards:
 2. reStructured Text
 3. NumPy/SciPy docstring
 
+
+Google
 ```python
 def myfunc(param1, param2):
    """
@@ -26,6 +28,7 @@ def myfunc(param1, param2):
    """
 ```
 
+reStructured Text
 ```python
 """
 This is a reST style.
@@ -37,6 +40,7 @@ This is a reST style.
 """
 ```
 
+NumPy/SciPy docstring
 ```python
 """
 My numpydoc description of a kind

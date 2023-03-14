@@ -1,3 +1,10 @@
+# SECO
+
+Guideline files:
+
+- <https://comptroller.texas.gov/programs/seco/funding/loanstar/docs/LoanSTARGuidebookVolumeI.pdf>
+- <https://comptroller.texas.gov/programs/seco/funding/loanstar/docs/LoanSTARGuidebookVolumeII.pdf>
+
 tag: seco equipment-life
 
 Rooftop unit                          15 years
