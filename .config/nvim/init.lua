@@ -428,6 +428,9 @@ vim.api.nvim_set_keymap("n", '<leader>r', ':read! ', { noremap = true, silent = 
 
 vim.api.nvim_set_keymap("t", '<C-^>', '<Cmd>execute "norm \\<C-^>"<CR>', { noremap = true, silent = true })
 
+-- Need visual mode mapping to insert '- ' at the beginning of each line to make into markdown list
+vim.api.nvim_set_keymap("v", "<localleader>-", ":s/^/- /<CR>", { noremap = true, silent = true })
+
 func_map(function(tbl) nnmap(tbl[1], tbl[2]) end, normalNoRecurseMappings)
 
 insertModeNoRecurseMappings = {
@@ -511,6 +514,8 @@ func_map(function(tbl) inmap(tbl[1], tbl[2]) end, insertModeNoRecurseMappings)
 -- ]], false)
 
 vim.api.nvim_set_keymap("v", '<leader>y', '"+y', silent)
+-- Quit out of visual mode
+vim.api.nvim_set_keymap("v", 'q', '<Esc>:q<Cr>', silent)
 vim.api.nvim_set_keymap("x", 'L', '$', silent)
 vim.api.nvim_set_keymap("x", 'H', '^', silent)
 
