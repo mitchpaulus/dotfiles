@@ -198,3 +198,9 @@ When my autosave wasn't working, cleared the following things and had Word rebui
 
 - Registry key: `Computer\HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\Word`
 - `C:\Users\mpaulus\AppData\Roaming\Microsoft\Templates\Normal.dotm`
+
+## Update Default Template
+
+Go File -> Open (don't double click in Explorer because will open a new .docx using template, not open the template itself).
+
+`%APPDATA%\Microsoft\templates\Normal.dotm`
