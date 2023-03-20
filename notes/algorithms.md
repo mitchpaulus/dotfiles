@@ -222,3 +222,16 @@ pg. 157, pg. 259.
 [Xi+1] = [Xi] - [J]^-1 [F(Xi)]
 
 where [J]^-1 is the inverse Jacobian. Jacobian is the matrix of partial derivatives over the functions.
+
+From <http://cosmos.phy.tufts.edu/~danilo/AST16/Material/RootFinding.pdf>.
+Saved to G-drive PDF references, `RootFinding.pdf`
+
+It only makes sense to use Halley’s method when it is easy to calculate f 00.xi/,
+often from pieces of functions that are already being used in calculating f .xi/ and f 0 .xi/.
+Otherwise, you might just as well do another step of ordinary Newton Raphson.
+Halley’s method converges cubically; in the final convergence each iteration triples the number of significant digits.
+But two steps of Newton-Raphson *quadruple* that number.
+
+There is no reason to think that the basin of convergence of Halley’s method is
+generally larger than Newton’s; more often it is probably smaller. So don’t look to
+Halley’s method for better convergence in the large

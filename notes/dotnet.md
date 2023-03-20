@@ -8,3 +8,8 @@ In `sln` files that is the new ASP.NET core project type GUID.
 ## MAUI
 
 - [Tutorials](https://learn.microsoft.com/en-us/training/paths/build-apps-with-dotnet-maui/?WT.mc_id=dotnet-35129-website)
+
+
+## Avalonia
+
+<https://avaloniaui.net/>
