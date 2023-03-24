@@ -28,3 +28,9 @@ I want to create a new version for myself that is better for the types of engine
 [Comments](https://www.reddit.com/r/ProgrammingLanguages/comments/w6ntc8/favorite_comment_syntax_in_programming_languages/)
 
 Like the concept of variable length delimiters.
+
+[Argument for no block comments](https://futhark-lang.org/blog/2017-10-10-block-comments-are-a-bad-idea.html)
+
+## Indexing starting at 0
+
+[Dijkstra](https://www.cs.utexas.edu/users/EWD/transcriptions/EWD08xx/EWD831.html)
