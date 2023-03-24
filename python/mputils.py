@@ -73,10 +73,14 @@ def find_all_ext(ext: str, path: str = ".") -> List[str]:
     # Force an extension to start with a dot
     if len(ext) == 0 or ext[0] != ".":
         ext = "." + ext
+
+    lower_ext = ext.lower()
+    upper_ext = ext.upper()
+
     result = []
     for root, _, files in os.walk(path):
         for file in files:
-            if file.endswith(ext):
+            if file.endswith(lower_ext) or file.endswith(upper_ext):
                 result.append(os.path.join(root, file))
     return result
 
