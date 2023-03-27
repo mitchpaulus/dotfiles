@@ -32,3 +32,34 @@ Priority can be assigned to the object as well.
 0 - 255. 0 is meant to be highest priority, most important to get resolved.
 
 <https://docs.johnsoncontrols.com/bas/api/khub/documents/MUhtDESPd0jfXeDioMsQ4w/content>
+
+
+## Types
+
+25 standard types (Directly from standard Version 2004)
+
+1. ACCUMULATOR
+2. ANALOG_INPUT
+3. ANALOG_OUTPUT
+4. ANALOG_VALUE
+5. AVERAGING
+6. BINARY_INPUT
+7. BINARY_OUTPUT
+8. BINARY_VALUE
+9. CALENDAR
+10. COMMAND
+11. DEVICE
+12. EVENT_ENROLLMENT
+13. FILE
+14. GROUP
+15. LIFE_SAFETY_POINT
+16. LIFE_SAFETY_ZONE
+17. LOOP
+18. MULTISTATE_INPUT
+19. MULTISTATE_OUTPUT
+20. MULTISTATE_VALUE
+21. NOTIFICATION_CLASS
+22. PROGRAM
+23. PULSE_CONVERTER
+24. SCHEDULE
+25. TREND_LOG

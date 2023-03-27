@@ -31,3 +31,24 @@ for helping generate the models.
 > when the instance is disposed. A DbContext instance is designed to be
 > used for a single unit-of-work. This means that the lifetime of a
 > DbContext instance is usually very short.
+
+## Available string functions
+
+<https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/ef/language-reference/string-canonical-functions>
+
+- Concat
+- Contains
+- EndsWith
+- IndexOf
+- Left
+- Length
+- LTrim
+- Replace
+- Reverse
+- Right
+- RTrim
+- Substring
+- StartsWith
+- ToLower
+- ToUpper
+- Trim
