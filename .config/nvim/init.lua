@@ -421,6 +421,9 @@ normalNoRecurseMappings = {
     { 'A', ':<C-u>checktime<CR>A' },
     { 'o', ':<C-u>checktime<CR>o' },
     { 'O', ':<C-u>checktime<CR>O' },
+
+    -- Show full file name when requested
+    { '<C-G>', '1<C-G>' },
 }
 
 vim.api.nvim_set_keymap("n", '<leader>g', ':%s/',    { noremap = true, silent = false })
