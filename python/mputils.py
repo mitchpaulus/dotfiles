@@ -1069,3 +1069,18 @@ def true_like(text: str) -> bool:
     elif clean in ['false', 'no', '0', "f", "n", ""]:
         return False
     raise ValueError("Cannot convert {} to boolean".format(text))
+
+class StringBuilder:
+    """World's simplest string builder"""
+    def __init__(self):
+        self._strings = []
+
+    def append(self, value):
+        self._strings.append(value)
+
+    def clear(self):
+        self._strings = []
+
+    def __str__(self):
+        return "".join(self._strings)
+
