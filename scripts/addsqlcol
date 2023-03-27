@@ -1,0 +1,105 @@
+#!/usr/bin/python3
+
+# CLI script to help generate the SQL statement to add a column, because I don't want to look it up anymore.
+# First asks user if SQL Server or Sqlite
+
+import sys
+
+def main():
+    print("Is this SQL Server or Sqlite?")
+    print("1. SQL Server")
+    print("2. Sqlite")
+    print("3. Exit")
+    choice = input("Enter choice: ")
+    if choice == "1":
+        sqlserver()
+    elif choice == "2":
+        sqlite()
+    elif choice == "3":
+        sys.exit()
+    else:
+        print("Invalid choice")
+        main()
+
+
+def sqlserver():
+    print("SQL Server")
+    table = input("Enter table name: ")
+    col = input("Enter column name: ")
+
+    # If column entered with quotes, remove them
+    if len(col) > 1 and col[0] == "'" and col[-1] == "'":
+        col = col[1:-1]
+
+    print("Enter data type:")
+    print("1. int")
+    print("2. varchar")
+    print("3. datetime")
+    print("4. bit")
+    print("5. float")
+    datatype = input("Enter data type: ")
+
+    # Check for invalid data type
+    if datatype not in ["1", "2", "3", "4", "5"]:
+        print("Invalid data type")
+        sqlserver()
+
+    t_map = {"1": "INT", "2": "VARCHAR", "3": "DATETIME", "4": "BIT", "5": "FLOAT"}
+    t = t_map[datatype]
+
+    # If varchar, ask for length
+    if datatype == "2":
+        length = input("Enter length (0 for max): ")
+        if length == "0":
+            length = "MAX"
+        datatype = "varchar(" + length + ")"
+
+
+    print("ALTER TABLE " + table + " ADD " + col + " " + t + ";")
+
+
+def sqlite():
+    print("Sqlite")
+    table = input("Enter table name: ")
+    col = input("Enter column name: ")
+
+    # If column entered with quotes, remove them
+    if len(col) > 1 and col[0] == "'" and col[-1] == "'":
+        col = col[1:-1]
+
+    print("Enter data type affinity:")
+    print("1. integer")
+    print("2. text")
+    print("3. real")
+    print("4. numeric")
+    print("5. blob")
+
+    datatype = input("Enter data type: ")
+
+    # Check for invalid data type
+    if datatype not in ["1", "2", "3", "4", "5"]:
+        print("Invalid data type")
+        sqlite()
+
+    t_map = {"1": "INTEGER", "2": "TEXT", "3": "REAL", "4": "NUMERIC", "5": "BLOB"}
+    t = t_map[datatype]
+
+    # Check if it should be nullable?
+    print("Is this column nullable? (y/n)")
+
+    while True:
+        nullable = input("Enter choice (y): ")
+        if nullable.lower() == "n":
+            t += " NOT NULL"
+            break
+        elif nullable == "":
+            t += " NULL"
+            break
+        elif nullable.lower() != "y":
+            print("Invalid choice (y/n)")
+            continue
+
+    print("ALTER TABLE " + table + " ADD COLUMN " + col + " " + t + ";")
+
+if __name__ == "__main__":
+    main()
