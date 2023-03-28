@@ -74,6 +74,8 @@ checkfile   ~/.config/fish                      .config/fish/
 checkfile   ~/.config/lf/lfrc                   .config/lf/lfrc
 checkfile   ~/.tmux.conf                        .tmux.conf
 checkfile   ~/.config/vsnip                     .config/vsnip/
+checkfile   ~/.config/NuGet/config/mp.config    .config/NuGet/config/mp.config
+checkfile   ~/.nuget/config/mp.config           .config/NuGet/config/mp.config
 
 if [ ! -f ~/.local/share/nvim/site/autoload/plug.vim ]; then
     prompt "Do you want to download vim-plug? ([y]/n) "
