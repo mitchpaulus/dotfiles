@@ -73,3 +73,32 @@ Apparently having `GeneratePackageOnBuild` breaks everything on the CLI.
 
 Visual Studio will cache credentials.
 If you need to update them, you can go to the `Control Panel` -> ``
+
+## Global Windows Settings
+
+`%APPDATA%\NuGet\NuGet.config`
+
+## NuGet.config Search Locations
+
+1. Solution
+2. User
+  - Windows:
+    - %appdata%\NuGet\NuGet.Config
+    - %appdata%\NuGet\config\*.Config%
+  - Mac/Linux:
+    - ~/.config/NuGet/NuGet.Config or ~/.nuget/NuGet/NuGet.Config
+    - ~/.config/NuGet/config/*.config or ~/.nuget/config/*.config
+    - Whether it goes into .config or .nuget depends on the tool. :/.
+3. Computer
+  - Windows:
+    - %ProgramFiles(x86)%\NuGet\Config
+  - Mac/Linux:
+    - $XDG_DATA_HOME or ~/.local/share or /usr/local/share (depends on distribution)
+
+On Mac/Linux, the user config file location varies by tooling. .NET CLI uses ~/.nuget/NuGet folder, while Mono uses ~/.config/NuGet folder.
+
+Can use `nuget config` to edit configuration.
+
+## Adding personal source
+
+dotnet nuget add source -n mitchpaulus -u mitchpaulus -p '%GH_TOKEN%' --store-password-in-clear-text 'https://nuget.pkg.github.com/mitchpaulus/index.json'
