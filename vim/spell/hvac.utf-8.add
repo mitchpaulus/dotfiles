@@ -51,6 +51,7 @@ CEM
 CFD
 CFL
 CFM
+CFR
 CHP
 CHW
 CHWP
@@ -168,6 +169,7 @@ Hydronic
 Hyperparameters
 IAH
 IANA
+IAQ
 IGA
 IGV
 IKEA
