@@ -1,0 +1,3 @@
+#!/bin/sh
+
+excelchop "$1" | headers2awk -c
