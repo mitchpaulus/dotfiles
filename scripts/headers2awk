@@ -8,7 +8,7 @@ BEGIN {
     # Assume what's passed is just header line.
     # However, sometimes there can be a newline within a header cell.
     # By default, Excel will copy that newline, wrapping field in quotes.
-    RS="asdfasdfasdfasdfasdf"
+    # RS="asdfasdfasdfasdfasdf"
     python_form = 0
     column_letters = 0
 
@@ -62,12 +62,14 @@ BEGIN {
     letters[31] = "AE"
 }
 
-python_form {
-    print "class :"
-    print "    def __init__(self, line: List[str]):"
-}
 
 NR == 1 {
+
+    if  (python_form) {
+        print "class :"
+        print "    def __init__(self, line: List[str]):"
+    }
+
     for (i = 1; i <= NF; i++) {
 
         header = $i
@@ -104,3 +106,5 @@ NR == 1 {
 
     }
 }
+
+NR > 1 { exit }
