@@ -415,3 +415,94 @@ Sub DeleteSooStyles()
     DeleteSooLevelStyle 5
     DeleteSooLevelStyle 6
 End Sub
+
+
+Sub UpdateDates()
+    InsertDateInExistingTableInHeaders
+    ReplaceDateOnFirstPageUsingLoopNoRegex
+End Sub
+
+Sub InsertDateInExistingTableInHeaders()
+
+    Dim oSection As Section
+    Dim oHeader As HeaderFooter
+    Dim oTable As Table
+    Dim currentDate As String
+
+    ' Format the current date as YYYY-MM-DD
+    currentDate = Format(Now, "yyyy-mm-dd")
+
+    For Each oSection In ActiveDocument.Sections
+        For Each oHeader In oSection.Headers
+            ' Skip first page headers
+            If oHeader.Index <> wdHeaderFooterFirstPage Then
+                If oHeader.Range.Tables.Count > 0 Then
+                    ' Access the existing table
+                    Set oTable = oHeader.Range.Tables(1)
+
+                    ' Insert the current date in the first row, first column
+                    oTable.Cell(1, 1).Range.text = currentDate
+                End If
+            End If
+        Next oHeader
+    Next oSection
+
+End Sub
+
+Sub ReplaceDateOnFirstPageUsingLoopNoRegex()
+
+    Dim oPara As Paragraph
+    Dim currentDate As String
+    Dim monthName As String
+    Dim monthList(1 To 12) As String
+    Dim i As Integer
+    Dim foundDate As Boolean
+
+    ' Define the list of months
+    monthList(1) = "January"
+    monthList(2) = "February"
+    monthList(3) = "March"
+    monthList(4) = "April"
+    monthList(5) = "May"
+    monthList(6) = "June"
+    monthList(7) = "July"
+    monthList(8) = "August"
+    monthList(9) = "September"
+    monthList(10) = "October"
+    monthList(11) = "November"
+    monthList(12) = "December"
+
+    ' Format the current date
+    currentDate = Format(Now, "MMMM d, yyyy")
+
+    foundDate = False
+
+    For Each oPara In ActiveDocument.Paragraphs
+        ' Check if the paragraph is on the second page or beyond
+        If oPara.Range.Information(wdActiveEndAdjustedPageNumber) > 1 Then
+            Exit For
+        End If
+
+        ' Check if the paragraph text contains a month name
+        For i = LBound(monthList) To UBound(monthList)
+            monthName = monthList(i)
+            If InStr(1, oPara.Range.text, monthName, vbTextCompare) > 0 Then
+                ' Create a range that excludes the last character (paragraph mark)
+                Set rangeWithoutParaMark = oPara.Range
+                rangeWithoutParaMark.MoveEnd wdCharacter, -1
+
+                ' Replace the range text without the paragraph mark
+                rangeWithoutParaMark.text = currentDate
+
+                foundDate = True
+                Exit For
+            End If
+        Next i
+
+        ' Exit the loop if the date has been found
+        If foundDate Then
+            Exit For
+        End If
+    Next oPara
+
+End Sub
