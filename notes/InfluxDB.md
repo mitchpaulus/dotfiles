@@ -29,7 +29,6 @@ In InfluxDB, a point represents a single data record, similar to a row in a SQL 
 
 A collection of data in the InfluxDB data structure that shares a measurement, tag set, and bucket.
 
-
 ## Write Precision
 
 Can write at different levels of time precision.

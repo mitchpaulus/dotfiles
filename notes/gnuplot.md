@@ -23,6 +23,7 @@ plot {<ranges>} <plot-element> {, <plot-element>, <plot-element>}
 ```
 
 ```gnuplot
+plot-element:
 {<iteration>}
 (
   <definition> |

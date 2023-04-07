@@ -89,9 +89,9 @@ https://www.ssllabs.com/ssltest/index.html
 
 ## Vulnerabilities
 
-There is the CRIME/BREACH attacks on compression within https. This
-comes up with the `gzip on` directive. It's been hard to determine
-whether my sites are really at risk.
+There is the CRIME/BREACH attacks on compression within https.
+This comes up with the `gzip on` directive.
+It's been hard to determine whether my sites are really at risk.
 
 ## Config
 
@@ -122,10 +122,9 @@ PCRE regular expressions
 
 ## Reverse Proxy Notes with SkySpark
 
-Was using nginx as a reverse proxy to send requests to multiple running
-webservers. As a proxy, it didn't see to like having two public IPs
-being pointed to. If I changed the proxy address to `localhost`, things
-worked fine.
+Was using nginx as a reverse proxy to send requests to multiple running webservers.
+As a proxy, it didn't see to like having two public IPs being pointed to.
+If I changed the proxy address to `localhost`, things worked fine.
 
 ## Test Configuration
 
