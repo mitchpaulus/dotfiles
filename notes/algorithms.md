@@ -233,5 +233,9 @@ Halley’s method converges cubically; in the final convergence each iteration t
 But two steps of Newton-Raphson *quadruple* that number.
 
 There is no reason to think that the basin of convergence of Halley’s method is
-generally larger than Newton’s; more often it is probably smaller. So don’t look to
-Halley’s method for better convergence in the large
+generally larger than Newton’s; more often it is probably smaller.
+So don’t look to Halley’s method for better convergence in the large
+
+## Powell's Method
+
+Multidimensional form of Brent's method, which apparently lots of people like.
