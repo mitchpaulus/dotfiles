@@ -67,5 +67,10 @@
             "<!-- Compass -->"
         ],
         "description": "Compass LabelStatisticsTable"
+    },
+    "Image": {
+        "prefix": ["img"],
+        "body": ["![$1]($2)"],
+        "description": "Markdown Image"
     }
 }
