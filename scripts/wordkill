@@ -1,5 +1,18 @@
 #!/bin/sh
 
+
+if test "$1" = "-h" || test "$1" = "--help"; then
+    cat <<EOF
+Usage: wordkill [file]
+EOF
+exit 0
+fi
+
+if [ -z "$1" ]; then
+    echo "Usage: wordkill [file]"
+    exit 1
+fi
+
 pid="$(tasklist.exe '/FI' 'IMAGENAME eq WINWORD.EXE' '/FO:LIST' '/V' | awk -v searchfile="$1" '
 BEGIN { FS=OFS=":" }
 
