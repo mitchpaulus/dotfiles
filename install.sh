@@ -76,6 +76,7 @@ checkfile   ~/.tmux.conf                        .tmux.conf
 checkfile   ~/.config/vsnip                     .config/vsnip/
 checkfile   ~/.config/NuGet/config/mp.config    .config/NuGet/config/mp.config
 checkfile   ~/.nuget/config/mp.config           .config/NuGet/config/mp.config
+checkfile   ~/.config/lazygit/config.yml        .config/lazygit/config.yml
 
 if [ ! -f ~/.local/share/nvim/site/autoload/plug.vim ]; then
     prompt "Do you want to download vim-plug? ([y]/n) "
