@@ -1,0 +1,111 @@
+#!/usr/bin/python3
+
+
+
+# CLI program to bin tabular data
+# Usage: histdatay <datafile> <col>
+from typing import List, Tuple
+
+import sys
+
+def main():
+    args = sys.argv[1:]
+
+    i = 0
+    while i < len(args):
+        arg = args[i]
+        if arg == "-h" or arg == "--help":
+            print("Usage: histdata <datafile> <col> <binsize>")
+            sys.exit(0)
+        else:
+            # Check for two arguments
+            if len(args) != 3:
+                print("Expected two arguments, got", len(args), file=sys.stderr)
+                sys.exit(1)
+
+            datafile = args[0]
+            try:
+                col = int(args[1])
+            except ValueError:
+                print("Error: Column must be an integer", file=sys.stderr)
+                sys.exit(1)
+
+            try:
+                binsize = float(args[2])
+            except ValueError:
+                print("Error: Binsize must be a float", file=sys.stderr)
+                sys.exit(1)
+            break
+
+    process(datafile, col, binsize)
+
+
+def get_delimiter(lines: List[str]) -> Tuple[bool, str]:
+    # Check for tab, then comma, then space
+    # For tab, just check if first line has a tab
+    # For comma, check if the first 3 lines have the same number of commas
+    # For space, check if the first 3 lines have the same number of spaces
+
+    if "\t" in lines[0]:
+        return True, "\t"
+    else:
+        first_ten_lines = lines[:min(10, len(lines))]
+        num_commas = [line.count(",") for line in first_ten_lines]
+        if len(set(num_commas)) == 1:
+            return True, ","
+        num_spaces = [line.count(" ") for line in first_ten_lines]
+        if len(set(num_spaces)) == 1:
+            return True, " "
+        else:
+            raise ValueError("Could not determine delimiter")
+
+
+def process(datafile: str, col: int, binsize: float):
+    with open(datafile, "r") as f:
+        lines = f.readlines()
+
+    if len(lines) == 0:
+        return
+
+    # Check for delimiter
+    has_delimiter, delimiter = get_delimiter(lines)
+    if not has_delimiter:
+        print("Could not determine delimiter", file=sys.stderr)
+        sys.exit(1)
+
+    # Get data
+    data = []
+    first_line = True
+    for line in lines:
+        split_line = line.split(delimiter)
+
+        if (col - 1) >= len(split_line):
+            raise ValueError(f"Line {line} has {len(split_line)} columns, but column {col} was requested")
+
+        try:
+            parsed = float(split_line[col - 1])
+        except ValueError:
+            if first_line:
+                continue
+            else:
+                raise ValueError(f"Could not parse {split_line[col]} as a float")
+
+        first_line = False
+        data.append(parsed)
+
+
+    # Bin data
+    bins = dict()
+    for d in data:
+        bin_num = int(d // binsize)
+        if bin_num not in bins:
+            bins[bin_num] = 0
+        bins[bin_num] += 1
+
+    # Print data. Order by bin number, tab-separated. Bin value should be mid-point of bin
+    for bin_num in sorted(bins.keys()):
+        line = f"{bin_num * binsize + binsize / 2}\t{bins[bin_num]}"
+        print(line, end="\n")
+
+if __name__ == "__main__":
+    main()
