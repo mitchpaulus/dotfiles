@@ -239,3 +239,10 @@ So don’t look to Halley’s method for better convergence in the large
 ## Powell's Method
 
 Multidimensional form of Brent's method, which apparently lots of people like.
+
+## SLR Simple Linear Regression
+
+```
+slope = (n * sum(x*y) - sum(x) * sum(y)) / (n * sum(x^2) - sum(x)^2)
+constant = (sum(y) - slope * sum(x)) / n
+```

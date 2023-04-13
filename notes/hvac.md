@@ -32,8 +32,7 @@ $$
 
 ## York Chillers
 
-From [link
-here](https://docs.johnsoncontrols.com/chillers/v/u/YK/YK-Style-H-Centrifugal-Liquid-Chiller-250-300-tons),
+From [link here](https://docs.johnsoncontrols.com/chillers/v/u/YK/YK-Style-H-Centrifugal-Liquid-Chiller-250-300-tons),
 they provide a formula for minimum CWST.
 
 $$\textrm{CWST_{min}} = \textrm{CHWST} - \textrm{CW Range} + 5°F + 12 (PLR)$$
@@ -190,7 +189,7 @@ Noise: related to propeller speed. Belt drives can spin at whatever rate you can
 Cost: Depends.
 Overall: Direct drive for most.
 
-## Wet Bult Empirical Regression Formula
+## Wet Bulb Empirical Regression Formula
 
 From:
 Wet-Bulb Temperature from Relative Humidity and Air Temperature

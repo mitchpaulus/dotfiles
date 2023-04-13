@@ -9,10 +9,9 @@
 
 Solution: [Stack Exchange](https://tex.stackexchange.com/questions/10555/hyperref-warning-token-not-allowed-in-a-pdf-string)
 
-Appears to normally be caused by having TeX commands in a location that
-get turned into a hyperref link. For `elsarticle`s, the place it showed
-up for me is in the `\author` command. Use `\texorpdfstring{tex
-stuff}{pdf stuff - normally empty}` to get around the issue.
+Appears to normally be caused by having TeX commands in a location that get turned into a hyperref link.
+For `elsarticle`s, the place it showed up for me is in the `\author` command.
+Use `\texorpdfstring{tex stuff}{pdf stuff - normally empty}` to get around the issue.
 
 ```tex
 \author{Mitchell T. Paulus \texorpdfstring{\corref{cor1}\fnref{fn1}}{}}

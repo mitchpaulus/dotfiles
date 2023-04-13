@@ -63,3 +63,38 @@ Priority can be assigned to the object as well.
 23. PULSE_CONVERTER
 24. SCHEDULE
 25. TREND_LOG
+
+
+### TREND_LOG
+
+O = Optional, R = Required and readable, W = Required and writable
+
+Property Identifier           | Property Datatype                     | Conformance Code
+------------------------------|---------------------------------------|-----------------
+`Object_Identifier`           | `BACnetObjectIdentifier`              | R
+`Object_Name`                 | `CharacterString`                     | R
+`Object_Type`                 | `BACnetObjectType`                    | R
+`Description`                 | `CharacterString`                     | O
+`Log_Enable`                  | `BOOLEAN`                             | W
+`Start_Time`                  | `BACnetDateTime`                      | O
+`Stop_Time`                   | `BACnetDateTime`                      | O
+`Log_DeviceObjectProperty`    | `BACnetDeviceObjectPropertyReference` | O
+`Log_Interval`                | `Unsigned`                            | O
+`COV_Resubscription_Interval` | `Unsigned`                            | O
+`Client_COV_Increment`        | `BACnetClientCOV`                     | O
+`Stop_When_Full`              | `BOOLEAN`                             | R
+`Buffer_Size`                 | `Unsigned32`                          | R
+`Log_Buffer`                  | `List of BACnetLogRecord`             | R
+`Record_Count`                | `Unsigned32`                          | W
+`Total_Record_Count`          | `Unsigned32`                          | R
+`Notification_Threshold`      | `Unsigned32`                          | O
+`Records_Since_Notification`  | `Unsigned32`                          | O
+`Last_Notify_Record`          | `Unsigned32`                          | O
+`Event_State`                 | `BACnetEventState`                    | R
+`Notification_Class`          | `Unsigned`                            | O
+`Event_Enable`                | `BACnetEventTransitionBits`           | O
+`Acked_Transitions`           | `BACnetEventTransitionBits`           | O
+`Notify_Type`                 | `BACnetNotifyType`                    | O
+`Event_Time_Stamps`           | `BACnetARRAY[3] of BACnetTimeStamp`   | O
+`Profile_Name`                | `CharacterString`                     | O
+

@@ -4,3 +4,5 @@ Trying to enumerate out the common things I do for data processing in which I co
 - Select out columns (see tabcut)
 - Do simple awk processing
 - Deal with header/no header (tail -n +1, etc)
+
+- Given file, delimiter, column, get histogram/stats table
