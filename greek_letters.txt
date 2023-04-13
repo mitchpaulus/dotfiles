@@ -4,6 +4,7 @@ degree °
 squareroot √
 micro µ
 pi π
+rho ρ
 infinity ∞
 squared ²
 mu µ
