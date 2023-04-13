@@ -20,6 +20,13 @@
         ],
         "description": "Left and Right in Tex Equations"
     },
+    "rm": {
+        "prefix": ["rm"],
+        "body": [
+            "\\textrm{$1}$0"
+        ],
+        "description": "rm in Tex Equations"
+    },
     "dot": {
         "prefix": ["dot"],
         "body": [
