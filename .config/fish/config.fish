@@ -209,6 +209,7 @@ bind ';c' workdir
 bind jc git_commit
 bind jd git_diff
 bind jf execute
+bind jj workdir
 bind jw workdir
 
 # moved vl for clearing to match CTRL-L.
@@ -288,6 +289,8 @@ end
 abbr -a f "$FILEMANAGER"
 
 abbr -a uuid uuidgen
+
+abbr -a py python3
 
 # On basic Ubuntu install, python3 is installed, but no symlink for python
 if not command --query python; and command --query python3
