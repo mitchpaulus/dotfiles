@@ -15,3 +15,9 @@ Typical Power Factors: <https://www.calculatorsconversion.com/en/electrical-powe
 
 Typical uncorrected industrial power factor is 0.8
 ([Source - Power Factor in Electrical Management - Bhatia, B.E. 2012, pg 3.](https://pdhonline.com/courses/e144/e144content.pdf)).
+
+# Power Factor
+
+PF = kW / kVA
+kVA = kW / PF
+kW = kVA * PF

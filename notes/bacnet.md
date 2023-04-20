@@ -97,4 +97,3 @@ Property Identifier           | Property Datatype                     | Conforma
 `Notify_Type`                 | `BACnetNotifyType`                    | O
 `Event_Time_Stamps`           | `BACnetARRAY[3] of BACnetTimeStamp`   | O
 `Profile_Name`                | `CharacterString`                     | O
-

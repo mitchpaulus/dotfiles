@@ -56,3 +56,8 @@ q = UA (LMTD)
 q, UA, ΔTa, ΔTb
 
 q, UA, Ta1, Ta2, Tb1, Tb2
+
+
+## Approximations
+
+<https://www.researchgate.net/publication/266289611_The_concept_of_a_new_approximate_relation_for_exchanger_heat_transfer_effectiveness_for_a_cross-flow_heat_exchanger_with_unmixed_fluids>
