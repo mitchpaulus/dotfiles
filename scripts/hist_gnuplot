@@ -1,0 +1,133 @@
+#!/usr/bin/python3
+
+# Take whitespace separated data from stdin and plot it with gnuplot
+# Example:
+# set terminal pngcairo size 960,720 font "Segoe UI,10" fontscale 1.600
+# set boxwidth 0.1
+# set xlabel "Flr00C_OAFan_Pres.SpcLby.1 [in. H₂O]" noenhanced
+# set ylabel "Percent" noenhanced
+# set output "965155e0-7a6d-4286-b852-794c5da309ff.png"
+# set xrange [*:*]
+# set title "3-20 to 4-17-21"
+# set grid
+# set style fill solid border -1
+# plot "965155e0-7a6d-4286-b852-794c5da309ff.dat" using 1:2 with boxes notitle lc rgb "#004B87"
+
+import sys
+import os
+
+from typing import List
+
+def main():
+
+    # Check for stdin from pipe
+    if sys.stdin.isatty():
+        print("No data from pipe")
+        sys.exit(1)
+
+    # Read data from stdin
+    data = sys.stdin.read()
+
+    # Split data into lines
+    lines = data.splitlines()
+
+    # Don't use stdin because it can be a pipe
+    if sys.stdout.isatty():
+        current_tty = os.ttyname(sys.stdout.fileno())
+    elif sys.stderr.isatty():
+        current_tty = os.ttyname(sys.stderr.fileno())
+    else:
+        print("No tty", file=sys.stderr)
+        sys.exit(1)
+
+    max_diff = most_common_diff(lines)
+
+    def get_input(prompt: str) -> str:
+        # becasue stdin is not a tty, input() will not work
+        # so we have to use print() and input()
+        print(prompt, end="")
+        # Flush stdout so that the prompt is printed before the user types
+        sys.stdout.flush()
+        with open(current_tty, "r") as tty:
+            return tty.readline().strip()
+
+    # Prompt user for title, xlabel, and ylabel
+    title = get_input("Title: ")
+    xlabel = get_input("X-axis label: ")
+    ylabel = get_input("Y-axis label: ")
+    output = get_input("Output file: ")
+
+    def get_grid_input() -> bool:
+        grid = get_input("Grid? (y/n): ")
+        if grid == "y":
+            return True
+        elif grid == "n":
+            return False
+        else:
+            print("Invalid input")
+            return get_grid_input()
+
+    grid = get_grid_input()
+
+    # Print gnuplot commands
+    print("set terminal pngcairo size 960,720 font \"Segoe UI,10\" fontscale 1.600\n", end="")
+    print(f"set boxwidth {max_diff}\n", end="")
+    print(f"set xlabel \"{xlabel}\" noenhanced\n", end="")
+    print(f"set ylabel \"{ylabel}\" noenhanced\n", end="")
+    print(f"set output \"{output}\"\n", end="")
+    print("set xrange [*:*]\n", end="")
+    print(f"set title \"{title}\"\n", end="")
+    if grid:
+        print("set grid\n", end="")
+    print("set style fill solid border -1\n", end="")
+    # Hardcocde the data into the file
+    print("$data << EOF\n", end="")
+    for line in lines:
+        print(line + "\n", end="")
+    print("EOF\n", end="")
+    print("plot \"$data\" using 1:2 with boxes notitle lc rgb \"#004B87\"")
+
+
+def most_common_diff(lines: List[str]) -> float:
+    # Get the bin width by taking most common difference between values in first column
+    # This assumes that the data is sorted
+    diffs = dict()
+    for i in range(len(lines) - 1):
+        diff = float(lines[i + 1].split()[0]) - float(lines[i].split()[0])
+        if diff not in diffs:
+            diffs[diff] = 1
+
+    # Get the most common difference
+    max_diff_count = -1
+    max_diff = 0
+    for diff in diffs:
+        if diffs[diff] > max_diff_count:
+            max_diff_count = diffs[diff]
+            max_diff = diff
+
+    return max_diff
+
+class GnuPlotHistOptions:
+    def __init__(self, title: str, xlabel: str, ylabel: str, output: str, grid: bool, data_lines: List[str]):
+        self.title = title
+        self.xlabel = xlabel
+        self.ylabel = ylabel
+        self.output = output
+        self.grid = grid
+        self.data_lines = data_lines
+
+    def to_gnuplot(self):
+        lines = [
+            "set terminal pngcairo size 960,720 font \"Segoe UI,10\" fontscale 1.600",
+            #  f"set boxwidth {self.boxwidth}",
+            f"set xlabel \"{self.xlabel}\" noenhanced",
+            f"set ylabel \"{self.ylabel}\" noenhanced",
+            f"set output \"{self.output}\"",
+            "set xrange [*:*]",
+            f"set title \"{self.title}\"",
+            "set style fill solid border -1",
+            "plot \"$data\" using 1:2 with boxes notitle lc rgb \"#004B87\""
+        ]
+
+if __name__ == '__main__':
+    main()
