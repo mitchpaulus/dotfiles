@@ -1,4 +1,29 @@
 #!/usr/bin/awk -E
 # Print uniq lines, but don't require the sort first. Prints
 # lines is order of appearance as well.
-{ if (!($0  in lines)) { print } lines[$0] }
+
+# Check for '-c' flag
+BEGIN {
+    if (ARGV[1] == "-c") {
+        count = 1
+        ARGV[1] = ""
+    }
+    OFS = "\t"
+}
+
+{
+    if (!($0 in lines)) {
+        if (!count) {
+            print
+        }
+    }
+    lines[$0]++
+}
+
+END {
+    if (count) {
+        for (line in lines) {
+            print line, lines[line]
+        }
+    }
+}
