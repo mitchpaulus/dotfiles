@@ -84,6 +84,7 @@ Right Arrow sends 1B (esc) - 5B ('[' which is CSI) - 43 ('C')
 | `\e[<NUM>D`           | Move cursor left N columns.           | `num`
 | `\e[s`                | Save cursor position.                 |
 | `\e[u`                | Restore cursor position.              |
+| `\e<NUM>G`            | Move cursor to column N (1-based).              | `num`
 
 
 ## Erasing Text

@@ -198,6 +198,8 @@ November 2011
 DOI: 10.1175/JAMC-D-11-0143.1
 American Meteorological Society
 
+T in Celsius, RH% (0-100), atan taking radians.
+
 Tw = T * atan[ 0.151977 * ( (RH% + 8.313659)^1/2  ) ] + atan(T + RH%) - atan(RH% - 1.676331) +  0.00391838(RH%)^3/2 * atan(0.023101 * RH%) - 4.686035
 
 ## Spark Spread

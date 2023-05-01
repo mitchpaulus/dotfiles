@@ -236,6 +236,12 @@ There is no reason to think that the basin of convergence of Halley’s method i
 generally larger than Newton’s; more often it is probably smaller.
 So don’t look to Halley’s method for better convergence in the large
 
+From <https://www.cs.princeton.edu/courses/archive/fall12/cos323/notes/cos323_f12_lecture02_rootfinding.pdf>
+- Can be fragile
+  - Keep track of whether error is increasing or decreasing
+  - If error is increasing, try taking a smaller step, some fraction of the J-1 F(Xi) term.
+- Also: Can't really bracket and bisect, so there are few general methods to solve.
+
 ## Powell's Method
 
 Multidimensional form of Brent's method, which apparently lots of people like.
