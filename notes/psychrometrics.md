@@ -6,6 +6,8 @@ or
 
 Pv =  P W / (W + X)
 
+X = 0.621945
+
 ## Online psychrometric chart
 
 <https://drajmarsh.bitbucket.io/psychro-chart2d.html>

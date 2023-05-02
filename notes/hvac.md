@@ -219,3 +219,7 @@ Benchmark value for heat rate is often 7,000 BTU/kWH ~ 50% conversion efficiency
 
   higher heating value (HHV) aka gross calorific value (GCV)
   lower heating value (LHV) aka net calorific value (NCV)
+
+## SEER
+
+EER is output BTUs / input Wh. EER = 3.41214 * COP, COP = EER / 3.41214.
