@@ -1098,3 +1098,83 @@ def common_prefix(strings):
                 return ""
 
     return prefix
+
+
+def brent_zero_function(f, a, b, tol=1e-6, max_iter=1000):
+    if f(a) * f(b) >= 0:
+        raise ValueError("The function must have different signs at the interval endpoints.")
+
+    if abs(f(a)) < abs(f(b)):
+        a, b = b, a
+
+    c = a
+    mflag = True
+    delta = 1e-50
+    iter_count = 0
+
+    while iter_count < max_iter and abs(b - a) > tol:
+        fa = f(a)
+        fb = f(b)
+        fc = f(c)
+        if fa != fc and fb != fc:
+            # Inverse quadratic interpolation
+            s = a * fb * fc / ((fa - fb) * (fa - fc)) + b * fa * fc / (
+                (fb - fa) * (fb - fc)) + c * fa * fb / ((fc - fa) * (fc - fb))
+        else:
+            # Secant method
+            s = b - fb * (b - a) / (fb - fa)
+
+        # Check if s is within the required bounds
+        if (s < (3 * a + b) / 4 or s > b) or (mflag is True and abs(s - b) >= abs(b - c) / 2) or (
+                mflag is False and abs(s - b) >= abs(c - d) / 2) or (mflag is True and abs(b - c) < delta) or (mflag is False and abs(c - d) < delta):
+            # Bisection method
+            s = (a + b) / 2
+            mflag = True
+        else:
+            mflag = False
+
+        d = c
+        c = b
+
+        if fa * f(s) < 0:
+            b = s
+        else:
+            a = s
+
+        if abs(fa) < abs(fb):
+            a, b = b, a
+
+        iter_count += 1
+
+    if iter_count == max_iter:
+        raise RuntimeError("Maximum number of iterations reached before convergence.")
+
+    return b
+
+def annual_facility_electricity(file_path: str) -> float:
+    # File path should be relative path to "*.eso" file
+    # If not *.eso raise exception
+
+    if not file_path.endswith(".eso"):
+        raise ValueError("File path must be to an *.eso file")
+
+    annual_elec = -1
+    with open(file_path, 'r') as f:
+        for l in f:
+            if l.startswith("End of Data Dictionary"):
+                break
+            split_data = l.strip().split(",")
+            if len(split_data) >= 3:
+                if split_data[2].startswith("Electricity:Facility [J] !Annual"):
+                    annual_elec = int(split_data[0])
+
+        if annual_elec == -1:
+            raise ValueError("Could not find annual electricity consumption in file")
+
+        for l in f:
+            to_check = str(annual_elec) + ","
+            if l.startswith(to_check):
+                joules = float(l.split(",")[1])
+                return joules/3600000
+
+    raise ValueError(f"Could not find annual electricity consumption '{annual_elec}' in file")
