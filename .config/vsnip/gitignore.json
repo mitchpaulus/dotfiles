@@ -1,0 +1,11 @@
+{
+    "ANTLR": {
+        "prefix": "ant",
+        "body": [
+            "*.class",
+            "*.tokens",
+            "*.java",
+            "*.interp"
+        ]
+    }
+}
