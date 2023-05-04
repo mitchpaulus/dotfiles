@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Join lines with '\n'
+
+# Usage: textjoinnl [FILE]...
+awk 'NR == 1 { printf "%s", $0 } NR > 1 { printf "\\n%s", $0 }'
