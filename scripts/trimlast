@@ -1,2 +1,3 @@
 #!/bin/sh
-rev | cut -c "$1"- | rev
+TOTRIM=$(($1 + 1))
+rev | cut -c "$TOTRIM"- | rev
