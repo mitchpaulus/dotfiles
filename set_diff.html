@@ -11,10 +11,11 @@
       height: 100vh;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: 5em auto 5em;
+      grid-template-rows: 5em auto auto 5em;
       grid-template-areas:
         "header header header"
-        "left right output";
+        "left right output1"
+        "left right output2";
       grid-gap: 10px;
     }
 
@@ -64,9 +65,10 @@
 </head>
 <body>
   <h1>Set Difference Calculator</h1>
-  <textarea id="left-set"></textarea>
-  <textarea id="right-set"></textarea>
-  <textarea id="output" readonly></textarea>
+  <textarea id="left-set" title="left-set"></textarea>
+  <textarea id="right-set" title="right-set"></textarea>
+  <textarea id="output1" title="left minus right" readonly></textarea>
+  <textarea id="output2" title="right minus left" readonly></textarea>
   <button onclick="calculate()">Calculate</button>
   <div></div>
   <button id="copy-btn" onclick="copyToClipboard()">Copy to clipboard</button>
@@ -87,16 +89,21 @@
       // Calculate the difference
       const difference = new Set([...leftSetObj].filter(x => !rightSetObj.has(x)));
 
+      const rightMinusLeft = new Set([...rightSetObj].filter(x => !leftSetObj.has(x)));
+
       // Format the output
       const output = [...difference].join('\n');
-
       // Set the output value
-      document.getElementById('output').value = output;
+      document.getElementById('output1').value = output;
+
+      // Do same for right minus left
+        const output2 = [...rightMinusLeft].join('\n');
+        document.getElementById('output2').value = output2;
     }
 
     function copyToClipboard() {
       // Select the text in the output textarea
-      const output = document.getElementById('output');
+      const output = document.getElementById('output1');
       output.select();
 
       // Copy the text to the clipboard
