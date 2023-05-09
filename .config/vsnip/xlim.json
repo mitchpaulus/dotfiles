@@ -1,0 +1,19 @@
+{
+
+    "Saturation Pressure Tetens": {
+        "prefix": "teten",
+        "body": [
+            "pws_tetens: T {°F} = 0.61094 {kPa} * exp: (1{°C} * (17.625 {1/°C} * C:T;)) / (243.04 {°C} + C:T;);",
+            "w_sat: T {°F} = (0.621945 * pws_tetens: T;) / (14.629776 {psi} - pws_tetens: T;)",
+            "h_sat: T {°F} = 0.24 {Btu/lbm °F} * T + w_sat: T; * (1061 {Btu/lbm} + 0.444 {Btu/lbm °F} * T)"
+        ],
+        "description": "Saturation Pressure Tetens"
+    },
+    "Regress": {
+        "prefix": "slr",
+        "body": [
+           "slope = (${1:n} * sum:${2:x}*${3:y}; - sum:${2:x}; * sum:${3:y};) / (${1:n} * sum:${2:x}^2; - sum:${2:x})^2;",
+           "constant = (sum: ${3:y}; - slope * sum:${2:x};) / ${1:n};"
+        ]
+    }
+}

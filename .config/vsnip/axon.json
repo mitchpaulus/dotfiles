@@ -1,0 +1,14 @@
+{
+    "add": {
+        "prefix": "add",
+        "body": [
+            "commit(diff(null, { $0 }, {add}))"
+        ]
+    },
+    "ahu": {
+        "prefix": "ahu",
+        "body": [
+            "commit(diff(null, { dis: \"$0\", siteRef: $1, equip, ahu }, {add}))"
+        ]
+    }
+}
