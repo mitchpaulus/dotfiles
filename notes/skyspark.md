@@ -6,8 +6,7 @@ License files are `.prop` extension
 
 Restarting skyspark
 
-Go to `bin` directory, run `./skyspark >/dev/null 2>/dev/null &` in
-order to run the command in the background.
+Go to `bin` directory, run `./skyspark >/dev/null 2>/dev/null &` in order to run the command in the background.
 
 
 ## Video 12. Spark App (15:07)
@@ -128,13 +127,11 @@ different settings do.
 1. Go to `bin` directory and make sure all scripts are executable
     - `chmod +x *`
 2. Run `setup`
-3. In our setup, we use port 8080, and use nginx to route https traffic
-   to SkySpark.
+3. In our setup, we use port 8080, and use nginx to route https traffic to SkySpark.
 4. Wizard asks questions, but I don't think it really matters much for
    the username/password since I think that information is stored in the
    var directory and gets overwritten.
-5. Make backup of old var directory, copy over `var` directory from the
-   old version.
+5. Make backup of old var directory, copy over `var` directory from the old version.
 
 ## KPI/Spark Rules
 
@@ -160,20 +157,20 @@ Folio Cache symbols
  - ? Unknown: rule function has not been run yet
 
 
- ## Important PPTX Sections
+## Important PPTX Sections
 
  - Spark Rules (slide 86)
 
- ## Programmatically update rule cache
+## Programmatically update rule cache
 
- See [here](https://skyfoundry.com/forum/topic/2021).
+See [here](https://skyfoundry.com/forum/topic/2021).
 
- `sparkRecompute` will all nulls:
- ```axon
+`sparkRecompute` will all nulls:
+```axon
 sparkRecompute(null, null, null)
 // or
 sparkRebuildCache()
- ```
+```
 
 ## Histories
 
@@ -193,14 +190,11 @@ It doesn't look like this is possible today. See [forum](https://skyfoundry.com/
 
 ## CurPoints
 
-Monday 2021-10-18: Tried to implement `curVal` by committing to the
-database via the `commit` HTTP REST API op. Turns out the `transient`
-flag is required, otherwise a `Cannot set tag persistently` error
-results. From the documentation, it appears like CurPoints should only
-really exist through the connector framework.
+Monday 2021-10-18: Tried to implement `curVal` by committing to the database via the `commit` HTTP REST API op.
+Turns out the `transient` flag is required, otherwise a `Cannot set tag persistently` error results.
+From the documentation, it appears like CurPoints should only really exist through the connector framework.
 
-I still could probably do it, just may have to use the `eval`
-functionality.
+I still could probably do it, just may have to use the `eval` functionality.
 
 [Forum discussion](https://skyfoundry.com/forum/topic/2330)
 
