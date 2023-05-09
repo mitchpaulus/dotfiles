@@ -1,0 +1,5 @@
+#!/bin/sh
+awk -v prepend="$1" '
+BEGIN { FS=OFS="\t" }
+NR == 1 { for (i=2; i<=NF; i++) { $i = prepend $i }; print; }
+NR > 1 { print }' "$2"
