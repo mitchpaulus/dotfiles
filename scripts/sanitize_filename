@@ -1,0 +1,39 @@
+#!/bin/sh
+
+sanitize_filename() {
+    # Remove characters not allowed in Windows and Linux filenames
+    sanitized=$(printf '%s' "$1" | sed 's/[\\\/:*?"<>|]/_/g')
+
+    # Replace consecutive spaces with a single space
+    sanitized=$(printf '%s' "$sanitized" | tr -s ' ')
+
+    # Remove leading and trailing whitespace
+    sanitized=$(printf '%s' "$sanitized" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+
+    # Replace consecutive underscores with a single one
+    sanitized=$(printf '%s' "$sanitized" | tr -s '_')
+
+    # Ensure the resulting filename is not empty
+    if [ -z "$sanitized" ]; then
+        sanitized="_"
+    fi
+
+    # Add file extension to empty file names
+    case "$sanitized" in
+        "."|"..")
+            sanitized="${sanitized}.txt"
+            ;;
+    esac
+
+    # Limit the filename length to 255 characters for Linux and 260 characters for Windows
+    sanitized=$(printf '%.255s' "$sanitized")
+
+    printf '%s' "$sanitized"
+}
+
+if [ $# -eq 0 ]; then
+    printf 'Usage: %s filename\n' "$0"
+    exit 1
+fi
+
+sanitize_filename "$1"
