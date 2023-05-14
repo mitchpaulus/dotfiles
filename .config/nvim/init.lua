@@ -40,7 +40,6 @@ vim.cmd [[ Plug 'sjl/gundo.vim' ]]
 vim.cmd [[ Plug 'subnut/nvim-ghost.nvim', {'do': ':call nvim_ghost#installer#install()'} ]]
 vim.cmd [[ Plug 'tpope/vim-fugitive' ]]
 vim.cmd [[ Plug 'tpope/vim-surround' ]]
-vim.cmd [[ Plug 'unisonweb/unison', { 'branch': 'trunk', 'rtp': 'editor-support/vim' } ]]
 vim.cmd [[ Plug 'vmchale/dhall-vim' ]]
 
 vim.cmd [[ Plug 'hrsh7th/cmp-nvim-lsp' ]]
