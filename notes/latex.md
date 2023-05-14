@@ -234,3 +234,13 @@ To remove that color, specify that the `linkcolor` be black.
 ```
 
 [Comprehensive symbol list](http://mirrors.ctan.org/info/symbols/comprehensive/symbols-letter.pdf)
+
+## Geometry
+
+<https://www.overleaf.com/learn/latex/Page_size_and_margins>
+
+## Spacing
+
+- `\, \: \; \quad \qquad \hspace{length} \hfill`
+
+## Font Sizes
