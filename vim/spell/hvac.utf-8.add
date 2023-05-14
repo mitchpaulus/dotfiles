@@ -419,6 +419,7 @@ barcode
 benchmarking
 boolean
 cGMP
+canonicalization
 canonicalize
 checkbox
 collinear
@@ -451,6 +452,7 @@ exchanger
 exchangers
 factor
 formatter
+foundational
 frontend
 gbXML
 gnuplot
@@ -520,6 +522,7 @@ sideloops
 sqlite
 strobing
 subdirectory
+subfield
 submittal
 submittals
 superset
