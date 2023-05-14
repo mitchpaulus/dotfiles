@@ -32,5 +32,15 @@
         "prefix": ["co"],
         "body": [ "\\newcommand{\\\\$1}{$2}$0" ],
         "description": "New Command"
+    },
+    "italic": {
+        "prefix": ["it"],
+        "body": [ "\\textit{$1}$0" ],
+        "description": "Italic"
+    },
+    "bold": {
+        "prefix": ["bf"],
+        "body": [ "\\textbf{$1}$0" ],
+        "description": "Bold"
     }
 }

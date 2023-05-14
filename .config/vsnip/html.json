@@ -1,0 +1,32 @@
+{
+    "p": {
+        "prefix": "p",
+        "body": [
+            "<p>",
+            "$1",
+            "</p>"
+        ],
+        "description": "p"
+    },
+    "frac": {
+        "prefix": "frac",
+        "body": [
+            "\\frac{$1}{$2}"
+        ],
+        "description": "frac"
+    },
+    "dot": {
+        "prefix": "dot",
+        "body": [
+            "\\dot{$1}"
+        ],
+        "description": "dot"
+    },
+    "left-right": {
+        "prefix": "left-right",
+        "body": [
+            "\\left($1\\right)"
+        ],
+        "description": "left-right"
+    }
+}
