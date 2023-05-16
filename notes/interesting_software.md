@@ -247,3 +247,5 @@ Clean TSV files. Doesn't allow you to refresh the original data though.
 ## [Ipe](https://ipe.otfried.org/)
 
 For creating LaTex figures.
+
+## [Peggy](https://peggyjs.org) Parser generator for JavaScript
