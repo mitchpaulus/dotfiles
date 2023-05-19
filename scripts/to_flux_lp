@@ -1,0 +1,42 @@
+#!/usr/bin/python3
+
+# To flux Line Protocol
+
+import mputils
+import sys
+
+def main():
+    file = sys.argv[1]
+
+    with open(file, 'r', encoding="utf-8") as f:
+        data = f.read()
+        split = data.split('\u001c')
+
+        for i in split:
+            if i.strip() == '':
+                continue
+
+            lines = i.split('\n')
+            header = lines[0].replace(" ", "\\ ").replace(",", "\\,")
+
+            for idx, line in enumerate(lines[1:-1]):
+                try:
+                    split_data = line.split('\t')
+                    year       = int(line[0:4])
+                    month      = int(line[4:6])
+                    day        = int(line[6:8])
+                    hour       = int(line[8:10])
+                    minute     = int(line[10:12])
+                    second     = int(line[12:14])
+                    value      = split_data[1]
+                except:
+                    print(f"Error: '{file}' {idx} '{header}' '{line}'", file=sys.stderr)
+                    raise
+
+                unix_time = mputils.to_unix_timestamp(year, month, day, hour, minute, second)
+
+                print(f'{header} value={value} {unix_time}')
+
+
+if __name__ == '__main__':
+    main()
