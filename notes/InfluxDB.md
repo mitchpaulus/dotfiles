@@ -71,3 +71,44 @@ Normally capture the output to files:
 ```
 
 Migration to new database is just running new executable as long as the data hasn't moved from locations above.
+
+## Writing
+
+Example CLI:
+
+```sh
+influx write --host HOST --token <token> --bucket 'Bucket Name' --org-id '1234556' -p s -f data.lp --format lp
+```
+
+## Pricing Cloud
+
+Usage-Based Plan
+- Data In
+  Volume of data written in MB
+  $0.002/MB
+- Query Count
+  Total individual query executions
+  $0.01 per 100 query executions
+- Storage
+  Total disk usage in GB-hours
+  $0.002/GB-hour
+- Data Out
+  Data transferred out of InfluxDB in GB
+  $0.09/GB
+
+$250 credit for you to use in your first 30 days on the Usage-Based Plan
+
+## Duration Types
+
+```
+1ns // 1 nanosecond
+1us // 1 microsecond
+1ms // 1 millisecond
+1s  // 1 second
+1m  // 1 minute
+1h  // 1 hour
+1d  // 1 day
+1w  // 1 week
+1mo // 1 calendar month
+1y  // 1 calendar year
+```

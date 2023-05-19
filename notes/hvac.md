@@ -223,3 +223,4 @@ Benchmark value for heat rate is often 7,000 BTU/kWH ~ 50% conversion efficiency
 ## SEER
 
 EER is output BTUs / input Wh. EER = 3.41214 * COP, COP = EER / 3.41214.
+EER = 12 * kW/ton, kW/ton = EER / 12.

@@ -4,6 +4,7 @@ Find all results: `fd -H -I`. -H for hidden, -I for ignored.
 Smart Case by default.
 
 -a Absolute path
+-E glob (exclude files)
 
 ```
 {} path

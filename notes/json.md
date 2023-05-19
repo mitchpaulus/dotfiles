@@ -27,3 +27,7 @@ var myobj = JsonConvert.DeserializeObject(json)
 Types:
 
 JObject for object
+
+## Python
+
+`dumps`, `dump`, `loads`, `load`

@@ -249,3 +249,7 @@ Clean TSV files. Doesn't allow you to refresh the original data though.
 For creating LaTex figures.
 
 ## [Peggy](https://peggyjs.org) Parser generator for JavaScript
+
+## [QuestDB](https://questdb.io/)
+
+Time series database. Says it's faster than InfluxDB.

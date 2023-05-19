@@ -11,3 +11,11 @@ one for the cold air and 1 `AirLoopHVAC:ReturnPath`.
 ## Schedule Creation
 
 Can use web app <https://drajmarsh.bitbucket.io/schedule-editor.html> for generating schedules.
+
+
+## Meters
+
+Facility: Everything
+Building: Lighting and Plugs
+HVAC: Fans/Electric Reheat Coils
+Plant: Chiller Power, CT Power, CHW/HW Pumps
