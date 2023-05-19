@@ -1178,3 +1178,66 @@ def annual_facility_electricity(file_path: str) -> float:
                 return joules/3600000
 
     raise ValueError(f"Could not find annual electricity consumption '{annual_elec}' in file")
+
+dst_dates = { 2015:(8, 1), 2016:(13, 6), 2017:(12,5), 2018:(11,4), 2019:(10,3), 2020:(8, 1), 2021:(14,7), 2022:(13,6), 2023:(12,5), 2024:(10,3), 2025:(9, 2), 2026:(8, 1), 2027:(14,7), 2028:(12,5), 2029:(11,4), }
+
+def is_dst(year, month, day, hour):
+    march_day, november_day = dst_dates[year]
+
+    if month > 3 and month < 11:
+        return True
+    elif month == 3 and (day > march_day or (day == march_day and hour >= 2)):
+        return True
+    elif month == 11 and (day < november_day or (day == november_day and hour < 2)):
+        return True
+    else:
+        return False
+
+def is_leap_year(year):
+    return (year % 4 == 0 and year % 100 != 0) or year % 400 == 0
+
+def days_in_month(year, month):
+    if month in [4, 6, 9, 11]:
+        return 30
+    elif month == 2:
+        return 29 if is_leap_year(year) else 28
+    elif month > 0 and month < 13:
+        return 31
+    else:
+        raise(ValueError("Month must be between 1 and 12"))
+
+def days_since_epoch(year: int, month: int, day: int):
+    days = 0
+    for y in range(1970, year):
+        days += 366 if is_leap_year(y) else 365
+
+    for m in range(1, month):
+        days += days_in_month(year, m)
+
+    days += day - 1
+    return days
+
+
+def to_unix_timestamp(year: int, month: int, day: int, hour: int, minute: int, second: int) -> int:
+    days = days_since_epoch(year, month, day)
+    hours = days * 24 + hour
+    minutes = hours * 60 + minute
+    unix_timestamp = minutes * 60 + second
+    return unix_timestamp
+
+
+def cst_to_unix_timestamp(year, month, day, hour, minute, second):
+    # Calculate the Unix timestamp
+    days = days_since_epoch(year, month, day)
+    hours = days * 24 + hour
+    minutes = hours * 60 + minute
+    unix_timestamp = minutes * 60 + second
+
+    # Adjust for daylight savings time
+    if is_dst(year, month, day, hour):
+        # Subtract 5 hour = 5 hr * 60 min/hr * 60 sec/min = 18000 sec
+        unix_timestamp += 18000
+    else:
+        unix_timestamp += 21600
+
+    return unix_timestamp
