@@ -8,5 +8,13 @@
             "end"
         ],
         "description": "function"
+    },
+    "last":
+    {
+        "prefix": "last",
+        "body": [
+            "string sub -e -${1:num} ${2:string}"
+        ],
+        "description": "trim last"
     }
 }
