@@ -74,6 +74,10 @@ NR == 1 {
 
         header = $i
 
+        if (header ~ /^ *$/) {
+            continue
+        }
+
         gsub(/²/, "2", header)
         gsub(/³/, "3", header)
         gsub(/°/, "deg", header)
