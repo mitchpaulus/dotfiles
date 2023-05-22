@@ -339,6 +339,12 @@ def install_antlr():
     with open(jar_path, 'wb') as f:
         f.write(response.content)
 
+def install_vivid():
+    # Steps from README:
+    # wget "https://github.com/sharkdp/vivid/releases/download/v0.8.0/vivid_0.8.0_amd64.deb"
+    # sudo dpkg -i vivid_0.8.0_amd64.deb
+    install_deb('sharkdp', 'vivid', lambda a: a.name.startswith('vivid') and a.name.endswith('_amd64.deb'))
+
 
 if __name__ == "__main__":
     local_bin_dir = os.environ.get('LOCALBIN')
@@ -372,6 +378,7 @@ if __name__ == "__main__":
         "gh-cli": install_gh_cli,
         "powershell": install_powershell,
         "antlr": install_antlr,
+        "vivid": install_vivid,
     }
 
     while (idx < len(sys.argv)):

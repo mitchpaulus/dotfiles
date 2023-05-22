@@ -88,6 +88,13 @@ if command -v exa >/dev/null 2>&1
     end
 end
 
+# https://github.com/fish-shell/fish-shell/issues/6991
+# For discussion on why you can't redirect the syntax error messages, which I disagree with.
+# Just becuase I check above doesn't mean that it's guaranteed to exist on the line below.
+if command vivid >/dev/null 2>&1
+   set -gx LS_COLORS (vivid generate dracula)
+end
+
 # Add a REPOS environment variable for all those git repositories.
 if test -d '/mnt/c/Users/mpaulus/source/repos'
     set -gx REPOS '/mnt/c/Users/mpaulus/source/repos'

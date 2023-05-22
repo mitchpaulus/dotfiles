@@ -16,5 +16,15 @@
             "string sub -e -${1:num} ${2:string}"
         ],
         "description": "trim last"
+    },
+    "if command":
+    {
+        "prefix": "ic",
+        "body": [
+            "if command ${1:command} >/dev/null 2>&1",
+            "    $0",
+            "end"
+        ],
+        "description": "if command exists"
     }
 }
