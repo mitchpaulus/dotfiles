@@ -79,5 +79,15 @@
         "prefix": ["img"],
         "body": ["![$1]($2)"],
         "description": "Markdown Image"
+    },
+    "Equation": {
+        "prefix": ["eq"],
+        "body": ["\\$\\$", "$1", "\\$\\$" ],
+        "description": "Markdown Equation"
+    },
+    "Inline Equation": {
+        "prefix": ["ie"],
+        "body": ["\\$$1\\$"],
+        "description": "Markdown Inline Equation"
     }
 }
