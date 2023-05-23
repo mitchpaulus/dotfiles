@@ -252,3 +252,8 @@ Multidimensional form of Brent's method, which apparently lots of people like.
 slope = (n * sum(x*y) - sum(x) * sum(y)) / (n * sum(x^2) - sum(x)^2)
 constant = (sum(y) - slope * sum(x)) / n
 ```
+
+## ITP
+
+An Enhancement of the Bisection Method Average Performance Preserving Minmax Optimality
+Oliveira and Takahashi
