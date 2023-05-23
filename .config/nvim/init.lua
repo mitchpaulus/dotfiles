@@ -6,7 +6,6 @@ vim.fn["plug#begin"]()
 vim.cmd [[ Plug 'altercation/vim-colors-solarized' ]]
 vim.cmd [[ Plug 'arcticicestudio/nord-vim' ]]
 vim.cmd [[ Plug 'chr4/nginx.vim' ]]
-vim.cmd [[ Plug 'ctrlpvim/ctrlp.vim' ]]
 vim.cmd [[ Plug 'dag/vim-fish' ]]
 vim.cmd [[ Plug 'dylon/vim-antlr' ]]
 vim.cmd [[ Plug 'github/copilot.vim' ]]
