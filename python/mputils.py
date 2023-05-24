@@ -1003,6 +1003,7 @@ def outer_join(iter1: Iterable[T1], iter2: Iterable[T2], iter1_key: Callable[[T1
 
 device_types = set([
     'ahu',
+    'bcu',
     'vav',
     'fcu',
     'chwp',
@@ -1014,10 +1015,14 @@ device_types = set([
     'mzahu',
     'dd',
     'ddvav',
+    'ef',
+    'tab',
+    'sav',
 ])
 
 full_device = set([
     'energy consumption meter',
+    'chw system'
 ])
 
 
