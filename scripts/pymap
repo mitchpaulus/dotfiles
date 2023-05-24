@@ -1,0 +1,2 @@
+#!/bin/sh
+excelchop "$1" | head -n 1 | headers2awk -p -c --no-constructor
