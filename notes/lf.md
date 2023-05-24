@@ -1,5 +1,7 @@
 # `lf`
 
+<https://pkg.go.dev/github.com/gokcehan/lf>
+
 Multiple commands for mapping, need to follow instructions from this line in the help:
 
 > An explicit ':' can be provided to group statements until a newline which is especially useful for 'map' and 'cmd' commands:
