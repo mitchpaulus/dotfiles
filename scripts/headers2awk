@@ -11,6 +11,7 @@ BEGIN {
     # RS="asdfasdfasdfasdfasdf"
     python_form = 0
     column_letters = 0
+    python_constructor = 1
 
     for (i = 1; i <= ARGC; i++) {
         if (ARGV[i] == "-p") {
@@ -19,6 +20,10 @@ BEGIN {
         }
         else if (ARGV[i] == "-c") {
             column_letters = 1
+            ARGV[i] = ""
+        }
+        else if (ARGV[i] == "--no-constructor") {
+            python_constructor = 0
             ARGV[i] = ""
         }
         else if (ARGV[i] == "-h") {
@@ -65,7 +70,7 @@ BEGIN {
 
 NR == 1 {
 
-    if  (python_form) {
+    if  (python_form && python_constructor) {
         print "class :"
         print "    def __init__(self, line: List[str]):"
     }
