@@ -6,3 +6,5 @@ Trying to enumerate out the common things I do for data processing in which I co
 - Deal with header/no header (tail -n +1, etc)
 
 - Given file, delimiter, column, get histogram/stats table
+
+- Given set of delimited data files with different headers, join them together.

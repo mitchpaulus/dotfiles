@@ -35,6 +35,10 @@ plot-element:
 {with <style options>}
 ```
 
+```
+<title-spec> : notitle | title "string"
+```
+
 Functions
 ```
 [0:10] x * 10 + 2
@@ -79,7 +83,7 @@ with <plot-style> {
     {nocontours}
     {nosurface}
     {palette}
-    }
+    }*
 }
 
 <plot-style> :
@@ -322,3 +326,18 @@ Can use
 ```gnuplot
 integer = strptime("%Y", "2015")
 ```
+
+## Inline data with special file
+
+See 'Special-filenames' in gnuplot docs.
+
+```gnuplot
+plot '-'
+1 2
+3 4
+e
+```
+
+## Replot
+
+Can use `replot` to run several plot commands

@@ -21,7 +21,7 @@ Keyboard shortcuts:
 
 ```
 Normal.NewMacros.TableKeepWithNext   Alt+3
-Normal.Module1.FigureCaption         Alt+A
+Normal.Module1.FigureCaption         Alt+F
 InsertCaption                        Alt+C
 Normal.Module1.CrossReferenceFigure  Alt+D
 Normal.NewMacros.Macro3              Alt+F2

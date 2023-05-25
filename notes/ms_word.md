@@ -204,3 +204,22 @@ When my autosave wasn't working, cleared the following things and had Word rebui
 Go File -> Open (don't double click in Explorer because will open a new .docx using template, not open the template itself).
 
 `%APPDATA%\Microsoft\templates\Normal.dotm`
+
+## Table Styling
+
+Critical to understand how paragraph styles are applied.
+See references:
+ - <https://superuser.com/questions/1241203/ms-word-priority-management-between-table-and-paragraph-styles/1241446#1241446>
+ - <https://www.wordbanter.com/showthread.php?t=7865>
+
+Hierarchy of styles
+
+When formatting a text in a table, MS Word will do as follows:
+IRS = Internal Root Style.
+ - Applying IRS
+ - Applying Table style if it differs from IRS
+ - Applying Paragraph style if it differs from IRS
+
+You can change the IRS values by going to:
+
+Manage Styles -> Set Defaults
