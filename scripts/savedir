@@ -1,0 +1,10 @@
+#!/bin/sh
+
+DIRPATH="$HOME"/.config/d
+
+mkdir -p "$DIRPATH"
+
+if test -n "$1"; then
+    printf '%s\t%s' "$(date +%Y-%m-%d)" "$(dirname "$1")" >> "$DIRPATH/dirs.txt"
+    sort -u "$DIRPATH"/dirs.txt | head -n 5 > "$DIRPATH"/tmp && mv "$DIRPATH"/tmp "$DIRPATH"/dirs.txt
+fi
