@@ -58,3 +58,5 @@ stringout (filename, input)
 stringout (filename, functions)
 stringout (filename, values)
 From this [SO answer](https://stackoverflow.com/a/51256735/5932184), `ratsubst` might be better in most cases.
+
+<http://www.hippasus.com/resources/symmath/index.html>

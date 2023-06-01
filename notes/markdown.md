@@ -24,3 +24,5 @@ done
 ## Linting
 
 - <https://earthly.dev/blog/markdown-lint/>
+
+## Characters to escape

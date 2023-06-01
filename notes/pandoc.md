@@ -129,3 +129,21 @@ pandoc -o custom-reference.docx --print-default-data-file reference.docx
 ## Image Width
 
 `![](file.jpg){ width=50% }`
+
+## Custom MS Word Styles Pandoc
+
+<https://pandoc.org/MANUAL.html#custom-styles>
+
+Can wrap in fenced divs:
+
+```
+::: {custom-style="My Style"}
+Stuff
+:::
+
+Inline [stuff]{custom-style="My Style"}
+```
+
+## Keeping Tab characters
+
+Use `&#9;`
