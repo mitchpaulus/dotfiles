@@ -291,6 +291,7 @@ if command -v git >/dev/null 2>&1
     abbr -a merge 'git merge --ff-only; git status -u'
     abbr -a cl 'git clone'
     abbr -a stash 'git stash'
+    abbr -a gitx 'git update-index --add --chmod=+x'
 end
 
 # When more than 1 character is too much
