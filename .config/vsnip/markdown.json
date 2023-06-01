@@ -89,5 +89,14 @@
         "prefix": ["ie"],
         "body": ["\\$$1\\$"],
         "description": "Markdown Inline Equation"
+    },
+    "align": {
+        "prefix": ["al"],
+        "body": [
+            "\\begin{align*}",
+            "$1",
+            "\\end{align*}"
+        ],
+        "description": "Align in Tex Equations"
     }
 }
