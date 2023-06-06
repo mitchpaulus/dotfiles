@@ -112,3 +112,7 @@ $250 credit for you to use in your first 30 days on the Usage-Based Plan
 1mo // 1 calendar month
 1y  // 1 calendar year
 ```
+
+## Error Handling C#
+
+<https://github.com/influxdata/influxdb-client-csharp/issues/135>
