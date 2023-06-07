@@ -81,3 +81,10 @@ complete -c command -x -a "(command)"
 ## `set -e` equivalent
 
 There isn't one. [GitHub Issue](https://github.com/fish-shell/fish-shell/issues/510)
+
+## Iteration
+
+```fish
+set i 0
+set i (math $i + 1)
+```

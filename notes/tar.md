@@ -1,5 +1,11 @@
 # `tar`
 
+ - t, --list  list the contents of an archive
+ -x, --extract, --get extract files from an archive
+ -v, --verbose verbosely list files processed
+ -f ARCHIVE, --file=ARCHIVE use archive file or device ARCHIVE
+
+
 - GNU tar automatically deals with compression on extraction. Quote from
   the manual (https://www.gnu.org/software/tar/manual/tar.html#gzip):
 
