@@ -11,6 +11,9 @@ Wood -> Paper -> Pick a resource on "no roll"
 
 2 Brick -> City wall -> add 2 to extra card limit. 1 wall/city
 
+Build/Promote Knight - Sheep, Ore
+Activate Knight - Wheat
+
 ## Progress Cards
 
 Yellow (Trade/Cloth) Progress Cards
