@@ -27,8 +27,9 @@ def join_tsv_files(filenames):
         for i, header in enumerate(headers):
             file_dict[i] = header
             if header not in header_map:
-                header_map[header] = i
+                header_map[header] = max_columns
                 max_columns += 1
+
 
     # Write out to stdout
     header_iter = iter(header_map)
@@ -52,7 +53,8 @@ def join_tsv_files(filenames):
                 values = line.strip().split('\t')
 
                 for i, value in enumerate(values):
-                    index = header_map[file_header_map_i[i]]
+                    head = file_header_map_i[i]
+                    index = header_map[head]
                     row[index] = value
 
                 print('\t'.join(row), end='\n')
