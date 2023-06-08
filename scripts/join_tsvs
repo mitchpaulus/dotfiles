@@ -1,0 +1,70 @@
+#!/usr/bin/python3
+
+import sys
+from typing import List, Dict
+
+def join_tsv_files(filenames):
+    # Dictionary to hold headers and their column index
+    max_columns = 0
+
+    file_header_map: List[Dict[int, str]] = []
+    header_map: Dict[str, int] = {}
+
+    # Extract headers from all files
+    for filename in filenames:
+        try:
+            with open(filename, 'r') as f:
+                headers = f.readline().strip().split('\t')
+        except FileNotFoundError:
+            print(f'File {filename} not found.', file=sys.stderr)
+            sys.exit(1)
+        except IOError:
+            print(f'Could not read file {filename}.', file=sys.stderr)
+            sys.exit(1)
+
+        file_header_map.append({})
+        file_dict = file_header_map[-1]
+        for i, header in enumerate(headers):
+            file_dict[i] = header
+            if header not in header_map:
+                header_map[header] = i
+                max_columns += 1
+
+    # Write out to stdout
+    header_iter = iter(header_map)
+    try:
+        print(next(header_iter), end='')
+        for header in header_iter:
+            print('\t' + header, end='')
+        print(end='\n')
+
+    except StopIteration:
+        pass
+
+    # Write data rows
+    for file_index, filename in enumerate(filenames):
+        file_header_map_i = file_header_map[file_index]
+
+        with open(filename, 'r') as in_file:
+            next(in_file)  # Skip header line
+            for line in in_file:
+                row = [''] * max_columns
+                values = line.strip().split('\t')
+
+                for i, value in enumerate(values):
+                    index = header_map[file_header_map_i[i]]
+                    row[index] = value
+
+                print('\t'.join(row), end='\n')
+
+if __name__ == "__main__":
+    # Output filename
+    # List of filenames to join
+    filenames = sys.argv[1:]
+
+    if (len(filenames) < 1):
+        print('Usage: join_tsvs.py <file1> <file2> ... <fileN>', file=sys.stderr)
+        sys.exit(1)
+
+    # Run the function
+    join_tsv_files(filenames)
