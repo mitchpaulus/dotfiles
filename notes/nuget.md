@@ -80,7 +80,7 @@ If you need to update them, you can go to the `Control Panel` -> ``
 
 ## NuGet.config Search Locations
 
-1. Solution
+1. Solution (Only at solution level, not project level <https://stackoverflow.com/a/42739820/5932184>
 2. User
   - Windows:
     - %appdata%\NuGet\NuGet.Config
