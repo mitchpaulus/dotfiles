@@ -75,5 +75,11 @@
         "body": ["for ${2:index}, ${3:element} in enumerate(${1:iterable}):",
                  "    $0"],
         "description": "for loop with index"
+    },
+    "with open": {
+        "prefix": ["wo"],
+        "body": ["with open(${1:filename}, enc='uft-8') as ${3:file}:",
+                 "    $0"],
+        "description": "with open statement"
     }
 }

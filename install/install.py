@@ -346,13 +346,56 @@ def install_vivid():
     install_deb('sharkdp', 'vivid', lambda a: a.name.startswith('vivid') and a.name.endswith('_amd64.deb'))
 
 
+def install_azcopy(local_bin_dir: str):
+    # https://aka.ms/downloadazcopy-v10-linux
+    # This is a tar.gz file
+    # Contents:
+    # azcopy_linux_amd64_10.19.0/
+    # azcopy_linux_amd64_10.19.0/azcopy
+    # azcopy_linux_amd64_10.19.0/NOTICE.txt
+
+    response = requests.get('https://aka.ms/downloadazcopy-v10-linux')
+    if response.status_code != 200:
+        print(f'Error downloading https://aka.ms/downloadazcopy-v10-linux: {response.status_code}', file=sys.stderr)
+        sys.exit(1)
+
+    # Extract into directory in /tmp/, then move to $LOCALBIN
+    with open('/tmp/azcopy.tar.gz', 'wb') as f:
+        f.write(response.content)
+
+    # List contents, get path to azcopy, using 'tar --list -f /tmp/azcopy.tar.gz'
+    completed = subprocess.run(['tar', '--list', '-f', '/tmp/azcopy.tar.gz'], capture_output=True, encoding='utf-8')
+    if completed.returncode != 0:
+        print(f'Error listing contents of /tmp/azcopy.tar.gz: {completed.stderr}', file=sys.stderr)
+        sys.exit(1)
+
+    azcopy_path = None
+    for line in completed.stdout.splitlines():
+        if line.endswith('azcopy'):
+            azcopy_path = line
+            break
+
+    if azcopy_path is None:
+        print(f'Error finding azcopy in /tmp/azcopy.tar.gz', file=sys.stderr)
+        sys.exit(1)
+
+    # extract file
+    print(f"Extracting '{azcopy_path}' from /tmp/azcopy.tar.gz", file=sys.stderr)
+    completed = subprocess.run(['tar', '--extract', '-f', '/tmp/azcopy.tar.gz', azcopy_path], cwd='/tmp', capture_output=True, encoding='utf-8')
+
+    # Move file
+    azcopy_path = os.path.join('/tmp', azcopy_path)
+    print(f"Moving '{azcopy_path}' to '{local_bin_dir}'", file=sys.stderr)
+    os.rename(azcopy_path, os.path.join(local_bin_dir, 'azcopy'))
+
+
 if __name__ == "__main__":
-    local_bin_dir = os.environ.get('LOCALBIN')
-    if local_bin_dir is None:
+    local_bin_dir_env: str | None = os.environ.get('LOCALBIN')
+    if local_bin_dir_env is None:
         print('LOCALBIN environment variable not set.', file=sys.stderr)
         sys.exit(1)
 
-    local_bin_dir = cast(str, local_bin_dir)
+    local_bin_dir = cast(str, local_bin_dir_env)
 
     home_dir = os.environ.get('HOME')
     if home_dir is None:
@@ -379,6 +422,7 @@ if __name__ == "__main__":
         "powershell": install_powershell,
         "antlr": install_antlr,
         "vivid": install_vivid,
+        "azcopy": lambda: install_azcopy(local_bin_dir),
     }
 
     while (idx < len(sys.argv)):
