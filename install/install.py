@@ -4,7 +4,7 @@
 import os
 import sys
 import requests
-from typing import Any, cast, TypeVar, Callable, Iterable, Union
+from typing import Any, cast, TypeVar, Callable, Iterable, Union, Optional
 import subprocess
 
 
@@ -390,7 +390,7 @@ def install_azcopy(local_bin_dir: str):
 
 
 if __name__ == "__main__":
-    local_bin_dir_env: str | None = os.environ.get('LOCALBIN')
+    local_bin_dir_env: Optional[str] = os.environ.get('LOCALBIN')
     if local_bin_dir_env is None:
         print('LOCALBIN environment variable not set.', file=sys.stderr)
         sys.exit(1)
