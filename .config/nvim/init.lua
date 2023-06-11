@@ -1,6 +1,8 @@
 -- Packages
 in_wsl = os.getenv('WSL_DISTRO_NAME') ~= nil
 
+in_windows = vim.fn.has('win32') == 1
+
 vim.fn["plug#begin"]()
 
 vim.cmd [[ Plug 'altercation/vim-colors-solarized' ]]
@@ -965,6 +967,88 @@ vim.api.nvim_create_augroup('MPEvents', { clear = true })
 vim.api.nvim_create_autocmd('TermOpen', { pattern = '*',        group = 'MPEvents', command = 'setlocal nonumber norelativenumber | startinsert | echom "Term Open.."' })
 vim.api.nvim_create_autocmd('BufEnter', { pattern = "term://*", group = 'MPEvents', command = 'startinsert' })
 vim.api.nvim_create_autocmd('TextYankPost', { pattern = '*', group = 'MPEvents', command = 'silent! lua vim.highlight.on_yank { timeout = 500 }' })
+
+local ignore_dirs = {
+    os.getenv("HOME") .. "/.config/",
+    os.getenv("DOTFILES") ,
+    "/tmp/",
+}
+
+-- iterate backwards and remove any nils
+for i = #ignore_dirs, 1, -1 do
+    if ignore_dirs[i] == nil then
+        table.remove(ignore_dirs, i)
+    end
+end
+
+
+local function write_directory()
+  local file_path = vim.fn.expand('%:p:h')  -- Get the full path of the current file
+
+  -- Check if file path starts with any of the ignored directories
+  for _, dir in ipairs(ignore_dirs) do
+      if file_path:sub(1, #dir) == dir then
+          return
+      end
+  end
+
+  local record_file_path = os.getenv("HOME") .. "/.config/d/dirs.tsv"  -- The record file
+
+  -- Get the current date
+  local date = os.date("*t")
+  local year, month, day = date.year, date.month, date.day
+
+  -- Try to open the record file
+  local success, file = pcall(function()
+    return io.open(record_file_path, "r")
+  end)
+
+  -- If the file doesn't exist, ask the user if they want to create it
+  if not success then
+      -- Add warning message
+      vim.api.nvim_err_writeln(string.format("The file %s does not exist", record_file_path))
+      return
+  end
+
+  -- Read the entire content
+  local content = file:read("*a")
+  file:close()
+
+  -- Check for the entry
+  local found_entry = false
+  for line in content:gmatch("[^\n]+") do
+      local fields = {}
+      for field in line:gmatch("[^\t]+") do
+        table.insert(fields, field)
+      end
+
+      local l_year, l_month, l_day = tonumber(fields[1]), tonumber(fields[2]), tonumber(fields[3])
+
+      -- If the date of the line is not equal to the current date, stop the search
+      if l_year ~= year or l_month ~= month or l_day ~= day then break end
+
+      if fields[4] == file_path then
+        -- If the file path is already in the record, stop the search
+        found_entry = true
+        break
+    end
+  end
+
+  -- If the entry is not found, add it to the top of the file
+  if not found_entry then
+    local entry = string.format("%d\t%02d\t%02d\t%s\n", year, month, day, file_path)
+    -- Prepend the entry to the content
+    content = entry .. content
+
+    -- Write the new content back to the file
+    file = io.open(record_file_path, "w")
+    file:write(content)
+    file:close()
+  end
+end
+
+-- Call the function each time a file is opened, only if not on windows
+if not in_windows then vim.api.nvim_create_autocmd('BufReadPost', { pattern = '*', group = 'MPEvents', callback = write_directory }) end
 
 -- Remove trailing whitespace. Use keeppatterns so that
 -- the search history isn't ruined with the \v\s+$ junk.
