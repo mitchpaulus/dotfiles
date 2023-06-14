@@ -1246,3 +1246,8 @@ def cst_to_unix_timestamp(year, month, day, hour, minute, second):
         unix_timestamp += 21600
 
     return unix_timestamp
+
+def pl(iterable: Iterable):
+    """print list"""
+    for i in iterable:
+        print(i)
