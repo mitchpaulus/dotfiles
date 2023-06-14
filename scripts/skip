@@ -1,0 +1,37 @@
+#!/usr/bin/awk -E
+
+BEGIN {
+    version = 0
+    help = 0
+    idx = 1
+
+    while (idx < ARGC) {
+        if (ARGV[idx] == "-v" || ARGV[idx] == "--version")
+        {
+            version = 1
+            ARGV[idx] = ""
+            idx++;
+        }
+        else if (ARGV[idx] == "-h" || ARGV[idx] == "--help")
+        {
+            help = 1
+            ARGV[idx] = ""
+            idx++;
+        }
+        else
+        {
+            skip_num = ARGV[idx]
+
+            if (skip_num !~ /[1-9][0-9]*/)
+            {
+                print "Invalid argument: " skip_num
+                exit 1
+            }
+
+            ARGV[idx] = ""
+            idx++;
+        }
+    }
+}
+
+NR > skip_num { print }
