@@ -75,3 +75,20 @@ columns, click on chart, Paste Special.
 
 - Make sure that it's a fully absolute range in the `INDIRECT` function.
   - Like, sheet name and everything: `Sheet1!$A$1:$B$2`
+
+## Dynamic arrays
+
+- Can use upper left cell with '#' after to get reference to entire array dynamically.
+
+## Set Difference
+
+IF(
+    NOT(
+         IFNA(
+             MATCH(A2,$B$2:$B$42,0)
+             ,FALSE
+             )
+       ),
+    IF(A2,A2,""),
+    ""
+)
