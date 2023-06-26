@@ -147,3 +147,11 @@ Inline [stuff]{custom-style="My Style"}
 ## Keeping Tab characters
 
 Use `&#9;`
+
+## Table Captions
+
+`Table:` at the beginning of a paragraph.
+
+## Custom syntax highlighting
+
+`--syntax-definition`

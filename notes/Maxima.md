@@ -60,3 +60,11 @@ stringout (filename, values)
 From this [SO answer](https://stackoverflow.com/a/51256735/5932184), `ratsubst` might be better in most cases.
 
 <http://www.hippasus.com/resources/symmath/index.html>
+
+# Differential Equations
+
+```
+diffeq: 'diff(y, x) = A * y + C;
+sol: ode2(diffeq, y, x);
+with_init_cond: ic1(sol, x = 0, y = 1);
+```

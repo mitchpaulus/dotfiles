@@ -44,6 +44,11 @@ end
 table.insert(list, value) -- appends to end
 table.insert(list, 2, value) -- inserts at index 2 (1-based)
 table.remove(list, index)
+
+-- string splitting
+for field in my_string:gmatch("[^\t]+") do
+    print(field)
+end
 ```
 
 io.open (filename [, mode])
