@@ -1,0 +1,28 @@
+#!/usr/bin/awk -E
+
+# I have some files that print out two table header rows, one for the name and the next for the unit.
+# I oftentimes though can't have that, so this takes the first two rows and joins them.
+BEGIN { FS=OFS="\t" }
+
+NR == 1 {
+    for (col = 1; col <= NF; col++) {
+        header[col] = $col
+    }
+}
+
+NR == 2 {
+
+    for (col = 1; col <= NF; col++) {
+        if ($col == "") {
+            $col = header[col]
+        } else {
+            $col = header[col] " (" $col ")"
+        }
+    }
+
+    print
+}
+
+NR > 2 {
+    print
+}
