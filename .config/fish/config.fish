@@ -337,7 +337,7 @@ function lf --wraps=lf
 end
 
 abbr -a u 'cd ..'
-abbr -a t task
+abbr -a t task list
 abbr -a mkdri mkdir
 
 function g
