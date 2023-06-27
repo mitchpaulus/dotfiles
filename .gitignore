@@ -7,6 +7,7 @@ tmp/
 *.log
 
 .config/fish/fish_variables
+.config/fish/secrets.fish
 
 notes/*.pdf
 notes/*.docx
