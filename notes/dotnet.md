@@ -13,3 +13,24 @@ In `sln` files that is the new ASP.NET core project type GUID.
 ## Avalonia
 
 <https://avaloniaui.net/>
+
+## Ubuntu
+
+When trying to get the dotnet tool `svcutil` to work, I kept running into errors saying the framework wasn't found.
+
+I think that it had to do something with Ubuntu's version of the package.
+I followed the steps at <https://askubuntu.com/a/1423089/1653412> which involved:
+
+```
+sudo apt remove 'dotnet*'
+sudo apt remove 'aspnetcore*'
+sudo touch /etc/apt/preferences.d/dotnet.pref
+
+# Content
+# Package: *
+# Pin: origin "packages.microsoft.com"
+# Pin-Priority: 1001
+
+sudo apt update
+sudo apt install dotnet-sdk-6.0
+```
