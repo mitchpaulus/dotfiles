@@ -58,6 +58,7 @@ CHWP
 CHWST
 CHWV
 CLI
+CLTD
 CO2
 COBie
 COV
@@ -249,6 +250,7 @@ Novant
 Nusselt
 OA
 OAD
+OAVAV
 ODW
 OPER
 OPR
@@ -282,6 +284,7 @@ Prandtl
 Prefunctional
 Prefunctionals
 Prius
+Procore
 Programmatically
 R3
 RBF
@@ -549,4 +552,3 @@ workflow
 workflows
 xlim
 ΔT
-CLTD
