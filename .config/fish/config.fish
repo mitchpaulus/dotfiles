@@ -71,6 +71,7 @@ path_prepend "$HOME/bin"
 path_prepend "$HOME/.local/bin"
 path_prepend "/mnt/d/PortablePrograms/tabula-win-1.2.1/tabula"
 path_prepend $HOME/.pyenv/bin
+path_prepend $HOME/.dotnet/tools
 
 # Neovim/Vim for all the things
 if command -v nvim >/dev/null 2>&1
