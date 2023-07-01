@@ -28,5 +28,30 @@
             "\\left($1\\right)"
         ],
         "description": "left-right"
+    },
+    "unordered-list": {
+        "prefix": "ul",
+        "body": [
+            "<ul>",
+            "  <li>$1</li>",
+            "</ul>"
+        ],
+        "description": "unordered-list"
+    },
+    "ordered-list": {
+        "prefix": "ol",
+        "body": [
+            "<ol>",
+            "  <li>$1</li>",
+            "</ol>"
+        ],
+        "description": "ordered-list"
+    },
+    "list-item": {
+        "prefix": "li",
+        "body": [
+            "<li>$1</li>"
+        ],
+        "description": "list-item"
     }
 }

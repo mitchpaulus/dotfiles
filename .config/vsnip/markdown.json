@@ -98,5 +98,10 @@
             "\\end{align*}"
         ],
         "description": "Align in Tex Equations"
+    },
+    "figure": {
+        "prefix": ["fig"],
+        "body": [ "![$1]($2)" ],
+        "description": "Figure in Tex Equations"
     }
 }
