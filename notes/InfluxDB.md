@@ -116,3 +116,18 @@ $250 credit for you to use in your first 30 days on the Usage-Based Plan
 ## Error Handling C#
 
 <https://github.com/influxdata/influxdb-client-csharp/issues/135>
+
+## Python
+
+`pip install influxdb-client`
+
+
+## List Measurements
+
+<https://docs.influxdata.com/influxdb/v2.7/query-data/flux/explore-schema/#list-measurements>
+
+```
+import "influxdata/influxdb/schema"
+
+schema.measurements(bucket: "example-bucket")
+```

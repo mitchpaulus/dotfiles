@@ -242,19 +242,16 @@ import sys
 print("\n".join(sys.path))
 ```
 
-Default: Current Directory, PYTHONPATH, directories filled by `site`
-module.
+Default: Current Directory, PYTHONPATH, directories filled by `site` module.
 
 Good resource on path modification best practice:
 https://docs.python.org/3/install/index.html#modifying-python-s-search-path
 
-Appears easiest way to add path locations is the use of special "path
-configuration files". These have an extension of '.pth' and are simply
-newline separated directories of paths to add.
+Appears easiest way to add path locations is the use of special "path configuration files".
+These have an extension of '.pth' and are simply newline separated directories of paths to add.
 
-Gets more complicated when using PyCharm as an IDE. To add paths to the
-project interpreter so that the IDE knows about them, use the dialog in
-the settings, see
+Gets more complicated when using PyCharm as an IDE.
+To add paths to the project interpreter so that the IDE knows about them, use the dialog in the settings, see
 [https://www.jetbrains.com/help/pycharm/python-interpreters.html#paths](https://www.jetbrains.com/help/pycharm/python-interpreters.html#paths)
 
 1. Ctrl-Alt-S for project settings
