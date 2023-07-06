@@ -2,6 +2,13 @@
 #
 # List tasks from Todoist
 
+# Check that the TODOIST_TOKEN environment variable is set
+
+if test -z "$TODOIST_TOKEN"; then
+  echo "TODOIST_TOKEN environment variable is not set"
+  exit 1
+fi
+
 curl --silent -X GET \
   https://api.todoist.com/rest/v2/tasks \
   -H "Authorization: Bearer $TODOIST_TOKEN"
