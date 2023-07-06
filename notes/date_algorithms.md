@@ -69,4 +69,3 @@ def dayofweek(y, m, d):
         y = y - 1
     return (y + int(y/4) - int(y/100) + int(y/400) + t[m-1] + d) % 7
 ```
-
