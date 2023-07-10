@@ -9,6 +9,8 @@ USAGE:
     command | rg [OPTIONS] PATTERN
 
 -I, --no-filename
+--no-heading
+-N                   suppress line numbers
 -i, --ignore-case
 -v, --invert-match
 -A, --after-context <NUM>
