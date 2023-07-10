@@ -294,6 +294,7 @@ if command -v git >/dev/null 2>&1
     abbr -a cl 'git clone'
     abbr -a stash 'git stash'
     abbr -a gitx 'git update-index --add --chmod=+x'
+    abbr -a rb 'git rebase'
 end
 
 # When more than 1 character is too much
