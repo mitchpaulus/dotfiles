@@ -61,7 +61,10 @@ with open('/tmp/brename', 'r') as f:
     # Ask user in terminal for confirmation, and then run
     #  print('#!/bin/sh')
     for i in range(len(files)):
-        print('mv', quote(files[i]), quote(new_names[i]))
+        if files[i] != new_names[i]:
+            print(" ".join(['mv', quote(files[i]), quote(new_names[i])]))
+        else:
+            print('#', files[i], 'is not being renamed')
 
     print('Do you want to run this? (y/n)')
 
