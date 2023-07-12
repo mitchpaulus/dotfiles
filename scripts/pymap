@@ -1,2 +1,26 @@
 #!/bin/sh
-excelchop "$1" | head -n 1 | headers2awk -p -c --no-constructor
+
+if test "$1" = "-h" || test "$1" = "--help"; then
+    cat <<EOF
+Usage: $0 FILE
+
+FILE is expected to be an Excel file or tsv file.
+EOF
+exit 0
+fi
+
+if test -z "$1"; then
+    echo "Error: no file specified" >&2
+    exit 1
+fi
+
+# Check extension
+if test "${1##*.}" = "tsv"; then
+    # TSV file
+    headers2awk -p -c --no-constructor "$1"
+elif test "${1##*.}" == "xls" || test "${1##*.}" == "xlsx"; then
+    excelchop "$1" | headers2awk -p -c --no-constructor
+else
+    echo "Error: unknown file type" >&2
+    exit 1
+fi
