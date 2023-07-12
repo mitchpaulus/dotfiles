@@ -1,0 +1,3 @@
+#!/bin/sh
+
+mv "$1" "$LOCALBIN"/"$1"
