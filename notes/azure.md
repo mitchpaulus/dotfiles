@@ -34,3 +34,17 @@ Data Retrieval (per GB)5                                        | Free    | Free
 Data Write (per GB)                                             | Free    | Free   | Free   | Free           | Free
 Index (GB/month)                                                | N/A     | $0.026 | N/A    | N/A            | N/A
 All other Operations (per 10,000), except Delete, which is free | $0.0019 | $0.005 | $0.005 | $0.0052        | $0.005
+
+```Powershell
+$env:AZCOPY_CRED_TYPE = "Anonymous";
+$env:AZCOPY_CONCURRENCY_VALUE = "AUTO";
+./azcopy.exe copy "D:\att\dallas toll\104 Field Notes\2020-10-28_walk through pics\" "https://commandblobdata.blob.core.windows.net/datablob/Photo%20Video/Dallas%20Toll/?sv=2021-10-04&se=2023-08-10T19%3A11%3A02Z&sr=c&sp=rwl&sig=w36Uea6FFoXlFoo9DLuogOWclRE%2BD5HIdGjD7FooeXU%3D" --overwrite=prompt --from-to=LocalBlob --blob-type BlockBlob --follow-symlinks --check-length=true --put-md5 --follow-symlinks --disable-auto-decoding=false --recursive --log-level=INFO;
+$env:AZCOPY_CRED_TYPE = "";
+$env:AZCOPY_CONCURRENCY_VALUE = "";
+```
+
+
+```sh
+azcopy cp "/path/to/file.txt" "https://[account].blob.core.windows.net/[container]/[path/to/blob]"
+azcopy cp "/path/to/dir" "https://[account].blob.core.windows.net/[container]/[path/to/directory]?[SAS]" --recursive=true
+```

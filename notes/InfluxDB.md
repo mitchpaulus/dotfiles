@@ -131,3 +131,9 @@ import "influxdata/influxdb/schema"
 
 schema.measurements(bucket: "example-bucket")
 ```
+
+## Flux
+
+```
+from(bucket:"example-bucket") |> range(start: 2021-01-01, stop: 2022-01-01) |> filter(fn: (r) => r._measurement == "trend name")
+```

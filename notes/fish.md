@@ -88,3 +88,5 @@ There isn't one. [GitHub Issue](https://github.com/fish-shell/fish-shell/issues/
 set i 0
 set i (math $i + 1)
 ```
+
+[Variable expansion](https://fishshell.com/docs/current/language.html#variable-expansion)
