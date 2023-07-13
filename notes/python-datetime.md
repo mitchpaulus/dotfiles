@@ -1,6 +1,6 @@
 # Date/Times in Python
 
-https://docs.python.org/3/library/datetime.html
+<https://docs.python.org/3/library/datetime.html>
 
 ```python
 import datetime
@@ -39,3 +39,17 @@ Need to rely on external library to properly deal with timezones with DST.
 Popular ones:
  - [pytz](https://pypi.org/project/pytz/)
  - [dateutil](https://dateutil.readthedocs.io/en/stable/)
+
+# Formats
+
+Directive | Meaning
+----------|------------------------------------------------------
+%d        | Day of the month as a zero-padded decimal number.
+%m        | Month as a zero-padded decimal number.
+%y        | Year without century as a zero-padded decimal number.
+%Y        | Year with century as a decimal number.
+%H        | Hour (24-hour clock) as a zero-padded decimal number.
+%I        | Hour (12-hour clock) as a zero-padded decimal number.
+%p        | Locale’s AM or PM.
+%M        | Minute as a zero-padded decimal number.
+%S        | Second as a zero-padded decimal number.
