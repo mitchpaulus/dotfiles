@@ -1247,7 +1247,11 @@ def cst_to_unix_timestamp(year, month, day, hour, minute, second):
 
     return unix_timestamp
 
-def pl(iterable: Iterable):
+def pl(iterable: Iterable[Any]):
     """print list"""
     for i in iterable:
         print(i)
+
+def hour_int(hour_24_based: int) -> int:
+    mod = hour_24_based % 12
+    return mod if mod != 0 else 12
