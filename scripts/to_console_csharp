@@ -1,0 +1,7 @@
+#!/usr/bin/awk -E
+{
+    gsub("\\\\", "\\\\", $0);
+    gsub("\"", "\\\"", $0);
+
+    printf "Console.Write(\"%s\\n\");\n", $0;
+}
