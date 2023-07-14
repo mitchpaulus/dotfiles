@@ -12,6 +12,8 @@ tmp/
 notes/*.pdf
 notes/*.docx
 
+go/toggl
+
 # Haskell build files
 *.hi
 *.o

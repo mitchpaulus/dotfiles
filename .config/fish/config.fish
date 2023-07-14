@@ -52,6 +52,8 @@ set -gx JAVA_HOME /usr/local/jdk-17.0.2/
 # Required for Haxall - See https://github.com/haxall/haxall
 set -gx FAN_BUILD_JDKHOME "$JAVA_HOME"
 
+set -gx TOGGL_NOT_TRACKING "Not tracking"
+
 path_prepend "$JAVA_HOME"/bin
 path_prepend "$DOTFILES"/scripts/
 path_prepend "$DOTFILES"/python
@@ -101,27 +103,52 @@ else if test -d "$HOME"/repos
     set -gx REPOS "$HOME"/repos
 end
 
+if command -v toggl >/dev/null 2>&1
+    # fish prompt with toggl tracking
+    function fish_prompt
+        set exit_code "$status"
 
-function fish_prompt
-    set exit_code "$status"
+        if test -n "$SSH_CONNECTION"
+            set ssh_text (printf '%s@%s '  (whoami) (hostname) )
+        else
+            set ssh_text ''
+        end
 
-    if test -n "$SSH_CONNECTION"
-        set ssh_text (printf '%s@%s '  (whoami) (hostname) )
-    else
-        set ssh_text ''
+        set_color cyan
+        printf "%s%s (%s)>\n:: " $ssh_text (prompt_pwd) (toggl)
+
+        if test "$exit_code" -eq 0
+            set_color normal
+        else
+            set_color red
+            printf "(%s) :: " "$exit_code"
+            set_color normal
+        end
     end
+else
+    function fish_prompt
+        set exit_code "$status"
 
-    set_color cyan
-    printf "%s%s >\n:: "  $ssh_text (prompt_pwd)
+        if test -n "$SSH_CONNECTION"
+            set ssh_text (printf '%s@%s '  (whoami) (hostname) )
+        else
+            set ssh_text ''
+        end
 
-    if test "$exit_code" -eq 0
-        set_color normal
-    else
-        set_color red
-        printf "(%s) :: " "$exit_code"
-        set_color normal
+        set_color cyan
+        printf "%s%s >\n:: " $ssh_text (prompt_pwd)
+
+        if test "$exit_code" -eq 0
+            set_color normal
+        else
+            set_color red
+            printf "(%s) :: " "$exit_code"
+            set_color normal
+        end
     end
 end
+
+
 
 function fish_greeting
     if command -v random_remind >/dev/null 2>&1

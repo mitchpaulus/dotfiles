@@ -1,0 +1,5 @@
+#!/bin/sh
+
+curl --silent  https://api.track.toggl.com/api/v9/me/time_entries/current \
+  -H "Content-Type: application/json" \
+  -u "$TOGGL_TOKEN":api_token
