@@ -41,3 +41,21 @@ solaris     amd64
 windows     386
 windows     amd64
 ```
+
+```go
+token, exists := os.LookupEnv("TODOIST_TOKEN") // Enviornment variables
+import "sort"
+
+people := []Person{
+	{"Bob", 31},
+	{"Alice", 52},
+	{"Eve", 24},
+	{"Mallory", 42},
+	//...
+}
+
+sort.Slice(people, func(i, j int) bool {
+	return people[i].Age < people[j].Age
+})
+
+```
