@@ -73,6 +73,7 @@ path_prepend "$HOME/bin"
 path_prepend "$HOME/.local/bin"
 path_prepend $HOME/.pyenv/bin
 path_prepend $HOME/.dotnet/tools
+path_prepend /usr/local/go/bin
 
 # Neovim/Vim for all the things
 if command -v nvim >/dev/null 2>&1
@@ -136,6 +137,9 @@ function fish_greeting
         else
             printf '%s\n' $toggl_response
         end
+    else
+        printf '\e[48;2;200;0;0mNo toggl command found..\n'
+        set_color normal
     end
 end
 
