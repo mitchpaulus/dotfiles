@@ -556,6 +556,10 @@ local statusLineComponents = {
     '%{&ff} ',  -- File format (unix vs. dos)
 }
 
+
+-- Turn off loaded_matchparen plugin. See :h pi_paren.txt
+vim.g.loaded_matchparen = 1
+
 vim.o.statusline = table.concat(statusLineComponents)
 
 vim.o.hlsearch = true   -- highlight search
@@ -686,7 +690,6 @@ end
 
 -- -- to execute the function
 -- colors()
-
 
 -- vim-vsnip {{{
 -- https://github.com/hrsh7th/vim-vsnip
