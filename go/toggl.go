@@ -77,9 +77,13 @@ func main() {
     var t TogglTimeEntry
     err = json.Unmarshal(body, &t)
     if err != nil {
+        // Print to sdterr
         print(toggl_err)
     }
 
-    // Print the description
-    fmt.Println(t.Description)
+    // Print the description and elapsed time
+    elapsed := time.Since(t.Start)
+
+    // Print as Description (XX mins)
+    fmt.Printf("%s (%d mins)\n", t.Description, int(elapsed.Minutes()))
 }

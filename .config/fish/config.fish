@@ -1,6 +1,6 @@
 #!/usr/bin/fish
 
-set -g fish_prompt_pwd_dir_length 5
+set -g fish_prompt_pwd_dir_length 8
 
 set -gx DOTFILES ~/dotfiles
 set -gx MPNOTES ~/dotfiles/notes
@@ -103,58 +103,39 @@ else if test -d "$HOME"/repos
     set -gx REPOS "$HOME"/repos
 end
 
-if command -v toggl >/dev/null 2>&1
-    # fish prompt with toggl tracking
-    function fish_prompt
-        set exit_code "$status"
+function fish_prompt
+    set exit_code "$status"
 
-        if test -n "$SSH_CONNECTION"
-            set ssh_text (printf '%s@%s '  (whoami) (hostname) )
-        else
-            set ssh_text ''
-        end
-
-        set_color cyan
-        printf "%s%s (%s)>\n:: " $ssh_text (prompt_pwd) (toggl)
-
-        if test "$exit_code" -eq 0
-            set_color normal
-        else
-            set_color red
-            printf "(%s) :: " "$exit_code"
-            set_color normal
-        end
+    if test -n "$SSH_CONNECTION"
+        set ssh_text (printf '%s@%s '  (whoami) (hostname) )
+    else
+        set ssh_text ''
     end
-else
-    function fish_prompt
-        set exit_code "$status"
 
-        if test -n "$SSH_CONNECTION"
-            set ssh_text (printf '%s@%s '  (whoami) (hostname) )
-        else
-            set ssh_text ''
-        end
+    set_color cyan
+    printf "%s%s >\n:: " $ssh_text (prompt_pwd)
 
-        set_color cyan
-        printf "%s%s >\n:: " $ssh_text (prompt_pwd)
-
-        if test "$exit_code" -eq 0
-            set_color normal
-        else
-            set_color red
-            printf "(%s) :: " "$exit_code"
-            set_color normal
-        end
+    if test "$exit_code" -eq 0
+        set_color normal
+    else
+        set_color red
+        printf "(%s) :: " "$exit_code"
+        set_color normal
     end
 end
-
-
 
 function fish_greeting
     if command -v random_remind >/dev/null 2>&1
         random_remind
-    else
-        printf '%s\n' "$fish_greeting"
+    end
+    if command -v toggl >/dev/null 2>&1
+        set toggl_response (toggl)
+        if test $toggl_response = $TOGGL_NOT_TRACKING
+            printf '\e[48;2;200;0;0m%s\n' $toggl_response
+            set_color normal
+        else
+            printf '%s\n' $toggl_response
+        end
     end
 end
 
