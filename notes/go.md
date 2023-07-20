@@ -58,4 +58,14 @@ sort.Slice(people, func(i, j int) bool {
 	return people[i].Age < people[j].Age
 })
 
+var i int
+var i, j int // zero initializated
+
+if i < 5 {
+..
+} else if i < 10 {
+..
+} else {
+..
+}
 ```
