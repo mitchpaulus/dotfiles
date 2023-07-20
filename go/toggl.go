@@ -34,9 +34,9 @@ func main() {
 
     // Try getting the "PATH" environment variable
     token, exists := os.LookupEnv("TOGGL_TOKEN")
-
     if !exists {
-        fmt.Println("TOGGL_TOKEN environment variable not set")
+        // Print to stderr
+        fmt.Fprintf(os.Stderr, "TOGGL_TOKEN environment variable not set\n")
         os.Exit(1)
     }
 
@@ -45,11 +45,29 @@ func main() {
         not_tracking_text = "Not tracking"
     }
 
-    toggl_err := `Toggl API error`
+    command := "current"
+    i := 1 // Oth index is the program name
 
+    for i < len(os.Args) {
+
+        if os.Args[i] == "current" {
+            command = "current"
+        } else if os.Args[i] == "stop" {
+            command = "stop"
+        } else {
+            // Print to stderr
+            fmt.Fprintf(os.Stderr, "Unknown command: %s\n", os.Args[i])
+            os.Exit(1)
+        }
+
+        fmt.Println(os.Args[i])
+        i++
+    }
+
+    toggl_err := `Toggl API error`
     req, err := http.NewRequest(http.MethodGet, "https://api.track.toggl.com/api/v9/me/time_entries/current", nil)
     if err != nil {
-        print(toggl_err)
+        fmt.Fprintf(os.Stderr, toggl_err)
     }
     req.Header.Set("Content-Type", "application/json; charset=utf-8")
     req.SetBasicAuth(token, "api_token")
@@ -57,33 +75,75 @@ func main() {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        print(toggl_err)
+        fmt.Fprintf(os.Stderr, toggl_err)
     }
 
     defer resp.Body.Close()
     body, err := ioutil.ReadAll(resp.Body)
     if err != nil {
-        print(toggl_err)
+        fmt.Fprintf(os.Stderr, toggl_err)
     }
 
     body_text := string(body)
 
-    if body_text == "null" {
-        fmt.Println(not_tracking_text)
-        os.Exit(0)
+    if command == "current" {
+        if body_text == "null" {
+            fmt.Println(not_tracking_text)
+            os.Exit(0)
+        }
+
+        // Parse as TooglTimeEntry
+        var t TogglTimeEntry
+        err = json.Unmarshal(body, &t)
+        if err != nil {
+            // Print to sdterr
+            fmt.Fprintf(os.Stderr, toggl_err)
+            os.Exit(1)
+        }
+
+        // Print the description and elapsed time
+        elapsed := time.Since(t.Start)
+
+        // Print as Description (XX mins)
+        fmt.Printf("%s (%d mins)\n", t.Description, int(elapsed.Minutes()))
+
+    } else if command == "stop" {
+
+        if body_text == "null" {
+            // Do nothing..
+            os.Exit(0)
+        }
+
+        // Parse as TooglTimeEntry
+        var t TogglTimeEntry
+        err = json.Unmarshal(body, &t)
+        if err != nil {
+            // Print to sdterr
+            fmt.Fprintf(os.Stderr, toggl_err)
+            os.Exit(1)
+        }
+
+        // Stop the time entry (PATCH)
+        // https://api.track.toggl.com/api/v9/workspaces/{workspace_id}/time_entries/{time_entry_id}/stop
+        req, err := http.NewRequest(http.MethodPatch, fmt.Sprintf("https://api.track.toggl.com/api/v9/workspaces/%d/time_entries/%d/stop", t.WorkspaceID, t.ID), nil)
+        if err != nil {
+            fmt.Fprintf(os.Stderr, toggl_err)
+            os.Exit(1)
+        }
+        req.Header.Set("Content-Type", "application/json; charset=utf-8")
+        req.SetBasicAuth(token, "api_token")
+
+        client := &http.Client{}
+        resp, err := client.Do(req)
+        if err != nil {
+            fmt.Fprintf(os.Stderr, toggl_err)
+            os.Exit(1)
+        }
+
+        // Check the response code
+        if resp.StatusCode != 200 {
+            fmt.Fprintf(os.Stderr, toggl_err)
+            os.Exit(1)
+        }
     }
-
-    // Parse as TooglTimeEntry
-    var t TogglTimeEntry
-    err = json.Unmarshal(body, &t)
-    if err != nil {
-        // Print to sdterr
-        print(toggl_err)
-    }
-
-    // Print the description and elapsed time
-    elapsed := time.Since(t.Start)
-
-    // Print as Description (XX mins)
-    fmt.Printf("%s (%d mins)\n", t.Description, int(elapsed.Minutes()))
 }
