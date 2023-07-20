@@ -41,8 +41,7 @@ will replace the value with whatever is currently on the clipboard. This
 allows you to do thing like replace with fields for Figure or Table
 captions.
 
-Example of this at [this
-answer.](https://answers.microsoft.com/en-us/msoffice/forum/msoffice_word-mso_winother-mso_archive/how-to-replace-the-tablefigure-caption-labels-in/23c09913-c813-4868-bf20-8624c50e6f32)
+Example of this at [this answer.](https://answers.microsoft.com/en-us/msoffice/forum/msoffice_word-mso_winother-mso_archive/how-to-replace-the-tablefigure-caption-labels-in/23c09913-c813-4868-bf20-8624c50e6f32)
 
 Special find/replacements:
 
@@ -91,9 +90,8 @@ Character String
 
 ## Fixing Spell Check
 
-There are times when the spell check doesn't appear to work. [This
-article](https://www.lifewire.com/fix-spell-check-not-working-in-word-4693118)
-has a great list of troubleshooting steps.
+There are times when the spell check doesn't appear to work.
+[This article](https://www.lifewire.com/fix-spell-check-not-working-in-word-4693118) has a great list of troubleshooting steps.
 
 1.
 
@@ -148,9 +146,7 @@ One of the best shortcuts of all time
 
 ## Changing Macro Shortcuts
 
-File -> Options -> Customize Ribbon -> Keyboard Shortcuts: Customize ->
-Change Categories to Macros, Select Macro on right
-
+File -> Options -> Customize Ribbon -> Keyboard Shortcuts: Customize -> Change Categories to Macros, Select Macro on right
 
 ## Indenting and Tabs for Numeric Lists
 
@@ -173,6 +169,12 @@ Level6: 2.175
 ## Numbering Explained
 
 [Great site](https://wordmvp.com/FAQs/Numbering/WordsNumberingExplained.htm)
+
+Updating header numbering ([reference][header reference]):
+
+1. Go to *first* Level 1 header
+2. Click down arrow next to Multilevel List icon
+3. Click "Define New Multilevel List"
 
 ### Related VBA
 
@@ -223,3 +225,5 @@ IRS = Internal Root Style.
 You can change the IRS values by going to:
 
 Manage Styles -> Set Defaults
+
+[header reference]: https://answers.microsoft.com/en-us/msoffice/forum/all/how-do-i-modify-an-existing-multilevel-list-in/f7b108ff-c9ee-41bd-9119-fbd0e36ae6ef
