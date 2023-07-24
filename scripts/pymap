@@ -18,7 +18,7 @@ fi
 if test "${1##*.}" = "tsv"; then
     # TSV file
     headers2awk -p -c --no-constructor "$1"
-elif test "${1##*.}" == "xls" || test "${1##*.}" == "xlsx"; then
+elif test "${1##*.}" = "xls" || test "${1##*.}" = "xlsx"; then
     excelchop "$1" | headers2awk -p -c --no-constructor
 else
     echo "Error: unknown file type" >&2
