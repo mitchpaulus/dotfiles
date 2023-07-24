@@ -1,0 +1,1 @@
+- `AK`: a correction factor on the flow measurement on a diffuser, depending on the diffuser type.
