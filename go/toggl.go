@@ -54,6 +54,9 @@ func main() {
             command = "current"
         } else if os.Args[i] == "stop" {
             command = "stop"
+        } else if os.Args[i] == "help" || os.Args[i] == "--help" || os.Args[i] == "-h" {
+            fmt.Print("Usage: toggl [current|stop]\n")
+            os.Exit(0)
         } else {
             // Print to stderr
             fmt.Fprintf(os.Stderr, "Unknown command: %s\n", os.Args[i])
