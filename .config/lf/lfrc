@@ -55,6 +55,8 @@ cmd copy-command-path & CCLLCCopyToClip.exe "$(wslpath -w "$f")"
 cmd open $ "$OPENER" "$f"
 # map e $env VIMRUNTIME="$REPOS"/neovim/runtime "$REPOS"/neovim/build/bin/nvim "$f"
 
+cmd on-cd $ printf "\e]9;9;%s\e\\" "$(wslpath -w "$PWD")"
+
 # From https://github.com/gokcehan/lf/wiki/Tips#rename-commands-similar-to-those-of-ranger
 # Also see discussion at: https://github.com/gokcehan/lf/issues/279
 # lfrenamehelp is my custom script that basically returns a bunch of '<left>' keys.
