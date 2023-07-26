@@ -28,14 +28,33 @@ if (any([ arg == "-h" or arg == "--help" for arg in sys.argv])):
     print(help_text, end='')
     sys.exit()
 
+
+def parse(csv_file):
+    reader = csv.reader(csv_file, dialect='excel')
+
+    for row in reader:
+        # The only two characters that matter here are newlines and tabs. Remove both.
+        new_rows = [field.replace("\n", "\\n").replace("\t", "\\t") for field in row]
+        print("\t".join(new_rows))
+
 if (len(sys.argv) > 1):
-    csv_file = open(sys.argv[1], encoding="utf-8")
+    try:
+        with open(sys.argv[1], encoding="utf-8") as csv_file:
+            parse(csv_file)
+    except FileNotFoundError:
+        print(f"File '{sys.argv[1]}' not found.", file=sys.stderr)
+        sys.exit()
+    except UnicodeDecodeError:
+        # Try again with 'iso-8859-1' encoding
+        try:
+            with open(sys.argv[1], encoding="iso-8859-1") as csv_file:
+                parse(csv_file)
+        except UnicodeDecodeError:
+            print(f"File '{sys.argv[1]}' is not utf-8 or iso-8859-1 encoded.", file=sys.stderr)
+            sys.exit()
+        except FileNotFoundError:
+            print(f"File '{sys.argv[1]}' not found.", file=sys.stderr)
+            sys.exit()
 else:
     csv_file = sys.stdin
-
-reader = csv.reader(csv_file, dialect='excel')
-
-for row in reader:
-    # The only two characters that matter here are newlines and tabs. Remove both.
-    new_rows = [field.replace("\n", "\\n").replace("\t", "\\t") for field in row]
-    print("\t".join(new_rows))
+    parse(csv_file)
