@@ -255,3 +255,7 @@ For creating LaTex figures.
 Time series database. Says it's faster than InfluxDB.
 
 ## [OwnTracks](https://owntracks.org/)
+
+## [CoolProp](http://coolprop.org/index.html)
+
+Thermo-physical properties
