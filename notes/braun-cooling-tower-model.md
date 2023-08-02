@@ -20,6 +20,12 @@ $$
 \textrm{NTU} = \frac{\ln \left( \frac{1 - \epsilon_{a}}{ 1 - m^{*} \epsilon_{a}}  \right) }{ m^{*} - 1 }
 $$
 
+In code:
+
+```
+NTU = LN((1 - epsilon_a) / (1 - m_star * epsilon_a)) / (m_star - 1)
+```
+
 $\epsilon_a$ can be solved for using Equation 8 and operational data.
 
 - $Q$ is typically derived from the water side of the energy balance,

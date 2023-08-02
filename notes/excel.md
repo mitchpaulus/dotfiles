@@ -76,7 +76,7 @@ columns, click on chart, Paste Special.
 - Make sure that it's a fully absolute range in the `INDIRECT` function.
   - Like, sheet name and everything: `Sheet1!$A$1:$B$2`
 
-## Dynamic arrays
+## Dynamic arrays reference total range
 
 - Can use upper left cell with '#' after to get reference to entire array dynamically.
 
