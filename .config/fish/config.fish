@@ -258,7 +258,8 @@ bind zd work_dir_search
 # bind H beginning-of-line
 # bind L end-of-line
 
-for dir in "$DOTFILES"/python "$REPOS"/ccllc-skyspark
+# Personal Python libraries
+for dir in "$DOTFILES"/python "$REPOS"/ccllc-skyspark "$REPOS"/facility-grid-api
     path_prepend_gen "$dir" PYTHONPATH
     path_prepend_gen "$dir" MYPYPATH
 end
