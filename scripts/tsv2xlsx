@@ -1,0 +1,3 @@
+#!/bin/sh
+
+xlwrite block A1 "$1" "$(printf '%s' "$1" | rev | cut -c 5- | rev)".xlsx
