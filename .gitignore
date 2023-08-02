@@ -13,6 +13,7 @@ notes/*.pdf
 notes/*.docx
 
 go/toggl
+go/todoist
 
 # Haskell build files
 *.hi
