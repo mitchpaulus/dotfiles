@@ -19,6 +19,8 @@ map t push !tmsu<space>tag<space>"$f"<space>
 # 'showtags' is script in dotfiles
 map T %showtags "$f"
 
+map ga &git add "$f"
+
 # Unmap single y
 map y
 
