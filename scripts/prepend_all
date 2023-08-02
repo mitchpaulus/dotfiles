@@ -1,0 +1,19 @@
+#!/usr/bin/python3
+
+# Assume tab delimited data is being piped
+# For each cell, prepend first arg to the beginning of the cell
+# If the cell is empty, do nothing
+# If the cell already starts with the first arg, do nothing
+# Print to stdout
+
+import sys
+
+prepend = sys.argv[1]
+
+for line in sys.stdin:
+    line = line.rstrip('\n')
+    cells = line.split('\t')
+    for i in range(len(cells)):
+        if cells[i] != '' and not cells[i].startswith(prepend):
+            cells[i] = prepend + cells[i]
+    print('\t'.join(cells), end='\n')
