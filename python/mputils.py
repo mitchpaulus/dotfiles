@@ -185,12 +185,19 @@ def percentile(array: List[float], percent: float) -> float:
     is the smallest value in the list such that no more than P percent of the data is strictly less than the value
     and at least P percent of the data is less than or equal to that value.
     This is obtained by first calculating the ordinal rank and then taking the value from the ordered list that corresponds to that rank.
-    :param array: List of data
+    :param array: List of data (Doesn't have to be pre-sorted)
     :param percent: Percentile to return (0-100)
     """
+
+    if len(array) == 0:
+        raise ValueError("Cannot calculate percentile of empty list")
+
+    if percent <= 0 or percent > 100:
+        raise ValueError("Percentile must be > 0 and <= 100")
+
     index = math.ceil((percent / 100) * len(array))
-    # Clamp index between 0 and len(array)
-    index = max(1, min(index, len(array) - 1))
+    # Clamp index between 1 and len(array)
+    index = max(1, min(index, len(array)))
 
     return sorted(array)[index - 1]
 
