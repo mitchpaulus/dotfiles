@@ -1,4 +1,8 @@
 #!/bin/sh
+#
+# USAGE:
+#  prepend_name.sh <prefix> <file>
+#  We often need prepend something to the headers of trend names in data files.
 awk -v prepend="$1" '
 BEGIN { FS=OFS="\t" }
 NR == 1 { for (i=2; i<=NF; i++) { $i = prepend $i }; print; }
