@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Implementation of string contains
+printf 'NOT(ISERROR(SEARCH("%s", %s)))' "$1" "$2"
