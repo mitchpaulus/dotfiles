@@ -2,6 +2,14 @@
 
 ## Leap Years
 
+Every year that is exactly divisible by four is a leap year,
+except for years that are exactly divisible by 100,
+but these centurial years are leap years if they are exactly divisible by 400.
+
+```
+is_leap = (year % 4 == 0) and ((year % 100 != 0) or (year % 400 == 0))
+```
+
 if (year is not divisible by 4) then (it is a common year)
 else if (year is not divisible by 100) then (it is a leap year)
 else if (year is not divisible by 400) then (it is a common year)
