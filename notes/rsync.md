@@ -3,6 +3,8 @@
 - Need the `-r` flag to recursively sync directories. `-a` also implies this
 
 ```
+rsync [OPTION]... SRC [SRC]... DEST
+rsync [OPTION]... SRC [SRC]... [USER@]HOST:DEST
 --progress
 -n --dry-run
 -a, --archive == -rlptgoD

@@ -45,6 +45,26 @@ $env:AZCOPY_CONCURRENCY_VALUE = "";
 
 
 ```sh
+# Copying file from local to blob
 azcopy cp "/path/to/file.txt" "https://[account].blob.core.windows.net/[container]/[path/to/blob]"
 azcopy cp "/path/to/dir" "https://[account].blob.core.windows.net/[container]/[path/to/directory]?[SAS]" --recursive=true
+
+# Blob to local file
+az storage blob download --account-name mystorageaccount --name myfile --container-name mycontainer --type block --file ./downloaded_file --auth-mode login
+# Need at least `Storage Blob Data Reader` role for the storage account.
+
 ```
+
+
+# `az` vs. `azcopy`
+
+ChatGPT tells me that `az` can handle Azure AD-based authentication, while `azcopy` can't.
+
+# Roles
+
+<https://learn.microsoft.com/en-us/azure/storage/blobs/assign-azure-role-data-access?tabs=portal>
+
+> To access blob data in the Azure portal with Azure AD credentials, a user must have the following role assignments:
+
+> - A data access role, such as Storage Blob Data Reader or Storage Blob Data Contributor
+> - The Azure Resource Manager Reader role, at a minimum

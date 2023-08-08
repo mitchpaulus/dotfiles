@@ -227,3 +227,8 @@ You can change the IRS values by going to:
 Manage Styles -> Set Defaults
 
 [header reference]: https://answers.microsoft.com/en-us/msoffice/forum/all/how-do-i-modify-an-existing-multilevel-list-in/f7b108ff-c9ee-41bd-9119-fbd0e36ae6ef
+
+## Table of Contents
+
+Numbering styling comes from the Page Number format for the given header.
+Can adjust using Insert -> Page Number -> Format Page Numbers.

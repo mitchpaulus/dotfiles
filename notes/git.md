@@ -127,3 +127,9 @@ Dealing with file permissions with GitHub desktop: <https://stackoverflow.com/a/
 
 - delete the line setting core.filemode in $projdir/.git/config
 - in Windows git, run "git config --global core.filemode false"
+
+## Print largest files known to git
+
+```sh
+git ls-tree -r --long HEAD | sort -k 4 -n -r
+```

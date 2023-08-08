@@ -8,4 +8,6 @@ Recommendation is to do normal file style backup for everything under `var` dire
 That backup should be done using the UI or the `folioBackup()` axon method.
 
 - Tools -> Backup
-- Host -> Projects -> *Click on project, and then 'Backup'*
+- Host -> Host App -> Projects -> *Click on project, and then 'Backup'*
+
+Backups are then saved to: `var/proj/<proj_name>/backup`

@@ -1,5 +1,25 @@
 # SkySpark Setup
 
+
+## Deployment
+
+- Get Files from <https://skyfoundry.com/downloads>
+    - On main header, will see headings like `Doc`, `Forum`, and `Files`. If you have the right permissions, you will see: `Downloads`.
+- Unzip
+- Make all `bin` files executable
+- Smoke test `skyspark -version`
+- Run `bin/setup` (Shouldn't need `sudo` if in user directory)
+    - Makes superuser `su` account
+    - Set port
+    - Copy license file
+- Usually add the following `start.sh` file to the `bin` directory:
+
+```
+#!/bin/sh
+./skyspark >stdout.log 2> stderr.log &
+```
+
+
 1. Add site:
   - commit(diff(null, { site, navName: "Site Name", tz: "Chicago", dis: "Site Name" }, {add}))
 
