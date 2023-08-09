@@ -20,6 +20,7 @@ map t push !tmsu<space>tag<space>"$f"<space>
 map T %showtags "$f"
 
 map ga &git add "$f"
+map gr &git rm --cached "$f"
 
 # Unmap single y
 map y
@@ -28,6 +29,7 @@ map <f-5> reload
 
 map yy copy
 map yf copy-filename
+map yg copy-gitpath
 map yp copy-fullpath
 map yw copy-windows-full-path
 map yc copy-command-path
@@ -52,6 +54,7 @@ cmd copy-windows-full-path &{{
 }}
 cmd copy-command-path & CCLLCCopyToClip.exe "$(wslpath -w "$f")"
 
+cmd copy-gitpath & gitpath "$f" | clip
 
 # Changing to syncronous mode instead of the default asyncronous mode because I want to use the terminal editor for most things.
 cmd open $ "$OPENER" "$f"

@@ -1,0 +1,2 @@
+#!/bin/sh
+git ls-tree -r --long HEAD | sort -k 4 -n -r

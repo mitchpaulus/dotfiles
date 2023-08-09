@@ -133,3 +133,9 @@ Dealing with file permissions with GitHub desktop: <https://stackoverflow.com/a/
 ```sh
 git ls-tree -r --long HEAD | sort -k 4 -n -r
 ```
+
+## Add all deleted files to index
+
+```
+git ls-files --deleted -z | xargs -0 git add
+```
