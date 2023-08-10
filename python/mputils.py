@@ -1209,6 +1209,10 @@ def is_leap_year(year):
     return (year % 4 == 0 and year % 100 != 0) or year % 400 == 0
 
 def days_in_month(year, month):
+    """
+    params:
+    month: integer 1-12
+    """
     if month in [4, 6, 9, 11]:
         return 30
     elif month == 2:
@@ -1262,3 +1266,6 @@ def pl(iterable: Iterable[Any]):
 def hour_int(hour_24_based: int) -> int:
     mod = hour_24_based % 12
     return mod if mod != 0 else 12
+
+def interpolate(x1, y1, x2, y2, x):
+    return y1 + (y2 - y1) * (x - x1) / (x2 - x1)
