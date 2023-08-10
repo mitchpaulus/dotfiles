@@ -709,8 +709,11 @@ let g:vsnip_filetypes.typescriptreact = ['typescript']
 
 ]], false)
 
-vim.g.vsnip_snippet_dir = os.getenv('HOME') .. '/.config/vsnip'
-vim.g.vsnip_snippet_dirs = { os.getenv('HOME') .. '/.config/vsnip',  os.getenv('HOME') .. '/.vsnip' }
+local home_dir = os.getenv('HOME')
+if home_dir ~= nil then
+    vim.g.vsnip_snippet_dir = os.getenv('HOME') .. '/.config/vsnip'
+    vim.g.vsnip_snippet_dirs = { os.getenv('HOME') .. '/.config/vsnip',  os.getenv('HOME') .. '/.vsnip' }
+end
 -- }}}
 -- ack.vim  {{{2
 
