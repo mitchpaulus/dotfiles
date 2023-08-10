@@ -109,3 +109,9 @@ ssize_t read(int fd, void *buf, size_t count);
 
 All users have a UID, stored in `/etc/passwd`. Each user must belong to a minimum of one group.
 A user also has a *primary* associated group. Group information is in `/etc/group`
+
+## Ports
+
+```
+lsof -i :8081
+```

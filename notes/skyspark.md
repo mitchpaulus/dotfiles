@@ -207,3 +207,7 @@ See [link](https://skyfoundry.com/doc/docAppNotes/ITOperationsAndMaintenance)
 
 The `mod` value needs to match exactly the current one that is on the database.
 Otherwise, it believes that some other entity has made a change.
+
+## Troubleshooting
+
+- `[2023-08-10 16:15:59] <ui> {sysMod} [err] Axon syntax error 'proj_projectName::test'`: Here `test` is the function name, and it had a syntax error in it.
