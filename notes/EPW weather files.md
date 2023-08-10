@@ -1,0 +1,37 @@
+# Data fields
+
+- 0: Year
+- 1: Month
+- 2: Day
+- 3: Hour
+- 4: Minute
+- 5: Data Source and Uncertainty Flags
+- 6: Dry Bulb Temperature
+- 7: Dew Point Temperature
+- 8: Relative Humidity
+- 9: Atmospheric Station Pressure
+- 10: Extraterrestrial Horizontal Radiation
+- 11: Extraterrestrial Direct Normal Radiation
+- 12: Horizontal Infrared Radiation Intensity
+- 13: Global Horizontal Radiation
+- 14: Direct Normal Radiation
+- 15: Diffuse Horizontal Radiation
+- 16: Global Horizontal Illuminance
+- 17: Direct Normal Illuminance
+- 18: Diffuse Horizontal Illuminance
+- 19: Zenith Luminance
+- 20: Wind Direction
+- 21: Wind Speed
+- 22: Total Sky Cover
+- 23: Opaque Sky Cover
+- 24: Visibility
+- 25: Ceiling Height
+- 26: Present Weather Observation
+- 27: Present Weather Codes
+- 28: Precipitable Water
+- 29: Aerosol Optical Depth
+- 30: Snow Depth
+- 31: Days Since Last Snowfall
+- 32: Albedo
+- 33: Liquid Precipitation Depth
+- 34: Liquid Precipitation Quantity
