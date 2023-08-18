@@ -80,6 +80,10 @@ if __name__ == '__main__':
   unittest.main()
 ```
 
+```sh
+python -m unittest myfile.TestSomeStuff.test_something
+```
+
 ## Tuples
 
 Index like lists: `tuple = (item1, item2); tuple[0] == item1`

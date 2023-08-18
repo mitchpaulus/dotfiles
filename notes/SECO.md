@@ -5,7 +5,12 @@ Guideline files:
 - <https://comptroller.texas.gov/programs/seco/funding/loanstar/docs/LoanSTARGuidebookVolumeI.pdf>
 - <https://comptroller.texas.gov/programs/seco/funding/loanstar/docs/LoanSTARGuidebookVolumeII.pdf>
 
+PEA application page
+- <https://comptroller.texas.gov/programs/seco/funding/110521/>
+
 tag: seco equipment-life
+
+Pg. viii of LoanSTAR Guidebook Volume I
 
 Rooftop unit                          15 years
 Split systems

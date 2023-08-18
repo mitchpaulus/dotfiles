@@ -113,3 +113,21 @@ If using nuget.config, make sure to have all sources, including the normal nuget
 ```
 
 - [Reference environment secret](https://stackoverflow.com/a/66526312/5932184)
+
+## Adding git tag
+
+[Git tag object](https://docs.github.com/en/rest/git/tags?apiVersion=2022-11-28#create-a-tag-object)
+[Create a reference](https://docs.github.com/en/rest/git/refs?apiVersion=2022-11-28#create-a-reference)
+
+```
+curl -L \
+  -X POST \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer <YOUR-TOKEN>" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  https://api.github.com/repos/OWNER/REPO/git/refs \
+  -d '{"ref":"refs/heads/featureA","sha":"aa218f56b14c9653891f9e74264a383fa43fefbd"}'
+```
+
+
+[Permissions](https://docs.github.com/en/rest/overview/permissions-required-for-github-apps)
