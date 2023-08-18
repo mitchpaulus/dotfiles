@@ -6,6 +6,8 @@ tmp/
 *.aux
 *.log
 
+.idea/
+
 .config/fish/fish_variables
 .config/fish/secrets.fish
 
