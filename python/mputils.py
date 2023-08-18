@@ -1269,3 +1269,57 @@ def hour_int(hour_24_based: int) -> int:
 
 def interpolate(x1, y1, x2, y2, x):
     return y1 + (y2 - y1) * (x - x1) / (x2 - x1)
+
+
+def itp(a: float, b: float, f: Callable[[float], float], eps: float = 0.00000001, debug: bool = False) -> Tuple[float, float, int]:
+    iterations = 0
+
+    k_1 = 0.2 / (b-a)
+    k_2 = 2
+    n0 = 1
+    n_1_2 = math.log2((b-a)/(2*eps))
+
+    n_max = n_1_2 + n0
+    f_x_itp = 1
+    x_itp = 0
+
+    while b - a > eps and iterations < 40 and f_x_itp != 0:
+        # Interpolation step
+        x_1_2 = (a + b) / 2
+        fa = f(a)
+        fb = f(b)
+        x_f = (b * fa - a * fb) / (fa - fb)
+
+        # Truncation step
+        sigma = 1 if x_1_2 - x_f > 0 else -1
+        delta = min(k_1 * (abs(b-a)**k_2), abs(x_1_2 - x_f))
+
+        x_t = x_f + sigma * delta
+
+        # Projection
+        arg1 = eps * 2**(n_max - iterations) - ((b - a)/2)
+        arg2 = abs(x_t - x_1_2)
+
+        rho_k = min(arg1, arg2)
+        x_itp = x_1_2 - sigma * rho_k
+
+        f_x_itp = f(x_itp)
+
+        if debug:
+            # Print current a, b, x_itp, f_x_itp, iterations
+            print("\t".join([str(x) for x in [a, b, sigma, delta, x_itp, f_x_itp, iterations]]))
+
+        if (f_x_itp * fa) > 0:
+            a = x_itp
+        else:
+            b = x_itp
+
+        iterations += 1
+
+    if f_x_itp == 0:
+        return x_itp, f_x_itp, iterations
+    else:
+        return (a + b) / 2, f((a + b) / 2), iterations
+
+
+

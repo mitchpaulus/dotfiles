@@ -77,5 +77,15 @@ class TestFindDevice(unittest.TestCase):
         device = mputils.device_from_path(test)
         self.assertEqual(device, 'VAV_2_1')
 
+
+class TestItp(unittest.TestCase):
+    def test_wikipedia(self):
+        def f(x):
+            return x**3 - x - 2
+
+        zero, zero_val, iterations = mputils.itp(1, 2, f, 10**(-20), True)
+        print(zero, zero_val, iterations)
+        self.assertAlmostEqual(zero, 1.52138, 4)
+
 if __name__ == "__main__":
     unittest.main()
