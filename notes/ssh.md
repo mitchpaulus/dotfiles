@@ -9,6 +9,8 @@
 
 ```
 ssh-keygen -t rsa -b 4096
+# or
+ssh-keygen -t ed25519 -a 100 # https://security.stackexchange.com/a/144044 and https://stribika.github.io/2015/01/04/secure-secure-shell.html
 ```
 
 2. Transfer the public key to the remote computer that you are

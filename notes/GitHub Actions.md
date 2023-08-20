@@ -129,5 +129,20 @@ curl -L \
   -d '{"ref":"refs/heads/featureA","sha":"aa218f56b14c9653891f9e74264a383fa43fefbd"}'
 ```
 
-
 [Permissions](https://docs.github.com/en/rest/overview/permissions-required-for-github-apps)
+
+## Authentication
+
+PAT:
+
+```yaml
+- uses: actions/checkout@v3
+  with:
+    token: ${{ secrets.PAT }}
+    ssh-key: ${{ secrets.SSH_KEY }}
+```
+
+- [Trigger workflow from workflow](https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow)
+  - Can't use `GITHUB_TOKEN`, need PAT or SSH deploy key.
+
+- `actions/checkout` only gets the single commit, not the full history.
