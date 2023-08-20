@@ -34,10 +34,11 @@
 - lambda syntax, `lambda var1, var2: expression`
 
 - Write to File:
-     ```python
-     with open('Path', 'wt') as file:
-        file.write(string_var)
-     ```
+
+  ```python
+  with open('Path', 'wt') as file:
+    file.write(string_var)
+  ```
 
 - Binary operations operate like JavaScript, they can be thought more of
   as "selectors". It doesn't covert expression to boolean upon output.
@@ -231,32 +232,36 @@ My frustration with the Python module loading system cannot be understated.
 Example: [Importing files from different folder](https://stackoverflow.com/q/4383571/5932184).
 Viewed 2 MILLION TIMES. By default, you CAN'T and are forced to play games with the path.
 
-- https://leemendelowitz.github.io/blog/how-does-python-find-packages.html
-- [https://realpython.com/absolute-vs-relative-python-imports/#a-quick-recap-on-imports](https://realpython.com/absolute-vs-relative-python-imports/#a-quick-recap-on-imports)
+- <https://leemendelowitz.github.io/blog/how-does-python-find-packages.html>
+- <https://realpython.com/absolute-vs-relative-python-imports/#a-quick-recap-on-imports>
 
 In order:
 
 1. From above, Python first searches `sys.modules`, cache of previous imported modules
 2. Searches through list of built in modules
-3.  Python searches directories in `sys.path`. Can check current value
-using:
+3. Python searches directories in `sys.path`. Can check current value using:
 
-```python
-import sys
-print("\n".join(sys.path))
-```
+   ```python
+   import sys
+   print("\n".join(sys.path))
+   ```
 
-Default: Current Directory, PYTHONPATH, directories filled by `site` module.
+From <https://docs.python.org/3/library/sys.html#sys.path>:
 
-Good resource on path modification best practice:
-https://docs.python.org/3/install/index.html#modifying-python-s-search-path
+- `python -m module` command line: prepend the current working directory.
+- `python script.py` command line: prepend the script’s directory. If it’s a symbolic link, resolve symbolic links.
+- `python -c code` and python (REPL) command lines: prepend an empty string, which means the current working directory.
+
+Default: Current Directory (see above), `PYTHONPATH`, directories filled by `site` module.
+
+Good resource on path modification best practice: <https://docs.python.org/3/install/index.html#modifying-python-s-search-path>
 
 Appears easiest way to add path locations is the use of special "path configuration files".
-These have an extension of '.pth' and are simply newline separated directories of paths to add.
+These have an extension of `.pth` and are simply newline separated directories of paths to add.
 
 Gets more complicated when using PyCharm as an IDE.
 To add paths to the project interpreter so that the IDE knows about them, use the dialog in the settings, see
-[https://www.jetbrains.com/help/pycharm/python-interpreters.html#paths](https://www.jetbrains.com/help/pycharm/python-interpreters.html#paths)
+<https://www.jetbrains.com/help/pycharm/python-interpreters.html#paths>
 
 1. Ctrl-Alt-S for project settings
 2. Project: <project> -> Python Interpreter -> Dropdown -> "Show All"
@@ -271,14 +276,27 @@ Modules  = a file with a .py extension (or it's built-in or is in C and dynamica
 > A module is a file containing Python definitions and statements. The
 > file name is the module name with the suffix .py appended. Within a
 > module, the module’s name (as a string) is available as the value of
-> the global variable __name__.
+> the global variable `__name__`.
 
 Other useful links:
- - https://towardsdatascience.com/taming-the-python-import-system-fbee2bf0a1e4
+ - <https://towardsdatascience.com/taming-the-python-import-system-fbee2bf0a1e4>
 
-From SO: <https://stackoverflow.com/a/16985066/5932184>, found this link.
+From SO: <https://stackoverflow.com/a/16985066/5932184>, found this link. And <https://stackoverflow.com/questions/14132789/relative-imports-for-the-billionth-time>
 From Guido himself: <https://mail.python.org/pipermail/python-3000/2007-April/006793.html>
 TLDR: running scripts *within* a module is an antipattern.
+
+For Pyright, from <https://github.com/microsoft/pyright/issues/283#issuecomment-538678102>:
+
+> Pyright doesn't know which files are "scripts" and which are source files that will be imported by other files.
+> It doesn't have that context. This is a case where python's dynamic nature makes it difficult for a static type checker.
+>
+> Pyright assumes that sys.path will contain the root of your source tree.
+> So if you're script and the files it imports are located in the root directory, it will work as you expect.
+> If you have files that you plan to execute as scripts deeper in the source tree, you need to provide those paths.
+> That's why pyright supports multiple "executionEnvironments" within its config file.
+
+Key statement is it will add the root of the *source* tree (i.e. root of git).
+Otherwise add it as a path in the config file under the `executionEnvironments` key.
 
 ## Linear Regression
 
@@ -313,7 +331,7 @@ fig.savefig('filename.ext', format='png')
 - However, `pipenv` is now the suggested way to manage environments?
 ```sh
 python -m venv /path/to/proj/venv
-source /path/to/proj/venv/bin/activate    (or activate.fish if in fish shell)
+source /path/to/proj/venv/bin/activate  # (or activate.fish if in fish shell)
 deactivate
 ```
 
@@ -351,9 +369,8 @@ with open('file') as file:
 
 - Latest recommendation for project package management.
 - Run script using `pipenv run python <file>`
-- Enter shell environment using `pipenv shell`. This set ups the proper
-  Python paths, so that editors like Vim and pyright can resolve modules
-  properly.
+- Enter shell environment using `pipenv shell`.
+  This set ups the proper Python paths, so that editors like Vim and pyright can resolve modules properly.
 - get out of `pipenv` shell with `exit`, NOT `deactivate`.
 
 ## Reading Command Line Arguments

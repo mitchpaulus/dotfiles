@@ -19,7 +19,6 @@ Step :
   uses | run
 ```
 
-
 ## Deploying Release on tag
 
 <https://github.com/softprops/action-gh-release>
