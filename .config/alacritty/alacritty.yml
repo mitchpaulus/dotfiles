@@ -20,7 +20,8 @@
   # available, otherwise `xterm-256color` is used.
   #TERM: alacritty
 
-#window:
+window:
+  opacity: 0.97
   # Window dimensions (changes require restart)
   #
   # Number of lines/columns (not pixels) in the terminal. The number of columns
@@ -42,12 +43,12 @@
   #
   # Blank space added around the window in pixels. This padding is scaled
   # by DPI and the specified value is always added at both opposing sides.
-  #padding:
-  #  x: 0
-  #  y: 0
+  padding:
+    x: 5
+    y: 5
 
   # Spread additional padding evenly around the terminal content.
-  #dynamic_padding: false
+  dynamic_padding: true
 
   # Window decorations
   #
@@ -108,7 +109,7 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: iosevka
+    family: monospace
 
     # The `style` can be specified to pick a specific face.
     #style: Regular
@@ -326,12 +327,6 @@ colors:
   #     args: ["Hello, World!"]
   #
   #command: None
-
-# Background opacity
-#
-# Window opacity as a floating point number from `0.0` to `1.0`.
-# The value `0.0` is completely transparent and `1.0` is opaque.
-background_opacity: 0.97
 
 #selection:
   # This string contains all characters that are used as separators for "semantic words" in Alacritty.
