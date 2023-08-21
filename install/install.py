@@ -6,6 +6,7 @@ import sys
 import requests
 from typing import Any, cast, TypeVar, Callable, Iterable, Union, Optional
 import subprocess
+import shutil
 
 
 T1 = TypeVar('T1')
@@ -141,7 +142,7 @@ def install_git_filter_repo():
         if path.startswith('git-filter-repo') and os.path.isdir(os.path.join(os.environ['HOME'], '.local', path)):
             new_path = os.path.join(os.environ["HOME"], ".local", "git-filter-repo")
             print(f"Renaming '{path}' to '{new_path}'...", file=sys.stderr)
-            os.rename(os.path.join(os.environ['HOME'], '.local', path), os.path.join(os.environ['HOME'], '.local', 'git-filter-repo'))
+            shutil.move(os.path.join(os.environ['HOME'], '.local', path), os.path.join(os.environ['HOME'], '.local', 'git-filter-repo'))
 
     # Remove the tar.xz archive
     print(f"Removing '{asset.name}' archive...", file=sys.stderr)
@@ -225,10 +226,10 @@ def install_lazygit():
 
     # Move '/tmp/lazygit' to LOCALBIN, overwriting if necessary
     print(f"Moving lazygit to {local_bin_dir}", file=sys.stderr)
-    os.rename('/tmp/lazygit', os.path.join(local_bin_dir, 'lazygit'))
+    shutil.move('/tmp/lazygit', os.path.join(local_bin_dir, 'lazygit'))
 
 def install_excelchop():
-    asset = get_github_asset('mitchpaulus', 'excelchop', lambda a: a.name.startswith('linux-x64-framework-dependent'))
+    asset = get_github_asset('mitchpaulus', 'excelchop', lambda a: 'linux-x64' in a.name and 'framework-dependent' in a.name)
     print(f'Downloading {asset.name}...', file=sys.stderr)
     response = requests.get(asset.browser_download_url)
 
@@ -237,25 +238,25 @@ def install_excelchop():
         sys.exit(1)
 
     # Save asset
-    tar_xz_path = os.path.join('/tmp/', asset.name)
-    print(f"Saving '{tar_xz_path}'", file=sys.stderr)
-    with open(tar_xz_path, 'wb') as f:
+    zip_path = os.path.join('/tmp/', asset.name)
+    print(f"Saving '{zip_path}'", file=sys.stderr)
+    with open(zip_path, 'wb') as f:
         f.write(response.content)
 
     # Extract the 'excelchop' executable from the tar.xz archive
     print(f'Extracting {asset.name} archive...', file=sys.stderr)
-    completed_process = subprocess.run(['tar', '-xf', tar_xz_path, 'excelchop'], cwd='/tmp/')
+    completed_process = subprocess.run(['unzip', zip_path], cwd='/tmp/')
     if completed_process.returncode != 0:
         print(f'Error extracting {asset.name} archive', file=sys.stderr)
         sys.exit(1)
 
-    # Remove the tar.xz archive
+    # Remove the zip
     print(f"Removing '{asset.name}' archive...", file=sys.stderr)
-    os.remove(tar_xz_path)
+    os.remove(zip_path)
 
-    # Move '/tmp/lazygit' to LOCALBIN, overwriting if necessary
-    print(f"Moving lazygit to {local_bin_dir}", file=sys.stderr)
-    os.rename('/tmp/excelchop', os.path.join(local_bin_dir, 'excelchop'))
+    # Move '/tmp/excelchop' to LOCALBIN, overwriting if necessary
+    print(f"Moving excelchop to {local_bin_dir}", file=sys.stderr)
+    shutil.move('/tmp/excelchop', os.path.join(local_bin_dir, 'excelchop'))
 
 
 def install_neovim():
@@ -386,7 +387,7 @@ def install_azcopy(local_bin_dir: str):
     # Move file
     azcopy_path = os.path.join('/tmp', azcopy_path)
     print(f"Moving '{azcopy_path}' to '{local_bin_dir}'", file=sys.stderr)
-    os.rename(azcopy_path, os.path.join(local_bin_dir, 'azcopy'))
+    shutil.move(azcopy_path, os.path.join(local_bin_dir, 'azcopy'))
 
 
 if __name__ == "__main__":

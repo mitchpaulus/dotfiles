@@ -1272,6 +1272,9 @@ def interpolate(x1, y1, x2, y2, x):
 
 
 def itp(a: float, b: float, f: Callable[[float], float], eps: float = 0.00000001, debug: bool = False) -> Tuple[float, float, int]:
+    """
+    returns: (x_itp, f_x_itp, iterations)
+    """
     iterations = 0
 
     k_1 = 0.2 / (b-a)

@@ -73,3 +73,13 @@ def w_from_toa_twb(t_oa: float, t_wb: float, total_pressure: float = 14.696) -> 
         return ((1093 - 0.556*(t_wb))*(w_star) - 0.24*((t_oa) - (t_wb))) / (1093 + 0.444*(t_oa) - (t_wb))
     else:
         return ((1220 - 0.04*(t_wb))*(w_star) - 0.24*((t_oa) - (t_wb))) / (1220 + 0.444*(t_oa) - 0.48*(t_wb))
+
+
+def h_sat(t: float) -> float:
+    """
+    :param t: Temperature [°F]
+    :return: Enthalpy [Btu/lb]
+    """
+    p_sat = sat_partial_pressure(t)
+    w_sat = w_from_partial_pressure(p_sat)
+    return 0.24*t + w_sat*(1061 + 0.444*t)
