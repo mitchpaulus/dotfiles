@@ -5,16 +5,13 @@
 To determine $c$ and $n$, typically using existing data for NTU,
 $\dot{m}_w$ and $\dot{m}_a$
 
-For most systems, the condenser water pumps are constant speed, and so
-can estimate the mass flow rate of the water based on the number of
-operating CW pumps.
+For most systems, the condenser water pumps are constant speed,
+and so can estimate the mass flow rate of the water based on the number of operating CW pumps.
 
-The mass flow rate for air is normally assumed to have a linear
-relationship with the VFD speed command. The design air flow at maximum
-speed is usually known from the manufacturer.
+The mass flow rate for air is normally assumed to have a linear relationship with the VFD speed command.
+The design air flow at maximum speed is usually known from the manufacturer.
 
-For NTU, you can rearrange Eq. 9 from the paper to solve for NTU as a
-function of $\epsilon_a$ and $m^{*}$.
+For NTU, you can rearrange Eq. 9 from the paper to solve for NTU as a function of $\epsilon_a$ and $m^{*}$.
 
 $$
 \textrm{NTU} = \frac{\ln \left( \frac{1 - \epsilon_{a}}{ 1 - m^{*} \epsilon_{a}}  \right) }{ m^{*} - 1 }
