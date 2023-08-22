@@ -136,7 +136,7 @@ Systems can be in either heating or cooling at any time.
 
 Solid state switching device which can provide fast, infinitely variable
 proportional control of electric power
-(https://www.avatarinstruments.com/guide-to-scr-power-controls/).
+<https://www.avatarinstruments.com/guide-to-scr-power-controls/>.
 
 ## Acronyms
 
@@ -147,11 +147,11 @@ SCR - Silicon controlled rectifier
 
 Based on quick internet search, ~400 CFM/ton
  - Sources
-  - https://www.reference.com/world-view/cfm-per-ton-air-conditioning-vary-afe5e016234707f1
-  - https://hvac-blog.acca.org/400-cfm-per-ton-or-is-it/
-  - https://climesense.com/how-many-cfm-per-ton/
-  - https://inspectapedia.com/aircond/Air_Flow_Rates.php
-  - https://www.eng-tips.com/viewthread.cfm?qid=305846
+  - <https://www.reference.com/world-view/cfm-per-ton-air-conditioning-vary-afe5e016234707f1>
+  - <https://hvac-blog.acca.org/400-cfm-per-ton-or-is-it/>
+  - <https://climesense.com/how-many-cfm-per-ton/>
+  - <https://inspectapedia.com/aircond/Air_Flow_Rates.php>
+  - <https://www.eng-tips.com/viewthread.cfm?qid=305846>
 
 
 ## Trim and Respond logic

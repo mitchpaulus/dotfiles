@@ -131,3 +131,5 @@ See:
 \e[?25h   // Show cursor
 \e[?25l   // Hide cursor
 ```
+
+<https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html#writing-a-command-line>

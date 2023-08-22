@@ -259,3 +259,7 @@ Time series database. Says it's faster than InfluxDB.
 ## [CoolProp](http://coolprop.org/index.html)
 
 Thermo-physical properties
+
+## <https://github.com/chmln/sd>
+
+Sed alternative
