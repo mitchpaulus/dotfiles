@@ -1008,42 +1008,12 @@ def outer_join(iter1: Iterable[T1], iter2: Iterable[T2], iter1_key: Callable[[T1
             for item2 in dict2[key]:
                 yield (None, item2)
 
-device_types = set([
-    'ahu',
-    'bcu',
-    'vav',
-    'fcu',
-    'chwp',
-    'cwp',
-    'chwpump',
-    'cwpump',
-    'eafan',
-    'btu',
-    'mzahu',
-    'dd',
-    'ddvav',
-    'ef',
-    'tab',
-    'sav',
-])
 
-full_device = set([
-    'energy consumption meter',
-    'chw system'
-])
+device_types = {'ahu', 'bcu', 'vav', 'fcu', 'chwp', 'cwp', 'chwpump', 'cwpump', 'eafan', 'btu', 'mzahu', 'dd', 'ddvav', 'ef', 'tab', 'sav'}
 
+full_device = {'energy consumption meter', 'chw system'}
 
-non_devices = set([
-    'application',
-    'trends',
-    'log',
-    'logs',
-    'ip network',
-    'bacnet interface',
-    'values',
-    'io bus',
-])
-
+non_devices = {'application', 'trends', 'log', 'logs', 'ip network', 'bacnet interface', 'values', 'io bus'}
 
 def device_from_path(path: str, sep="/") -> Optional[str]:
     if len(path) == 0:
@@ -1343,4 +1313,3 @@ def min_index(iterable: Iterable[float]) -> Tuple[int, float]:
             curr_idx = idx
 
     return curr_idx, curr_min
-
