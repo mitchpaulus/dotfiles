@@ -1286,11 +1286,18 @@ def itp(a: float, b: float, f: Callable[[float], float], eps: float = 0.00000001
     f_x_itp = 1
     x_itp = 0
 
+    fa = f(a)
+    fb = f(b)
+
+    if fa * fb > 0:
+        message = f"f(a) and f(b) must have opposite signs. a = {a}, f(a) = {fa}, b = {b}, f(b) = {fb}"
+        f(a)
+        f(b)
+        raise ValueError(f"f(a) and f(b) must have opposite signs. a = {a}, f(a) = {fa}, b = {b}, f(b) = {fb}")
+
     while b - a > eps and iterations < 40 and f_x_itp != 0:
         # Interpolation step
         x_1_2 = (a + b) / 2
-        fa = f(a)
-        fb = f(b)
         x_f = (b * fa - a * fb) / (fa - fb)
 
         # Truncation step
@@ -1314,8 +1321,10 @@ def itp(a: float, b: float, f: Callable[[float], float], eps: float = 0.00000001
 
         if (f_x_itp * fa) > 0:
             a = x_itp
+            fa = f_x_itp
         else:
             b = x_itp
+            fb = f_x_itp
 
         iterations += 1
 
@@ -1324,5 +1333,14 @@ def itp(a: float, b: float, f: Callable[[float], float], eps: float = 0.00000001
     else:
         return (a + b) / 2, f((a + b) / 2), iterations
 
+def min_index(iterable: Iterable[float]) -> Tuple[int, float]:
+    curr_min = sys.float_info.max
+    curr_idx = -1
 
+    for idx, value in enumerate(iterable):
+        if value < curr_min:
+            curr_min = value
+            curr_idx = idx
+
+    return curr_idx, curr_min
 

@@ -87,5 +87,12 @@ class TestItp(unittest.TestCase):
         print(zero, zero_val, iterations)
         self.assertAlmostEqual(zero, 1.52138, 4)
 
+class TestMinIndex(unittest.TestCase):
+    def test_minindex(self):
+        test_list = [1, -1, 3, 5]
+        idx, value = mputils.min_index(test_list)
+        self.assertEqual(idx, 1)
+        self.assertEqual(value, -1)
+
 if __name__ == "__main__":
     unittest.main()
