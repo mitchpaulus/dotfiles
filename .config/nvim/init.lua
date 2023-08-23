@@ -10,9 +10,9 @@ vim.cmd [[ Plug 'arcticicestudio/nord-vim' ]]
 vim.cmd [[ Plug 'chr4/nginx.vim' ]]
 vim.cmd [[ Plug 'dag/vim-fish' ]]
 vim.cmd [[ Plug 'dylon/vim-antlr' ]]
-vim.cmd [[ Plug 'github/copilot.vim' ]]
+-- vim.cmd [[ Plug 'github/copilot.vim' ]]
 vim.cmd [[ Plug 'godlygeek/tabular' ]]
-vim.cmd [[ Plug 'hrsh7th/vim-vsnip' ]]
+-- vim.cmd [[ Plug 'hrsh7th/vim-vsnip' ]]
 vim.cmd [[ Plug 'leafgarland/typescript-vim' ]]
 vim.cmd [[ Plug 'lervag/vimtex' ]]
 vim.cmd [[ Plug 'mboughaba/i3config.vim' ]]
@@ -43,21 +43,41 @@ vim.cmd [[ Plug 'tpope/vim-fugitive' ]]
 vim.cmd [[ Plug 'tpope/vim-surround' ]]
 vim.cmd [[ Plug 'vmchale/dhall-vim' ]]
 
-vim.cmd [[ Plug 'hrsh7th/cmp-nvim-lsp' ]]
-vim.cmd [[ Plug 'hrsh7th/cmp-buffer' ]]
-vim.cmd [[ Plug 'hrsh7th/cmp-path' ]]
 
+-- vim.cmd [[ Plug 'lifepillar/vim-mucomplete' ]]
 
--- if not in_wsl then load 'hrsh7th/cmp-cmdline'. Seems to break in WSL.
-if not in_wsl then vim.cmd [[ Plug 'hrsh7th/cmp-cmdline' ]] end
+-- vim.cmd [[ Plug 'ms-jpq/coq_nvim', {'branch': 'coq'} ]]
+-- vim.cmd [[ Plug 'ms-jpq/coq.thirdparty' ]]
 
-vim.cmd [[ Plug 'hrsh7th/nvim-cmp' ]]
-vim.cmd [[ Plug 'hrsh7th/cmp-vsnip' ]]
-vim.cmd [[ Plug 'hrsh7th/vim-vsnip' ]]
+-- vim.cmd [[ Plug 'hrsh7th/cmp-nvim-lsp' ]]
+-- vim.cmd [[ Plug 'hrsh7th/cmp-buffer' ]]
+-- vim.cmd [[ Plug 'hrsh7th/cmp-path' ]]
+
+-- -- if not in_wsl then load 'hrsh7th/cmp-cmdline'. Seems to break in WSL.
+-- if not in_wsl then vim.cmd [[ Plug 'hrsh7th/cmp-cmdline' ]] end
+
+-- vim.cmd [[ Plug 'hrsh7th/nvim-cmp' ]]
+-- vim.cmd [[ Plug 'hrsh7th/cmp-vsnip' ]]
+-- vim.cmd [[ Plug 'hrsh7th/vim-vsnip' ]]
 
 vim.cmd [[ Plug 'neovim/nvim-lspconfig' ]]
 
 vim.fn["plug#end"]()
+
+-- vim.g["mucomplete#enable_auto_at_startup"] = 1
+-- vim.g["mucomplete#no_mappings"] = 1
+
+-- vim.g.coq_settings = {
+    -- ["keymap.recommended"] = false ,
+    -- auto_start = true
+-- }
+
+-- require("coq_3p") {
+    -- { src = "nvimlua", short_name = "nLUA" },
+    -- { src = "copilot", short_name = "COP", accept_key = "<TAB>" },
+-- }
+
+-- require("coq")
 
 if in_wsl then
     vim.g.clipboard = {
@@ -69,50 +89,50 @@ if in_wsl then
 end
 
 -- Setup nvim-cmp.
-local cmp = require'cmp'
-
-cmp.setup({
-    snippet = {
-        -- REQUIRED - you must specify a snippet engine
-        expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-            -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-            -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
-            -- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
-        end,
-    },
-    mapping = {
-        -- ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-        -- ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-        ['<C-;>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-        ['<C-e>'] = cmp.mapping({
-            i = cmp.mapping.abort(),
-            c = cmp.mapping.close(),
-        }),
-        ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-        ['<C-p>'] = cmp.mapping.select_prev_item(),
-        ['<C-n>'] = cmp.mapping.select_next_item(),
-    },
-    sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
-        { name = 'vsnip' }, -- For vsnip users.
-    }, {
-        { name = 'buffer' },
-    })
-})
-
--- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline('/', {
-    sources = {
-        { name = 'buffer' }
-    }
-})
-
+ -- local cmp = require'cmp'
+ --
+ -- cmp.setup({
+     -- snippet = {
+         -- -- REQUIRED - you must specify a snippet engine
+         -- expand = function(args)
+             -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+             -- -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+             -- -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+             -- -- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
+         -- end,
+     -- },
+     -- mapping = {
+         -- -- ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+         -- -- ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+         -- ['<C-;>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+         -- ['<C-e>'] = cmp.mapping({
+             -- i = cmp.mapping.abort(),
+             -- c = cmp.mapping.close(),
+         -- }),
+         -- ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+         -- ['<C-p>'] = cmp.mapping.select_prev_item(),
+         -- ['<C-n>'] = cmp.mapping.select_next_item(),
+     -- },
+     -- sources = cmp.config.sources({
+         -- { name = 'nvim_lsp' },
+         -- { name = 'vsnip' }, -- For vsnip users.
+     -- }, {
+         -- { name = 'buffer' },
+     -- })
+ -- })
+ --
+ -- -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+ -- cmp.setup.cmdline('/', {
+     -- sources = {
+         -- { name = 'buffer' }
+     -- }
+ -- })
+ --
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-if not in_wsl then
-    ex_cmdline_sources = cmp.config.sources({{ name = 'path'    }}, {{ name = 'cmdline' }})
-    cmp.setup.cmdline(':', { sources = ex_cmdline_sources  })
-end
+-- if not in_wsl then
+    -- ex_cmdline_sources = cmp.config.sources({{ name = 'path'    }}, {{ name = 'cmdline' }})
+    -- cmp.setup.cmdline(':', { sources = ex_cmdline_sources  })
+-- end
 
 local function setupLsp()
     local nvim_lsp = require('lspconfig')
@@ -144,7 +164,7 @@ local function setupLsp()
         buf_set_keymap('v', '<space>la', ':lua vim.lsp.buf.code_action()<CR>', opts)
 
         -- Critical to have the noinsert option
-        vim.o.completeopt = 'menuone,noinsert'
+        -- vim.o.completeopt = 'menuone,noinsert'
 
         -- Set some keybinds conditional on server capabilities
         if client.server_capabilities.documentFormattingProvider then
@@ -171,11 +191,14 @@ local function setupLsp()
 
     -- Use a loop to conveniently both setup defined servers
     -- and map buffer local keybindings when the language server attaches
-    local servers = { "bashls", "vimls", "texlab", "hls", "pyright", "tsserver", "awk_ls" }
-    local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+    -- local servers = { "bashls", "vimls", "texlab", "hls", "pyright", "tsserver", "awk_ls" }
+    local servers = { "bashls", "vimls", "texlab", "hls", "tsserver", "awk_ls" }
+    -- local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+    -- local capabilities =
     for _, lsp in ipairs(servers) do
         -- Setup lspconfig. Update capabilities with nvim-cmp stuff
-        nvim_lsp[lsp].setup { on_attach = on_attach, capabilities = capabilities }
+        -- nvim_lsp[lsp].setup { on_attach = on_attach, capabilities = capabilities }
+        nvim_lsp[lsp].setup { on_attach = on_attach }
     end
 
     -- OmniSharp stuff
@@ -503,10 +526,13 @@ insertModeNoRecurseMappings = {
     -- Shebangs
     { '<localleader>sh', '#!/bin/sh' },
 
-    { '<C-Space>', '<Space>' },
+    -- { '<C-Space>', '<C-x><C-o>' },
 }
 
 func_map(function(tbl) inmap(tbl[1], tbl[2]) end, insertModeNoRecurseMappings)
+
+-- vim.api.nvim_set_keymap("i", ".", [[&omnifunc == "" ? "." : "\<C-o>:set completeopt=menuone,noinsert,preview\<Cr>\<C-o>:echom \"Got here \" . &completeopt\<Cr>.\<C-x>\<C-o>"]], { noremap = true, silent = true, expr = true })
+vim.api.nvim_set_keymap("i", "<C-Space>", [[pumvisible() ? "\<Space>" : "\<C-o>:set completeopt=menuone,noinsert,preview\<Cr>\<C-x>\<C-o>"]], { noremap = true, silent = true, expr = true })
 
 -- https://stackoverflow.com/a/60355468/5932184
 -- vim.api.nvim_exec( [[
@@ -575,6 +601,7 @@ vim.o.showmode = true
 vim.o.shiftround = true
 vim.o.spellsuggest = 'best,9'
 -- Remove the noinsert option if we aren't in LSP mode.
+-- vim.o.completeopt = 'menuone,preview'
 vim.o.completeopt = 'menu,preview'
 
 local wildignorePatterns = table.concat({
@@ -639,9 +666,9 @@ function check(value)    print(vim.inspect(value)) end
 function in_lsp_buffer() return next(vim.lsp.buf_get_clients()) ~= nil end
 function fix_completeopt()
     if in_lsp_buffer() then
-        vim.o.completeopt = 'menuone,noinsert'
+        -- vim.o.completeopt = 'menuone,noinsert'
     else
-        vim.o.completeopt = 'menu,preview'
+        -- vim.o.completeopt = 'menu,preview'
     end
 end
 
@@ -960,7 +987,7 @@ bufEnterAutocmds = {
 
     -- This is a function defined here, to make sure the completeopt option is
     -- updated properly for whether we're in a LSP setting or not.
-    { '*', 'lua fix_completeopt()' },
+    -- { '*', 'lua fix_completeopt()' },
 }
 
 bufenter_augroup_id = vim.api.nvim_create_augroup('bufenter_augroup', { clear = true })
@@ -1055,6 +1082,16 @@ end
 
 -- Call the function each time a file is opened, only if not on windows
 if not in_windows then vim.api.nvim_create_autocmd('BufReadPost', { pattern = '*', group = 'MPEvents', callback = write_directory }) end
+
+-- local function reset_completeopt()
+    -- print("Current option setting: " .. vim.o.completeopt)
+    -- print("Resetting completeopt")
+    -- print("Is popup visible? " .. tostring(vim.fn.pumvisible()))
+    -- vim.cmd [[pclose]]
+    -- vim.o.completeopt = 'menu,preview'
+-- end
+
+-- vim.api.nvim_create_autocmd('CompleteDone', { pattern = '*', group = 'MPEvents', callback = reset_completeopt })
 
 -- Remove trailing whitespace. Use keeppatterns so that
 -- the search history isn't ruined with the \v\s+$ junk.
