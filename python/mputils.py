@@ -1313,3 +1313,16 @@ def min_index(iterable: Iterable[float]) -> Tuple[int, float]:
             curr_idx = idx
 
     return curr_idx, curr_min
+
+def max_index(iterable: Iterable[float]) -> Tuple[int, float]:
+    curr_max = sys.float_info.min
+    curr_idx = -1
+
+    for idx, value in enumerate(iterable):
+        if value > curr_max:
+            curr_max = value
+            curr_idx = idx
+
+    return curr_idx, curr_max
+
+re.
