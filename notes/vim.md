@@ -150,3 +150,7 @@ Order of events:
 
 1. TermOpen - happens once on creation
 2. BufEnter - happens only on *second* load for terminal mode
+
+## Debugging
+
+`echom` in vimscript, `print` in lua.
