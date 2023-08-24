@@ -263,3 +263,7 @@ Thermo-physical properties
 ## <https://github.com/chmln/sd>
 
 Sed alternative
+
+## <https://github.com/ms-jpq/coq_nvim>
+
+Fast completion
