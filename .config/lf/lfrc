@@ -71,4 +71,6 @@ cmd mprename  &{{
 }}
 # Remap over default 'r' rename.
 map r mprename
+map <f-2> mprename
+
 cmd mkdir &mkdir "$1"; lf -remote "send $id reload"
