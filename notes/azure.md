@@ -66,5 +66,8 @@ ChatGPT tells me that `az` can handle Azure AD-based authentication, while `azco
 
 > To access blob data in the Azure portal with Azure AD credentials, a user must have the following role assignments:
 
-> - A data access role, such as Storage Blob Data Reader or Storage Blob Data Contributor
-> - The Azure Resource Manager Reader role, at a minimum
+> - A data access role, such as `Storage Blob Data Reader` or `Storage Blob Data Contributor`
+> - The Azure Resource Manager `Reader` role, at a minimum (Role name is just `Reader`)
+
+
+- Go to `Access Control (IAM)` -> `Role assignments` -> `Add role assignment`

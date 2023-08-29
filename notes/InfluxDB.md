@@ -132,6 +132,8 @@ import "influxdata/influxdb/schema"
 schema.measurements(bucket: "example-bucket")
 ```
 
+Look at script `influx_meas` for shell script implementation.
+
 ## Flux
 
 ```
