@@ -1324,5 +1324,3 @@ def max_index(iterable: Iterable[float]) -> Tuple[int, float]:
             curr_idx = idx
 
     return curr_idx, curr_max
-
-re.
