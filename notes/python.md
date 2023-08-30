@@ -535,3 +535,7 @@ my_time = time(11, 37)
 ## CSE Common SubExpression Elimination
 
 <https://docs.sympy.org/latest/modules/simplify/simplify.html?highlight=cse#module-sympy.simplify.cse_main>
+
+## `Pipfile`
+
+`Pipfile.lock` should be put into version control. <https://stackoverflow.com/a/46303305>
