@@ -24,6 +24,11 @@ Cool Storage
 100 Gb = $1 / month.
 1 Tb = $10 / month.
 
+Archive Storage
+100 Gb = $0.099/month
+1 Tb = $0.99/month
+10 Tb = $9.90/month
+
 Operations and data transfer                                    | Premium | Hot    | Cool   | Cold (preview) | Archive
 ----------------------------------------------------------------|---------|--------|--------|----------------|--------
 Write operations (per 10,000)1                                  | $0.0228 | $0.065 | $0.13  | $0.234         | $0.13

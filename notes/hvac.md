@@ -142,6 +142,15 @@ proportional control of electric power
 
 XFMR - shortened version of 'transformer'
 SCR - Silicon controlled rectifier
+FTR - Floor Telecommunications Room
+PTR - Primary Telecommunications Room
+IDF - Intermediate Distribution Frame
+MDF - Main Distribution Frame
+
+FTR/PTR is analogous to IDF/MDF in the IT world.
+
+<https://www.imss.caltech.edu/services/wired-wireless-remote-access/construction-requirements/Voice-and-Data-Network-Terminology>
+
 
 ## CFM per Ton Rule of Thumb
 
