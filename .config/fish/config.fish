@@ -472,4 +472,11 @@ if test -f "$HOME"/.ghcup/env
 set -gx NVM_DIR "$HOME/.nvm"
 if test -s "$NVM_DIR/nvm.sh"; bash "$NVM_DIR/nvm.sh"; end
 
+# Remove all paths starting with /mnt/c/ when in WSL.
+# By default, WSL adds all the items in the *Windows* path variable.
+# On WSL 2, the file system lookups are horrendously slow, which ruins the TAB completion.
+if test -n "$WSL_DISTRO_NAME"
+    set PATH (string match -v '/mnt/c/*' $PATH)
+end
+
 # vim:ft=fish
