@@ -10,7 +10,7 @@
 # &  shell-async     shell command running asynchronously
 
 # Default open: cmd open &$OPENER $f
-set hidden on
+set hidden true
 # set mouse on
 set previewer lf-preview
 map <esc> quit
@@ -60,7 +60,7 @@ cmd copy-gitpath & gitpath "$f" | clip
 cmd open $ "$OPENER" "$f"
 # map e $env VIMRUNTIME="$REPOS"/neovim/runtime "$REPOS"/neovim/build/bin/nvim "$f"
 
-cmd on-cd $ test -n "$WSL_DISTRO_NAME" && printf "\e]9;9;%s\e\\" "$(wslpath -w "$PWD")"
+cmd on-cd $ if test -n "$WSL_DISTRO_NAME"; then printf "\e]9;9;%s\e\\" "$(wslpath -w "$PWD")"; fi
 
 # From https://github.com/gokcehan/lf/wiki/Tips#rename-commands-similar-to-those-of-ranger
 # Also see discussion at: https://github.com/gokcehan/lf/issues/279
