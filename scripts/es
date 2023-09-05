@@ -3,11 +3,11 @@
 # PURPOSE: Quickly edit a script from the dotfiles. Uses 'fd' and 'fzf' to
 # accomplish this goal.
 
-file="$(fd '' ~/dotfiles/scripts/ -x basename | fzf --preview='lf-preview ~/dotfiles/scripts/{}')"
+file="$(fd '' "$DOTFILES"/scripts/ -x basename | fzf --preview='lf-preview '"$DOTFILES"'/scripts/{}')"
 
 # When fzf is cancelled it sends error code, just exit normally in that case.
 if test "$?" -ne 0; then
     exit 0
 fi
 
-"$EDITOR" ~/dotfiles/scripts/"$file"
+"$EDITOR" "$DOTFILES"/scripts/"$file"
