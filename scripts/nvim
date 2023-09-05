@@ -6,6 +6,8 @@ elif test -f ~/.local/bin/nvim; then
     ~/.local/bin/nvim "$@"
 elif test -f /usr/bin/nvim; then
     /usr/bin/nvim "$@"
+elif test -f /usr/local/bin/nvim; then  # This is brew install location on macOS.
+    /usr/local/bin/nvim "$@"
 else
     printf "Could not find nvim executable\n"
 fi
