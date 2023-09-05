@@ -2,8 +2,21 @@
 
 set -g fish_prompt_pwd_dir_length 8
 
-set -gx DOTFILES ~/dotfiles
-set -gx MPNOTES ~/dotfiles/notes
+# Add a REPOS environment variable for all those git repositories.
+if test -d '/mnt/c/Users/mpaulus/source/repos'
+    set -gx REPOS '/mnt/c/Users/mpaulus/source/repos'
+else if test -d "$HOME"/repos
+    set -gx REPOS "$HOME"/repos
+end
+
+if test -d ~/dotfiles
+    set -gx DOTFILES ~/dotfiles
+else if test -d $REPOS/dotfiles
+    set -gx DOTFILES $REPOS/dotfiles
+end
+
+set -gx MPNOTES $DOTFILES/notes
+
 set -gx LOCALBIN ~/.local/bin
 set -gx FILEMANAGER lf
 
@@ -97,12 +110,6 @@ end
 # Just becuase I check above doesn't mean that it's guaranteed to exist on the line below.
 command -q vivid; and set -gx LS_COLORS (vivid generate dracula)
 
-# Add a REPOS environment variable for all those git repositories.
-if test -d '/mnt/c/Users/mpaulus/source/repos'
-    set -gx REPOS '/mnt/c/Users/mpaulus/source/repos'
-else if test -d "$HOME"/repos
-    set -gx REPOS "$HOME"/repos
-end
 
 function fish_prompt
     set exit_code "$status"
@@ -321,7 +328,7 @@ abbr -a py python3
 # On basic Ubuntu install, python3 is installed, but no symlink for python
 if not command --query python; and command --query python3
     if test -d "$LOCALBIN"
-        ln -s -r -f (command -s python3) $LOCALBIN/python
+        ln -s -f (command -s python3) $LOCALBIN/python
     end
 end
 
