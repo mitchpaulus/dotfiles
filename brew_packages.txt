@@ -1,0 +1,6 @@
+fd
+fish
+fzf
+jq
+neovim
+shellcheck

@@ -1,5 +1,12 @@
 #!/bin/sh
 
+DOTFILES="$(find ~ -name 'dotfiles' -type d | head -n 1)"
+
+if test -z "$DOTFILES"; then
+	printf "Could not find dotfiles\n"
+	exit 1
+fi
+
 # $1 is the normal expected system location.
 # $2 is the location of file in this repository.
 # checkfile [destination location] [dotfile relative location]
@@ -13,7 +20,7 @@ checkfile() {
 
         if yesresponse "$response"; then
             printf "Linking %s to %s...\n\n" "$1" "$2"
-            ln --symbolic --force --relative "$2" "$1"
+            ln -s -f  "$DOTFILES"/"$2" "$1"
         else
             printf "Skipping file %s...\n\n" "$1"
         fi
@@ -24,8 +31,8 @@ checkfile() {
             printf "Linking %s to %s...\n" "$1" "$2"
             # Make the required subdirectories if required
             mkdir -p "$(dirname "$1")"
-            ln -sfr "$2" "$1"
-            printf "\n\n"
+            ln -s "$DOTFILES"/"$2" "$1"
+            printf "\n"
         fi
     fi
 }
@@ -70,7 +77,10 @@ checkfile   ~/.config/alacritty/alacritty.yml   .config/alacritty/alacritty.yml
 checkfile   ~/.config/git/config                .gitconfig
 checkfile   ~/.config/i3blocks/config           i3blocks/config
 checkfile   ~/.config/tmux/bash_completion_tmux.sh           scripts/bash_completion_tmux.sh
-checkfile   ~/.config/fish                      .config/fish/
+checkfile   ~/.config/fish/functions                      .config/fish/functions
+checkfile   ~/.config/fish/completions                      .config/fish/completions
+checkfile   ~/.config/fish/conf.d                      .config/fish/conf.d
+checkfile   ~/.config/fish/config.fish                      .config/fish/config.fish
 checkfile   ~/.config/lf/lfrc                   .config/lf/lfrc
 checkfile   ~/.tmux.conf                        .tmux.conf
 checkfile   ~/.config/vsnip                     .config/vsnip/

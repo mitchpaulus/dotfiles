@@ -950,27 +950,35 @@ local function write_directory()
       end
   end
 
-  local record_file_path = os.getenv("HOME") .. "/.config/d/dirs.tsv"  -- The record file
+  local home_dir = os.getenv("HOME")
+
+  if home_dir == nil then print("HOME not set") end
+
+  local dir_name = home_dir .. "/.config/d"
+
+  local success, msg = os.execute("mkdir -p \"" .. dir_name .. "\"")
+  if not success then
+      print("Could not make dir " .. dir_name )
+      return
+  end
+
+  local record_file_path = home_dir .. "/.config/d/dirs.tsv"  -- The record file
 
   -- Get the current date
   local date = os.date("*t")
   local year, month, day = date.year, date.month, date.day
 
   -- Try to open the record file
-  local success, file = pcall(function()
-    return io.open(record_file_path, "r")
-  end)
+  file, err = io.open(record_file_path, "r")
 
-  -- If the file doesn't exist, ask the user if they want to create it
-  if not success then
-      -- Add warning message
-      vim.api.nvim_err_writeln(string.format("The file %s does not exist", record_file_path))
-      return
+  local content
+  if file then
+      -- Read the entire content
+      content = file:read("*a")
+      file:close()
+  else
+      content = ""
   end
-
-  -- Read the entire content
-  local content = file:read("*a")
-  file:close()
 
   -- Check for the entry
   local found_entry = false
@@ -999,7 +1007,11 @@ local function write_directory()
     content = entry .. content
 
     -- Write the new content back to the file
-    file = io.open(record_file_path, "w")
+    file, err = io.open(record_file_path, "w")
+    if not file then
+        print(err)
+        return
+    end
     file:write(content)
     file:close()
   end
