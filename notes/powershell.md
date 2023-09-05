@@ -18,3 +18,7 @@ dir -> Get-ChildItem
 % -> ForEach-Object
 ? -> Where-Object
 ```
+
+# Other
+
+- Installation Path: `C:\Windows\System32\WindowsPowershell\v1.0\`
