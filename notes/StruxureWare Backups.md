@@ -164,3 +164,12 @@ Record count
 Executed by
 Interval
 Interval time zone
+
+
+## Data Files
+
+Anything with `.cdata` is a gzipped compressed file.
+
+```
+gunzip -k -S .cdata *.cdata
+```

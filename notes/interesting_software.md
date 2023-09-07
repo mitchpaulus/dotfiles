@@ -267,3 +267,5 @@ Sed alternative
 ## <https://github.com/ms-jpq/coq_nvim>
 
 Fast completion
+
+## [Miller](https://miller.readthedocs.io/en/6.9.0/)

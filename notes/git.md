@@ -22,10 +22,9 @@ Definition of "normalization", from the git documentation:
 
 - Unset: Does not normalize upon check-in or checkout
 
-- text=auto: When text is set to "auto", the path is marked for
-             automatic end-of-line conversion. If Git decides that the content is
-             text, its line endings are converted to LF on checkin. When the file
-             has been committed with CRLF, no conversion is done.
+- text=auto: When text is set to "auto", the path is marked for automatic end-of-line conversion.
+             If Git decides that the content is text, its line endings are converted to LF on checkin.
+             When the file has been committed with CRLF, no conversion is done.
 - Unspecified: Git uses the `core.autocrlf` configuration variable to determine if the file should be converted.
 
 `eol` attribute:
