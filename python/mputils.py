@@ -952,7 +952,7 @@ def pivot(data: Iterable[T1], row_selector: Callable[[T1], T2], col_selector: Ca
     return output
 
 
-def pivot_to_list(pivot_table: Dict[Tuple[T2, T3], T4]) -> List[List[str]]:
+def pivot_to_list(pivot_table: Dict[Tuple[Any, Any], List[Any]]) -> List[List[str]]:
     # Pivot table is a dict of tuples to values
     # Convert to a list of lists
     # First get the unique rows and columns
@@ -1203,6 +1203,15 @@ def days_since_epoch(year: int, month: int, day: int):
     days += day - 1
     return days
 
+def day_of_week(y, m, d):
+    """
+    Return day of week encoded as 0=Sun, 1=Mon, ..., 6=Sat
+    Uses Sakamoto's algorithm
+    """
+    t = [0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4]
+    if m < 3:
+        y = y - 1
+    return (y + int(y/4) - int(y/100) + int(y/400) + t[m-1] + d) % 7
 
 def to_unix_timestamp(year: int, month: int, day: int, hour: int, minute: int, second: int) -> int:
     days = days_since_epoch(year, month, day)
