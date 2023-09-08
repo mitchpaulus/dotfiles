@@ -145,3 +145,7 @@ PAT:
   - Can't use `GITHUB_TOKEN`, need PAT or SSH deploy key.
 
 - `actions/checkout` only gets the single commit, not the full history.
+
+## Debugging
+
+- `shell: bash -x {0}` to see the commands being run.

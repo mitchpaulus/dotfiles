@@ -108,3 +108,10 @@ d	=	( 2 + 1953 +  1953 4  –  1953 100  +  1953 400  +  31�
   =	0
 
 I was born on a Sunday.
+
+
+Books:
+
+From [Calendar FAQ](https://www.tondering.dk/claus/cal/faqfaq.php),
+
+Edward M. Reingold & Nachum Dershowitz: Calendrical Calculations. Third Edition. Cambridge University Press 2008. ISBN 978-0-521-70238-6

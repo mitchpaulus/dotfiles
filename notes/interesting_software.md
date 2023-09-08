@@ -269,3 +269,7 @@ Sed alternative
 Fast completion
 
 ## [Miller](https://miller.readthedocs.io/en/6.9.0/)
+
+## [excelize](https://github.com/qax-os/excelize)
+
+Excel interop for Go.
