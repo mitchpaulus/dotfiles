@@ -77,3 +77,34 @@ def dayofweek(y, m, d):
         y = y - 1
     return (y + int(y/4) - int(y/100) + int(y/400) + t[m-1] + d) % 7
 ```
+
+Or from: <https://www.tondering.dk/claus/cal/chrweek.php#calcdow>
+
+To calculate the day on which a particular date falls, the following algorithm may be used. (Click here for a description of the symbols   and   and the operator ‘mod’.)
+
+```
+a	=	floor(14 – month / 12)
+y	=	year – a
+m	=	month + 12a – 2
+
+# For the Julian calendar:
+d	=	( 5 + day + y + floor(y/4) + floor(31*m/12) mod 7
+
+# For the Gregorian calendar:
+d	=	(day + y +  floor(y/4)  –  floor(y/100) + floor(y/400)  +  floor(31*m / 12) mod 7
+
+```
+The value of d is 0 for a Sunday, 1 for a Monday, 2 for a Tuesday etc.
+Example: On what day of the week was the author born?
+
+My birthday is 2 August 1953 (Gregorian, of course).
+
+a	= floor((14 – 8) / 12) = 0
+y	=	1953 – 0 = 1953
+m	=	8 + 12 × 0 – 2 = 6
+d	=	( 2 + 1953 +  1953 4  –  1953 100  +  1953 400  +  31 × 6 12) mod 7
+  =	(2 + 1953 + 488 – 19 + 4 + 15) mod 7
+  =	2443 mod 7
+  =	0
+
+I was born on a Sunday.

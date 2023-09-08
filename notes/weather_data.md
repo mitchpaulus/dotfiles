@@ -2,10 +2,22 @@
 
 ftp://ftp.ncdc.noaa.gov/pub/data/noaa/
 
+
+Format document:
+
+ftp://ftp.ncdc.noaa.gov/pub/data/noaa/isd-format-document.pdf
+
 DFW Airport Weather Station:
 
 722590-03927
 
+`ftp://ftp.ncdc.noaa.gov/pub/data/noaa/2021/722590-03927-2021.gz`
+
+Can then use `gunzip` to unzip the file.
+
+```
+wget ftp://ftp.ncdc.noaa.gov/pub/data/noaa/2021/722590-03927-2021.gz && gunzip 722590-03927-2021.gz
+```
 
 ISD Format
 
@@ -13,9 +25,9 @@ ISD Format
 5-10: USAF
 11-15: WBAN
 16-23: Date in YYYYMMDD form
-24-27: Time in HHMM form
+24-27: UTC Time in HHMM form
 28: Source
-29-34: Latitude [+-][0-9]{5}
+29-34: Latitude [+-][0-9]{5} Scaling factor: 1000 +99999 = Missing
 35-41: Longitude [+-][0-9]{5}
 42-46: Code
 47-51: Elevation (m)

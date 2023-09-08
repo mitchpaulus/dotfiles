@@ -19,3 +19,14 @@ Facility: Everything
 Building: Lighting and Plugs
 HVAC: Fans/Electric Reheat Coils
 Plant: Chiller Power, CT Power, CHW/HW Pumps
+
+
+## Weather
+
+[Required weather variables](https://unmethours.com/question/32238/documentation-on-required-epw-variables-to-run-energyplus/)
+
+[Climate.OneBuilding.Org](https://climate.onebuilding.org/)
+
+[Weather sources](https://unmethours.com/question/21291/what-sources-are-available-for-typical-weather-data-beyond-energyplusnet/)
+
+<https://unmethours.com/question/1/what-are-the-available-sources-for-historical-weather-data/>
