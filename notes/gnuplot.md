@@ -164,6 +164,11 @@ set xtics
    { textcolor <colorspec> }
 ```
 
+```
+set xtics ("10,000 10000, "20,000" 20000, "30,000" 30000)
+```
+
+
 ## Key/Legend
 
 ```

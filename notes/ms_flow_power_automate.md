@@ -6,3 +6,11 @@
   - 'When a new email arrive (V3)' as trigger
   - 'Apply to each': 'Attachments'
   - 'Create file 2' (Sharepoint)
+
+
+## Email
+
+```
+body('Get_email')?['receivedDateTime']
+formatDateTime( datetime, 'yyyy-MM-ddTHHmmss')
+```

@@ -53,3 +53,5 @@ Directive | Meaning
 %p        | Locale’s AM or PM.
 %M        | Minute as a zero-padded decimal number.
 %S        | Second as a zero-padded decimal number.
+
+There is no non-zero-padded version of the hour.
