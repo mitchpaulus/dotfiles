@@ -74,7 +74,9 @@ func main() {
     toggl_err := `Toggl API error`
     req, err := http.NewRequest(http.MethodGet, "https://api.track.toggl.com/api/v9/me/time_entries/current", nil)
     if err != nil {
+        fmt.Fprintf(os.Stderr, "Error in building new request.\n")
         fmt.Fprintf(os.Stderr, toggl_err)
+        os.Exit(1)
     }
     req.Header.Set("Content-Type", "application/json; charset=utf-8")
     req.SetBasicAuth(token, "api_token")
@@ -82,13 +84,17 @@ func main() {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
+        fmt.Fprintf(os.Stderr, "Error in client.Do\n")
         fmt.Fprintf(os.Stderr, toggl_err)
+        os.Exit(1)
     }
 
     defer resp.Body.Close()
     body, err := ioutil.ReadAll(resp.Body)
     if err != nil {
+        fmt.Fprintf(os.Stderr, "Error in reading body\n")
         fmt.Fprintf(os.Stderr, toggl_err)
+        os.Exit(1)
     }
 
     body_text := string(body)
