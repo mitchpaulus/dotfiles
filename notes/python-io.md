@@ -33,6 +33,18 @@ Character | Meaning
 `newline` parameter controls how newlines are handled in 'text' mode.
 The default is 'Universal newlines', meaning all newlines are converted to Unix '\n'.
 
+`newline` determines how to parse newline characters from the stream. It can be None, '', '\n', '\r', and '\r\n'. It works as follows:
+
+When reading input from the stream, if newline is None, universal newlines mode is enabled.
+Lines in the input can end in '\n', '\r', or '\r\n', and these are translated into '\n' before being returned to the caller.
+If it is '', universal newlines mode is enabled, but line endings are returned to the caller untranslated.
+If it has any of the other legal values, input lines are only terminated by the given string, and the line ending is returned to the caller untranslated.
+
+When writing output to the stream, if newline is None, any '\n' characters written are translated to the system default line separator, os.linesep.
+If newline is '' or '\n', no translation takes place.
+If newline is any of the other legal values, any '\n' characters written are translated to the given string.
+
+
 
 [os.path](https://docs.python.org/3/library/os.path.html)
 
