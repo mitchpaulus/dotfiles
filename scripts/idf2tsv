@@ -1,0 +1,24 @@
+#!/usr/bin/python3
+
+# read from stdin
+import sys
+
+
+cleaned = []
+for line in sys.stdin:
+    # strip everything to right of first exclamation point
+    line = line.split('!')[0]
+    line = line.strip()
+    cleaned.append(line)
+
+file_contents = "".join(cleaned)
+
+# split on semicolon, then on comma, strip each field
+
+# split on semicolon
+file_contents = file_contents.split(';')
+
+for obj in file_contents:
+    fields = obj.split(',')
+    fields = [field.strip() for field in fields]
+    print("\t".join(fields))
