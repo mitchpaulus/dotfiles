@@ -12,6 +12,13 @@ merger.append(fileobj='file.pdf', outline_item='str', pages=(1, 2), import_outli
 # 1-based page number?
 merger.add_outline_item(title='str', pagenum=1, parent
 
+
+writer = PdfWriter()
+
+writer.add_outline_item('Bookmark name', 32)
+
+with open('file.pdf', 'wb') as f:
+    writer.write(f)
 ```
 
  - Pages are 0-based

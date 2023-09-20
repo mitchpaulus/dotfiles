@@ -15,7 +15,7 @@ The TAC Vista software is modular and each function can be purchased separately.
   •	 Binary – 0/1 = FALSE/TRUE
 
 
-From `TAC Vista Menta Technical Manual.pdf`
+From `TAC Vista Menta Technical Manual.pdf`, available in `PDF References` folder.
 
 SNVT = Standard Network Variable Type, which enables LonWorks™ network communication between nodes from different manufacturers.
 
@@ -70,6 +70,8 @@ Mode | Description
 3    | Controller output forced to UMin
 else | same as mode 0
 
+- `PVR` - Real Value Parameter
+    Basically a constant, or user changeable real value if it's made public.
 
 - `SR` - Set-Reset Flip-Flop
     - Inputs

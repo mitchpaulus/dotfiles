@@ -1,6 +1,7 @@
 <https://peps.python.org/pep-0557/>
 
 ```python
+from dataclasses import dataclass
 @dataclass
 class InventoryItem:
     '''Class for keeping track of an item in inventory.'''

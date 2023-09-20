@@ -273,3 +273,7 @@ Fast completion
 ## [excelize](https://github.com/qax-os/excelize)
 
 Excel interop for Go.
+
+## [Numbat](https://numbat.dev/doc/)
+
+Programming language with units
