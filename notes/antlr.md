@@ -2,7 +2,7 @@
 
 ## Installation
 
-Download from link at <www.antlr.org>, 'Complete ANTLR x.x.x java binaries jar.
+Download from link at <www.antlr.org>, Complete ANTLR x.x.x java binaries jar.
 Single JAR file. Put in `/usr/local/lib/`. Dotfiles will search for that dir.
 
 
@@ -24,7 +24,7 @@ grun() {
 }
 ```
 
-Run grun like:
+Run `grun` like:
 ```sh
 grun GrammarName rule [-tree] [-tokens] ..
 ```
@@ -33,12 +33,11 @@ Make sure the java classes have been compiled.
 
 - Add visitor classes `-visitor` CLI option
 
-
 ## Installing the Java Development Kit for WSL on Windows OS
 
-- Used Open Source version from [https://jdk.java.net/14/](https://jdk.java.net/14/)
+- Used Open Source version from [https://jdk.java.net/14/](https://jdk.java.net)
 - Extract to desired directory
-    - Installed to /usr/java/jdk-14.0.2/
+    - Installed to `/usr/java/jdk-14.0.2/`
     - Added `/usr/java/jdk-14.0.2/bin` to `PATH`
 
 Followed instructions for Antlr
