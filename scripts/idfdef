@@ -2,6 +2,10 @@
 
 set -e
 
+# Normally it's expected that the repo:
+# https://github.com/mitchpaulus/idf-default-objects
+# has been cloned to a directory within `HOME` somewhere.
+
 # Allow myself to set the directory arbitrarily in a particular dir. Also serves
 # as cached location, so the directory doesn't have to be searched for each time.
 if test -f "$HOME"/.config/idf-default-objects/dir; then
