@@ -49,3 +49,74 @@ Elapsed time in hours; for example, 25.02 [h]:mm
 Elapsed time in minutes; for example, 63:46 [mm]:ss
 Elapsed time in seconds [ss]
 Fractions of a second h:mm:ss.00
+
+
+## Formulas
+
+RD
+
+```
+=LAMBDA(year, month, day,
+    365 * (year - 1) + FLOOR.MATH((year - 1)/4) - FLOOR.MATH((year - 1)/100)
+    + FLOOR.MATH((year - 1)/400) + FLOOR.MATH((367 * month - 362)/12)
+    + IF(month <= 2, 0,
+        IF(AND(MOD(D4,4)=0,LET(mod_400,MOD(D4,400), NOT(OR( mod_400=100,mod_400=200,mod_400=300)))), -1, -2)
+        )
+    + day)
+
+=LAMBDA(year, month, day, 365 * (year - 1) + FLOOR.MATH((year - 1)/4) - FLOOR.MATH((year - 1)/100) +FLOOR.MATH((year - 1)/400) + FLOOR.MATH((367 * month - 362)/12) +IF(month <= 2, 0, IF(AND(MOD(D4,4)=0,LET(mod_400,MOD(D4,400), NOT(OR( mod_400=100,mod_400=200,mod_400=300)))), -1, -2)) +day)
+
+# gregorian-year-from-fixed
+
+=LAMBDA(rddate,
+    LET(
+       g_d0, rddate -1,
+       g_n400,FLOOR.MATH(g_d0/146097),
+       g_d1,MOD(g_d0,146097),
+       g_n100, FLOOR.MATH(g_d1/36524),
+       g_d2, MOD(g_d1,36524),
+       g_n4, FLOOR.MATH(g_d2/1461),
+       g_d3, MOD(g_d2, 1461),
+       g_n1, FLOOR.MATH(g_d3/365),
+       g_year, 400*g_n400 + 100*g_n100 + 4*g_n4 + g_n1,
+       IF(OR(g_n100=4,g_n1=4),g_year,g_year+1)
+       )
+    )(H4)
+
+
+# gregorian-month-from-fixed
+
+=LAMBDA(rddate,
+   LET(
+      g_year, gregorianYearFromFixed(rddate),
+      g_prior_days, rddate - fixedFromGregorian(g_year,1,1),
+      correction, IF(rddate < fixedFromGregorian(g_year,3,1),
+                         0,
+                         IF(isLeapYear(g_year), 1,2)),
+    FLOOR.MATH((12*(g_prior_days + correction) + 373)/367)
+   )
+)
+
+
+=LAMBDA(rddate, LET( g_year, gregorianYearFromFixed(rddate), g_prior_days, rddate - fixedFromGregorian(g_year,1,1), correction, IF(rddate < fixedFromGregorian(g_year,3,1), 0, IF(isLeapYear(g_year), 1,2)), FLOOR.MATH((12*(g_prior_days + correction) + 373)/367)))
+
+# gregorian-day-from-fixed
+
+=LAMBDA(rddate,
+   LET(
+    g_year, gregorianYearFromFixed(rddate),
+    g_month, gregorianMonthFromFixed(rddate),
+    rddate - fixedFromGregorian(g_year, g_month, 1) + 1
+   )
+)
+
+
+=LAMBDA(rddate, LET( g_year, gregorianYearFromFixed(rddate), g_month, gregorianMonthFromFixed(rddate), rddate - fixedFromGregorian(g_year, g_month, 1) + 1))
+
+
+
+# is-leap-year
+
+=LAMBDA(g_year, AND(MOD(g_year,4)=0,LET(mod_400,MOD(g_year,400),   NOT(OR( mod_400=100,mod_400=200,mod_400=300)))))
+
+```

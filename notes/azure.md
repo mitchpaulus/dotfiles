@@ -58,6 +58,11 @@ azcopy cp "/path/to/dir" "https://[account].blob.core.windows.net/[container]/[p
 az storage blob download --account-name mystorageaccount --name myfile --container-name mycontainer --type block --file ./downloaded_file --auth-mode login
 # Need at least `Storage Blob Data Reader` role for the storage account.
 
+az storage blob list --account-name mystorageaccount --container-name mycontainer --auth-mode login --prefix "myfolder/myfile"
+
+# This keeps the directory structure of the blobs.
+az storage blob download-batch -d . -s mycontainer --pattern 'myprefix/*'
+
 ```
 
 

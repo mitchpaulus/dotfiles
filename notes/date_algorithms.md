@@ -115,3 +115,31 @@ Books:
 From [Calendar FAQ](https://www.tondering.dk/claus/cal/faqfaq.php),
 
 Edward M. Reingold & Nachum Dershowitz: Calendrical Calculations. Third Edition. Cambridge University Press 2008. ISBN 978-0-521-70238-6
+
+
+## Calendrical Calculations
+
+```
+# Months 1 - 12
+# Days 1 - 31
+
+fixed-from-gregorian =
+    365 * (year - 1) + floor((year - 1) / 4) - floor((year - 1) / 100) + floor((year -1)/400) + floor((367 * month - 362) / 12) + adj + day
+
+adj = if (month <= 2) then 0
+      else if (is-leap-year(year)) then -1
+      else -2
+
+
+gregorian-year-from-fixed = if (n_100 == 4 or n_1 == 4) year
+                            else year + 1
+
+where:
+
+d0 = date - gregorian_epoch
+n_400 = floor(d0 / 146097)
+d1 = d0 mod 146097
+
+
+
+```
