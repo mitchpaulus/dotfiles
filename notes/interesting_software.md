@@ -277,3 +277,14 @@ Excel interop for Go.
 ## [Numbat](https://numbat.dev/doc/)
 
 Programming language with units
+
+## [PyMuPDF](https://pymupdf.readthedocs.io/en/latest/index.html)
+
+Maybe can finally do bookmarks simply?
+
+<https://pymupdf.readthedocs.io/en/latest/document.html#Document.get_toc>
+
+```
+toc = doc.get_toc()
+dot.set_toc()
+```
