@@ -115,9 +115,9 @@ The availability managers, air loops, and plant loops all have output variables 
 
 5. Get change of basis matrix
     - Inverse of matrix with new basis vectors as columns
-        - `C[a]_c = a` in std basis
-        - `D[a]_d = b` in std basis
-        - Therefore `C[a]_c = D[b]_d` = `D^-1 C [a]_c = [a]_d`
+        - `C [a]_c = a` in std basis
+        - `D [a]_d = b` in std basis
+        - Therefore `C [a]_c = D [b]_d` = `D^-1 C [a]_c = [a]_d`
 
 5. Transform points to new basis
     - Whatever coordinate was related to normal should be 0 if things worked right
