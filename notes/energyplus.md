@@ -123,3 +123,38 @@ The availability managers, air loops, and plant loops all have output variables 
     - Whatever coordinate was related to normal should be 0 if things worked right
 
 6. Now can do 2d polygon overlap check.
+
+
+## Chillers
+
+
+`Chiller:Electric:EIR`
+
+```
+P = Pref (ChillerCapFTemp) (ChillerEIRFTemp) (ChillerEIRFPLR)
+
+P = Pref (1) (a + b Tchw + c Tchw² + d Tcw + e Tcw² + f Tchw tcw) (g + h PLR + i PLR²)
+
+P = Pref (
+
+Tchw*b*g+
+Tchw*f*g*tcw+
+Tchw^2*c*g+
+Tcw*d*g+
+Tcw²*e*g +
+a*g
+PLR*Tchw*b*h+
+PLR*Tchw*f*h*tcw+
+PLR*Tchw^2*c*h+
+PLR*Tcw*d*h +
+PLR*Tcw²*e*h+
+PLR*a*h+
+PLR^2*Tchw*b*i +
+PLR^2*Tchw*f*i*tcw+
+PLR^2*Tchw^2*c*i+
+PLR^2*Tcw*d*i+
+PLR^2*Tcw²*e*i +
+PLR^2*a*i+
+```
+
+18 equations, 9 unknowns, so over determined system. Can solve in 2 stage process.

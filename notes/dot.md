@@ -23,51 +23,50 @@ digraph {
 ```
 
 Other formats:
-- canon
-- cmap
-- cmapx
-- cmapx_np
-- dot
-- dot_json
-- eps
-- fig
-- gd
-- gd2
-- gif
-- gv
-- imap
-- imap_np
-- ismap
-- jpe
-- jpeg
-- jpg
-- json
-- json0
-- mp
-- pdf
-- pic
-- plain
-- plain-ext
-- png
-- pov
-- ps
-- ps2
-- svg
-- svgz
-- tk
-- vdx
-- vml
-- vmlz
-- vrml
-- wbmp
-- webp
-- x11
-- xdot
-- xdot1.2
-- xdot1.4
-- xdot_json
-- xlib
-
+- `canon`
+- `cmap`
+- `cmapx`
+- `cmapx_np`
+- `dot`
+- `dot_json`
+- `eps`
+- `fig`
+- `gd`
+- `gd2`
+- `gif`
+- `gv`
+- `imap`
+- `imap_np`
+- `ismap`
+- `jpe`
+- `jpeg`
+- `jpg`
+- `json`
+- `json0`
+- `mp`
+- `pdf`
+- `pic`
+- `plain`
+- `plain-ext`
+- `png`
+- `pov`
+- `ps`
+- `ps2`
+- `svg`
+- `svgz`
+- `tk`
+- `vdx`
+- `vml`
+- `vmlz`
+- `vrml`
+- `wbmp`
+- `webp`
+- `x11`
+- `xdot`
+- `xdot1.2`
+- `xdot1.4`
+- `xdot_json`
+- `xlib`
 
 ```grammar
 graph	:	[ strict ] (graph | digraph) [ ID ] '{' stmt_list '}'
@@ -95,4 +94,11 @@ compass_pt	:	(n | ne | e | se | s | sw | w | nw | c | _)
 
 # Shapes
 
-`box` `diamond` `point`
+<https://graphviz.org/doc/info/shapes.html#polygon>
+
+`box`, `rect`, `rectangle`
+`square`
+`diamond`
+`point`
+`circle`
+`triangle`

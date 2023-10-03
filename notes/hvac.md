@@ -147,6 +147,8 @@ PTR - Primary Telecommunications Room
 IDF - Intermediate Distribution Frame
 MDF - Main Distribution Frame
 
+SLR - SuperLAN Room
+
 FTR/PTR is analogous to IDF/MDF in the IT world.
 
 <https://www.imss.caltech.edu/services/wired-wireless-remote-access/construction-requirements/Voice-and-Data-Network-Terminology>
