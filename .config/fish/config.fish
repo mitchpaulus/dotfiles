@@ -232,6 +232,8 @@ bind ';f' filemanager
 bind ';j' workdir
 bind ';c' workdir
 
+bind -k f1 filemanager
+
 bind jc git_commit
 bind jd git_diff
 bind jf execute
@@ -241,7 +243,7 @@ bind jw workdir
 # moved vl for clearing to match CTRL-L.
 bind vj forward-char execute
 bind vl clear_terminal
-bind qk exit
+bind qq exit
 
 function work_dir_search
     cd '/mnt/c/Users/mpaulus/Command Commissioning/'
