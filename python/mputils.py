@@ -1333,3 +1333,54 @@ def max_index(iterable: Iterable[float]) -> Tuple[int, float]:
             curr_idx = idx
 
     return curr_idx, curr_max
+
+def fixed_from_gregorian(year: int, month: int, day: int) -> int:
+    # From Calendrical Calculations
+    y1 = year - 1
+    if month <= 2:
+        adj = 0
+    elif is_leap_year(year):
+        adj = -1
+    else:
+        adj = -2
+
+    rd = 365 * y1 + math.floor(y1/4) - math.floor(y1/100) + math.floor(y1/400) + math.floor((367 * month - 362)/12) + adj + day
+    return rd
+
+def year_from_rd(rd_date: int) -> int:
+    rd_date = math.floor(rd_date)
+    d0 = rd_date - 1
+    n400 = math.floor(d0 / 146097)
+    d1 = d0 % 146097
+    n100 = math.floor(d1 / 36524)
+    d2 = d1 % 36524
+    n4 = math.floor(d2 / 1461)
+    d3 = d2 % 1461
+    n1 = math.floor(d3 / 365)
+    year = 400 * n400 + 100 * n100 + 4 * n4 + n1
+
+    if n100 == 4 or n1 == 4:
+        return year
+    else:
+        return year + 1
+
+def gregorian_new_year(year: int) -> int:
+    """Returns RD date of the first day of the year for the given year."""
+    return fixed_from_gregorian(year, 1, 1)
+
+
+def ymd_from_rd(date: int) -> Tuple[int, int, int]:
+    year = year_from_rd(date)
+    prior_days = date - gregorian_new_year(year_from_rd(date))
+
+    if date < fixed_from_gregorian(year, 3, 1):
+        correction = 0
+    elif is_leap_year(year):
+        correction = 1
+    else:
+        correction = 2
+
+    month = math.floor((12 * (prior_days + correction) + 373) / 367)
+    day = date - fixed_from_gregorian(year, month, 1) + 1
+
+    return year, month, day
