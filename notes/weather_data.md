@@ -1,11 +1,15 @@
 # Weather Data
 
-ftp://ftp.ncdc.noaa.gov/pub/data/noaa/
+<ftp://ftp.ncdc.noaa.gov/pub/data/noaa/>
+
+Otherwise, can use browser at:
+
+<https://www1.ncdc.noaa.gov/pub/data/noaa/>
 
 
 Format document:
 
-ftp://ftp.ncdc.noaa.gov/pub/data/noaa/isd-format-document.pdf
+<ftp://ftp.ncdc.noaa.gov/pub/data/noaa/isd-format-document.pdf>
 
 DFW Airport Weather Station:
 
