@@ -1,0 +1,202 @@
+#!/usr/bin/env python3
+
+import sys
+import mputils
+from ftplib import FTP
+import gzip
+from io import BytesIO
+from typing import Union, List, TextIO
+import math
+
+def list_isd_files():
+    with FTP("ftp.ncdc.noaa.gov") as ftp:
+        ftp.login()
+        ftp.cwd("pub/data/noaa")
+        files = ftp.nlst()
+        return files
+
+
+def to_hourly(data: List[List[str]], year: int):
+    desired_hourly_datetime_mins = []
+
+    current_date_multiplier = 0
+    start_day_num = mputils.fixed_from_gregorian(year, 1, 1) * 1440
+    end_day_num = mputils.fixed_from_gregorian(year + 1, 1, 1) * 1440
+
+    while start_day_num + current_date_multiplier * 60 < end_day_num:
+        desired_hourly_datetime_mins.append(start_day_num + current_date_multiplier * 60)
+        current_date_multiplier += 1
+
+    data_datetimes = []
+    for record in data:
+        data_year, data_month, data_day, data_hour, data_minute, dry_bulb_f, dew_point_f = record
+        data_year = int(data_year)
+        data_month = int(data_month)
+        data_day = int(data_day)
+        data_hour = int(data_hour)
+        data_minute = int(data_minute)
+
+        dry_bulb_f = float(dry_bulb_f)
+        dew_point_f = float(dew_point_f)
+
+        data_rd_date = mputils.fixed_from_gregorian(data_year, data_month, data_day) * 1440 + data_hour * 60 + data_minute
+        data_datetimes.append(data_rd_date)
+
+
+    iterpolate_indexes = mputils.first_index_gteq(desired_hourly_datetime_mins, data_datetimes)
+    index = 0
+
+    out = []
+
+    while index < len(desired_hourly_datetime_mins):
+        desired_time = desired_hourly_datetime_mins[index]
+        y, mon, d, h, m = mputils.ymdhm_from_rd(desired_time)
+
+        data_index = iterpolate_indexes[index]
+
+        if data_index is None or data_index == 0:
+            fields = [y, mon, d, h, m, '', '']
+        else:
+            # Iterpolate
+            data_year1, data_month1, data_day1, data_hour1, data_minute1, dry_bulb_f1, dew_point_f1 = data[data_index - 1]
+            data_year2, data_month2, data_day2, data_hour2, data_minute2, dry_bulb_f2, dew_point_f2 = data[data_index]
+
+            data_rd_date1 = mputils.fixed_from_gregorian(data_year1, data_month1, data_day1) * 1440 + data_hour1 * 60 + data_minute1
+            data_rd_date2 = mputils.fixed_from_gregorian(data_year2, data_month2, data_day2) * 1440 + data_hour2 * 60 + data_minute2
+
+            dry_bulb_f = dry_bulb_f1 + (dry_bulb_f2 - dry_bulb_f1) * (desired_time - data_rd_date1) / (data_rd_date2 - data_rd_date1)
+            dew_point_f = dew_point_f1 + (dew_point_f2 - dew_point_f1) * (desired_time - data_rd_date1) / (data_rd_date2 - data_rd_date1)
+
+            if dry_bulb_f < -100 or dry_bulb_f > 150:
+                print(f"Warning: dry bulb temperature out of range: {dry_bulb_f} F. Interpolating between {dry_bulb_f1} F and {dry_bulb_f2} F")
+
+            fields = [y, mon, d, h, m, dry_bulb_f, dew_point_f]
+
+        out.append([str(field) for field in fields])
+        index += 1
+
+    return out
+
+
+def get_isd_file_contents(usaf: str, year: int) -> str:
+    with FTP("ftp.ncdc.noaa.gov") as ftp:
+        ftp.login()
+        ftp.cwd(f"pub/data/noaa/{year}")
+
+        files = []
+        for file in ftp.nlst():
+            if file.startswith(usaf):
+                files.append(file)
+
+        compressed_buffer = BytesIO()
+        ftp.retrbinary(f"RETR {files[0]}", compressed_buffer.write)
+
+        compressed_buffer.seek(0) # Go back to the start of the buffer
+
+        # Decompress the file, UTF-8 decode it and return string
+        decompressed = gzip.decompress(compressed_buffer.read()).decode("utf-8")
+        return decompressed
+
+
+def parse_isd_file(contents: Union[str, List[str], TextIO], offset: int, dst = True):
+    records = contents.splitlines() if isinstance(contents, str) else contents
+
+    data = []
+    for record in records:
+        # These are all UTC times
+        year_utc   = int(record[15:19])
+        month_utc  = int(record[19:21])
+        day_utc    = int(record[21:23])
+        hour_utc   = int(record[23:25])
+        minute_utc = int(record[25:27])
+
+        #  wind_speed_mps = int(record[65:69]) / 10
+        #  wind_speed_mph = wind_speed_mps * 2.23694
+
+        dry_bulb_c_raw = record[87:92]
+
+        if dry_bulb_c_raw == "+9999":
+            continue
+
+        dry_bulb_c = int(record[87:92]) / 10
+        dry_bulb_f = dry_bulb_c * 9 / 5 + 32
+        dew_point_c = int(record[93:98]) / 10
+        dew_point_f = dew_point_c * 9 / 5 + 32
+        #  air_pressure_hPa = int(record[99:104]) / 10
+
+        rd_datetime_utc = mputils.fixed_from_gregorian(year_utc, month_utc, day_utc) + hour_utc / 24 + minute_utc / 1440
+        if dst:
+            rd_datetime_local = mputils.utc_to_local(rd_datetime_utc, offset)
+        else:
+            rd_datetime_local = rd_datetime_utc + offset / 24
+
+        year, month, day = mputils.ymd_from_rd(rd_datetime_local)
+
+        hour   = math.floor((rd_datetime_local - math.floor(rd_datetime_local)) * 24)
+        minute = math.floor((rd_datetime_local - math.floor(rd_datetime_local)) * 1440) % 60
+
+        fields = [
+            year,
+            month,
+            day,
+            hour,
+            minute,
+            dry_bulb_f,
+            dew_point_f,
+        ]
+        data.append(fields)
+
+    return data
+
+def convert_to_tsv():
+    idx = 1
+    offset = None
+
+    while idx < len(sys.argv):
+        if sys.argv[idx] == "-h" or sys.argv[idx] == "--help":
+            print("Usage: isd2tsv < isd_file > tsv_file")
+            sys.exit(0)
+        else:
+            # Parse as integer offset
+            try:
+                offset = int(sys.argv[idx])
+                idx += 1
+            except ValueError:
+                print(f"Error: {sys.argv[idx]} is not a valid offset", file=sys.stderr)
+                sys.exit(1)
+
+    if offset is None:
+        print("Error: no offset given", file=sys.stderr)
+        sys.exit(1)
+
+    data = parse_isd_file(sys.stdin, offset)
+    print("year\tmonth\tday\thour\tminute\tdry_bulb_f\tdew_point_f")
+    for record in data:
+        print(*record, sep='\t', end='\n')
+
+
+if __name__ == "__main__":
+    years = [2019, 2020, 2021, 2022, 2023]
+    data = []
+    for year in years:
+        print(f"Downloading {year}", file=sys.stderr)
+        contents = get_isd_file_contents("724050", year)
+        d = parse_isd_file(contents, -5, False)
+        data.extend(d)
+
+    hourly_data = []
+    for y in years:
+        print(f"Converting {y}", file=sys.stderr)
+        h = to_hourly(data, y)
+        hourly_data.extend(h)
+
+    grouped_by_month = mputils.groupby(hourly_data, lambda x: int(x[0]) * 12 + int(x[1]) - 1)
+
+    for month_num, records in grouped_by_month.items():
+        average_oat = sum([float(record[5]) for record in records]) / len(records)
+
+        year, month = divmod(month_num, 12)
+        print (f"{year}\t{month + 1}\t{average_oat}")
+
+    #  for record in hourly_data:
+        #  print(*record, sep='\t', end='\n')
