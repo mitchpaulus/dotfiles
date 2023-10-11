@@ -1334,6 +1334,14 @@ def max_index(iterable: Iterable[float]) -> Tuple[int, float]:
 
     return curr_idx, curr_max
 
+SUNDAY    = 0
+MONDAY    = 1
+TUESDAY   = 2
+WEDNESDAY = 3
+THURSDAY  = 4
+FRIDAY    = 5
+SATURDAY  = 6
+
 def fixed_from_gregorian(year: int, month: int, day: int) -> int:
     # From Calendrical Calculations
     y1 = year - 1
@@ -1369,7 +1377,11 @@ def gregorian_new_year(year: int) -> int:
     return fixed_from_gregorian(year, 1, 1)
 
 
-def ymd_from_rd(date: int) -> Tuple[int, int, int]:
+def ymd_from_rd(date: Union[int, float]) -> Tuple[int, int, int]:
+    # If date is float, take floor
+    if isinstance(date, float):
+        date = math.floor(date)
+
     year = year_from_rd(date)
     prior_days = date - gregorian_new_year(year_from_rd(date))
 
@@ -1384,3 +1396,101 @@ def ymd_from_rd(date: int) -> Tuple[int, int, int]:
     day = date - fixed_from_gregorian(year, month, 1) + 1
 
     return year, month, day
+
+def ymdhm_from_rd(date: int) -> Tuple[int, int, int, int, int]:
+    # Assume this is an RD date, multiplied by 1440 min/day
+    rd_day, time = divmod(date, 1440)
+
+    year, month, day = ymd_from_rd(rd_day)
+    hour, minute = divmod(time, 60)
+
+    return year, month, day, hour, minute
+
+
+def day_of_week_from_fixed(date: int) -> int:
+    return date % 7
+
+def kday_on_or_before(k, date) -> int:
+    return date - day_of_week_from_fixed(date - k)
+
+def kday_on_or_after(k, date) -> int:
+    return kday_on_or_before(k, date + 6)
+
+def kday_before(k, date) -> int:
+    return kday_on_or_before(k, date - 1)
+
+def kday_after(k, date) -> int:
+    return kday_on_or_before(k, date + 7)
+
+def nth_kday(n, k, year, month, day) -> int:
+    """Returns RD date of the nth kday of the month in the given year."""
+    if n > 0:
+        return 7 * n + kday_before(k, fixed_from_gregorian(year, month, day))
+    if n < 0:
+        return 7 * n + kday_after(k, fixed_from_gregorian(year, month, day))
+    raise ValueError("n must be non-zero")
+
+def first_kday(k, year, month, day) -> int:
+    return nth_kday(1, k, year, month, day)
+
+def last_kday(k, year, month, day) -> int:
+    return nth_kday(-1, k, year, month, day)
+
+def daylight_saving_start(year) -> int:
+    return nth_kday(2, SUNDAY, year, 3, 1)
+
+def daylight_saving_end(year) -> int:
+    return first_kday(SUNDAY, year, 11, 1)
+
+
+def utc_to_local(datetime: float, std_offset_hrs: int) -> float:
+    std_local_datetime = datetime - std_offset_hrs / 24
+    std_local_date = math.floor(std_local_datetime)
+
+    y, _, _ = ymd_from_rd(std_local_date)
+
+    dst_start = daylight_saving_start(y)
+
+    if std_local_date < dst_start:
+        return std_local_datetime
+
+    if std_local_date == dst_start:
+        # If the time is 2:00 AM or later, add 1 hour
+        if math.floor(24 * (std_local_date - math.floor(std_local_date))) >= 2:
+            return std_local_datetime + 1/24
+
+    dst_end = daylight_saving_end(y)
+    if std_local_date < dst_end:
+        return std_local_datetime + 1/24
+
+    if std_local_date > dst_end:
+        return std_local_datetime
+
+    # If the time is < 2:00 AM, add 1 hour
+    if math.floor(24 * (std_local_date - math.floor(std_local_date))) < 2:
+        return std_local_datetime + 1/24
+
+    return std_local_datetime
+
+def first_index_gteq(list1, list2):
+    index_1 = 0
+    index_2 = 0
+
+    output = []
+
+    while index_1 < len(list1):
+        found = False
+        while index_2 < len(list2):
+            if list2[index_2] >= list1[index_1]:
+                output.append(index_2)
+                found = True
+                break
+            else:
+                index_2 += 1
+
+        if not found:
+            output.append(None)
+
+        index_1 += 1
+
+    return output
