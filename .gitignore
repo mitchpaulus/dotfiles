@@ -12,6 +12,7 @@ tmp/
 .config/fish/secrets.fish
 
 notes/*.pdf
+notes/doe2.png
 notes/*.docx
 
 go/toggl

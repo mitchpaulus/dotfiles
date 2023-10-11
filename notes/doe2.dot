@@ -1,0 +1,57 @@
+digraph doe2 {
+
+    rankdir = LR
+
+    BuildingShade -> Polygon
+    BuildingShade -> SCHEDULE
+
+    Construction -> Layers
+
+    Door -> Construction
+
+    ExteriorWall -> Construction
+    ExteriorWall -> Polygon
+
+    Floor -> Polygon
+
+    SPACE -> Polygon
+
+    SPACE -> SCHEDULE [label="People-Schedule"]
+    SPACE -> SCHEDULE [label="Lighting-Schedule"]
+    SPACE -> Floor [label="Implicit"]
+
+
+    CurveFit [label="CURVE-FIT"]
+    Chiller [label="CHILLER"]
+
+    Chiller -> CurveFit [label="Capacity-FT"]
+    Chiller -> CurveFit [label="EIR-FT"]
+    Chiller -> CurveFit [label="EIR-FPLR"]
+
+    CIRCULATIONLOOP [label="CIRCULATION-LOOP"]
+    Chiller -> CIRCULATIONLOOP [label="CHW-LOOP"]
+    Chiller -> PUMP [label="CHW-PUMP"]
+    Chiller -> CIRCULATIONLOOP [label="CW-LOOP"]
+
+
+    SYSTEM -> CIRCULATIONLOOP [label="CHW-LOOP"]
+
+    ZONE -> SPACE
+    ZONE -> SCHEDULE [label="HEAT-TEMP-SCH"]
+    ZONE -> SCHEDULE [label="COOL-TEMP-SCH"]
+
+    ZONE -> SYSTEM [label="Implicit"]
+
+    daySchedule [label="DAY-SCHEDULE"]
+    weekSchedule [label="WEEK-SCHEDULE"]
+
+    schedulePd [label="SCHEDULE-PD"]
+    daySchedulePd [label="DAY-SCHEDULE-PD"]
+    weekSchedulePd [label="WEEK-SCHEDULE-PD"]
+
+    SCHEDULE -> weekSchedule [label="WEEK-SCHEDULE"]
+    weekSchedule -> daySchedule [label="DAY-SCHEDULE"]
+
+    schedulePd -> weekSchedulePd [label="WEEK-SCHEDULE-PD"]
+    weekSchedulePd -> daySchedulePd [label="DAY-SCHEDULE-PD"]
+}
