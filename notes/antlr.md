@@ -35,7 +35,7 @@ Make sure the java classes have been compiled.
 
 ## Installing the Java Development Kit for WSL on Windows OS
 
-- Used Open Source version from [https://jdk.java.net/14/](https://jdk.java.net)
+- Used Open Source version from <https://jdk.java.net>
 - Extract to desired directory
     - Installed to `/usr/java/jdk-14.0.2/`
     - Added `/usr/java/jdk-14.0.2/bin` to `PATH`

@@ -1,6 +1,6 @@
 # `tar`
 
- - t, --list  list the contents of an archive
+ -t, --list  list the contents of an archive
  -x, --extract, --get extract files from an archive
  -v, --verbose verbosely list files processed
  -f ARCHIVE, --file=ARCHIVE use archive file or device ARCHIVE
