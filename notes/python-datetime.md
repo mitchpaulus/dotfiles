@@ -14,20 +14,18 @@ date.year, month, day, hour, minute, second, microsecond
 datetime.tzinfo
 datetime.fold
 
+datetime.isoformat() # YYYY-MM-DDTHH:MM:SS
+
 # Instance methods
 datetime.date() -> date
 datetime.time() -> time
-
+```
 
 # timedelta
 
-timedelta(days, seconds, microseconds, milliseconds, minutes, hours, weeks)
+`timedelta(days, seconds, microseconds, milliseconds, minutes, hours, weeks)`
 
 # Can add and subtract from datetime/date classes
-
-
-
-```
 
 - Objects of these types are immutable.
 - Objects of these types are hashable, meaning that they can be used as dictionary keys.
