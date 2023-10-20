@@ -346,3 +346,32 @@ e
 ## Replot
 
 Can use `replot` to run several plot commands
+
+
+## PNG markers
+
+```
+pointtype or pt
+1 = +
+2 = x
+3 = sparkly x
+4 = open square
+5 = filled square
+6 = open circle
+7 = filled circle
+8 = open triangle
+9 = filled triangle
+10 = open inverted triangle
+11 = filled inverted triangle
+12 = open diamond
+13 = filled diamond
+14 = open pentagon
+15 = filled pentagon
+16 = + (again?)
+17 = x (again?)
+18 = sparkly x (again?)
+19 = open square (again?)
+20 = filled square (again?)
+21 = open circle (again?)
+22 = filled circle (again?)
+```

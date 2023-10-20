@@ -1,3 +1,5 @@
+Comma separated
+
 # Data fields
 
 - 0: Year (Not really used in EnergyPlus simulations)
@@ -14,7 +16,7 @@
 - 11: Extraterrestrial Direct Normal Radiation (Wh/m2, Not currently used, 9999 missing)
 - 12: Horizontal Infrared Radiation Intensity (Wh/m2, 9999 missing. If missing calculated from Opaque Sky Cover field)
 - 13: Global Horizontal Radiation (Wh/m2, not currently used, 9999 missing)
-- 14: Direct Normal Radiation (Wh/m2,  >=9999 missing) (Amount of solar radiation in Wh/m2 received directly from the solar disk on a surface perpendicular to the sun’s rays, during the number of minutes preceding the time indicated.) If the field is missing (≥ 9999 ) or invalid (< 0 ), it is set to 0. Counts of such missing values are totaled and presented at the end of the runperiod.
+- 14: Direct Normal Radiation (Wh/m2,  >=9999 missing) (Amount of solar radiation in Wh/m2 received directly from the solar disk on a surface perpendicular to the sun’s rays, during the number of minutes preceding the time indicated.) If the field is missing (≥ 9999 ) or invalid (< 0 ), it is set to 0. Counts of such missing values are totaled and presented at the end of the run period.
 - 15: Diffuse Horizontal Radiation (Wh/m2, >=9999 missing) (Amount of solar radiation in Wh/m2 received from the sky (excluding the solar disk) on a horizontal surface during the number of minutes preceding the time indicated.) If the field is missing (≥ 9999 ) or invalid (< 0 ), it is set to 0.
 - 16: Global Horizontal Illuminance (lux, not currently used, 999999 missing)
 - 17: Direct Normal Illuminance (lux, not currently used, 999999 missing)
@@ -35,7 +37,6 @@
 - 32: Albedo (ratio, not currently used, doesn't say missing, average albedo on Earth is ~0.3)
 - 33: Liquid Precipitation Depth (mm, 999 missing)
 - 34: Liquid Precipitation Quantity (hr, not currently used, 99 missing)
-
 
 
 ## Data source and uncertainty
@@ -90,7 +91,7 @@ Days Since Last Snowfall Data Uncertainty        | 0-9
 Solar Radiation and Illuminance Data Source Flag Codes
 
 Flag Code Definition
-A Post-1976measuredsolarradiationdataasreceivedfromNCDC or other sources
+A Post-1976 measured solar radiation data as received from NCDC or other sources
 B Same as ”A” except the global horizontal data underwent a calibration correction
 C Pre-1976 measured global horizontal data (direct and diffuse were not measured before 1976), adjusted from solar to local time, usually with a calibration correction
 D Data derived from the other two elements of solar radiation using the relationship, global = diffuse + direct × cosine (zenith)
@@ -135,7 +136,6 @@ Meteorological Uncertainty Flag Codes
 8 Greater uncertainty than 7 because values were interpolated or estimated
 9 Greater uncertainty than 8 or unknown.
 0 Not definable.
-
 
 
 ## Header Lines

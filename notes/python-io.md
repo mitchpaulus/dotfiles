@@ -7,7 +7,7 @@ from os import listdir
 from os.path import isfile, join
 onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
 
-os.listdir(path='.') # Name of entries in the path
+os.listdir(path='.') # Name of entries in the path, only filename component, not full path
 ```
 
 Don't forget the UTF-8 or you'll get hit with issues for °F in Windows
@@ -89,4 +89,8 @@ for line in sys.stdin:
   ... # line has trailing '\n'
 
 whole_file: str = sys.stdin.read()
+```
+
+```
+splitlines() # No newline at end of line
 ```

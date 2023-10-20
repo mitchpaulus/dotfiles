@@ -11,6 +11,10 @@ Format document:
 
 <ftp://ftp.ncdc.noaa.gov/pub/data/noaa/isd-format-document.pdf>
 
+or
+
+<https://www1.ncdc.noaa.gov/pub/data/noaa/isd-format-document.pdf>
+
 DFW Airport Weather Station:
 
 722590-03927
@@ -56,3 +60,12 @@ ISD Format
 99: Dew Point Temperature quality code
 100-104: Air pressure (Hectopascals), Scale factor: 10
 105: Air pressure quality code
+
+106-108: ADD: If section exists
+
+Precipitation Data
+AA[1-4]: Liquid-precipitation  2 4 1 1 = 8
+AB1: Liquid-precipitation monthly total 5 1 1 = 7
+AC1: Precipitation observation history 1 1 1 = 3
+AD1: Liquid precipitation greatest amount in 24 hours, for the month 5 1 4 4 4 1 = 19
+AE1: Liquid precipitation, number of days with specific amounts, for the month 2 1 2 1 2 1 2 1 = 12

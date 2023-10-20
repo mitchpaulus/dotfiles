@@ -21,3 +21,14 @@ Typical uncorrected industrial power factor is 0.8
 PF = kW / kVA
 kVA = kW / PF
 kW = kVA * PF
+
+
+<https://www.calculatorsconversion.com/en/electrical-power-factor-typical-common/>
+
+Horse power | Speed | Power factor |          |
+(hp)        | (rpm) | 1/2 load     | 3/4 load | Full load
+------------|-------|--------------|----------|----------
+0 – 5       | 1800  | 0.72         | 0.82     | 0.84
+5 – 20      | 1800  | 0.74         | 0.84     | 0.86
+20 – 100    | 1800  | 0.79         | 0.86     | 0.89
+100 – 300   | 1800  | 0.81         | 0.88     | 0.91
