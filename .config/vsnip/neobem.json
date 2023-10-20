@@ -44,5 +44,25 @@
 		"prefix": ["f"],
 		"body": ["$1: $2,"],
 		"description": "Structure Field"
-	}
+	},
+    "DOE-2 Schedule": {
+        "prefix": ["sch"],
+        "body": [
+            "\"${1:name}_day_sch\" = DAY-SCHEDULE",
+            "    TYPE = ${2:MULTIPLIER}",
+            "    (1,24) = (${3:values})",
+            "    ..",
+            "",
+            "\"${1:name}_week_sch\" = WEEK-SCHEDULE",
+            "    TYPE = ${2:MULTIPLIER}",
+            "    (ALL) = \"${1:name}_day_sch\"",
+            "..",
+            "",
+            "\"${1:name}_sch\" = SCHEDULE",
+            "    TYPE = ${2:MULTIPLIER}",
+            "    THRU DEC 31 = \"${1:name}_week_sch\"",
+            ".."
+        ],
+        "description": "DOE-2 Schedule"
+    }
 }

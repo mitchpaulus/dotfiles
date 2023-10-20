@@ -1473,6 +1473,8 @@ def utc_to_local(datetime: float, std_offset_hrs: int) -> float:
     return std_local_datetime
 
 def first_index_gteq(list1, list2):
+    """Return an array that is the length of list1, where each element is the index of the first element in list2 that is greater than or equal to the corresponding element in list1.
+    If no such element exists, the corresponding element in the output array is None."""
     index_1 = 0
     index_2 = 0
 
