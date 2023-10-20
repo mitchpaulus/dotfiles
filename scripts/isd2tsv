@@ -5,8 +5,1616 @@ import mputils
 from ftplib import FTP
 import gzip
 from io import BytesIO
-from typing import Union, List, TextIO
+from typing import Union, List, TextIO, Optional
 import math
+import requests
+
+# ISD Format
+# 1-4: Total Variable Characters
+# 5-10: USAF
+# 11-15: WBAN
+# 16-23: Date in YYYYMMDD form
+# 24-27: UTC Time in HHMM form
+# 28: Source
+# 29-34: Latitude [+-][0-9]{5} Scaling factor: 1000 +99999 = Missing
+# 35-41: Longitude [+-][0-9]{5}
+# 42-46: Code
+# 47-51: Elevation (m)
+# 52-56: Call letter identifier
+# 57-60: Quality control process name
+# 61-63: Wind direction angle
+# 64: Wind direction quality
+# 65: Wind direction Type
+# 66-69: Wind speed (m/s) Scaling factor: 10
+# 70: Wind speed quality
+# 71-75: Ceiling Height dimension (m)
+# 76: Ceiling Height Quality
+# 77: Ceiling determination code
+# 78: CAVOK code
+# 79-84: Visibility distance (m)
+# 85: Visibility quality code
+# 86: Visibility variability code
+# 87: Visibility variability quality code
+# 88-92: Dry Bulb Air Temperature (C), Scale factor: 10 [+-][0-9]{4} '+9999' is missing
+# 93: Dry Bulb Air Temperature Quality
+# 94-98: Dew Point Air Temperature (C), Scale factor: 10 [+-][0-9]{4} '+9999' is missing
+# 99: Dew Point Temperature quality code
+# 100-104: Air pressure (Hectopascals), Scale factor: 10
+# 105: Air pressure quality code
+
+class IsdRecord:
+    def __init__(self, line: str) -> None:
+        self.line = line
+        self.total_variable_characters = line[0:4]
+        self.usaf = line[4:10]
+        self.wban = line[10:15]
+        self.date = line[15:23]
+        self.time = line[23:27]
+        self.source = line[27]
+        self.latitude = line[28:34]
+        self.longitude = line[34:41]
+        self.code = line[41:46]
+        self.elevation = line[46:51]
+        self.call_letter_identifier = line[51:56]
+        self.quality_control_process_name = line[56:60]
+        self.wind_direction_angle = line[60:63]
+        self.wind_direction_quality = line[63]
+        self.wind_direction_type = line[64]
+        self.wind_speed = line[65:69]
+        self.wind_speed_quality = line[69]
+        self.ceiling_height_dimension = line[70:75]
+        self.ceiling_height_quality = line[75]
+        self.ceiling_determination_code = line[76]
+        self.cavok_code = line[77]
+        self.visibility_distance = line[78:84]
+        self.visibility_quality_code = line[84]
+        self.visibility_variability_code = line[85]
+        self.visibility_variability_quality_code = line[86]
+        self.dry_bulb_air_temperature = line[87:92]
+        self.dry_bulb_air_temperature_quality = line[92]
+        self.dew_point_air_temperature = line[93:98]
+        self.dew_point_air_temperature_quality = line[98]
+        self.air_pressure = line[99:104]
+        self.air_pressure_quality = line[104]
+
+        if int(self.total_variable_characters) > 0:
+            self.additional_data = line[105:105 + int(self.total_variable_characters)]
+        else:
+            self.additional_data = ""
+
+        if self.additional_data == "":
+            return
+
+        # assert first 3 characters of additional data are "ADD"
+        assert self.additional_data[0:3] == "ADD"
+
+        idx = 3
+        while idx < len(self.additional_data):
+            code = self.additional_data[idx:idx + 3]
+
+            # Parse switch {{{
+
+            if code.startswith("AA"):
+                # Liquid precipitation, next fields are 2 4 1 1 = 8
+                self.liquid_precipitation = self.additional_data[idx + 3:idx + 11]
+                idx += 11
+
+            elif code.startswith("AB1"):
+                # LIQUID-PRECIPITATION MONTHLY TOTAL identifier, fields 5 1 1 = 7
+                # LIQUID-PRECIPITATION MONTHLY TOTAL depth dimension
+                self.liquid_precipitation_monthly_total_depth_dimension = self.additional_data[idx + 3:idx + 8]
+                # LIQUID-PRECIPITATION MONTHLY TOTAL condition code
+                self.liquid_precipitation_monthly_total_condition_code = self.additional_data[idx + 8:idx + 9]
+                # LIQUID-PRECIPITATION MONTHLY TOTAL quality code
+                self.liquid_precipitation_monthly_total_quality_code = self.additional_data[idx + 9:idx + 10]
+
+                idx += 10
+
+
+            elif code.startswith("AD1"):
+                # LIQUID-PRECIPITATION GREATEST AMOUNT IN 24 HOURS, FOR THE MONTH identifier, fields 5 1 4 4 4 1
+                # LIQUID-PRECIPITATION GREATEST AMOUNT IN 24 HOURS, FOR THE MONTH depth dimension
+                self.liquid_precipitation_greatest_amount_in_24_hours_for_the_month_depth_dimension = self.additional_data[idx + 3:idx + 8]
+                # LIQUID-PRECIPITATION GREATEST AMOUNT IN 24 HOURS, FOR THE MONTH condition code
+                self.liquid_precipitation_greatest_amount_in_24_hours_for_the_month_condition_code = self.additional_data[idx + 8:idx + 9]
+                # LIQUID-PRECIPITATION GREATEST AMOUNT IN 24 HOURS, FOR THE MONTH dates of occurrence
+                self.liquid_precipitation_greatest_amount_in_24_hours_for_the_month_dates_of_occurrence = self.additional_data[idx + 9:idx + 13]
+                # LIQUID-PRECIPITATION GREATEST AMOUNT IN 24 HOURS, FOR THE MONTH dates of occurrence
+                self.liquid_precipitation_greatest_amount_in_24_hours_for_the_month_dates_of_occurrence_2 = self.additional_data[idx + 13:idx + 17]
+                # LIQUID-PRECIPITATION GREATEST AMOUNT IN 24 HOURS, FOR THE MONTH dates of occurrence
+                self.liquid_precipitation_greatest_amount_in_24_hours_for_the_month_dates_of_occurrence_3 = self.additional_data[idx + 17:idx + 21]
+                # LIQUID-PRECIPITATION GREATEST AMOUNT IN 24 HOURS, FOR THE MONTH quality code
+                self.liquid_precipitation_greatest_amount_in_24_hours_for_the_month_quality_code = self.additional_data[idx + 21:idx + 22]
+
+                idx += 22
+
+            elif code.startswith("AE1"):
+                # LIQUID-PRECIPITATION, NUMBER OF DAYS WITH SPECIFIC AMOUNTS, FOR THE MONTH identifier, fields 2 1 2 1 2 1 2 1 = 12
+                # LIQUID-PRECIPITATION, NUMBER OF DAYS WITH SPECIFIC AMOUNTS, FOR THE MONTH 0.01 inch or more
+                self.liquid_precipitation_number_of_days_with_specific_amounts_for_the_month_001_inch_or_more = self.additional_data[idx + 3:idx + 5]
+                # LIQUID-PRECIPITATION, NUMBER OF DAYS WITH SPECIFIC AMOUNTS, FOR THE MONTH 0.01 inch or more quality code
+                self.liquid_precipitation_number_of_days_with_specific_amounts_for_the_month_001_inch_or_more_quality_code = self.additional_data[idx + 5:idx + 6]
+                # LIQUID-PRECIPITATION, NUMBER OF DAYS WITH SPECIFIC AMOUNTS, FOR THE MONTH 0.10 inch or more
+                self.liquid_precipitation_number_of_days_with_specific_amounts_for_the_month_010_inch_or_more = self.additional_data[idx + 6:idx + 8]
+                # LIQUID-PRECIPITATION, NUMBER OF DAYS WITH SPECIFIC AMOUNTS, FOR THE MONTH 0.10 inch or more quality code
+                self.liquid_precipitation_number_of_days_with_specific_amounts_for_the_month_010_inch_or_more_quality_code = self.additional_data[idx + 8:idx + 9]
+                # LIQUID-PRECIPITATION, NUMBER OF DAYS WITH SPECIFIC AMOUNTS, FOR THE MONTH 0.50 inch or more
+                self.liquid_precipitation_number_of_days_with_specific_amounts_for_the_month_050_inch_or_more = self.additional_data[idx + 9:idx + 11]
+                # LIQUID-PRECIPITATION, NUMBER OF DAYS WITH SPECIFIC AMOUNTS, FOR THE MONTH 0.50 inch or more quality code
+                self.liquid_precipitation_number_of_days_with_specific_amounts_for_the_month_050_inch_or_more_quality_code = self.additional_data[idx + 11:idx + 12]
+                # LIQUID-PRECIPITATION, NUMBER OF DAYS WITH SPECIFIC AMOUNTS, FOR THE MONTH 1.00 inch or more
+                self.liquid_precipitation_number_of_days_with_specific_amounts_for_the_month_100_inch_or_more = self.additional_data[idx + 12:idx + 14]
+                # LIQUID-PRECIPITATION, NUMBER OF DAYS WITH SPECIFIC AMOUNTS, FOR THE MONTH 1.00 inch or more quality code
+                self.liquid_precipitation_number_of_days_with_specific_amounts_for_the_month_100_inch_or_more_quality_code = self.additional_data[idx + 14:idx + 15]
+
+                idx += 15
+
+            elif code.startswith("AH1"):
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH identifier, fields 3 4 1 6 1 = 15
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH period quantity
+                self.liquid_precipitation_maximum_short_duration_for_the_month_period_quantity_1 = self.additional_data[idx + 3:idx + 6]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH depth dimension
+                self.liquid_precipitation_maximum_short_duration_for_the_month_depth_dimension_1 = self.additional_data[idx + 6:idx + 10]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH condition code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_condition_code_1 = self.additional_data[idx + 10:idx + 11]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH ending date-time
+                self.liquid_precipitation_maximum_short_duration_for_the_month_ending_date_time_1 = self.additional_data[idx + 11:idx + 17]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH quality code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_quality_code_1 = self.additional_data[idx + 17:idx + 18]
+
+                idx += 18
+
+            elif code.startswith("AH2"):
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH identifier, fields 3 4 1 6 1 = 15
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH period quantity
+                self.liquid_precipitation_maximum_short_duration_for_the_month_period_quantity_2 = self.additional_data[idx + 3:idx + 6]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH depth dimension
+                self.liquid_precipitation_maximum_short_duration_for_the_month_depth_dimension_2 = self.additional_data[idx + 6:idx + 10]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH condition code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_condition_code_2 = self.additional_data[idx + 10:idx + 11]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH ending date-time
+                self.liquid_precipitation_maximum_short_duration_for_the_month_ending_date_time_2 = self.additional_data[idx + 11:idx + 17]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH quality code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_quality_code_2 = self.additional_data[idx + 17:idx + 18]
+
+                idx += 18
+
+            elif code.startswith("AH3"):
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH identifier, fields 3 4 1 6 1 = 15
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH period quantity
+                self.liquid_precipitation_maximum_short_duration_for_the_month_period_quantity_3 = self.additional_data[idx + 3:idx + 6]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH depth dimension
+                self.liquid_precipitation_maximum_short_duration_for_the_month_depth_dimension_3 = self.additional_data[idx + 6:idx + 10]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH condition code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_condition_code_3 = self.additional_data[idx + 10:idx + 11]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH ending date-time
+                self.liquid_precipitation_maximum_short_duration_for_the_month_ending_date_time_3 = self.additional_data[idx + 11:idx + 17]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH quality code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_quality_code_3 = self.additional_data[idx + 17:idx + 18]
+
+                idx += 18
+
+            elif code.startswith("AH4"):
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH identifier, fields 3 4 1 6 1 = 15
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH period quantity
+                self.liquid_precipitation_maximum_short_duration_for_the_month_period_quantity_4 = self.additional_data[idx + 3:idx + 6]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH depth dimension
+                self.liquid_precipitation_maximum_short_duration_for_the_month_depth_dimension_4 = self.additional_data[idx + 6:idx + 10]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH condition code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_condition_code_4 = self.additional_data[idx + 10:idx + 11]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH ending date-time
+                self.liquid_precipitation_maximum_short_duration_for_the_month_ending_date_time_4 = self.additional_data[idx + 11:idx + 17]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH quality code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_quality_code_4 = self.additional_data[idx + 17:idx + 18]
+
+                idx += 18
+
+            elif code.startswith("AH5"):
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH identifier, fields 3 4 1 6 1 = 15
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH period quantity
+                self.liquid_precipitation_maximum_short_duration_for_the_month_period_quantity_5 = self.additional_data[idx + 3:idx + 6]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH depth dimension
+                self.liquid_precipitation_maximum_short_duration_for_the_month_depth_dimension_5 = self.additional_data[idx + 6:idx + 10]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH condition code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_condition_code_5 = self.additional_data[idx + 10:idx + 11]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH ending date-time
+                self.liquid_precipitation_maximum_short_duration_for_the_month_ending_date_time_5 = self.additional_data[idx + 11:idx + 17]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH quality code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_quality_code_5 = self.additional_data[idx + 17:idx + 18]
+
+                idx += 18
+
+            elif code.startswith("AH6"):
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH identifier, fields 3 4 1 6 1 = 15
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH period quantity
+                self.liquid_precipitation_maximum_short_duration_for_the_month_period_quantity_6 = self.additional_data[idx + 3:idx + 6]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH depth dimension
+                self.liquid_precipitation_maximum_short_duration_for_the_month_depth_dimension_6 = self.additional_data[idx + 6:idx + 10]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH condition code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_condition_code_6 = self.additional_data[idx + 10:idx + 11]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH ending date-time
+                self.liquid_precipitation_maximum_short_duration_for_the_month_ending_date_time_6 = self.additional_data[idx + 11:idx + 17]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH quality code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_quality_code_6 = self.additional_data[idx + 17:idx + 18]
+
+                idx += 18
+
+
+            elif code.startswith("AI1"):
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH identifier, fields 3 4 1 6 1 = 15
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH period quantity
+                self.liquid_precipitation_maximum_short_duration_for_the_month_period_quantity_1 = self.additional_data[idx + 3:idx + 6]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH depth dimension
+                self.liquid_precipitation_maximum_short_duration_for_the_month_depth_dimension_1 = self.additional_data[idx + 6:idx + 10]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH condition code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_condition_code_1 = self.additional_data[idx + 10:idx + 11]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH ending date-time
+                self.liquid_precipitation_maximum_short_duration_for_the_month_ending_date_time_1 = self.additional_data[idx + 11:idx + 17]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH quality code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_quality_code_1 = self.additional_data[idx + 17:idx + 18]
+
+                idx += 18
+
+            elif code.startswith("AI2"):
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH identifier, fields 3 4 1 6 1 = 15
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH period quantity
+                self.liquid_precipitation_maximum_short_duration_for_the_month_period_quantity_2 = self.additional_data[idx + 3:idx + 6]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH depth dimension
+                self.liquid_precipitation_maximum_short_duration_for_the_month_depth_dimension_2 = self.additional_data[idx + 6:idx + 10]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH condition code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_condition_code_2 = self.additional_data[idx + 10:idx + 11]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH ending date-time
+                self.liquid_precipitation_maximum_short_duration_for_the_month_ending_date_time_2 = self.additional_data[idx + 11:idx + 17]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH quality code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_quality_code_2 = self.additional_data[idx + 17:idx + 18]
+
+                idx += 18
+
+            elif code.startswith("AI3"):
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH identifier, fields 3 4 1 6 1 = 15
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH period quantity
+                self.liquid_precipitation_maximum_short_duration_for_the_month_period_quantity_3 = self.additional_data[idx + 3:idx + 6]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH depth dimension
+                self.liquid_precipitation_maximum_short_duration_for_the_month_depth_dimension_3 = self.additional_data[idx + 6:idx + 10]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH condition code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_condition_code_3 = self.additional_data[idx + 10:idx + 11]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH ending date-time
+                self.liquid_precipitation_maximum_short_duration_for_the_month_ending_date_time_3 = self.additional_data[idx + 11:idx + 17]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH quality code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_quality_code_3 = self.additional_data[idx + 17:idx + 18]
+
+                idx += 18
+
+            elif code.startswith("AI4"):
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH identifier, fields 3 4 1 6 1 = 15
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH period quantity
+                self.liquid_precipitation_maximum_short_duration_for_the_month_period_quantity_4 = self.additional_data[idx + 3:idx + 6]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH depth dimension
+                self.liquid_precipitation_maximum_short_duration_for_the_month_depth_dimension_4 = self.additional_data[idx + 6:idx + 10]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH condition code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_condition_code_4 = self.additional_data[idx + 10:idx + 11]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH ending date-time
+                self.liquid_precipitation_maximum_short_duration_for_the_month_ending_date_time_4 = self.additional_data[idx + 11:idx + 17]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH quality code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_quality_code_4 = self.additional_data[idx + 17:idx + 18]
+
+                idx += 18
+
+            elif code.startswith("AI5"):
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH identifier, fields 3 4 1 6 1 = 15
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH period quantity
+                self.liquid_precipitation_maximum_short_duration_for_the_month_period_quantity_5 = self.additional_data[idx + 3:idx + 6]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH depth dimension
+                self.liquid_precipitation_maximum_short_duration_for_the_month_depth_dimension_5 = self.additional_data[idx + 6:idx + 10]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH condition code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_condition_code_5 = self.additional_data[idx + 10:idx + 11]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH ending date-time
+                self.liquid_precipitation_maximum_short_duration_for_the_month_ending_date_time_5 = self.additional_data[idx + 11:idx + 17]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH quality code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_quality_code_5 = self.additional_data[idx + 17:idx + 18]
+
+                idx += 18
+
+            elif code.startswith("AI6"):
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH identifier, fields 3 4 1 6 1 = 15
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH period quantity
+                self.liquid_precipitation_maximum_short_duration_for_the_month_period_quantity_6 = self.additional_data[idx + 3:idx + 6]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH depth dimension
+                self.liquid_precipitation_maximum_short_duration_for_the_month_depth_dimension_6 = self.additional_data[idx + 6:idx + 10]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH condition code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_condition_code_6 = self.additional_data[idx + 10:idx + 11]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH ending date-time
+                self.liquid_precipitation_maximum_short_duration_for_the_month_ending_date_time_6 = self.additional_data[idx + 11:idx + 17]
+                # LIQUID-PRECIPITATION MAXIMUM SHORT DURATION, FOR THE MONTH quality code
+                self.liquid_precipitation_maximum_short_duration_for_the_month_quality_code_6 = self.additional_data[idx + 17:idx + 18]
+
+                idx += 18
+
+            elif code.startswith("AJ1"):
+                # SNOW-DEPTH, fields 4 1 1 6 1 1 = 14
+                # SNOW-DEPTH dimension
+                self.snow_depth_dimension = self.additional_data[idx + 3:idx + 7]
+                # SNOW-DEPTH condition code
+                self.snow_depth_condition_code = self.additional_data[idx + 7:idx + 8]
+                # SNOW-DEPTH quality code
+                self.snow_depth_quality_code = self.additional_data[idx + 8:idx + 9]
+                # SNOW-DEPTH equivalent water depth dimension
+                self.snow_depth_equivalent_water_depth_dimension = self.additional_data[idx + 9:idx + 15]
+                # SNOW-DEPTH equivalent water condition code
+                self.snow_depth_equivalent_water_condition_code = self.additional_data[idx + 15:idx + 16]
+                # SNOW-DEPTH equivalent water condition quality code
+                self.snow_depth_equivalent_water_condition_quality_code = self.additional_data[idx + 16:idx + 17]
+
+                idx += 17
+
+            elif code.startswith("AK1"):
+                # SNOW-DEPTH GREATEST DEPTH ON THE GROUND, FOR THE MONTH identifier, fields 4 1 6 1 = 12
+                # SNOW-DEPTH GREATEST DEPTH ON THE GROUND, FOR THE MONTH depth dimension
+                self.snow_depth_greatest_depth_on_the_ground_for_the_month_depth_dimension = self.additional_data[idx + 3:idx + 7]
+                # SNOW-DEPTH GREATEST DEPTH ON THE GROUND, FOR THE MONTH condition code
+                self.snow_depth_greatest_depth_on_the_ground_for_the_month_condition_code = self.additional_data[idx + 7:idx + 8]
+                # SNOW-DEPTH GREATEST DEPTH ON THE GROUND, FOR THE MONTH dates of occurrence
+                self.snow_depth_greatest_depth_on_the_ground_for_the_month_dates_of_occurrence = self.additional_data[idx + 8:idx + 14]
+                # SNOW-DEPTH GREATEST DEPTH ON THE GROUND, FOR THE MONTH quality code
+                self.snow_depth_greatest_depth_on_the_ground_for_the_month_quality_code = self.additional_data[idx + 14:idx + 15]
+
+                idx += 15
+
+            elif code.startswith("AL1"):
+                # SNOW-ACCUMULATION occurrence, fields 2 3 1 1 = 7
+                # SNOW-ACCUMULATION period quantity
+                self.snow_accumulation_period_quantity_1 = self.additional_data[idx + 3:idx + 5]
+                # SNOW-ACCUMULATION depth dimension
+                self.snow_accumulation_depth_dimension_1 = self.additional_data[idx + 5:idx + 8]
+                # SNOW-ACCUMULATION condition code
+                self.snow_accumulation_condition_code_1 = self.additional_data[idx + 8:idx + 9]
+                # SNOW-ACCUMULATION quality code
+                self.snow_accumulation_quality_code_1 = self.additional_data[idx + 9:idx + 10]
+
+                idx += 10
+
+            elif code.startswith("AL2"):
+                # SNOW-ACCUMULATION occurrence, fields 2 3 1 1 = 7
+                # SNOW-ACCUMULATION period quantity
+                self.snow_accumulation_period_quantity_2 = self.additional_data[idx + 3:idx + 5]
+                # SNOW-ACCUMULATION depth dimension
+                self.snow_accumulation_depth_dimension_2 = self.additional_data[idx + 5:idx + 8]
+                # SNOW-ACCUMULATION condition code
+                self.snow_accumulation_condition_code_2 = self.additional_data[idx + 8:idx + 9]
+                # SNOW-ACCUMULATION quality code
+                self.snow_accumulation_quality_code_2 = self.additional_data[idx + 9:idx + 10]
+
+                idx += 10
+
+            elif code.startswith("AM1"):
+                # SNOW-ACCUMULATION GREATEST AMOUNT IN 24 HOURS, FOR THE MONTH identifier, fields 4 1 4 4 4 1 = 18
+                # SNOW-ACCUMULATION GREATEST AMOUNT IN 24 HOURS, FOR THE MONTH depth dimension
+                self.snow_accumulation_greatest_amount_in_24_hours_for_the_month_depth_dimension = self.additional_data[idx + 3:idx + 7]
+                # SNOW-ACCUMULATION GREATEST AMOUNT IN 24 HOURS, FOR THE MONTH condition code
+                self.snow_accumulation_greatest_amount_in_24_hours_for_the_month_condition_code = self.additional_data[idx + 7:idx + 8]
+                # SNOW-ACCUMULATION GREATEST AMOUNT IN 24 HOURS, FOR THE MONTH dates of occurrence
+                self.snow_accumulation_greatest_amount_in_24_hours_for_the_month_dates_of_occurrence = self.additional_data[idx + 8:idx + 12]
+                # SNOW-ACCUMULATION GREATEST AMOUNT IN 24 HOURS, FOR THE MONTH dates of occurrence
+                self.snow_accumulation_greatest_amount_in_24_hours_for_the_month_dates_of_occurrence_2 = self.additional_data[idx + 12:idx + 16]
+                # SNOW-ACCUMULATION GREATEST AMOUNT IN 24 HOURS, FOR THE MONTH dates of occurrence
+                self.snow_accumulation_greatest_amount_in_24_hours_for_the_month_dates_of_occurrence_3 = self.additional_data[idx + 16:idx + 20]
+                # SNOW-ACCUMULATION GREATEST AMOUNT IN 24 HOURS, FOR THE MONTH quality code
+                self.snow_accumulation_greatest_amount_in_24_hours_for_the_month_quality_code = self.additional_data[idx + 20:idx + 21]
+
+                idx += 21
+
+            elif code.startswith("AN1"):
+                # SNOW-ACCUMULATION FOR THE DAY/MONTH occurrence, fields 3 4 1 1
+                # SNOW-ACCUMULATION period quantity
+                self.snow_accumulation_for_the_day_month_period_quantity = self.additional_data[idx + 3:idx + 6]
+                # SNOW ACCUMULATION FOR THE MONTH depth dimension
+                self.snow_accumulation_for_the_month_depth_dimension = self.additional_data[idx + 6:idx + 10]
+                # SNOW-ACCUMULATION FOR THE MONTH condition code
+                self.snow_accumulation_for_the_month_condition_code = self.additional_data[idx + 10:idx + 11]
+                # SNOW-ACCUMULATION FOR THE MONTH quality code
+                self.snow_accumulation_for_the_month_quality_code = self.additional_data[idx + 11:idx + 12]
+
+                idx += 12
+
+            elif code.startswith("AT1"):
+                # PRESENT-WEATHER-OBSERVATION automated occurrence identifier for ASOS/AWOS data, fields 2 2 4 1 = 9
+                # DAILY-PRESENT-WEATHER-OBSERVATION source element
+                self.daily_present_weather_observation_source_element_1 = self.additional_data[idx + 3:idx + 5]
+                # DAILY-PRESENT-WEATHER-OBSERVATION weather type
+                self.daily_present_weather_observation_weather_type_1 = self.additional_data[idx + 5:idx + 7]
+                # DAILY-PRESENT-WEATHER-OBSERVATION weather type abbreviation
+                self.daily_present_weather_observation_weather_type_abbreviation_1 = self.additional_data[idx + 7:idx + 11]
+                # DAILY-PRESENT-WEATHER-OBSERVATION quality code
+                self.daily_present_weather_observation_quality_code_1 = self.additional_data[idx + 11:idx + 12]
+
+                idx += 12
+
+            elif code.startswith("AT2"):
+                # PRESENT-WEATHER-OBSERVATION automated occurrence identifier for ASOS/AWOS data, fields 2 2 4 1 = 9
+                # DAILY-PRESENT-WEATHER-OBSERVATION source element
+                self.daily_present_weather_observation_source_element_2 = self.additional_data[idx + 3:idx + 5]
+                # DAILY-PRESENT-WEATHER-OBSERVATION weather type
+                self.daily_present_weather_observation_weather_type_2 = self.additional_data[idx + 5:idx + 7]
+                # DAILY-PRESENT-WEATHER-OBSERVATION weather type abbreviation
+                self.daily_present_weather_observation_weather_type_abbreviation_2 = self.additional_data[idx + 7:idx + 11]
+                # DAILY-PRESENT-WEATHER-OBSERVATION quality code
+                self.daily_present_weather_observation_quality_code_2 = self.additional_data[idx + 11:idx + 12]
+
+                idx += 12
+
+            elif code.startswith("AT3"):
+                # PRESENT-WEATHER-OBSERVATION automated occurrence identifier for ASOS/AWOS data, fields 2 2 4 1 = 9
+                # DAILY-PRESENT-WEATHER-OBSERVATION source element
+                self.daily_present_weather_observation_source_element_3 = self.additional_data[idx + 3:idx + 5]
+                # DAILY-PRESENT-WEATHER-OBSERVATION weather type
+                self.daily_present_weather_observation_weather_type_3 = self.additional_data[idx + 5:idx + 7]
+                # DAILY-PRESENT-WEATHER-OBSERVATION weather type abbreviation
+                self.daily_present_weather_observation_weather_type_abbreviation_3 = self.additional_data[idx + 7:idx + 11]
+                # DAILY-PRESENT-WEATHER-OBSERVATION quality code
+                self.daily_present_weather_observation_quality_code_3 = self.additional_data[idx + 11:idx + 12]
+
+                idx += 12
+
+            elif code.startswith("AT4"):
+                # PRESENT-WEATHER-OBSERVATION automated occurrence identifier for ASOS/AWOS data, fields 2 2 4 1 = 9
+                # DAILY-PRESENT-WEATHER-OBSERVATION source element
+                self.daily_present_weather_observation_source_element_4 = self.additional_data[idx + 3:idx + 5]
+                # DAILY-PRESENT-WEATHER-OBSERVATION weather type
+                self.daily_present_weather_observation_weather_type_4 = self.additional_data[idx + 5:idx + 7]
+                # DAILY-PRESENT-WEATHER-OBSERVATION weather type abbreviation
+                self.daily_present_weather_observation_weather_type_abbreviation_4 = self.additional_data[idx + 7:idx + 11]
+                # DAILY-PRESENT-WEATHER-OBSERVATION quality code
+                self.daily_present_weather_observation_quality_code_4 = self.additional_data[idx + 11:idx + 12]
+
+                idx += 12
+
+            elif code.startswith("AT5"):
+                # PRESENT-WEATHER-OBSERVATION automated occurrence identifier for ASOS/AWOS data, fields 2 2 4 1 = 9
+                # DAILY-PRESENT-WEATHER-OBSERVATION source element
+                self.daily_present_weather_observation_source_element_5 = self.additional_data[idx + 3:idx + 5]
+                # DAILY-PRESENT-WEATHER-OBSERVATION weather type
+                self.daily_present_weather_observation_weather_type_5 = self.additional_data[idx + 5:idx + 7]
+                # DAILY-PRESENT-WEATHER-OBSERVATION weather type abbreviation
+                self.daily_present_weather_observation_weather_type_abbreviation_5 = self.additional_data[idx + 7:idx + 11]
+                # DAILY-PRESENT-WEATHER-OBSERVATION quality code
+                self.daily_present_weather_observation_quality_code_5 = self.additional_data[idx + 11:idx + 12]
+
+                idx += 12
+
+
+            elif code.startswith("AU1"):
+                # PRESENT-WEATHER-OBSERVATION intensity, fields 1 1 2 1 1 1 1 = 8
+                # PRESENT-WEATHER-OBSERVATION intensity and proximity code
+                self.present_weather_observation_intensity_and_proximity_code_1 = self.additional_data[idx + 3:idx + 4]
+                # PRESENT-WEATHER-OBSERVATION descriptor code
+                self.present_weather_observation_descriptor_code_1 = self.additional_data[idx + 4:idx + 5]
+                # PRESENT-WEATHER-OBSERVATION precipitation code
+                self.present_weather_observation_precipitation_code_1 = self.additional_data[idx + 5:idx + 7]
+                # PRESENT-WEATHER-OBSERVATION obscuration code
+                self.present_weather_observation_obscuration_code_1 = self.additional_data[idx + 7:idx + 8]
+                # PRESENT-WEATHER-OBSERVATION other weather phenomena code
+                self.present_weather_observation_other_weather_phenomena_code_1 = self.additional_data[idx + 8:idx + 9]
+                # PRESENT-WEATHER-OBSERVATION combination indicator code
+                self.present_weather_observation_combination_indicator_code_1 = self.additional_data[idx + 9:idx + 10]
+                # PRESENT-WEATHER-OBSERVATION quality code
+                self.present_weather_observation_quality_code_1 = self.additional_data[idx + 10:idx + 11]
+
+                idx += 11
+
+            elif code.startswith("AU2"):
+                # PRESENT-WEATHER-OBSERVATION intensity, fields 1 1 2 1 1 1 1 = 8
+                # PRESENT-WEATHER-OBSERVATION intensity and proximity code
+                self.present_weather_observation_intensity_and_proximity_code_2 = self.additional_data[idx + 3:idx + 4]
+                # PRESENT-WEATHER-OBSERVATION descriptor code
+                self.present_weather_observation_descriptor_code_2 = self.additional_data[idx + 4:idx + 5]
+                # PRESENT-WEATHER-OBSERVATION precipitation code
+                self.present_weather_observation_precipitation_code_2 = self.additional_data[idx + 5:idx + 7]
+                # PRESENT-WEATHER-OBSERVATION obscuration code
+                self.present_weather_observation_obscuration_code_2 = self.additional_data[idx + 7:idx + 8]
+                # PRESENT-WEATHER-OBSERVATION other weather phenomena code
+                self.present_weather_observation_other_weather_phenomena_code_2 = self.additional_data[idx + 8:idx + 9]
+                # PRESENT-WEATHER-OBSERVATION combination indicator code
+                self.present_weather_observation_combination_indicator_code_2 = self.additional_data[idx + 9:idx + 10]
+                # PRESENT-WEATHER-OBSERVATION quality code
+                self.present_weather_observation_quality_code_2 = self.additional_data[idx + 10:idx + 11]
+
+                idx += 11
+
+            elif code.startswith("AU3"):
+                # PRESENT-WEATHER-OBSERVATION intensity, fields 1 1 2 1 1 1 1 = 8
+                # PRESENT-WEATHER-OBSERVATION intensity and proximity code
+                self.present_weather_observation_intensity_and_proximity_code_3 = self.additional_data[idx + 3:idx + 4]
+                # PRESENT-WEATHER-OBSERVATION descriptor code
+                self.present_weather_observation_descriptor_code_3 = self.additional_data[idx + 4:idx + 5]
+                # PRESENT-WEATHER-OBSERVATION precipitation code
+                self.present_weather_observation_precipitation_code_3 = self.additional_data[idx + 5:idx + 7]
+                # PRESENT-WEATHER-OBSERVATION obscuration code
+                self.present_weather_observation_obscuration_code_3 = self.additional_data[idx + 7:idx + 8]
+                # PRESENT-WEATHER-OBSERVATION other weather phenomena code
+                self.present_weather_observation_other_weather_phenomena_code_3 = self.additional_data[idx + 8:idx + 9]
+                # PRESENT-WEATHER-OBSERVATION combination indicator code
+                self.present_weather_observation_combination_indicator_code_3 = self.additional_data[idx + 9:idx + 10]
+                # PRESENT-WEATHER-OBSERVATION quality code
+                self.present_weather_observation_quality_code_3 = self.additional_data[idx + 10:idx + 11]
+
+                idx += 11
+
+
+            elif code.startswith("AW1"):
+                # PRESENT-WEATHER-OBSERVATION automated occurrence, fields 2 1
+                # PRESENT-WEATHER-OBSERVATION automated atmospheric condition code
+                self.present_weather_observation_automated_atmospheric_condition_code_1 = self.additional_data[idx + 3:idx + 5]
+                # PRESENT-WEATHER-OBSERVATION quality automated atmospheric condition code
+                self.present_weather_observation_quality_automated_atmospheric_condition_code_1 = self.additional_data[idx + 5:idx + 6]
+
+                idx += 6
+
+            elif code.startswith("AW2"):
+                # PRESENT-WEATHER-OBSERVATION automated occurrence, fields 2 1
+                # PRESENT-WEATHER-OBSERVATION automated atmospheric condition code
+                self.present_weather_observation_automated_atmospheric_condition_code_2 = self.additional_data[idx + 3:idx + 5]
+                # PRESENT-WEATHER-OBSERVATION quality automated atmospheric condition code
+                self.present_weather_observation_quality_automated_atmospheric_condition_code_2 = self.additional_data[idx + 5:idx + 6]
+
+                idx += 6
+
+            elif code.startswith("AW3"):
+                # PRESENT-WEATHER-OBSERVATION automated occurrence, fields 2 1
+                # PRESENT-WEATHER-OBSERVATION automated atmospheric condition code
+                self.present_weather_observation_automated_atmospheric_condition_code_3 = self.additional_data[idx + 3:idx + 5]
+                # PRESENT-WEATHER-OBSERVATION quality automated atmospheric condition code
+                self.present_weather_observation_quality_automated_atmospheric_condition_code_3 = self.additional_data[idx + 5:idx + 6]
+
+                idx += 6
+
+            elif code.startswith("AW4"):
+                # PRESENT-WEATHER-OBSERVATION automated occurrence, fields 2 1
+                # PRESENT-WEATHER-OBSERVATION automated atmospheric condition code
+                self.present_weather_observation_automated_atmospheric_condition_code_4 = self.additional_data[idx + 3:idx + 5]
+                # PRESENT-WEATHER-OBSERVATION quality automated atmospheric condition code
+                self.present_weather_observation_quality_automated_atmospheric_condition_code_4 = self.additional_data[idx + 5:idx + 6]
+
+                idx += 6
+
+
+            elif code.startswith("AX1"):
+                # PAST-WEATHER-OBSERVATION summary of day occurrence identifier, fields 2 1 2 1
+                # PAST-WEATHER-OBSERVATION atmospheric condition code
+                self.past_weather_observation_atmospheric_condition_code_1 = self.additional_data[idx + 3:idx + 5]
+                # PAST-WEATHER-OBSERVATION quality manual atmospheric condition code
+                self.past_weather_observation_quality_manual_atmospheric_condition_code_1 = self.additional_data[idx + 5:idx + 6]
+                # PAST-WEATHER-OBSERVATION period quantity
+                self.past_weather_observation_period_quantity_1 = self.additional_data[idx + 6:idx + 8]
+                # PAST-WEATHER-OBSERVATION period quality code
+                self.past_weather_observation_period_quality_code_1 = self.additional_data[idx + 8:idx + 9]
+
+                idx += 9
+
+            elif code.startswith("AX2"):
+                # PAST-WEATHER-OBSERVATION summary of day occurrence identifier, fields 2 1 2 1
+                # PAST-WEATHER-OBSERVATION atmospheric condition code
+                self.past_weather_observation_atmospheric_condition_code_2 = self.additional_data[idx + 3:idx + 5]
+                # PAST-WEATHER-OBSERVATION quality manual atmospheric condition code
+                self.past_weather_observation_quality_manual_atmospheric_condition_code_2 = self.additional_data[idx + 5:idx + 6]
+                # PAST-WEATHER-OBSERVATION period quantity
+                self.past_weather_observation_period_quantity_2 = self.additional_data[idx + 6:idx + 8]
+                # PAST-WEATHER-OBSERVATION period quality code
+                self.past_weather_observation_period_quality_code_2 = self.additional_data[idx + 8:idx + 9]
+
+                idx += 9
+
+            elif code.startswith("AX3"):
+                # PAST-WEATHER-OBSERVATION summary of day occurrence identifier, fields 2 1 2 1
+                # PAST-WEATHER-OBSERVATION atmospheric condition code
+                self.past_weather_observation_atmospheric_condition_code_3 = self.additional_data[idx + 3:idx + 5]
+                # PAST-WEATHER-OBSERVATION quality manual atmospheric condition code
+                self.past_weather_observation_quality_manual_atmospheric_condition_code_3 = self.additional_data[idx + 5:idx + 6]
+                # PAST-WEATHER-OBSERVATION period quantity
+                self.past_weather_observation_period_quantity_3 = self.additional_data[idx + 6:idx + 8]
+                # PAST-WEATHER-OBSERVATION period quality code
+                self.past_weather_observation_period_quality_code_3 = self.additional_data[idx + 8:idx + 9]
+
+                idx += 9
+
+
+            elif code.startswith("D01"):
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier, fields 6 1 6 3 6 1 6
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text = self.additional_data[idx + 3:idx + 9]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY reason code
+                self.original_observation_element_quality_reason_code = self.additional_data[idx + 9:idx + 10]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code = self.additional_data[idx + 10:idx + 16]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier
+                self.original_observation_element_quality_identifier = self.additional_data[idx + 16:idx + 19]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text_2 = self.additional_data[idx + 19:idx + 25]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY units code
+                self.original_observation_element_quality_units_code = self.additional_data[idx + 25:idx + 26]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code_2 = self.additional_data[idx + 26:idx + 32]
+
+                idx += 32
+
+            elif code.startswith("D02"):
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier, fields 6 1 6 3 6 1 6
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text = self.additional_data[idx + 3:idx + 9]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY reason code
+                self.original_observation_element_quality_reason_code = self.additional_data[idx + 9:idx + 10]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code = self.additional_data[idx + 10:idx + 16]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier
+                self.original_observation_element_quality_identifier = self.additional_data[idx + 16:idx + 19]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text_2 = self.additional_data[idx + 19:idx + 25]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY units code
+                self.original_observation_element_quality_units_code = self.additional_data[idx + 25:idx + 26]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code_2 = self.additional_data[idx + 26:idx + 32]
+
+                idx += 32
+
+
+            elif code.startswith("ED1"):
+                # RUNWAY-VISUAL-RANGE-OBSERVATION, fields 2 1 4 1 = 8
+                # RUNWAY-VISUAL-RANGE-OBSERVATION direction angle
+                self.runway_visual_range_observation_direction_angle = self.additional_data[idx + 3:idx + 5]
+                # RUNWAY-VISUAL-RANGE-OBSERVATION runway designator code
+                self.runway_visual_range_observation_runway_designator_code = self.additional_data[idx + 5:idx + 6]
+                # RUNWAY-VISUAL-RANGE-OBSERVATION visibility dimension
+                self.runway_visual_range_observation_visibility_dimension = self.additional_data[idx + 6:idx + 10]
+                # RUNWAY-VISUAL-RANGE-OBSERVATION quality code
+                self.runway_visual_range_observation_quality_code = self.additional_data[idx + 10:idx + 11]
+
+                idx += 11
+
+            elif code.startswith("EQD"):
+                # GEOPHYSICAL-POINT-OBSERVATION quality data, fields 3 6 1 6 3 6 1 6
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier
+                self.original_observation_element_quality_identifier = self.additional_data[idx + 3:idx + 6]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text = self.additional_data[idx + 6:idx + 12]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY reason code
+                self.original_observation_element_quality_reason_code = self.additional_data[idx + 12:idx + 13]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code = self.additional_data[idx + 13:idx + 19]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier
+                self.original_observation_element_quality_identifier_2 = self.additional_data[idx + 19:idx + 22]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text_2 = self.additional_data[idx + 22:idx + 28]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY units code
+                self.original_observation_element_quality_units_code = self.additional_data[idx + 28:idx + 29]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code_2 = self.additional_data[idx + 29:idx + 35]
+
+                idx += 35
+
+            elif code.startswith("KB1"):
+                # AVERAGE-AIR-TEMPERATURE identifier, fields 3 1 5 1 = 10
+                # AVERAGE-AIR-TEMPERATURE period quantity
+                self.average_air_temperature_period_quantity_1 = self.additional_data[idx + 3:idx + 6]
+                # AVERAGE-AIR-TEMPERATURE code
+                self.average_air_temperature_code_1 = self.additional_data[idx + 6:idx + 7]
+                # AVERAGE-AIR-TEMPERATURE temperature
+                self.average_air_temperature_temperature_1 = self.additional_data[idx + 7:idx + 12]
+                # AVERAGE-AIR-TEMPERATURE temperature quality code
+                self.average_air_temperature_temperature_quality_code_1 = self.additional_data[idx + 12:idx + 13]
+
+                idx += 13
+
+            elif code.startswith("KB2"):
+                # AVERAGE-AIR-TEMPERATURE identifier, fields 3 1 5 1 = 10
+                # AVERAGE-AIR-TEMPERATURE period quantity
+                self.average_air_temperature_period_quantity_2 = self.additional_data[idx + 3:idx + 6]
+                # AVERAGE-AIR-TEMPERATURE code
+                self.average_air_temperature_code_2 = self.additional_data[idx + 6:idx + 7]
+                # AVERAGE-AIR-TEMPERATURE temperature
+                self.average_air_temperature_temperature_2 = self.additional_data[idx + 7:idx + 12]
+                # AVERAGE-AIR-TEMPERATURE temperature quality code
+                self.average_air_temperature_temperature_quality_code_2 = self.additional_data[idx + 12:idx + 13]
+
+                idx += 13
+
+            elif code.startswith("KB3"):
+                # AVERAGE-AIR-TEMPERATURE identifier, fields 3 1 5 1 = 10
+                # AVERAGE-AIR-TEMPERATURE period quantity
+                self.average_air_temperature_period_quantity_3 = self.additional_data[idx + 3:idx + 6]
+                # AVERAGE-AIR-TEMPERATURE code
+                self.average_air_temperature_code_3 = self.additional_data[idx + 6:idx + 7]
+                # AVERAGE-AIR-TEMPERATURE temperature
+                self.average_air_temperature_temperature_3 = self.additional_data[idx + 7:idx + 12]
+                # AVERAGE-AIR-TEMPERATURE temperature quality code
+                self.average_air_temperature_temperature_quality_code_3 = self.additional_data[idx + 12:idx + 13]
+
+                idx += 13
+
+            elif code.startswith("KC1"):
+                # EXTREME AIR-TEMPERATURE FOR THE MONTH identifier, fields 1 1 5 6 1 = 14
+                # EXTREME AIR-TEMPERATURE FOR THE MONTH code
+                self.extreme_air_temperature_for_the_month_code_1 = self.additional_data[idx + 3:idx + 4]
+                # EXTREME AIR-TEMPERATURE FOR THE MONTH condition code
+                self.extreme_air_temperature_for_the_month_condition_code_1 = self.additional_data[idx + 4:idx + 5]
+                # EXTREME AIR-TEMPERATURE FOR THE MONTH temperature
+                self.extreme_air_temperature_for_the_month_temperature_1 = self.additional_data[idx + 5:idx + 10]
+                # EXTREME AIR-TEMPERATURE FOR THE MONTH dates of occurrence
+                self.extreme_air_temperature_for_the_month_dates_of_occurrence_1 = self.additional_data[idx + 10:idx + 16]
+                # EXTREME AIR-TEMPERATURE FOR THE MONTH temperature quality code
+                self.extreme_air_temperature_for_the_month_temperature_quality_code_1 = self.additional_data[idx + 16:idx + 17]
+
+
+                idx += 17
+
+            elif code.startswith("KC2"):
+                # EXTREME AIR-TEMPERATURE FOR THE MONTH identifier, fields 1 1 5 6 1 = 14
+                # EXTREME AIR-TEMPERATURE FOR THE MONTH code
+                self.extreme_air_temperature_for_the_month_code_2 = self.additional_data[idx + 3:idx + 4]
+                # EXTREME AIR-TEMPERATURE FOR THE MONTH condition code
+                self.extreme_air_temperature_for_the_month_condition_code_2 = self.additional_data[idx + 4:idx + 5]
+                # EXTREME AIR-TEMPERATURE FOR THE MONTH temperature
+                self.extreme_air_temperature_for_the_month_temperature_2 = self.additional_data[idx + 5:idx + 10]
+                # EXTREME AIR-TEMPERATURE FOR THE MONTH dates of occurrence
+                self.extreme_air_temperature_for_the_month_dates_of_occurrence_2 = self.additional_data[idx + 10:idx + 16]
+                # EXTREME AIR-TEMPERATURE FOR THE MONTH temperature quality code
+                self.extreme_air_temperature_for_the_month_temperature_quality_code_2 = self.additional_data[idx + 16:idx + 17]
+
+                idx += 17
+
+            elif code.startswith("KE1"):
+                # EXTREME TEMPERATURES, NUMBER OF DAYS EXCEEDING CRITERIA, FOR THE MONTH identifier, fields 2 1 2 1 2 1 2 1 = 12
+                # EXTREME TEMPERATURE, NUMBER OF DAYS with maximum temperature 32 F or lower
+                self.extreme_temperature_number_of_days_with_maximum_temperature_32_f_or_lower = self.additional_data[idx + 3:idx + 5]
+                # EXTREME TEMPERATURE, NUMBER OF DAYS with maximum temperature 32 F or lower quality code
+                self.extreme_temperature_number_of_days_with_maximum_temperature_32_f_or_lower_quality_code = self.additional_data[idx + 5:idx + 6]
+                # EXTREME TEMPERATURE, NUMBER OF DAYS with maximum temperature 90 F or higher
+                self.extreme_temperature_number_of_days_with_maximum_temperature_90_f_or_higher = self.additional_data[idx + 6:idx + 8]
+                # EXTREME TEMPERATURE, NUMBER OF DAYS with maximum temperature 90 F or higher quality code
+                self.extreme_temperature_number_of_days_with_maximum_temperature_90_f_or_higher_quality_code = self.additional_data[idx + 8:idx + 9]
+                # EXTREME TEMPERATURE, NUMBER OF DAYS with minimum temperature 32 F or lower
+                self.extreme_temperature_number_of_days_with_minimum_temperature_32_f_or_lower = self.additional_data[idx + 9:idx + 11]
+                # EXTREME TEMPERATURE, NUMBER OF DAYS with minimum temperature 32 F or lower quality code
+                self.extreme_temperature_number_of_days_with_minimum_temperature_32_f_or_lower_quality_code = self.additional_data[idx + 11:idx + 12]
+                # EXTREME TEMPERATURE, NUMBER OF DAYS with minimum temperature 0 F or lower
+                self.extreme_temperature_number_of_days_with_minimum_temperature_0_f_or_lower = self.additional_data[idx + 12:idx + 14]
+                # EXTREME TEMPERATURE, NUMBER OF DAYS with minimum temperature 0 F or lower quality code
+                self.extreme_temperature_number_of_days_with_minimum_temperature_0_f_or_lower_quality_code = self.additional_data[idx + 14:idx + 15]
+
+                idx += 15
+
+            elif code.startswith("GA"):
+                # Sky cover layer, fields are 2 1 6 1 2 1 = 13
+                self.sky_cover_layer_coverage_code = self.additional_data[idx + 3:idx + 5]
+                self.sky_cover_layer_coverage_quality_code = self.additional_data[idx + 5:idx + 6]
+                self.sky_cover_layer_base_height_dimension = self.additional_data[idx + 6:idx + 12]
+                self.sky_cover_layer_base_height_quality_code = self.additional_data[idx + 12:idx + 13]
+                self.sky_cover_layer_cloud_type_code = self.additional_data[idx + 13:idx + 15]
+                self.sky_cover_layer_cloud_type_quality_code = self.additional_data[idx + 15:idx + 16]
+                idx += 16
+
+            elif code.startswith("GD1"):
+                # SKY-COVER-SUMMATION-STATE, fields 1 2 1 6 1 1 = 12
+                # SKY-COVER-SUMMATION-STATE coverage code
+                self.sky_cover_summation_state_coverage_code_1 = self.additional_data[idx + 3:idx + 4]
+                # SKY-COVER-SUMMATION coverage code #2
+                self.sky_cover_summation_coverage_code_2_1 = self.additional_data[idx + 4:idx + 6]
+                # SKY-COVER-SUMMATION-STATE coverage quality code
+                self.sky_cover_summation_state_coverage_quality_code_1 = self.additional_data[idx + 6:idx + 7]
+                # SKY-COVER-SUMMATION-STATE height dimension
+                self.sky_cover_summation_state_height_dimension_1 = self.additional_data[idx + 7:idx + 13]
+                # SKY-COVER-SUMMATION-STATE height dimension quality code
+                self.sky_cover_summation_state_height_dimension_quality_code_1 = self.additional_data[idx + 13:idx + 14]
+                # SKY-COVER-SUMMATION-STATE characteristic code
+                self.sky_cover_summation_state_characteristic_code_1 = self.additional_data[idx + 14:idx + 15]
+
+                idx += 15
+
+            elif code.startswith("GD2"):
+                # SKY-COVER-SUMMATION-STATE, fields 1 2 1 6 1 1 = 12
+                # SKY-COVER-SUMMATION-STATE coverage code
+                self.sky_cover_summation_state_coverage_code_2 = self.additional_data[idx + 3:idx + 4]
+                # SKY-COVER-SUMMATION coverage code #2
+                self.sky_cover_summation_coverage_code_2_2 = self.additional_data[idx + 4:idx + 6]
+                # SKY-COVER-SUMMATION-STATE coverage quality code
+                self.sky_cover_summation_state_coverage_quality_code_2 = self.additional_data[idx + 6:idx + 7]
+                # SKY-COVER-SUMMATION-STATE height dimension
+                self.sky_cover_summation_state_height_dimension_2 = self.additional_data[idx + 7:idx + 13]
+                # SKY-COVER-SUMMATION-STATE height dimension quality code
+                self.sky_cover_summation_state_height_dimension_quality_code_2 = self.additional_data[idx + 13:idx + 14]
+                # SKY-COVER-SUMMATION-STATE characteristic code
+                self.sky_cover_summation_state_characteristic_code_2 = self.additional_data[idx + 14:idx + 15]
+
+                idx += 15
+
+            elif code.startswith("GD3"):
+                # SKY-COVER-SUMMATION-STATE, fields 1 2 1 6 1 1 = 12
+                # SKY-COVER-SUMMATION-STATE coverage code
+                self.sky_cover_summation_state_coverage_code_3 = self.additional_data[idx + 3:idx + 4]
+                # SKY-COVER-SUMMATION coverage code #2
+                self.sky_cover_summation_coverage_code_2_3 = self.additional_data[idx + 4:idx + 6]
+                # SKY-COVER-SUMMATION-STATE coverage quality code
+                self.sky_cover_summation_state_coverage_quality_code_3 = self.additional_data[idx + 6:idx + 7]
+                # SKY-COVER-SUMMATION-STATE height dimension
+                self.sky_cover_summation_state_height_dimension_3 = self.additional_data[idx + 7:idx + 13]
+                # SKY-COVER-SUMMATION-STATE height dimension quality code
+                self.sky_cover_summation_state_height_dimension_quality_code_3 = self.additional_data[idx + 13:idx + 14]
+                # SKY-COVER-SUMMATION-STATE characteristic code
+                self.sky_cover_summation_state_characteristic_code_3 = self.additional_data[idx + 14:idx + 15]
+
+                idx += 15
+
+            elif code.startswith("GD4"):
+                # SKY-COVER-SUMMATION-STATE, fields 1 2 1 6 1 1 = 12
+                # SKY-COVER-SUMMATION-STATE coverage code
+                self.sky_cover_summation_state_coverage_code_4 = self.additional_data[idx + 3:idx + 4]
+                # SKY-COVER-SUMMATION coverage code #2
+                self.sky_cover_summation_coverage_code_2_4 = self.additional_data[idx + 4:idx + 6]
+                # SKY-COVER-SUMMATION-STATE coverage quality code
+                self.sky_cover_summation_state_coverage_quality_code_4 = self.additional_data[idx + 6:idx + 7]
+                # SKY-COVER-SUMMATION-STATE height dimension
+                self.sky_cover_summation_state_height_dimension_4 = self.additional_data[idx + 7:idx + 13]
+                # SKY-COVER-SUMMATION-STATE height dimension quality code
+                self.sky_cover_summation_state_height_dimension_quality_code_4 = self.additional_data[idx + 13:idx + 14]
+                # SKY-COVER-SUMMATION-STATE characteristic code
+                self.sky_cover_summation_state_characteristic_code_4 = self.additional_data[idx + 14:idx + 15]
+
+                idx += 15
+
+            elif code.startswith("GE1"):
+                # Sky condition observation, fields are 1 6 6 6
+                self.sky_condition_observation_convective_cloud_attribute = self.additional_data[idx + 3:idx + 4]
+                # SKY-CONDITION-OBSERVATION vertical datum attribute
+                self.sky_condition_observation_vertical_datum_attribute = self.additional_data[idx + 4:idx + 10]
+                # SKY-CONDITION-OBSERVATION base height upper range attribute
+                self.sky_condition_observation_base_height_upper_range_attribute = self.additional_data[idx + 10:idx + 16]
+                # SKY-CONDITION-OBSERVATION base height lower range attribute
+                self.sky_condition_observation_base_height_lower_range_attribute = self.additional_data[idx + 16:idx + 22]
+                idx += 22
+
+            elif code.startswith("GF1"):
+                # Sky condition observation, fields are 2 2 1 2 1 2 1 5 1 2 1 2 1 = 23
+                # SKY-CONDITION-OBSERVATION total coverage code
+                self.sky_condition_observation_total_coverage_code = self.additional_data[idx + 3:idx + 5]
+                # SKY-CONDITION-OBSERVATION total opaque coverage code
+                self.sky_condition_observation_total_opaque_coverage_code = self.additional_data[idx + 5:idx + 7]
+                # SKY-CONDITION-OBSERVATION quality total coverage code
+                self.sky_condition_observation_quality_total_coverage_code = self.additional_data[idx + 7:idx + 8]
+                # SKY-CONDITION-OBSERVATION total lowest cloud cover code
+                self.sky_condition_observation_total_lowest_cloud_cover_code = self.additional_data[idx + 8:idx + 10]
+                # SKY-CONDITION-OBSERVATION quality total lowest cloud cover code
+                self.sky_condition_observation_quality_total_lowest_cloud_cover_code = self.additional_data[idx + 10:idx + 11]
+                # SKY-CONDITION-OBSERVATION low cloud genus code
+                self.sky_condition_observation_low_cloud_genus_code = self.additional_data[idx + 11:idx + 13]
+                # SKY-CONDITION-OBSERVATION quality low cloud genus code
+                self.sky_condition_observation_quality_low_cloud_genus_code = self.additional_data[idx + 13:idx + 14]
+                # SKY-CONDITION-OBSERVATION lowest cloud base height dimension
+                self.sky_condition_observation_lowest_cloud_base_height_dimension = self.additional_data[idx + 14:idx + 19]
+                # SKY-CONDITION-OBSERVATION lowest cloud base height quality code
+                self.sky_condition_observation_lowest_cloud_base_height_quality_code = self.additional_data[idx + 19:idx + 20]
+                # SKY-CONDITION-OBSERVATION mid cloud genus code
+                self.sky_condition_observation_mid_cloud_genus_code = self.additional_data[idx + 20:idx + 22]
+                # SKY-CONDITION-OBSERVATION quality mid cloud genus code
+                self.sky_condition_observation_quality_mid_cloud_genus_code = self.additional_data[idx + 22:idx + 23]
+                # SKY-CONDITION-OBSERVATION high cloud genus code
+                self.sky_condition_observation_high_cloud_genus_code = self.additional_data[idx + 23:idx + 25]
+                # SKY-CONDITION-OBSERVATION quality high cloud genus code
+                self.sky_condition_observation_quality_high_cloud_genus_code = self.additional_data[idx + 25:idx + 26]
+                idx += 26
+
+            elif code.startswith("KA1"):
+                # Extreme air temperature, fields 3 1 5 1 = 10
+                # EXTREME-AIR-TEMPERATURE period quantity
+                self.extreme_air_temperature_period_quantity = self.additional_data[idx + 3:idx + 6]
+                # EXTREME-AIR-TEMPERATURE code
+                self.extreme_air_temperature_code = self.additional_data[idx + 6:idx + 7]
+                # EXTREME-AIR-TEMPERATURE temperature
+                self.extreme_air_temperature_temperature = self.additional_data[idx + 7:idx + 12]
+                # EXTREME-AIR-TEMPERATURE temperature quality code
+                self.extreme_air_temperature_temperature_quality_code = self.additional_data[idx + 12:idx + 13]
+
+                idx += 13
+
+            elif code.startswith("KA2"):
+                # Extreme air temperature, fields 3 1 5 1 = 10
+                # EXTREME-AIR-TEMPERATURE period quantity
+                self.extreme_air_temperature_period_quantity_2 = self.additional_data[idx + 3:idx + 6]
+                # EXTREME-AIR-TEMPERATURE code
+                self.extreme_air_temperature_code_2 = self.additional_data[idx + 6:idx + 7]
+                # EXTREME-AIR-TEMPERATURE temperature
+                self.extreme_air_temperature_temperature_2 = self.additional_data[idx + 7:idx + 12]
+                # EXTREME-AIR-TEMPERATURE temperature quality code
+                self.extreme_air_temperature_temperature_quality_code_2 = self.additional_data[idx + 12:idx + 13]
+
+                idx += 13
+
+            elif code.startswith("KD1"):
+                # HEATING-COOLING-DEGREE-DAYS identifier, fields 3 1 4 1 = 9
+                # HEATING-COOLING-DEGREE-DAYS period quantity
+                self.heating_cooling_degree_days_period_quantity_1 = self.additional_data[idx + 3:idx + 6]
+                # HEATING-COOLING-DEGREE-DAYS code
+                self.heating_cooling_degree_days_code_1 = self.additional_data[idx + 6:idx + 7]
+                # HEATING-COOLING-DEGREE-DAYS value
+                self.heating_cooling_degree_days_value_1 = self.additional_data[idx + 7:idx + 11]
+                # HEATING-COOLING-DEGREE-DAYS quality code
+                self.heating_cooling_degree_days_quality_code_1 = self.additional_data[idx + 11:idx + 12]
+
+                idx += 12
+
+            elif code.startswith("KD2"):
+                # HEATING-COOLING-DEGREE-DAYS identifier, fields 3 1 4 1 = 9
+                # HEATING-COOLING-DEGREE-DAYS period quantity
+                self.heating_cooling_degree_days_period_quantity_2 = self.additional_data[idx + 3:idx + 6]
+                # HEATING-COOLING-DEGREE-DAYS code
+                self.heating_cooling_degree_days_code_2 = self.additional_data[idx + 6:idx + 7]
+                # HEATING-COOLING-DEGREE-DAYS value
+                self.heating_cooling_degree_days_value_2 = self.additional_data[idx + 7:idx + 11]
+                # HEATING-COOLING-DEGREE-DAYS quality code
+                self.heating_cooling_degree_days_quality_code_2 = self.additional_data[idx + 11:idx + 12]
+
+                idx += 12
+
+
+            elif code.startswith("KG1"):
+                # AVERAGE DEW POINT AND WET BULB TEMPERATURE occurrence identifier, fields 3 1 5 1 1 = 11
+                # AVERAGE-DEW-POINT-AND-WET-BULB-TEMPERATURE period quantity
+                self.average_dew_point_and_wet_bulb_temperature_period_quantity_1 = self.additional_data[idx + 3:idx + 6]
+                # AVERAGE-DEW-POINT-AND-WET-BULB-TEMPERATURE code
+                self.average_dew_point_and_wet_bulb_temperature_code_1 = self.additional_data[idx + 6:idx + 7]
+                # AVERAGE-DEW-POINT-AND-WET-BULB-TEMPERATURE temperature
+                self.average_dew_point_and_wet_bulb_temperature_temperature_1 = self.additional_data[idx + 7:idx + 12]
+                # AVERAGE-DEW-POINT-AND-WET-BULB-TEMPERATURE derived code
+                self.average_dew_point_and_wet_bulb_temperature_derived_code_1 = self.additional_data[idx + 12:idx + 13]
+                # AVERAGE-DEW-POINT-AND-WET-BULB-TEMPERATURE quality code
+                self.average_dew_point_and_wet_bulb_temperature_quality_code_1 = self.additional_data[idx + 13:idx + 14]
+
+                idx += 14
+
+            elif code.startswith("KG2"):
+                # AVERAGE DEW POINT AND WET BULB TEMPERATURE occurrence identifier, fields 3 1 5 1 1 = 11
+                # AVERAGE-DEW-POINT-AND-WET-BULB-TEMPERATURE period quantity
+                self.average_dew_point_and_wet_bulb_temperature_period_quantity_2 = self.additional_data[idx + 3:idx + 6]
+                # AVERAGE-DEW-POINT-AND-WET-BULB-TEMPERATURE code
+                self.average_dew_point_and_wet_bulb_temperature_code_2 = self.additional_data[idx + 6:idx + 7]
+                # AVERAGE-DEW-POINT-AND-WET-BULB-TEMPERATURE temperature
+                self.average_dew_point_and_wet_bulb_temperature_temperature_2 = self.additional_data[idx + 7:idx + 12]
+                # AVERAGE-DEW-POINT-AND-WET-BULB-TEMPERATURE derived code
+                self.average_dew_point_and_wet_bulb_temperature_derived_code_2 = self.additional_data[idx + 12:idx + 13]
+                # AVERAGE-DEW-POINT-AND-WET-BULB-TEMPERATURE quality code
+                self.average_dew_point_and_wet_bulb_temperature_quality_code_2 = self.additional_data[idx + 13:idx + 14]
+
+                idx += 14
+
+            elif code.startswith("MA1"):
+                # ATMOSPHERIC-PRESSURE-OBSERVATION, fields 5 1 5 1 = 12
+                # ATMOSPHERIC-PRESSURE-OBSERVATION altimeter setting rate
+                self.atmospheric_pressure_observation_altimeter_setting_rate = self.additional_data[idx + 3:idx + 8]
+                # ATMOSPHERIC-PRESSURE-OBSERVATION altimeter quality code
+                self.atmospheric_pressure_observation_altimeter_quality_code = self.additional_data[idx + 8:idx + 9]
+                # ATMOSPHERIC-PRESSURE-OBSERVATION station pressure rate
+                self.atmospheric_pressure_observation_station_pressure_rate = self.additional_data[idx + 9:idx + 14]
+                # ATMOSPHERIC-PRESSURE-OBSERVATION station pressure quality code
+                self.atmospheric_pressure_observation_station_pressure_quality_code = self.additional_data[idx + 14:idx + 15]
+
+                idx += 15
+
+            elif code.startswith("MD1"):
+                # ATMOSPHERIC-PRESSURE-CHANGE, fields 1 1 3 1 4 1 = 11
+                # ATMOSPHERIC-PRESSURE-CHANGE tendency code
+                self.atmospheric_pressure_change_tendency_code = self.additional_data[idx + 3:idx + 4]
+                # ATMOSPHERIC-PRESSURE-CHANGE quality tendency code
+                self.atmospheric_pressure_change_quality_tendency_code = self.additional_data[idx + 4:idx + 5]
+                # ATMOSPHERIC-PRESSURE-CHANGE three hour quantity
+                self.atmospheric_pressure_change_three_hour_quantity = self.additional_data[idx + 5:idx + 8]
+                # ATMOSPHERIC-PRESSURE-CHANGE quality three hour code
+                self.atmospheric_pressure_change_quality_three_hour_code = self.additional_data[idx + 8:idx + 9]
+                # ATMOSPHERIC-PRESSURE-CHANGE twenty four hour quantity
+                self.atmospheric_pressure_change_twenty_four_hour_quantity = self.additional_data[idx + 9:idx + 13]
+                # ATMOSPHERIC-PRESSURE-CHANGE quality twenty four hour code
+                self.atmospheric_pressure_change_quality_twenty_four_hour_code = self.additional_data[idx + 13:idx + 14]
+
+                idx += 14
+
+            elif code.startswith("MET"):
+                # Remarks data section, fields 3 variable based on first field
+                # GEOPHYSICAL-POINT-OBSERVATION remark length quantity
+                self.geophysical_point_observation_remark_length_quantity = self.additional_data[idx + 3:idx + 6]
+
+                remark_length = int(self.geophysical_point_observation_remark_length_quantity)
+
+                # GEOPHYSICAL-POINT-OBSERVATION remark text
+                self.geophysical_point_observation_remark_text = self.additional_data[idx + 6:idx + 6 + remark_length]
+
+                idx += 6 + remark_length
+
+            elif code.startswith("MF1"):
+                # ATMOSPHERIC-PRESSURE-OBSERVATION (STP/SLP) occurrence identifier, fields 5 1 5 1 = 12
+                # ATMOSPHERIC-PRESSURE-OBSERVATION (STP/SLP) average station pressure for the day
+                self.atmospheric_pressure_observation_average_station_pressure_for_the_day = self.additional_data[idx + 3:idx + 8]
+                # ATMOSPHERIC-PRESSURE-OBSERVATION (STP/SLP) quality code
+                self.atmospheric_pressure_observation_quality_code = self.additional_data[idx + 8:idx + 9]
+                # ATMOSPHERIC-PRESSURE-OBSERVATION (STP/SLP) average sea level pressure for the day
+                self.atmospheric_pressure_observation_average_sea_level_pressure_for_the_day = self.additional_data[idx + 9:idx + 14]
+                # ATMOSPHERIC-PRESSURE-OBSERVATION (STP/SLP) quality code
+                self.atmospheric_pressure_observation_quality_code_2 = self.additional_data[idx + 14:idx + 15]
+
+                idx += 15
+
+            elif code.startswith("MG1"):
+                # ATMOSPHERIC-PRESSURE-OBSERVATION for the day identifier, fields 5 1 5 1 = 12
+                # ATMOSPHERIC-PRESSURE-OBSERVATION average station pressure for the day
+                self.atmospheric_pressure_observation_average_station_pressure_for_the_day_2 = self.additional_data[idx + 3:idx + 8]
+                # ATMOSPHERIC-PRESSURE-OBSERVATION average station pressure quality code
+                self.atmospheric_pressure_observation_average_station_pressure_quality_code = self.additional_data[idx + 8:idx + 9]
+                # ATMOSPHERIC-PRESSURE-OBSERVATION minimum sea level pressure for the day
+                self.atmospheric_pressure_observation_minimum_sea_level_pressure_for_the_day = self.additional_data[idx + 9:idx + 14]
+                # ATMOSPHERIC-PRESSURE-OBSERVATION minimum sea level pressure for the day quality code
+                self.atmospheric_pressure_observation_minimum_sea_level_pressure_for_the_day_quality_code = self.additional_data[idx + 14:idx + 15]
+
+                idx += 15
+
+            elif code.startswith("MH1"):
+                # ATMOSPHERIC-PRESSURE-OBSERVATION FOR THE MONTH identifier, fields 5 1 5 1 = 12
+                # ATMOSPHERIC-PRESSURE-OBSERVATION FOR THE MONTH average station pressure for the month
+                self.atmospheric_pressure_observation_for_the_month_average_station_pressure_for_the_month = self.additional_data[idx + 3:idx + 8]
+                # ATMOSPHERIC-PRESSURE-OBSERVATION FOR THE MONTH average station pressure quality code
+                self.atmospheric_pressure_observation_for_the_month_average_station_pressure_quality_code = self.additional_data[idx + 8:idx + 9]
+                # ATMOSPHERIC-PRESSURE-OBSERVATION FOR THE MONTH average sea level pressure for the month
+                self.atmospheric_pressure_observation_for_the_month_average_sea_level_pressure_for_the_month = self.additional_data[idx + 9:idx + 14]
+                # ATMOSPHERIC-PRESSURE-OBSERVATION FOR THE MONTH average sea level pressure quality code
+                self.atmospheric_pressure_observation_for_the_month_average_sea_level_pressure_quality_code = self.additional_data[idx + 14:idx + 15]
+
+                idx += 15
+
+            elif code.startswith("MK1"):
+                # ATMOSPHERIC-PRESSURE-OBSERVATION FOR THE MONTH min/max identifier, fields 5 6 1 5 6 1 = 24
+                # ATMOSPHERIC-PRESSURE-OBSERVATION FOR THE MONTH maximum sea level pressure for the month
+                self.atmospheric_pressure_observation_for_the_month_maximum_sea_level_pressure_for_the_month = self.additional_data[idx + 3:idx + 8]
+                # ATMOSPHERIC-PRESSURE-OBSERVATION FOR THE MONTH maximum sea level pressure, date-time
+                self.atmospheric_pressure_observation_for_the_month_maximum_sea_level_pressure_date_time = self.additional_data[idx + 8:idx + 14]
+                # ATMOSPHERIC-PRESSURE-OBSERVATION FOR THE MONTH maximum sea level pressure quality code
+                self.atmospheric_pressure_observation_for_the_month_maximum_sea_level_pressure_quality_code = self.additional_data[idx + 14:idx + 15]
+                # ATMOSPHERIC-PRESSURE-OBSERVATION FOR THE MONTH minimum sea level pressure for the month
+                self.atmospheric_pressure_observation_for_the_month_minimum_sea_level_pressure_for_the_month = self.additional_data[idx + 15:idx + 20]
+                # ATMOSPHERIC-PRESSURE-OBSERVATION FOR THE MONTH minimum sea level pressure, date-time
+                self.atmospheric_pressure_observation_for_the_month_minimum_sea_level_pressure_date_time = self.additional_data[idx + 20:idx + 26]
+                # ATMOSPHERIC-PRESSURE-OBSERVATION FOR THE MONTH minimum sea level pressure quality code
+                self.atmospheric_pressure_observation_for_the_month_minimum_sea_level_pressure_quality_code = self.additional_data[idx + 26:idx + 27]
+
+                idx += 27
+
+            elif code.startswith("MV1"):
+                # PRESENT-WEATHER-IN-VICINITY-OBSERVATION occurrence identifier, first weather reported, fields 2 1 = 3
+                # PRESENT-WEATHER-IN-VICINITY-OBSERVATION atmospheric condition code
+                self.present_weather_in_vicinity_observation_atmospheric_condition_code_1 = self.additional_data[idx + 3:idx + 5]
+                # PRESENT-WEATHER-IN-VICINITY-OBSERVATION quality atmospheric condition code
+                self.present_weather_in_vicinity_observation_quality_atmospheric_condition_code_1 = self.additional_data[idx + 5:idx + 6]
+
+                idx += 6
+
+            elif code.startswith("MV2"):
+                # PRESENT-WEATHER-IN-VICINITY-OBSERVATION occurrence identifier, first weather reported, fields 2 1 = 3
+                # PRESENT-WEATHER-IN-VICINITY-OBSERVATION atmospheric condition code
+                self.present_weather_in_vicinity_observation_atmospheric_condition_code_2 = self.additional_data[idx + 3:idx + 5]
+                # PRESENT-WEATHER-IN-VICINITY-OBSERVATION quality atmospheric condition code
+                self.present_weather_in_vicinity_observation_quality_atmospheric_condition_code_2 = self.additional_data[idx + 5:idx + 6]
+
+                idx += 6
+
+            elif code.startswith("MW1"):
+                # PRESENT-WEATHER-OBSERVATION manual occurrence, fields 2 1 = 3
+                # PRESENT-WEATHER-OBSERVATION manual atmospheric condition code
+                self.present_weather_observation_manual_atmospheric_condition_code_1 = self.additional_data[idx + 3:idx + 5]
+                # PRESENT-WEATHER-OBSERVATION quality manual atmospheric condition code
+                self.present_weather_observation_quality_manual_atmospheric_condition_code_1 = self.additional_data[idx + 5:idx + 6]
+
+                idx += 6
+
+            elif code.startswith("MW2"):
+                # PRESENT-WEATHER-OBSERVATION manual occurrence, fields 2 1 = 3
+                # PRESENT-WEATHER-OBSERVATION manual atmospheric condition code
+                self.present_weather_observation_manual_atmospheric_condition_code_2 = self.additional_data[idx + 3:idx + 5]
+                # PRESENT-WEATHER-OBSERVATION quality manual atmospheric condition code
+                self.present_weather_observation_quality_manual_atmospheric_condition_code_2 = self.additional_data[idx + 5:idx + 6]
+
+                idx += 6
+
+            elif code.startswith("MW3"):
+                # PRESENT-WEATHER-OBSERVATION manual occurrence, fields 2 1 = 3
+                # PRESENT-WEATHER-OBSERVATION manual atmospheric condition code
+                self.present_weather_observation_manual_atmospheric_condition_code_3 = self.additional_data[idx + 3:idx + 5]
+                # PRESENT-WEATHER-OBSERVATION quality manual atmospheric condition code
+                self.present_weather_observation_quality_manual_atmospheric_condition_code_3 = self.additional_data[idx + 5:idx + 6]
+
+                idx += 6
+
+
+            elif code.startswith("OC1"):
+                # WIND-GUST-OBSERVATION identifier, fields 4 1
+                # WIND-GUST-OBSERVATION speed rate
+                self.wind_gust_observation_speed_rate = self.additional_data[idx + 3:idx + 7]
+                # WIND-GUST-OBSERVATION quality code
+                self.wind_gust_observation_quality_code = self.additional_data[idx + 7:idx + 8]
+
+                idx += 8
+
+            elif code.startswith("OD1"):
+                # SUPPLEMENTARY-WIND-OBSERVATION identifier, fields 1 2 4 1 3 = 11
+                # SUPPLEMENTARY-WIND-OBSERVATION type code
+                self.supplementary_wind_observation_type_code = self.additional_data[idx + 3:idx + 4]
+                # SUPPLEMENTARY-WIND-OBSERVATION period quantity
+                self.supplementary_wind_observation_period_quantity = self.additional_data[idx + 4:idx + 6]
+                # SUPPLEMENTARY-WIND-OBSERVATION speed rate
+                self.supplementary_wind_observation_speed_rate = self.additional_data[idx + 6:idx + 10]
+                # SUPPLEMENTARY-WIND-OBSERVATION speed rate quality code
+                self.supplementary_wind_observation_speed_rate_quality_code = self.additional_data[idx + 10:idx + 11]
+                # SUPPLEMENTARY-WIND-OBSERVATION direction quantity
+                self.supplementary_wind_observation_direction_quantity = self.additional_data[idx + 11:idx + 14]
+
+                idx += 14
+
+            elif code.startswith("OE1"):
+                # SUMMARY-OF-DAY-WIND-OBSERVATION identifier, fields 1 2 5 3 4 1 = 16
+                # SUMMARY-OF-DAY-WIND-OBSERVATION type code
+                self.summary_of_day_wind_observation_type_code_1 = self.additional_data[idx + 3:idx + 4]
+                # SUMMARY-OF-DAY-WIND-OBSERVATION period quantity
+                self.summary_of_day_wind_observation_period_quantity_1 = self.additional_data[idx + 4:idx + 6]
+                # SUMMARY-OF-DAY-WIND-OBSERVATION speed
+                self.summary_of_day_wind_observation_speed_1 = self.additional_data[idx + 6:idx + 11]
+                # SUMMARY-OF-DAY-WIND-OBSERVATION direction of wind
+                self.summary_of_day_wind_observation_direction_of_wind_1 = self.additional_data[idx + 11:idx + 14]
+                # SUMMARY-OF-DAY-WIND-OBSERVATION time of occurrence in Z-time (UTC)
+                self.summary_of_day_wind_observation_time_of_occurrence_in_z_time_utc_1 = self.additional_data[idx + 14:idx + 18]
+                # SUMMARY-OF-DAY-WIND-OBSERVATION quality code
+                self.summary_of_day_wind_observation_quality_code_1 = self.additional_data[idx + 18:idx + 19]
+
+                idx += 19
+
+            elif code.startswith("OE2"):
+                # SUMMARY-OF-DAY-WIND-OBSERVATION identifier, fields 1 2 5 3 4 1 = 16
+                # SUMMARY-OF-DAY-WIND-OBSERVATION type code
+                self.summary_of_day_wind_observation_type_code_2 = self.additional_data[idx + 3:idx + 4]
+                # SUMMARY-OF-DAY-WIND-OBSERVATION period quantity
+                self.summary_of_day_wind_observation_period_quantity_2 = self.additional_data[idx + 4:idx + 6]
+                # SUMMARY-OF-DAY-WIND-OBSERVATION speed
+                self.summary_of_day_wind_observation_speed_2 = self.additional_data[idx + 6:idx + 11]
+                # SUMMARY-OF-DAY-WIND-OBSERVATION direction of wind
+                self.summary_of_day_wind_observation_direction_of_wind_2 = self.additional_data[idx + 11:idx + 14]
+                # SUMMARY-OF-DAY-WIND-OBSERVATION time of occurrence in Z-time (UTC)
+                self.summary_of_day_wind_observation_time_of_occurrence_in_z_time_utc_2 = self.additional_data[idx + 14:idx + 18]
+                # SUMMARY-OF-DAY-WIND-OBSERVATION quality code
+                self.summary_of_day_wind_observation_quality_code_2 = self.additional_data[idx + 18:idx + 19]
+
+                idx += 19
+
+            elif code.startswith("OE3"):
+                # SUMMARY-OF-DAY-WIND-OBSERVATION identifier, fields 1 2 5 3 4 1 = 16
+                # SUMMARY-OF-DAY-WIND-OBSERVATION type code
+                self.summary_of_day_wind_observation_type_code_3 = self.additional_data[idx + 3:idx + 4]
+                # SUMMARY-OF-DAY-WIND-OBSERVATION period quantity
+                self.summary_of_day_wind_observation_period_quantity_3 = self.additional_data[idx + 4:idx + 6]
+                # SUMMARY-OF-DAY-WIND-OBSERVATION speed
+                self.summary_of_day_wind_observation_speed_3 = self.additional_data[idx + 6:idx + 11]
+                # SUMMARY-OF-DAY-WIND-OBSERVATION direction of wind
+                self.summary_of_day_wind_observation_direction_of_wind_3 = self.additional_data[idx + 11:idx + 14]
+                # SUMMARY-OF-DAY-WIND-OBSERVATION time of occurrence in Z-time (UTC)
+                self.summary_of_day_wind_observation_time_of_occurrence_in_z_time_utc_3 = self.additional_data[idx + 14:idx + 18]
+                # SUMMARY-OF-DAY-WIND-OBSERVATION quality code
+                self.summary_of_day_wind_observation_quality_code_3 = self.additional_data[idx + 18:idx + 19]
+
+                idx += 19
+
+            elif code.startswith("P0"):
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier, fields 6 1 6 3 6 1 6
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text = self.additional_data[idx + 3:idx + 9]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY reason code
+                self.original_observation_element_quality_reason_code = self.additional_data[idx + 9:idx + 10]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code = self.additional_data[idx + 10:idx + 16]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier
+                self.original_observation_element_quality_identifier = self.additional_data[idx + 16:idx + 19]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text_2 = self.additional_data[idx + 19:idx + 25]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY units code
+                self.original_observation_element_quality_units_code = self.additional_data[idx + 25:idx + 26]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code_2 = self.additional_data[idx + 26:idx + 32]
+
+                idx += 32
+
+            elif code.startswith("Q01"):
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier, fields 6 1 6 3 6 1 6
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text = self.additional_data[idx + 3:idx + 9]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY reason code
+                self.original_observation_element_quality_reason_code = self.additional_data[idx + 9:idx + 10]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code = self.additional_data[idx + 10:idx + 16]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier
+                self.original_observation_element_quality_identifier = self.additional_data[idx + 16:idx + 19]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text_2 = self.additional_data[idx + 19:idx + 25]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY units code
+                self.original_observation_element_quality_units_code = self.additional_data[idx + 25:idx + 26]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code_2 = self.additional_data[idx + 26:idx + 32]
+
+                idx += 32
+
+            elif code.startswith("Q02"):
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier, fields 6 1 6 3 6 1 6
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text = self.additional_data[idx + 3:idx + 9]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY reason code
+                self.original_observation_element_quality_reason_code = self.additional_data[idx + 9:idx + 10]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code = self.additional_data[idx + 10:idx + 16]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier
+                self.original_observation_element_quality_identifier = self.additional_data[idx + 16:idx + 19]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text_2 = self.additional_data[idx + 19:idx + 25]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY units code
+                self.original_observation_element_quality_units_code = self.additional_data[idx + 25:idx + 26]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code_2 = self.additional_data[idx + 26:idx + 32]
+
+                idx += 32
+
+            elif code.startswith("Q03"):
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier, fields 6 1 6 3 6 1 6
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text = self.additional_data[idx + 3:idx + 9]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY reason code
+                self.original_observation_element_quality_reason_code = self.additional_data[idx + 9:idx + 10]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code = self.additional_data[idx + 10:idx + 16]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier
+                self.original_observation_element_quality_identifier = self.additional_data[idx + 16:idx + 19]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text_2 = self.additional_data[idx + 19:idx + 25]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY units code
+                self.original_observation_element_quality_units_code = self.additional_data[idx + 25:idx + 26]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code_2 = self.additional_data[idx + 26:idx + 32]
+
+                idx += 32
+
+            elif code.startswith("Q04"):
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier, fields 6 1 6 3 6 1 6
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text = self.additional_data[idx + 3:idx + 9]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY reason code
+                self.original_observation_element_quality_reason_code = self.additional_data[idx + 9:idx + 10]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code = self.additional_data[idx + 10:idx + 16]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier
+                self.original_observation_element_quality_identifier = self.additional_data[idx + 16:idx + 19]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text_2 = self.additional_data[idx + 19:idx + 25]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY units code
+                self.original_observation_element_quality_units_code = self.additional_data[idx + 25:idx + 26]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code_2 = self.additional_data[idx + 26:idx + 32]
+
+                idx += 32
+
+            elif code.startswith("Q05"):
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier, fields 6 1 6 3 6 1 6
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text = self.additional_data[idx + 3:idx + 9]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY reason code
+                self.original_observation_element_quality_reason_code = self.additional_data[idx + 9:idx + 10]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code = self.additional_data[idx + 10:idx + 16]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier
+                self.original_observation_element_quality_identifier = self.additional_data[idx + 16:idx + 19]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text_2 = self.additional_data[idx + 19:idx + 25]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY units code
+                self.original_observation_element_quality_units_code = self.additional_data[idx + 25:idx + 26]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code_2 = self.additional_data[idx + 26:idx + 32]
+
+                idx += 32
+
+            elif code.startswith("Q06"):
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier, fields 6 1 6 3 6 1 6
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text = self.additional_data[idx + 3:idx + 9]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY reason code
+                self.original_observation_element_quality_reason_code = self.additional_data[idx + 9:idx + 10]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code = self.additional_data[idx + 10:idx + 16]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier
+                self.original_observation_element_quality_identifier = self.additional_data[idx + 16:idx + 19]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text_2 = self.additional_data[idx + 19:idx + 25]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY units code
+                self.original_observation_element_quality_units_code = self.additional_data[idx + 25:idx + 26]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code_2 = self.additional_data[idx + 26:idx + 32]
+
+                idx += 32
+
+            elif code.startswith("Q07"):
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier, fields 6 1 6 3 6 1 6
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text = self.additional_data[idx + 3:idx + 9]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY reason code
+                self.original_observation_element_quality_reason_code = self.additional_data[idx + 9:idx + 10]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code = self.additional_data[idx + 10:idx + 16]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier
+                self.original_observation_element_quality_identifier = self.additional_data[idx + 16:idx + 19]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text_2 = self.additional_data[idx + 19:idx + 25]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY units code
+                self.original_observation_element_quality_units_code = self.additional_data[idx + 25:idx + 26]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code_2 = self.additional_data[idx + 26:idx + 32]
+
+                idx += 32
+
+
+            elif code.startswith("R01"):
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier, fields 6 1 6 3 6 1 6
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text = self.additional_data[idx + 3:idx + 9]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY reason code
+                self.original_observation_element_quality_reason_code = self.additional_data[idx + 9:idx + 10]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code = self.additional_data[idx + 10:idx + 16]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier
+                self.original_observation_element_quality_identifier = self.additional_data[idx + 16:idx + 19]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text_2 = self.additional_data[idx + 19:idx + 25]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY units code
+                self.original_observation_element_quality_units_code = self.additional_data[idx + 25:idx + 26]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code_2 = self.additional_data[idx + 26:idx + 32]
+
+                idx += 32
+
+            elif code.startswith("R02"):
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier, fields 6 1 6 3 6 1 6
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text = self.additional_data[idx + 3:idx + 9]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY reason code
+                self.original_observation_element_quality_reason_code = self.additional_data[idx + 9:idx + 10]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code = self.additional_data[idx + 10:idx + 16]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier
+                self.original_observation_element_quality_identifier = self.additional_data[idx + 16:idx + 19]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text_2 = self.additional_data[idx + 19:idx + 25]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY units code
+                self.original_observation_element_quality_units_code = self.additional_data[idx + 25:idx + 26]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code_2 = self.additional_data[idx + 26:idx + 32]
+
+                idx += 32
+
+
+            elif code.startswith("R03"):
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier, fields 6 1 6 3 6 1 6
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text = self.additional_data[idx + 3:idx + 9]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY reason code
+                self.original_observation_element_quality_reason_code = self.additional_data[idx + 9:idx + 10]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code = self.additional_data[idx + 10:idx + 16]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier
+                self.original_observation_element_quality_identifier = self.additional_data[idx + 16:idx + 19]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text_2 = self.additional_data[idx + 19:idx + 25]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY units code
+                self.original_observation_element_quality_units_code = self.additional_data[idx + 25:idx + 26]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code_2 = self.additional_data[idx + 26:idx + 32]
+
+                idx += 32
+
+            elif code.startswith("R04"):
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier, fields 6 1 6 3 6 1 6
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text = self.additional_data[idx + 3:idx + 9]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY reason code
+                self.original_observation_element_quality_reason_code = self.additional_data[idx + 9:idx + 10]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code = self.additional_data[idx + 10:idx + 16]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier
+                self.original_observation_element_quality_identifier = self.additional_data[idx + 16:idx + 19]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text_2 = self.additional_data[idx + 19:idx + 25]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY units code
+                self.original_observation_element_quality_units_code = self.additional_data[idx + 25:idx + 26]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code_2 = self.additional_data[idx + 26:idx + 32]
+
+                idx += 32
+
+            elif code.startswith("R05"):
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier, fields 6 1 6 3 6 1 6
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text = self.additional_data[idx + 3:idx + 9]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY reason code
+                self.original_observation_element_quality_reason_code = self.additional_data[idx + 9:idx + 10]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code = self.additional_data[idx + 10:idx + 16]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier
+                self.original_observation_element_quality_identifier = self.additional_data[idx + 16:idx + 19]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text_2 = self.additional_data[idx + 19:idx + 25]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY units code
+                self.original_observation_element_quality_units_code = self.additional_data[idx + 25:idx + 26]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code_2 = self.additional_data[idx + 26:idx + 32]
+
+                idx += 32
+
+            elif code.startswith("R06"):
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier, fields 6 1 6 3 6 1 6
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text = self.additional_data[idx + 3:idx + 9]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY reason code
+                self.original_observation_element_quality_reason_code = self.additional_data[idx + 9:idx + 10]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code = self.additional_data[idx + 10:idx + 16]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier
+                self.original_observation_element_quality_identifier = self.additional_data[idx + 16:idx + 19]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text_2 = self.additional_data[idx + 19:idx + 25]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY units code
+                self.original_observation_element_quality_units_code = self.additional_data[idx + 25:idx + 26]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code_2 = self.additional_data[idx + 26:idx + 32]
+
+                idx += 32
+
+            elif code.startswith("R07"):
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier, fields 6 1 6 3 6 1 6
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text = self.additional_data[idx + 3:idx + 9]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY reason code
+                self.original_observation_element_quality_reason_code = self.additional_data[idx + 9:idx + 10]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code = self.additional_data[idx + 10:idx + 16]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier
+                self.original_observation_element_quality_identifier = self.additional_data[idx + 16:idx + 19]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text_2 = self.additional_data[idx + 19:idx + 25]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY units code
+                self.original_observation_element_quality_units_code = self.additional_data[idx + 25:idx + 26]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code_2 = self.additional_data[idx + 26:idx + 32]
+
+                idx += 32
+
+            elif code.startswith("R08"):
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier, fields 6 1 6 3 6 1 6
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text = self.additional_data[idx + 3:idx + 9]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY reason code
+                self.original_observation_element_quality_reason_code = self.additional_data[idx + 9:idx + 10]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code = self.additional_data[idx + 10:idx + 16]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier
+                self.original_observation_element_quality_identifier = self.additional_data[idx + 16:idx + 19]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text_2 = self.additional_data[idx + 19:idx + 25]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY units code
+                self.original_observation_element_quality_units_code = self.additional_data[idx + 25:idx + 26]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code_2 = self.additional_data[idx + 26:idx + 32]
+
+                idx += 32
+
+            elif code.startswith("R09"):
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier, fields 6 1 6 3 6 1 6
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text = self.additional_data[idx + 3:idx + 9]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY reason code
+                self.original_observation_element_quality_reason_code = self.additional_data[idx + 9:idx + 10]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code = self.additional_data[idx + 10:idx + 16]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier
+                self.original_observation_element_quality_identifier = self.additional_data[idx + 16:idx + 19]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text_2 = self.additional_data[idx + 19:idx + 25]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY units code
+                self.original_observation_element_quality_units_code = self.additional_data[idx + 25:idx + 26]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code_2 = self.additional_data[idx + 26:idx + 32]
+
+                idx += 32
+
+
+            elif code.startswith("REM"):
+                # Remarks data section, fields 3 3 variable based on second field
+                # GEOPHYSICAL-POINT-OBSERVATION remark identifier
+                self.geophysical_point_observation_remark_identifier = self.additional_data[idx + 3:idx + 6]
+                # GEOPHYSICAL-POINT-OBSERVATION remark length quantity
+                self.geophysical_point_observation_remark_length_quantity = self.additional_data[idx + 6:idx + 9]
+
+                remark_length = int(self.geophysical_point_observation_remark_length_quantity)
+
+                # GEOPHYSICAL-POINT-OBSERVATION remark text
+                self.geophysical_point_observation_remark_text = self.additional_data[idx + 9:idx + 9 + remark_length]
+
+                idx += 9 + remark_length
+
+            elif code.startswith("RH1"):
+                # RELATIVE HUMIDITY occurrence identifier, fields 3 1 3 1 1 = 9
+                # RELATIVE HUMIDITY period quantity
+                self.relative_humidity_period_quantity_1 = self.additional_data[idx + 3:idx + 6]
+                # RELATIVE HUMIDITY code
+                self.relative_humidity_code_1 = self.additional_data[idx + 6:idx + 7]
+                # RELATIVE HUMIDITY percentage
+                self.relative_humidity_percentage_1 = self.additional_data[idx + 7:idx + 10]
+                # RELATIVE HUMIDITY derived code
+                self.relative_humidity_derived_code_1 = self.additional_data[idx + 10:idx + 11]
+                # RELATIVE HUMIDITY quality code
+                self.relative_humidity_quality_code_1 = self.additional_data[idx + 11:idx + 12]
+
+                idx += 12
+
+            elif code.startswith("RH2"):
+                # RELATIVE HUMIDITY occurrence identifier, fields 3 1 3 1 1 = 9
+                # RELATIVE HUMIDITY period quantity
+                self.relative_humidity_period_quantity_2 = self.additional_data[idx + 3:idx + 6]
+                # RELATIVE HUMIDITY code
+                self.relative_humidity_code_2 = self.additional_data[idx + 6:idx + 7]
+                # RELATIVE HUMIDITY percentage
+                self.relative_humidity_percentage_2 = self.additional_data[idx + 7:idx + 10]
+                # RELATIVE HUMIDITY derived code
+                self.relative_humidity_derived_code_2 = self.additional_data[idx + 10:idx + 11]
+                # RELATIVE HUMIDITY quality code
+                self.relative_humidity_quality_code_2 = self.additional_data[idx + 11:idx + 12]
+
+                idx += 12
+
+            elif code.startswith("RH3"):
+                # RELATIVE HUMIDITY occurrence identifier, fields 3 1 3 1 1 = 9
+                # RELATIVE HUMIDITY period quantity
+                self.relative_humidity_period_quantity_3 = self.additional_data[idx + 3:idx + 6]
+                # RELATIVE HUMIDITY code
+                self.relative_humidity_code_3 = self.additional_data[idx + 6:idx + 7]
+                # RELATIVE HUMIDITY percentage
+                self.relative_humidity_percentage_3 = self.additional_data[idx + 7:idx + 10]
+                # RELATIVE HUMIDITY derived code
+                self.relative_humidity_derived_code_3 = self.additional_data[idx + 10:idx + 11]
+                # RELATIVE HUMIDITY quality code
+                self.relative_humidity_quality_code_3 = self.additional_data[idx + 11:idx + 12]
+
+                idx += 12
+
+
+            else:
+                raise Exception(f"Unknown additional data code {code}")
+
+            # }}}
+
+
+    def parsed_dry_bulb_deg_f(self) -> Optional[float]:
+        if self.dry_bulb_air_temperature == "+9999":
+            return None
+
+        return (int(self.dry_bulb_air_temperature)/10) * 9 / 5 + 32
+
+    def parsed_dew_point_deg_f(self) -> Optional[float]:
+        if self.dew_point_air_temperature == "+9999":
+            return None
+
+        return (int(self.dew_point_air_temperature)/10) * 9 / 5 + 32
+
+    def year(self) -> int:
+        return int(self.date[0:4])
+
+    def month(self) -> int:
+        return int(self.date[4:6])
+
+    def day(self) -> int:
+        return int(self.date[6:8])
+
 
 def list_isd_files():
     with FTP("ftp.ncdc.noaa.gov") as ftp:
@@ -98,6 +1706,24 @@ def get_isd_file_contents(usaf: str, year: int) -> str:
         return decompressed
 
 
+def get_isd_file_contents_http(usaf: str, wban: str, year: int) -> str:
+    url = f"https://www1.ncdc.noaa.gov/pub/data/noaa/{year}/{usaf}-{wban}-{year}.gz"
+    response = requests.get(url)
+    if response.status_code != 200:
+        raise Exception(f"HTTP request failed with status code {response.status_code}")
+    return gzip.decompress(response.content).decode("utf-8")
+
+def parse_isd_file_2(contents: Union[str, List[str], TextIO]):
+    records = contents.splitlines() if isinstance(contents, str) else contents
+
+    data: List[IsdRecord] = []
+
+    row = 1
+    for r in records:
+        print(f"Row {row}", file=sys.stderr)
+        data.append(IsdRecord(r))
+        row += 1
+
 def parse_isd_file(contents: Union[str, List[str], TextIO], offset: int, dst = True):
     records = contents.splitlines() if isinstance(contents, str) else contents
 
@@ -175,12 +1801,22 @@ def convert_to_tsv():
         print(*record, sep='\t', end='\n')
 
 
-if __name__ == "__main__":
+def convert_to_epw(usaf: str, wban: str, year: int, offset: int):
+    data = []
+    for year in years:
+        print(f"Downloading {year}", file=sys.stderr)
+        contents = get_isd_file_contents_http("724050", "13743", year)
+        d = parse_isd_file(contents, -5, False)
+        data.extend(d)
+    pass
+
+
+def averages():
     years = [2019, 2020, 2021, 2022, 2023]
     data = []
     for year in years:
         print(f"Downloading {year}", file=sys.stderr)
-        contents = get_isd_file_contents("724050", year)
+        contents = get_isd_file_contents_http("724050", "13743", year)
         d = parse_isd_file(contents, -5, False)
         data.extend(d)
 
@@ -200,3 +1836,85 @@ if __name__ == "__main__":
 
     #  for record in hourly_data:
         #  print(*record, sep='\t', end='\n')
+
+def help_text() -> str:
+    return """Usage: isd2tsv [options]
+
+Options:
+    -h, --help: Show this help text
+    -u, --usaf: USAF code
+    -w, --wban: WBAN code
+    -y, --year: Year
+    """
+
+
+def main():
+    usaf = None
+    wban = None
+    year = None
+
+    idx = 1
+    while idx < len(sys.argv):
+        a = sys.argv[idx]
+        if a == "-h" or a == "--help":
+            print(help_text())
+
+        elif a == "-u" or a == "--usaf":
+            if idx + 1 >= len(sys.argv):
+                print("Error: no USAF code given", file=sys.stderr)
+                sys.exit(1)
+
+            usaf = sys.argv[idx + 1]
+            idx += 2
+
+        elif a == "-w" or a == "--wban":
+            if idx + 1 >= len(sys.argv):
+                print("Error: no WBAN code given", file=sys.stderr)
+                sys.exit(1)
+
+            wban = sys.argv[idx + 1]
+            idx += 2
+
+        elif a == "-y" or a == "--year":
+            if idx + 1 >= len(sys.argv):
+                print("Error: no year given", file=sys.stderr)
+                sys.exit(1)
+
+            try:
+                year = int(sys.argv[idx + 1])
+            except ValueError:
+                print(f"Error: {sys.argv[idx + 1]} is not a valid year", file=sys.stderr)
+                sys.exit(1)
+
+            idx += 2
+
+        elif a == "--dfw": # Shortcut for my location
+            usaf = "724050"
+            wban = "13743"
+            idx += 1
+
+        else:
+            print(f"Error: unknown argument {a}", file=sys.stderr)
+            sys.exit(1)
+
+    if usaf is None:
+        print("Error: no USAF code given", file=sys.stderr)
+        sys.exit(1)
+
+    if wban is None:
+        print("Error: no WBAN code given", file=sys.stderr)
+        sys.exit(1)
+
+    if year is None:
+        print("Error: no year given", file=sys.stderr)
+        sys.exit(1)
+
+    contents = get_isd_file_contents_http(usaf, wban, year)
+
+    parse_isd_file_2(contents)
+
+    print(contents, end='')
+
+
+if __name__ == "__main__":
+    main()
