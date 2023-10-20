@@ -1342,7 +1342,7 @@ THURSDAY  = 4
 FRIDAY    = 5
 SATURDAY  = 6
 
-def fixed_from_gregorian(year: int, month: int, day: int) -> int:
+def fixed_from_gregorian(year: int, month: int, day: int, hour: int = 0, minute: int = 0, as_minute_int = False) -> int:
     # From Calendrical Calculations
     y1 = year - 1
     if month <= 2:
@@ -1353,6 +1353,10 @@ def fixed_from_gregorian(year: int, month: int, day: int) -> int:
         adj = -2
 
     rd = 365 * y1 + math.floor(y1/4) - math.floor(y1/100) + math.floor(y1/400) + math.floor((367 * month - 362)/12) + adj + day
+
+    if hour != 0 or minute != 0 or as_minute_int:
+        rd = rd * 1440 + hour * 60 + minute
+
     return rd
 
 def year_from_rd(rd_date: int) -> int:
