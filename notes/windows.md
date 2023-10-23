@@ -170,3 +170,11 @@ ReparsePoint	1024	The file contains a reparse point, which is a block of user-de
 SparseFile	512	The file is a sparse file. Sparse files are typically large files whose data consists of mostly zeros.
 System	4	The file is a system file. That is, the file is part of the operating system or is used exclusively by the operating system.
 Temporary	256	The file is temporary. A temporary file contains data that is needed while an application is executing but is not needed after the application is finished. File systems try to keep all the data in memory for quicker access rather than flushing the data back to mass storage. A temporary file should be deleted by the application as soon as it is no longer needed.
+
+## Utility Locations
+
+```
+C:\Windows\System32\clip.exe
+C:\Windows\System32\where.exe
+C:\Windows\System32\wsl.exe
+```
