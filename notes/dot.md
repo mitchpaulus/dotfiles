@@ -10,6 +10,9 @@ Typical file looks like
 
 ```
 strict digraph graphname {
+
+    rankdir="LR";
+
   node1 [label="label with spaces"]
   node1 -> node2 [label="edge label"]
   ...
