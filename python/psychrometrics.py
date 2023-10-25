@@ -39,6 +39,7 @@ def absolute_temp(t: float):
     return t + 459.67
 
 def sat_partial_pressure(t: float) -> float:
+    """Saturated Water Vapor Partial Pressure in psi from temperature in °F"""
     abs_temp = absolute_temp(t)
 
     if abs_temp > 491.67:
@@ -56,6 +57,42 @@ def sat_partial_pressure(t: float) -> float:
                    3.5575832e-10*abs_temp*abs_temp*abs_temp +
                    -9.0344688e-14*abs_temp*abs_temp*abs_temp*abs_temp +
                    4.1635019*math.log(abs_temp))
+
+
+def sat_partial_pressure_si(t: float) -> float:
+    t_kelvin = t + 273.15
+
+    if t >= 0:
+        n1  = 0.11670521452767e4
+        n2  = -0.72421316703206e6
+        n3  = -0.17073846940092e2
+        n4  = 0.12020824702470e5
+        n5  = -0.32325550322333e7
+        n6  = 0.14915108613530e2
+        n7  = -0.48232657361591e4
+        n8  = 0.40511340542057e6
+        n9  = -0.23855557567849e0
+        n10 = 0.65017534844798e3
+
+        theta = t_kelvin + n9 / (t_kelvin - n10)
+
+        A = theta*theta + n1 * theta + n2
+        B = n3 * theta * theta + n4 * theta + n5
+        C = n6 * theta * theta + n7 * theta + n8
+
+        pws = 1000 * ((2 * C) / ( -B + math.sqrt(B*B - 4*A*C) ))**4
+    else:
+        a1 = -0.212144006e2
+        a2 = 0.273203819e2
+        a3 = -0.610598130e1
+        b1 = 0.333333333e-2
+        b2 = 0.120666667e1
+        b3 = 0.170333333e1
+        theta = t_kelvin / 273.16
+
+        pws = 0.611657 * math.exp((1 / theta) * (a1*theta**b1 +  a2*theta**b2 + a3*theta**b3)  )
+
+    return pws
 
 def w_from_partial_pressure(pv: float, total_pressure: float = 14.696) -> float:
     return 0.621945 * pv / (total_pressure - pv)
