@@ -15,6 +15,24 @@ class TestPsychrometrics(unittest.TestCase):
         saturation_pressure = psychrometrics.sat_partial_pressure(temp)
         self.assertAlmostEqual(saturation_pressure, 0.25638, delta=0.1)
 
+    def test_sat_pressure_si(self):
+        test_cases = [
+            (-60, 0.00108),
+            (-10, 0.25987),
+            (0, 0.61121),
+            (10, 1.2282),
+            (150, 476.10),
+        ]
+
+        for case in test_cases:
+            saturation_pressure_kPa = psychrometrics.sat_partial_pressure_si(case[0])
+
+            # match within 0.01% of tabular value or 0.0001 absolute, whichever greater
+            delta = max(case[1] * 0.0001, 0.0001)
+
+            self.assertAlmostEqual(saturation_pressure_kPa, case[1], delta=delta)
+
+
     def test_specific_volume(self):
         tdb = 60
         w = 0.01
