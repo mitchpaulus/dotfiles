@@ -1,0 +1,68 @@
+#!/usr/bin/env python3
+
+# PURPOSE:
+
+# Take a DOE-2 .fmt file and make it tab separated, with headers
+
+import sys
+
+# 1-2:   Month (1-12)
+# 3-4:   Day (1-31)
+# 5-6:   Hour (0-23)
+# 7-11:  Wet Bulb Temperature (°F) (0 decimal places)
+# 12-16: Dry Bulb Temperature (°F) (0 decimal places)
+# 17-22: Atmospheric Pressure (in Hg)
+# 23-27: Cloud Amount (0-10) (0 decimal places)
+# 28-30: Snow indicator (0-1) (Int)
+# 31-33: Rain indicator (0-1) (Int)
+# 34-37: Wind Direction (0-15) (Int)
+# 38-44: Humidity Ratio (4 decimal places)
+# 45-50: Air Density (lb/ft3) (3 decimal places)
+# 51-56: Specific Enthalpy (Btu/lb) (1 decimal places)
+# 57-63: Total Horizontal Solar (BTU/hr-ft2) (1 decimal places)
+# 64-70: Direct Normal Solar (BTU/hr-ft2) (1 decimal places)
+# 71-73: Cloud Type (0-2)
+# 74-80: Wind Speed (knots) (0 decimal places)
+
+def main():
+
+    if len(sys.argv) != 2:
+        print('Usage: fmt2tsv <filename>')
+        sys.exit(1)
+
+    filename = sys.argv[1]
+
+    with open(filename, 'r') as f:
+        lines = f.readlines()
+
+    # Print headers
+    headers = ['month', 'day', 'hour', 'Wet Bulb (°F)', 'Dry Bulb (°F)', 'Pressure (in Hg)', 'cloud_amount (0-10)', 'snow (0-1)', 'rain (0-1)', 'wind_direction (0-15, N = 0, NNE = 1)', 'humidity_ratio',
+               'air_density (lb/ft3)', 'specific_enthalpy (Btu/lb)', 'total_horizontal_solar (BTU/h ft2)', 'Direct Normal Solar (BTU/h ft2)', 'cloud_type (0 - 2)', 'wind_speed (knots)']
+    print('\t'.join(headers))
+
+    for line in lines[3:]:
+        month = line[0:2].strip()
+        day = line[2:4].strip()
+        hour = line[4:6].strip()
+        wet_bulb = line[6:11].strip()
+        dry_bulb = line[11:16].strip()
+        pressure = line[16:22].strip()
+        cloud_amount = line[22:27].strip()
+        snow = line[27:30].strip()
+        rain = line[30:33].strip()
+        wind_direction = line[33:37].strip()
+        humidity_ratio = line[37:44].strip()
+        air_density = line[44:50].strip()
+        specific_enthalpy = line[50:56].strip()
+        total_horizontal_solar = line[56:63].strip()
+        direct_normal_solar = line[63:70].strip()
+        cloud_type = line[70:73].strip()
+        wind_speed = line[73:80].strip()
+
+        fields = [month, day, hour, wet_bulb, dry_bulb, pressure, cloud_amount, snow, rain, wind_direction, humidity_ratio, air_density, specific_enthalpy, total_horizontal_solar, direct_normal_solar, cloud_type, wind_speed]
+
+        print('\t'.join(fields))
+
+
+if __name__ == '__main__':
+    main()
