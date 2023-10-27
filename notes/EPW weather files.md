@@ -139,3 +139,105 @@ Meteorological Uncertainty Flag Codes
 
 
 ## Header Lines
+
+LOCATION,
+    A1, \field city
+        \type alpha
+    A2, \field State Province Region
+        \type alpha
+    A3, \field Country
+        \type alpha
+    A4, \field Source
+        \type alpha
+    N1, \field WMO
+        \note usually a 6 digit field. Used as alpha in EnergyPlus
+        \type alpha
+    N2 , \field Latitude
+        \units deg
+        \minimum -90.0
+        \maximum +90.0
+        \default 0.0
+        \note + is North, - is South, degree minutes represented in decimal (i.e. 30 minutes is .5)
+        \type real
+    N3 , \field Longitude
+        \units deg
+        \minimum -180.0
+        \maximum +180.0
+        \default 0.0
+        \note - is West, + is East, degree minutes represented in decimal (i.e. 30 minutes is .5)
+        \type real
+    N4 , \field TimeZone
+        \units hr - not on standard units list???
+        \minimum -12.0
+        \maximum +12.0
+        \default 0.0
+        \note Time relative to GMT.
+        \type real
+    N5 ; \field Elevation
+        \units m
+        \minimum -1000.0
+        \maximum< +9999.9
+        \default 0.0
+        \type real
+
+DESIGN CONDITIONS,
+    N1, \field Number of Design Conditions
+    A1, \field Design Condition Source
+        \note current sources are ASHRAE HOF 2009 US Design Conditions, Canadian Design Conditions
+        \note and World Design Conditions
+    A2, \field Design Condition Type (HEATING)
+        \note fields here will be dependent on the source, they are shown in a header/data format
+        \note in both the .rpt and .csv files that are produced by the WeatherConverter program
+    ...
+    An, \field Design Condition Type (COOLING)
+        \note same as note on Heating Design Conditions
+
+TYPICAL/EXTREME PERIODS,
+N1, \field Number of Typical/Extreme Periods
+A1, \field Typical/Extreme Period 1 Name
+A2, \field Typical/Extreme Period 1 Type
+A3, \field Period 1 Start Day
+A4, \field Period 1 End Day
+\note repeat (A1-A3) until number of typical periods
+-- etc to # of periods entered
+
+
+HOLIDAYS/DAYLIGHT SAVING,
+A1, \field LeapYear Observed
+    \type choice
+    \key Yes
+    \key No
+    \note Yes if Leap Year will be observed for this file
+    \note No if Leap Year days (29 Feb) should be ignored in this file
+A2, \field Daylight Saving Start Day
+A3, \field Daylight Saving End Day
+N1, \field Number of Holidays (essentially unlimited)
+A4, \field Holiday 1 Name
+A5, \field Holiday 1 Day
+\note repeat above two fields until Number of Holidays is reached
+
+```
+HOLIDAYS/DAYLIGHT SAVINGS,No,2 Sunday in March,1 Sunday in November,0
+```
+
+DATA PERIODS,
+N1, \field Number of Data Periods
+N2, \field Number of Records per hour
+A1, \field Data Period 1 Name/Description
+A2, \field Data Period 1 Start Day of Week
+    \type choice
+    \key Sunday
+    \key Monday
+    \key Tuesday
+    \key Wednesday
+    \key Thursday
+    \key Friday
+    \key Saturday
+A3, \field Data Period 1 Start Day
+A4, \field Data Period 1 End Day
+\note repeat above to number of data periods
+-- etc to # of periods entered
+
+```
+DATA PERIODS,1,1,Data,Tuesday,1/1/2019,12/31/2019
+```

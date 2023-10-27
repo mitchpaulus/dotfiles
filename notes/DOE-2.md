@@ -21,8 +21,6 @@ In IP, units of length are in feet. See `POLYGON` pg. 98 of `DOE22Vol2-Dictionar
 Each door is associated with the EXTERIOR-WALL before it.
 
 
-
-
 # eQuest examples
 
 
@@ -88,3 +86,43 @@ MON, TUE, WED, THU, FRI, SAT, SUN, HOL, ALL, WD, WEH, HDD, CDD
 # Other utilities
 
 <https://github.com/grammy-jiang/doe2-sim-parser>
+
+
+# Weather
+
+Dry bulb Temperature (°F)
+Wet bulb Temperature (°F)
+Atmospheric Pressure (inches of Hg times 100)
+Wind Speed (knots)
+Wind Direction (compass points 0-15, with 0 being north, 1 NNE, etc.)
+Cloud Amount (0 - 10, with 0 clear and 10 totally cloudy)
+Cloud Type (0, 1, or 2)
+ 0 is cirrus or cirrostratus, the least opaque;
+ 1 is stratus or stratus fractus, the most opaque; and
+ 2 is all other cloud types, of medium opacity
+Humidity Ratio (pounds of water per pound of dry air)
+Density of Air (lb/ft3)
+Specific Enthalpy (Btu/lb)
+Rain Flag (0 means it is not raining; 1 means it is)
+Snow Flag (0 means it is not snowing; 1 means it is)
+
+
+## DOE-2 fmt format
+
+1-2: Month (1-12)
+3-4: Day (1-31)
+5-6: Hour (0-23)
+7-11: Wet Bulb Temperature (°F) (0 decimal places)
+12-16: Dry Bulb Temperature (°F) (0 decimal places)
+17-22: Atmospheric Pressure (in Hg) (0 decimal places)
+23-27: Cloud Amount (0-10) (0 decimal places)
+28-30: Snow indicator (0-1) (Int)
+31-33: Rain indicator (0-1) (Int)
+34-37: Wind Direction (0-15) (Int)
+38-44: Humidity Ratio (4 decimal places)
+45-50: Air Density (lb/ft3) (3 decimal places)
+51-56: Specific Enthalpy (Btu/lb) (1 decimal places)
+57-63: Total Horizontal Solar (BTU/hr-ft2) (1 decimal places)
+64-70: Direct Normal Solar (BTU/hr-ft2) (1 decimal places)
+71-73: Cloud Type (0-2) (Int)
+74-78: Wind Speed (knots) (0 decimal places)
