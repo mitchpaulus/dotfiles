@@ -40,6 +40,14 @@ class TestPsychrometrics(unittest.TestCase):
         self.assertAlmostEqual(specific_volume, 13.31151850962418, delta=0.01)
 
 
+    def test_wet_bulb(self):
+        tdb = 90
+        w = 0.014
+
+        twb = psychrometrics.twb_from_tdb_w(tdb, w)
+        print(twb)
+        self.assertAlmostEqual(twb, 73.5, delta=0.1)
+
 
 class TestSorting(unittest.TestCase):
     def test_version_sort_by(self):

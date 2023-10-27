@@ -40,8 +40,11 @@ def absolute_temp(t: float):
 
 def sat_partial_pressure(t: float) -> float:
     """Saturated Water Vapor Partial Pressure in psi from temperature in °F"""
-    abs_temp = absolute_temp(t)
 
+    if t > 150:
+        raise ValueError("Temperature must be less than 150°F")
+
+    abs_temp = absolute_temp(t)
     if abs_temp > 491.67:
         return math.exp(-1.0440397e4/abs_temp +
                 -1.129465e1 +
@@ -120,3 +123,61 @@ def h_sat(t: float) -> float:
     p_sat = sat_partial_pressure(t)
     w_sat = w_from_partial_pressure(p_sat)
     return 0.24*t + w_sat*(1061 + 0.444*t)
+
+def h_from_tdb_w(tdb: float, w: float) -> float:
+    return 0.24*tdb + w*(1061 + 0.444*tdb)
+
+
+def w_from_tdb_rh(tdb: float, rh: float) -> float:
+    """
+    :param tdb: Dry bulb temperature [°F]
+    :param rh: Relative Humidity [%] (0-100)
+    :return: Humidity Ratio
+    """
+
+    pv = rh/100 * sat_partial_pressure(tdb)
+    return w_from_partial_pressure(pv)
+
+
+
+def zero_function(twb: float, tdb: float, w: float) -> float:
+    w_star = w_from_partial_pressure(sat_partial_pressure(twb))
+
+    numerator = (1093 - 0.556 * twb)* w_star - 0.24 * (tdb - twb)
+    denom = 1093 + 0.444 * tdb - twb
+
+    return numerator / denom - w
+
+
+def deriv_zero_function(twb: float, tdb: float) -> float:
+    p_sat_twb = sat_partial_pressure(twb)
+
+    # Using tetens for derivative
+    d_psat_d_twb = 0.088586 * math.exp((1727*twb -55264) / (100 * twb + 39514)) * 73767078 / ( (100 * twb + 39514)**2 )
+
+    d_w_star_d_twb = 0.621945 * ((14.696 - p_sat_twb)*d_psat_d_twb + p_sat_twb * d_psat_d_twb) / ((14.696 - p_sat_twb)**2)
+
+    w_star = w_from_partial_pressure(p_sat_twb)
+    n = (1093 - 0.556*twb) * w_star - 0.24 * (tdb - twb)
+    d = 1093+0.444*tdb - twb
+
+    dn = (1093-0.556*twb) * d_w_star_d_twb - 0.556 * w_star + 0.24
+    dd = -1
+
+    return (d*dn - n*dd) / (d*d)
+
+
+def twb_from_tdb_w(tdb: float, w: float) -> float:
+    """Return wet bulb temperature [°F] given dry bulb temperature [°F] and humidity ratio"""
+    initial_guess = tdb - 5
+
+    z = 10
+    tries = 0
+
+    while z > 0.000001 and tries < 20:
+        z = zero_function(initial_guess, tdb, w)
+        dz = deriv_zero_function(initial_guess, tdb)
+        initial_guess = initial_guess - z/dz
+        tries += 1
+
+    return initial_guess
