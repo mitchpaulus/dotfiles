@@ -424,7 +424,7 @@ def sha256(filepath) -> str:
     with open(filepath, 'rb') as f:
         return hashlib.sha256(f.read()).hexdigest()
 
-def resolve_path(relative_path: str, base_path: str = None, separator = None) -> str:
+def resolve_path(relative_path: str, base_path: Optional[str] = None, separator = None) -> str:
     """
     Resolve the given relative path to an absolute path.
     """
@@ -1269,7 +1269,6 @@ def itp(a: float, b: float, f: Callable[[float], float], eps: float = 0.00000001
     fb = f(b)
 
     if fa * fb > 0:
-        message = f"f(a) and f(b) must have opposite signs. a = {a}, f(a) = {fa}, b = {b}, f(b) = {fb}"
         f(a)
         f(b)
         raise ValueError(f"f(a) and f(b) must have opposite signs. a = {a}, f(a) = {fa}, b = {b}, f(b) = {fb}")
@@ -1476,7 +1475,7 @@ def utc_to_local(datetime: float, std_offset_hrs: int) -> float:
 
     return std_local_datetime
 
-def first_index_gteq(list1, list2):
+def first_index_gteq(list1, list2, projection_1 = None, projection_2 = None):
     """Return an array that is the length of list1, where each element is the index of the first element in list2 that is greater than or equal to the corresponding element in list1.
     If no such element exists, the corresponding element in the output array is None."""
     index_1 = 0
@@ -1487,7 +1486,11 @@ def first_index_gteq(list1, list2):
     while index_1 < len(list1):
         found = False
         while index_2 < len(list2):
-            if list2[index_2] >= list1[index_1]:
+
+            value_1 = list1[index_1] if projection_1 is None else projection_1(list1[index_1])
+            value_2 = list2[index_2] if projection_2 is None else projection_2(list2[index_2])
+
+            if value_2 >= value_1:
                 output.append(index_2)
                 found = True
                 break
