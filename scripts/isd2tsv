@@ -5,11 +5,12 @@ import mputils
 from ftplib import FTP
 import gzip
 from io import BytesIO
-from typing import Union, List, TextIO, Optional
+from typing import Union, List, TextIO, Optional, Tuple
 import math
 import requests
+import psychrometrics as psy
 
-# ISD Format
+# ISD Format (https://www1.ncdc.noaa.gov/pub/data/noaa/isd-format-document.pdf)
 # 1-4: Total Variable Characters
 # 5-10: USAF
 # 11-15: WBAN
@@ -22,10 +23,10 @@ import requests
 # 47-51: Elevation (m)
 # 52-56: Call letter identifier
 # 57-60: Quality control process name
-# 61-63: Wind direction angle
+# 61-63: Wind direction angle (The angle, measured in a clockwise direction, between true north and the direction from which the wind is blowing.) 999 = Missing
 # 64: Wind direction quality
 # 65: Wind direction Type
-# 66-69: Wind speed (m/s) Scaling factor: 10
+# 66-69: Wind speed (m/s) Scaling factor: 10, 9999 = Missing
 # 70: Wind speed quality
 # 71-75: Ceiling Height dimension (m)
 # 76: Ceiling Height Quality
@@ -39,7 +40,7 @@ import requests
 # 93: Dry Bulb Air Temperature Quality
 # 94-98: Dew Point Air Temperature (C), Scale factor: 10 [+-][0-9]{4} '+9999' is missing
 # 99: Dew Point Temperature quality code
-# 100-104: Air pressure (Hectopascals), Scale factor: 10
+# 100-104: Air pressure (Hectopascals), Scale factor: 10 (99999 = Missing)
 # 105: Air pressure quality code
 
 class IsdRecord:
@@ -109,7 +110,6 @@ class IsdRecord:
                 self.liquid_precipitation_monthly_total_quality_code = self.additional_data[idx + 9:idx + 10]
 
                 idx += 10
-
 
             elif code.startswith("AD1"):
                 # LIQUID-PRECIPITATION GREATEST AMOUNT IN 24 HOURS, FOR THE MONTH identifier, fields 5 1 4 4 4 1
@@ -481,6 +481,45 @@ class IsdRecord:
 
                 idx += 12
 
+            elif code.startswith("AT6"):
+                # PRESENT-WEATHER-OBSERVATION automated occurrence identifier for ASOS/AWOS data, fields 2 2 4 1 = 9
+                # DAILY-PRESENT-WEATHER-OBSERVATION source element
+                self.daily_present_weather_observation_source_element_6 = self.additional_data[idx + 3:idx + 5]
+                # DAILY-PRESENT-WEATHER-OBSERVATION weather type
+                self.daily_present_weather_observation_weather_type_6 = self.additional_data[idx + 5:idx + 7]
+                # DAILY-PRESENT-WEATHER-OBSERVATION weather type abbreviation
+                self.daily_present_weather_observation_weather_type_abbreviation_6 = self.additional_data[idx + 7:idx + 11]
+                # DAILY-PRESENT-WEATHER-OBSERVATION quality code
+                self.daily_present_weather_observation_quality_code_6 = self.additional_data[idx + 11:idx + 12]
+
+                idx += 12
+
+            elif code.startswith("AT7"):
+                # PRESENT-WEATHER-OBSERVATION automated occurrence identifier for ASOS/AWOS data, fields 2 2 4 1 = 9
+                # DAILY-PRESENT-WEATHER-OBSERVATION source element
+                self.daily_present_weather_observation_source_element_7 = self.additional_data[idx + 3:idx + 5]
+                # DAILY-PRESENT-WEATHER-OBSERVATION weather type
+                self.daily_present_weather_observation_weather_type_7 = self.additional_data[idx + 5:idx + 7]
+                # DAILY-PRESENT-WEATHER-OBSERVATION weather type abbreviation
+                self.daily_present_weather_observation_weather_type_abbreviation_7 = self.additional_data[idx + 7:idx + 11]
+                # DAILY-PRESENT-WEATHER-OBSERVATION quality code
+                self.daily_present_weather_observation_quality_code_7 = self.additional_data[idx + 11:idx + 12]
+
+                idx += 12
+
+            elif code.startswith("AT8"):
+                # PRESENT-WEATHER-OBSERVATION automated occurrence identifier for ASOS/AWOS data, fields 2 2 4 1 = 9
+                # DAILY-PRESENT-WEATHER-OBSERVATION source element
+                self.daily_present_weather_observation_source_element_8 = self.additional_data[idx + 3:idx + 5]
+                # DAILY-PRESENT-WEATHER-OBSERVATION weather type
+                self.daily_present_weather_observation_weather_type_8 = self.additional_data[idx + 5:idx + 7]
+                # DAILY-PRESENT-WEATHER-OBSERVATION weather type abbreviation
+                self.daily_present_weather_observation_weather_type_abbreviation_8 = self.additional_data[idx + 7:idx + 11]
+                # DAILY-PRESENT-WEATHER-OBSERVATION quality code
+                self.daily_present_weather_observation_quality_code_8 = self.additional_data[idx + 11:idx + 12]
+
+                idx += 12
+
 
             elif code.startswith("AU1"):
                 # PRESENT-WEATHER-OBSERVATION intensity, fields 1 1 2 1 1 1 1 = 8
@@ -539,6 +578,119 @@ class IsdRecord:
 
                 idx += 11
 
+            elif code.startswith("AU4"):
+                # PRESENT-WEATHER-OBSERVATION intensity, fields 1 1 2 1 1 1 1 = 8
+                # PRESENT-WEATHER-OBSERVATION intensity and proximity code
+                self.present_weather_observation_intensity_and_proximity_code_4 = self.additional_data[idx + 3:idx + 4]
+                # PRESENT-WEATHER-OBSERVATION descriptor code
+                self.present_weather_observation_descriptor_code_4 = self.additional_data[idx + 4:idx + 5]
+                # PRESENT-WEATHER-OBSERVATION precipitation code
+                self.present_weather_observation_precipitation_code_4 = self.additional_data[idx + 5:idx + 7]
+                # PRESENT-WEATHER-OBSERVATION obscuration code
+                self.present_weather_observation_obscuration_code_4 = self.additional_data[idx + 7:idx + 8]
+                # PRESENT-WEATHER-OBSERVATION other weather phenomena code
+                self.present_weather_observation_other_weather_phenomena_code_4 = self.additional_data[idx + 8:idx + 9]
+                # PRESENT-WEATHER-OBSERVATION combination indicator code
+                self.present_weather_observation_combination_indicator_code_4 = self.additional_data[idx + 9:idx + 10]
+                # PRESENT-WEATHER-OBSERVATION quality code
+                self.present_weather_observation_quality_code_4 = self.additional_data[idx + 10:idx + 11]
+
+                idx += 11
+
+            elif code.startswith("AU5"):
+                # PRESENT-WEATHER-OBSERVATION intensity, fields 1 1 2 1 1 1 1 = 8
+                # PRESENT-WEATHER-OBSERVATION intensity and proximity code
+                self.present_weather_observation_intensity_and_proximity_code_5 = self.additional_data[idx + 3:idx + 4]
+                # PRESENT-WEATHER-OBSERVATION descriptor code
+                self.present_weather_observation_descriptor_code_5 = self.additional_data[idx + 4:idx + 5]
+                # PRESENT-WEATHER-OBSERVATION precipitation code
+                self.present_weather_observation_precipitation_code_5 = self.additional_data[idx + 5:idx + 7]
+                # PRESENT-WEATHER-OBSERVATION obscuration code
+                self.present_weather_observation_obscuration_code_5 = self.additional_data[idx + 7:idx + 8]
+                # PRESENT-WEATHER-OBSERVATION other weather phenomena code
+                self.present_weather_observation_other_weather_phenomena_code_5 = self.additional_data[idx + 8:idx + 9]
+                # PRESENT-WEATHER-OBSERVATION combination indicator code
+                self.present_weather_observation_combination_indicator_code_5 = self.additional_data[idx + 9:idx + 10]
+                # PRESENT-WEATHER-OBSERVATION quality code
+                self.present_weather_observation_quality_code_5 = self.additional_data[idx + 10:idx + 11]
+
+                idx += 11
+
+            elif code.startswith("AU6"):
+                # PRESENT-WEATHER-OBSERVATION intensity, fields 1 1 2 1 1 1 1 = 8
+                # PRESENT-WEATHER-OBSERVATION intensity and proximity code
+                self.present_weather_observation_intensity_and_proximity_code_6 = self.additional_data[idx + 3:idx + 4]
+                # PRESENT-WEATHER-OBSERVATION descriptor code
+                self.present_weather_observation_descriptor_code_6 = self.additional_data[idx + 4:idx + 5]
+                # PRESENT-WEATHER-OBSERVATION precipitation code
+                self.present_weather_observation_precipitation_code_6 = self.additional_data[idx + 5:idx + 7]
+                # PRESENT-WEATHER-OBSERVATION obscuration code
+                self.present_weather_observation_obscuration_code_6 = self.additional_data[idx + 7:idx + 8]
+                # PRESENT-WEATHER-OBSERVATION other weather phenomena code
+                self.present_weather_observation_other_weather_phenomena_code_6 = self.additional_data[idx + 8:idx + 9]
+                # PRESENT-WEATHER-OBSERVATION combination indicator code
+                self.present_weather_observation_combination_indicator_code_6 = self.additional_data[idx + 9:idx + 10]
+                # PRESENT-WEATHER-OBSERVATION quality code
+                self.present_weather_observation_quality_code_6 = self.additional_data[idx + 10:idx + 11]
+
+                idx += 11
+
+            elif code.startswith("AU7"):
+                # PRESENT-WEATHER-OBSERVATION intensity, fields 1 1 2 1 1 1 1 = 8
+                # PRESENT-WEATHER-OBSERVATION intensity and proximity code
+                self.present_weather_observation_intensity_and_proximity_code_7 = self.additional_data[idx + 3:idx + 4]
+                # PRESENT-WEATHER-OBSERVATION descriptor code
+                self.present_weather_observation_descriptor_code_7 = self.additional_data[idx + 4:idx + 5]
+                # PRESENT-WEATHER-OBSERVATION precipitation code
+                self.present_weather_observation_precipitation_code_7 = self.additional_data[idx + 5:idx + 7]
+                # PRESENT-WEATHER-OBSERVATION obscuration code
+                self.present_weather_observation_obscuration_code_7 = self.additional_data[idx + 7:idx + 8]
+                # PRESENT-WEATHER-OBSERVATION other weather phenomena code
+                self.present_weather_observation_other_weather_phenomena_code_7 = self.additional_data[idx + 8:idx + 9]
+                # PRESENT-WEATHER-OBSERVATION combination indicator code
+                self.present_weather_observation_combination_indicator_code_7 = self.additional_data[idx + 9:idx + 10]
+                # PRESENT-WEATHER-OBSERVATION quality code
+                self.present_weather_observation_quality_code_7 = self.additional_data[idx + 10:idx + 11]
+
+                idx += 11
+
+            elif code.startswith("AU8"):
+                # PRESENT-WEATHER-OBSERVATION intensity, fields 1 1 2 1 1 1 1 = 8
+                # PRESENT-WEATHER-OBSERVATION intensity and proximity code
+                self.present_weather_observation_intensity_and_proximity_code_8 = self.additional_data[idx + 3:idx + 4]
+                # PRESENT-WEATHER-OBSERVATION descriptor code
+                self.present_weather_observation_descriptor_code_8 = self.additional_data[idx + 4:idx + 5]
+                # PRESENT-WEATHER-OBSERVATION precipitation code
+                self.present_weather_observation_precipitation_code_8 = self.additional_data[idx + 5:idx + 7]
+                # PRESENT-WEATHER-OBSERVATION obscuration code
+                self.present_weather_observation_obscuration_code_8 = self.additional_data[idx + 7:idx + 8]
+                # PRESENT-WEATHER-OBSERVATION other weather phenomena code
+                self.present_weather_observation_other_weather_phenomena_code_8 = self.additional_data[idx + 8:idx + 9]
+                # PRESENT-WEATHER-OBSERVATION combination indicator code
+                self.present_weather_observation_combination_indicator_code_8 = self.additional_data[idx + 9:idx + 10]
+                # PRESENT-WEATHER-OBSERVATION quality code
+                self.present_weather_observation_quality_code_8 = self.additional_data[idx + 10:idx + 11]
+
+                idx += 11
+
+            elif code.startswith("AU9"):
+                # PRESENT-WEATHER-OBSERVATION intensity, fields 1 1 2 1 1 1 1 = 8
+                # PRESENT-WEATHER-OBSERVATION intensity and proximity code
+                self.present_weather_observation_intensity_and_proximity_code_9 = self.additional_data[idx + 3:idx + 4]
+                # PRESENT-WEATHER-OBSERVATION descriptor code
+                self.present_weather_observation_descriptor_code_9 = self.additional_data[idx + 4:idx + 5]
+                # PRESENT-WEATHER-OBSERVATION precipitation code
+                self.present_weather_observation_precipitation_code_9 = self.additional_data[idx + 5:idx + 7]
+                # PRESENT-WEATHER-OBSERVATION obscuration code
+                self.present_weather_observation_obscuration_code_9 = self.additional_data[idx + 7:idx + 8]
+                # PRESENT-WEATHER-OBSERVATION other weather phenomena code
+                self.present_weather_observation_other_weather_phenomena_code_9 = self.additional_data[idx + 8:idx + 9]
+                # PRESENT-WEATHER-OBSERVATION combination indicator code
+                self.present_weather_observation_combination_indicator_code_9 = self.additional_data[idx + 9:idx + 10]
+                # PRESENT-WEATHER-OBSERVATION quality code
+                self.present_weather_observation_quality_code_9 = self.additional_data[idx + 10:idx + 11]
+
+                idx += 11
 
             elif code.startswith("AW1"):
                 # PRESENT-WEATHER-OBSERVATION automated occurrence, fields 2 1
@@ -573,6 +725,15 @@ class IsdRecord:
                 self.present_weather_observation_automated_atmospheric_condition_code_4 = self.additional_data[idx + 3:idx + 5]
                 # PRESENT-WEATHER-OBSERVATION quality automated atmospheric condition code
                 self.present_weather_observation_quality_automated_atmospheric_condition_code_4 = self.additional_data[idx + 5:idx + 6]
+
+                idx += 6
+
+            elif code.startswith("AW5"):
+                # PRESENT-WEATHER-OBSERVATION automated occurrence, fields 2 1
+                # PRESENT-WEATHER-OBSERVATION automated atmospheric condition code
+                self.present_weather_observation_automated_atmospheric_condition_code_5 = self.additional_data[idx + 3:idx + 5]
+                # PRESENT-WEATHER-OBSERVATION quality automated atmospheric condition code
+                self.present_weather_observation_quality_automated_atmospheric_condition_code_5 = self.additional_data[idx + 5:idx + 6]
 
                 idx += 6
 
@@ -613,6 +774,19 @@ class IsdRecord:
                 self.past_weather_observation_period_quantity_3 = self.additional_data[idx + 6:idx + 8]
                 # PAST-WEATHER-OBSERVATION period quality code
                 self.past_weather_observation_period_quality_code_3 = self.additional_data[idx + 8:idx + 9]
+
+                idx += 9
+
+            elif code.startswith("AX4"):
+                # PAST-WEATHER-OBSERVATION summary of day occurrence identifier, fields 2 1 2 1
+                # PAST-WEATHER-OBSERVATION atmospheric condition code
+                self.past_weather_observation_atmospheric_condition_code_4 = self.additional_data[idx + 3:idx + 5]
+                # PAST-WEATHER-OBSERVATION quality manual atmospheric condition code
+                self.past_weather_observation_quality_manual_atmospheric_condition_code_4 = self.additional_data[idx + 5:idx + 6]
+                # PAST-WEATHER-OBSERVATION period quantity
+                self.past_weather_observation_period_quantity_4 = self.additional_data[idx + 6:idx + 8]
+                # PAST-WEATHER-OBSERVATION period quality code
+                self.past_weather_observation_period_quality_code_4 = self.additional_data[idx + 8:idx + 9]
 
                 idx += 9
 
@@ -1587,6 +1761,19 @@ class IsdRecord:
 
                 idx += 12
 
+            elif code.startswith("WA1"):
+                # PLATFORM-ICE-ACCRETION identifier, fields 1 3 1 1
+                # PLATFORM-ICE-ACCRETION source code
+                self.platform_ice_accretion_source_code = self.additional_data[idx + 3:idx + 4]
+                # PLATFORM-ICE-ACCRETION thickness dimension
+                self.platform_ice_accretion_thickness_dimension = self.additional_data[idx + 4:idx + 7]
+                # PLATFORM-ICE-ACCRETION tendency code
+                self.platform_ice_accretion_tendency_code = self.additional_data[idx + 7:idx + 8]
+                # PLATFORM-ICE-ACCRETION quality code
+                self.platform_ice_accretion_quality_code = self.additional_data[idx + 8:idx + 9]
+
+                idx += 9
+
 
             else:
                 raise Exception(f"Unknown additional data code {code}")
@@ -1615,6 +1802,114 @@ class IsdRecord:
     def day(self) -> int:
         return int(self.date[6:8])
 
+    def hour(self) -> int:
+        return int(self.time[0:2])
+
+    def minute(self) -> int:
+        return int(self.time[2:4])
+
+    def rd_date(self, offset_hrs = 0) -> int:
+        return mputils.fixed_from_gregorian(self.year(), self.month(), self.day(), self.hour(), self.minute(), True) + offset_hrs * 60
+
+    def iso_date(self) -> str:
+        return f"{self.year()}-{self.month():02}-{self.day():02}T{self.hour():02}:{self.minute():02}"
+
+    def fields(self) -> List[Tuple[str, str]]:
+        # Return a list of attributes to be written as headers or data
+        return [
+            (self.usaf, 'USAF'),
+            (self.wban, 'WBAN'),
+            (self.date, 'Date'),
+            (self.time, 'Time'),
+            (str(self.year()), 'Year'),
+            (str(self.month()), 'Month'),
+            (str(self.day()), 'Day'),
+            (str(self.hour()), 'Hour'),
+            (str(self.minute()), 'Minute'),
+            (self.latitude, "Latitude"),
+            (self.longitude, "Longitude"),
+            (self.elevation, "Elevation"),
+            (self.wind_direction_angle, "Wind Direction Angle"),
+            (self.wind_speed, "Wind Speed"),
+            (self.dry_bulb_air_temperature, "Dry Bulb Air Temperature"),
+            (self.dew_point_air_temperature, "Dew Point Air Temperature"),
+            (self.air_pressure, "Atmospheric Pressure"),
+            (getattr(self, 'sky_condition_observation_total_coverage_code', ''), "Total Coverage"),
+            (getattr(self, 'sky_condition_observation_total_opaque_coverage_code', ''), "Total Opague Coverage"),
+        ]
+
+    def tsv_line(self) -> str:
+        return "\t".join([f"{value}" for value, _ in self.fields()])
+
+    def tsv_header(self) -> str:
+        return "\t".join([name for _, name in self.fields()])
+
+
+class Doe2Record:
+    def __init__(self,  month: int, day: int, hour: int, wet_bulb, dry_bulb, atmos_pressure, cloud_tenths, snow, rain, wind_dir, humidity_ratio, air_density, enthalpy, total_horiz_solar, direct_normal_solar, cloud_type, wind_speed) -> None:
+        self.month: int = int(month)
+        self.day = int(day)
+        self.hour = int(hour)
+        self.wet_bulb = wet_bulb
+        self.dry_bulb = dry_bulb
+        self.atmos_pressure = atmos_pressure
+        self.cloud_tenths = cloud_tenths
+        self.snow = snow
+        self.rain = rain
+        self.wind_dir = wind_dir
+        self.humidity_ratio = humidity_ratio
+        self.air_density = air_density
+        self.enthalpy = enthalpy
+        self.total_horiz_solar = total_horiz_solar
+        self.direct_normal_solar = direct_normal_solar
+        self.cloud_type = cloud_type
+        self.wind_speed = wind_speed
+
+
+    def to_fixed_line(self) -> str:
+        # Fixed spacing format, right aligned:
+        # 1-2: Month (1-12)
+        # 3-4: Day (1-31)
+        # 5-6: Hour (0-23)
+        # 7-11: Wet Bulb Temperature (°F) (0 decimal places)
+        # 12-16: Dry Bulb Temperature (°F) (0 decimal places)
+        # 17-22: Atmospheric Pressure (in Hg) (0 decimal places)
+        # 23-27: Cloud Amount (0-10) (0 decimal places)
+        # 28-30: Snow indicator (0-1) (Int)
+        # 31-33: Rain indicator (0-1) (Int)
+        # 34-37: Wind Direction (0-15) (Int)
+        # 38-44: Humidity Ratio (4 decimal places)
+        # 45-50: Air Density (lb/ft3) (3 decimal places)
+        # 51-56: Specific Enthalpy (Btu/lb) (1 decimal places)
+        # 57-63: Total Horizontal Solar (BTU/hr-ft2) (1 decimal places)
+        # 64-70: Direct Normal Solar (BTU/hr-ft2) (1 decimal places)
+        # 71-73: Cloud Type (0-2) (Int)
+        # 74-80: Wind Speed (knots) (0 decimal places)
+
+        # If 0 decimal places, ends with a period
+        # Nothing is 0 padded, all space padded
+
+        month_str = f"{self.month:2d}"
+        day_str = f"{self.day:2d}"
+        hour_str = f"{self.hour:2d}"
+        wet_bulb_str = f"{self.wet_bulb: 4.0f}."
+        dry_bulb_str = f"{self.dry_bulb: 4.0f}."
+        atmos_pressure_str = f"{self.atmos_pressure: 6.1f}"
+        cloud_tenths_str = f"{self.cloud_tenths: 4.0f}."
+        snow_str = f"{self.snow:3d}"
+        rain_str = f"{self.rain:3d}"
+        wind_dir_str = f"{self.wind_dir: 4d}"
+        humidity_ratio_str = f"{self.humidity_ratio: 7.4f}"
+        air_density_str = f"{self.air_density: 6.3f}"
+        enthalpy_str = f"{self.enthalpy: 6.1f}"
+        total_horiz_solar_str = f"{self.total_horiz_solar: 7.1f}"
+        direct_normal_solar_str = f"{self.direct_normal_solar: 7.1f}"
+        cloud_type_str = f"{self.cloud_type:3d}"
+        wind_speed_str = f"{self.wind_speed: 4.0f}."
+
+        fields = [month_str, day_str, hour_str, wet_bulb_str, dry_bulb_str, atmos_pressure_str, cloud_tenths_str, snow_str, rain_str, wind_dir_str, humidity_ratio_str, air_density_str, enthalpy_str, total_horiz_solar_str, direct_normal_solar_str, cloud_type_str, wind_speed_str]
+        return "".join(fields)
+
 
 def list_isd_files():
     with FTP("ftp.ncdc.noaa.gov") as ftp:
@@ -1637,15 +1932,15 @@ def to_hourly(data: List[List[str]], year: int):
 
     data_datetimes = []
     for record in data:
-        data_year, data_month, data_day, data_hour, data_minute, dry_bulb_f, dew_point_f = record
+        data_year, data_month, data_day, data_hour, data_minute, dry_bulb_f_str, dew_point_f_str = record
         data_year = int(data_year)
         data_month = int(data_month)
         data_day = int(data_day)
         data_hour = int(data_hour)
         data_minute = int(data_minute)
 
-        dry_bulb_f = float(dry_bulb_f)
-        dew_point_f = float(dew_point_f)
+        dry_bulb_f = float(dry_bulb_f_str)
+        dew_point_f = float(dew_point_f_str)
 
         data_rd_date = mputils.fixed_from_gregorian(data_year, data_month, data_day) * 1440 + data_hour * 60 + data_minute
         data_datetimes.append(data_rd_date)
@@ -1654,7 +1949,7 @@ def to_hourly(data: List[List[str]], year: int):
     iterpolate_indexes = mputils.first_index_gteq(desired_hourly_datetime_mins, data_datetimes)
     index = 0
 
-    out = []
+    out: List[Tuple[int, int, int, int, int, float, float]] = []
 
     while index < len(desired_hourly_datetime_mins):
         desired_time = desired_hourly_datetime_mins[index]
@@ -1662,8 +1957,12 @@ def to_hourly(data: List[List[str]], year: int):
 
         data_index = iterpolate_indexes[index]
 
+        dry_bulb_f: float
+        dew_point_f: float
+        fields: Tuple[int, int, int, int, int, float, float]
+
         if data_index is None or data_index == 0:
-            fields = [y, mon, d, h, m, '', '']
+            fields = (y, mon, d, h, m, 0.0, 0.0)
         else:
             # Iterpolate
             data_year1, data_month1, data_day1, data_hour1, data_minute1, dry_bulb_f1, dew_point_f1 = data[data_index - 1]
@@ -1672,15 +1971,15 @@ def to_hourly(data: List[List[str]], year: int):
             data_rd_date1 = mputils.fixed_from_gregorian(data_year1, data_month1, data_day1) * 1440 + data_hour1 * 60 + data_minute1
             data_rd_date2 = mputils.fixed_from_gregorian(data_year2, data_month2, data_day2) * 1440 + data_hour2 * 60 + data_minute2
 
-            dry_bulb_f = dry_bulb_f1 + (dry_bulb_f2 - dry_bulb_f1) * (desired_time - data_rd_date1) / (data_rd_date2 - data_rd_date1)
-            dew_point_f = dew_point_f1 + (dew_point_f2 - dew_point_f1) * (desired_time - data_rd_date1) / (data_rd_date2 - data_rd_date1)
+            dry_bulb_f: float = dry_bulb_f1 + (dry_bulb_f2 - dry_bulb_f1) * (desired_time - data_rd_date1) / (data_rd_date2 - data_rd_date1)
+            dew_point_f: float = dew_point_f1 + (dew_point_f2 - dew_point_f1) * (desired_time - data_rd_date1) / (data_rd_date2 - data_rd_date1)
 
             if dry_bulb_f < -100 or dry_bulb_f > 150:
                 print(f"Warning: dry bulb temperature out of range: {dry_bulb_f} F. Interpolating between {dry_bulb_f1} F and {dry_bulb_f2} F")
 
-            fields = [y, mon, d, h, m, dry_bulb_f, dew_point_f]
+            fields = (y, mon, d, h, m, dry_bulb_f, dew_point_f)
 
-        out.append([str(field) for field in fields])
+        out.append(fields)
         index += 1
 
     return out
@@ -1713,16 +2012,17 @@ def get_isd_file_contents_http(usaf: str, wban: str, year: int) -> str:
         raise Exception(f"HTTP request failed with status code {response.status_code}")
     return gzip.decompress(response.content).decode("utf-8")
 
-def parse_isd_file_2(contents: Union[str, List[str], TextIO]):
+def parse_isd_file_2(contents: Union[str, List[str], TextIO]) -> List[IsdRecord]:
     records = contents.splitlines() if isinstance(contents, str) else contents
 
     data: List[IsdRecord] = []
 
     row = 1
     for r in records:
-        print(f"Row {row}", file=sys.stderr)
         data.append(IsdRecord(r))
         row += 1
+
+    return data
 
 def parse_isd_file(contents: Union[str, List[str], TextIO], offset: int, dst = True):
     records = contents.splitlines() if isinstance(contents, str) else contents
@@ -1801,14 +2101,433 @@ def convert_to_tsv():
         print(*record, sep='\t', end='\n')
 
 
-def convert_to_epw(usaf: str, wban: str, year: int, offset: int):
-    data = []
-    for year in years:
-        print(f"Downloading {year}", file=sys.stderr)
-        contents = get_isd_file_contents_http("724050", "13743", year)
-        d = parse_isd_file(contents, -5, False)
-        data.extend(d)
-    pass
+
+def sat_partial_pressure_si(t: float) -> float:
+    t_kelvin = t + 273.15
+
+    if t >= 0:
+        n1  = 0.11670521452767e4
+        n2  = -0.72421316703206e6
+        n3  = -0.17073846940092e2
+        n4  = 0.12020824702470e5
+        n5  = -0.32325550322333e7
+        n6  = 0.14915108613530e2
+        n7  = -0.48232657361591e4
+        n8  = 0.40511340542057e6
+        n9  = -0.23855557567849e0
+        n10 = 0.65017534844798e3
+
+        theta = t_kelvin + n9 / (t_kelvin - n10)
+
+        A = theta*theta + n1 * theta + n2
+        B = n3 * theta * theta + n4 * theta + n5
+        C = n6 * theta * theta + n7 * theta + n8
+
+        pws = 1000 * ((2 * C) / ( -B + math.sqrt(B*B - 4*A*C) ))**4
+    else:
+        a1 = -0.212144006e2
+        a2 = 0.273203819e2
+        a3 = -0.610598130e1
+        b1 = 0.333333333e-2
+        b2 = 0.120666667e1
+        b3 = 0.170333333e1
+        theta = t_kelvin / 273.16
+
+        pws = 0.611657 * math.exp((1 / theta) * (a1*theta**b1 +  a2*theta**b2 + a3*theta**b3)  )
+
+    return pws
+
+
+def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int):
+    if offset_hrs < 0:
+        years = [year, year + 1]
+    elif offset_hrs > 0:
+        years = [year - 1, year]
+    else:
+        years = [year]
+
+    isd_records: List[IsdRecord] = []
+
+    output_epw = []
+
+    for y in years:
+        print(f"Downloading {y}", file=sys.stderr)
+        contents = get_isd_file_contents_http(usaf, wban, y)
+
+        records = contents.splitlines()
+
+        for record in records:
+            isd_record = IsdRecord(record)
+            isd_records.append(isd_record)
+
+
+    # Get the indicies for interpolation
+    toa_array = [r for r in isd_records if r.dry_bulb_air_temperature != "+9999"]
+    tdp_array = [r for r in isd_records if r.dew_point_air_temperature != "+9999"]
+    press_array = [r for r in isd_records if r.air_pressure != "99999"]
+    wind_dir_array = [r for r in isd_records if r.wind_direction_angle != "999"]
+    wind_speed_array = [r for r in isd_records if r.wind_speed != "9999"]
+
+    cloud_cover_map = {
+        0: 0,
+        1: 1,
+        2: 2,
+        3: 4,
+        4: 5,
+        5: 6,
+        6: 7,
+        7: 9,
+        8: 10,
+    }
+    # Total cloud coverage in tenths. NOAA comes in as Okta, which is 0-8
+    total_cloud_cover_array = []
+    total_cloud_cover_rd_date_array = []
+    for rec in isd_records:
+        total_cloud_cover_str = getattr(rec, 'sky_condition_observation_total_coverage_code', '99')
+        if total_cloud_cover_str != '99':
+            # Try to parse as integer between 0-8
+            try:
+                total_cloud_cover_int = int(total_cloud_cover_str)
+                if total_cloud_cover_int >= 0 and total_cloud_cover_int <= 8:
+                    # Update to 0-10 scale
+                    tenths = cloud_cover_map[total_cloud_cover_int]
+                    total_cloud_cover_array.append(tenths)
+                    total_cloud_cover_rd_date_array.append(rec.rd_date(offset_hrs))
+            except ValueError:
+                continue
+
+
+    year_dates = rd_dates_for_year(year)
+
+    print(f"Len year dates for year {year}: {len(year_dates)}", file=sys.stderr)
+
+    toa_indicies = mputils.first_index_gteq(year_dates, [r.rd_date(offset_hrs) for r in toa_array])
+    tdp_indicies = mputils.first_index_gteq(year_dates, [r.rd_date(offset_hrs) for r in tdp_array])
+    press_indicies = mputils.first_index_gteq(year_dates, [r.rd_date(offset_hrs) for r in press_array])
+    wind_dir_indicies = mputils.first_index_gteq(year_dates, [r.rd_date(offset_hrs) for r in wind_dir_array])
+    wind_speed_indicies = mputils.first_index_gteq(year_dates, [r.rd_date(offset_hrs) for r in wind_speed_array])
+    total_cloud_cover_indicies = mputils.first_index_gteq(year_dates, total_cloud_cover_rd_date_array)
+
+    def interpolate(record_array: List[IsdRecord], selector, index) -> float:
+        record_1: IsdRecord = record_array[index - 1]
+        record_2 = record_array[index]
+
+        datetime_1 = record_1.rd_date(offset_hrs)
+        datetime_2 = record_2.rd_date(offset_hrs)
+
+        if datetime_2 - datetime_1 > 120:
+            print(f"Warning: {datetime_2 - datetime_1} minutes between records: {record_1.iso_date()} and {record_2.iso_date()}", file=sys.stderr)
+
+        slope = (float(selector(record_2)) - float(selector(record_1))) / (record_2.rd_date(offset_hrs) - record_1.rd_date(offset_hrs))
+        return slope * (year_dates[i] - record_1.rd_date(offset_hrs)) + float(selector(record_1))
+
+
+    for i in range(len(year_dates)):
+        toa_index = toa_indicies[i]
+        tdp_index = tdp_indicies[i]
+        press_index = press_indicies[i]
+        wind_dir_index = wind_dir_indicies[i]
+        wind_speed_index = wind_speed_indicies[i]
+        total_cloud_cover_index = total_cloud_cover_indicies[i]
+
+        # Calculate dry-bulb
+        if toa_index is None or toa_index == 0:
+            raise Exception(f"Error: no dry-bulb temperature for {year_dates[i]}")
+        else:
+            # divide by 10 for scale factor
+            toa = interpolate(toa_array, lambda r: r.dry_bulb_air_temperature, toa_index) / 10
+
+        # Calculate dew-point
+        if tdp_index is None or tdp_index == 0:
+            raise Exception(f"Error: no dew-point temperature for {year_dates[i]}")
+        else:
+            # divide by 10 for scale factor
+            tdp = interpolate(tdp_array, lambda r: r.dew_point_air_temperature, tdp_index) / 10
+
+        # Calculate humidity
+        if toa == "99.9" or tdp == "99.9":
+            raise Exception(f"Error: no humidity for {year_dates[i]}")
+        else:
+            pw = sat_partial_pressure_si(float(tdp))
+            pws = sat_partial_pressure_si(float(toa))
+            relative_humidity = 100 * pw / pws
+
+        # Calculate Air Pressure in Pa
+        if press_index is None or press_index == 0:
+            raise Exception(f"Error: no air pressure for {year_dates[i]}")
+        else:
+            # divide by 10 for scale factor, multiply by 100 for Pa
+            press = interpolate(press_array, lambda r: r.air_pressure, press_index) / 10 * 100
+
+        # Calculate wind direction
+        if wind_dir_index is None or wind_dir_index == 0:
+            raise Exception(f"Error: no wind direction for {year_dates[i]}")
+        else:
+            # Need special angle interpolation
+            record_1 = wind_dir_array[wind_dir_index - 1]
+            record_2 = wind_dir_array[wind_dir_index]
+
+            angle_1 = float(record_1.wind_direction_angle)
+            angle_2 = float(record_2.wind_direction_angle)
+
+            # Normalize to make angle 1 the smaller angle
+            if angle_1 > angle_2:
+                angle_1, angle_2 = angle_2, angle_1
+
+            distance_1 = (angle_2 - angle_1)
+            distance_2 = (angle_1 + 360 - angle_2)
+
+            if distance_1 < distance_2:
+                slope: float = (distance_1) / (record_2.rd_date(offset_hrs) - record_1.rd_date(offset_hrs))
+                wind_dir = float(slope * (year_dates[i] - record_1.rd_date(offset_hrs)) + angle_1)
+            else:
+                slope: float = (distance_2) / (record_2.rd_date(offset_hrs) - record_1.rd_date(offset_hrs))
+                wind_dir = float((slope * (year_dates[i] - record_1.rd_date(offset_hrs)) + angle_2) % 360)
+
+        # Calculate wind speed
+        if wind_speed_index is None or wind_speed_index == 0:
+            raise Exception(f"Error: no wind speed for {year_dates[i]}")
+        else:
+            wind_speed_float = (interpolate(wind_speed_array, lambda r: r.wind_speed, wind_speed_index) / 10)
+            wind_speed = wind_speed_float
+
+        # Calculate Total Cloud Cover
+        if total_cloud_cover_index is None or total_cloud_cover_index == 0:
+            raise Exception(f"Error: no total cloud cover for {year_dates[i]}")
+        else:
+            # Hand interpolate
+            tenths_2 = total_cloud_cover_array[total_cloud_cover_index]
+            tenths_1 = total_cloud_cover_array[total_cloud_cover_index - 1]
+            rd_date_2 = total_cloud_cover_rd_date_array[total_cloud_cover_index]
+            rd_date_1 = total_cloud_cover_rd_date_array[total_cloud_cover_index - 1]
+            slope = (tenths_2 - tenths_1) / (rd_date_2 - rd_date_1)
+
+            # Round to nearest integer
+            total_cloud_cover = int(round(slope * (year_dates[i] - rd_date_1) + tenths_1))
+
+        y, mon, d, h, m = mputils.ymdhm_from_rd(year_dates[i])
+
+        output_epw.append((y, mon, d, h, m, toa, tdp, relative_humidity, press, wind_dir, wind_speed, total_cloud_cover))
+
+    return output_epw
+
+
+def convert_to_epw(usaf: str, wban: str, year: int, offset_hrs: int):
+    if offset_hrs < 0:
+        years = [year, year + 1]
+    elif offset_hrs > 0:
+        years = [year - 1, year]
+    else:
+        years = [year]
+
+    isd_records: List[IsdRecord] = []
+
+    output_epw: List[str] = []
+
+    for y in years:
+        print(f"Downloading {y}", file=sys.stderr)
+        contents = get_isd_file_contents_http(usaf, wban, y)
+
+        records = contents.splitlines()
+
+        for record in records:
+            isd_record = IsdRecord(record)
+            isd_records.append(isd_record)
+
+
+    # Get the indicies for interpolation
+    toa_array = [r for r in isd_records if r.dry_bulb_air_temperature != "+9999"]
+    tdp_array = [r for r in isd_records if r.dew_point_air_temperature != "+9999"]
+    press_array = [r for r in isd_records if r.air_pressure != "99999"]
+    wind_dir_array = [r for r in isd_records if r.wind_direction_angle != "999"]
+    wind_speed_array = [r for r in isd_records if r.wind_speed != "9999"]
+
+    cloud_cover_map = {
+        0: 0,
+        1: 1,
+        2: 2,
+        3: 4,
+        4: 5,
+        5: 6,
+        6: 7,
+        7: 9,
+        8: 10,
+    }
+    # Total cloud coverage in tenths. NOAA comes in as Okta, which is 0-8
+    total_cloud_cover_array = []
+    total_cloud_cover_rd_date_array = []
+    for rec in isd_records:
+        total_cloud_cover_str = getattr(rec, 'sky_condition_observation_total_coverage_code', '99')
+        if total_cloud_cover_str != '99':
+            # Try to parse as integer between 0-8
+            try:
+                total_cloud_cover_int = int(total_cloud_cover_str)
+                if total_cloud_cover_int >= 0 and total_cloud_cover_int <= 8:
+                    # Update to 0-10 scale
+                    tenths = cloud_cover_map[total_cloud_cover_int]
+                    total_cloud_cover_array.append(tenths)
+                    total_cloud_cover_rd_date_array.append(rec.rd_date(offset_hrs))
+            except ValueError:
+                continue
+
+
+    year_dates = rd_dates_for_year(year)
+
+    print(f"Len year dates for year {year}: {len(year_dates)}", file=sys.stderr)
+
+    toa_indicies = mputils.first_index_gteq(year_dates, [r.rd_date(offset_hrs) for r in toa_array])
+    tdp_indicies = mputils.first_index_gteq(year_dates, [r.rd_date(offset_hrs) for r in tdp_array])
+    press_indicies = mputils.first_index_gteq(year_dates, [r.rd_date(offset_hrs) for r in press_array])
+    wind_dir_indicies = mputils.first_index_gteq(year_dates, [r.rd_date(offset_hrs) for r in wind_dir_array])
+    wind_speed_indicies = mputils.first_index_gteq(year_dates, [r.rd_date(offset_hrs) for r in wind_speed_array])
+    total_cloud_cover_indicies = mputils.first_index_gteq(year_dates, total_cloud_cover_rd_date_array)
+
+    def interpolate(record_array: List[IsdRecord], selector, index) -> float:
+        record_1: IsdRecord = record_array[index - 1]
+        record_2 = record_array[index]
+
+        datetime_1 = record_1.rd_date(offset_hrs)
+        datetime_2 = record_2.rd_date(offset_hrs)
+
+        if datetime_2 - datetime_1 > 120:
+            print(f"Warning: {datetime_2 - datetime_1} minutes between records: {record_1.iso_date()} and {record_2.iso_date()}", file=sys.stderr)
+
+        slope = (float(selector(record_2)) - float(selector(record_1))) / (record_2.rd_date(offset_hrs) - record_1.rd_date(offset_hrs))
+        return slope * (year_dates[i] - record_1.rd_date(offset_hrs)) + float(selector(record_1))
+
+
+    for i in range(len(year_dates)):
+        toa_index = toa_indicies[i]
+        tdp_index = tdp_indicies[i]
+        press_index = press_indicies[i]
+        wind_dir_index = wind_dir_indicies[i]
+        wind_speed_index = wind_speed_indicies[i]
+        total_cloud_cover_index = total_cloud_cover_indicies[i]
+
+        # Calculate dry-bulb
+        if toa_index is None or toa_index == 0:
+            toa = "99.9"
+        else:
+            # divide by 10 for scale factor
+            toa = str(interpolate(toa_array, lambda r: r.dry_bulb_air_temperature, toa_index) / 10)
+
+        # Calculate dew-point
+        if tdp_index is None or tdp_index == 0:
+            tdp = "99.9"
+        else:
+            # divide by 10 for scale factor
+            tdp = str(interpolate(tdp_array, lambda r: r.dew_point_air_temperature, tdp_index) / 10)
+
+        # Calculate humidity
+        if toa == "99.9" or tdp == "99.9":
+            humidity = "999"
+        else:
+            pw = sat_partial_pressure_si(float(tdp))
+            pws = sat_partial_pressure_si(float(toa))
+            humidity = str(100 * pw / pws)
+
+        # Calculate Air Pressure in Pa
+        if press_index is None or press_index == 0:
+            press = "999999"
+        else:
+            # divide by 10 for scale factor, multiply by 100 for Pa
+            press = str(interpolate(press_array, lambda r: r.air_pressure, press_index) / 10 * 100)
+
+        # Calculate wind direction
+        if wind_dir_index is None or wind_dir_index == 0:
+            wind_dir = "999"
+        else:
+            # Need special angle interpolation
+            record_1 = wind_dir_array[wind_dir_index - 1]
+            record_2 = wind_dir_array[wind_dir_index]
+
+            angle_1 = float(record_1.wind_direction_angle)
+            angle_2 = float(record_2.wind_direction_angle)
+
+            # Normalize to make angle 1 the smaller angle
+            if angle_1 > angle_2:
+                angle_1, angle_2 = angle_2, angle_1
+
+            distance_1 = (angle_2 - angle_1)
+            distance_2 = (angle_1 + 360 - angle_2)
+
+            if distance_1 < distance_2:
+                slope = (distance_1) / (record_2.rd_date(offset_hrs) - record_1.rd_date(offset_hrs))
+                wind_dir = str(slope * (year_dates[i] - record_1.rd_date(offset_hrs)) + angle_1)
+            else:
+                slope = (distance_2) / (record_2.rd_date(offset_hrs) - record_1.rd_date(offset_hrs))
+                wind_dir = str((slope * (year_dates[i] - record_1.rd_date(offset_hrs)) + angle_2) % 360)
+
+        # Calculate wind speed
+        if wind_speed_index is None or wind_speed_index == 0:
+            wind_speed = "999"
+        else:
+            wind_speed_float = (interpolate(wind_speed_array, lambda r: r.wind_speed, wind_speed_index) / 10)
+            wind_speed = f"{wind_speed_float:.1f}"
+
+        # Calculate Total Cloud Cover
+        if total_cloud_cover_index is None or total_cloud_cover_index == 0:
+            total_cloud_cover = "99"
+        else:
+            # Hand interpolate
+            tenths_2 = total_cloud_cover_array[total_cloud_cover_index]
+            tenths_1 = total_cloud_cover_array[total_cloud_cover_index - 1]
+            rd_date_2 = total_cloud_cover_rd_date_array[total_cloud_cover_index]
+            rd_date_1 = total_cloud_cover_rd_date_array[total_cloud_cover_index - 1]
+            slope = (tenths_2 - tenths_1) / (rd_date_2 - rd_date_1)
+
+            # Round to nearest integer
+            total_cloud_cover = str(round(slope * (year_dates[i] - rd_date_1) + tenths_1))
+
+        y, mon, d, h, m = mputils.ymdhm_from_rd(year_dates[i])
+
+        epw_fields = [
+            str(y),
+            str(mon),
+            str(d),
+            str(h + 1), # Hour (1-24)
+            str(m + 1), # Minute (1-60)
+            "A7A7A0A7?0?0?0?0?0?0?0?0A7A7F0F0?0?0F0F0?0?0",
+            toa,
+            tdp,
+            humidity,
+            press,
+            "9999", # Extraterrestrial Horizontal Radiation (Wh/m2, Not currently used, 9999 missing)
+            "9999", # Extraterrestrial Direct Normal Radiation (Wh/m2, Not currently used, 9999 missing)
+            "9999", # Horizontal Infrared Radiation Intensity (Wh/m2, 9999 missing. If missing calculated from Opaque Sky Cover field)
+            "9999", # Global Horizontal Radiation (Wh/m2, not currently used, 9999 missing)
+            "9999", # Direct Normal Radiation (Wh/m2,  >=9999 missing) (Amount of solar radiation in Wh/m2 received directly from the solar disk on a surface perpendicular to the sun’s rays, during the number of minutes preceding the time indicated.) If the field is missing (≥ 9999 ) or invalid (< 0 ), it is set to 0. Counts of such missing values are totaled and presented at the end of the run period.
+            "9999", # Diffuse Horizontal Radiation (Wh/m2, >=9999 missing) (Amount of solar radiation in Wh/m2 received from the sky (excluding the solar disk) on a horizontal surface during the number of minutes preceding the time indicated.) If the field is missing (≥ 9999 ) or invalid (< 0 ), it is set to 0.
+            "999999", # Global Horizontal Illuminance (lux, not currently used, 999999 missing)
+            "999999", # Direct Normal Illuminance (lux, not currently used, 999999 missing)
+            "999999", # Diffuse Horizontal Illuminance (lux, not currently used, 999999 missing)
+            "9999", # Zenith Luminance (Cd/m2, not currently used, 9999 missing)
+            wind_dir, # Wind Direction (degrees, 999 missing) This is the Wind Direction in degrees where the convention is that North = 0.0, East = 90.0, South = 180.0, West = 270.0. (Wind direction in degrees at the time indicated. If calm, direction equals zero.) Values can range from 0 to 360. Missing value is 999.
+            wind_speed, # Wind Speed (m/s, 0-40, 999 missing)
+            total_cloud_cover, # Total Sky Cover (tenths of coverage, 99 missing, 0 - 10)
+            "99", # Opaque Sky Cover (tenths of coverage, 99 missing, 0 - 10) This is not used unless the field for Horizontal Infrared Radiation Intensity is missing and then it is used to calculate Horizontal Infrared Radiation Intensity. Minimum value is 0; maximum value is 10; missing value is 99.
+            "9999", # Visibility (km, not currently used, 9999 missing)
+            "99999", # Ceiling Height (m, not currently used, 99999 missing)
+            "9", # Present Weather Observation (0 or 9) 0 = Weather observation made. 9 = Weather observation not made, or missing
+            "999999999", # Present Weather Codes (999999999 missing)
+            "999", # Precipitable Water (mm, not currently used, 999 missing)
+            ".999", # Aerosol Optical Depth (thousandths, not currently used, .999 missing)
+            "999", # Snow Depth (cm, 999 missing)
+            "99", # Days Since Last Snowfall (days, not currently used, 99 missing)
+            "0.3", # Albedo (ratio, not currently used, doesn't say missing, average albedo on Earth is ~0.3)
+            "999", # Liquid Precipitation Depth (mm, 999 missing)
+            "99", # Liquid Precipitation Quantity (hr, not currently used, 99 missing)
+        ]
+
+        output_epw.append(",".join(epw_fields))
+
+    return output_epw
+
+def rd_dates_for_year(year: int) -> List[int]:
+    start = mputils.fixed_from_gregorian(year, 1, 1, 0, 0, True)
+    end = mputils.fixed_from_gregorian(year + 1, 1, 1, 0, 0, True)
+    delta = 60
+    return list(range(start, end, delta))
 
 
 def averages():
@@ -1852,6 +2571,16 @@ def main():
     usaf = None
     wban = None
     year = None
+    offset = None
+    epw = None
+    tsv = None
+
+    fmt = None
+
+    hourly = None
+
+    cloud_coverage = None
+    solar_data_file = None
 
     idx = 1
     while idx < len(sys.argv):
@@ -1888,11 +2617,47 @@ def main():
 
             idx += 2
 
+        elif a == "-o" or a == "--offset":
+            if idx + 1 >= len(sys.argv):
+                print("Error: no offset given", file=sys.stderr)
+                sys.exit(1)
+
+            try:
+                offset = int(sys.argv[idx + 1])
+            except ValueError:
+                print(f"Error: {sys.argv[idx + 1]} is not a valid offset", file=sys.stderr)
+                sys.exit(1)
+
+            idx += 2
+
         elif a == "--dfw": # Shortcut for my location
             usaf = "724050"
             wban = "13743"
             idx += 1
 
+        elif a == "--epw":
+            epw = True
+            idx += 1
+        elif a == "--tsv":
+            tsv = True
+            idx += 1
+        elif a == "--cc":
+            cloud_coverage = True
+            idx += 1
+        elif a == "--fmt":
+            fmt = True
+            idx += 1
+        elif a == "--solar":
+            # Read next argument as path to solar data file
+            if idx + 1 >= len(sys.argv):
+                print("Error: no solar data file given", file=sys.stderr)
+                sys.exit(1)
+
+            solar_data_file = sys.argv[idx + 1]
+            idx += 2
+        elif a == "--hourly":
+            hourly = True
+            idx += 1
         else:
             print(f"Error: unknown argument {a}", file=sys.stderr)
             sys.exit(1)
@@ -1909,11 +2674,112 @@ def main():
         print("Error: no year given", file=sys.stderr)
         sys.exit(1)
 
-    contents = get_isd_file_contents_http(usaf, wban, year)
+    if epw:
+        print(f"Converting to epw for year {year}", file=sys.stderr)
+        lines = convert_to_epw(usaf, wban, year, offset)
+        for line in lines:
+            print(line)
 
-    parse_isd_file_2(contents)
+    elif tsv:
+        contents = get_isd_file_contents_http(usaf, wban, year)
+        lines = parse_isd_file_2(contents)
 
-    print(contents, end='')
+        print(lines[0].tsv_header())
+        for line in lines:
+            print(line.tsv_line())
+
+    elif cloud_coverage:
+        contents = get_isd_file_contents_http(usaf, wban, year)
+        # Check for offset
+        if offset is None:
+            print("Error: no offset given", file=sys.stderr)
+            sys.exit(1)
+
+        lines = convert_to_epw(usaf, wban, year, offset)
+        for line in lines:
+            split_line = line.split(",")
+            print(split_line[22])
+
+    elif fmt:
+        if offset is None:
+            print("Error: no offset given", file=sys.stderr)
+            sys.exit(1)
+
+        if solar_data_file is None:
+            print("Error: no solar data file given", file=sys.stderr)
+            sys.exit(1)
+
+        # output_epw.append((y, mon, d, h, m, toa, tdp, relative_humidity, press, wind_dir, wind_speed, total_cloud_cover))
+        lines = hourly_year(usaf, wban, year, offset)
+
+        # open solar file
+        solar_data = []
+        with open(solar_data_file, 'r') as f:
+            for line in f:
+                solar_data.append(line.split("\t"))
+
+        # Make sure solar data and lines are same length
+        if len(solar_data) != len(lines):
+            print("Error: solar data and lines are not the same length", file=sys.stderr)
+            sys.exit(1)
+
+        for i in range(len(lines)):
+            line = lines[i]
+
+            month = line[1]
+            day = line[2]
+            hour = line[3]
+            minute = line[4]
+            tdb_c = line[5]
+            tdp_c = line[6]
+            rh = line[7]
+            press_pa = line[8]
+            wind_dir = line[9]
+            wind_speed_mps = line[10]
+            cloud_cover = line[11]
+
+            tdb_f = tdb_c * 9 / 5 + 32
+            tdp_f = tdp_c * 9 / 5 + 32
+
+            w = psy.w_from_tdb_rh(tdb_c, rh)
+
+            twb = psy.twb_from_tdb_w(tdb_f, w)
+
+            press_in_hg = press_pa / 3386.3886
+
+            air_density = psy.air_density_from_toa_w(tdb_f, w)
+
+            enthalpy = psy.h_from_tdb_w(tdb_f, w)
+
+            wind_dir_0_to_15 = int(round(wind_dir % 16))
+
+            wind_speed_knots = wind_speed_mps * 1.9438445
+
+            solar_data_line = solar_data[i]
+
+            total_horizontal = float(solar_data_line[0])
+            direct_normal = float(solar_data_line[1])
+
+            doe2line = Doe2Record(month, day, hour, twb, tdb_f, press_in_hg, cloud_cover, 0, 0, wind_dir_0_to_15, w, air_density, enthalpy, total_horizontal, direct_normal, 0, wind_speed_knots)
+
+            # assert that line is 78 characters
+            assert len(doe2line.to_fixed_line()) == 78
+
+            print(doe2line.to_fixed_line())
+
+    elif hourly:
+        if offset is None:
+            print("Error: no offset given", file=sys.stderr)
+            sys.exit(1)
+
+        lines = hourly_year(usaf, wban, year, offset)
+        for line in lines:
+            print(*line, sep='\t')
+
+    else:
+        contents = get_isd_file_contents_http(usaf, wban, year)
+        lines = parse_isd_file_2(contents)
+        print(contents, end='')
 
 
 if __name__ == "__main__":
