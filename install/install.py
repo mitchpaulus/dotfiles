@@ -328,14 +328,14 @@ def install_powershell():
     install_deb('PowerShell', 'PowerShell', lambda a: a.name.startswith('powershell') and a.name.endswith('_amd64.deb'))
 
 def install_antlr():
-    # Download from https://www.antlr.org/download/antlr-4.11.1-complete.jar
+    # Download from https://www.antlr.org/download/antlr-4.13.1-complete.jar
     # Save to /usr/local/lib, will have to run as root
-    response = requests.get('https://www.antlr.org/download/antlr-4.11.1-complete.jar')
+    response = requests.get('https://www.antlr.org/download/antlr-4.13.1-complete.jar')
     if response.status_code != 200:
-        print(f'Error downloading https://www.antlr.org/download/antlr-4.11.1-complete.jar: {response.status_code}', file=sys.stderr)
+        print(f'Error downloading https://www.antlr.org/download/antlr-4.13.1-complete.jar: {response.status_code}', file=sys.stderr)
         sys.exit(1)
 
-    jar_path = '/usr/local/lib/antlr-4.11.1-complete.jar'
+    jar_path = '/usr/local/lib/antlr-4.13.1-complete.jar'
     print(f"Saving '{jar_path}'", file=sys.stderr)
     with open(jar_path, 'wb') as f:
         f.write(response.content)

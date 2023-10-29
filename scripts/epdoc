@@ -8,4 +8,11 @@ if test -n "$WSLENV"; then
     DIR="$(fd --type d Documentation /mnt/c/EnergyPlus* | awk '$0 !~ /installerResources/' | sort -rV | head -n 1)"
     cmd.exe /C start '' "$(wslpath -w "$DIR")"
     cd "$PREV_DIR" || exit 1
+else
+    IOREF="$(fd -t f InputOutput | sort -rV | head -n 1)"
+    if test -n "$IOREF"; then
+        xdg-open "$IOREF"
+    else
+        echo "No InputOutput reference found"
+    fi
 fi
