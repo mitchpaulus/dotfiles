@@ -398,6 +398,10 @@ path.stem == "path"
 Best recommendation appears to be 'Beautiful Soup'. Documentation found
 [here](https://www.crummy.com/software/BeautifulSoup/bs4/doc/).
 
+```
+pip install beautifulsoup4
+```
+
 ```python
 from bs4 import BeautifulSoup
 
