@@ -288,3 +288,7 @@ Maybe can finally do bookmarks simply?
 toc = doc.get_toc()
 dot.set_toc()
 ```
+
+## [Zellij](https://github.com/zellij-org/zellij)
+
+Hot new terminal multiplexer?
