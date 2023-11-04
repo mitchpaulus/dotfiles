@@ -92,6 +92,54 @@ If the fan schedule says off and the status flag is `CycleOn`, the fan will be o
 Thus the availability managers overrule the fan on/off schedule.
 The availability managers, air loops, and plant loops all have output variables which may be used to verify the action of the loop.
 
+Example:
+
+```
+AirLoopHVAC,
+    VAV_1,                   !- Name
+    ,                        !- Controller List Name
+    VAV_1 Availability Manager List,  !- Availability Manager List Name
+    AUTOSIZE,                !- Design Supply Air Flow Rate {m3/s}
+. . .
+
+AvailabilityManagerAssignmentList,
+    VAV_1 Availability Manager List,  !- Name
+    AvailabilityManager:NightCycle,  !- Availability Manager 1 Object Type
+    VAV_1 Availability Manager;  !- Availability Manager 1 Name
+
+AvailabilityManager:NightCycle,
+    VAV_1 Availability Manager,  !- Name
+    ALWAYS_ON,               !- Applicability Schedule Name
+    HVACOperationSchd,       !- Fan Schedule Name
+    CycleOnAny,              !- Control Type
+    1.0,                     !- Thermostat Tolerance {deltaC}
+    FixedRunTime,            !- Cycling Run Time Control Type
+    1800;                    !- Cycling Run Time {s}
+
+Fan:SystemModel,
+    VAV_1_Fan,               !- Name
+    HVACOperationSchd,       !- Availability Schedule Name
+    VAV_1_HeatC-VAV_1_FanNode,  !- Air Inlet Node Name
+    VAV_1 Supply Equipment Outlet Node,  !- Air Outlet Node Name
+
+Schedule:Compact,
+    HVACOperationSchd,       !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    Through: 12/31,          !- Field 1
+    For: Weekdays SummerDesignDay, !- Field 2
+    Until: 06:00,0.0,        !- Field 3
+    Until: 22:00,1.0,        !- Field 5
+    Until: 24:00,0.0,        !- Field 7
+    For: Saturday WinterDesignDay, !- Field 9
+    Until: 06:00,0.0,        !- Field 10
+    Until: 18:00,1.0,        !- Field 12
+    Until: 24:00,0.0,        !- Field 14
+    For: AllOtherDays,       !- Field 16
+    Until: 24:00,0.0;        !- Field 17
+
+```
+
+
 
 # General Surface matching
 
