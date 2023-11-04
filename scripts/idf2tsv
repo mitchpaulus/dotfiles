@@ -3,9 +3,15 @@
 # read from stdin
 import sys
 
+# If argument, use that as filename, otherwise read from stdin
+if len(sys.argv) > 1:
+    filename = sys.argv[1]
+    file = open(filename, 'r')
+else:
+    file = sys.stdin
 
 cleaned = []
-for line in sys.stdin:
+for line in file:
     # strip everything to right of first exclamation point
     line = line.split('!')[0]
     line = line.strip()
@@ -18,7 +24,8 @@ file_contents = "".join(cleaned)
 # split on semicolon
 file_contents = file_contents.split(';')
 
-for obj in file_contents:
+# When splitting on
+for obj in file_contents[0:-1]:
     fields = obj.split(',')
     fields = [field.strip() for field in fields]
     print("\t".join(fields))
