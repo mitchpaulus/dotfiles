@@ -2138,7 +2138,7 @@ def sat_partial_pressure_si(t: float) -> float:
     return pws
 
 
-def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int):
+def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, dst = False):
     if offset_hrs < 0:
         years = [year, year + 1]
     elif offset_hrs > 0:
@@ -2305,7 +2305,19 @@ def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int):
             # Round to nearest integer
             total_cloud_cover = int(round(slope * (year_dates[i] - rd_date_1) + tenths_1))
 
+
         y, mon, d, h, m = mputils.ymdhm_from_rd(year_dates[i])
+
+        if mputils.is_dst(y, mon, d, h) and dst:
+            y, mon, d, h, m = mputils.ymdhm_from_rd(year_dates[i] + 60)
+
+        if ip:
+            toa = toa * 9 / 5 + 32
+            tdp = tdp * 9 / 5 + 32
+            # Pa to psi
+            press = press / 6894.7573
+            # m/s to mph
+            wind_speed = wind_speed * 2.23694
 
         output_epw.append((y, mon, d, h, m, toa, tdp, relative_humidity, press, wind_dir, wind_speed, total_cloud_cover))
 
@@ -2564,6 +2576,13 @@ Options:
     -u, --usaf: USAF code
     -w, --wban: WBAN code
     -y, --year: Year
+    -o, --offset: Standard offset in hours from UTC (ex: CST is -o -6)
+    --dfw: Shortcut for my location
+    --epw: Convert to epw
+    --tsv: Convert to tsv
+    --cc: Cloud coverage
+    --fmt: Format
+    --solar FILE: Solar data file, used in creating fmt
     """
 
 
@@ -2579,8 +2598,13 @@ def main():
 
     hourly = None
 
+    header = False
+
     cloud_coverage = None
     solar_data_file = None
+
+    ip = False
+    dst = False
 
     idx = 1
     while idx < len(sys.argv):
@@ -2657,6 +2681,15 @@ def main():
             idx += 2
         elif a == "--hourly":
             hourly = True
+            idx += 1
+        elif a == "--ip":
+            ip = True
+            idx += 1
+        elif a == "--dst":
+            dst = True
+            idx += 1
+        elif a == "--header" or a == "--headers":
+            header = True
             idx += 1
         else:
             print(f"Error: unknown argument {a}", file=sys.stderr)
@@ -2772,7 +2805,15 @@ def main():
             print("Error: no offset given", file=sys.stderr)
             sys.exit(1)
 
-        lines = hourly_year(usaf, wban, year, offset)
+        lines = hourly_year(usaf, wban, year, offset, ip, dst)
+
+        if header:
+            if ip:
+                headers = ["Year", "Month", "Day", "Hour", "Minute", "Outdoor Air Temperature (°F)", "Dew Point Temperature (°F)", "Relative Humidity (%)", "Atmospheric Station Pressure (psi)", "Wind Direction (0-360)", "Wind Speed (mph)", "Total Sky Cover (tenths)"]
+            else:
+                headers = ["Year", "Month", "Day", "Hour", "Minute", "Outdoor Air Temperature (°C)", "Dew Point Temperature (°C)", "Relative Humidity (%)", "Atmospheric Station Pressure (Pa)", "Wind Direction (0-360)", "Wind Speed (m/s)", "Total Sky Cover (tenths)"]
+            print(*headers, sep='\t')
+
         for line in lines:
             print(*line, sep='\t')
 
