@@ -1164,13 +1164,14 @@ def annual_facility_electricity(file_path: str) -> float:
 dst_dates = { 2015:(8, 1), 2016:(13, 6), 2017:(12,5), 2018:(11,4), 2019:(10,3), 2020:(8, 1), 2021:(14,7), 2022:(13,6), 2023:(12,5), 2024:(10,3), 2025:(9, 2), 2026:(8, 1), 2027:(14,7), 2028:(12,5), 2029:(11,4), }
 
 def is_dst(year, month, day, hour):
+    """Hour is assumed to be hour during standard offset clock"""
     march_day, november_day = dst_dates[year]
 
     if month > 3 and month < 11:
         return True
     elif month == 3 and (day > march_day or (day == march_day and hour >= 2)):
         return True
-    elif month == 11 and (day < november_day or (day == november_day and hour < 2)):
+    elif month == 11 and (day < november_day or (day == november_day and hour < 1)):
         return True
     else:
         return False
