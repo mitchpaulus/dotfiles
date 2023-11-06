@@ -206,3 +206,15 @@ PLR^2*a*i+
 ```
 
 18 equations, 9 unknowns, so over determined system. Can solve in 2 stage process.
+
+
+## Zones
+
+In general, need the following objects:
+
+```
+AirLoopHVAC:SupplyPath -> AirLoopHVAC:ZoneSplitter
+ZoneControl:Thermostat
+ZoneHVAC:EquipmentConnections -> ZoneHVAC:EquipmentList -> ZoneHVAC:AirDistributionUnit -> AirTerminal:SingleDuct:VAV:Reheat etc.
+AirLoopHVAC:ReturnPath -> AirLoopHVAC:ZoneMixer
+```
