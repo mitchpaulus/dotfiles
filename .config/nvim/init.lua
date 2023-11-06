@@ -611,6 +611,51 @@ vim.g.copilot_filetypes = {
     markdown = true,
 }
 
+function shell_command_output_to_telescope(args)
+  -- Validate the input
+  if type(args) ~= "table" then
+    error("The argument must be a table of string arguments.")
+  end
+
+  -- Concatenate the arguments into a shell command
+  local command = table.concat(args, " ")
+
+  -- Execute the command and capture the output
+  local handle = io.popen(command, "r")
+  if not handle then
+    error("Failed to execute command: " .. command)
+  end
+  local output = handle:read("*a")
+  handle:close()
+
+  -- Split the output into lines
+  local lines = {}
+  for line in output:gmatch("[^\r\n]+") do
+    table.insert(lines, line)
+  end
+
+  -- Use Telescope to prompt
+  local pickers = require('telescope.pickers')
+  local finders = require('telescope.finders')
+  local conf = require('telescope.config').values
+
+  pickers.new({}, {
+    prompt_title = 'Shell Command Output',
+    finder = finders.new_table {
+      results = lines,
+      entry_maker = function(entry)
+        return {
+          value = entry,
+          display = entry,
+          ordinal = entry,
+        }
+      end,
+    },
+    sorter = conf.generic_sorter({}),
+  }):find()
+end
+
+
 
 -- Trying out custom telescope picker
 local pickers      = require('telescope.pickers')
