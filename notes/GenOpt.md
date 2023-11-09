@@ -43,3 +43,17 @@ java -jar genopt.jar file.ini
 # Without GUI
 java -classpath genopt.jar genopt.GenOpt file.ini
 ```
+
+## Continuous Parameters
+
+```
+// Settings for a continuous parameter
+Parameter {
+    Name = String ;
+    Ini = Double ;
+    Step = Double ;
+    [ Min = Double | SMALL; ]
+    [ Max = Double | BIG ; ]
+    [ Type = CONTINUOUS; ]
+}
+```
