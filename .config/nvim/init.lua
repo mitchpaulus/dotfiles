@@ -707,6 +707,7 @@ let g:vsnip_filetypes.typescriptreact = ['typescript']
 ]], false)
 
 local home_dir = os.getenv('HOME')
+
 if home_dir ~= nil then
     vim.g.vsnip_snippet_dir = os.getenv('HOME') .. '/.config/vsnip'
     vim.g.vsnip_snippet_dirs = { os.getenv('HOME') .. '/.config/vsnip',  os.getenv('HOME') .. '/.vsnip' }
@@ -972,11 +973,14 @@ vim.api.nvim_create_autocmd('TermOpen', { pattern = '*',        group = 'MPEvent
 vim.api.nvim_create_autocmd('BufEnter', { pattern = "term://*", group = 'MPEvents', command = 'startinsert' })
 vim.api.nvim_create_autocmd('TextYankPost', { pattern = '*', group = 'MPEvents', command = 'silent! lua vim.highlight.on_yank { timeout = 500 }' })
 
-local ignore_dirs = {
-    os.getenv("HOME") .. "/.config/",
-    os.getenv("DOTFILES") ,
-    "/tmp/",
-}
+local ignore_dirs = { }
+
+if home_dir ~= nil then
+    table.insert(ignore_dirs, home_dir .. "/.config/")
+end
+
+table.insert(ignore_dirs, os.getenv("DOTFILES"))
+table.insert(ignore_dirs, "/tmp/")
 
 -- iterate backwards and remove any nils
 for i = #ignore_dirs, 1, -1 do
@@ -995,8 +999,6 @@ local function write_directory()
           return
       end
   end
-
-  local home_dir = os.getenv("HOME")
 
   if home_dir == nil then print("HOME not set") end
 
