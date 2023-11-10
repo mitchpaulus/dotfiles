@@ -19,5 +19,17 @@
 			"$0"
 		],
 		"description": "Zone"
-	}
+	},
+    "SQLite": {
+        "prefix": ["sql"],
+        "body": [
+            "Output:SQLite,",
+            "  SimpleAndTabular,   !- Option Type",
+            "  InchPound;"
+        ]
+    },
+    "Cooling Load": {
+        "prefix": ["clgload"],
+        "body": ["Output:Variable,*,Plant Supply Side Cooling Demand Rate,hourly; !- HVAC Average [W]"]
+    }
 }

@@ -81,5 +81,11 @@
         "body": ["with open(${1:filename}, enc='uft-8') as ${3:file}:",
                  "    $0"],
         "description": "with open statement"
+    },
+    "thousands": {
+        "prefix": ["th"],
+        "body": ["def thousands(x):",
+                 "    return '{:,.0f}'.format(x)"],
+        "description": "thousands"
     }
 }
