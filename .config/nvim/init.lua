@@ -943,6 +943,7 @@ bufEnterAutocmds = {
     { '*.maxima' , 'set filetype=maxima' },
     { '.gitignore', 'set filetype=conf' }, -- close enough
     { '.gitignore', 'inoremap ,dt :read !do-targets' },
+    { '*.BAT', 'set filetype=dosbatch' }, -- Assume Windows Batch files
 
     -- The Windows Terminal settings file ('settings.json') is JSON5 with comments.
     -- jsonc filetype seems to handle it alright.
