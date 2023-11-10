@@ -1214,6 +1214,10 @@ def day_of_week(y, m, d):
         y = y - 1
     return (y + int(y/4) - int(y/100) + int(y/400) + t[m-1] + d) % 7
 
+def is_weekday(y, m, d):
+    dow = day_of_week(y, m, d)
+    return dow >= 1 and dow <= 5
+
 def to_unix_timestamp(year: int, month: int, day: int, hour: int, minute: int, second: int) -> int:
     days = days_since_epoch(year, month, day)
     hours = days * 24 + hour
