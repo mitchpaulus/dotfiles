@@ -68,3 +68,16 @@ find . -name '*.ext' | while read -r file; do ...; done
 ## Issues with `set -e`
 
 <http://mywiki.wooledge.org/BashFAQ/105>
+
+## While loop only loops once
+
+Process inside is consuming all the stdin. <https://stackoverflow.com/questions/13800225/while-loop-stops-reading-after-the-first-line-in-bash>
+Redirect stdin for the bad command using `</dev/null`
+
+Example:
+
+```
+find ./ -type d -name '[0-9]_*' | while read -r ecmdir; do
+    redo-ifchange "$ecmdir/$ecmdir.hvac.dat" "$ecmdir/$ecmdir.loads.dat" </dev/null
+done
+```
