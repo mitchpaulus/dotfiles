@@ -1,4 +1,7 @@
 import math
+from typing import Optional
+
+sea_level_pressure_psia = 14.696 # psia
 
 def specific_volume_from_toa_w(t_oa: float, w: float, pressure: float = 14.696):
     """
@@ -63,6 +66,12 @@ def sat_partial_pressure(t: float) -> float:
 
 
 def sat_partial_pressure_si(t: float) -> float:
+    """
+    SOURCE: ASHRAE Fundamentals 2021, Chapter 1, Equation 5, Pg. 1.8
+    :param t: Temperature [°C]
+    :return: Saturation Partial Pressure [kPa]
+    """
+
     t_kelvin = t + 273.15
 
     if t >= 0:
@@ -98,6 +107,11 @@ def sat_partial_pressure_si(t: float) -> float:
     return pws
 
 def w_from_partial_pressure(pv: float, total_pressure: float = 14.696) -> float:
+    """
+    :param pv: Partial Pressure [psi]
+    :param total_pressure: Total Pressure [psi]
+    :return: Humidity Ratio (unitless)
+    """
     return 0.621945 * pv / (total_pressure - pv)
 
 def w_from_toa_twb(t_oa: float, t_wb: float, total_pressure: float = 14.696) -> float:
@@ -125,6 +139,11 @@ def h_sat(t: float) -> float:
     return 0.24*t + w_sat*(1061 + 0.444*t)
 
 def h_from_tdb_w(tdb: float, w: float) -> float:
+    """
+    :param tdb: Dry bulb temperature [°F]
+    :param w: Humidity Ratio
+    :return: Enthalpy [Btu/lb]
+    """
     return 0.24*tdb + w*(1061 + 0.444*tdb)
 
 
@@ -134,14 +153,33 @@ def w_from_tdb_rh(tdb: float, rh: float) -> float:
     :param rh: Relative Humidity [%] (0-100)
     :return: Humidity Ratio
     """
-
     pv = rh/100 * sat_partial_pressure(tdb)
     return w_from_partial_pressure(pv)
 
+def w_from_tdp(tdp: float, total_pressure: Optional[float] = None) -> float:
+    """
+    :param tdp: Dew point temperature [°F]
+    :param total_pressure: Total Pressure [psia]
+    :return: Humidity Ratio
+    """
+    if total_pressure is None:
+        total_pressure = sea_level_pressure_psia
+
+    pv = sat_partial_pressure(tdp)
+    return w_from_partial_pressure(pv, total_pressure)
 
 
-def zero_function(twb: float, tdb: float, w: float) -> float:
-    w_star = w_from_partial_pressure(sat_partial_pressure(twb))
+def zero_function(twb: float, tdb: float, w: float, total_pressure: Optional[float] = None) -> float:
+    """
+    :param twb: Wet bulb temperature [°F]
+    :param tdb: Dry bulb temperature [°F]
+    :param w: Humidity Ratio
+    :return: Value of function to zero
+    """
+    if total_pressure is None:
+        total_pressure = sea_level_pressure_psia
+
+    w_star = w_from_partial_pressure(sat_partial_pressure(twb), total_pressure)
 
     numerator = (1093 - 0.556 * twb)* w_star - 0.24 * (tdb - twb)
     denom = 1093 + 0.444 * tdb - twb
@@ -149,15 +187,23 @@ def zero_function(twb: float, tdb: float, w: float) -> float:
     return numerator / denom - w
 
 
-def deriv_zero_function(twb: float, tdb: float) -> float:
+def deriv_zero_function(twb: float, tdb: float, total_pressure = None) -> float:
+    """
+    :param twb: Wet bulb temperature [°F]
+    :param tdb: Dry bulb temperature [°F]
+    :param total_pressure: Total Pressure [psia]
+    :return: Derivative of function to zero
+    """
+    if total_pressure is None:
+        total_pressure = sea_level_pressure_psia
+
     p_sat_twb = sat_partial_pressure(twb)
 
     # Using tetens for derivative
     d_psat_d_twb = 0.088586 * math.exp((1727*twb -55264) / (100 * twb + 39514)) * 73767078 / ( (100 * twb + 39514)**2 )
+    d_w_star_d_twb = 0.621945 * ((total_pressure - p_sat_twb)*d_psat_d_twb + p_sat_twb * d_psat_d_twb) / ((total_pressure - p_sat_twb)**2)
 
-    d_w_star_d_twb = 0.621945 * ((14.696 - p_sat_twb)*d_psat_d_twb + p_sat_twb * d_psat_d_twb) / ((14.696 - p_sat_twb)**2)
-
-    w_star = w_from_partial_pressure(p_sat_twb)
+    w_star = w_from_partial_pressure(p_sat_twb, total_pressure)
     n = (1093 - 0.556*twb) * w_star - 0.24 * (tdb - twb)
     d = 1093+0.444*tdb - twb
 
@@ -167,17 +213,20 @@ def deriv_zero_function(twb: float, tdb: float) -> float:
     return (d*dn - n*dd) / (d*d)
 
 
-def twb_from_tdb_w(tdb: float, w: float) -> float:
+def twb_from_tdb_w(tdb: float, w: float, total_pressure = None) -> float:
     """Return wet bulb temperature [°F] given dry bulb temperature [°F] and humidity ratio"""
-    initial_guess = tdb - 5
+    if total_pressure is None:
+        total_pressure = sea_level_pressure_psia
+
+    guess = tdb - 5
 
     z = 10
     tries = 0
 
     while z > 0.000001 and tries < 20:
-        z = zero_function(initial_guess, tdb, w)
-        dz = deriv_zero_function(initial_guess, tdb)
-        initial_guess = initial_guess - z/dz
+        z = zero_function(guess, tdb, w, total_pressure)
+        dz = deriv_zero_function(guess, tdb, total_pressure)
+        guess = guess - z/dz
         tries += 1
 
-    return initial_guess
+    return guess
