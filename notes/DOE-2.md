@@ -109,9 +109,19 @@ Snow Flag (0 means it is not snowing; 1 means it is)
 
 ## DOE-2 fmt format
 
+Header example:
+```
+<location> <year> <latitude> <longitude> <time zone> <solar flag 3 = no solar, 5 = solar>
+<jan clearness num> <feb clearness num> <mar clearness num> <apr clearness num> . . .
+<jan ground temp °R> <feb ground temp °R> <mar ground temp °R> <apr ground temp °R> . . .
+Arlington-Reagan.Was 2008   38.85   77.04    5    5
+  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00
+ 527.7 527.7 527.7 527.7 527.7 527.7 527.7 527.7 527.7 527.7 527.7 527.7
+```
+
 1-2: Month (1-12)
 3-4: Day (1-31)
-5-6: Hour (0-23)
+5-6: Hour (1-24)
 7-11: Wet Bulb Temperature (°F) (0 decimal places)
 12-16: Dry Bulb Temperature (°F) (0 decimal places)
 17-22: Atmospheric Pressure (in Hg) (0 decimal places)
