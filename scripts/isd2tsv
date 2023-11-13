@@ -2762,9 +2762,9 @@ def main():
             month = line[1]
             day = line[2]
             hour = line[3]
-            minute = line[4]
+            # minute = line[4]
             tdb_c = line[5]
-            tdp_c = line[6]
+            # tdp_c = line[6]
             rh = line[7]
             press_pa = line[8]
             wind_dir = line[9]
@@ -2772,7 +2772,7 @@ def main():
             cloud_cover = line[11]
 
             tdb_f = tdb_c * 9 / 5 + 32
-            tdp_f = tdp_c * 9 / 5 + 32
+            # tdp_f = tdp_c * 9 / 5 + 32
 
             w = psy.w_from_tdb_rh(tdb_c, rh)
 

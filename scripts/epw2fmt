@@ -1,0 +1,411 @@
+#!/usr/bin/env python3
+
+import sys
+import math
+from typing import Optional
+
+# Accept a .epw file as input through stdin
+# Output a .fmt file to stdout. ASCII/UTF-8 encoding, DOS newlines.
+
+# DOE-2 format:
+# 1-2: Month (1-12)
+# 3-4: Day (1-31)
+# 5-6: Hour (1-24)
+# 7-11: Wet Bulb Temperature (°F) (0 decimal places)
+# 12-16: Dry Bulb Temperature (°F) (0 decimal places)
+# 17-22: Atmospheric Pressure (in Hg) (0 decimal places)
+# 23-27: Cloud Amount (0-10) (0 decimal places)
+# 28-30: Snow indicator (0-1) (Int)
+# 31-33: Rain indicator (0-1) (Int)
+# 34-37: Wind Direction (0-15) (Int)
+# 38-44: Humidity Ratio (4 decimal places)
+# 45-50: Air Density (lb/ft3) (3 decimal places)
+# 51-56: Specific Enthalpy (Btu/lb) (1 decimal places)
+# 57-63: Total Horizontal Solar (BTU/hr-ft2) (1 decimal places)
+# 64-70: Direct Normal Solar (BTU/hr-ft2) (1 decimal places)
+# 71-73: Cloud Type (0-2) (Int)
+# 74-78: Wind Speed (knots) (0 decimal places)
+
+# EPW format (comma separated):
+# - 0: Year (Not really used in EnergyPlus simulations)
+# - 1: Month (1-12, Required)
+# - 2: Day (1-31, Required)
+# - 3: Hour (1-24, Required Hour 1 is 00:01 to 01:00)
+# - 4: Minute (1-60)
+# - 5: Data Source and Uncertainty Flags
+# - 6: Dry Bulb Temperature (C, 99.9 missing)
+# - 7: Dew Point Temperature (C, 99.9 missing)
+# - 8: Relative Humidity (% or 0-100, 999 missing)
+# - 9: Atmospheric Station Pressure (Pa, 999999 missing)
+# - 10: Extraterrestrial Horizontal Radiation (Wh/m2, Not currently used, 9999 missing)
+# - 11: Extraterrestrial Direct Normal Radiation (Wh/m2, Not currently used, 9999 missing)
+# - 12: Horizontal Infrared Radiation Intensity (Wh/m2, 9999 missing. If missing calculated from Opaque Sky Cover field)
+# - 13: Global Horizontal Radiation (Wh/m2, not currently used, 9999 missing)
+# - 14: Direct Normal Radiation (Wh/m2,  >=9999 missing) (Amount of solar radiation in Wh/m2 received directly from the solar disk on a surface perpendicular to the sun’s rays, during the number of minutes preceding the time indicated.) If the field is missing (≥ 9999 ) or invalid (< 0 ), it is set to 0. Counts of such missing values are totaled and presented at the end of the run period.
+# - 15: Diffuse Horizontal Radiation (Wh/m2, >=9999 missing) (Amount of solar radiation in Wh/m2 received from the sky (excluding the solar disk) on a horizontal surface during the number of minutes preceding the time indicated.) If the field is missing (≥ 9999 ) or invalid (< 0 ), it is set to 0.
+# - 16: Global Horizontal Illuminance (lux, not currently used, 999999 missing)
+# - 17: Direct Normal Illuminance (lux, not currently used, 999999 missing)
+# - 18: Diffuse Horizontal Illuminance (lux, not currently used, 999999 missing)
+# - 19: Zenith Luminance (Cd/m2, not currently used, 9999 missing)
+# - 20: Wind Direction (degrees, 999 missing) This is the Wind Direction in degrees where the convention is that North = 0.0, East = 90.0, South = 180.0, West = 270.0. (Wind direction in degrees at the time indicated. If calm, direction equals zero.) Values can range from 0 to 360. Missing value is 999.
+# - 21: Wind Speed (m/s, 0-40, 999 missing)
+# - 22: Total Sky Cover (tenths of coverage, 99 missing, 0 - 10)
+# - 23: Opaque Sky Cover (tenths of coverage, 99 missing, 0 - 10) This is not used unless the field for Horizontal Infrared Radiation Intensity is missing and then it is used to calculate Horizontal Infrared Radiation Intensity. Minimum value is 0; maximum value is 10; missing value is 99.
+# - 24: Visibility (km, not currently used, 9999 missing)
+# - 25: Ceiling Height (m, not currently used, 99999 missing)
+# - 26: Present Weather Observation (0 or 9) 0 = Weather observation made. 9 = Weather observation not made, or missing
+# - 27: Present Weather Codes (999999999 missing)
+# - 28: Precipitable Water (mm, not currently used, 999 missing)
+# - 29: Aerosol Optical Depth (thousandths, not currently used, .999 missing)
+# - 30: Snow Depth (cm, 999 missing)
+# - 31: Days Since Last Snowfall (days, not currently used, 99 missing)
+# - 32: Albedo (ratio, not currently used, doesn't say missing, average albedo on Earth is ~0.3)
+# - 33: Liquid Precipitation Depth (mm, 999 missing)
+# - 34: Liquid Precipitation Quantity (hr, not currently used, 99 missing)
+
+
+sea_level_pressure_psia = 14.696
+
+def list_get(l, i, default=None):
+    try:
+        return l[i]
+    except IndexError:
+        return default
+
+def sat_partial_pressure_si(t: float) -> float:
+    """
+    SOURCE: ASHRAE Fundamentals 2021, Chapter 1, Equation 5, Pg. 1.8
+    :param t: Temperature [°C]
+    :return: Saturation Partial Pressure [kPa]
+    """
+    t_kelvin = t + 273.15
+
+    if t >= 0:
+        n1  = 0.11670521452767e4
+        n2  = -0.72421316703206e6
+        n3  = -0.17073846940092e2
+        n4  = 0.12020824702470e5
+        n5  = -0.32325550322333e7
+        n6  = 0.14915108613530e2
+        n7  = -0.48232657361591e4
+        n8  = 0.40511340542057e6
+        n9  = -0.23855557567849e0
+        n10 = 0.65017534844798e3
+
+        theta = t_kelvin + n9 / (t_kelvin - n10)
+
+        A = theta*theta + n1 * theta + n2
+        B = n3 * theta * theta + n4 * theta + n5
+        C = n6 * theta * theta + n7 * theta + n8
+
+        pws = 1000 * ((2 * C) / ( -B + math.sqrt(B*B - 4*A*C) ))**4
+    else:
+        a1 = -0.212144006e2
+        a2 = 0.273203819e2
+        a3 = -0.610598130e1
+        b1 = 0.333333333e-2
+        b2 = 0.120666667e1
+        b3 = 0.170333333e1
+        theta = t_kelvin / 273.16
+
+        pws = 0.611657 * math.exp((1 / theta) * (a1*theta**b1 +  a2*theta**b2 + a3*theta**b3)  )
+
+    return pws
+
+def sat_partial_pressure(t: float) -> float:
+    """
+    SOURCE: ASHRAE Fundamentals 2021, Chapter 1, Equation 5, Pg. 1.8
+    :param t: Temperature [°F]
+    :return: Saturation Partial Pressure [psi]
+    """
+    return sat_partial_pressure_si((t - 32) * 5/9) * 0.14503774
+
+def w_from_partial_pressure(pv: float, total_pressure: float = 14.696) -> float:
+    """
+    :param pv: Partial Pressure [psi]
+    :param total_pressure: Total Pressure [psi]
+    :return: Humidity Ratio (unitless)
+    """
+    return 0.621945 * pv / (total_pressure - pv)
+
+def w_from_tdb_rh(tdb: float, rh: float, total_pressure: float = 14.696) -> float:
+    """
+    :param tdb: Dry bulb temperature [°F]
+    :param rh: Relative Humidity [%] (0-100)
+    :return: Humidity Ratio
+    """
+
+    pv = rh/100 * sat_partial_pressure(tdb)
+    return w_from_partial_pressure(pv, total_pressure)
+
+def w_from_tdp(tdp: float, total_pressure: Optional[float] = None) -> float:
+    """
+    :param tdp: Dew point temperature [°F]
+    :param total_pressure: Total Pressure [psia]
+    :return: Humidity Ratio
+    """
+    if total_pressure is None:
+        total_pressure = sea_level_pressure_psia
+
+    pv = sat_partial_pressure(tdp)
+    return w_from_partial_pressure(pv, total_pressure)
+
+def zero_function(twb: float, tdb: float, w: float, total_pressure: Optional[float] = None) -> float:
+    """
+    :param twb: Wet bulb temperature [°F]
+    :param tdb: Dry bulb temperature [°F]
+    :param w: Humidity Ratio
+    :return: Value of function to zero
+    """
+    if total_pressure is None:
+        total_pressure = sea_level_pressure_psia
+
+    w_star = w_from_partial_pressure(sat_partial_pressure(twb), total_pressure)
+
+    numerator = (1093 - 0.556 * twb)* w_star - 0.24 * (tdb - twb)
+    denom = 1093 + 0.444 * tdb - twb
+
+    return numerator / denom - w
+
+
+def deriv_zero_function(twb: float, tdb: float, total_pressure = None) -> float:
+    """
+    :param twb: Wet bulb temperature [°F]
+    :param tdb: Dry bulb temperature [°F]
+    :param total_pressure: Total Pressure [psia]
+    :return: Derivative of function to zero
+    """
+    if total_pressure is None:
+        total_pressure = sea_level_pressure_psia
+
+    p_sat_twb = sat_partial_pressure(twb)
+
+    # Using tetens for derivative
+    d_psat_d_twb = 0.088586 * math.exp((1727*twb -55264) / (100 * twb + 39514)) * 73767078 / ( (100 * twb + 39514)**2 )
+    d_w_star_d_twb = 0.621945 * ((total_pressure - p_sat_twb)*d_psat_d_twb + p_sat_twb * d_psat_d_twb) / ((total_pressure - p_sat_twb)**2)
+
+    w_star = w_from_partial_pressure(p_sat_twb, total_pressure)
+    n = (1093 - 0.556*twb) * w_star - 0.24 * (tdb - twb)
+    d = 1093+0.444*tdb - twb
+
+    dn = (1093-0.556*twb) * d_w_star_d_twb - 0.556 * w_star + 0.24
+    dd = -1
+
+    return (d*dn - n*dd) / (d*d)
+
+
+def twb_from_tdb_w(tdb: float, w: float, total_pressure = None) -> float:
+    """Return wet bulb temperature [°F] given dry bulb temperature [°F] and humidity ratio"""
+    if total_pressure is None:
+        total_pressure = sea_level_pressure_psia
+
+    guess = tdb - 5
+
+    z = 10
+    tries = 0
+
+    while z > 0.000001 and tries < 20:
+        z = zero_function(guess, tdb, w, total_pressure)
+        dz = deriv_zero_function(guess, tdb, total_pressure)
+        guess = guess - z/dz
+        tries += 1
+
+    return guess
+
+def specific_volume_from_toa_w(t_oa: float, w: float, pressure: float = 14.696):
+    """
+    :param t_oa: Outside air temperature [°F]
+    :param w: Humidity Ratio
+    :param pressure: Pressure [psia]
+    :return: Specific Volume [ft³/lb]
+    """
+    return 0.370486*(t_oa + 459.67) * (1 + 1.607858*(w))/(pressure)
+
+
+def h_from_tdb_w(tdb: float, w: float) -> float:
+    return 0.24*tdb + w*(1061 + 0.444*tdb)
+
+possible_headers = {
+    "location",
+    "design conditions",
+    "typical/extreme periods",
+    "ground temperatures",
+    "holidays/daylight savings",
+    "comments 1",
+    "comments 2",
+    "data periods",
+}
+
+city = ""
+state = ""
+country = ""
+source = ""
+latitude = ""
+longitude = ""
+timezone = ""
+elevation = 0
+
+in_data = False
+
+# Read the .epw file from stdin
+for line_num, l in enumerate(sys.stdin, 1):
+    # Split on commas
+    split_line = l.split(',')
+
+    if len(l) == 0:
+        raise Exception(f"Line {line_num}: Empty line")
+
+    if split_line[0].lower() == "location":
+        city = list_get(split_line, 1, "")
+        state = list_get(split_line, 2, "")
+        country = list_get(split_line, 3, "")
+        source = list_get(split_line, 4, "")
+        latitude = list_get(split_line, 6, "")
+        longitude = list_get(split_line, 7, "")
+        timezone = list_get(split_line, 8, "")
+        elevation = list_get(split_line, 9, 0)
+        continue
+
+    # Ignore other headers
+    if split_line[0].lower() in possible_headers:
+        continue
+
+    if not in_data:
+        # We are now into the data, print the header to stdout.
+        # First 20 characters are the location
+        # Replace non-alphanumeric characters with underscores
+        components = []
+        if len(city) > 0:
+            components.append(city)
+        if len(state) > 0:
+            components.append(state)
+        if len(country) > 0:
+            components.append(country)
+
+        doe2location = "_".join(components)
+        # truncate, expand to 20 characters
+        doe2location = doe2location[:20].ljust(20)
+
+        # Try to parse the first item as an integer year
+        try:
+            year = int(split_line[0])
+        except ValueError:
+            raise Exception(f"Line {line_num}: First item is not a year")
+
+        # Check that the year is in the expected range
+        if year < 1900 or year > 2100:
+            raise Exception(f"Line {line_num}: Year {year} is out of range")
+
+        year_str = f" {year:4d}"
+        # need latitude, longitude with 8 characters, right justified
+        try:
+            latitude_float = float(latitude)
+        except ValueError:
+            raise Exception(f"Line {line_num}: Latitude is not a float")
+
+        try:
+            longitude_float = float(longitude)
+        except ValueError:
+            raise Exception(f"Line {line_num}: Longitude is not a float")
+
+        latitude_str = f"{latitude_float: 8.2f}"
+        longitude_str = f"{-longitude_float: 8.2f}"
+
+        timezone_int = int(round(float(timezone)))
+        # Reverse sign of timezone
+        timezone_str = f"{-timezone_int: 5d}"
+        solar_str = "    5"
+
+        fields = [doe2location, year_str, latitude_str, longitude_str, timezone_str, solar_str]
+        print("".join(fields), end="\r\n")
+
+        # Print monthly clearness numbers and ground temperatures. Use 1 and 527.7 R for now.
+        # Both are 6 characters, right justified. 2 decimal places for clearness, 1 for ground temp
+        clearness_str = "  1.00"
+        ground_temp_str = " 527.7"
+
+        clearness_line = clearness_str * 12
+        ground_temp_line = ground_temp_str * 12
+
+        print(clearness_line, end="\r\n")
+        print(ground_temp_line, end="\r\n")
+
+        in_data = True
+
+    # Check field length, should be 35
+    if len(split_line) != 35:
+        raise Exception(f"Line {line_num}: Expected 35 fields, got {len(split_line)}")
+
+    month = split_line[1]
+    day   = split_line[2]
+    hour  = split_line[3]
+
+    dry_bulb_temp_degC = split_line[6]
+    dew_point_temp_degC = split_line[7]
+
+    station_pressure_pa = split_line[9]
+    global_horizontal_radiation_whm2 = split_line[13]
+    direct_normal_radation_whm2 = split_line[14]
+
+    wind_direction_deg = split_line[20]
+    wind_speed_ms = split_line[21]
+    total_sky_cover_tenths = split_line[22]
+
+    # Convert to DOE-2 format
+    month = int(month)
+    day = int(day)
+    hour = int(hour)
+
+    station_pressure_pa = float(station_pressure_pa)
+
+    dry_bulb_temp_degF = float(dry_bulb_temp_degC) * 9/5 + 32
+    dew_point_temp_degF = float(dew_point_temp_degC) * 9/5 + 32
+    station_pressure_inHg = station_pressure_pa / 3386.3886
+    station_pressure_psia = station_pressure_pa / 6894.7573
+
+    w = w_from_tdp(dew_point_temp_degF, station_pressure_psia)
+
+    wet_bulb_temp_degF = twb_from_tdb_w(dry_bulb_temp_degF, w, station_pressure_psia)
+    specific_volume_ft3lb = specific_volume_from_toa_w(dry_bulb_temp_degF, w, station_pressure_psia)
+    density_lbft3 = 1 / specific_volume_ft3lb
+
+    h = h_from_tdb_w(dry_bulb_temp_degF, w)
+
+    total_horiz_solar_btuhrft2 = float(global_horizontal_radiation_whm2) * 0.31699833
+    direct_normal_solar_btuhrft2 = float(direct_normal_radation_whm2) * 0.31699833
+
+    total_sky_cover_tenths_float = float(total_sky_cover_tenths)
+    if total_sky_cover_tenths_float < 0 or total_sky_cover_tenths_float > 10:
+        raise Exception(f"Line {line_num}: Total sky cover out of range")
+
+    total_sky_cover_tenths_str = f"{total_sky_cover_tenths_float: 4.0f}."
+
+    wind_direction_deg = float(wind_direction_deg)
+    # Make wind direction 0-15
+    wind_direction = int(round(wind_direction_deg / 22.5)) % 16
+
+    wind_speed_ms = float(wind_speed_ms)
+    wind_speed_knots = wind_speed_ms * 1.9438445
+
+    month_str = f"{month:2d}"
+    day_str = f"{day:2d}"
+    hour_str = f"{hour:2d}"
+    wet_bulb_str = f"{wet_bulb_temp_degF: 4.0f}."
+    dry_bulb_str = f"{dry_bulb_temp_degF: 4.0f}."
+    atmos_pressure_str = f"{station_pressure_inHg: 6.1f}"
+    cloud_tenths_str = total_sky_cover_tenths_str
+    snow_str = f"{0:3d}"
+    rain_str = f"{0:3d}"
+    wind_dir_str = f"{wind_direction: 4d}"
+    humidity_ratio_str = f"{w: 7.4f}"
+    air_density_str = f"{density_lbft3: 6.3f}"
+    enthalpy_str = f"{h: 6.1f}"
+    total_horiz_solar_str = f"{total_horiz_solar_btuhrft2: 7.1f}"
+    direct_normal_solar_str = f"{direct_normal_solar_btuhrft2: 7.1f}"
+    cloud_type_str = f"{0:3d}"
+    wind_speed_str = f"{wind_speed_knots: 4.0f}."
+
+    fields = [month_str, day_str, hour_str, wet_bulb_str, dry_bulb_str, atmos_pressure_str, cloud_tenths_str, snow_str, rain_str, wind_dir_str, humidity_ratio_str, air_density_str, enthalpy_str, total_horiz_solar_str, direct_normal_solar_str, cloud_type_str, wind_speed_str]
+    doe2line = "".join(fields)
+
+    print(doe2line, end="\r\n")
