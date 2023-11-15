@@ -68,3 +68,7 @@ From <https://unmethours.com/question/37681/energyplus-simulation-run-time-diagn
 > - Individual air loop / plant loops / zone equipment for each zone in a multi-zone model
 > - Lots of shading and high resolution shading/daylighting calculations
 > - 20+ design days
+
+## Chilled Beam (DOE-2)
+
+<https://unmethours.com/question/97391/chilled-beam-modeling-in-equestdoe-22/>

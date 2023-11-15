@@ -27,4 +27,10 @@ Can use like:
 diff -u --label AHU.08C/CoolingDemand "$old_dir"/AHU.08C --label AHU.08C/CoolingDemand AHU.08C | diff2html -i stdin -o stdout -s side > AHU.08C.html
 ```
 
-The `-u` option is important to make the tool work.
+The `-u` (unified) option is important to make the tool work.
+
+Install with:
+
+```sh
+npm install -g diff2html-cli
+```

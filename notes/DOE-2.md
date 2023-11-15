@@ -77,6 +77,14 @@ Capacity in units of millions of BTU/hr
 tons * 12000 / 1000000
 ```
 
+# Circulation Loops
+
+```
+LOOP-NAME = CIRCULATION-LOOP
+    TYPE = CHW
+    LOOP-PUMP = CHW-PUMP
+```
+
 # Schedules
 
 ```
@@ -136,3 +144,10 @@ Arlington-Reagan.Was 2008   38.85   77.04    5    5
 64-70: Direct Normal Solar (BTU/hr-ft2) (1 decimal places)
 71-73: Cloud Type (0-2) (Int)
 74-78: Wind Speed (knots) (0 decimal places)
+
+## OA Ventilation
+
+If the `MIN-AIR-SCH` is specified, its hourly specified value will always be used (even if MIN-OA-METHOD is specified)
+unless the hourly scheduled value is -999.
+
+```
