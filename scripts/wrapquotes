@@ -1,6 +1,25 @@
 #!/usr/bin/awk -E
 
-BEGIN { FS=OFS="\t" }
+BEGIN {
+    FS=OFS="\t"
 
-NF == 1 {  print "\"" $0 "\","  }
-NF == 2 { print "\"" $1 "\": \"" $2 "\"," }
+    indent_spaces = 4
+
+    idx = 1
+    while (idx <= ARGC) {
+        # If parsable as integer, make it indent_spaces
+        if (ARGV[idx] ~ /^[0-9]+$/) {
+            indent_spaces = ARGV[idx]
+            ARGV[idx] = ""
+            idx++
+        }
+        else {
+            idx++
+        }
+    }
+
+
+}
+
+NF == 1 { print sprintf("%" indent_spaces "s", "") "\"" $0 "\","  }
+NF == 2 { print sprintf("%" indent_spaces "s", "") "\"" $1 "\": \"" $2 "\"," }
