@@ -369,7 +369,7 @@ def excelchop(filepath: str, worksheet: Union[str, None] = None, excel_range: Un
     result = subprocess.run(['excelchop'] + args, capture_output=True)
 
     if result.returncode != 0:
-        raise Exception("excelchop failed with return code {}".format(result.returncode))
+        raise Exception("excelchop failed with return code {}.\n{}".format(result.returncode, result.stderr.decode('utf-8')))
 
     lines = []
     # Loop over all lines
