@@ -456,8 +456,7 @@ func_map(function(tbl) inmap(tbl[1], tbl[2]) end, insertModeNoRecurseMappings)
 
 vim.api.nvim_set_keymap("i", "<C-n>", [[pumvisible() ? "\<C-n>" : "\<C-o>:set completeopt=menu\<Cr>\<C-n>"]], { noremap = true, silent = true, expr = true })
 vim.api.nvim_set_keymap("i", "<C-f>", [[pumvisible() ? "\<C-f>" : "\<C-o>:set completeopt=menu\<Cr>\<C-x>\<C-f>"]], { noremap = true, silent = true, expr = true })
-vim.api.nvim_set_keymap("i", ".", [[&omnifunc == "" ? "." : "\<C-o>:set completeopt=menuone,noinsert\<Cr>.\<C-x>\<C-o>"]], { noremap = true, silent = true, expr = true })
-vim.api.nvim_set_keymap("i", "<C-Space>", [[pumvisible() ? "\<Space>" : "\<C-o>:set completeopt=menuone,noinsert\<Cr>\<C-x>\<C-o>"]], { noremap = true, silent = true, expr = true })
+vim.api.nvim_set_keymap("i", "<C-Space>", [[pumvisible() ? "\<Space>" : "\<Esc>:set completeopt=menuone,noinsert\<Cr>a\<C-x>\<C-o>"]], { noremap = true, silent = true, expr = true })
 
 -- https://stackoverflow.com/a/60355468/5932184
 -- vim.api.nvim_exec( [[
@@ -489,7 +488,7 @@ if vim.fn.executable('rg') then
     vim.o.grepprg = "rg --vimgrep"
 end
 
-vim.api.nvim_exec( [[
+vim.api.nvim_exec([[
 " Reload file every second
 function! NbemWatch()
     call timer_start(1000, { id -> execute('let l:winview=winsaveview() | checktime | call winrestview(l:winview) ' ) }, { 'repeat': -1 } )
@@ -606,7 +605,6 @@ nnmap('<leader>n', ':NERDTree<cr>')
 vim.g.NERDTreeIgnore = { '\\.aux.*$','\\.fls$','\\.lof$','\\.toc$','\\.out$','\\.vrb$','\\.nav$','\\.snm$','\\.bbl$','\\.bib','\\.fdb_latexmk$','\\.xdv','\\.gif','\\.pdf','\\~$','\\.blg$','\\.lot$' }
 
 vim.g.copilot_filetypes = {
-    fish = false,
     yaml = true,
     markdown = true,
 }
@@ -750,6 +748,13 @@ vim.api.nvim_create_autocmd('FileType', { pattern = 'xlim', group = filetype_aut
 vim.api.nvim_create_autocmd('FileType', { pattern = 'xlim', group = filetype_autocmds_id, callback = set_xlim_makeprg })
 
 vim.api.nvim_create_autocmd('FileType', { pattern = 'antlr4', group = filetype_autocmds_id, command = 'nnoremap <localleader>c :!antlr4 %<CR>' })
+
+vim.api.nvim_create_autocmd('FileType', {
+     pattern = 'python',
+     group = filetype_autocmds_id,
+     callback = function()
+         vim.api.nvim_set_keymap("i", ".", [[&omnifunc == "" ? "." : ".\<C-o>:set completeopt=menuone,noinsert\<Cr>\<C-x>\<C-o>"]], { noremap = true, silent = true, expr = true })
+     end })
 
 filetypeAutocmds = {
     { 'antlr4', 'nnoremap <localleader>c :!antlr4 %<CR>' },
