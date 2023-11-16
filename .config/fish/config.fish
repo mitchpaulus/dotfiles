@@ -486,6 +486,8 @@ if test -s "$NVM_DIR/nvm.sh"; bash "$NVM_DIR/nvm.sh"; end
 # On WSL 2, the file system lookups are horrendously slow, which ruins the TAB completion.
 if test -n "$WSL_DISTRO_NAME"
     set PATH (string match -v '/mnt/c/*' $PATH)
+    # Start up cron every time on WSL. Will want to add to sudoers file to not prompt for password.
+    sudo service cron start
 end
 
 # vim:ft=fish
