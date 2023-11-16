@@ -81,3 +81,10 @@ find ./ -type d -name '[0-9]_*' | while read -r ecmdir; do
     redo-ifchange "$ecmdir/$ecmdir.hvac.dat" "$ecmdir/$ecmdir.loads.dat" </dev/null
 done
 ```
+
+## Exit codes with meanings
+
+<https://tldp.org/LDP/abs/html/exitcodes.html>
+
+126 - command not executable
+127 - command not found

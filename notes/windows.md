@@ -175,8 +175,8 @@ Temporary	256	The file is temporary. A temporary file contains data that is need
 
 ```
 C:\Windows\System32\clip.exe
+C:\Windows\System32\cmd.exe
 C:\Windows\System32\where.exe
 C:\Windows\System32\wsl.exe
-C:\Windows\System32\cmd.exe
 C:\Windows\explorer.exe
 ```
