@@ -359,17 +359,17 @@ normalNoRecurseMappings = {
 
     { '<leader>=', '<Cmd>Tab /=/<CR>' },
 
-    -- Check for file changes before insertion
-    { 'i', ':<C-u>checktime<CR>i' },
-    { 'a', ':<C-u>checktime<CR>a' },
-    { 'I', ':<C-u>checktime<CR>I' },
-    { 'A', ':<C-u>checktime<CR>A' },
-    { 'o', ':<C-u>checktime<CR>o' },
-    { 'O', ':<C-u>checktime<CR>O' },
-
     -- Show full file name when requested
     { '<C-G>', '1<C-G>' },
 }
+
+local insertLikeCmds = { 'i', 'a', 'I', 'A', 'o', 'O' }
+
+-- Check for file changes before insertion
+-- Use count for i if required
+for _, cmd in ipairs(insertLikeCmds) do
+    vim.api.nvim_set_keymap("n", cmd, "':<C-u>checktime<CR>' . (v:count > 0 ? v:count : '') . '" .. cmd .. "'", { noremap = true, silent = true, expr = true })
+end
 
 vim.api.nvim_set_keymap("n", '<leader>g', ':%s/',    { noremap = true, silent = false })
 vim.api.nvim_set_keymap("n", '<leader>r', ':read! ', { noremap = true, silent = false })
