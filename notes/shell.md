@@ -76,11 +76,16 @@ Redirect stdin for the bad command using `</dev/null`
 
 Example:
 
-```
+```sh
+# Although this is bad practice for redo-ifchange
 find ./ -type d -name '[0-9]_*' | while read -r ecmdir; do
     redo-ifchange "$ecmdir/$ecmdir.hvac.dat" "$ecmdir/$ecmdir.loads.dat" </dev/null
 done
 ```
+
+## Read command
+
+Not buffered by default, reads character by character <https://stackoverflow.com/questions/13767472/bash-read-line-vs-read-n-line>.
 
 ## Exit codes with meanings
 
@@ -88,3 +93,15 @@ done
 
 126 - command not executable
 127 - command not found
+
+## Key-value lookups
+
+Can use case statements for key-value lookups
+
+```sh
+case "$key" in
+    "key1") echo "value1" ;;
+    "key2") echo "value2" ;;
+    *) echo "default" ;;
+esac
+```

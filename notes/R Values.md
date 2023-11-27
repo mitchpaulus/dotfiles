@@ -33,3 +33,8 @@ Item                          | Density (lb/ft²) | R    | Source
 ------------------------------|------------------|------|----------------
 0.5" Gypsum                   | 45               | 0.32 | A:3
 4" Heavyweight concrete block | 61               | 0.71 | 8:9 (Table 8-5)
+
+
+# Glass
+
+Thermal conductivity: 1.05 W/mK or 0.6066 Btu/hr ft °F <https://material-properties.org/glass-density-heat-capacity-thermal-conductivity/>
