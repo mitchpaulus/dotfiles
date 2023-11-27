@@ -6,6 +6,7 @@ import sys
 import subprocess
 import hashlib
 import datetime
+from pathlib import Path
 
 T1 = TypeVar('T1')
 T2 = TypeVar('T2')
@@ -298,19 +299,19 @@ def sanitize_fn(fn: str) -> str:
     sanitized = re.sub(r'^_|_$', '', sanitized)
     return sanitized
 
-def dirs(path = None) -> List[str]:
+def dirs(path: Union[str, Path, None] = None) -> List[str]:
     """
-    Return a list of all directories in the given path. In version sorted order.
+    Return a list of all directories in the given path (non-recursive). In version sorted order.
     """
     if path is None:
         path = os.getcwd()
-    dirs = [x for x in os.listdir(path) if os.path.isdir(os.path.join(path, x))]
+    dirs = [x for x in os.listdir(str(path)) if os.path.isdir(os.path.join(str(path), x))]
     version_sort_in_place(dirs)
     return dirs
 
 def files(path = None, return_full_path = False) -> List[str]:
     """
-    Return a list of all file names (non-recursive) in the given path. By default, not full path. In version sorted order.
+    Return a list of all file names (non-recursive) in the given path. By default, not full path. In version sorted order. No directories.
     """
     if path is None:
         path = os.getcwd()
