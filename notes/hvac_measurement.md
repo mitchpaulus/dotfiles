@@ -25,3 +25,13 @@ MAT - multiple thermocouples welded
     - K: Good for fluke
     - J
     - T: Tighter range
+
+
+## 4-20 mA vs. 0-10 V
+
+[Veris](https://blog.veris.com/choosing-analog-signal-types-for-industrial-sensors-0-10v-or-4-20ma) says prefer 4-20 mA:
+
+- Current is much less vulnerable to noise, interference, or voltage drop.
+- Only two wires are required. Since there will always be at least 4 mA flowing through the loop, your instrument can be “loop-powered” (using the same two wires that transmit signals).
+- A long cable run will not affect the accuracy of a current signal.
+- Faults are easily detected. A reading of 0 mA indicates no signal, whereas 4 mA represents a zero value measurement.
