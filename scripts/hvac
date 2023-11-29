@@ -6,6 +6,7 @@ BEGIN {
     print "1. Water Flow from Tons/ΔT"
     print "2. Tons from Water Flow and ΔT"
     print "3. ΔT from Water Flow and Tons"
+    print "4. kW/ton conversions"
 
     invalid = 1
 
@@ -43,6 +44,14 @@ BEGIN {
 
             print "ΔT = " (tons * 24 / wf) "°F"
             invalid = 0
+        }
+        else if (num == 4) {
+            printf "kW/ton: "
+            getline kwton < "/dev/tty"
+
+            cop = 3.516 / kwton
+            printf "COP: %s\n", cop
+            printf "EIR: %s\n", (1 / cop)
         }
         else {
             print "Invalid choice, try again."
