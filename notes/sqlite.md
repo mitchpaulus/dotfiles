@@ -26,3 +26,10 @@ NUMERIC
 INTEGER
 REAL
 BLOB
+
+## CLI
+
+```
+sqlite3 -tabs <db> <raw sql>
+sqlite3 -tabs <db> < <sql file>
+```

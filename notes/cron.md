@@ -32,3 +32,11 @@ whoami == mp
 
 For WSL, [this article](https://julienharbulot.com/cron-windows.html) says you can add script to:
 `C:\Users\<user name>\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup`.
+
+/etc/environment file can be used to set environment variables for all users.
+
+By default only had this single line:
+
+```
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+```
