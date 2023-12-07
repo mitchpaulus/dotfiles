@@ -342,6 +342,7 @@ normalNoRecurseMappings = {
     { '<leader>cr', '<Cmd>%s/\\r//g<CR>' },
 
     { '<C-n>', ':bnext<CR>' },
+    { '<C-p>', ':bprev<CR>' },
 
     -- Yank to the end of the line, without the newline
     { 'Y', 'yg_'},
