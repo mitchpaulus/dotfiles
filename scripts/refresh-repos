@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Check for existence of REPOS environment variable
+
+if [ -z "$REPOS" ]; then
+    echo "REPOS environment variable not set"
+    exit 1
+fi
+
+printf "Refreshing %s/..\n" "$REPOS"
+
+find "$REPOS" -maxdepth 2 -type d -name .git | while read -r dir; do
+    cd "$dir" || exit
+    cd .. || exit
+    git fetch --prune
+    printf "Fetching %s/..\n" "$dir"
+    # Check if git status --porcelain is empty
+    if [ -n "$(git status --porcelain)" ]; then
+        echo "Skipping $dir/.."
+        cd "$REPOS" || exit
+        continue
+    fi
+    echo "Refreshing $dir/.."
+    git merge --ff-only
+    cd "$REPOS" || exit
+done
