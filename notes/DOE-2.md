@@ -150,4 +150,15 @@ Arlington-Reagan.Was 2008   38.85   77.04    5    5
 If the `MIN-AIR-SCH` is specified, its hourly specified value will always be used (even if MIN-OA-METHOD is specified)
 unless the hourly scheduled value is -999.
 
-```
+## Glass Defaults
+
+-DEFAULT -                                              TRANS-SOL-BB     =                       0.7750
+-DEFAULT -                                              REFL-SOL-BB      =                       0.0710
+-DEFAULT -                                              BACKREFL-SOL-BB  =                       0.0710
+-DEFAULT -                                              TRANS-VIS-BB     =                       0.7750
+-DEFAULT -                                              REFL-VIS-BB      =                       0.0710
+-DEFAULT -                                              BACKREFL-VIS-BB  =                       0.0710
+-DEFAULT -                                              TRANS-IR         =                       0.0000
+-DEFAULT -                                              EMIS-IR          =                       0.8400
+-DEFAULT -                                              BACKEMIS-IR      =                       0.8400
+-DEFAULT -                                              CONDUCTIVITY     =                       0.5200 BTU/HR-FT-R

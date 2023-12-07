@@ -38,3 +38,5 @@ Item                          | Density (lb/ft²) | R    | Source
 # Glass
 
 Thermal conductivity: 1.05 W/mK or 0.6066 Btu/hr ft °F <https://material-properties.org/glass-density-heat-capacity-thermal-conductivity/>
+
+DOE-2 default is 0.52 Btu/hr ft °F <https://www.osti.gov/servlets/purl/10180705>
