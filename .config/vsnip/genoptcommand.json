@@ -10,7 +10,7 @@
         "description": "Golden Section"
     },
     "Parameter": {
-        "prefix": "pa",
+        "prefix": ["p", "pa"],
         "body": [
             "Parameter {",
             "  Name = ${1:name};",
