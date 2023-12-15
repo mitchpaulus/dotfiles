@@ -13,3 +13,8 @@
 ## Text Boxes
 
 No border? Set width to 0pt.
+
+
+## Flatten
+
+Save PDF with markups contained in the PDF. File -> Publish -> Publish as Flattened PDF
