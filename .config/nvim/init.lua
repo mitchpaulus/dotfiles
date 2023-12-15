@@ -25,6 +25,7 @@ vim.cmd [[ Plug 'mitchpaulus/energyplus-vim' ]]
 vim.cmd [[ Plug 'mitchpaulus/genopt.vim' ]]
 vim.cmd [[ Plug 'mitchpaulus/mplot.vim' ]]
 vim.cmd [[ Plug 'mitchpaulus/neobem-vim' ]]
+vim.cmd [[ Plug 'mitchpaulus/OpenStudio.vim' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-andover-plain-english' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-awk-indent-fix' ]]
 vim.cmd [[ Plug 'mitchpaulus/vim-siemens-ppcl' ]]
@@ -787,6 +788,7 @@ filetypeAutocmds = {
     { 'help', 'setlocal nospell' },
 
     { 'json', 'setlocal conceallevel=0' },
+    { 'os_workflow', 'setlocal conceallevel=0' },
 
     { 'gnuplot', 'nnoremap <localleader>gw :silent !gnuplot.exe % && start "Plot" %:p:r.png<cr>', },
     { 'gnuplot', 'nnoremap <localleader>gu :!gnuplot %; and wsl-opener %:p:r.png<cr>', },

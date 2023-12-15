@@ -1,0 +1,11 @@
+{
+    "measure": {
+        "prefix": "m",
+        "body": [
+            "{",
+            "  \"measure_dir_name\": \"$1\",",
+            "  \"arguments\": { $2 }",
+            "}"
+        ]
+    }
+}
