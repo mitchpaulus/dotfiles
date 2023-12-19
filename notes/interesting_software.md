@@ -292,3 +292,5 @@ dot.set_toc()
 ## [Zellij](https://github.com/zellij-org/zellij)
 
 Hot new terminal multiplexer?
+
+## [HVAC Rule of Thumb Calculator](https://www.engproguides.com/design-hvac-rule-of-thumb-calculator.html)
