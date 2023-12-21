@@ -22,3 +22,11 @@ dir -> Get-ChildItem
 # Other
 
 - Installation Path: `C:\Windows\System32\WindowsPowershell\v1.0\`
+
+
+# Selecting Properties in Pipeline
+
+```powershell
+Get-Process | Select-Object -Property Name, Id, Path
+Get-ChildItem | Select-Object -ExpandProperty Name  # Needed to get the actual value of the property, not a new object with the property
+```

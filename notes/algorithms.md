@@ -257,3 +257,21 @@ constant = (sum(y) - slope * sum(x)) / n
 
 An Enhancement of the Bisection Method Average Performance Preserving Minmax Optimality
 Oliveira and Takahashi
+
+## Binning
+
+```python
+# Bin data
+bins = dict()
+for d in data:
+    bin_num = int(d // binsize)
+    if bin_num not in bins:
+        bins[bin_num] = 0
+    bins[bin_num] += 1
+
+# Print data. Order by bin number, tab-separated. Bin value should be mid-point of bin
+for bin_num in sorted(bins.keys()):
+    line = f"{bin_num * binsize + binsize / 2}\t{bins[bin_num]}"
+    print(line, end="\n")
+
+```

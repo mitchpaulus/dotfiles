@@ -1,6 +1,6 @@
 # gnuplot
 
-Example:
+Example Histogram:
 
 ```gnuplot
 set terminal pngcairo size 960,720 font "Segoe UI,10" fontscale 1.600
