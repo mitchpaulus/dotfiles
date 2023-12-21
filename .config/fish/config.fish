@@ -107,6 +107,10 @@ if command -v exa >/dev/null 2>&1
     end
 end
 
+if command -q pyenv
+    pyenv init --path | source
+end
+
 # https://github.com/fish-shell/fish-shell/issues/6991
 # For discussion on why you can't redirect the syntax error messages, which I disagree with.
 # Just becuase I check above doesn't mean that it's guaranteed to exist on the line below.
