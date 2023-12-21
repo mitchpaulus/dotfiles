@@ -90,11 +90,6 @@ path_prepend $HOME/.pyenv/bin
 path_prepend $HOME/.dotnet/tools
 path_prepend /usr/local/go/bin
 
-if test -d $REPOS/pyenv
-    path_prepend $REPOS/pyenv/bin
-    set -gx PYENV_ROOT $REPOS/pyenv
-end
-
 # Neovim/Vim for all the things
 if command -v nvim >/dev/null 2>&1
     set -gx EDITOR nvim
