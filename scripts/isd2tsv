@@ -2611,6 +2611,7 @@ def main():
         a = sys.argv[idx]
         if a == "-h" or a == "--help":
             print(help_text())
+            sys.exit(0)
 
         elif a == "-u" or a == "--usaf":
             if idx + 1 >= len(sys.argv):
