@@ -12,6 +12,10 @@ def main():
     args = sys.argv[1:]
 
     i = 0
+    datafile = None
+    col = None
+    binsize = None
+
     while i < len(args):
         arg = args[i]
         if arg == "-h" or arg == "--help":
@@ -37,14 +41,26 @@ def main():
                 sys.exit(1)
             break
 
+    if datafile is None:
+        print("Error: No datafile specified", file=sys.stderr)
+        sys.exit(1)
+
+    if col is None:
+        print("Error: No column specified", file=sys.stderr)
+        sys.exit(1)
+
+    if binsize is None:
+        print("Error: No binsize specified", file=sys.stderr)
+        sys.exit(1)
+
     process(datafile, col, binsize)
 
 
 def get_delimiter(lines: List[str]) -> Tuple[bool, str]:
     # Check for tab, then comma, then space
     # For tab, just check if first line has a tab
-    # For comma, check if the first 3 lines have the same number of commas
-    # For space, check if the first 3 lines have the same number of spaces
+    # For comma, check if the first 10 lines have the same number of commas
+    # For space, check if the first 10 lines have the same number of spaces
 
     if "\t" in lines[0]:
         return True, "\t"
@@ -85,6 +101,7 @@ def process(datafile: str, col: int, binsize: float):
         try:
             parsed = float(split_line[col - 1])
         except ValueError:
+            # Assume header
             if first_line:
                 continue
             else:

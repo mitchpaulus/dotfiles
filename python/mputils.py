@@ -302,6 +302,7 @@ def sanitize_fn(fn: str) -> str:
 def dirs(path: Union[str, Path, None] = None) -> List[str]:
     """
     Return a list of all directories in the given path (non-recursive). In version sorted order.
+    Only the dirname, not full path.
     """
     if path is None:
         path = os.getcwd()

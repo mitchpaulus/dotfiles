@@ -7,5 +7,16 @@
             "  \"arguments\": { $2 }",
             "}"
         ]
+    },
+    "rotate": {
+        "prefix": "r",
+        "body":
+        [
+            "{",
+            "  \"measure_dir_name\":\"RotateBuilding\",",
+            "  \"arguments\":{\"relative_building_rotation\":$1}",
+            "}"
+        ]
     }
+
 }
