@@ -2148,7 +2148,7 @@ def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, ds
 
     isd_records: List[IsdRecord] = []
 
-    output_epw = []
+    lines = []
 
     for y in years:
         print(f"Downloading {y}", file=sys.stderr)
@@ -2197,6 +2197,7 @@ def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, ds
                 continue
 
 
+    # As minute integer
     year_dates = rd_dates_for_year(year)
 
     print(f"Len year dates for year {year}: {len(year_dates)}", file=sys.stderr)
@@ -2232,21 +2233,21 @@ def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, ds
 
         # Calculate dry-bulb
         if toa_index is None or toa_index == 0:
-            raise Exception(f"Error: no dry-bulb temperature for {year_dates[i]}")
+            toa = None
         else:
             # divide by 10 for scale factor
             toa = interpolate(toa_array, lambda r: r.dry_bulb_air_temperature, toa_index) / 10
 
         # Calculate dew-point
         if tdp_index is None or tdp_index == 0:
-            raise Exception(f"Error: no dew-point temperature for {year_dates[i]}")
+            tdp = None
         else:
             # divide by 10 for scale factor
             tdp = interpolate(tdp_array, lambda r: r.dew_point_air_temperature, tdp_index) / 10
 
         # Calculate humidity
-        if toa == "99.9" or tdp == "99.9":
-            raise Exception(f"Error: no humidity for {year_dates[i]}")
+        if (toa == "99.9" or toa is None) or (tdp == "99.9" or tdp is None):
+            relative_humidity = None
         else:
             pw = sat_partial_pressure_si(float(tdp))
             pws = sat_partial_pressure_si(float(toa))
@@ -2254,14 +2255,14 @@ def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, ds
 
         # Calculate Air Pressure in Pa
         if press_index is None or press_index == 0:
-            raise Exception(f"Error: no air pressure for {year_dates[i]}")
+            press = None
         else:
             # divide by 10 for scale factor, multiply by 100 for Pa
             press = interpolate(press_array, lambda r: r.air_pressure, press_index) / 10 * 100
 
         # Calculate wind direction
         if wind_dir_index is None or wind_dir_index == 0:
-            raise Exception(f"Error: no wind direction for {year_dates[i]}")
+            wind_dir = None
         else:
             # Need special angle interpolation
             record_1 = wind_dir_array[wind_dir_index - 1]
@@ -2286,14 +2287,15 @@ def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, ds
 
         # Calculate wind speed
         if wind_speed_index is None or wind_speed_index == 0:
-            raise Exception(f"Error: no wind speed for {year_dates[i]}")
+            year, mon, d, h, m = mputils.ymdhm_from_rd(year_dates[i])
+            wind_speed = None
         else:
             wind_speed_float = (interpolate(wind_speed_array, lambda r: r.wind_speed, wind_speed_index) / 10)
             wind_speed = wind_speed_float
 
         # Calculate Total Cloud Cover
         if total_cloud_cover_index is None or total_cloud_cover_index == 0:
-            raise Exception(f"Error: no total cloud cover for {year_dates[i]}")
+            total_cloud_cover = None
         else:
             # Hand interpolate
             tenths_2 = total_cloud_cover_array[total_cloud_cover_index]
@@ -2312,16 +2314,16 @@ def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, ds
             y, mon, d, h, m = mputils.ymdhm_from_rd(year_dates[i] + 60)
 
         if ip:
-            toa = toa * 9 / 5 + 32
-            tdp = tdp * 9 / 5 + 32
+            toa = toa * 9 / 5 + 32 if toa is not None else None
+            tdp = tdp * 9 / 5 + 32 if tdp is not None else None
             # Pa to psi
-            press = press / 6894.7573
+            press = press / 6894.7573 if press is not None else None
             # m/s to mph
-            wind_speed = wind_speed * 2.23694
+            wind_speed = wind_speed * 2.23694 if wind_speed is not None else None
 
-        output_epw.append((y, mon, d, h, m, toa, tdp, relative_humidity, press, wind_dir, wind_speed, total_cloud_cover))
+        lines.append((y, mon, d, h, m, toa, tdp, relative_humidity, press, wind_dir, wind_speed, total_cloud_cover))
 
-    return output_epw
+    return lines
 
 
 def convert_to_epw(usaf: str, wban: str, year: int, offset_hrs: int):
@@ -2583,7 +2585,7 @@ Options:
     --cc: Cloud coverage
     --fmt: Format
     --solar FILE: Solar data file, used in creating fmt
-    """
+"""
 
 
 def main():
@@ -2815,8 +2817,15 @@ def main():
                 headers = ["Year", "Month", "Day", "Hour", "Minute", "Outdoor Air Temperature (°C)", "Dew Point Temperature (°C)", "Relative Humidity (%)", "Atmospheric Station Pressure (Pa)", "Wind Direction (0-360)", "Wind Speed (m/s)", "Total Sky Cover (tenths)"]
             print(*headers, sep='\t')
 
+        def format_float(f) -> str:
+            if f is None:
+                return ""
+            else:
+                return str(f)
+
         for line in lines:
-            print(*line, sep='\t')
+            fields = [format_float(f) for f in line]
+            print("\t".join(fields))
 
     else:
         contents = get_isd_file_contents_http(usaf, wban, year)
