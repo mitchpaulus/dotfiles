@@ -9,6 +9,9 @@ from typing import Union, List, TextIO, Optional, Tuple
 import math
 import requests
 import psychrometrics as psy
+import glob
+import datetime
+import os
 
 # ISD Format (https://www1.ncdc.noaa.gov/pub/data/noaa/isd-format-document.pdf)
 # 1-4: Total Variable Characters
@@ -2138,6 +2141,38 @@ def sat_partial_pressure_si(t: float) -> float:
     return pws
 
 
+def try_get_cached(usaf: str, wban: str, year: int) -> Optional[str]:
+    try:
+        with open('/tmp/isd_cache/cache.txt') as cache_file:
+            for cache_line in cache_file:
+                current_datetime = datetime.datetime.now()
+                current_year = current_datetime.year
+                current_month = current_datetime.month
+                current_day = current_datetime.day
+
+                search_list = [usaf, wban, str(year), str(current_year), str(current_month), str(current_day)]
+
+                fields = [f.strip() for f in cache_line.split('\t')]
+                if len(fields) != 6:
+                    continue
+
+                all_true = False
+                for i in range(len(search_list)):
+                    if search_list[i] == fields[i]:
+                        all_true = True
+                    else:
+                        all_true = False
+                        break
+
+                if all_true:
+                    # Try to open the cached file at /tmp/isd_cache/{usaf}-{wban}-{y}.txt
+                    with open(f"/tmp/isd_cache/{usaf}-{wban}-{year}.txt") as cached_file:
+                        return cached_file.read()
+    except:
+        return None
+
+
+
 def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, dst = False):
     if offset_hrs < 0:
         years = [year, year + 1]
@@ -2152,7 +2187,29 @@ def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, ds
 
     for y in years:
         print(f"Downloading {y}", file=sys.stderr)
-        contents = get_isd_file_contents_http(usaf, wban, y)
+
+        # Check for cached file information from /tmp/isd_cache/cache.txt
+        # Simple text file that has tab separated columns of usaf, wban, year, year-cache-date, month-cache-date, day-cache-date
+
+        cached_contents = try_get_cached(usaf, wban, y)
+
+        if cached_contents is not None:
+            print(f"Using cached file for {usaf}-{wban}-{y}", file=sys.stderr)
+            contents = cached_contents
+        else:
+            contents = get_isd_file_contents_http(usaf, wban, y)
+            os.makedirs("/tmp/isd_cache", exist_ok=True)
+            # Save to cache
+            with open(f"/tmp/isd_cache/{usaf}-{wban}-{y}.txt", "w") as f:
+                f.write(contents)
+
+            with open('/tmp/isd_cache/cache.txt', 'a') as cache_file:
+                current_datetime = datetime.datetime.now()
+                current_year = current_datetime.year
+                current_month = current_datetime.month
+                current_day = current_datetime.day
+
+                cache_file.write(f"{usaf}\t{wban}\t{y}\t{current_year}\t{current_month}\t{current_day}\n")
 
         records = contents.splitlines()
 
@@ -2825,7 +2882,10 @@ def main():
 
         for line in lines:
             fields = [format_float(f) for f in line]
-            print("\t".join(fields))
+            try:
+                print("\t".join(fields))
+            except BrokenPipeError:
+                sys.exit(0)
 
     else:
         contents = get_isd_file_contents_http(usaf, wban, year)
