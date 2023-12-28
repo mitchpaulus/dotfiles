@@ -7,6 +7,8 @@ import requests
 from typing import Any, cast, TypeVar, Callable, Iterable, Union, Optional
 import subprocess
 import shutil
+import zipfile
+import io
 
 
 T1 = TypeVar('T1')
@@ -347,6 +349,29 @@ def install_vivid():
     install_deb('sharkdp', 'vivid', lambda a: a.name.startswith('vivid') and a.name.endswith('_amd64.deb'))
 
 
+def install_win32yank():
+    # Download from Github: equalsraf/win32yank
+    # Save to $LOCALBIN
+    local_bin_dir = cast(str, os.environ.get('LOCALBIN'))
+    asset = get_github_asset('equalsraf', 'win32yank', lambda a: a.name == "win32yank-x64.zip")
+
+    # Download asset
+    print(f'Downloading {asset.name}...', file=sys.stderr)
+    response = requests.get(asset.browser_download_url)
+
+    if response.status_code != 200:
+        print(f'Error downloading {asset.browser_download_url}: {response.status_code}', file=sys.stderr)
+        sys.exit(1)
+
+    with zipfile.ZipFile(io.BytesIO(response.content)) as zip_file:
+        # Extract just the win32yank.exe file to $LOCALBIN
+        print(f"Extracting 'win32yank.exe' to '{local_bin_dir}'", file=sys.stderr)
+        zip_file.extract('win32yank.exe', local_bin_dir)
+
+    # Make sure it is executable
+    os.chmod(os.path.join(local_bin_dir, 'win32yank.exe'), 0o755)
+
+
 def install_azcopy(local_bin_dir: str):
     # https://aka.ms/downloadazcopy-v10-linux
     # This is a tar.gz file
@@ -424,6 +449,7 @@ if __name__ == "__main__":
         "antlr": install_antlr,
         "vivid": install_vivid,
         "azcopy": lambda: install_azcopy(local_bin_dir),
+        "win32yank": install_win32yank,
     }
 
     while (idx < len(sys.argv)):

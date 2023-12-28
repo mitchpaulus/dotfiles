@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -e
+
+printf "%s Running repo update\n" "$(date)"
+/home/mp/dotfiles/scripts/refresh-repos 2>>/tmp/cronlog.txt
+cd "$REPOS"
+mgitstatus -f -d 1 -e -w | sed 's|^./||' | tee "$REPOS"/git.txt
+date >> "$REPOS"/git.txt
+printf "%s Finished repo update\n" "$(date)"

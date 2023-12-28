@@ -6,7 +6,7 @@ View logs:
 journalctl -f -u cron.service  # -f for following
 ```
 
-Run as `root` by default. <https://serverfault.com/a/247045>
+Run as `root` by default in `/etc/cron.daily` etc. <https://serverfault.com/a/247045>
 
 
 Actual binary is at `/usr/sbin/cron`.

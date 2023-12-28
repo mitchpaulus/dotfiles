@@ -23,7 +23,6 @@ dir -> Get-ChildItem
 
 - Installation Path: `C:\Windows\System32\WindowsPowershell\v1.0\`
 
-
 # Selecting Properties in Pipeline
 
 ```powershell

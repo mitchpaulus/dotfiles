@@ -1,0 +1,7 @@
+#!/bin/sh
+
+{
+    date
+    whoami
+    sudo service cron start
+} >>/tmp/wsl_startup_log.txt 2>&1
