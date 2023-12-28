@@ -43,9 +43,11 @@ set -g H /mnt/c/Users/mpaulus
 # set -gxp INFOPATH "$TEXLIVE_INSTALL_PREFIX"/2021/texmf-dist/doc/man
 
 # Search for ANTLR stuff. Recommended location is /usr/local/lib/antlr-x.x.x-complete.jar. Sort and get latest.
-set -gx ANTLR_JAR (find /usr/local/lib -name 'antlr-*-complete.jar' | sort -V | tail -n 1)
+find /usr/local/lib $HOME/.local/lib -name 'antlr-*-complete.jar' | sort -V | tail -n 1 | while read -l FIND_ANTLR_JAR
+    set -gx ANTLR_JAR $FIND_ANTLR_JAR
+end
 
-if count $ANTLR_JAR > /dev/null
+if set -q ANTLR_JAR
     set -gx CLASSPATH ".:"$ANTLR_JAR[1]":$CLASSPATH"
 end
 
@@ -59,10 +61,18 @@ set -gx GEM_HOME $HOME/gems
 
 # Microsoft doesn't need my telemetry
 set -gx DOTNET_CLI_TELEMETRY_OPTOUT 1
+set -gx DOTNET_ROOT /usr/share/dotnet
 
 set -gx TASKRC $HOME/.config/taskwarrior/.taskrc
 
-set -gx JAVA_HOME /usr/local/jdk-17.0.2/
+set FIND_JAVA_HOME (find $HOME/.local/ -maxdepth 1 -type d -name 'jdk*' | sort -rV | head -n 1)
+if test -n "$FIND_JAVA_HOME"
+    set -gx JAVA_HOME $FIND_JAVA_HOME
+else
+    # Old location
+    set -gx JAVA_HOME /usr/local/jdk-17.0.2/
+end
+
 
 # Required for Haxall - See https://github.com/haxall/haxall
 set -gx FAN_BUILD_JDKHOME "$JAVA_HOME"

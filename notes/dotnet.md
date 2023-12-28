@@ -34,3 +34,6 @@ sudo touch /etc/apt/preferences.d/dotnet.pref
 sudo apt update
 sudo apt install dotnet-sdk-6.0
 ```
+
+Similar steps described here:
+<https://learn.microsoft.com/en-us/dotnet/core/install/linux-package-mixup?pivots=os-linux-ubuntu#i-need-a-version-of-net-that-isnt-provided-by-my-linux-distribution>

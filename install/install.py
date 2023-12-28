@@ -331,13 +331,18 @@ def install_powershell():
 
 def install_antlr():
     # Download from https://www.antlr.org/download/antlr-4.13.1-complete.jar
-    # Save to /usr/local/lib, will have to run as root
     response = requests.get('https://www.antlr.org/download/antlr-4.13.1-complete.jar')
     if response.status_code != 200:
         print(f'Error downloading https://www.antlr.org/download/antlr-4.13.1-complete.jar: {response.status_code}', file=sys.stderr)
         sys.exit(1)
 
-    jar_path = '/usr/local/lib/antlr-4.13.1-complete.jar'
+    # Save to $HOME/.local/lib/
+    home_dir = os.environ.get('HOME')
+    if home_dir is None:
+        print('HOME environment variable not set.', file=sys.stderr)
+        sys.exit(1)
+
+    jar_path = os.path.join(home_dir, '.local', 'lib', 'antlr-4.13.1-complete.jar')
     print(f"Saving '{jar_path}'", file=sys.stderr)
     with open(jar_path, 'wb') as f:
         f.write(response.content)
@@ -348,6 +353,24 @@ def install_vivid():
     # sudo dpkg -i vivid_0.8.0_amd64.deb
     install_deb('sharkdp', 'vivid', lambda a: a.name.startswith('vivid') and a.name.endswith('_amd64.deb'))
 
+
+def single_file_bin_zip(username: str, repo: str, predicate: Callable[[GitHubAsset], bool], zip_path: str):
+    local_bin_dir = cast(str, os.environ.get('LOCALBIN'))
+    asset = get_github_asset(username, repo, predicate)
+    print(f'Downloading {asset.name}...', file=sys.stderr)
+    response = requests.get(asset.browser_download_url)
+
+    if response.status_code != 200:
+        print(f'Error downloading {asset.browser_download_url}: {response.status_code}', file=sys.stderr)
+        sys.exit(1)
+
+    with zipfile.ZipFile(io.BytesIO(response.content)) as zip_file:
+        # Extract just the file to $LOCALBIN
+        print(f"Extracting '{asset.name}' to '{local_bin_dir}'", file=sys.stderr)
+        zip_file.extract(zip_path, local_bin_dir)
+
+    # Make sure it is executable
+    os.chmod(os.path.join(local_bin_dir, zip_path), 0o755)
 
 def install_win32yank():
     # Download from Github: equalsraf/win32yank
@@ -370,6 +393,61 @@ def install_win32yank():
 
     # Make sure it is executable
     os.chmod(os.path.join(local_bin_dir, 'win32yank.exe'), 0o755)
+
+
+def install_xlwrite():
+    single_file_bin_zip('mitchpaulus', 'xlwrite', lambda a: "linux-x64" in a.name and "framework-dependent" in a.name, 'xlwrite')
+
+
+def install_redo():
+    local_bin_dir = cast(str, os.environ.get('LOCALBIN'))
+    asset = get_github_asset('zombiezen', 'redo-rs', lambda a: a.name.endswith('linux_x86-64.zip'))
+
+    # Download asset
+    print(f'Downloading {asset.name}...', file=sys.stderr)
+    response = requests.get(asset.browser_download_url)
+
+    if response.status_code != 200:
+        print(f'Error downloading {asset.browser_download_url}: {response.status_code}', file=sys.stderr)
+        sys.exit(1)
+
+    with zipfile.ZipFile(io.BytesIO(response.content)) as zip_file:
+        # The files are in structure like: redo_v0.2.1_linux_x86-64/bin/redo,
+        # download them all to LOCALBIN
+        print(f"Extracting 'redo' to '{local_bin_dir}'", file=sys.stderr)
+        for zip_info in zip_file.infolist():
+            if not zip_info.filename.endswith("/bin/redo"):
+                continue
+            with zip_file.open(zip_info) as f:
+                with open(os.path.join(local_bin_dir, os.path.basename(zip_info.filename)), 'wb') as out_f:
+                    print(f"Saving redo to '{local_bin_dir}'", file=sys.stderr)
+                    out_f.write(f.read())
+                    # Make sure it is executable
+                    os.chmod(os.path.join(local_bin_dir, os.path.basename(zip_info.filename)), 0o755)
+    # These other files are simply symlinks to redo:
+    # redo-always
+    # redo-ifchange
+    # redo-ifcreate
+    # redo-log
+    # redo-ood
+    # redo-sources
+    # redo-stamp
+    # redo-targets
+    # redo-unlocked
+    # redo-whichdo
+
+    other_redos = ['redo-always', 'redo-ifchange', 'redo-ifcreate', 'redo-log', 'redo-ood', 'redo-sources', 'redo-stamp', 'redo-targets', 'redo-unlocked', 'redo-whichdo']
+
+    for other_redo in other_redos:
+        print(f"Symlinking '{other_redo}' to '{local_bin_dir}'", file=sys.stderr)
+        # Overrite existing symlink if it exists
+        if os.path.lexists(os.path.join(local_bin_dir, other_redo)):
+            os.remove(os.path.join(local_bin_dir, other_redo))
+        os.symlink(os.path.join(local_bin_dir, 'redo'), os.path.join(local_bin_dir, other_redo))
+        # make sure it is executable
+        os.chmod(os.path.join(local_bin_dir, other_redo), 0o755)
+
+
 
 
 def install_azcopy(local_bin_dir: str):
@@ -450,6 +528,8 @@ if __name__ == "__main__":
         "vivid": install_vivid,
         "azcopy": lambda: install_azcopy(local_bin_dir),
         "win32yank": install_win32yank,
+        "redo": install_redo,
+        "xlwrite": install_xlwrite,
     }
 
     while (idx < len(sys.argv)):
