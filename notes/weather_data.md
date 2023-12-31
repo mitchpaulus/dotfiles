@@ -1,10 +1,6 @@
 # Weather Data
 
-<ftp://ftp.ncdc.noaa.gov/pub/data/noaa/>
-
-Otherwise, can use browser at:
-
-<https://www1.ncdc.noaa.gov/pub/data/noaa/>
+<ftp://ftp.ncdc.noaa.gov/pub/data/noaa/> Otherwise, can use browser at: <https://www1.ncdc.noaa.gov/pub/data/noaa/>
 
 
 Format document:

@@ -89,10 +89,37 @@ class IsdRecord:
         if self.additional_data == "":
             return
 
-        # assert first 3 characters of additional data are "ADD"
-        assert self.additional_data[0:3] == "ADD"
+        idx = 0
+        # Check for a remarks section right away
+        if (self.additional_data[0:3] == "REM"):
+            self.remarks = self.additional_data[3:]
 
-        idx = 3
+            # Remarks data section, fields 3 3 variable based on second field
+            # GEOPHYSICAL-POINT-OBSERVATION remark identifier
+            self.geophysical_point_observation_remark_identifier = self.additional_data[idx + 3:idx + 6]
+            # GEOPHYSICAL-POINT-OBSERVATION remark length quantity
+            self.geophysical_point_observation_remark_length_quantity = self.additional_data[idx + 6:idx + 9]
+
+            remark_length = int(self.geophysical_point_observation_remark_length_quantity)
+
+            # GEOPHYSICAL-POINT-OBSERVATION remark text
+            self.geophysical_point_observation_remark_text = self.additional_data[idx + 9:idx + 9 + remark_length]
+
+            idx += 9 + remark_length
+            return
+
+        # assert first 3 characters of additional data are "ADD"
+        if (self.additional_data[0:3] != "ADD"):
+            message = "Additional data does not start with ADD.\n"
+            message += "Line: " + line + "\n"
+            message += f"Total variable characters: {self.total_variable_characters}\n"
+            message += f"Found length of additional data: {len(self.additional_data)}\n"
+            message += "Additional data: '" + self.additional_data + "'\n"
+            raise Exception(message)
+
+
+        idx += 3 # For ADD
+
         while idx < len(self.additional_data):
             code = self.additional_data[idx:idx + 3]
 
@@ -740,6 +767,14 @@ class IsdRecord:
 
                 idx += 6
 
+            elif code.startswith("AW6"):
+                # PRESENT-WEATHER-OBSERVATION automated occurrence, fields 2 1
+                # PRESENT-WEATHER-OBSERVATION automated atmospheric condition code
+                self.present_weather_observation_automated_atmospheric_condition_code_6 = self.additional_data[idx + 3:idx + 5]
+                # PRESENT-WEATHER-OBSERVATION quality automated atmospheric condition code
+                self.present_weather_observation_quality_automated_atmospheric_condition_code_6 = self.additional_data[idx + 5:idx + 6]
+
+                idx += 6
 
             elif code.startswith("AX1"):
                 # PAST-WEATHER-OBSERVATION summary of day occurrence identifier, fields 2 1 2 1
@@ -793,6 +828,18 @@ class IsdRecord:
 
                 idx += 9
 
+            elif code.startswith("AX5"):
+                # PAST-WEATHER-OBSERVATION summary of day occurrence identifier, fields 2 1 2 1
+                # PAST-WEATHER-OBSERVATION atmospheric condition code
+                self.past_weather_observation_atmospheric_condition_code_5 = self.additional_data[idx + 3:idx + 5]
+                # PAST-WEATHER-OBSERVATION quality manual atmospheric condition code
+                self.past_weather_observation_quality_manual_atmospheric_condition_code_5 = self.additional_data[idx + 5:idx + 6]
+                # PAST-WEATHER-OBSERVATION period quantity
+                self.past_weather_observation_period_quantity_5 = self.additional_data[idx + 6:idx + 8]
+                # PAST-WEATHER-OBSERVATION period quality code
+                self.past_weather_observation_period_quality_code_5 = self.additional_data[idx + 8:idx + 9]
+
+                idx += 9
 
             elif code.startswith("D01"):
                 # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier, fields 6 1 6 3 6 1 6
@@ -1100,6 +1147,32 @@ class IsdRecord:
                 self.extreme_air_temperature_temperature_2 = self.additional_data[idx + 7:idx + 12]
                 # EXTREME-AIR-TEMPERATURE temperature quality code
                 self.extreme_air_temperature_temperature_quality_code_2 = self.additional_data[idx + 12:idx + 13]
+
+                idx += 13
+
+            elif code.startswith("KA3"):
+                # Extreme air temperature, fields 3 1 5 1 = 10
+                # EXTREME-AIR-TEMPERATURE period quantity
+                self.extreme_air_temperature_period_quantity_3 = self.additional_data[idx + 3:idx + 6]
+                # EXTREME-AIR-TEMPERATURE code
+                self.extreme_air_temperature_code_3 = self.additional_data[idx + 6:idx + 7]
+                # EXTREME-AIR-TEMPERATURE temperature
+                self.extreme_air_temperature_temperature_3 = self.additional_data[idx + 7:idx + 12]
+                # EXTREME-AIR-TEMPERATURE temperature quality code
+                self.extreme_air_temperature_temperature_quality_code_3 = self.additional_data[idx + 12:idx + 13]
+
+                idx += 13
+
+            elif code.startswith("KA4"):
+                # Extreme air temperature, fields 3 1 5 1 = 10
+                # EXTREME-AIR-TEMPERATURE period quantity
+                self.extreme_air_temperature_period_quantity_4 = self.additional_data[idx + 3:idx + 6]
+                # EXTREME-AIR-TEMPERATURE code
+                self.extreme_air_temperature_code_4 = self.additional_data[idx + 6:idx + 7]
+                # EXTREME-AIR-TEMPERATURE temperature
+                self.extreme_air_temperature_temperature_4 = self.additional_data[idx + 7:idx + 12]
+                # EXTREME-AIR-TEMPERATURE temperature quality code
+                self.extreme_air_temperature_temperature_quality_code_4 = self.additional_data[idx + 12:idx + 13]
 
                 idx += 13
 
@@ -1704,6 +1777,43 @@ class IsdRecord:
 
                 idx += 32
 
+            elif code.startswith("R10"):
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier, fields 6 1 6 3 6 1 6
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text = self.additional_data[idx + 3:idx + 9]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY reason code
+                self.original_observation_element_quality_reason_code = self.additional_data[idx + 9:idx + 10]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code = self.additional_data[idx + 10:idx + 16]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier
+                self.original_observation_element_quality_identifier = self.additional_data[idx + 16:idx + 19]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text_2 = self.additional_data[idx + 19:idx + 25]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY units code
+                self.original_observation_element_quality_units_code = self.additional_data[idx + 25:idx + 26]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code_2 = self.additional_data[idx + 26:idx + 32]
+
+                idx += 32
+
+            elif code.startswith("R11"):
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier, fields 6 1 6 3 6 1 6
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text = self.additional_data[idx + 3:idx + 9]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY reason code
+                self.original_observation_element_quality_reason_code = self.additional_data[idx + 9:idx + 10]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code = self.additional_data[idx + 10:idx + 16]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY identifier
+                self.original_observation_element_quality_identifier = self.additional_data[idx + 16:idx + 19]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY original value text
+                self.original_observation_element_quality_original_value_text_2 = self.additional_data[idx + 19:idx + 25]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY units code
+                self.original_observation_element_quality_units_code = self.additional_data[idx + 25:idx + 26]
+                # ORIGINAL-OBSERVATION-ELEMENT-QUALITY parameter code
+                self.original_observation_element_quality_parameter_code_2 = self.additional_data[idx + 26:idx + 32]
+
+                idx += 32
 
             elif code.startswith("REM"):
                 # Remarks data section, fields 3 3 variable based on second field
@@ -1776,7 +1886,6 @@ class IsdRecord:
                 self.platform_ice_accretion_quality_code = self.additional_data[idx + 8:idx + 9]
 
                 idx += 9
-
 
             else:
                 raise Exception(f"Unknown additional data code {code}")
@@ -2174,6 +2283,16 @@ def try_get_cached(usaf: str, wban: str, year: int) -> Optional[str]:
 
 
 def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, dst = False):
+    """
+    returns list of tuples
+    0: year
+    1: month
+    2: day
+    3: hour
+    4: minute
+    """
+
+
     if offset_hrs < 0:
         years = [year, year + 1]
     elif offset_hrs > 0:
@@ -2600,6 +2719,30 @@ def rd_dates_for_year(year: int) -> List[int]:
     delta = 60
     return list(range(start, end, delta))
 
+def average_temps(dates: List[Tuple[int, int]], data_hourly) -> List[float]:
+    outputs = []
+    records = []
+
+    for date in dates:
+        start_date_inc = date[0]
+        end_date_exc = date[1]
+
+        records.clear()
+
+        for record in data_hourly:
+            rd_date = mputils.fixed_from_gregorian(record[0], record[1], record[2])
+            if rd_date >= start_date_inc and rd_date < end_date_exc:
+                records.append(record)
+            elif rd_date >= end_date_exc:
+                break
+
+        if len(records) == 0:
+            outputs.append(None)
+        else:
+            average_oat = sum([float(record[5]) for record in records]) / len(records)
+            outputs.append(average_oat)
+
+    return outputs
 
 def averages():
     years = [2019, 2020, 2021, 2022, 2023]
@@ -2642,7 +2785,16 @@ Options:
     --cc: Cloud coverage
     --fmt: Format
     --solar FILE: Solar data file, used in creating fmt
+    --ave-dates DATEFILE: Get average outdoor air temperature for each period in DATEFILE, a whitespace separated file of ISO-dates (YYYY-MM-DD)
 """
+
+def parse_iso_date(date_str: str) -> int:
+    # Parse to rd_date
+    year = int(date_str[0:4])
+    month = int(date_str[5:7])
+    day = int(date_str[8:10])
+
+    return mputils.fixed_from_gregorian(year, month, day)
 
 
 def main():
@@ -2664,6 +2816,9 @@ def main():
 
     ip = False
     dst = False
+
+    average_temps_cmd = False
+    date_file = None
 
     idx = 1
     while idx < len(sys.argv):
@@ -2750,6 +2905,18 @@ def main():
             idx += 1
         elif a == "--header" or a == "--headers":
             header = True
+            idx += 1
+        elif a == "--ave-dates":
+            average_temps_cmd = True
+            if idx + 1 >= len(sys.argv):
+                print("Error: no date file given", file=sys.stderr)
+                sys.exit(1)
+            idx += 1
+            date_file = sys.argv[idx]
+            idx += 1
+            # averages(date_file)
+        elif a == "--ave":
+            average_temps_cmd = True
             idx += 1
         else:
             print(f"Error: unknown argument {a}", file=sys.stderr)
@@ -2886,6 +3053,63 @@ def main():
                 print("\t".join(fields))
             except BrokenPipeError:
                 sys.exit(0)
+
+    elif average_temps_cmd:
+        date_periods = []
+        if date_file is None:
+            # date_file is assumed to be stdin
+            file_io = sys.stdin
+        else:
+            file_io = open(date_file, 'r')
+
+        if offset is None:
+            print("Error: no offset given", file=sys.stderr)
+            sys.exit(1)
+
+        try:
+            for line in file_io:
+                split_line = line.rstrip().split()
+                if len(split_line) != 2:
+                    print(f"Error: invalid date file line: {line}", file=sys.stderr)
+                    sys.exit(1)
+
+                # Each field expected to be YYYY-MM-DD
+                if len(split_line[0]) != 10 or len(split_line[1]) != 10:
+                    print(f"Error: invalid date file line: {line}", file=sys.stderr)
+                    sys.exit(1)
+
+                start_date_rd = parse_iso_date(split_line[0])
+                end_date_rd = parse_iso_date(split_line[1])
+
+                if start_date_rd > end_date_rd:
+                    print(f"Error: start date is after end date: {line}", file=sys.stderr)
+                    sys.exit(1)
+
+                date_periods.append((start_date_rd, end_date_rd))
+        finally:
+            file_io.close()
+
+        # Get the minimum, and maximum start date
+        min_start_date_rd = min([start_date_rd for start_date_rd, _ in date_periods])
+        max_end_date_rd = max([end_date_rd for _, end_date_rd in date_periods])
+
+        min_year = mputils.year_from_rd(min_start_date_rd)
+        max_year = mputils.year_from_rd(max_end_date_rd)
+
+        y = min_year
+
+        all_hourly_data = []
+
+        while y <= max_year:
+            data = hourly_year(usaf, wban, y, offset, ip, dst)
+            all_hourly_data.extend(data)
+            y += 1
+
+        averages = average_temps(date_periods, all_hourly_data)
+
+        for i in range(len(averages)):
+            fields = [mputils.iso_date_str(date_periods[i][0]), mputils.iso_date_str(date_periods[i][1]), str(averages[i])]
+            print("\t".join(fields))
 
     else:
         contents = get_isd_file_contents_http(usaf, wban, year)

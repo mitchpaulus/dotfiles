@@ -1452,6 +1452,9 @@ def daylight_saving_start(year) -> int:
 def daylight_saving_end(year) -> int:
     return first_kday(SUNDAY, year, 11, 1)
 
+def iso_date_str(rd_date: int) -> str:
+    year, month, day = ymd_from_rd(rd_date)
+    return f"{year}-{month:02}-{day:02}"
 
 def utc_to_local(datetime: float, std_offset_hrs: int) -> float:
     std_local_datetime = datetime - std_offset_hrs / 24
