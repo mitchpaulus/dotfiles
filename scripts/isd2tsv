@@ -2715,8 +2715,8 @@ def main():
             idx += 2
 
         elif a == "--dfw": # Shortcut for my location
-            usaf = "724050"
-            wban = "13743"
+            usaf = "722590"
+            wban = "03927"
             idx += 1
 
         elif a == "--epw":
