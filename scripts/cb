@@ -8,4 +8,10 @@ USAGE: cb
 EOF
 exit 0
 fi
-powershell.exe Get-Clipboard | tr -d '\r' | sed -z '$ s/\n$//'
+
+if test -n "$WSL_DISTRO_NAME"; then
+    # WSL
+    powershell.exe Get-Clipboard | tr -d '\r' | sed -z '$ s/\n$//'
+else
+    xclip -o -selection clipboard
+fi
