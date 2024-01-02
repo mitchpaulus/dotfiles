@@ -152,3 +152,16 @@ Guideline 13:
     For utilities that use operands to represent files to be opened for either reading or writing, the '-' operand should be used to mean only standard input (or standard output when it is clear from context that an output file is being specified) or a file named -.
 Guideline 14:
     If an argument can be identified according to Guidelines 3 through 10 as an option, or as a group of options without option-arguments behind one '-' delimiter, then it should be treated as such.
+
+## Environment Variables
+
+The "environment" is a collection of variables that are inherited by a process.
+
+It is in the highest addresses of the memory layout of a process. <https://www.thegeekstuff.com/2012/03/linux-processes-memory-layout/>
+
+It is a list of `name=value` pairs, null-terminated strings.
+
+The child processes doesn't *have* to inherit the environment variables, but it is the default behavior.
+In the `execve` system call, the third argument is the environment variables.
+
+<https://learn.microsoft.com/en-us/windows/win32/procthread/environment-variables>.
