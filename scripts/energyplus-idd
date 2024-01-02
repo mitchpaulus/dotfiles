@@ -1,0 +1,13 @@
+#!/bin/sh
+
+content_json="$(curl "https://api.github.com/repos/NREL/EnergyPlus/contents/idd/versions" )"
+    # jq -r '.[] | .name' | sort -V | tail -n 1)"
+
+latest_version="$(printf %s "$content_json" | jq -r '.[] | .name' | sort -V | tail -n 1)"
+
+printf "Latest version: %s\n" "$latest_version" >&2
+
+# Print the contents of the latest version
+dl_url="$(printf %s "$content_json" | jq -r --arg latest_version "$latest_version" '.[] | select(.name == $latest_version) | .download_url')"
+
+curl "$dl_url"
