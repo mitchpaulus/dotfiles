@@ -17,6 +17,7 @@ ncdu
 neofetch
 parallel
 pwgen
+qpdf
 rmlint
 shellcheck
 taskwarrior
