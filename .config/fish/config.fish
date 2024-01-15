@@ -154,7 +154,7 @@ function fish_greeting
     end
     if command -v toggl >/dev/null 2>&1
         set toggl_response (toggl)
-        if test $toggl_response = $TOGGL_NOT_TRACKING
+        if test "$toggl_response" = "$TOGGL_NOT_TRACKING"
             printf '\e[48;2;200;0;0m%s\n' $toggl_response
             set_color normal
         else
