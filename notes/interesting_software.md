@@ -294,3 +294,7 @@ dot.set_toc()
 Hot new terminal multiplexer?
 
 ## [HVAC Rule of Thumb Calculator](https://www.engproguides.com/design-hvac-rule-of-thumb-calculator.html)
+
+## [Tarsnap](https://www.tarsnap.com/index.html)
+
+Nerd backup.
