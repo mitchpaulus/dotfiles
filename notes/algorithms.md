@@ -255,8 +255,7 @@ constant = (sum(y) - slope * sum(x)) / n
 
 ## ITP
 
-An Enhancement of the Bisection Method Average Performance Preserving Minmax Optimality
-Oliveira and Takahashi
+An Enhancement of the Bisection Method Average Performance Preserving Minmax Optimality Oliveira and Takahashi
 
 ## Binning
 

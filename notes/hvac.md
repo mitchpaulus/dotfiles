@@ -235,3 +235,8 @@ Benchmark value for heat rate is often 7,000 BTU/kWH ~ 50% conversion efficiency
 
 EER is output BTUs / input Wh. EER = 3.41214 * COP, COP = EER / 3.41214.
 EER = 12 * kW/ton, kW/ton = EER / 12.
+
+## WWR - Window to Wall Ratio, Window percentage
+
+WWR = 1 / (1 - Window Percentage)
+Window Percentage = 1 - 1 / WWR

@@ -1,5 +1,7 @@
 # GenOpt
 
+<https://simulationresearch.lbl.gov/GO/download/manual-3-1-1.pdf>
+
 Text file based optimization.
 
 3 files required:

@@ -218,9 +218,9 @@ Hierarchy of styles
 
 When formatting a text in a table, MS Word will do as follows:
 IRS = Internal Root Style.
- - Applying IRS
- - Applying Table style if it differs from IRS
- - Applying Paragraph style if it differs from IRS
+
+Starts with paragraph styling, then looks for any differences between it and base style, up until it gets to IRS.
+If none, then moves to table styling.
 
 You can change the IRS values by going to:
 
@@ -232,3 +232,10 @@ Manage Styles -> Set Defaults
 
 Numbering styling comes from the Page Number format for the given header.
 Can adjust using Insert -> Page Number -> Format Page Numbers.
+
+## If field code
+
+{ IF Expression1 Operator Expression2 TrueText FalseText }
+
+Expression2, TrueText, and FalseText must be in quotes.
+Enter nested fields using CTRL-F9.
