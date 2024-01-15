@@ -1,3 +1,9 @@
+' Typical keybindings:
+'  Alt-f: Figure caption
+'  Alt-t: Table caption
+'  Alt-r: Cross reference table ('r' one key left of 't', like 'd' is one key left of 'f')
+'  Alt-d: Cross reference figure
+
 Sub AutoFitTables()
 
     Dim tbl As Table
