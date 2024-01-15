@@ -6,8 +6,11 @@ if command -v java >/dev/null 2>&1; then
     if [ -f ~/.local/genopt/genopt.jar ]; then
         # Run GenOpt
         java -jar ~/.local/genopt/genopt.jar "$@"
+    elif [ -f ~/apps/genopt/genopt.jar ]; then
+        # Run GenOpt
+        java -jar ~/apps/genopt/genopt.jar "$@"
     else
-        echo "GenOpt is not installed at ~/.local/genopt/genopt.jar"
+        echo "GenOpt is not installed at ~/.local/genopt/genopt.jar or ~/apps/genopt/genopt.jar."
         exit 1
     fi
 else
