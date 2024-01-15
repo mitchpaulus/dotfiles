@@ -2775,17 +2775,26 @@ def help_text() -> str:
 
 Options:
     -h, --help: Show this help text
-    -u, --usaf: USAF code
-    -w, --wban: WBAN code
+    -u, --usaf: USAF code (6 digits, ex: 722590)
+    -w, --wban: WBAN code (5 digits, ex: 03927)
     -y, --year: Year
     -o, --offset: Standard offset in hours from UTC (ex: CST is -o -6)
     --dfw: Shortcut for my location
+    --iah: Shortcut for Houston
     --epw: Convert to epw
     --tsv: Convert to tsv
     --cc: Cloud coverage
     --fmt: Format
     --solar FILE: Solar data file, used in creating fmt
     --ave-dates DATEFILE: Get average outdoor air temperature for each period in DATEFILE, a whitespace separated file of ISO-dates (YYYY-MM-DD)
+
+
+Examples:
+
+    Get epw for DFW for 2019:
+    isd2tsv --dfw --year 2019 -o 6 --epw
+
+    isd2tsv --iah -o 6 --ip --ave-dates dates.txt
 """
 
 def parse_iso_date(date_str: str) -> int:
@@ -2874,6 +2883,11 @@ def main():
             wban = "03927"
             idx += 1
 
+        elif a == "--iah": # Shortcut for Houston
+            usaf = "722430"
+            wban = "12960"
+            idx += 1
+
         elif a == "--epw":
             epw = True
             idx += 1
@@ -2930,12 +2944,16 @@ def main():
         print("Error: no WBAN code given", file=sys.stderr)
         sys.exit(1)
 
-    if year is None:
+    if year is None and not average_temps_cmd:
         print("Error: no year given", file=sys.stderr)
         sys.exit(1)
 
     if epw:
         print(f"Converting to epw for year {year}", file=sys.stderr)
+        if offset is None:
+            print("Error: no offset given", file=sys.stderr)
+            sys.exit(1)
+
         lines = convert_to_epw(usaf, wban, year, offset)
         for line in lines:
             print(line)
