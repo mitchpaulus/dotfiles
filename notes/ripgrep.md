@@ -16,6 +16,7 @@ USAGE:
 -A, --after-context <NUM>
 -o, --only-matching
 -l, --files-with-matches
+-v, --invert-match
 --no-ignore : Remove .gitignore logic
 --hidden: Search hidden directories
 -uu: Normally the option to use when searching everywhere.

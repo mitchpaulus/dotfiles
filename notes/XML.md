@@ -44,4 +44,7 @@ tree = ET.parse(file)
 
 # Get the root element
 root = tree.getroot()
+
+for child in root:
+    child.find('element').text = 'new value'
 ```
