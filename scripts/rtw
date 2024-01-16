@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+# rtw: Remove trailing whitespace from files.
+import sys
+
+# Read just first line to determnine newline style.
+first_line = sys.stdin.readline()
+if first_line.endswith('\r\n'):
+    newline = '\r\n'
+else:
+    newline = '\n'
+
+try:
+    print(first_line.rstrip(), end=newline)
+    for line in sys.stdin:
+        print(line.rstrip(), end=newline)
+except BrokenPipeError:
+    sys.exit(0)
