@@ -21,5 +21,6 @@ qpdf
 rmlint
 shellcheck
 taskwarrior
+units
 unzip
 zip
