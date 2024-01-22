@@ -74,3 +74,14 @@ Sample Excel spreadsheet available for savings estimation:
 - Wall Insulation Elec Cooling Gas Htg
 - Wall Insulation Elec Cooling Htg
 - Window Solar Gain Control
+
+
+## Degradation Factor
+
+See email Wed 2024-01-03 8:53 AM
+
+20 years = 0.9319
+
+```
+AS_adj = (AS * (1 - (1-DF)^n)) / (n * DF) = (AS * (1 - (1 - 0.0075)^20)) / (20 * 0.0075) = 0.9319
+```
