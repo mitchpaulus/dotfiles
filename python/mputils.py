@@ -707,6 +707,36 @@ def to_md(rows: List[List[Any]]) -> str:
 
     return ''.join(output_rows)
 
+def to_md_simple(rows: List[List[Any]], header=True) -> str:
+    """Create a markdown table in 'simple' format."""
+    max_cols = max(len(row) for row in rows)
+
+    # Min width is 2
+    col_widths = [2] * max_cols
+
+    for row in rows:
+        for col, cell in enumerate(row):
+            col_widths[col] = max(col_widths[col], len(str(cell)) + 2)
+
+    output = []
+    if header:
+        # left justified, one space in between
+        padded_fields = [f'{str(cell).ljust(col_widths[col])}' for col, cell in enumerate(rows[0])]
+        output.append(" ".join(padded_fields) + "\n")
+
+    dashes_array = ['-' * col_width for col_width in col_widths]
+    header_dashes = " ".join(dashes_array)
+    output.append(header_dashes + "\n")
+
+    for row in rows:
+        # left justified, one space in between
+        padded_fields = [f'{str(cell).ljust(col_widths[col])}' for col, cell in enumerate(row)]
+        output.append(" ".join(padded_fields) + "\n")
+
+    output.append(header_dashes + "\n")
+    return ''.join(output)
+
+
 # Need a naive implementation of DBSCAN algorithm
 def dbscan(points: List[T1], distance_metric: Callable[[T1, T1], float], eps: float, min_pts: int) -> Tuple[List[List[T1]], List[T1]]:
     """
@@ -1513,3 +1543,27 @@ def first_index_gteq(list1, list2, projection_1 = None, projection_2 = None):
         index_1 += 1
 
     return output
+
+def format_number(number, sig_figs: int, remove_trailing_zeros=True):
+    try:
+        number = float(number)
+    except ValueError:
+        number = float(number.replace(",", ""))
+
+    if number == 0:
+        if sig_figs > 1:
+            return "0." + "0" * (sig_figs - 1)
+        else:
+            return "0"
+
+    num_decimals = sig_figs - math.floor(math.log10(abs(number))) - 1
+
+    if num_decimals > 0:
+        format_str = f"{{:,.{num_decimals}f}}"
+        if remove_trailing_zeros:
+            return format_str.format(number).rstrip("0").rstrip(".")
+        else:
+            return format_str.format(number)
+    else:
+        format_str = "{:,.0f}"
+        return format_str.format(number)
