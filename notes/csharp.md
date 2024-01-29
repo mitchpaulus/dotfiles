@@ -45,22 +45,14 @@ TimeZoneInfo tzInfo = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time
 ![From SO](https://stackoverflow.com/a/6873727/5932184)
 
 ```c#
-using (StringReader sr = new StringReader(text)) {
-    string line;
-    while ((line = sr.ReadLine()) != null) {
-        // do something
-    }
-}
-// or
-public static IEnumerable<string> SplitLines(this string input)
-{
-    using StringReader sr = new StringReader(input);
-    string line;
-    while ((line = sr.ReadLine()) != null)
+    public static IEnumerable<string> SplitLines(this string text)
     {
-        yield return line;
+        using StringReader sr = new StringReader(text);
+        while (sr.ReadLine() is { } line)
+        {
+            yield return line;
+        }
     }
-}
 ```
 
 ## Emailing

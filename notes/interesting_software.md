@@ -298,3 +298,11 @@ Hot new terminal multiplexer?
 ## [Tarsnap](https://www.tarsnap.com/index.html)
 
 Nerd backup.
+
+## [Kagi search](https://kagi.com/)
+
+Paid search alternative to Google.
+
+## [wkhtmltopdf](https://wkhtmltopdf.org/index.html)
+
+Good HTML to PDF converter.

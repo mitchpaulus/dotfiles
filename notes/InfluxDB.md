@@ -78,6 +78,14 @@ Example CLI:
 
 ```sh
 influx write --host HOST --token <token> --bucket 'Bucket Name' --org-id '1234556' -p s -f data.lp --format lp
+influx write --host http://localhost:8086 --token <token> --bucket 'Bucket Name' --org-id '1234556' -p s -f data.lp --format lp
+```
+
+Basic line protocol:
+
+```
+measurement value=<VALUE> <UNIX_TIMESTAMP>
+measurement value=10.2 1625097600
 ```
 
 ## Pricing Cloud
