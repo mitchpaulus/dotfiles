@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+
+import sys
+
+def get_schedule(idf_filepath, schedule_name):
+    clean_lines = []
+
+    with open(idf_filepath) as file:
+        for line in file:
+            # comments start with !
+            clean_lines.append(line.split("!")[0].strip())
+
+    # Concatenate and split on ;
+    all_objects = ''.join(clean_lines).split(';')
+    all_objects = [o.split(',') for o in all_objects]
+
+    # Find first schedule matching name, case insensitive
+    for obj in all_objects:
+        if obj[0].lower().strip() == 'Schedule:Day:Interval'.lower():
+            if obj[1].lower().strip() == schedule_name.lower().strip():
+                return [field.strip() for field in obj]
+
+    return None
+
+
+def main():
+    if len(sys.argv) != 3:
+        print(f"2 arguments required. {len(sys.argv)} given.")
+        return
+
+    idf_filepath = sys.argv[1]
+    schedule_name = sys.argv[2]
+
+    schedule = get_schedule(idf_filepath, schedule_name)
+
+    if schedule is None:
+        print("Schedule not found")
+        return
+
+    for field in schedule:
+        print(field)
+
+
+if __name__ == "__main__":
+    main()
