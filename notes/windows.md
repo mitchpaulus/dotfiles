@@ -27,11 +27,14 @@ String | Example Path
 %USERPROFILE%       | C:\Users\username
 %windir%            | C:\Windows
 
-The `Roaming` folder can follow the user on different computers within
-the same domain. The `Local` folder is local to the machine.
-
+The `Roaming` folder can follow the user on different computers within the same domain.
+The `Local` folder is local to the machine.
 
 HomeDrive and HomePath not found.
+
+Also note that things like `LOCALAPPDATA` can be redirected by a Windows Store application.
+For example, when trying to write to `LOCALAPPDATA` using the Windows Store Python, it wrote to:
+`C:\Users\mpaulus\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\Local\facilitygrid`.
 
 ## C:\Program Files vs C:\Program Files (x86)
 
