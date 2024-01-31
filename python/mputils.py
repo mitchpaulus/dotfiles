@@ -6,6 +6,7 @@ import sys
 import subprocess
 import hashlib
 import datetime
+import csv
 from pathlib import Path
 
 T1 = TypeVar('T1')
@@ -134,6 +135,20 @@ def read_tsv_standard_input(delim: str = "\t", skip: int = 0) -> List[List[str]]
     Read a tsv file from standard input, returning list of list of strings.
     """
     return [line.split(delim) for line in sys.stdin.read().splitlines()][skip:]
+
+def read_csv(filepath: str, skip: int = 0) -> List[List[str]]:
+    # Open file readonly, as UTF-8
+    with open(filepath, encoding="utf-8", mode="r") as file:
+        csv_reader = csv.reader(file)
+        # Skip the first 'skip' lines
+        for _ in range(skip):
+            next(csv_reader)
+
+        data = []
+        while (row := next(csv_reader, None)) is not None:
+            data.append(row)
+
+    return data
 
 def convert_to_int_if_possible(s: str) -> Union[int, str]:
     """
