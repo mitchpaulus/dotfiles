@@ -306,3 +306,7 @@ Paid search alternative to Google.
 ## [wkhtmltopdf](https://wkhtmltopdf.org/index.html)
 
 Good HTML to PDF converter.
+
+[Espanso](https://espanso.org/)
+
+Text expander.

@@ -14,3 +14,10 @@ I like the Tetens formulation:
 P = 0.61078 * exp(17.27 * T / (T + 237.3))
 
 where T is in °C and P is in kPa.
+
+
+T (F) P (psia)
+32    0.088649
+50    0.17813
+75    0.43015
+100   0.95044
