@@ -2,6 +2,8 @@
 # If a build of Neovim from source is found, use that.
 if test -f "$REPOS"/neovim/build/bin/nvim; then
     env VIMRUNTIME="$REPOS"/neovim/runtime "$REPOS"/neovim/build/bin/nvim "$@"
+elif test -f /opt/nvim-linux64/bin/nvim; then
+    /opt/nvim-linux64/bin/nvim "$@"
 elif test -f ~/.local/bin/nvim; then
     ~/.local/bin/nvim "$@"
 elif test -f /usr/bin/nvim; then

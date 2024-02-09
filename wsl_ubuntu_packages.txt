@@ -1,5 +1,5 @@
 bash-completion
-build-essential
+build-essential 
 cmake
 cmatrix
 curl
@@ -11,6 +11,15 @@ git
 gnuplot
 imagemagick
 jq
+libbz2-dev
+libffi-dev
+liblzma-dev
+libncursesw5-dev
+libreadline-dev
+libsqlite3-dev
+libssl-dev
+libxml2-dev
+libxmlsec1-dev
 make
 maxima
 ncdu
@@ -21,6 +30,9 @@ qpdf
 rmlint
 shellcheck
 taskwarrior
+tk-dev
 units
 unzip
+xz-utils
 zip
+zlib1g-dev

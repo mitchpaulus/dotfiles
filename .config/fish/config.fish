@@ -43,7 +43,7 @@ set -g H /mnt/c/Users/mpaulus
 # set -gxp INFOPATH "$TEXLIVE_INSTALL_PREFIX"/2021/texmf-dist/doc/man
 
 # Search for ANTLR stuff. Recommended location is /usr/local/lib/antlr-x.x.x-complete.jar. Sort and get latest.
-find /usr/local/lib $HOME/.local/lib -name 'antlr-*-complete.jar' | sort -V | tail -n 1 | while read -l FIND_ANTLR_JAR
+find /usr/local/lib $HOME/.local/lib -name 'antlr-*-complete.jar' 2>/dev/null | sort -V | tail -n 1 | while read -l FIND_ANTLR_JAR
     set -gx ANTLR_JAR $FIND_ANTLR_JAR
 end
 
