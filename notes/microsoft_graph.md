@@ -91,3 +91,8 @@ GET /users/{id | userPrincipalName}/calendar/calendarView?startDateTime={start_d
 ## Share Link
 
 <https://learn.microsoft.com/en-us/graph/api/driveitem-createlink?view=graph-rest-1.0&tabs=http>
+
+
+## API Reference
+
+<https://learn.microsoft.com/en-us/graph/api/overview?view=graph-rest-1.0&preserve-view=true>

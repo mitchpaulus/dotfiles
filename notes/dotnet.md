@@ -30,6 +30,9 @@ sudo touch /etc/apt/preferences.d/dotnet.pref
 # Package: *
 # Pin: origin "packages.microsoft.com"
 # Pin-Priority: 1001
+printf "Package: *\nPin: origin \"packages.microsoft.com\"\nPin-Priority: 1001\n" | sudo tee /etc/apt/preferences.d/dotnet.pref
+
+# Do PPA installation stuff below.
 
 sudo apt update
 sudo apt install dotnet-sdk-6.0
@@ -37,3 +40,21 @@ sudo apt install dotnet-sdk-6.0
 
 Similar steps described here:
 <https://learn.microsoft.com/en-us/dotnet/core/install/linux-package-mixup?pivots=os-linux-ubuntu#i-need-a-version-of-net-that-isnt-provided-by-my-linux-distribution>
+
+
+## Installation
+
+```
+# XXXXX should be 22.04 etc.
+# Download Microsoft signing key and repository
+wget https://packages.microsoft.com/config/ubuntu/XXXXXXXXXXXXX/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+
+# Install Microsoft signing key and repository
+sudo dpkg -i packages-microsoft-prod.deb
+
+# Clean up
+rm packages-microsoft-prod.deb
+
+# Update packages
+sudo apt update
+```
