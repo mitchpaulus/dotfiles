@@ -42,6 +42,9 @@ map yt copy-contents
 map f mark-load
 map ; mark-load
 
+cmd binlink % binlink "$f" && printf "Successfully linked %s\n" "$f"
+map bl binlink
+
 cmd copy-filename & basename "$f" | tr -d '\n' | clip
 cmd copy-fullpath & printf '%s' "$f" | clip
 cmd copy-contents &clip < "$f"
