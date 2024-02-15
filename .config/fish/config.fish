@@ -155,13 +155,15 @@ function fish_greeting
     if command -v toggl >/dev/null 2>&1
         set toggl_response (toggl)
         if test "$toggl_response" = "$TOGGL_NOT_TRACKING"
-            printf '\e[48;2;200;0;0m%s\n' $toggl_response
+            set_color C80000
+            printf '%s\n' $toggl_response
             set_color normal
         else
             printf '%s\n' $toggl_response
         end
     else
-        printf '\e[48;2;200;0;0mNo toggl command found..\n'
+        set_color C80000
+        printf 'No toggl command found..\n'
         set_color normal
     end
 end
@@ -175,7 +177,7 @@ end
 if test -n "$WT_SESSION"
     # On a change of PWD, store the PWD using the 9;9 escape sequence
     function windows-terminal --on-variable PWD
-        printf \e]9\;9\;%s\e\\ (wslpath -m "$PWD")
+        printf "\e]9;9;%s\e\\" (wslpath -w "$PWD")
     end
 end
 

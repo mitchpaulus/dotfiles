@@ -1,0 +1,3 @@
+#!/bin/sh
+
+idf2tsv "$1" | grep -i '^light' | awk 'BEGIN {FS=OFS="\t" } { print $2, sprintf("%.2f",  $7 / 10.76391) }'
