@@ -39,6 +39,8 @@ Make sure the java classes have been compiled.
 - Extract to desired directory
     - Installed to `/usr/java/jdk-14.0.2/`
     - Added `/usr/java/jdk-14.0.2/bin` to `PATH`
+    - Dotfiles also now search for `~/.local/jdk-XX.X.X/`
+
 
 Followed instructions for Antlr
 
@@ -46,8 +48,7 @@ Followed instructions for Antlr
 ## C\#
 
 - Best directions for getting the required runtime is on the [downloads page](https://www.antlr.org/download.html).
-  There they specify that you need the `Antlr4.Runtime.Standard`
-  package from NuGet.
+  There they specify that you need the `Antlr4.Runtime.Standard` package from NuGet.
 
   ```sh
   dotnet add package 'Antlr4.Runtime.Standard'

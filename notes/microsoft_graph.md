@@ -96,3 +96,9 @@ GET /users/{id | userPrincipalName}/calendar/calendarView?startDateTime={start_d
 ## API Reference
 
 <https://learn.microsoft.com/en-us/graph/api/overview?view=graph-rest-1.0&preserve-view=true>
+
+## Batching
+
+<https://learn.microsoft.com/en-us/graph/json-batching>
+<https://learn.microsoft.com/en-us/onedrive/developer/rest-api/concepts/scan-guidance?view=odsp-graph-online>
+<https://learn.microsoft.com/en-us/graph/api/driveitem-delta?view=graph-rest-1.0&tabs=http>
