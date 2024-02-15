@@ -85,3 +85,41 @@ With `wsl.conf` and contents installed to `etc/wsl.conf`:
 [automount]
 options=metadata
 ```
+
+## Issue with Current Directory
+
+In Windows terminal, right now, if the profile is started with `ubuntu.exe` instead of `wsl.exe -d Ubuntu`,
+the duplicate pane functionality is broken.
+
+
+See:
+
+- <https://github.com/microsoft/terminal/issues/12961>
+
+- <https://github.com/microsoft/terminal/issues/3158>
+- <https://github.com/microsoft/terminal/issues/3158#issuecomment-1129320558>
+- <https://github.com/microsoft/terminal/issues/3158#issuecomment-1129340025>
+- <https://github.com/microsoft/terminal/issues/3158#issuecomment-1278091870>
+- <https://github.com/microsoft/terminal/issues/3158#issuecomment-1374053822>
+
+```json
+{
+    "backgroundImage": "C:\\Users\\mpaulus\\OneDrive - Command Commissioning\\terminal\\forest.jpg",
+    "backgroundImageOpacity": 0.08,
+    "colorScheme": "Mitch",
+    "commandline": "C:\\Windows\\system32\\wsl.exe -d Ubuntu",
+    "cursorShape": "filledBox",
+    "font":
+    {
+        "face": "Iosevka Term",
+        "size": 12.0
+    },
+    "guid": "{7dd67b86-99c0-40ad-9b68-e1d3a4abb474}",
+    "hidden": false,
+    "icon": "https://assets.ubuntu.com/v1/49a1a858-favicon-32x32.png",
+    "name": "Ubuntu (Good)",
+    "startingDirectory": "~",
+    "tabTitle": "Ubuntu",
+    "useAtlasEngine": true
+}
+```

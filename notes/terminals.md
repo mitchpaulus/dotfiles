@@ -133,3 +133,17 @@ See:
 ```
 
 <https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html#writing-a-command-line>
+
+### OSCs
+
+```
+printf '\033]8;;http://example.com\033\\This is a link\033]8;;\033\\\n'
+
+```
+
+Set progress status
+```
+ESC ] 9 ; 4 ; [0 thru 4] ; [0-100] ST
+```
+
+`ST` is usually either bell ('\a') or escape followed by a backslash ('\033\\').
