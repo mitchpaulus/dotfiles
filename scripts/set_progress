@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# If first argument is a integer between 0 and 100, use that, otherwise do nothing
+if [ "$1" -ge 0 ] && [ "$1" -le 100 ]; then
+    printf "\e]9;4;1;%s\e\\" "$1"
+fi
