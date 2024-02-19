@@ -1,0 +1,6 @@
+#!/bin/sh
+binlink /mnt/c/Windows/System32/clip.exe
+binlink /mnt/c/Windows/System32/wsl.exe
+binlink /mnt/c/Windows/System32/where.exe
+binlink /mnt/c/Windows/System32/cmd.exe
+binlink /mnt/c/Windows/explorer.exe
