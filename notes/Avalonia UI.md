@@ -59,3 +59,9 @@ private void SelectionModelOnSelectionChanged(object? sender, SelectionModelSele
 ## Commands
 
 [help](https://docs.avaloniaui.net/docs/0.10.x/data-binding/binding-to-commands)
+
+## New Window
+
+```csharp
+dotnet new avalonia.window -n InfluxDialog
+```

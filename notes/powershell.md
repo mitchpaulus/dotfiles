@@ -29,3 +29,19 @@ dir -> Get-ChildItem
 Get-Process | Select-Object -Property Name, Id, Path
 Get-ChildItem | Select-Object -ExpandProperty Name  # Needed to get the actual value of the property, not a new object with the property
 ```
+
+# Locations
+
+<https://www.powershelladmin.com/wiki/PowerShell_Executables_File_System_Locations.php>
+
+32-bit (x86) PowerShell executable	%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe
+64-bit (x64) Powershell executable	%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe
+32-bit (x86) Powershell ISE executable	%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell_ise.exe
+64-bit (x64) Powershell ISE executable	%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell_ise.exe
+
+PowerShell core:
+
+Get-Command pwsh.exe
+
+PS C:\> (Get-Command -Name pwsh).Path
+C:\Program Files\PowerShell\6\pwsh.exe
