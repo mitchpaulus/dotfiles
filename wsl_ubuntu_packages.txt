@@ -1,5 +1,5 @@
 bash-completion
-build-essential 
+build-essential
 cmake
 cmatrix
 curl
@@ -27,6 +27,7 @@ neofetch
 parallel
 pwgen
 qpdf
+ripgrep
 rmlint
 shellcheck
 taskwarrior
