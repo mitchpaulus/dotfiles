@@ -14,7 +14,6 @@ def adjust_bookmarks(pdf_stream, title):
 
     bookmarks = doc.get_toc()
 
-
     # Update the TOC with adjusted bookmarks
     doc.set_toc(bookmarks)
     # Retrieve all existing bookmarks
@@ -24,7 +23,7 @@ def adjust_bookmarks(pdf_stream, title):
     for i in range(len(bookmarks)):
         bookmarks[i][0] += 1  # Increment the level by 1
 
-    bookmark = [1, title, 1, { }]
+    bookmark = [1, title, 1]
 
     # Add the new bookmark to the beginning of the list
     bookmarks.insert(0, bookmark)
@@ -42,7 +41,7 @@ def adjust_bookmarks(pdf_stream, title):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: title_pdf_bookmark <title>")
+        print("Usage: title_pdf_bookmark <title> < input.pdf > output.pdf")
         print(f"Received {len(sys.argv)} arguments")
         for i in range(len(sys.argv)):
             print(f"Argument {i}: {sys.argv[i]}")

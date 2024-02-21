@@ -1,0 +1,52 @@
+#!/usr/bin/env python3
+
+# USAGE
+# printf '1\tName\t2\n' | set_bookmarks pdf_file.pdf
+import sys
+import fitz
+
+def set_bookmarks(pdf_file):
+    bookmarks = []
+
+    prev_level = 1
+
+    line_num = 1
+    for line in sys.stdin:
+        level_one_based, title, page_one_based = line.strip().split('\t')
+
+        try:
+            level_one_based = int(level_one_based)
+        except ValueError:
+            raise ValueError(f'Invalid level: {level_one_based}')
+
+        try:
+            page_one_based = int(page_one_based)
+        except ValueError:
+            raise ValueError(f'Invalid page: {page_one_based}')
+
+        if level_one_based < 1:
+            raise ValueError(f'Invalid level on line {line_num}: {level_one_based}')
+
+        if page_one_based < 0:
+            raise ValueError(f'Invalid page on line {line_num}: {page_one_based}')
+
+        if level_one_based > prev_level + 1:
+            raise ValueError(f'Invalid level on line {line_num}: {level_one_based}, previous level: {prev_level}')
+
+        bookmarks.append([level_one_based, title, page_one_based])
+
+
+    if len(bookmarks) == 0:
+        raise ValueError('No bookmarks found')
+
+    doc = fitz.open(pdf_file)
+    doc.set_toc(bookmarks)
+    doc.saveIncr()
+    doc.close()
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print(f'Usage: {sys.argv[0]} pdf_file.pdf')
+        sys.exit(1)
+
+    set_bookmarks(sys.argv[1])

@@ -1,0 +1,11 @@
+#!/usr/bin/env python3
+
+import sys
+import fitz
+
+if __name__ == "__main__":
+    if len(sys.argv) == 1:
+        doc = fitz.open(stream=sys.stdin.buffer.read())
+        toc = doc.get_toc()
+        for item in toc:
+            print(f"{item[0]}\t{item[1]}\t{item[2]}")

@@ -1,0 +1,55 @@
+#!/usr/bin/env python3
+
+import fitz  # Import the PyMuPDF library
+import sys
+import os
+
+def merge_pdfs_with_bookmarks(pdf_paths, output_path):
+    merged_document = fitz.open()  # Create a new empty PDF document
+
+    page_offset = 0  # Keep track of the number of pages to adjust bookmark page numbers
+    bookmarks = []  # List to hold all bookmarks
+
+    # Loop through all provided PDF files
+    for pdf_path in pdf_paths:
+        with fitz.open(pdf_path) as doc:
+            # Retrieve the current document's bookmarks (if any)
+            current_bookmarks = doc.get_toc(simple=False)
+            # Adjust the current document's bookmark page numbers and add to the main list
+            for bkmk in current_bookmarks:
+                # Increment the page number by the current offset
+                bkmk[2] += page_offset
+                bkmk[3]["page"] += page_offset
+                bookmarks.append(bkmk)
+
+            # Update the page offset
+            page_offset += doc.page_count
+
+            # Append the document
+            merged_document.insert_pdf(doc, annots=True)
+
+
+    merged_document.set_toc(bookmarks)
+    # Save the merged document
+    merged_document.save(output_path)
+    merged_document.close()
+
+
+if __name__ == "__main__":
+    if len(sys.argv) < 3:
+        print("Usage: pdfmerge.py <output file> <input files...>")
+        sys.exit(1)
+
+
+    # First argument is the output file
+    output_file = sys.argv[1]
+
+    if output_file.strip() == "":
+        print("Output file cannot be empty")
+        sys.exit(1)
+
+    # All other arguments are input files
+    input_files = sys.argv[2:]
+
+    # Merge the PDFs
+    merge_pdfs_with_bookmarks(input_files, output_file)

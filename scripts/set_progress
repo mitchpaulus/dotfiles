@@ -1,6 +1,10 @@
 #!/bin/sh
 
-# If first argument is a integer between 0 and 100, use that, otherwise do nothing
-if [ "$1" -ge 0 ] && [ "$1" -le 100 ]; then
+# If first argument is a integer between 0 and 100, use that.
+# If integer outside of 1 to 99, reset progress.
+# Else, do nothing
+if [ "$1" -gt 0 ] && [ "$1" -lt 100 ]; then
     printf "\e]9;4;1;%s\e\\" "$1"
+elif [ "$1" -le 0 ] || [ "$1" -ge 100 ]; then
+    printf "\e]9;4;0;0\e\\"
 fi
