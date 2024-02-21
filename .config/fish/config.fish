@@ -19,6 +19,10 @@ end
 
 set -gx MPNOTES $DOTFILES/notes
 
+if command -q wslpath; and test -d (wslpath -u "C:\\Users\\mpaulus\\tmp")
+    set -gx WINTMP (wslpath -u "C:\\Users\\mpaulus\\tmp")
+end
+
 set -gx LOCALBIN ~/.local/bin
 set -gx FILEMANAGER lf
 
