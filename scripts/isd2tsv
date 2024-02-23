@@ -2779,6 +2779,8 @@ Options:
     -w, --wban: WBAN code (5 digits, ex: 03927)
     -y, --year: Year
     -o, --offset: Standard offset in hours from UTC (ex: CST is -o -6)
+    --hourly: Get data in interpolated hourly format
+    --ip: Convert to imperial units
     --dfw: Shortcut for my location
     --iah: Shortcut for Houston
     --epw: Convert to epw
@@ -2795,6 +2797,22 @@ Examples:
     isd2tsv --dfw --year 2019 -o 6 --epw
 
     isd2tsv --iah -o 6 --ip --ave-dates dates.txt
+
+Formats:
+
+    Hourly columns:
+        1: Year
+        2: Month
+        3: Day
+        4: Hour (0-23)
+        5: Minute (0-59)
+        6: Dry-bulb temperature (°C/°F)
+        7: Dew-point temperature (°C/°F)
+        8: Relative humidity (%)
+        9: Atmospheric pressure (Pa/psi)
+        10: Wind direction (°)
+        11: Wind speed (m/s or mph)
+        12: Total cloud cover (0-10)
 """
 
 def parse_iso_date(date_str: str) -> int:
