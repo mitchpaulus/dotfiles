@@ -1,3 +1,4 @@
 pyright
 vim-language-server
 bash-language-server
+awk-language-server
