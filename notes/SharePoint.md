@@ -19,3 +19,9 @@ https://graph.microsoft.com/v1.0/sites/root/drives
 
 
 # OD Open Link
+
+## View Storage Size Usage SharePoint
+
+Add the following to the end of the base URL of the site:
+
+`_layouts/15/storman.aspx`

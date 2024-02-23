@@ -7,4 +7,10 @@ parallel [options] [command [arguments]] ( ::: arguments | :::+ arguments | ::::
 {/}: Basename (Filename without dir)
 {//}: Directory name
 {/.}: Basename without extension
+
+--colsep: Column separator, then can use {1} {2} {3} ... to refer to each column
+--colsep '\t' works
+
+--halt now,fail=1: Stop on first error
+--progress
 ```

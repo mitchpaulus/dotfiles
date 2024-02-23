@@ -102,3 +102,8 @@ GET /users/{id | userPrincipalName}/calendar/calendarView?startDateTime={start_d
 <https://learn.microsoft.com/en-us/graph/json-batching>
 <https://learn.microsoft.com/en-us/onedrive/developer/rest-api/concepts/scan-guidance?view=odsp-graph-online>
 <https://learn.microsoft.com/en-us/graph/api/driveitem-delta?view=graph-rest-1.0&tabs=http>
+
+## System drives/list
+
+Include the 'system' facet in the 'select'.
+<https://stackoverflow.com/questions/47562127/can-no-longer-find-sharepoint-site-assets-list-via-graph-api/47563009#47563009>
