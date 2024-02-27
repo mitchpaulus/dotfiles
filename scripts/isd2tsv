@@ -2794,9 +2794,11 @@ Options:
     -y, --year: Year
     -o, --offset: Standard offset in hours from UTC (ex: CST is -o -6)
     --hourly: Get data in interpolated hourly format
+    --header: Add header to output (only for hourly output currently)
     --ip: Convert to imperial units
-    --dfw: Shortcut for my location
-    --iah: Shortcut for Houston
+    --dfw: Shortcut for my location (DFW airport)
+    --iah: Shortcut for Houston (IAH airport)
+    --hou: Shortcut for Houston (HOU airport)
     --epw: Convert to epw
     --tsv: Convert to tsv
     --cc: Cloud coverage
@@ -2915,9 +2917,14 @@ def main():
             wban = "03927"
             idx += 1
 
-        elif a == "--iah": # Shortcut for Houston
+        elif a == "--iah": # Shortcut for Houston (IAH George Bush)
             usaf = "722430"
             wban = "12960"
+            idx += 1
+
+        elif a == "--hou": # Shortcut for Houston (HOU Hobby)
+            usaf = "722440"
+            wban = "12918"
             idx += 1
 
         elif a == "--epw":
