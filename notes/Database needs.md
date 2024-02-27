@@ -38,3 +38,5 @@ Index by day
 Then run length and dictionary encode both the time stamps and the string values.
 
 Keep everything as strings.
+
+Typical file system block size: 4096 bytes

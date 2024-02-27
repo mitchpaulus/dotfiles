@@ -183,3 +183,7 @@ C:\Windows\System32\where.exe
 C:\Windows\System32\wsl.exe
 C:\Windows\explorer.exe
 ```
+
+## View Programs Holding Drive
+
+Resource Monitor -> CPU -> Handles -> Search for drive like 'E:\'
