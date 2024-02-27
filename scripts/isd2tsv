@@ -2314,6 +2314,11 @@ def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, ds
     lines = []
 
     for y in years:
+        # Check if year is later than current. If so, skip
+        if y > datetime.datetime.now().year:
+            print(f"Skipping year {y} as it is in the future", file=sys.stderr)
+            continue
+
         print(f"Downloading {y}", file=sys.stderr)
 
         # Check for cached file information from /tmp/isd_cache/cache.txt
