@@ -77,6 +77,9 @@ else
     set -gx JAVA_HOME /usr/local/jdk-17.0.2/
 end
 
+if not contains $REPOS/xlim/lib $XLIMPATH
+    set -gxp XLIMPATH $REPOS/xlim/lib
+end
 
 # Required for Haxall - See https://github.com/haxall/haxall
 set -gx FAN_BUILD_JDKHOME "$JAVA_HOME"
