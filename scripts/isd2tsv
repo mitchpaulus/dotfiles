@@ -1124,6 +1124,15 @@ class IsdRecord:
                 self.sky_condition_observation_quality_high_cloud_genus_code = self.additional_data[idx + 25:idx + 26]
                 idx += 26
 
+            elif code.startswith("GK1"):
+                # SUNSHINE-OBSERVATION identifier
+                # fields are 3 1 = 4
+                # SUNSHINE-OBSERVATION percent of possible sunshine quantity
+                self.sunshine_observation_percent_of_possible_sunshine_quantity = self.additional_data[idx + 3:idx + 6]
+                # SUNSHINE-OBSERVATION percent of possible sunshine quality code
+                self.sunshine_observation_percent_of_possible_sunshine_quality_code = self.additional_data[idx + 6:idx + 7]
+                idx += 7
+
             elif code.startswith("KA1"):
                 # Extreme air temperature, fields 3 1 5 1 = 10
                 # EXTREME-AIR-TEMPERATURE period quantity
