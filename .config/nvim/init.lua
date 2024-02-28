@@ -554,6 +554,9 @@ end
 
 vim.o.nrformats = 'bin,hex,alpha'
 
+-- Remove 'r' and 'o' from formatoptions
+vim.o.formatoptions = vim.o.formatoptions:gsub('[ro]', '')
+
 -- Modern terminals are great am i right?
 vim.o.termguicolors = true
 
@@ -741,6 +744,9 @@ filetype_autocmds_id = vim.api.nvim_create_augroup('filetype_autocmds', { clear 
 local function addToFiletypeAugroup(pattern, command)
     vim.api.nvim_create_autocmd('FileType', { pattern = pattern, group = filetype_autocmds_id, command = command })
 end
+
+-- Remove 'r' and 'o' from formatoptions
+vim.api.nvim_create_autocmd('FileType', { pattern = 'sh', group = filetype_autocmds_id, command = 'setlocal formatoptions-=r formatoptions-=o' })
 
 local function set_xlim_makeprg()
     vim.api.nvim_buf_set_option(0, 'makeprg', 'xlim "%"')
