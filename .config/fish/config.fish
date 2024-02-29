@@ -326,6 +326,8 @@ abbr -a rd 'nvim README.md'
 # 'Last Vim' - Awesome alias from: https://liam.rs/posts/From-bash-to-vim-and-back/
 abbr -a lv 'nvim -c "normal \'0" -c bd1'
 
+abbr -a pwgen 'pwgen -cnysB -r \'`#<>[]{};\' 14 1'
+
 # Git shortcuts
 if command -v git >/dev/null 2>&1
     abbr -a a 'git add'
