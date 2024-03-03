@@ -373,7 +373,9 @@ for _, cmd in ipairs(insertLikeCmds) do
     vim.api.nvim_set_keymap("n", cmd, "':<C-u>checktime<CR>' . (v:count > 0 ? v:count : '') . '" .. cmd .. "'", { noremap = true, silent = true, expr = true })
 end
 
-vim.api.nvim_set_keymap("n", '<leader>g', ':%s/',    { noremap = true, silent = false })
+vim.api.nvim_set_keymap("n", '<leader>gs', ':%s/',    { noremap = true, silent = false })
+vim.api.nvim_set_keymap("n", '<leader>ge', ':Copilot enable<CR>',    { noremap = true, silent = false })
+vim.api.nvim_set_keymap("n", '<leader>gd', ':Copilot disable<CR>',    { noremap = true, silent = false })
 vim.api.nvim_set_keymap("n", '<leader>r', ':read! ', { noremap = true, silent = false })
 
 vim.api.nvim_set_keymap("t", '<C-^>', '<Cmd>execute "norm \\<C-^>"<CR>', { noremap = true, silent = true })
@@ -401,6 +403,9 @@ insertModeNoRecurseMappings = {
     { 'jf', '<esc>' },
     { 'Jf', '<esc>' },
     { 'JF', '<esc>' },
+    { 'j;', '<Plug>(copilot-suggest)' },
+    { 'jl', '<Plug>(copilot-accept-line)' },
+    { 'jk', '<Plug>(copilot-accept-word)' },
     { '<C-BS>', '<C-W>' },
     { '<c-e>', '<c-o>$' },
     { '<c-a>', '<c-o>^' },
