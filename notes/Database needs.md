@@ -28,8 +28,7 @@ Minutes in a year: 525,600
 
 5 minutes data = 288/day, 105,120/year
 
-10,000 trends @ 5 minutes = 1,051,200,000
-
+10,000 trends @ 5 minutes = 1,051,200,000 / year
 
 1 Gb    = 1,073,741,824 bytes
 
