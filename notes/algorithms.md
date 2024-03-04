@@ -274,3 +274,9 @@ for bin_num in sorted(bins.keys()):
     print(line, end="\n")
 
 ```
+
+## Interpolation
+
+- Assume sorted data
+- Track index of last value less than or equal to target
+- Loop over gridded interpolation data

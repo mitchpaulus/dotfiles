@@ -25,3 +25,12 @@ https://graph.microsoft.com/v1.0/sites/root/drives
 Add the following to the end of the base URL of the site:
 
 `_layouts/15/storman.aspx`
+
+## Versioning Settings
+
+`_layouts/15/LstSetng.aspx?List=%7B73B91133%2DA627%2D4F69%2D9847%2D2AF85ABB878D%7D`
+
+
+[List vs Doc Library](https://sharepointmaven.com/lists-vs-libraries-in-sharepoint-online/)
+
+Doc library is special subset of lists.
