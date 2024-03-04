@@ -1,3 +1,4 @@
+aspell
 bash-completion
 build-essential
 cmake
