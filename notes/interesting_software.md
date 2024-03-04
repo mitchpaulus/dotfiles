@@ -307,6 +307,10 @@ Paid search alternative to Google.
 
 Good HTML to PDF converter.
 
-[Espanso](https://espanso.org/)
+## [Espanso](https://espanso.org/)
 
 Text expander.
+
+## [Adelie](https://100r.co/site/adelie.html)
+
+Slideshows
