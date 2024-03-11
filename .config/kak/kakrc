@@ -6,3 +6,7 @@ hook global InsertChar f %{ try %{
   exec -draft hH <a-k>jf<ret> d
   exec <esc>
 }}
+
+map global normal <c-l> <a-l>
+map global normal <c-h> <a-h>
+
