@@ -28,8 +28,38 @@ x: expand selections to contain full lines (including end-of-lines)
 y: yank selections
 z: ??
 
+A: enter insert mode at each selection end line end
+B: Extend 'b' left.
+
+%: select whole buffer
+;: reduce selections to their cursor
+,: clear selections, select the last selection
+
+ALT + a: enter outer text object selection mode
+ALT + i: enter inner text object selection mode
+ALT + .: repeat last object or f/t selection command.
+
 ## Regex
 
 ```
 (?i) # case insensitive
+```
+
+## Scopes:
+
+- global, buffer, window
+
+## Mapping
+
+```
+map [-docstring 'doc string'] <scope> <mode> <key> <keys>
+<scope> = global | buffer | window
+<mode> = insert | normal | prompt | user | goto | view | object
+```
+
+## Highlighters
+
+```
+add-highlighter [-override] <scope>/[path]/[name] <type> <parameters>..
+<scope> = global | buffer | window | shared
 ```

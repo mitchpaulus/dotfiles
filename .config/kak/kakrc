@@ -1,12 +1,22 @@
 map global insert <c-w> -docstring 'delete previous word' %{<esc>bdi}
 
-# exit insert mode with jk
+# exit insert mode with jk. Another sentence.
 # See: https://www.reddit.com/r/kakoune/comments/grlu0s/comment/frzp6g9/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
 hook global InsertChar f %{ try %{
   exec -draft hH <a-k>jf<ret> d
   exec <esc>
 }}
 
-map global normal <c-l> <a-l>
-map global normal <c-h> <a-h>
+map global normal L <a-l>
+map global normal H <a-h>
+map -docstring 'Next buffer' global normal <c-n> :bn<ret>
+map global normal q :q<ret>
+map -docstring 'Run macro (q)' global user q q
+map -docstring 'Inner select' global user i <a-i>
+map -docstring 'Outer select' global user a <a-a>
 
+add-highlighter global/ number-lines -relative -separator ' '
+
+set-option global tabstop 4
+set-option global indentwidth 4
+set-option global scrolloff 10,0
