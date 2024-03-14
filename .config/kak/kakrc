@@ -10,8 +10,11 @@ hook global InsertChar f %{ try %{
 map global normal L <a-l>
 map global normal H <a-h>
 map -docstring 'Next buffer' global normal <c-n> :bn<ret>
+# Can't really live without these two mappings.
 map global normal q :q<ret>
+map global normal s :w<ret>
 map -docstring 'Run macro (q)' global user q q
+map -docstring 'Search selection' global user s s
 map -docstring 'Inner select' global user i <a-i>
 map -docstring 'Outer select' global user a <a-a>
 map global user y <a-|>clip<ret>
