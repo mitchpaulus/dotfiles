@@ -280,3 +280,37 @@ for bin_num in sorted(bins.keys()):
 - Assume sorted data
 - Track index of last value less than or equal to target
 - Loop over gridded interpolation data
+
+## To CSV Cell
+
+```
+public static string ToCsvCell(this string str)
+{
+    bool mustQuote = str.Contains(',') || str.Contains('\"') || str.Contains('\r') || str.Contains('\n');
+    if (!mustQuote) return str;
+
+    StringBuilder sb = new();
+    sb.Append('\"');
+    foreach (char nextChar in str)
+    {
+        sb.Append(nextChar);
+        if (nextChar == '"') sb.Append('\"');
+    }
+    sb.Append('\"');
+    return sb.ToString();
+}
+
+def to_csv_cell(text):
+    must_quote = "," in text or '"' in text or '\r' in text or '\n' in text
+    if not must_quote:
+        return text
+
+    chars = ['"']
+    for char in text:
+        if char == '"':
+            chars.append('"')
+        chars.append(char)
+    chars.append('"')
+    return ''.join(chars)
+
+```

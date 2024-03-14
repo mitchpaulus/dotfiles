@@ -29,5 +29,9 @@ desired.
 ## Permissions
 
 When dealing with PDF conversions, always need to update the policy file.
-Go to `/etc/ImageMagick-6/policy.xml` and update the policies at the end of the file. 
+Go to `/etc/ImageMagick-6/policy.xml` and update the policies at the end of the file.
 Will usually have a comment above saying 'disable ghostscript format types'
+
+```
+-units Undefined, PixelsPerInch, PixelsPerCentimeter # Only makes sense with -density
+```
