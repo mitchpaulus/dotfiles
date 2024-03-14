@@ -63,3 +63,8 @@ map [-docstring 'doc string'] <scope> <mode> <key> <keys>
 add-highlighter [-override] <scope>/[path]/[name] <type> <parameters>..
 <scope> = global | buffer | window | shared
 ```
+
+## Debugging
+
+echo -debug "message" is your friend.
+Look at "*debug*" buffer.

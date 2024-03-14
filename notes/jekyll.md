@@ -14,3 +14,8 @@ installation steps.
 
 2. Set local gem location in environment variables, gem install
    `jekyll` and `bundler`.
+
+
+## Date jekyll broke
+
+2024-03-13: <https://github.com/jekyll/jekyll/issues/9545>
