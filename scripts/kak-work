@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Check if 'work' is a line out of 'kak -l'.
+# If it is, connect to the session. kak -c work
+# Else create a new session. kak -s work
+# Pass remaining arguments to kak.
+
+kak -l | while read -r line; do
+    if [ "$line" = "work" ]; then
+        exec kak -c work "$@"
+    fi
+done
+
+exec kak -s work "$@"
