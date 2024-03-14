@@ -14,9 +14,11 @@ map global normal q :q<ret>
 map -docstring 'Run macro (q)' global user q q
 map -docstring 'Inner select' global user i <a-i>
 map -docstring 'Outer select' global user a <a-a>
+map global user y <a-|>clip<ret>
 
 add-highlighter global/ number-lines -relative -separator ' '
 
 set-option global tabstop 4
 set-option global indentwidth 4
 set-option global scrolloff 10,0
+set-option global ui_options terminal_enable_mouse=true
