@@ -312,7 +312,11 @@ normalNoRecurseMappings = {
     { '<leader>ll', ':set list!<cr>' },
 
     -- I don't use marks, so move q (starting macros) to m (for macros)
-    { 'm', 'q' },
+    -- { 'm', 'q' },
+
+    { 'mi', 'vi' },
+    { 'ma', 'va' },
+
     -- Copy entire file to clipboard
     { '<leader>y', '<Cmd>%yank +<CR>' },
     -- Move backwards through spell.

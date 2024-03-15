@@ -12,8 +12,10 @@ map global normal H <a-h>
 map -docstring 'Next buffer' global normal <c-n> :bn<ret>
 # Can't really live without these two mappings.
 map global normal q :q<ret>
+map global normal Q :q!<ret>
 map global normal s :w<ret>
 map -docstring 'Run macro (q)' global user q q
+map -docstring 'Run macro (q)' global user Q Q
 map -docstring 'Search selection' global user s s
 map -docstring 'Inner select' global user i <a-i>
 map -docstring 'Outer select' global user a <a-a>
@@ -27,3 +29,19 @@ set-option global scrolloff 10,0
 set-option global ui_options terminal_enable_mouse=true
 
 colorscheme desertex
+
+# This is stolen from https://github.com/hadronized/config/blob/master/kak/kakrc
+declare-user-mode match
+map global match a '<a-a>' -docstring 'match around'
+map global match i '<a-i>' -docstring 'match inside'
+map global match m m -docstring 'select other matching delimiter'
+
+map global normal m ':enter-user-mode match<ret>' -docstring 'Enter match mode'
+
+# I prefer to generally swap the ALT mappings with the SHIFT versions.
+# Basically, I don't find myself 'extending' selections all that often.
+map global normal <a-e> E
+map global normal <a-b> B
+map global normal E <a-e>
+map global normal B <a-b>
+
