@@ -149,3 +149,25 @@ PAT:
 ## Debugging
 
 - `shell: bash -x {0}` to see the commands being run.
+
+
+## [Checkout multiple repos (private)](https://github.com/actions/checkout?tab=readme-ov-file#checkout-multiple-repos-private)
+
+```yaml
+- name: Checkout
+  uses: actions/checkout@v4
+  with:
+    path: main
+
+- name: Checkout private tools
+  uses: actions/checkout@v4
+  with:
+    repository: my-org/my-private-tools
+    token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
+    path: my-tools
+```
+
+
+## Unable to access organization private repository with fine-grained token #40910
+
+<https://github.com/orgs/community/discussions/40910>

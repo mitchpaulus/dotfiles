@@ -30,6 +30,7 @@ z: ??
 
 A: enter insert mode at each selection end line end
 B: Extend 'b' left.
+C: Add cursor below at same position
 
 %: select whole buffer
 ;: reduce selections to their cursor

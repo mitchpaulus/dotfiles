@@ -4,8 +4,7 @@
 
 On Arch, installed the `docker` package.
 
-Then had to follow [post installation steps
-here.](https://docs.docker.com/engine/install/linux-postinstall/).
+Then had to follow [post installation steps here.](https://docs.docker.com/engine/install/linux-postinstall/).
 `docker` group had already been added.
 
 Had to enable and start the `docker.service` and `containerd.service`.

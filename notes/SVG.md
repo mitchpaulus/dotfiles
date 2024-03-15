@@ -12,6 +12,7 @@ viewBox="left top width height"
 
 Basically make the viewBox to the same internal dimensions. The width/height on the svg tag is the final rendered size.
 
+If aspect ratios do not align, then `preserveAspectRatio` option is important.
 
 
 y alignment for text:
