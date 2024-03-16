@@ -2,6 +2,8 @@
 
 # Normal mode:
 
+See `normal.cc` in code.
+
 a: enter insert mode after each selection
 b: select preceding whitespaces and the word on the left of selection end
 c: yank and delete each selection and enter insert mode
@@ -26,11 +28,35 @@ v: VIEW commands
 w: select the word and following whitespaces on the right of selection end
 x: expand selections to contain full lines (including end-of-lines)
 y: yank selections
-z: ??
+z: restore selections from the register
 
 A: enter insert mode at each selection end line end
 B: Extend 'b' left.
-C: Add cursor below at same position
+C: Duplicate selections on the lines that follow them
+D: NOP
+E: Extend 'e' right.
+F: Extend selection to the next occurrence of the given character exclusive (extending 'f')
+G: Extend GOTO commands
+H: Extend 'h' left.
+I: enter insert mode at each selection start line start
+J: Extend 'j' down.
+K: Extend 'k' up.
+L: Extend 'l' right.
+M: Extend the current selection to the next sequence enclosed by matching
+N: add a new selection with next match after the main selection
+O: enter insert mode in a new line (or in a given `count` of new lines)
+P: Paste before the beginning of each selection
+Q: Start or end macro recording
+R: Replace selections with yanked text
+S: Split selections with the given regex
+T: Extend selection to the next occurrence of the given character inclusive (extending 't')
+U: Redo last change
+V: Lock view mode
+W: Extend 'w' right.
+X: NOP?
+Y: NOP?
+Z: Save selections to the register
+
 
 %: select whole buffer
 ;: reduce selections to their cursor

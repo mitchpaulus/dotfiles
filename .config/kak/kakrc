@@ -7,13 +7,15 @@ hook global InsertChar f %{ try %{
   exec <esc>
 }}
 
-map global normal L <a-l>
-map global normal H <a-h>
+map global normal L gl
+map global normal H gh
 map -docstring 'Next buffer' global normal <c-n> :bn<ret>
 # Can't really live without these two mappings.
 map global normal q :q<ret>
 map global normal Q :q!<ret>
 map global normal s :w<ret>
+# Recreation of Vim D for now. Didn't look like it's bound to anything by default in Kakoune
+map global normal D Gld
 map -docstring 'Run macro (q)' global user q q
 map -docstring 'Run macro (q)' global user Q Q
 map -docstring 'Search selection' global user s s
