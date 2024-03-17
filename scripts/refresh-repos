@@ -12,8 +12,8 @@ printf "Refreshing %s/..\n" "$REPOS"
 find "$REPOS" -maxdepth 2 -type d -name .git | while read -r dir; do
     cd "$dir" || exit
     cd .. || exit
-    git fetch --prune
     printf "Fetching %s/..\n" "$dir"
+    git fetch --prune
     # Check if git status --porcelain is empty
     if [ -n "$(git status --porcelain)" ]; then
         echo "Skipping $dir/.."

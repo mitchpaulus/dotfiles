@@ -95,3 +95,8 @@ add-highlighter [-override] <scope>/[path]/[name] <type> <parameters>..
 
 echo -debug "message" is your friend.
 Look at "*debug*" buffer.
+
+## References
+
+<https://blog.trinket.icu/articles/writing-your-first-kakrc>
+<https://zork.net/~st/jottings/Intro_to_Kakoune_highlighters.html>
