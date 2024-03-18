@@ -7,6 +7,7 @@ Environment variables:
 
 ```
 b2 ls bucket path/to/prefix
+b2 upload-file bucket local-file-name remote-file-name
 ```
 
 ## Pricing

@@ -45,7 +45,7 @@ vbTab  ' Chr(9)
 Trim("String   ") ' "String"
 
 Len("String") = 6
-Left("string", 2) = 2
+Left("string", 2) = "st"
 ```
 
 ## Parenthesis
