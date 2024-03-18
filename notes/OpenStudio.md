@@ -4,3 +4,20 @@
 
 
 [Sanity Checks question](https://unmethours.com/question/797/what-questions-do-you-ask-when-doing-sanity-checks-on-a-model/)
+
+
+## Common measures
+
+
+```
+    {
+      "measure_dir_name": "openstudio_results",
+      "arguments": {}
+    },
+    {
+      "measure_dir_name": "RotateBuilding",
+      "arguments": {
+        "relative_building_rotation": 0
+      }
+    }
+```
