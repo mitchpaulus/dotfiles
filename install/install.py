@@ -492,6 +492,22 @@ def install_azcopy(local_bin_dir: str):
     print(f"Moving '{azcopy_path}' to '{local_bin_dir}'", file=sys.stderr)
     shutil.move(azcopy_path, os.path.join(local_bin_dir, 'azcopy'))
 
+def install_b2_linux():
+    url = 'https://github.com/Backblaze/B2_Command_Line_Tool/releases/latest/download/b2-linux'
+    response = requests.get(url)
+    if response.status_code != 200:
+        print(f'Error downloading {url}: {response.status_code}', file=sys.stderr)
+        sys.exit(1)
+
+    # Save to $LOCALBIN
+    local_bin_dir = cast(str, os.environ.get('LOCALBIN'))
+    b2_path = os.path.join(local_bin_dir, 'b2')
+    print(f"Saving '{b2_path}'", file=sys.stderr)
+    with open(b2_path, 'wb') as f:
+        f.write(response.content)
+
+    # Make the file executable
+    os.chmod(b2_path, 0o755)
 
 if __name__ == "__main__":
     local_bin_dir_env: Optional[str] = os.environ.get('LOCALBIN')
@@ -530,6 +546,7 @@ if __name__ == "__main__":
         "win32yank": install_win32yank,
         "redo": install_redo,
         "xlwrite": install_xlwrite,
+        "b2-linux": install_b2_linux,
     }
 
     while (idx < len(sys.argv)):
