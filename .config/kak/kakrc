@@ -14,10 +14,20 @@ map -docstring 'Next buffer' global normal <c-n> :bn<ret>
 map global normal q :q<ret>
 map global normal Q :q!<ret>
 map global normal s :w<ret>
+# Old habits die hard
+map global normal z vc
+map global user z z
+
+map global normal <c-u> 5k
+map global normal <c-d> 5j
+
+map global normal C Glc
+map global normal <a-c> C
+
 # Recreation of Vim D for now. Didn't look like it's bound to anything by default in Kakoune
 map global normal D Gld
 map -docstring 'Run macro (q)' global user q q
-map -docstring 'Run macro (q)' global user Q Q
+map -docstring 'Start or end macro' global user Q Q
 map -docstring 'Search selection' global user s s
 map -docstring 'Inner select' global user i <a-i>
 map -docstring 'Outer select' global user a <a-a>
@@ -46,4 +56,3 @@ map global normal <a-e> E
 map global normal <a-b> B
 map global normal E <a-e>
 map global normal B <a-b>
-

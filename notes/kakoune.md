@@ -63,6 +63,7 @@ Z: Save selections to the register
 ,: clear selections, select the last selection
 
 ALT + a: enter outer text object selection mode
+ALT + c: delete selections and enter insert mode (not yanking)
 ALT + i: enter inner text object selection mode
 ALT + .: repeat last object or f/t selection command.
 
