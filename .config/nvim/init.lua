@@ -317,6 +317,10 @@ normalNoRecurseMappings = {
     { 'mi', 'vi' },
     { 'ma', 'va' },
 
+    -- This matches default kakoune mappings
+    { '<M-i>', 'vi' },
+    { '<M-a>', 'va' },
+
     -- Copy entire file to clipboard
     { '<leader>y', '<Cmd>%yank +<CR>' },
     -- Move backwards through spell.
