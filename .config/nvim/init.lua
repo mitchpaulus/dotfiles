@@ -312,10 +312,7 @@ normalNoRecurseMappings = {
     { '<leader>ll', ':set list!<cr>' },
 
     -- I don't use marks, so move q (starting macros) to m (for macros)
-    -- { 'm', 'q' },
-
-    { 'mi', 'vi' },
-    { 'ma', 'va' },
+    { 'm', 'q' },
 
     -- This matches default kakoune mappings
     { '<M-i>', 'vi' },
