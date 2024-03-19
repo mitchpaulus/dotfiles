@@ -97,3 +97,9 @@ Modeling requirements (2010) Table G3.1:
   - The HVAC systems in the baseline building design shall be of the type and description specified in Section G3.1.1,
     shall meet the  general HVAC system requirements specified in Section G3.1.2,
     and shall meet any system-specific requirements in Section G3.1.3 that are applicable to the baseline HVAC system types
+
+
+
+### EnergyPlus Table Output
+
+`EAp2-4/5. Performance Rating Method Compliance`
