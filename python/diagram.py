@@ -170,6 +170,10 @@ class Rectangle:
         if self._text:
             if self._font_size:
                 self._text.font_size(self._font_size)
+            else:
+                # Make it 75 percent of the height
+                self._text.font_size(compute(self._height) * 0.75)
+
             rect_tag += self._text.to_svg()
 
         return rect_tag
