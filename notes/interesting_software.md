@@ -314,3 +314,7 @@ Text expander.
 ## [Adelie](https://100r.co/site/adelie.html)
 
 Slideshows
+
+## [Build your own text editor](https://viewsourcecode.org/snaptoken/kilo/index.html)
+
+## [Useful hardware](https://vermaden.wordpress.com/2024/03/21/tiny-undervalued-hardware-companions/)

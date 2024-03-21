@@ -103,3 +103,7 @@ Modeling requirements (2010) Table G3.1:
 ### EnergyPlus Table Output
 
 `EAp2-4/5. Performance Rating Method Compliance`
+
+## Calculator
+
+<https://www.usgbc.org/resources/minimum-energy-performance-calculator-ashrae-901-2010>
