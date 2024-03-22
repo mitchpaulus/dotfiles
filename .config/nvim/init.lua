@@ -411,6 +411,8 @@ insertModeNoRecurseMappings = {
     { 'j;', '<Plug>(copilot-suggest)' },
     { 'jl', '<Plug>(copilot-accept-line)' },
     { 'jk', '<Plug>(copilot-accept-word)' },
+    { 'jn', '<Plug>(copilot-next)' },
+    { 'jc', '<Plug>(copilot-dismiss)' },
     { '<C-BS>', '<C-W>' },
     { '<c-e>', '<c-o>$' },
     { '<c-a>', '<c-o>^' },
@@ -756,7 +758,7 @@ local function addToFiletypeAugroup(pattern, command)
 end
 
 -- Remove 'r' and 'o' from formatoptions
-vim.api.nvim_create_autocmd('FileType', { pattern = 'sh', group = filetype_autocmds_id, command = 'setlocal formatoptions-=r formatoptions-=o' })
+vim.api.nvim_create_autocmd('FileType', { pattern = 'sh,cs', group = filetype_autocmds_id, command = 'setlocal formatoptions-=r formatoptions-=o' })
 
 local function set_xlim_makeprg()
     vim.api.nvim_buf_set_option(0, 'makeprg', 'xlim "%"')
@@ -993,7 +995,7 @@ end
 
 
 vim.api.nvim_create_augroup('MPEvents', { clear = true })
-vim.api.nvim_create_autocmd('TermOpen', { pattern = '*',        group = 'MPEvents', command = 'setlocal nonumber norelativenumber | startinsert | echom "Term Open.."' })
+--vim.api.nvim_create_autocmd('TermOpen', { pattern = '*',        group = 'MPEvents', command = 'setlocal nonumber norelativenumber | startinsert | echom "Term Open.."' })
 vim.api.nvim_create_autocmd('BufEnter', { pattern = "term://*", group = 'MPEvents', command = 'startinsert' })
 vim.api.nvim_create_autocmd('TextYankPost', { pattern = '*', group = 'MPEvents', command = 'silent! lua vim.highlight.on_yank { timeout = 500 }' })
 

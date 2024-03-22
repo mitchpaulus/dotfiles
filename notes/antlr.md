@@ -118,6 +118,10 @@ STRING : '"' (ESC|.)*? '"' ;
 fragment ESC : '\\"'  | '\\\\' ;
 ```
 
+```antlr
+WS : [ \t\r\n]+ -> skip ;
+```
+
 ## Recursive Lexing for Tokens
 
 [Great example](https://stackoverflow.com/questions/2555818/).
@@ -141,6 +145,21 @@ grun Grammar entryRule
 ```C#
 lexer.RemoveErrorListeners()
 parser.RemoveErrorListeners()
+
+public class ErrorListener : IAntlrErrorListener<IToken>, IAntlrErrorListener<int>
+{
+    public readonly List<string>  Messages = new();
+
+    public void SyntaxError(TextWriter output, IRecognizer recognizer, IToken offendingSymbol, int line, int charPositionInLine, string msg, RecognitionException e)
+    {
+        Messages.Add(msg);
+    }
+
+    public void SyntaxError(TextWriter output, IRecognizer recognizer, int offendingSymbol, int line, int charPositionInLine, string msg, RecognitionException e)
+    {
+        Messages.Add(msg);
+    }
+}
 ```
 
 ## Additional code in lexers/parsers

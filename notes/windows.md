@@ -14,8 +14,9 @@ Based on documentation [here](https://docs.microsoft.com/en-us/windows/win32/she
 these are the following environment strings, table near the bottom:
 
 Post-Vista:
-String | Example Path
--------|-----------
+
+String              | Example Path
+--------------------|-----------------------------------
 %ALLUSERSPROFILE%   | C:\ProgramData
 %APPDATA%           | C:\Users\username\AppData\Roaming
 %LOCALAPPDATA%      | C:\Users\username\AppData\Local
@@ -51,17 +52,14 @@ New-Item -ItemType SymbolicLink -Path path\to\new\file.txt -Target path\to\alrea
 MKLINK [/D | /H | /J] Link Target
 ```
 
-By default, symbolic links are relative, unless a drive letter is
-specified in the path.
+By default, symbolic links are relative, unless a drive letter is specified in the path.
 
-Based on blog
-[here](https://blogs.windows.com/windowsdeveloper/2016/12/02/symlinks-windows-10/),
+Based on blog [here](https://blogs.windows.com/windowsdeveloper/2016/12/02/symlinks-windows-10/),
 if you use `mklink` from cmd.exe, you don't need the admin privileges.
 Going through the PowerShell route still requires admin privileges.
 
-In order to get OneDrive to resync, create and delete an empty file in
-the directory. Have script file `odsync` to do this file
-creation/deletion.
+In order to get OneDrive to resync, create and delete an empty file in the directory.
+Have script file `odsync` to do this file creation/deletion.
 
 ## Issue with Windows Explorer and Toolbar
 
@@ -88,8 +86,7 @@ OneDriveCommercial=C:\Users\mpaulus\OneDrive - Command Commissioning
 
 ## What is using USB drive?
 
-https://superuser.com/questions/87364/can-windows-tell-me-what-is-using-my-usb-drive#1102080
-
+<https://superuser.com/questions/87364/can-windows-tell-me-what-is-using-my-usb-drive#1102080>
 
 ## Performance Debugging
 
@@ -157,22 +154,22 @@ Right click on toolbar, 'News and interest' -> Turn off
 
 Fields
 
-Archive	32	This file is marked to be included in incremental backup operation. Windows sets this attribute whenever the file is modified, and backup software should clear it when processing the file during incremental backup.
-Compressed	2048	The file is compressed.
-Device	64	Reserved for future use.
-Directory	16	The file is a directory. Directory is supported on Windows, Linux, and macOS.
-Encrypted	16384	The file or directory is encrypted. For a file, this means that all data in the file is encrypted. For a directory, this means that encryption is the default for newly created files and directories.
-Hidden	2	The file is hidden, and thus is not included in an ordinary directory listing. Hidden is supported on Windows, Linux, and macOS.
-IntegrityStream	32768	The file or directory includes data integrity support. When this value is applied to a file, all data streams in the file have integrity support. When this value is applied to a directory, all new files and subdirectories within that directory, by default, include integrity support.
-Normal	128	The file is a standard file that has no special attributes. This attribute is valid only if it is used alone. Normal is supported on Windows, Linux, and macOS.
-NoScrubData	131072	The file or directory is excluded from the data integrity scan. When this value is applied to a directory, by default, all new files and subdirectories within that directory are excluded from data integrity.
-NotContentIndexed	8192	The file will not be indexed by the operating system's content indexing service.
-Offline	4096	The file is offline. The data of the file is not immediately available.
-ReadOnly	1	The file is read-only. ReadOnly is supported on Windows, Linux, and macOS. On Linux and macOS, changing the ReadOnly flag is a permissions operation.
-ReparsePoint	1024	The file contains a reparse point, which is a block of user-defined data associated with a file or a directory. ReparsePoint is supported on Windows, Linux, and macOS.
-SparseFile	512	The file is a sparse file. Sparse files are typically large files whose data consists of mostly zeros.
-System	4	The file is a system file. That is, the file is part of the operating system or is used exclusively by the operating system.
-Temporary	256	The file is temporary. A temporary file contains data that is needed while an application is executing but is not needed after the application is finished. File systems try to keep all the data in memory for quicker access rather than flushing the data back to mass storage. A temporary file should be deleted by the application as soon as it is no longer needed.
+ReadOnly          1      The file is read-only. ReadOnly is supported on Windows, Linux, and macOS. On Linux and macOS, changing the ReadOnly flag is a permissions operation.
+Hidden            2      The file is hidden, and thus is not included in an ordinary directory listing. Hidden is supported on Windows, Linux, and macOS.
+System            4      The file is a system file. That is, the file is part of the operating system or is used exclusively by the operating system.
+Directory         16     The file is a directory. Directory is supported on Windows, Linux, and macOS.
+Archive           32     This file is marked to be included in incremental backup operation. Windows sets this attribute whenever the file is modified, and backup software should clear it when processing the file during incremental backup.
+Device            64     Reserved for future use.
+Normal            128    The file is a standard file that has no special attributes. This attribute is valid only if it is used alone. Normal is supported on Windows, Linux, and macOS.
+Temporary         256    The file is temporary. A temporary file contains data that is needed while an application is executing but is not needed after the application is finished. File systems try to keep all the data in memory for quicker access rather than flushing the data back to mass storage. A temporary file should be deleted by the application as soon as it is no longer needed.
+SparseFile        512    The file is a sparse file. Sparse files are typically large files whose data consists of mostly zeros.
+ReparsePoint      1024   The file contains a reparse point, which is a block of user-defined data associated with a file or a directory. ReparsePoint is supported on Windows, Linux, and macOS.
+Compressed        2048   The file is compressed.
+Offline           4096   The file is offline. The data of the file is not immediately available.
+NotContentIndexed 8192   The file will not be indexed by the operating system's content indexing service.
+Encrypted         16384  The file or directory is encrypted. For a file, this means that all data in the file is encrypted. For a directory, this means that encryption is the default for newly created files and directories.
+IntegrityStream   32768  The file or directory includes data integrity support. When this value is applied to a file, all data streams in the file have integrity support. When this value is applied to a directory, all new files and subdirectories within that directory, by default, include integrity support.
+NoScrubData       131072 The file or directory is excluded from the data integrity scan. When this value is applied to a directory, by default, all new files and subdirectories within that directory are excluded from data integrity.
 
 ## Utility Locations
 
