@@ -318,3 +318,7 @@ Slideshows
 ## [Build your own text editor](https://viewsourcecode.org/snaptoken/kilo/index.html)
 
 ## [Useful hardware](https://vermaden.wordpress.com/2024/03/21/tiny-undervalued-hardware-companions/)
+
+## [Lapce](https://lapce.dev/)
+
+Yet another code editor
