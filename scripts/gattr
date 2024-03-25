@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if test -z "$DOTFILES"; then
+    echo "DOTFILES is not set"
+    exit 1
+fi
+
+if test -f .gitattributes; then
+    echo ".gitattributes already exists"
+    exit 1
+fi
+
+cp "$DOTFILES"/.config/git/.gitattributes-template ./.gitattributes

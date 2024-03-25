@@ -1,0 +1,8 @@
+*.sh text eol=lf
+*.md text eol=lf
+*.bash text eol=lf
+*.py text eol=lf
+*.cs text eol=lf
+*.do text eol=lf
+*.xlim text eol=lf
+*.fish text eol=lf
