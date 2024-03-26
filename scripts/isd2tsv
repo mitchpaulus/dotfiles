@@ -2290,8 +2290,31 @@ def try_get_cached(usaf: str, wban: str, year: int) -> Optional[str]:
         return None
 
 
+def get_year_utilizing_cache(usaf: str, wban: str, y: int) -> str:
+    cached_contents = try_get_cached(usaf, wban, y)
 
-def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, dst = False):
+    if cached_contents is not None:
+        print(f"Using cached file for {usaf}-{wban}-{y}", file=sys.stderr)
+        contents = cached_contents
+    else:
+        contents = get_isd_file_contents_http(usaf, wban, y)
+        os.makedirs("/tmp/isd_cache", exist_ok=True)
+        # Save to cache
+        with open(f"/tmp/isd_cache/{usaf}-{wban}-{y}.txt", "w") as f:
+            f.write(contents)
+
+        with open('/tmp/isd_cache/cache.txt', 'a') as cache_file:
+            current_datetime = datetime.datetime.now()
+            current_year = current_datetime.year
+            current_month = current_datetime.month
+            current_day = current_datetime.day
+
+            cache_file.write(f"{usaf}\t{wban}\t{y}\t{current_year}\t{current_month}\t{current_day}\n")
+
+    return contents
+
+
+def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, dst = False, minute_interval = 60):
     """
     returns list of tuples
     0: year
@@ -2388,7 +2411,7 @@ def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, ds
 
 
     # As minute integer
-    year_dates = rd_dates_for_year(year)
+    year_dates = rd_dates_for_year(year, minute_interval)
 
     print(f"Len year dates for year {year}: {len(year_dates)}", file=sys.stderr)
 
@@ -2727,11 +2750,10 @@ def convert_to_epw(usaf: str, wban: str, year: int, offset_hrs: int):
 
     return output_epw
 
-def rd_dates_for_year(year: int) -> List[int]:
+def rd_dates_for_year(year: int, minute_interval: int = 60) -> List[int]:
     start = mputils.fixed_from_gregorian(year, 1, 1, 0, 0, True)
     end = mputils.fixed_from_gregorian(year + 1, 1, 1, 0, 0, True)
-    delta = 60
-    return list(range(start, end, delta))
+    return list(range(start, end, minute_interval))
 
 def average_temps(dates: List[Tuple[int, int]], data_hourly) -> List[float]:
     outputs = []
@@ -2851,6 +2873,7 @@ def main():
     fmt = None
 
     hourly = None
+    minute_interval = 60
 
     header = False
 
@@ -2950,6 +2973,17 @@ def main():
         elif a == "--hourly":
             hourly = True
             idx += 1
+        elif a == "--interval":
+            hourly = True
+            if  idx + 1 >= len(sys.argv):
+                print(f"Error: no minute interval given after {a}", file=sys.stderr)
+                sys.exit(1)
+            try:
+                minute_interval = int(sys.argv[idx + 1])
+            except ValueError:
+                print(f"Error: {sys.argv[idx + 1]} is not a valid minute interval", file=sys.stderr)
+                sys.exit(1)
+            idx += 2
         elif a == "--ip":
             ip = True
             idx += 1
@@ -2998,7 +3032,7 @@ def main():
             print(line)
 
     elif tsv:
-        contents = get_isd_file_contents_http(usaf, wban, year)
+        contents = get_year_utilizing_cache(usaf, wban, year)
         lines = parse_isd_file_2(contents)
 
         print(lines[0].tsv_header())
@@ -3089,7 +3123,7 @@ def main():
             print("Error: no offset given", file=sys.stderr)
             sys.exit(1)
 
-        lines = hourly_year(usaf, wban, year, offset, ip, dst)
+        lines = hourly_year(usaf, wban, year, offset, ip, dst, minute_interval)
 
         if header:
             if ip:
