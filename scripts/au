@@ -1,10 +1,11 @@
 #!/bin/sh
 
-# Autocorrect Update
-if cd ~/.local/share/nvim/plugged/autocorrect.vim; then
-    ./updatecorrections.sh
-elif cd ~/.config/nvim/plugged/autocorrect.vim; then
-    ./updatecorrections.sh
-else
+SCRIPT="$(find ~/.local/share/nvim/plugged/ ~/.config/nvim/plugged/autocorrect.vim/ ~/.config/nvim/pack/mp/start/autocorrect.vim \
+    -type f -name "updatecorrections.sh" 2>/dev/null | head -n 1)"
+
+if [ -z "$SCRIPT" ]; then
     printf "Did not find autocorrect.vim\n"
+    exit 1
+else
+    "$SCRIPT"
 fi
