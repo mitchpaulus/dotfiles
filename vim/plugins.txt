@@ -1,2 +1,12 @@
+OpenStudio.vim
+autocorrect.vim
+axon-vim
+doe2-bdl-vim
+energyplus-vim
+genopt.vim
+mplot.vim
 neobem-vim
+vim-andover-plain-english
+vim-awk-indent-fix
+vim-siemens-ppcl
 xlim-vim
