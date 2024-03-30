@@ -5,6 +5,25 @@
 
 import sys
 import os
+import re
+
+def convert_to_int_if_possible(s: str):
+    """
+    Convert the given string to an int if possible. Otherwise, return the
+    original string.
+    """
+    return int(s) if s.isdigit() else s
+
+def version_sort_in_place(l):
+    """ Sort the given list in the way that humans expect."""
+    l.sort(key=alphanum_key)
+
+def alphanum_key(s):
+    """ Turn a string into a list of string and number chunks.
+        "z23a" -> ["z", 23, "a"]
+    """
+    #  return [convert_to_int_if_possible(c) for c in re.split('([0-9]+)', s) if convert_to_int_if_possible(c) != ""]
+    return [convert_to_int_if_possible(c) for c in re.split('([0-9]+)', s.lower())]
 
 def quote(s):
     return "'" + s.replace("'", "\"'\"'") + "'"
@@ -30,7 +49,7 @@ if not sys.stdin.isatty():
 else:
     files = os.listdir('.')
 
-files.sort()
+version_sort_in_place(files)
 
 # Put files to temp file
 with open('/tmp/brename', 'w') as f:
