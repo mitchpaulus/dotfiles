@@ -1,8 +1,11 @@
 #!/bin/sh
 
 # Install script for remind
+# https://dianne.skoll.ca/projects/remind/
+VERSION=04.03.05
+TMP_FILE_BASE=/tmp/remind-${VERSION}
 
-curl -o /tmp/remind-04.00.03.tar.gz 'https://dianne.skoll.ca/projects/remind/download/remind-04.00.03.tar.gz'
+curl -o "$TMP_FILE_BASE".tar.gz "https://dianne.skoll.ca/projects/remind/download/remind-${VERSION}.tar.gz"
 
 # Instructions straight from the remind website
-cd /tmp && tar xfz /tmp/remind-04.00.03.tar.gz && cd /tmp/remind-04.00.03 && ./configure && make && make test && sudo make install
+cd /tmp && tar xfz "$TMP_FILE_BASE".tar.gz && cd "$TMP_FILE_BASE" && ./configure && make && make test && sudo make install

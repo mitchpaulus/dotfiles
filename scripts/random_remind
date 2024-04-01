@@ -5,7 +5,7 @@ if ! command -v remind >/dev/null 2>&1; then
     exit 1
 fi
 
-first_reminder="$(remind ~/.config/remind/remind.rem | awk 'NR > 2 && $0 !~ /^ *$/' | shuf -n 1 | sed 's/ *$//')"
+first_reminder="$(rem | awk 'NR > 2 && $0 !~ /^ *$/' | shuf -n 1 | sed 's/ *$//')"
 
 if [ -n "$first_reminder" ]; then
     printf '%s\n' "$first_reminder"

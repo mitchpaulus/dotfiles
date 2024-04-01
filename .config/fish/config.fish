@@ -56,7 +56,7 @@ if set -q ANTLR_JAR
 end
 
 set -gx AWKPATH ".:/usr/local/share/awk:$DOTFILES/awk_functions"
-set -gx DOTREMINDERS ~/.config/remind/remind.rem
+set -gx DOTREMINDERS $REPOS/remind/remind.rem
 set -gx FZF_DEFAULT_OPTS '--reverse --margin 10% --border'
 set -gx BAT_THEME 'Monokai Extended'
 
