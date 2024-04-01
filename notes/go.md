@@ -1,5 +1,13 @@
 # Go
 
+## Install
+
+```sh
+# https://go.dev/doc/install
+# Download latest: https://go.dev/dl/
+sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.22.1.linux-amd64.tar.gz
+```
+
 ## Cross compilation
 
 `GOOS` and `GOARCH` environment variables.
