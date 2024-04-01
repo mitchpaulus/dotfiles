@@ -6,20 +6,16 @@
 
 ## Vertical alignment of inline images
 
-This comes up when using images for equations. By default, the inline
-figure is treated like any other character and the baseline is put to
-the bottom.
+This comes up when using images for equations.
+By default, the inline figure is treated like any other character and the baseline is put to the bottom.
 
-The solution is to use the 'Font -> Advanced -> Position -> Lowered ->
-Enter Points' dialog to shift the equation by a
-certain number of points. Got this tip from [here](https://wordribbon.tips.net/T009827_Vertical_Alignment_of_an_Inline_Graphic.html)
-
+The solution is to use the 'Font -> Advanced -> Position -> Lowered -> Enter Points' dialog to shift the equation by a certain number of points.
+Got this tip from [here](https://wordribbon.tips.net/T009827_Vertical_Alignment_of_an_Inline_Graphic.html)
 
 ## Find and Replace VBA
 
 MS Word find does have some of the concepts from regular expressions.
-These include (from
-[https://www.customguide.com/word/how-to-use-wildcards-in-word](https://www.customguide.com/word/how-to-use-wildcards-in-word):
+These include (from [https://www.customguide.com/word/how-to-use-wildcards-in-word](https://www.customguide.com/word/how-to-use-wildcards-in-word):
 
 ```
 Wildcard 	Purpose                               Example
