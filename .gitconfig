@@ -25,6 +25,8 @@
     ff = only
 [push]
     autoSetupRemote = true
+[diff]
+    algorithm = histogram
 
 # Can copy this out for a hostgitconfig setup.
 # Directly from the delta README.
