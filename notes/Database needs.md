@@ -21,6 +21,10 @@ Numbers to keep in mind:
 2 bytes = 65,536
 3 bytes = 16,777,216
 4 bytes = 4,294,967,296
+5 bytes = 1,099,511,627,776
+6 bytes = 281,474,976,710,656
+7 bytes = 72,057,594,037,927,936
+8 bytes = 18,446,744,073,709,551,616
 
 Seconds in a day: 86,400
 Minutes in a day: 1440
@@ -39,3 +43,5 @@ Then run length and dictionary encode both the time stamps and the string values
 Keep everything as strings.
 
 Typical file system block size: 4096 bytes
+
+Can keep day number in 2 bytes, 65536 days = 179 years
