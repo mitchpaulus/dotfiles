@@ -106,6 +106,7 @@ path_prepend "$HOME/.local/bin"
 path_prepend $HOME/.pyenv/bin
 path_prepend $HOME/.dotnet/tools
 path_prepend /usr/local/go/bin
+path_prepend $HOME/go/bin
 
 # Neovim/Vim for all the things
 if command -v nvim >/dev/null 2>&1
