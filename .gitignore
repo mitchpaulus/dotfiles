@@ -38,3 +38,5 @@ vim/vimrc
 
 # Don't need cached python files
 *.pyc
+
+python/test_diagram.py
