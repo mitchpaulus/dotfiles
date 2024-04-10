@@ -1,9 +1,17 @@
 #!/usr/bin/env python3
+
+# The purpose of this script is to add a trend header row to a CSV or TSV file.
+# It deals with files that are Timestamp, value pairs on each line, without a header.
+# The trend name is assumed to come from the filename.
+
+# USAGE:
+#   add-head <file.csv>
+
+# Prints to stdout.
+
+
 import sys
 from pathlib import Path
-
-filepath = Path(sys.argv[1])
-filename = filepath.name
 
 def to_csv_cell(text):
     must_quote = "," in text or '"' in text or '\r' in text or '\n' in text
@@ -18,20 +26,51 @@ def to_csv_cell(text):
     chars.append('"')
     return ''.join(chars)
 
-# Strip '.csv' or '.tsv' from filename
-if filename.endswith('.csv'):
-    delim = ','
-    filename = to_csv_cell(filename[:-4])
-elif filename.endswith('.tsv'):
-    delim = '\t'
-    filename = filename[:-4]
-else:
-    print("File does not end with '.csv' or '.tsv'")
-    sys.exit()
 
-print(f"Timestamp{delim}{filename}\n", end='')
-for line in filepath.open():
-    try:
-        print(line.rstrip(), end='\n')
-    except BrokenPipeError:
-        break
+def process():
+    idx = 1
+    filename = None
+    filepath = None
+    while idx < len(sys.argv):
+        if sys.argv[idx] in ('-h', '--help'):
+            print("Usage: add-head <file.csv>")
+            sys.exit()
+        elif sys.argv[idx] == "-n" or sys.argv[idx] == "--name":
+            if idx + 1 >= len(sys.argv):
+                print("Missing argument for -n or --name")
+                sys.exit()
+            filename = sys.argv[idx + 1]
+            idx += 1
+        elif sys.argv[idx].startswith('-'):
+            print(f"Unknown option: {sys.argv[idx]}")
+            sys.exit()
+        else:
+            filepath = Path(sys.argv[idx])
+            filename = filepath.name
+
+        idx += 1
+
+    if filename is None or filepath is None:
+        print("Missing filename")
+        sys.exit(1)
+
+    # Strip '.csv' or '.tsv' from filename
+    if filename.endswith('.csv'):
+        delim = ','
+        filename = to_csv_cell(filename[:-4])
+    elif filename.endswith('.tsv'):
+        delim = '\t'
+        filename = filename[:-4]
+    else:
+        print("File does not end with '.csv' or '.tsv'")
+        sys.exit()
+
+    print(f"Timestamp{delim}{filename}\n", end='')
+    for line in filepath.open():
+        try:
+            print(line.rstrip(), end='\n')
+        except BrokenPipeError:
+            break
+
+if __name__ == "__main__":
+    process()
