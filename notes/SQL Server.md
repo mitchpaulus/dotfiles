@@ -77,3 +77,65 @@ Error: Couldn't find file.
 
 Can run standard reports out of SQL Server Management Studio.
 Right-click on table, 'Reports' -> 'Standard Reports' -> 'Disk Usage' / 'Disk Usage by Table'
+
+## Connections
+
+- 3 different types of connections:
+  - Shared Memory
+  - Named Pipes
+  - TCP/IP
+
+- By default, only Shared Memory is enabled. Can use 'SQL Server Configuration Manager' to enable TCP/IP.
+
+```go
+connString := "server=localhost;database=DATABASE_NAME;trusted_connection=yes;"
+```
+
+```go
+package main
+
+import (
+    "database/sql"
+    "fmt"
+    "log"
+
+    _ "github.com/denisenkom/go-mssqldb"
+)
+
+func main() {
+    // Update the connection string with your SQL Server details
+    // connString := "sqlserver://localhost?user id=cc\\mpaulus&database=CLIMATEC__HOBBYHOU"
+    connString := "server=localhost;database=CLIMATEC__HOBBYHOU;trusted_connection=yes;"
+
+    // Open the database connection
+    db, err := sql.Open("sqlserver", connString)
+    if err != nil {
+        log.Fatal("Error creating connection pool: ", err)
+    }
+    defer db.Close()
+
+    // Example query
+    query := "SELECT objname, logdescription FROM tblTrendlogList"
+
+    // Execute the query
+    rows, err := db.Query(query)
+    if err != nil {
+        log.Fatal("Error executing query: ", err)
+    }
+    defer rows.Close()
+
+    // Iterate through the results
+    for rows.Next() {
+        var column1, column2 string
+        if err := rows.Scan(&column1, &column2); err != nil {
+            log.Fatal("Error scanning row: ", err)
+        }
+        fmt.Printf("Column1: %s, Column2: %s\n", column1, column2)
+    }
+
+    // Check for errors from iterating over rows
+    if err = rows.Err(); err != nil {
+        log.Fatal("Error reading rows: ", err)
+    }
+}
+```

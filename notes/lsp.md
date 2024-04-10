@@ -47,9 +47,9 @@ MiniYAML              | <https://github.com/penev92/Oraide.LanguageServer>
 
 - Debug in console - Help -> Toggle Developer Tools in VS Code
 
-## DocumentSymbols and WorkspaceSymbols
+## `DocumentSymbols` and `WorkspaceSymbols`
 
-See https://github.com/neovim/neovim/issues/11664 for potential uses of that.
+See <https://github.com/neovim/neovim/issues/11664> for potential uses of that.
 
 ## LSP
 
@@ -65,3 +65,4 @@ Position 0-based
 - <https://stefan-marr.de/2022/10/effortless-language-servers/>
 - <https://stefan-marr.de/downloads/dls22-marr-et-al-execution-vs-parse-based-language-servers.pdf>
 - <https://www.hpi.uni-potsdam.de/hirschfeld/publications/media/StolpeFelgentreffHumerNiephausHirschfeld_2019_LanguageIndependentDevelopmentEnvironmentSupportForDynamicRuntimes_AcmDL_Preprint.pdf>
+- <https://tamerlan.dev/how-to-build-a-language-server-with-go/>

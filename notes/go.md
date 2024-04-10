@@ -77,3 +77,12 @@ if i < 5 {
 ..
 }
 ```
+
+
+# Modules
+
+Package: A collection of source files in the same directory that are compiled together.
+Repository: Contains one or more modules.
+Module: A collection of related Go packages that are versioned together as a single unit.
+Module Path: the import path prefix for all packages within the module.
+Import Path: String used to import a package. A package's import path is its module path joined with its subdirectory within the module.
