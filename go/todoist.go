@@ -76,6 +76,16 @@ type Task struct {
 }
 
 func main() {
+    // Loop through arguments like while, looking for -h or --help
+    var index int = 1
+    for index < len(os.Args) {
+        if os.Args[index] == "-h" || os.Args[index] == "--help" {
+            fmt.Println("Usage: todoist")
+            os.Exit(0)
+        }
+        index++
+    }
+
     // First check for TODOIST_TOKEN environment variable
     token, exists := os.LookupEnv("TODOIST_TOKEN")
 
