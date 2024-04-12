@@ -40,3 +40,5 @@ vim/vimrc
 *.pyc
 
 python/test_diagram.py
+
+sfeedrc

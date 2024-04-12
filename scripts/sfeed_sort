@@ -1,0 +1,10 @@
+#!/usr/bin/env python3
+# Sort stdin by column 3 through 18, first two letters are for an 'N ' if the line is new
+import sys
+lines = sys.stdin.readlines()
+lines.sort(key=lambda x: x[2:18], reverse=True)
+for line in lines:
+    try:
+        print(line, end='')
+    except BrokenPipeError:
+        break

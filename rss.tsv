@@ -1,14 +1,14 @@
 https://kbknapp.dev/atom.xml	Kevin K's blog
 https://feeds.feedblitz.com/marginalrevolution	Tyler Cowen
 https://benhoyt.com/writings/rss.xml	Ben Hoyt
-https://cdn.jwz.org/blog/feed/ Jamie Zawinski
+https://cdn.jwz.org/blog/feed/	Jamie Zawinski
 https://chrispenner.ca/atom.xml	Chris Penner
 http://feeds.feedburner.com/incodeblog	Justin Le - Applied Math/Comp.  Sci
 https://bloerg.net/atom.xml	Matthias Vogelgesang - Metropolis Beamer
 http://feeds.haacked.com/haacked	Phil Haack
 https://phaazon.net/blog/feed	Dimitri Sabadie - Rust/Haskell/Neovim
 http://feeds.feedburner.com/reesedev	John Reese - Go/Kubernetes/DevOps
-https://waylonwalker.com/rss.xml	Waylon Walker
+https://waylonwalker.com/archive/rss.xml	Waylon Walker
 https://daringfireball.net/feeds/main	Daring Fireball - John Gruber
 https://oli.me.uk/feed.xml	Oliver Cladwell's blog - On languages, text editors and tools
 https://fogg.uk/feed.xml	Josh Fogg - Mathematics
@@ -17,17 +17,17 @@ https://debarghyadas.com/writes/feed.xml	Debarghya Das
 https://markkarpov.com/feed.atom	Mark Karpov - Haskell
 https://www.vincentprouillet.com/rss.xml	Vincent Prouillet - Developer and Entrepreneur
 https://jaydaigle.net/feed.xml	Jaydaigle - Mathematics
-https://www.jakeworth.com/rss.xml	Jake Worth - Software Engineer
+https://jakeworth.com/rss.xml	Jake Worth - Software Engineer
 https://www.willmcgugan.com/feeds/posts/	Will McGugan - Software Engineer
 https://notes.volution.ro/index.xml	Volution Notes
 https://jonascarpay.com/rss.xml	Jonas Carpay
 https://functor.tokyo/blog/feed	Functor.Tokyo
 https://reagle.org/joseph/pelican/feeds/all.rss.xml	Joseph Reagle
-https://chshersh.github.io/rss.xml	Dimitrii Kovanikov - Haskell
+https://chshersh.com/rss.xml	Dimitrii Kovanikov - Haskell
 https://kowainik.github.io/rss.xml	Kowainik - Haskell
 https://feeds.feedburner.com/jenmyers	Jen Myers
 https://blog.reverberate.org/feed.xml	Josh Haberman - Parsing, performance, and low-level programming
-https://astralcodexten.substack.com/feed	Astral Codex Ten - Scott Alexander
+https://www.astralcodexten.com/feed	Astral Codex Ten - Scott Alexander
 http://www.norvig.com/rss-feed.xml	Peter Norvig
 https://blog.wesleyac.com/feed.xml	Wesley Aptekar-Cassels
 https://mb21.github.io/blog/feed.xml	Mauro Bieg - Computer Science
@@ -48,7 +48,7 @@ https://www.davidosomething.com/rss.xml	Computers and stuff
 https://hpjansson.org/blag/feed/	Personal blag of H. P. Jansson: Free Software, Open Source mostly.
 https://fantom.org/forum/blog/feed	Fantom programming language blog
 https://blog.functorial.com/feed.rss	Blog about functional programming
-http://www.hamvocke.com/feed.xml	Hermann Vocke writing about software development, mostly
+http://hamvocke.com/feed.xml	Hermann Vocke writing about software development, mostly
 https://humanwhocodes.com/feeds/blog.xml	The Official Web Site of Nicholas C. Zakas
 https://ilya-sher.org/feed/	Ilya Sher - Systems and software engineering
 https://blog.itdepends.be/index.xml	IT depends
@@ -76,7 +76,7 @@ https://writings.stephenwolfram.com/feed/	Stephen Wolfram
 https://github.com/neovim/neovim/commits/master/runtime/doc/news.txt.atom	Neovim breaking changes
 https://daniel-siepmann.de/rss-feed/blog-posts.xml	Daniel Siepmann
 https://www.gleech.org/feed.xml	Gleech
-https://vitalik.ca/feed.xml	Vitalik Buterin
+https://vitalik.eth.limo/feed.xml	Vitalik Buterin
 https://liam.rs/index.xml	Liam
 https://codeblog.jonskeet.uk/feed/	Jon Skeet
 https://drewdevault.com/blog/index.xml	Drew DeVault
@@ -105,3 +105,4 @@ https://jameso.be/feed.xml	James O'Beirne
 https://carlosbecker.com/posts/index.xml	Carlos Becker
 https://randomascii.wordpress.com/feed/	Bruce Dawson
 https://zyedidia.github.io/blog/index.xml	Zachary Yedidia
+https://codemadness.org/atom_content.xml	Code madness - Hiltjo Posthuma

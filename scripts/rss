@@ -1,0 +1,2 @@
+#!/bin/sh
+sfeed_plain ~/.local/share/sfeed/feeds/* | sfeed_sort | head -n 20
