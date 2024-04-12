@@ -24,3 +24,7 @@ public static string ToCsvCell(this string str)
     return sb.ToString();
 }
 ```
+
+- [This article](https://www.codeproject.com/Articles/1175263/Why-to-build-your-own-CSV-parser-or-maybe-not) has a nice state machine diagram.
+
+- [Storing state in control flow](https://research.swtch.com/pcdata)

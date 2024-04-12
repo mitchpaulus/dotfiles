@@ -76,6 +76,17 @@ if i < 5 {
 } else {
 ..
 }
+
+type Person struct {
+    Name string
+    Age  int
+}
+
+func (p Person) String() string {
+    return fmt.Sprintf("%s: %d", p.Name, p.Age)
+}
+
+// Mon Jan 2 15:04:05 MST 2006
 ```
 
 
