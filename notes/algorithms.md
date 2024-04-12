@@ -253,6 +253,26 @@ slope = (n * sum(x*y) - sum(x) * sum(y)) / (n * sum(x^2) - sum(x)^2)
 constant = (sum(y) - slope * sum(x)) / n
 ```
 
+## Polynomial Regression order 2
+
+```
+[[a0 = -((sum_x2*sum_x4-sum_x3^2)*sum_y
+           +sum_x*(sum_x2y*sum_x3-sum_x4*sum_xy)+sum_x2*sum_x3*sum_xy
+           -sum_x2^2*sum_x2y)
+           /(sum_x2*((-n*sum_x4)-2*sum_x*sum_x3)
+            +sum_x^2*sum_x4+n*sum_x3^2+sum_x2^3),
+a1 = -((sum_x2*sum_x3-sum_x*sum_x4)*sum_y
+    +n*(sum_x4*sum_xy-sum_x2y*sum_x3)-sum_x2^2*sum_xy
+    +sum_x*sum_x2*sum_x2y)
+    /(sum_x2*((-n*sum_x4)-2*sum_x*sum_x3)
+    +sum_x^2*sum_x4+n*sum_x3^2+sum_x2^3),
+a2 = ((sum_x2^2-sum_x*sum_x3)*sum_y+sum_x2*((-sum_x*sum_xy)-n*sum_x2y)
+                                    +n*sum_x3*sum_xy+sum_x^2*sum_x2y)
+    /(sum_x2*((-n*sum_x4)-2*sum_x*sum_x3)
+    +sum_x^2*sum_x4+n*sum_x3^2+sum_x2^3)]]
+```
+
+
 ## ITP
 
 An Enhancement of the Bisection Method Average Performance Preserving Minmax Optimality Oliveira and Takahashi

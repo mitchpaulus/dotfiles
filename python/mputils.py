@@ -1582,3 +1582,38 @@ def format_number(number, sig_figs: int, remove_trailing_zeros=True):
     else:
         format_str = "{:,.0f}"
         return format_str.format(number)
+
+
+def poly_fit(x: list[float], y: list[float]):
+    if len(x) != len(y):
+        raise ValueError("x and y must have the same length")
+
+    n = len(x)
+
+    sum_x = 0
+    sum_x2 = 0
+    sum_x3 = 0
+    sum_x4 = 0
+
+    sum_xy = 0
+    sum_x2y = 0
+
+    sum_y = 0
+
+    for i in range(n):
+        x2 = x[i] * x[i]
+        x3 = x2 * x[i]
+        x4 = x3 * x[i]
+        sum_x += x[i]
+        sum_x2 += x2
+        sum_x3 += x3
+        sum_x4 += x4
+        sum_xy += x[i] * y[i]
+        sum_x2y += x2 * y[i]
+        sum_y += y[i]
+
+    a0 = -((sum_x2*sum_x4-sum_x3**2)*sum_y +sum_x*(sum_x2y*sum_x3-sum_x4*sum_xy)+sum_x2*sum_x3*sum_xy -sum_x2**2*sum_x2y) /(sum_x2*((-n*sum_x4)-2*sum_x*sum_x3) +sum_x**2*sum_x4+n*sum_x3**2+sum_x2**3)
+    a1 = -((sum_x2*sum_x3-sum_x*sum_x4)*sum_y +n*(sum_x4*sum_xy-sum_x2y*sum_x3)-sum_x2**2*sum_xy +sum_x*sum_x2*sum_x2y) /(sum_x2*((-n*sum_x4)-2*sum_x*sum_x3) +sum_x**2*sum_x4+n*sum_x3**2+sum_x2**3)
+    a2 = ((sum_x2**2-sum_x*sum_x3)*sum_y+sum_x2*((-sum_x*sum_xy)-n*sum_x2y) +n*sum_x3*sum_xy+sum_x**2*sum_x2y) /(sum_x2*((-n*sum_x4)-2*sum_x*sum_x3) +sum_x**2*sum_x4+n*sum_x3**2+sum_x2**3)
+
+    return (a0, a1, a2)

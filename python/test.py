@@ -166,5 +166,18 @@ class TestDates(unittest.TestCase):
             self.assertEqual(m, month)
             self.assertEqual(d, day)
 
+class TestPolyFit(unittest.TestCase):
+    def test_poly_fit(self):
+        # Test case from page 458 of "Numerical Methods for Engineers" by Steven C. Chapra
+        x = [0.0, 1, 2, 3, 4, 5]
+        y = [2.1, 7.7, 13.6, 27.2, 40.9, 61.1]
+
+        a0, a1, a2 = mputils.poly_fit(x, y)
+        print(a0, a1, a2)
+
+        self.assertAlmostEqual(a0, 2.47857, 4)
+        self.assertAlmostEqual(a1, 2.35929, 3)
+        self.assertAlmostEqual(a2, 1.86071, 3)
+
 if __name__ == "__main__":
     unittest.main()
