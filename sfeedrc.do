@@ -2,7 +2,7 @@
 redo-ifchange rss.tsv
 
 printf "#!/bin/sh\n"
-printf "sfeedrc=\"\$HOME\"/.local/share/sfeed/feeds\n"
+printf "sfeedpath=\"\$HOME\"/.local/share/sfeed/feeds\n"
 
 printf "# fetch a feed via HTTP/HTTPS etc.
 # fetch(name, url, feedfile)
