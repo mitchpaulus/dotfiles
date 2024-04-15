@@ -10,4 +10,4 @@ fi
 influx query -r '
    import "influxdata/influxdb/schema"
    schema.measurements(bucket: "'"$BUCKET"'")' | dos2unix \
-       | cut -d , -f 4 | awk 'NR > 4 && $0 != "" { print }'
+       | csv2tsv | cut -d '	' -f 4 | awk 'NR > 4 && $0 != "" { print }'
