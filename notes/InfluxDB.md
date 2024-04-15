@@ -147,3 +147,7 @@ Look at script `influx_meas` for shell script implementation.
 ```
 from(bucket:"example-bucket") |> range(start: 2021-01-01, stop: 2022-01-01) |> filter(fn: (r) => r._measurement == "trend name")
 ```
+
+## Annotated CSV - Response
+
+<https://docs.influxdata.com/influxdb/v2/reference/syntax/annotated-csv/>
