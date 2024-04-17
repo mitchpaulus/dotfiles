@@ -509,6 +509,16 @@ def install_b2_linux():
     # Make the file executable
     os.chmod(b2_path, 0o755)
 
+def install_sfeed():
+    # Clone to REPOS/sfeed
+    # git clone git://git.codemadness.org/sfeed
+    # make
+    # make install
+    subprocess.run(['git', 'clone', 'git://git.codemadness.org/sfeed'], cwd=os.path.join(os.environ['REPOS']))
+    subprocess.run(['make'], cwd=os.path.join(os.environ['REPOS'], 'sfeed'))
+    subprocess.run(['sudo', 'make', 'install'], cwd=os.path.join(os.environ['REPOS'], 'sfeed'))
+
+
 if __name__ == "__main__":
     local_bin_dir_env: Optional[str] = os.environ.get('LOCALBIN')
     if local_bin_dir_env is None:
@@ -547,6 +557,7 @@ if __name__ == "__main__":
         "redo": install_redo,
         "xlwrite": install_xlwrite,
         "b2-linux": install_b2_linux,
+        "sfeed": install_sfeed,
     }
 
     while (idx < len(sys.argv)):
