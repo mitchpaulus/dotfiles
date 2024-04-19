@@ -138,6 +138,13 @@ command -q vivid; and set -gx LS_COLORS (vivid generate dracula)
 function fish_prompt
     set exit_code "$status"
 
+    if test (hostname) = 'prec3660-mp'; and command -v toggl >/dev/null 2>&1
+        set toggl_response (toggl)
+        if test "$toggl_response" = "$TOGGL_NOT_TRACKING"
+            read -P 'Please acknowledge not tracking. Press Enter to continue.'
+        end
+    end
+
     if test -n "$SSH_CONNECTION"
         set ssh_text (printf '%s@%s '  (whoami) (hostname) )
     else
@@ -515,5 +522,6 @@ if test -s "$NVM_DIR/nvm.sh"; bash "$NVM_DIR/nvm.sh"; end
 if test -n "$WSL_DISTRO_NAME"
     set PATH (string match -v '/mnt/c/*' $PATH)
 end
+
 
 # vim:ft=fish
