@@ -22,3 +22,15 @@ Had to enable and start the `docker.service` and `containerd.service`.
 - Login - `docker login -u mitchpaulus`
     - Credential storage by default at $HOME/.docker/config.json
     - See [here](https://docs.docker.com/engine/reference/commandline/login/#credentials-store)
+
+
+## Building
+
+```
+docker build -t mitchpaulus/imagename:tag .
+```
+
+## Windows
+
+On Windows, can install Docker Desktop.
+When the GUI is running, it will inject a `docker` command into `/usr/bin/docker`.
