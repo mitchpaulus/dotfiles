@@ -1,0 +1,68 @@
+#!/usr/bin/env python3
+
+# Going from Influx 'Annotated CSV' to an MP file
+import csv
+import sys
+import re
+from typing import List, Union, Iterable
+
+def convert_to_int_if_possible(s: str) -> Union[int, str]:
+    """
+    Convert the given string to an int if possible. Otherwise, return the
+    original string.
+    """
+    return int(s) if s.isdigit() else s
+
+def alphanum_key(s) -> List[Union[str, int]]:
+    """ Turn a string into a list of string and number chunks.
+        "z23a" -> ["z", 23, "a"]
+    """
+    #  return [convert_to_int_if_possible(c) for c in re.split('([0-9]+)', s) if convert_to_int_if_possible(c) != ""]
+    return [convert_to_int_if_possible(c) for c in re.split('([0-9]+)', s.lower())]
+
+# Basically taken from https://stackoverflow.com/a/2669120/5932184
+def version_sort(l: Iterable[str]) -> List[str]:
+    """ Sort the given iterable in the way that humans expect."""
+    return sorted(l, key=alphanum_key)
+
+
+def parse():
+    csv_reader = csv.reader(sys.stdin)
+    data = {}
+
+    time_col = -1
+    value_col = -1
+    measurement_col = -1
+    measurement_set = set()
+
+    while (row := next(csv_reader, None)) is not None:
+        if len(row) == 1:
+            # Blank row, skip
+            continue
+        elif row[0]  != "":
+            # This is a annotation row, skip
+            continue
+        elif row[1] != "":
+            # Header row, so get the column for "_time", "_value", and "_measurement"
+            time_col = row.index("_time")
+            value_col = row.index("_value")
+            measurement_col = row.index("_measurement")
+        else:
+            # Data row
+            measurement = row[measurement_col]
+            measurement_set.add(measurement)
+
+            if measurement not in data:
+                data[measurement] = []
+            data[measurement].append((row[time_col], row[value_col]))
+
+    return data
+
+if __name__ == "__main__":
+    data = parse()
+    for measurement in version_sort(data.keys()):
+        print(f"{measurement}")
+        # Sort by time
+        data[measurement].sort(key=lambda x: x[0])
+        for time, value in data[measurement]:
+            print(f"{time}\t{value}")
