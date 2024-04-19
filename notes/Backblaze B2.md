@@ -6,8 +6,11 @@ Environment variables:
 - `B2_APPLICATION_KEY`
 
 ```
-b2 ls bucket path/to/prefix
-b2 upload-file bucket local-file-name remote-file-name
+b2 ls BUCKET_NAME path/to/prefix
+b2 upload-file BUCKET_NAME local-file-name remote-file-name
+b2 download-file B2_URI local-file-name
+
+B2_URI = b2://BUCKET_NAME/remote-file-name
 ```
 
 ## Pricing
