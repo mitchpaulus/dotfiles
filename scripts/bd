@@ -1,0 +1,8 @@
+#!/bin/sh
+
+set -xe
+
+git checkout main
+git fetch --prune
+git merge --ff-only
+git branch -D "$1"
