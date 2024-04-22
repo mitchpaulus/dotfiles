@@ -87,6 +87,12 @@ func (p Person) String() string {
 }
 
 // Mon Jan 2 15:04:05 MST 2006
+
+
+var mySlice []int
+var myMap map[string]int // Map from string to int
+myMap = map[string]int{"one": 1, "two": 2}
+
 ```
 
 

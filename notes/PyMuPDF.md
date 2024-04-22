@@ -54,3 +54,36 @@ words:
 ```
 
 Coordinates are in points (1/72 inch).
+
+
+<https://pymupdf.readthedocs.io/en/latest/document.html#Document.get_toc>
+
+## Get TOC
+
+Creates a table of contents (TOC) out of the document’s outline chain.
+
+PARAMETERS:
+simple (bool) – Indicates whether a simple or a detailed TOC is required. If False, each item of the list also contains a dictionary with linkDest details for each outline entry.
+
+RETURN TYPE:
+list
+
+RETURNS:
+a list of lists. Each entry has the form [lvl, title, page, dest]. Its entries have the following meanings:
+
+lvl – hierarchy level (positive int). The first entry is always 1. Entries in a row are either equal, increase by 1, or decrease by any number.
+title – title (str)
+page – 1-based source page number (int). -1 if no destination or outside document.
+dest – (dict) included only if simple=False. Contains details of the TOC item as follows:
+
+    kind: destination kind, see Link Destination Kinds.
+    file: filename if kind is LINK_GOTOR or LINK_LAUNCH.
+    page: target page, 0-based, LINK_GOTOR or LINK_GOTO only.
+    to: position on target page (Point).
+    zoom: (float) zoom factor on target page.
+    xref: xref of the item (0 if no PDF).
+    color: item color in PDF RGB format (red, green, blue), or omitted (always omitted if no PDF).
+    bold: true if bold item text or omitted. PDF only.
+    italic: true if italic item text, or omitted. PDF only.
+    collapse: true if sub-items are folded, or omitted. PDF only.
+    nameddest: target name if kind=4. PDF only. (New in 1.23.7.)
