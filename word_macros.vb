@@ -512,3 +512,109 @@ Sub ReplaceDateOnFirstPageUsingLoopNoRegex()
     Next oPara
 
 End Sub
+
+Sub CcllcBranding()
+    ActiveDocument.Styles("Normal").Font.Name = "Segoe UI"
+    ActiveDocument.Styles("Normal").Font.Size = 10
+    ActiveDocument.Styles("Normal").Font.Color = RGB(0, 0, 0)
+
+    ActiveDocument.Styles("Heading 1").Font.Name = "Segoe UI Light"
+    ActiveDocument.Styles("Heading 1").Font.Size = 24
+    ActiveDocument.Styles("Heading 1").Font.Color = RGB(0, 0, 0)
+
+    ActiveDocument.Styles("Heading 2").Font.Name = "Segoe UI Semilight"
+    ActiveDocument.Styles("Heading 2").Font.Size = 18
+    ActiveDocument.Styles("Heading 2").Font.Color = RGB(0, 0, 0)
+
+    ActiveDocument.Styles("Heading 3").Font.Name = "Segoe UI"
+    ActiveDocument.Styles("Heading 3").Font.Size = 14
+    ActiveDocument.Styles("Heading 3").Font.Color = RGB(0, 0, 0)
+
+    ActiveDocument.Styles("Heading 4").Font.Name = "Segoe UI Semibold"
+    ActiveDocument.Styles("Heading 4").Font.Size = 12
+    ActiveDocument.Styles("Heading 4").Font.Color = RGB(0, 0, 0)
+
+    ActiveDocument.Styles("Heading 5").Font.Name = "Segoe UI"
+    ActiveDocument.Styles("Heading 5").Font.Size = 10
+    ActiveDocument.Styles("Heading 5").Font.Bold = True
+    ActiveDocument.Styles("Heading 5").Font.Color = RGB(0, 0, 0)
+End Sub
+
+Sub CcllcHeaderFooter()
+    Dim currentSection As Section
+    Dim doc As Document
+    Set doc = ActiveDocument
+
+    ' Get the current section based on the selection
+    Set currentSection = doc.Sections(doc.Range(0, Selection.Range.End).Sections.Count)
+
+    Set header = currentSection.Headers(wdHeaderFooterPrimary)
+
+    ' Clear the header
+    header.Range.Delete
+
+    ' Insert a 1x2 table
+    Set table = header.Range.Tables.Add(header.Range, 1, 2)
+
+    ' Get current width of text area, set each cell to half of that
+    table.Cell(1, 1).Width = doc.PageSetup.TextColumns(1).Width / 2
+    table.Cell(1, 2).Width = doc.PageSetup.TextColumns(1).Width / 2
+
+    ' Add a bottom border to the left cell, with a thickness of 1.5 points
+    ' Make it blue
+    table.Cell(1, 1).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
+    table.Cell(1, 1).Borders(wdBorderBottom).LineWidth = wdLineWidth225pt ' 18
+    table.Cell(1, 1).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
+
+    table.Cell(1, 2).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
+    table.Cell(1, 2).Borders(wdBorderBottom).LineWidth = wdLineWidth075pt ' 6
+    table.Cell(1, 2).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
+
+
+    ' Do the same for the footer
+    Set footer = currentSection.Footers(wdHeaderFooterPrimary)
+    footer.Range.Delete
+
+    Set table = footer.Range.Tables.Add(footer.Range, 1, 2)
+
+    table.Cell(1, 1).Width = doc.PageSetup.TextColumns(1).Width / 2
+    table.Cell(1, 2).Width = doc.PageSetup.TextColumns(1).Width / 2
+
+    table.Cell(1, 1).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
+    table.Cell(1, 1).Borders(wdBorderBottom).LineWidth = wdLineWidth225pt
+    table.Cell(1, 1).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
+
+    table.Cell(1, 2).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
+    table.Cell(1, 2).Borders(wdBorderBottom).LineWidth = wdLineWidth075pt
+    table.Cell(1, 2).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
+
+    ' Insert "Page X of Y" field codes in the table.Cell(1, 2)
+    table.Cell(1, 2).Select
+    Selection.TypeText text:="Page "
+    Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldPage, PreserveFormatting:=False
+    Selection.TypeText text:=" of "
+    Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldNumPages, PreserveFormatting:=False
+
+    table.Cell(1, 2).Range.ParagraphFormat.Alignment = wdAlignParagraphRight
+
+End Sub
+
+Sub PrintBottomBorderWidth()
+    Dim selectedCell As Cell
+    Dim bottomBorderWidth As Single
+
+    ' Check if the selection is within a table
+    If Not Selection.Information(wdWithInTable) Then
+        MsgBox "Please place the cursor inside a table cell and run the script again."
+        Exit Sub
+    End If
+
+    ' Set the selectedCell object to the cell where the cursor is located
+    Set selectedCell = Selection.Cells(1)
+
+    ' Get the width of the bottom border of the cell
+    bottomBorderWidth = selectedCell.Borders(wdBorderBottom).LineWidth
+
+    ' Print the width in a message box
+    MsgBox "The bottom border width of the selected cell is: " & bottomBorderWidth
+End Sub
