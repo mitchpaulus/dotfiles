@@ -21,3 +21,9 @@ Found from the journal article <https://www.sciencedirect.com/science/article/pi
 
 
 <https://mwl.io/nonfiction/tools>
+
+# Approximation Algorithms
+
+- Elementary Functions: Algorithms and Implementation, Jean-Michel Muller
+- <https://www.amazon.com/Handbook-Continued-Fractions-Special-Functions-ebook/dp/B005LBMOSO>
+- Computer Approximations, John F. Hart
