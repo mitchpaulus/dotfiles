@@ -124,6 +124,7 @@ Stuff
 
 ```
 pandoc -o custom-reference.docx --print-default-data-file reference.docx
+# Put a reference.docx at $HOME/.local/share/pandoc
 ```
 
 ## Image Width

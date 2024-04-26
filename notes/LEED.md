@@ -107,3 +107,40 @@ Modeling requirements (2010) Table G3.1:
 ## Calculator
 
 <https://www.usgbc.org/resources/minimum-energy-performance-calculator-ashrae-901-2010>
+
+## District Energy Systems
+
+Page 363 (373 PDF). Minimum Energy Performance Section, Project Type Variations.
+
+- Option 1: Whole-Building Energy Simulation
+    - Option 1, Path 1: ASHRAE 90.1-2010 Appendix G
+        - Model the proposed and baseline designs using purchased energy according to ASHRAE 90.1–2010, Appendix G.
+    - Option 1, Path 2: Full DES Performance Accounting
+        - Baseline Plant:
+            - Model the baseline case with an on-site plant that is compliant with ASHRAE 90.1–2010, Appendix G, baseline requirements for site-generated thermal energy.
+            Model the baseline building plant with conventional equipment using performance parameters and efficiencies per ASHRAE 90.1–2010,
+            using energy sources corresponding to the DES.
+        - Proposed Plant:
+            - Model the proposed case with a virtual DES-equivalent plant.
+              Model a virtual plant with the same efficiencies as the entire upstream DES heating, cooling, and combined heat and power (CHP) systems,
+              including all distribution losses and energy use.
+              Equipment efficiencies, distribution losses, and distribution pumping energy may be determined using any of the following methods:
+                - Monitored data
+                - Engineering analysis
+                - Default values
+    - Option 1, Path 3: Streamlined DES Modeling
+        - Baseline Plant:
+            - Calculate the average annual efficiency values for each district energy fuel source used to generate and distribute the thermal energy based on ASHRAE 90.1–2010,
+              Appendix G, baseline case requirements.
+              These values depend on the ASHRAE 90.1–2010 system type that would be selected for the building if the baseline case
+              were modeled with on-site equipment.
+              The calculations for baseline cost per district energy source are the same as those for the proposed case model,
+              except that the average efficiency is constant.
+        - Proposed Plant:
+            - Determine a single value for average annual efficiency, including thermal losses and distribution energy,
+              for each district fuel energy source used to generate and distribute the thermal energy.
+
+- Option 2: Prescriptive Path, ASHRAE 50% AEDG
+- Option 3: Prescriptive Path, Advanced Buildings Core Performance Guide
+
+Upstream Equipment may or may not be included in the scope.
