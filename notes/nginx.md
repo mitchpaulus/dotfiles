@@ -139,3 +139,11 @@ sudo nginx -t
 <https://dev.to/danielkun/nginx-everything-about-proxypass-2ona#:~:text=A%20proxy_pass%20is%20usually%20used%20when%20there%20is,microservices%20that%20are%20responsible%20for%20the%20specific%20locations.>
 
 General advice is to end with slash on everything.
+
+
+```
+# Note the slash at the end of the location and the proxy_pass
+location /g/ {
+    proxy_pass http://localhost:8080/;
+}
+```

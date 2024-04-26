@@ -40,3 +40,13 @@ By default only had this single line:
 ```
 PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
 ```
+
+```
+field          allowed values
+-----          --------------
+minute         0–59
+hour           0–23
+day of month   1–31
+month          1–12 (or names, see below)
+day of week    0–7 (0 or 7 is Sun, or use names)
+```
