@@ -1,6 +1,7 @@
 #!/usr/bin/fish
 
 # Remove trailing whitespace from all files in the git diff, only for known text types
+cd (git rev-parse --show-toplevel); or exit 1
 for file in (git diff --name-only | grep -E '\.(cs|txt|json)$')
     rtw < $file > tmp; and mv tmp $file
 end
