@@ -1,0 +1,92 @@
+#!/usr/bin/env python3
+import sys
+import datetime
+import mputils
+
+min_date = datetime.datetime(9998, 1, 1)
+max_date = datetime.datetime(1, 1, 1)
+
+all_data: list[tuple[str, list[tuple[datetime.datetime, str]]]] = []
+
+for line in sys.stdin:
+    line = line.strip()
+    splitline = line.split('\t')
+    if len(splitline) == 1:
+        all_data.append((splitline[0], []))
+    else:
+        date = datetime.datetime.strptime(splitline[0], '%Y-%m-%dT%H:%M:%SZ')
+        all_data[-1][1].append((date, splitline[1]))
+        if date < min_date:
+            min_date = date
+        if date > max_date:
+            max_date = date
+
+# Round the min_date down to the nearest 5 minutes.
+min_date = min_date - datetime.timedelta(minutes=min_date.minute % 5, seconds=min_date.second, microseconds=min_date.microsecond)
+max_date = max_date - datetime.timedelta(minutes=max_date.minute % 5, seconds=max_date.second, microseconds=max_date.microsecond)
+
+interpolation_dates = []
+current_date = min_date
+while current_date <= max_date:
+    interpolation_dates.append(current_date)
+    current_date += datetime.timedelta(minutes=5)
+
+# Interpolate all the data to 5 minutes.
+for trend, data in all_data:
+    # First sort the data by date.
+    data.sort(key=lambda x: x[0])
+    interpolate_index_array = mputils.first_index_gteq(interpolation_dates, data, lambda x: x, lambda x: x[0])
+
+    new_data = []
+
+    for loop_idx, idx_gte in enumerate(interpolate_index_array):
+        if idx_gte == 0 or idx_gte is None:
+            new_data.append('')
+        else:
+            # Interpolate the data.
+            date1, value1 = data[idx_gte - 1]
+            date2, value2 = data[idx_gte]
+
+            # Check difference in times.
+            if (date2 - date1).total_seconds() > 10 * 60:
+                new_data.append('')
+                continue
+
+            # Check if both values can be parsed as floats.
+            try:
+                float1 = float(value1)
+                float2 = float(value2)
+            except ValueError:
+                # Put the previous value.
+                new_data.append(value1)
+                continue
+
+            # Interpolate the value.
+            new_value = (float2 - float1) / (date2 - date1).total_seconds() * (interpolation_dates[loop_idx] - date1).total_seconds() + float1
+
+            if new_value > 10000:
+                print(f'Warning: {trend} has a value of {new_value} at {interpolation_dates[loop_idx]}', file=sys.stderr)
+                print(f'float 1: {float1}, float 2: {float2}, date 1: {date1}, date 2: {date2}', file=sys.stderr)
+
+            new_data.append(str(new_value))
+
+    # Replace the data with the interpolated data.
+    data.clear()
+    data.extend(zip(interpolation_dates, new_data))
+
+
+mputils.version_sort_by_in_place(all_data, lambda x: x[0])
+
+# Print as TSV
+
+# print Header
+print('Timestamp', end='')
+for trend, _ in all_data:
+    print('\t' + trend, end='')
+print()
+
+for idx_gte, date in enumerate(interpolation_dates):
+    print(date.strftime('%Y-%m-%d %H:%M:%S'), end='')
+    for _, data in all_data:
+        print('\t' + data[idx_gte][1], end='')
+    print()
