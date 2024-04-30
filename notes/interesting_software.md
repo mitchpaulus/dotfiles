@@ -322,3 +322,5 @@ Slideshows
 ## [Lapce](https://lapce.dev/)
 
 Yet another code editor
+
+## [MiniExcel](https://github.com/mini-software/MiniExcel)

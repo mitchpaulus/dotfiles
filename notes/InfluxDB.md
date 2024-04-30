@@ -151,3 +151,19 @@ from(bucket:"example-bucket") |> range(start: 2021-01-01, stop: 2022-01-01) |> f
 ## Annotated CSV - Response
 
 <https://docs.influxdata.com/influxdb/v2/reference/syntax/annotated-csv/>
+
+## Typical data query
+
+```
+from(bucket: "example-bucket")
+  |> range(start: 2021-01-01, stop: 2022-02-01)
+  |> filter(fn: (r) => r._measurement == "cpu" or r._measurement == "mem")
+  |> yield()
+```
+
+## Regex
+
+```
+expression =~ /regex/
+expression !~ /regex/
+```
