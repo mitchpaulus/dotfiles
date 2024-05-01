@@ -2523,7 +2523,7 @@ def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, ds
 
         y, mon, d, h, m = mputils.ymdhm_from_rd(year_dates[i])
 
-        if mputils.is_dst(y, mon, d, h) and dst:
+        if dst and mputils.is_dst(y, mon, d, h):
             y, mon, d, h, m = mputils.ymdhm_from_rd(year_dates[i] + 60)
 
         if ip:
@@ -2815,8 +2815,10 @@ Options:
     -w, --wban: WBAN code (5 digits, ex: 03927)
     -y, --year: Year
     -o, --offset: Standard offset in hours from UTC (ex: CST is -o -6)
+    --dst: Account for daylight savings time (affects --hourly). Default is off.
     --hourly: Get data in interpolated hourly format
     --header: Add header to output (only for hourly output currently)
+    --interval: Minute interval for hourly data (default is 60)
     --ip: Convert to imperial units
     --dfw: Shortcut for my location (DFW airport)
     --iah: Shortcut for Houston (IAH airport)
@@ -2834,7 +2836,11 @@ Examples:
     Get epw for DFW for 2019:
     isd2tsv --dfw --year 2019 -o 6 --epw
 
+    Get average temperature data in IP for IAH airport for dates in dates.txt:
     isd2tsv --iah -o 6 --ip --ave-dates dates.txt
+
+    Get hourly data for DFW for 2019, accounting for DST:
+    isd2tsv --dfw --year 2019 -o 6 --hourly --dst
 
 Formats:
 
