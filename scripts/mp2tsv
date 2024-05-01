@@ -2,91 +2,206 @@
 import sys
 import datetime
 import mputils
+from typing import Optional, Union
 
-min_date = datetime.datetime(9998, 1, 1)
-max_date = datetime.datetime(1, 1, 1)
+def main(filter_incomplete: bool, interval: int):
+    min_date = datetime.datetime(9998, 1, 1)
+    max_date = datetime.datetime(1, 1, 1)
 
-all_data: list[tuple[str, list[tuple[datetime.datetime, str]]]] = []
+    all_data: list[tuple[str, list[tuple[datetime.datetime, str]]]] = []
 
-for line in sys.stdin:
-    line = line.strip()
-    splitline = line.split('\t')
-    if len(splitline) == 1:
-        all_data.append((splitline[0], []))
-    else:
-        date = datetime.datetime.strptime(splitline[0], '%Y-%m-%dT%H:%M:%SZ')
-        all_data[-1][1].append((date, splitline[1]))
-        if date < min_date:
-            min_date = date
-        if date > max_date:
-            max_date = date
-
-# Round the min_date down to the nearest 5 minutes.
-min_date = min_date - datetime.timedelta(minutes=min_date.minute % 5, seconds=min_date.second, microseconds=min_date.microsecond)
-max_date = max_date - datetime.timedelta(minutes=max_date.minute % 5, seconds=max_date.second, microseconds=max_date.microsecond)
-
-interpolation_dates = []
-current_date = min_date
-while current_date <= max_date:
-    interpolation_dates.append(current_date)
-    current_date += datetime.timedelta(minutes=5)
-
-# Interpolate all the data to 5 minutes.
-for trend, data in all_data:
-    # First sort the data by date.
-    data.sort(key=lambda x: x[0])
-    interpolate_index_array = mputils.first_index_gteq(interpolation_dates, data, lambda x: x, lambda x: x[0])
-
-    new_data = []
-
-    for loop_idx, idx_gte in enumerate(interpolate_index_array):
-        if idx_gte == 0 or idx_gte is None:
-            new_data.append('')
+    for line in sys.stdin:
+        line = line.strip()
+        splitline = line.split('\t')
+        if len(splitline) == 1:
+            all_data.append((splitline[0], []))
         else:
-            # Interpolate the data.
-            date1, value1 = data[idx_gte - 1]
-            date2, value2 = data[idx_gte]
+            date = datetime.datetime.strptime(splitline[0], '%Y-%m-%dT%H:%M:%SZ')
+            all_data[-1][1].append((date, splitline[1]))
+            if date < min_date:
+                min_date = date
+            if date > max_date:
+                max_date = date
 
-            # Check difference in times.
-            if (date2 - date1).total_seconds() > 10 * 60:
+    # Round the min_date down to the nearest interval minutes.
+    min_date = min_date - datetime.timedelta(minutes=min_date.minute % interval, seconds=min_date.second, microseconds=min_date.microsecond)
+    max_date = max_date - datetime.timedelta(minutes=max_date.minute % interval, seconds=max_date.second, microseconds=max_date.microsecond)
+
+    interpolation_dates = []
+    current_date = min_date
+    while current_date <= max_date:
+        interpolation_dates.append(current_date)
+        current_date += datetime.timedelta(minutes=interval)
+
+    # Interpolate all the data to interval minutes.
+    for trend, data in all_data:
+        # First sort the data by date.
+        data.sort(key=lambda x: x[0])
+        interpolate_index_array = mputils.first_index_gteq(interpolation_dates, data, lambda x: x, lambda x: x[0])
+
+        new_data = []
+
+        for loop_idx, idx_gte in enumerate(interpolate_index_array):
+            if idx_gte == 0 or idx_gte is None:
                 new_data.append('')
-                continue
+            else:
+                # Interpolate the data.
+                date1, value1 = data[idx_gte - 1]
+                date2, value2 = data[idx_gte]
 
-            # Check if both values can be parsed as floats.
-            try:
-                float1 = float(value1)
-                float2 = float(value2)
-            except ValueError:
-                # Put the previous value.
-                new_data.append(value1)
-                continue
+                # Check difference in times.
+                if (date2 - date1).total_seconds() > 2 * interval * 60:
+                    new_data.append('')
+                    continue
 
-            # Interpolate the value.
-            new_value = (float2 - float1) / (date2 - date1).total_seconds() * (interpolation_dates[loop_idx] - date1).total_seconds() + float1
+                # Check if both values can be parsed as floats.
+                try:
+                    float1 = float(value1)
+                    float2 = float(value2)
+                except ValueError:
+                    # Put the previous value.
+                    new_data.append(value1)
+                    continue
 
-            if new_value > 10000:
-                print(f'Warning: {trend} has a value of {new_value} at {interpolation_dates[loop_idx]}', file=sys.stderr)
-                print(f'float 1: {float1}, float 2: {float2}, date 1: {date1}, date 2: {date2}', file=sys.stderr)
+                # Interpolate the value.
+                new_value = (float2 - float1) / (date2 - date1).total_seconds() * (interpolation_dates[loop_idx] - date1).total_seconds() + float1
 
-            new_data.append(str(new_value))
+                if new_value > 10000:
+                    print(f'Warning: {trend} has a value of {new_value} at {interpolation_dates[loop_idx]}', file=sys.stderr)
+                    print(f'float 1: {float1}, float 2: {float2}, date 1: {date1}, date 2: {date2}', file=sys.stderr)
 
-    # Replace the data with the interpolated data.
-    data.clear()
-    data.extend(zip(interpolation_dates, new_data))
+                new_data.append(str(new_value))
+
+        # Replace the data with the interpolated data.
+        data.clear()
+        data.extend(zip(interpolation_dates, new_data))
 
 
-mputils.version_sort_by_in_place(all_data, lambda x: x[0])
+    mputils.version_sort_by_in_place(all_data, lambda x: x[0])
 
-# Print as TSV
+    # Print as TSV
 
-# print Header
-print('Timestamp', end='')
-for trend, _ in all_data:
-    print('\t' + trend, end='')
-print()
-
-for idx_gte, date in enumerate(interpolation_dates):
-    print(date.strftime('%Y-%m-%d %H:%M:%S'), end='')
-    for _, data in all_data:
-        print('\t' + data[idx_gte][1], end='')
+    # print Header
+    print('Timestamp', end='')
+    for trend, _ in all_data:
+        print('\t' + trend, end='')
     print()
+
+    for idx_gte, date in enumerate(interpolation_dates):
+        if filter_incomplete and any(data[idx_gte][1] == '' for _, data in all_data):
+            continue
+
+        print(date.strftime('%Y-%m-%d %H:%M:%S'), end='')
+        for _, data in all_data:
+            print('\t' + data[idx_gte][1], end='')
+        print()
+
+# Define tokens
+filter_incomplete_token = 1
+interval_token = 2
+string_token = 3
+integer_token = 4
+help_token = 5
+eof = 6
+
+class Token:
+    def __init__(self, token_type: int, value: str):
+        self.token_type = token_type
+        self.value = value
+
+    def __str__(self):
+        return f"Token({self.token_type}, {self.value})"
+
+class CliLexer:
+    def __init__(self, args: list[str]):
+        self.args = args
+        self.idx = 0
+        self.current_token = self.consume()
+
+    def consume(self) -> Token:
+        self.idx += 1
+        if self.idx >= len(self.args):
+            return Token(eof, '')
+
+        str_val = self.args[self.idx]
+        if str_val == "--filter-incomplete":
+            return Token(filter_incomplete_token, str_val)
+        elif str_val == "--interval" or str_val == "-i":
+            return Token(interval_token, str_val)
+        elif str_val == "-h" or str_val == "--help":
+            return Token(help_token, str_val)
+        elif str_val.startswith('-'):
+            raise Exception(f"Unknown option {str_val}")
+        # Else if try parse as integer
+        elif str_val.isdigit():
+            return Token(integer_token, str_val)
+        else:
+            return Token(string_token, str_val)
+
+    def peek(self) -> Token:
+        return self.current_token
+
+class CliParser:
+    lookahead: Token
+
+    def __init__(self, lex: CliLexer):
+        self.lex = lex
+        self.lookahead = lex.peek()
+        self.options = Options()
+
+    def match(self, expected: int) -> Token:
+        if self.lookahead.token_type == expected:
+            current = self.lookahead
+            self.lookahead = self.lex.consume()
+            return current
+        else:
+            raise Exception(f"Expected {expected}, got {self.lookahead}")
+
+    def parse_interval_option(self):
+        self.match(interval_token)
+        self.options.interval = int(self.match(integer_token).value)
+
+    def parse_options(self):
+        while True:
+            print(self.lookahead, file=sys.stderr)
+            if self.lookahead.token_type == eof:
+                break
+            if self.lookahead.token_type == filter_incomplete_token:
+                self.match(filter_incomplete_token)
+                self.options.filter_incomplete = True
+            elif self.lookahead.token_type == interval_token:
+                self.parse_interval_option()
+            elif self.lookahead.token_type == help_token:
+                print("Usage: mp2tsv OPTIONS < FILE")
+                print("Options:")
+                print("  --filter-incomplete: Filter out incomplete data, any row that is not totally complete will be removed.")
+                sys.exit(0)
+            else:
+                raise Exception(f"Unexpected token {self.lookahead}")
+
+        return
+
+    def parse(self):
+        self.parse_options()
+        return self.options
+
+
+class Options:
+    def __init__(self):
+        self.filter_incomplete = False
+        self.interval = 5
+
+    def __str__(self):
+        return f"Filter incomplete: {self.filter_incomplete}, Interval: {self.interval}"
+
+    def __repr__(self):
+        return str(self)
+
+if __name__ == "__main__":
+    lex = CliLexer(sys.argv)
+    parser = CliParser(lex)
+
+    options = parser.parse()
+
+    print(options, file=sys.stderr)
+    main(options.filter_incomplete, options.interval)
