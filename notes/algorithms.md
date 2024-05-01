@@ -334,3 +334,8 @@ def to_csv_cell(text):
     return ''.join(chars)
 
 ```
+
+## Sorting Networks
+
+Cool idea that came up when I was thinking about sorting in xlim.
+<https://en.wikipedia.org/wiki/Sorting_network>
