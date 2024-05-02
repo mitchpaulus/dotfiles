@@ -13,6 +13,8 @@ import (
     "strconv"
 )
 
+const toggl_err = `Toggl API error`
+
 
 type TogglTimeEntry struct {
     ID                int64      `json:"id"`
@@ -147,6 +149,8 @@ func main() {
         } else if (os.Args[i] == "lunch") {
             // Start lunch timer
             command = "lunch"
+        } else if (os.Args[i] == "break") {
+            command = "break"
         } else {
             // Print to stderr
             fmt.Fprintf(os.Stderr, "Unknown command: %s\n", os.Args[i])
@@ -157,8 +161,6 @@ func main() {
         i++
     }
 
-
-    toggl_err := `Toggl API error`
 
     if command == "ws" {
         // Get the workspaces for currrent user
@@ -177,77 +179,10 @@ func main() {
 
         os.Exit(0)
     } else if command == "lunch" {
-
-        // Look for project with name "Lunch", case-insensitive
-        projects, err := get_projects(token)
-        if err != nil {
-            fmt.Fprintf(os.Stderr, toggl_err)
-            os.Exit(1)
-        }
-
-        // Check if project with name "Lunch" exists
-        var lunch_id int64
-        var lunchProject TogglProject
-        for _, project := range projects {
-            if strings.ToLower(project.Name) == "lunch" {
-                lunch_id = project.ID
-                lunchProject = project
-                break
-            }
-        }
-
-        if lunch_id == 0 {
-            fmt.Fprintf(os.Stderr, "Lunch project not found\n")
-            os.Exit(1)
-        }
-
-        // Print lunch Id to STDERR
-        fmt.Fprintf(os.Stderr, "Lunch project ID: %d\n", lunch_id)
-
-        workspaceId := lunchProject.WorkspaceId
-
-        // Start timer for lunch project
-        // https://api.track.toggl.com/api/v9/workspaces/{workspace_id}/time_entries
-        TogglProjectPost := TogglProjectPost{
-            CreatedWith: "toggl_cli",
-            Description: "Lunch",
-            Duration: -1,
-            ProjectId: lunch_id,
-            Start: time.Now().UTC().Format("2006-01-02T15:04:05Z"),
-            WorkspaceId: workspaceId,
-        }
-
-        postBytes, err := json.Marshal(TogglProjectPost)
-        if err != nil {
-            fmt.Fprintf(os.Stderr, "Error in marshalling TogglProjectPost\n")
-            fmt.Fprintf(os.Stderr, toggl_err)
-            os.Exit(1)
-        }
-
-        req, err := http.NewRequest(http.MethodPost, fmt.Sprintf("https://api.track.toggl.com/api/v9/workspaces/%d/time_entries", workspaceId), bytes.NewBuffer(postBytes))
-        if err != nil {
-            fmt.Fprintf(os.Stderr, "Error in building new request.\n")
-            fmt.Fprintf(os.Stderr, toggl_err)
-            os.Exit(1)
-        }
-
-        req.Header.Set("Content-Type", "application/json; charset=utf-8")
-        req.SetBasicAuth(token, "api_token")
-
-        client := &http.Client{}
-        resp, err := client.Do(req)
-        if err != nil {
-            fmt.Fprintf(os.Stderr, "Error in POST request for lunch\n")
-            fmt.Fprintf(os.Stderr, toggl_err)
-            os.Exit(1)
-        }
-
-        // Check the response code
-        if resp.StatusCode != 200 {
-            fmt.Fprintf(os.Stderr, "Error in POST request for lunch\n")
-            fmt.Fprintf(os.Stderr, toggl_err)
-            os.Exit(1)
-        }
+        startTimer("Lunch", "Lunch", token)
+        os.Exit(0)
+    } else if command == "break" {
+        startTimer("Office/Admin", "Break", token)
         os.Exit(0)
     }
 
@@ -560,5 +495,84 @@ func daysInMonth(year int, month int) int {
         }
     default:
         return 0
+    }
+}
+
+func startTimer(projectName string, description string, token string)  {
+    // Look for project with name "projectName", case-insensitive
+    projects, err := get_projects(token)
+    if err != nil {
+        fmt.Fprintf(os.Stderr, toggl_err)
+        os.Exit(1)
+    }
+
+    // Check if project with name "project" exists
+    var projectId int64
+    var togglProject TogglProject
+    for _, project := range projects {
+        if strings.EqualFold(project.Name, projectName) {
+            projectId = project.ID
+            togglProject = project
+            break
+        }
+    }
+
+    if projectId == 0 {
+        fmt.Fprintf(os.Stderr, "Project %s not found\n", projectName)
+        // Print all available projects, sorted
+        fmt.Fprintf(os.Stderr, "Available projects:\n")
+        for _, project := range projects {
+            fmt.Fprintf(os.Stderr, "%s\n", project.Name)
+        }
+
+        os.Exit(1)
+    }
+
+    // Print project Id to STDERR
+    fmt.Fprintf(os.Stderr, "%s project ID: %d\n", projectName, projectId)
+
+    workspaceId := togglProject.WorkspaceId
+
+    // Start timer for project
+    // https://api.track.toggl.com/api/v9/workspaces/{workspace_id}/time_entries
+    TogglProjectPost := TogglProjectPost{
+        CreatedWith: "toggl_cli",
+        Description: description,
+        Duration: -1,
+        ProjectId: projectId,
+        Start: time.Now().UTC().Format("2006-01-02T15:04:05Z"),
+        WorkspaceId: workspaceId,
+    }
+
+    postBytes, err := json.Marshal(TogglProjectPost)
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error in marshalling TogglProjectPost\n")
+        fmt.Fprintf(os.Stderr, toggl_err)
+        os.Exit(1)
+    }
+
+    req, err := http.NewRequest(http.MethodPost, fmt.Sprintf("https://api.track.toggl.com/api/v9/workspaces/%d/time_entries", workspaceId), bytes.NewBuffer(postBytes))
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error in building new request.\n")
+        fmt.Fprintf(os.Stderr, toggl_err)
+        os.Exit(1)
+    }
+
+    req.Header.Set("Content-Type", "application/json; charset=utf-8")
+    req.SetBasicAuth(token, "api_token")
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error in POST request for %s\n", projectName)
+        fmt.Fprintf(os.Stderr, toggl_err)
+        os.Exit(1)
+    }
+
+    // Check the response code
+    if resp.StatusCode != 200 {
+        fmt.Fprintf(os.Stderr, "Error in POST request for %s\n", projectName)
+        fmt.Fprintf(os.Stderr, toggl_err)
+        os.Exit(1)
     }
 }
