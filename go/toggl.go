@@ -10,6 +10,7 @@ import (
     "math"
     "strings"
     "bytes"
+    "strconv"
 )
 
 
@@ -96,6 +97,9 @@ func main() {
         not_tracking_text = "Not tracking"
     }
 
+    var tsMonth int = -1
+    var tsPeriod int = -1
+
     command := "current"
     i := 1 // Oth index is the program name
 
@@ -110,6 +114,34 @@ func main() {
             os.Exit(0)
         } else if os.Args[i] == "ts" {
             command = "ts"
+
+            // If there are more arguments, it's assumed to be the month and period
+            if i + 2 < len(os.Args) {
+                var err error
+                tsMonth, err = strconv.Atoi(os.Args[i+1])
+
+                if err != nil {
+                    fmt.Fprintf(os.Stderr, "Invalid month: %s\n", os.Args[i+1])
+                    os.Exit(1)
+                }
+                if tsMonth < 1 || tsMonth > 12 {
+                    fmt.Fprintf(os.Stderr, "Invalid month: %d\n", tsMonth)
+                    os.Exit(1)
+                }
+
+                tsPeriod, err = strconv.Atoi(os.Args[i+2])
+                if err != nil {
+                    fmt.Fprintf(os.Stderr, "Invalid period: %s\n", os.Args[i+2])
+                    os.Exit(1)
+                }
+                if tsPeriod != 1 && tsPeriod != 2 {
+                    fmt.Fprintf(os.Stderr, "Invalid period: %d\n", tsPeriod)
+                    os.Exit(1)
+                }
+
+                i += 2
+            }
+
         } else if os.Args[i] == "ws" {
             command = "ws"
         } else if (os.Args[i] == "lunch") {
@@ -124,6 +156,7 @@ func main() {
         // fmt.Println(os.Args[i])
         i++
     }
+
 
     toggl_err := `Toggl API error`
 
@@ -313,7 +346,23 @@ func main() {
         now := time.Now()
 
         year := now.Year()
-        month := now.Month()
+        month := int(now.Month())
+        day := now.Day()
+
+        if tsMonth != -1 {
+            month = tsMonth
+            if tsMonth > month {
+                year -= 1
+            }
+        }
+
+        if tsPeriod != -1 {
+            if tsPeriod == 1 {
+                day = 1
+            } else {
+                day = 16
+            }
+        }
 
         // Check whether the date of the month is before or after the 15th
         // Need to get start and end dates in YYYY-MM-DD format.
@@ -321,7 +370,7 @@ func main() {
         var start_date string
         var end_date string
 
-        if now.Day() <= 15 {
+        if day <= 15 {
             // Start date is 1st of the month
             start_date = fmt.Sprintf("%d-%02d-%02d", year, month, 1)
             end_date = fmt.Sprintf("%d-%02d-%02d", year, month, 15)
@@ -387,6 +436,10 @@ func main() {
 
         // Print the entries to stdout, tab delimited
         // Fields: description, project_id, duration (hrs), start, stop
+
+        // Print header
+        fmt.Printf("Description\tProject\tDuration (rounded)\tDuration (exact)\tStart Date\tStart Time\tStop Time\n")
+
         for _, entry := range t {
             dur_in_hours := float64(entry.Duration) / 3600.0
 
