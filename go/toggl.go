@@ -77,11 +77,6 @@ type TogglProjectPost struct {
     ProjectId int64 `json:"project_id"`
     Start string `json:"start"`
     WorkspaceId int64 `json:"workspace_id"`
-
-
-
-
-
 }
 
 func main() {
@@ -151,6 +146,21 @@ func main() {
             command = "lunch"
         } else if (os.Args[i] == "break") {
             command = "break"
+        } else if os.Args[i] == "start" {
+            // Start a new time entry
+            // Check for project name
+            if i + 2 >= len(os.Args) {
+                fmt.Fprintf(os.Stderr, "Missing project name and description\n")
+                os.Exit(1)
+            }
+
+            // Start the timer
+            startTimer(os.Args[i+1], os.Args[i+2], token)
+            os.Exit(0)
+
+        } else if os.Args[i] == "projects" {
+            // Print all projects
+            command = "projects"
         } else {
             // Print to stderr
             fmt.Fprintf(os.Stderr, "Unknown command: %s\n", os.Args[i])
@@ -184,6 +194,18 @@ func main() {
     } else if command == "break" {
         startTimer("Office/Admin", "Break", token)
         os.Exit(0)
+    } else if command == "projects" {
+        // Get the projects for the current user
+        projects, err := get_projects(token)
+        if err != nil {
+            fmt.Fprintf(os.Stderr, toggl_err)
+            os.Exit(1)
+        }
+
+        // Print the projects to stdout
+        for _, project := range projects {
+            fmt.Printf(project.Name + "\n")
+        }
     }
 
     // Else command is either "current" or "stop", need to get the current time entry for both
