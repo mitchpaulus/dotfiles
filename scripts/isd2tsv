@@ -9,7 +9,6 @@ from typing import Union, List, TextIO, Optional, Tuple
 import math
 import requests
 import psychrometrics as psy
-import glob
 import datetime
 import os
 
@@ -1906,7 +1905,13 @@ class IsdRecord:
         if self.dry_bulb_air_temperature == "+9999":
             return None
 
-        return (int(self.dry_bulb_air_temperature)/10) * 9 / 5 + 32
+        return (int(self.dry_bulb_air_temperature)/10.0) * 9 / 5 + 32
+
+    def parsed_dry_bulb_deg_c(self) -> Optional[float]:
+        if self.dry_bulb_air_temperature == "+9999":
+            return None
+
+        return int(self.dry_bulb_air_temperature)/10.0
 
     def parsed_dew_point_deg_f(self) -> Optional[float]:
         if self.dew_point_air_temperature == "+9999":
@@ -2317,13 +2322,20 @@ def get_year_utilizing_cache(usaf: str, wban: str, y: int) -> str:
 def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, dst = False, minute_interval = 60):
     """
     returns list of tuples
-    0: year
-    1: month
-    2: day
-    3: hour
-    4: minute
+    0: year (YYYY)
+    1: month (1-12)
+    2: day (1-31)
+    3: hour (0-23)
+    4: minute (0-59)
+    5: Dry Bulb SI: Celsius, IP: Fahrenheit
+    6: Dew Point SI: Celsius, IP: Fahrenheit
+    7: Relative Humidity (%, 0-100)
+    8: Pressure SI: Pa, IP: psia
+    9: Wind Direction (degrees, 0-360)
+    10: Wind Speed SI: m/s, IP: mph
+    11: Total Cloud Cover (tenths, 0-10)
     """
-
+    # lines.append((y, mon, d, h, m, toa, tdp, relative_humidity, press, wind_dir, wind_speed, total_cloud_cover))
 
     if offset_hrs < 0:
         years = [year, year + 1]
@@ -2780,6 +2792,38 @@ def average_temps(dates: List[Tuple[int, int]], data_hourly) -> List[float]:
 
     return outputs
 
+def isd_date_to_local_str(record, offset, dst):
+    rd_date_local = record.rd_date(offset)
+    year_local, month_local, day_local, hour_local, minute_local = mputils.ymdhm_from_rd(rd_date_local)
+    if dst and mputils.is_dst(year_local, month_local, day_local, hour_local):
+        rd_date_local += 60
+    y, mon, d, h, m = mputils.ymdhm_from_rd(rd_date_local)
+    return f"{y}-{mon:02d}-{d:02d} {h:02d}:{m:02d}"
+
+
+def print_single_col_fmt(usaf, wban, year, ip, offset, dst):
+    contents = get_year_utilizing_cache(usaf, wban, year)
+    data = parse_isd_file_2(contents)
+    # Print out dry bulb, dew point, and relative humidity for now.
+    try:
+        if ip:
+            sys.stdout.write("Dry Bulb Temperature (°F)\n")
+            for record in data:
+                parsed_dry_bulb = record.parsed_dry_bulb_deg_f()
+                if parsed_dry_bulb is not None:
+                    date_str = isd_date_to_local_str(record, offset, dst)
+                    sys.stdout.write(f"{date_str}\t{parsed_dry_bulb:.2f}\n")
+        else:
+            sys.stdout.write("Dry Bulb Temperature (°C)\n")
+            for record in data:
+                parsed_dry_bulb = record.parsed_dry_bulb_deg_c()
+                if parsed_dry_bulb is not None:
+                    date_str = isd_date_to_local_str(record, offset, dst)
+                    sys.stdout.write(f"{date_str}\t{parsed_dry_bulb:.2f}\n")
+    except BrokenPipeError:
+        sys.exit(0)
+
+
 def averages():
     years = [2019, 2020, 2021, 2022, 2023]
     data = []
@@ -2805,6 +2849,65 @@ def averages():
 
     #  for record in hourly_data:
         #  print(*record, sep='\t', end='\n')
+
+
+def handle_avg_temp_cmd(date_file, usaf, wban, offset, ip, dst):
+    date_periods = []
+    if date_file is None:
+        # date_file is assumed to be stdin
+        file_io = sys.stdin
+    else:
+        file_io = open(date_file, 'r')
+
+    if offset is None:
+        print("Error: no offset given", file=sys.stderr)
+        sys.exit(1)
+
+    try:
+        for line in file_io:
+            split_line = line.rstrip().split()
+            if len(split_line) != 2:
+                print(f"Error: invalid date file line: {line}", file=sys.stderr)
+                sys.exit(1)
+
+            # Each field expected to be YYYY-MM-DD
+            if len(split_line[0]) != 10 or len(split_line[1]) != 10:
+                print(f"Error: invalid date file line: {line}", file=sys.stderr)
+                sys.exit(1)
+
+            start_date_rd = parse_iso_date(split_line[0])
+            end_date_rd = parse_iso_date(split_line[1])
+
+            if start_date_rd > end_date_rd:
+                print(f"Error: start date is after end date: {line}", file=sys.stderr)
+                sys.exit(1)
+
+            date_periods.append((start_date_rd, end_date_rd))
+    finally:
+        file_io.close()
+
+    # Get the minimum, and maximum start date
+    min_start_date_rd = min([start_date_rd for start_date_rd, _ in date_periods])
+    max_end_date_rd = max([end_date_rd for _, end_date_rd in date_periods])
+
+    min_year = mputils.year_from_rd(min_start_date_rd)
+    max_year = mputils.year_from_rd(max_end_date_rd)
+
+    y = min_year
+
+    all_hourly_data = []
+
+    while y <= max_year:
+        data = hourly_year(usaf, wban, y, offset, ip, dst)
+        all_hourly_data.extend(data)
+        y += 1
+
+    averages = average_temps(date_periods, all_hourly_data)
+
+    for i in range(len(averages)):
+        fields = [mputils.iso_date_str(date_periods[i][0]), mputils.iso_date_str(date_periods[i][1]), str(averages[i])]
+        print("\t".join(fields))
+
 
 def help_text() -> str:
     return """Usage: isd2tsv [options]
@@ -2888,6 +2991,8 @@ def main():
 
     ip = False
     dst = False
+
+    single_col_fmt = False
 
     average_temps_cmd = False
     date_file = None
@@ -2979,6 +3084,9 @@ def main():
         elif a == "--hourly":
             hourly = True
             idx += 1
+        elif a == "-1":
+            single_col_fmt = True
+            idx += 1
         elif a == "--interval":
             hourly = True
             if  idx + 1 >= len(sys.argv):
@@ -3023,7 +3131,12 @@ def main():
         print("Error: no WBAN code given", file=sys.stderr)
         sys.exit(1)
 
-    if year is None and not average_temps_cmd:
+    if average_temps_cmd:
+        handle_avg_temp_cmd(date_file, usaf, wban, offset, ip, dst)
+        sys.exit(0)
+
+    # Year is required for all other commands
+    if year is None:
         print("Error: no year given", file=sys.stderr)
         sys.exit(1)
 
@@ -3044,6 +3157,9 @@ def main():
         print(lines[0].tsv_header())
         for line in lines:
             print(line.tsv_line())
+
+    elif single_col_fmt:
+        print_single_col_fmt(usaf, wban, year, ip, offset, dst)
 
     elif cloud_coverage:
         contents = get_isd_file_contents_http(usaf, wban, year)
