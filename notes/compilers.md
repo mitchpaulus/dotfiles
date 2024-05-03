@@ -47,3 +47,7 @@
 - <http://eli.thegreenplace.net/2010/01/02/top-down-operator-precedence-parsing>
 - <http://journal.stuffwithstuff.com/2011/03/19/pratt-parsers-expression-parsing-made-easy/>
 - <https://matklad.github.io/2020/04/13/simple-but-powerful-pratt-parsing.HTML>
+
+# References
+
+[Peephole optimization](https://en.wikipedia.org/wiki/Peephole_optimization)

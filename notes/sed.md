@@ -19,3 +19,9 @@ Regex
 ```
 
 The `-z` option causes `sed` to separate the lines by NULLs instead of newlines.
+
+```
+# Appending
+sed '1a hello'
+sed '/pattern/a hello'
+```
