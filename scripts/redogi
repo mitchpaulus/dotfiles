@@ -1,0 +1,19 @@
+#!/bin/sh
+
+find . -name '*.do' | python3 -c '
+import sys
+
+for line in sys.stdin:
+
+    line = line.rstrip()
+
+    if line.startswith("./"):
+        line = line[2:]
+
+    line = line.replace("default", "*")
+
+    if line.endswith(".do"):
+        line = line[:-3]
+
+    print(line)
+' | sort -u
