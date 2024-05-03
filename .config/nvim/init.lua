@@ -392,6 +392,7 @@ vim.api.nvim_set_keymap("v", "<localleader>-", ":s/^/- /<CR>", { noremap = true,
 
 func_map(function(tbl) nnmap(tbl[1], tbl[2]) end, normalNoRecurseMappings)
 
+-- Insert Mode mappings
 insertModeNoRecurseMappings = {
     { '<c-d>', '<c-r>=strftime("%Y-%m-%d")<cr>' },
     { '<localleader>t', '<c-r>=strftime("%A %Y-%m-%d")<cr>' },
@@ -464,6 +465,7 @@ insertModeNoRecurseMappings = {
 
     -- Shebangs
     { '<localleader>sh', '#!/bin/sh' },
+    { '<localleader>sp', '#!/usr/bin/python3<Esc>:set ft=python<Cr>A<Cr><Cr>' },
 
     -- { '<C-Space>', '<C-x><C-o>' },
 }
