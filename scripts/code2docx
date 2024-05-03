@@ -1,0 +1,38 @@
+#!/usr/bin/python3
+
+import sys
+import subprocess
+
+# USAGE
+# code2docx lang [FILE]
+# If file not provided, reads from stdin
+if len(sys.argv) < 2 or len(sys.argv) > 3:
+    print("Usage: code2docx lang [FILE]")
+    sys.exit(1)
+
+lang = sys.argv[1]
+
+content = []
+
+if len(sys.argv) == 3:
+    file = sys.argv[2]
+
+    content.append(f"```{lang}\n")
+
+    with open(file, 'r') as f:
+        content.append(f.read())
+
+    content.append("```\n")
+
+
+    # Pass this content to pandoc
+    pandoc = subprocess.run(["pandoc", "-f", "markdown", "-t", "docx", "-o", f"{file}.docx"], input=''.join(content), text=True)
+
+else:
+    code = sys.stdin.read()
+    content.append(f"```{lang}\n")
+    content.append(code)
+    content.append("```\n")
+
+    # Pass this content to pandoc
+    pandoc = subprocess.run(["pandoc", "-f", "markdown", "-t", "docx", "-o", f"{lang}.docx"], input=''.join(content), text=True)
