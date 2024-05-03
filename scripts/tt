@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# tt stands for 'Toggl track'
+PROJ="$(toggl projects | sort -V | fzf)"
+
+# Prompt for a description
+printf "Description: "
+read -r DESC
+
+toggl start "$PROJ" "$DESC"
