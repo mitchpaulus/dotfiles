@@ -132,7 +132,11 @@ Dim TrimmedTableNubmer As String
 
 TableNumber = Selection.text
 
-TrimmedTableNumber = Trim(TableNumber)
+' If table number ends with ASCII 13 (carriage return), move left one character
+If Right(TableNumber, 1) = Chr(13) Then
+    Selection.MoveLeft Unit:=wdCharacter, Count:=1, Extend:=wdExtend
+    TableNumber = Selection.text
+End If
 
 
 Selection.InsertCrossReference ReferenceType:="Table", ReferenceKind:= _
@@ -154,11 +158,19 @@ Dim Number As String
 
 FigureNumber = Selection.text
 
+' If figure number ends with ASCII 13 (carriage return), move left one character
+If Right(FigureNumber, 1) = Chr(13) Then
+    Selection.MoveLeft Unit:=wdCharacter, Count:=1, Extend:=wdExtend
+    FigureNumber = Selection.text
+End If
+
+
  Selection.InsertCrossReference ReferenceType:="Figure", ReferenceKind:= _
         wdOnlyLabelAndNumber, ReferenceItem:=FigureNumber, InsertAsHyperlink:=True, _
         IncludePosition:=False, SeparateNumbers:=False, SeparatorString:=" "
 
 End Sub
+
 
 
 Sub FixSectionNumbering()
@@ -554,48 +566,49 @@ Sub CcllcHeaderFooter()
     header.Range.Delete
 
     ' Insert a 1x2 table
-    Set table = header.Range.Tables.Add(header.Range, 1, 2)
+    Set Table = header.Range.Tables.Add(header.Range, 1, 2)
 
     ' Get current width of text area, set each cell to half of that
-    table.Cell(1, 1).Width = doc.PageSetup.TextColumns(1).Width / 2
-    table.Cell(1, 2).Width = doc.PageSetup.TextColumns(1).Width / 2
+    Table.Cell(1, 1).Width = doc.PageSetup.TextColumns(1).Width / 2
+    Table.Cell(1, 2).Width = doc.PageSetup.TextColumns(1).Width / 2
 
     ' Add a bottom border to the left cell, with a thickness of 1.5 points
     ' Make it blue
-    table.Cell(1, 1).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
-    table.Cell(1, 1).Borders(wdBorderBottom).LineWidth = wdLineWidth225pt ' 18
-    table.Cell(1, 1).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
+    Table.Cell(1, 1).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
+    Table.Cell(1, 1).Borders(wdBorderBottom).LineWidth = wdLineWidth225pt ' 18
+    Table.Cell(1, 1).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
 
-    table.Cell(1, 2).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
-    table.Cell(1, 2).Borders(wdBorderBottom).LineWidth = wdLineWidth075pt ' 6
-    table.Cell(1, 2).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
+    Table.Cell(1, 2).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
+    Table.Cell(1, 2).Borders(wdBorderBottom).LineWidth = wdLineWidth075pt ' 6
+    Table.Cell(1, 2).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
 
 
     ' Do the same for the footer
-    Set footer = currentSection.Footers(wdHeaderFooterPrimary)
-    footer.Range.Delete
+    Set Footer = currentSection.Footers(wdHeaderFooterPrimary)
+    Footer.Range.Delete
 
-    Set table = footer.Range.Tables.Add(footer.Range, 1, 2)
+    Set Table = Footer.Range.Tables.Add(Footer.Range, 1, 2)
 
-    table.Cell(1, 1).Width = doc.PageSetup.TextColumns(1).Width / 2
-    table.Cell(1, 2).Width = doc.PageSetup.TextColumns(1).Width / 2
+    Table.Cell(1, 1).Width = doc.PageSetup.TextColumns(1).Width / 2
+    Table.Cell(1, 2).Width = doc.PageSetup.TextColumns(1).Width / 2
 
-    table.Cell(1, 1).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
-    table.Cell(1, 1).Borders(wdBorderBottom).LineWidth = wdLineWidth225pt
-    table.Cell(1, 1).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
+    Table.Cell(1, 1).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
+    Table.Cell(1, 1).Borders(wdBorderBottom).LineWidth = wdLineWidth225pt
+    Table.Cell(1, 1).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
 
-    table.Cell(1, 2).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
-    table.Cell(1, 2).Borders(wdBorderBottom).LineWidth = wdLineWidth075pt
-    table.Cell(1, 2).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
+    Table.Cell(1, 2).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
+    Table.Cell(1, 2).Borders(wdBorderBottom).LineWidth = wdLineWidth075pt
+    Table.Cell(1, 2).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
 
-    ' Insert "Page X of Y" field codes in the table.Cell(1, 2)
-    table.Cell(1, 2).Select
+        ' Insert "Page X of Y" field codes in the table.Cell(1, 2)
+    Table.Cell(1, 2).Select
     Selection.TypeText text:="Page "
     Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldPage, PreserveFormatting:=False
     Selection.TypeText text:=" of "
     Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldNumPages, PreserveFormatting:=False
 
-    table.Cell(1, 2).Range.ParagraphFormat.Alignment = wdAlignParagraphRight
+    Table.Cell(1, 2).Range.ParagraphFormat.Alignment = wdAlignParagraphRight
+
 
 End Sub
 
