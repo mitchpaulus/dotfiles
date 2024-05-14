@@ -4,26 +4,76 @@ import datetime
 import mputils
 from typing import Optional, Union
 
+
+class DateParser:
+    def __init__(self) -> None:
+        self.formats = [
+            '%Y-%m-%dT%H:%M:%SZ',
+            '%Y-%m-%d %H:%M:%S',
+            '%Y-%m-%d %H:%M',
+        ]
+
+        self.current_match = None
+
+    def try_parse(self, date_str: str) -> Optional[datetime.datetime]:
+        if self.current_match is not None:
+            try:
+                return datetime.datetime.strptime(date_str, self.formats[self.current_match])
+            except ValueError:
+                pass
+
+        for fmt in self.formats:
+            try:
+                return datetime.datetime.strptime(date_str, fmt)
+            except ValueError:
+                pass
+        return None
+
+
 def main(filter_incomplete: bool, interval: int):
+
+    date_parser = DateParser()
+
     min_date = datetime.datetime(9998, 1, 1)
     max_date = datetime.datetime(1, 1, 1)
 
     all_data: list[tuple[str, list[tuple[datetime.datetime, str]]]] = []
 
+    index = -1
+
     for line in sys.stdin:
         line = line.strip()
         splitline = line.split('\t')
+
         if len(splitline) == 1:
-            all_data.append((splitline[0], []))
+            # Search for all_data with the same name
+            found = False
+            index = 0
+            for trend, _ in all_data:
+                if trend == splitline[0]:
+                    print(f"Found duplicate trend: {splitline[0]}", file=sys.stderr)
+                    found = True
+                    break
+                index += 1
+
+            if not found:
+                all_data.append((splitline[0], []))
+                index = -1
+
         else:
-            date = datetime.datetime.strptime(splitline[0], '%Y-%m-%dT%H:%M:%SZ')
-            all_data[-1][1].append((date, splitline[1]))
+            date = date_parser.try_parse(splitline[0])
+            if date is None:
+                raise Exception(f"Could not parse date: {splitline[0]}")
+
+            all_data[index][1].append((date, splitline[1]))
             if date < min_date:
                 min_date = date
             if date > max_date:
                 max_date = date
 
     # Round the min_date down to the nearest interval minutes.
+    print(f"Min date: {min_date}, Max date: {max_date}", file=sys.stderr)
+
     min_date = min_date - datetime.timedelta(minutes=min_date.minute % interval, seconds=min_date.second, microseconds=min_date.microsecond)
     max_date = max_date - datetime.timedelta(minutes=max_date.minute % interval, seconds=max_date.second, microseconds=max_date.microsecond)
 
@@ -41,6 +91,7 @@ def main(filter_incomplete: bool, interval: int):
 
         new_data = []
 
+        large_gap_count = 0
         for loop_idx, idx_gte in enumerate(interpolate_index_array):
             if idx_gte == 0 or idx_gte is None:
                 new_data.append('')
@@ -51,6 +102,7 @@ def main(filter_incomplete: bool, interval: int):
 
                 # Check difference in times.
                 if (date2 - date1).total_seconds() > 2 * interval * 60:
+                    large_gap_count += 1
                     new_data.append('')
                     continue
 
@@ -71,6 +123,9 @@ def main(filter_incomplete: bool, interval: int):
                     print(f'float 1: {float1}, float 2: {float2}, date 1: {date1}, date 2: {date2}', file=sys.stderr)
 
                 new_data.append(str(new_value))
+
+        if large_gap_count > 0:
+            print(f'Warning: {trend} has {large_gap_count} large gaps', file=sys.stderr)
 
         # Replace the data with the interpolated data.
         data.clear()
@@ -175,6 +230,7 @@ class CliParser:
                 print("Usage: mp2tsv OPTIONS < FILE")
                 print("Options:")
                 print("  --filter-incomplete: Filter out incomplete data, any row that is not totally complete will be removed.")
+                print("  --interval, -i: Set the interval in minutes for the output data. Default is 5 minutes.")
                 sys.exit(0)
             else:
                 raise Exception(f"Unexpected token {self.lookahead}")
