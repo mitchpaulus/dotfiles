@@ -66,9 +66,9 @@ def find_all(name: str, path: str = ".") -> List[str]:
 
 def find_all_ext(ext: str, path: str = ".") -> List[str]:
     """
-    Find all files in path (including subdirectories) with 'name' contained within the file name.
+    Find all files in path (including subdirectories) ending with the given extension.
 
-    :param name: The name to search for
+    :param ext: The extension to search for
     :param path: The path to search in (defaults to current directory)
     :return: A list of full file paths
     """
