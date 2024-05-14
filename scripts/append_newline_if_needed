@@ -1,0 +1,32 @@
+#!/usr/bin/python3
+
+import os
+import sys
+
+def append_newline_if_needed(filename):
+    # Open the file in binary mode to efficiently check the end
+    with open(filename, 'rb+') as file:
+        # Move to the last byte
+        file.seek(-1, os.SEEK_END)
+        last_char = file.read(1)
+
+        if last_char == b'\n':
+            return
+
+        # Determine if the file uses Windows or Unix newlines
+        file.seek(0)
+        first_line = file.readline()
+        newline_type = b'\r\n' if b'\r\n' in first_line else b'\n'
+
+        # Append the appropriate newline
+        file.seek(0, os.SEEK_END)
+        file.write(newline_type)
+        print(f"Appended newline '{newline_type.decode()}' to {filename}", file=sys.stderr)
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print(f"Usage: {sys.argv[0]} <file>")
+        sys.exit(1)
+
+    filename = sys.argv[1]
+    append_newline_if_needed(filename)
