@@ -64,7 +64,7 @@ Functions
 
 - Skipping header line: <https://jchain.github.io/gnuplot-how-to-skip-the-first-line-in-the-data-file.html>
   - `plot "foo.dat" every ::1 using 1:2 with lines`
-  - Simpler: `plot 'file.txt` skip 1
+  - Simpler: `plot 'file.txt'` skip 1
 
 ### `with styling`
 
@@ -166,6 +166,7 @@ set xtics
 
 ```
 set xtics ("10,000 10000, "20,000" 20000, "30,000" 30000)
+set xtics 1,2,10
 ```
 
 
@@ -243,6 +244,7 @@ set timefmt "%m/%d/%y %H:%M"
 plot "data" using 1:3
 ```
 
+```
 %a abbreviated name of day of the week
 %A full name of day of the week
 %b or %h abbreviated name of the month
@@ -259,7 +261,7 @@ plot "data" using 1:3
 %M minute, 00–60
 %p ”am” or ”pm”
 %r shorthand for "%I:%M:%S %p" (only output)
-%R shorthand for %H:%M" (only output)
+%R shorthand for "%H:%M" (only output)
 %S second, integer 00–60 on output, (double) on input
 %s number of seconds since start of year 1970
 %T shorthand for "%H:%M:%S" (only output)
@@ -270,6 +272,7 @@ plot "data" using 1:3
 %Y year, 4-digit
 %z timezone, [+-]hh:mm
 %Z timezone name, ignored string
+```
 
 ## Font Size Rendering
 
@@ -374,4 +377,12 @@ pointtype or pt
 20 = filled square (again?)
 21 = open circle (again?)
 22 = filled circle (again?)
+```
+
+## Single digit month/day
+
+<https://stackoverflow.com/questions/62410451/single-digit-month-and-day-format-specifier-in-gnuplot-5-2>
+
+```
+"%1m/%1d/%Y"
 ```

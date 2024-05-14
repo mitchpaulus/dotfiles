@@ -61,6 +61,13 @@ public static string ToSigFigs(this double value, int sigFigs)
 
 ## Rounding
 
+<https://en.wikipedia.org/wiki/Rounding>
+
+```
+round2Multiple(x, m) = round(x / m) * m
+roundHalfUp(x) = floor(x + 0.5)
+```
+
 ```awk
 # Language with integer truncation - this doesn't take care of negatives.
 value = int((value / 100000) + 0.5) * 100000

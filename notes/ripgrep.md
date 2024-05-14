@@ -9,6 +9,7 @@ USAGE:
     command | rg [OPTIONS] PATTERN
 
 -I, --no-filename
+-g GLOB
 --no-heading
 -N                   suppress line numbers
 -i, --ignore-case

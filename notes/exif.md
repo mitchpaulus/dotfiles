@@ -4,17 +4,15 @@
 
 ## Tags
 
-`DateTimeOriginal`: This seems to a be good one to set to mark when the
-photo was taken. Has the exact form:
+`DateTimeOriginal`: This seems to a be good one to set to mark when the photo was taken.
+Has the exact form:
 
 YYYY:MM:DD HH:MM:SS
 
-Believe that this should be in the local time of location that the photo
-was taken in.
+Believe that this should be in the local time of location that the photo was taken in.
 
-Based on this [Stack Overflow
-answer](https://photo.stackexchange.com/a/69193), `DateTimeOriginal` is
-the tag that Windows gives the highest priority to.
+Based on this [Stack Overflow answer](https://photo.stackexchange.com/a/69193),
+`DateTimeOriginal` is the tag that Windows gives the highest priority to.
 
 ## Exiftool
 

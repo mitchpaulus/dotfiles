@@ -13,6 +13,8 @@
 
 ## `highlight` command
 
+See `:h group-name` for standard group names like 'Comment' and 'Constant'
+
 ```
 cterm=<attr-list>
 attr-list=attr[,attr]*

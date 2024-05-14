@@ -11,3 +11,10 @@ From [File type advisor](https://www.filetypeadvisor.com/extension/tgml):
 > Besides static components and blocks, a TGML graphic can contain or link to dynamic or interactive elements.
 > Within a TAC Vista project, TGML graphic files are located inside the "[ProjectName]\Graphics" subdirectory (e.g., "C:\ProjectACME\Graphics").
 > Any .tgml file can be directly opened for editing in the Graphics Editor for TGML, a dedicated commercial tool available from Schneider Electric for working with TGML graphics.
+
+
+# Plain English to StruxureWare
+
+<https://hvac-talk.com/vbb/threads/2242881-Schneider-MP-X-scripting-language-reference?highlight=numeric+input>
+
+[Differences between Continuum Plain English and StruxureWare Building Operation Script](https://community.se.com/t5/Building-Automation-Knowledge/Differences-between-Continuum-Plain-English-and-StruxureWare/ta-p/4711)
