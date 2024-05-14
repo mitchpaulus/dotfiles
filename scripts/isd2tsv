@@ -2319,7 +2319,7 @@ def get_year_utilizing_cache(usaf: str, wban: str, y: int) -> str:
     return contents
 
 
-def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, dst = False, minute_interval = 60):
+def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, dst = False, minute_interval = 60, datetime_format = None):
     """
     returns list of tuples
     0: year (YYYY)
@@ -2546,7 +2546,11 @@ def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, ds
             # m/s to mph
             wind_speed = wind_speed * 2.23694 if wind_speed is not None else None
 
-        lines.append((y, mon, d, h, m, toa, tdp, relative_humidity, press, wind_dir, wind_speed, total_cloud_cover))
+        if datetime_format is not None:
+            datetime_str = datetime.datetime(y, mon, d, h, m).strftime(datetime_format)
+            lines.append((datetime_str, toa, tdp, relative_humidity, press, wind_dir, wind_speed, total_cloud_cover))
+        else:
+            lines.append((y, mon, d, h, m, toa, tdp, relative_humidity, press, wind_dir, wind_speed, total_cloud_cover))
 
     return lines
 
@@ -2997,6 +3001,8 @@ def main():
     average_temps_cmd = False
     date_file = None
 
+    datetime_format = None
+
     idx = 1
     while idx < len(sys.argv):
         a = sys.argv[idx]
@@ -3101,6 +3107,13 @@ def main():
         elif a == "--ip":
             ip = True
             idx += 1
+        elif a == "--format":
+            if idx + 1 >= len(sys.argv):
+                print("Error: no format given", file=sys.stderr)
+                sys.exit(1)
+
+            datetime_format = sys.argv[idx + 1]
+            idx += 2
         elif a == "--dst":
             dst = True
             idx += 1
@@ -3245,13 +3258,19 @@ def main():
             print("Error: no offset given", file=sys.stderr)
             sys.exit(1)
 
-        lines = hourly_year(usaf, wban, year, offset, ip, dst, minute_interval)
+        lines = hourly_year(usaf, wban, year, offset, ip, dst, minute_interval, datetime_format)
 
         if header:
-            if ip:
-                headers = ["Year", "Month", "Day", "Hour", "Minute", "Outdoor Air Temperature (°F)", "Dew Point Temperature (°F)", "Relative Humidity (%)", "Atmospheric Station Pressure (psi)", "Wind Direction (0-360)", "Wind Speed (mph)", "Total Sky Cover (tenths)"]
+            if datetime_format is None:
+                headers = ["Year", "Month", "Day", "Hour", "Minute"]
             else:
-                headers = ["Year", "Month", "Day", "Hour", "Minute", "Outdoor Air Temperature (°C)", "Dew Point Temperature (°C)", "Relative Humidity (%)", "Atmospheric Station Pressure (Pa)", "Wind Direction (0-360)", "Wind Speed (m/s)", "Total Sky Cover (tenths)"]
+                headers = ["Timestamp"]
+
+            if ip:
+                headers.extend(["Outdoor Air Temperature (°F)", "Dew Point Temperature (°F)", "Relative Humidity (%)", "Atmospheric Station Pressure (psi)", "Wind Direction (0-360)", "Wind Speed (mph)", "Total Sky Cover (tenths)"])
+            else:
+                headers.extend(["Outdoor Air Temperature (°C)", "Dew Point Temperature (°C)", "Relative Humidity (%)", "Atmospheric Station Pressure (Pa)", "Wind Direction (0-360)", "Wind Speed (m/s)", "Total Sky Cover (tenths)"])
+
             print(*headers, sep='\t')
 
         def format_float(f) -> str:
