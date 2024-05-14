@@ -25,6 +25,8 @@ Can use like:
 
 ```sh
 diff -u --label AHU.08C/CoolingDemand "$old_dir"/AHU.08C --label AHU.08C/CoolingDemand AHU.08C | diff2html -i stdin -o stdout -s side > AHU.08C.html
+
+diff -ru dir1/ dir2/ | diff2html -i stdin -o stdout -s side > diff.html
 ```
 
 The `-u` (unified) option is important to make the tool work.
