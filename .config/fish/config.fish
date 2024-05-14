@@ -335,6 +335,7 @@ abbr -a rd 'nvim README.md'
 abbr -a lv 'nvim -c "normal \'0" -c bd1'
 
 abbr -a pwgen 'pwgen -cnysB -r \'`#<>[]{};\' 14 1'
+abbr -a lunch 'toggl lunch'
 
 # Git shortcuts
 if command -v git >/dev/null 2>&1
