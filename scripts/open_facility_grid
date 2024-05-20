@@ -1,0 +1,13 @@
+#!/bin/sh
+set -e
+
+PROJID="$(fg_projects.py | \
+    awk 'BEGIN {FS=OFS="\t"} $3 != "Archived"' | \
+    fzf -d '	' -n 1,2 --with-nth=1,2 | \
+    awk 'FS=OFS="\t" { print $NF }' )"
+
+if [ -z "$PROJID" ]; then
+    exit 1
+fi
+
+wsl_url_open https://facilitygrid.net/main/project/"$PROJID"/overview
