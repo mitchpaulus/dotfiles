@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e
+
+# If $1 doesn't start with https://, prepend it
+if [ "${1:0:8}" != "https://" ]; then
+    set -- "https://$1"
+fi
+
+cd "$(wslpath -u "$(winenv USERPROFILE)")"
+
+cmd.exe /C start "$1"
