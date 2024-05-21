@@ -4,8 +4,8 @@
 # setdiff2way [options]... file1 file2
 #
 # OPTIONS:
-#  -1 n  set column to extract from file1 (default: 1)
-#  -2 n  set column to extract from file2 (default: 1)
+#  -1 n  set column to extract from file1 (default: 0)
+#  -2 n  set column to extract from file2 (default: 0)
 #
 # DESCRIPTION:
 # Prints lines in file1 that are not in file2, and then the revserse.
@@ -15,8 +15,8 @@ BEGIN {
 
     FS="\t"
 
-    col_file_1 = 1
-    col_file_2 = 1
+    col_file_1 = 0
+    col_file_2 = 0
 
     name_file_1 = "A"
     name_file_2 = "B"
@@ -109,6 +109,10 @@ BEGIN {
             suppress_two_minus_one = 1
             ARGV[i] = ""
         }
+        else if (ARGV[i] == "--verbose") {
+            verbose = 1
+            ARGV[i] = ""
+        }
         else if (ARGV[i] == "-d") {
             # Check that the next argument exists.
             if (ARGC <= i + 1) {
@@ -128,15 +132,41 @@ BEGIN {
 FNR == 1 { file_num++ }
 
 {
+    if (verbose) {
+        printf "File number: %s, FNR: %s\n", file_num, FNR
+    }
+
     if (file_num == 1 && FNR >= start_row_file_1) {
+        if (verbose) {
+            printf "Printing column %s\n", col_file_1
+            print $ col_file_1
+            print $0
+        }
         file_one[$col_file_1]
     }
     else if (file_num == 2 && FNR >= start_row_file_2) {
+        if (verbose) {
+            print $col_file_2
+        }
+
         file_two[$col_file_2]
     }
 }
 
 END {
+
+    if (verbose) {
+        print "File 1:"
+        for (i in file_one) {
+            print i
+        }
+        print "File 2:"
+        for (i in file_two) {
+            print i
+        }
+    }
+
+
     if (!suppress_one_minus_two) {
         for (line in file_one) {
             if (!(line in file_two)) {
@@ -187,6 +217,5 @@ END {
             }
             close("sort -V")
         }
-
     }
 }
