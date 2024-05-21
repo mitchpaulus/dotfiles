@@ -14,6 +14,11 @@
 10. KDiff3
 11. TkDiff
 
+## Ignore whitespace
+
+```sh
+diff -w file1 file2
+```
 
 ## `diff2html`
 
