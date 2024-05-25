@@ -55,15 +55,10 @@ set $firefox 
 bindsym $mod+i workspace $firefox; exec --no-startup-id firefox
 bindsym $mod+F1 workspace $firefox; exec firefox "https://i3wm.org/docs/userguide.html";
 
-
 # Bind the audio keys
-#bindcode 121 exec pamixer -t; exec pkill -SIGRTMIN+10 i3blocks
-#bindcode 122 exec pamixer -d 5; exec pkill -SIGRTMIN+10 i3blocks
-#bindcode 123 exec pamixer -i 5; exec pkill -SIGRTMIN+10 i3blocks
 bindcode 121 exec amixer set Master toggle; exec pkill -SIGRTMIN+10 i3blocks
-bindcode 122 exec amixer set Master 5-; exec pkill -SIGRTMIN+10 i3blocks
-bindcode 123 exec amixer set Master 5+; exec pkill -SIGRTMIN+10 i3blocks
-
+bindcode 122 exec amixer set Master 5%-; exec pkill -SIGRTMIN+10 i3blocks
+bindcode 123 exec amixer set Master 5%+; exec pkill -SIGRTMIN+10 i3blocks
 
 # Move focus.
 bindsym $mod+h focus left
@@ -197,7 +192,7 @@ exec --no-startup-id compton -f
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-    font pango:Fira Code 9
+    # font pango:Fira Code 9
     status_command i3blocks
     separator_symbol "<+>"
 }
