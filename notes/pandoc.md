@@ -156,3 +156,7 @@ Use `&#9;`
 ## Custom syntax highlighting
 
 `--syntax-definition`
+
+## Single line
+
+--wrap=none (auto, preserve, none)
