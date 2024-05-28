@@ -9,7 +9,10 @@ See: <https://www.spglobal.com/commodityinsights/en/products-services/natural-ga
 
 # Conversion Heat Rate
 
-1,026 BTU/ft^3
-1.026 kBTU/ft^3
+Heat Rate: 1,026 BTU/ft^3
+Heat Rate: 1.026 kBTU/ft^3
+
+1 MCF = 1,000 ft^3
+1 MCF = 1.026 MMBTU
 
 1 therm ~ 100 ft3 ~ 0.1 MCF

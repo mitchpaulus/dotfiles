@@ -14,7 +14,10 @@ Basically make the viewBox to the same internal dimensions. The width/height on 
 
 If aspect ratios do not align, then `preserveAspectRatio` option is important.
 
-
 y alignment for text:
 
 dominant-baseline = auto | text-bottom | alphabetic | ideographic | middle | central | mathematical | hanging | text-top
+
+x alignment for text:
+
+text-anchor = start | middle | end

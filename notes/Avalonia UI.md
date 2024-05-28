@@ -65,3 +65,7 @@ private void SelectionModelOnSelectionChanged(object? sender, SelectionModelSele
 ```csharp
 dotnet new avalonia.window -n InfluxDialog
 ```
+
+## ScrollViewer properties on ListBox
+
+<https://github.com/AvaloniaUI/Avalonia/discussions/12029>

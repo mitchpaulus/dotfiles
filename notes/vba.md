@@ -74,3 +74,23 @@ From [Here](ErrorHandling):
 > The Err object is automatically reset when either a Resume, Exit Sub, Exit Function, Exit Property, or On Error statement is executed.
 
 [ErrorHandling]: https://www.oreilly.com/library/view/vb-vba/1565923588/1565923588_ch07-677-fm2xml.html#:~:text=The%20Err%20object%20is%20automatically,On%20Error%20statement%20is%20executed.
+
+## Break/Continue
+
+```vba
+' Break
+For Each Item in Collection
+    If Item = "Something" Then
+        Exit For
+    End If
+Next Item
+
+' Continue
+For Each Item in Collection
+    If Item = "Something" Then
+        GoTo Continue
+    End If
+    ' Do something
+Continue:
+Next Item
+```
