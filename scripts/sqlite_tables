@@ -1,4 +1,7 @@
 #!/bin/sh
 
 # Get all tables from a sqlite3 database, get create table lines, then extract first quoted string
-sqlite3 "$1" '.schema' | awk '/CREATE TABLE/' | grep -o '".*"' | sed 's/"//g'
+sqlite3 "$1" '.schema' | awk '/CREATE TABLE/ {
+ split($3, a, "(");
+ print a[1];
+}' | grep -v 'sqlite_sequence' | sed 's/"//g'
