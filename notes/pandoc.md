@@ -160,3 +160,7 @@ Use `&#9;`
 ## Single line
 
 --wrap=none (auto, preserve, none)
+
+## Equation Numbering
+
+Can use `\tag{123}` to manually number equations. Thanks <https://stackoverflow.com/a/78389640
