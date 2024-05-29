@@ -756,10 +756,20 @@ vim.api.nvim_set_keymap("n", '<leader>/', ':<C-u>Ack! ', { noremap = true, silen
 -- }}}
 -- FileType AutoCmd Mappings {{{1
 
+local function markdownMathBlocks()
+    vim.cmd [[ syn region markdownMath start="^\$\$" end="\$\$" ]]
+    vim.cmd [[ syn match inlineMarkdownMath "\$[^$]\+\$" ]]
+
+    vim.cmd [[ hi link markdownMath Statement ]]
+    vim.cmd [[ hi link inlineMarkdownMath Statement ]]
+end
+
 filetype_autocmds_id = vim.api.nvim_create_augroup('filetype_autocmds', { clear = true })
 local function addToFiletypeAugroup(pattern, command)
     vim.api.nvim_create_autocmd('FileType', { pattern = pattern, group = filetype_autocmds_id, command = command })
 end
+
+vim.api.nvim_create_autocmd('FileType', { pattern = 'markdown', group = filetype_autocmds_id, callback = markdownMathBlocks })
 
 -- Remove 'r' and 'o' from formatoptions
 vim.api.nvim_create_autocmd('FileType', { pattern = 'sh,cs', group = filetype_autocmds_id, command = 'setlocal formatoptions-=r formatoptions-=o' })
