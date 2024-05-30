@@ -603,7 +603,7 @@ end
 
 --vim.api.nvim_set_keymap("v", '*', ':<C-u>lua vsetsearch()', silent)
 
-vim.g.AutocorrectFiletypes = { "markdown", "tex", "text", "gitcommit" }
+vim.g.AutocorrectFiletypes = { "markdown", "tex", "text", "gitcommit", "html" }
 vim.g.AutocorrectDisableDefaultMappings = true
 vim.api.nvim_set_keymap("n", "<leader>a", "<Plug>(AutocorrectAddToAbbrev)" , {noremap = false, silent = true})
 

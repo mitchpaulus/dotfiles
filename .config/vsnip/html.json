@@ -53,5 +53,44 @@
             "<li>$1</li>"
         ],
         "description": "list-item"
+    },
+    "html": {
+        "prefix": "html",
+        "body": [
+            "<!DOCTYPE html>",
+            "<html>",
+            "<head>",
+            "  <title>$1</title>",
+            "</head>",
+            "<body>",
+            "  $2",
+            "</body>",
+            "</html>"
+        ],
+        "description": "html"
+    },
+    "div": {
+        "prefix": "div",
+        "body": [
+            "<div>",
+            "  $1",
+            "</div>"
+        ],
+        "description": "div"
+    },
+    "tr": {
+        "prefix": "tr",
+        "body": [ "<tr> $1 </tr>" ],
+        "description": "tr"
+    },
+    "td": {
+        "prefix": "td",
+        "body": [ "<td> $1 </td>" ],
+        "description": "td"
+    },
+    "th": {
+        "prefix": "th",
+        "body": [ "<th> $1 </th>$0" ],
+        "description": "th"
     }
 }
