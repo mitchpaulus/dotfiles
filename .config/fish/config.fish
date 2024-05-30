@@ -3,10 +3,10 @@
 set -g fish_prompt_pwd_dir_length 8
 
 # Add a REPOS environment variable for all those git repositories.
-if test -d '/mnt/c/Users/mpaulus/source/repos'
-    set -gx REPOS '/mnt/c/Users/mpaulus/source/repos'
-else if test -d '/mnt/c/Users/mpaulus/repos'
+if test -d '/mnt/c/Users/mpaulus/repos'
     set -gx REPOS '/mnt/c/Users/mpaulus/repos'
+else if test -d '/mnt/c/Users/mpaulus/source/repos'
+    set -gx REPOS '/mnt/c/Users/mpaulus/source/repos'
 else if test -d "$HOME"/repos
     set -gx REPOS "$HOME"/repos
 end
