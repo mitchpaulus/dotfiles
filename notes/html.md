@@ -2,7 +2,7 @@
 
 ## Form submission algorithm
 
-https://html.spec.whatwg.org/#constructing-form-data-set
+<https://html.spec.whatwg.org/#constructing-form-data-set>
 
 Elements:
 - button

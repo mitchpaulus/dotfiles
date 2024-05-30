@@ -2,12 +2,10 @@
 
 <https://openstudio-sdk-documentation.s3.amazonaws.com/index.html>
 
-
 [Sanity Checks question](https://unmethours.com/question/797/what-questions-do-you-ask-when-doing-sanity-checks-on-a-model/)
 
 
 ## Common measures
-
 
 ```
     {
@@ -21,3 +19,8 @@
       }
     }
 ```
+
+# Floorspace.js
+
+<https://nrel.github.io/floorspace.js/>
+<https://github.com/NREL/floorspace.js>
