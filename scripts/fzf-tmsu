@@ -78,7 +78,7 @@ def query(selected_tag_set: Set[str], database_path: Union[str, None], only_dirs
 
     if len(files) == 0:
         print('No files found from current directory location')
-        sys.exit()
+        sys.exit(1)
 
     # Automatically handle a single file.
     if len(files) == 1:
@@ -101,7 +101,7 @@ def query(selected_tag_set: Set[str], database_path: Union[str, None], only_dirs
     (stdout, _) = process.communicate(input=fzf_input)
 
     if process.returncode != 0:
-        sys.exit()
+        sys.exit(1)
 
     # Trim trailing newlines on stdout
     stdout = stdout.rstrip('\n')

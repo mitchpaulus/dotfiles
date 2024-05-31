@@ -404,8 +404,9 @@ abbr -a t task list
 abbr -a mkdri mkdir
 
 function g
-    cd '/mnt/c/Users/mpaulus/Command Commissioning/'
+    pushd '/mnt/c/Users/mpaulus/Command Commissioning/'
     fzf-tmsu
+    or popd
 end
 
 function eil --description "[E]dit [i]nit.[l]ua"
