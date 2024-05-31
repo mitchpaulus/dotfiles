@@ -78,11 +78,29 @@ type Task struct {
 func main() {
     // Loop through arguments like while, looking for -h or --help
     var index int = 1
+
+    command := "list"
+    var description string
+
     for index < len(os.Args) {
         if os.Args[index] == "-h" || os.Args[index] == "--help" {
             fmt.Println("Usage: todoist")
             os.Exit(0)
+        } else if os.Args[index] == "add" || os.Args[index] == "a" {
+            command = "add"
+
+            // Get the next arguments as the description for the task, space separated
+            // If the description is not provided, print an error message and exit
+            if index + 1 >= len(os.Args) {
+                fmt.Fprint(os.Stderr, "Description required for add command.\n")
+                os.Exit(1)
+            } else {
+                descriptionItems := os.Args[index + 1:]
+                // Join the description items with a space
+                description = strings.Join(descriptionItems, " ")
+            }
         }
+
         index++
     }
 
@@ -95,6 +113,17 @@ func main() {
         os.Exit(1)
     }
 
+    if command == "list" {
+        list(token)
+    } else if command == "add" {
+        add(token, description)
+    } else {
+        // Should never reach here, print what invalid command was used
+        fmt.Fprint(os.Stderr, "Invalid command: ", command, "\n")
+    }
+}
+
+func list(token string) {
     // Get active tasks from:
     // curl --silent -X GET \
     // https://api.todoist.com/rest/v2/tasks \
@@ -144,4 +173,44 @@ func main() {
             fmt.Printf("%s\t%s\n", task.Content, strings.Join(task.Labels, ","))
         }
     }
+}
+
+func add(token string, description string) {
+    // Add a task with the description provided
+    // Example:
+    // $ curl "https://api.todoist.com/rest/v2/tasks" \
+    // -X POST \
+    // --data '{"content": "Buy Milk", "due_string": "tomorrow at 12:00", "due_lang": "en", "priority": 4}' \
+    // -H "Content-Type: application/json" \
+    // -H "X-Request-Id: $(uuidgen)" \
+    // -H "Authorization: Bearer $token"
+
+    url := "https://api.todoist.com/rest/v2/tasks"
+
+    // Create a map with the task description
+    task := map[string]string{
+        "content": description,
+        "project_id": "2315202256",
+    }
+
+    // Convert the map to a JSON string
+    taskJson, err := json.Marshal(task)
+    if err != nil {
+        fmt.Fprint(os.Stderr, err)
+        os.Exit(1)
+    }
+
+    req, _ := http.NewRequest(http.MethodPost, url, strings.NewReader(string(taskJson)))
+    req.Header.Set("Content-Type", "application/json")
+    req.Header.Set("Authorization", "Bearer " + token)
+
+    client := &http.Client{}
+    _, err = client.Do(req)
+    if err != nil {
+        fmt.Fprint(os.Stderr, err)
+        os.Exit(1)
+    }
+
+    message := fmt.Sprintf("Task '%s' successfully added.\n", description)
+    fmt.Print(message)
 }
