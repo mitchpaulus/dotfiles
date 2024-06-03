@@ -16,3 +16,8 @@ zipsplit -n SIZE zipfile.zip
 System.IO.Compression
 ZipArchive
 ```
+
+```sh
+gunzip FILE # Uncompress in place
+gunzip -c FILE > OUT # Uncompress to stdout
+```
