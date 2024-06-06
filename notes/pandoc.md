@@ -125,6 +125,7 @@ Stuff
 ```
 pandoc -o custom-reference.docx --print-default-data-file reference.docx
 # Put a reference.docx at $HOME/.local/share/pandoc
+pandoc --reference-doc=reference.docx -o output.docx input.md
 ```
 
 ## Image Width
@@ -163,4 +164,29 @@ Use `&#9;`
 
 ## Equation Numbering
 
-Can use `\tag{123}` to manually number equations. Thanks <https://stackoverflow.com/a/78389640
+Can use `\tag{123}` to manually number equations. Thanks <https://stackoverflow.com/a/78389640>
+
+Or use `pandoc-crossref`. Also see <https://github.com/lierdakil/pandoc-crossref/issues/343#issuecomment-1471971878>
+
+## `pandoc-crossref`
+
+```
+pandoc -F pandoc-crossref -F pandoc-citeproc -o output.pdf input.md
+
+# Figure references
+![Caption](image.png){#fig:label}
+As seen in @fig:label.
+```
+
+Default docx extensions (`pandoc --list-extensions=docx`)
+
+```
+-ascii_identifiers
++auto_identifiers
+-citations
+-east_asian_line_breaks
+-empty_paragraphs
+-gfm_auto_identifiers
+-native_numbering
+-styles
+```

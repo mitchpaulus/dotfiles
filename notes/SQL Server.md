@@ -139,3 +139,7 @@ func main() {
     }
 }
 ```
+
+## SSL Connection Troubleshooting
+
+<https://stackoverflow.com/questions/70399243/how-to-fix-sql-server-2019-connection-error-due-to-certificate-issue> Explicitly trust the certificate.

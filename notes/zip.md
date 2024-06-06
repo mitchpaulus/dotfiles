@@ -15,6 +15,36 @@ zipsplit -n SIZE zipfile.zip
 ```
 System.IO.Compression
 ZipArchive
+class Program
+{
+    static void Main()
+    {
+        // Path to the zip file
+        string zipPath = "example.zip";
+
+        // The text content to write into the zip entry
+        string textContent = "Hello, this is a UTF-8 encoded string.";
+
+        // Create the zip file and write the text content to an entry
+        using (FileStream zipToOpen = new FileStream(zipPath, FileMode.Create))
+        {
+            using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
+            {
+                // Create a new entry in the zip archive
+                ZipArchiveEntry readmeEntry = archive.CreateEntry("readme.txt");
+
+                // Write the UTF-8 encoded text content to the entry
+                using (StreamWriter writer = new StreamWriter(readmeEntry.Open(), Encoding.UTF8))
+                {
+                    writer.Write(textContent);
+                }
+            }
+        }
+
+        Console.WriteLine("Zip file created and text written successfully.");
+    }
+}
+
 ```
 
 ```sh

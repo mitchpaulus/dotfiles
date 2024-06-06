@@ -79,3 +79,15 @@ Directory.EnumerateFiles(string dir) -> List of full file paths.
 ## Structures for improved typing
 
 <https://www.meziantou.net/use-structures-to-improve-the-readability-of-your-code.htm>
+
+## Sanitize File Names
+
+```csharp
+    public static string SanitizeFilename(this string name)
+    {
+        string invalidChars = Regex.Escape(new string(System.IO.Path.GetInvalidFileNameChars()));
+        string invalidRegStr = string.Format(@"([{0}]*\.+$)|([{0}]+)", invalidChars);
+
+        return Regex.Replace(name, invalidRegStr, "_");
+    }
+```
