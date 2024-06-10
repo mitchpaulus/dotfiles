@@ -26,6 +26,13 @@ doc1.insert_pdf(doc2)                   # doc2 at end of doc1
 for t in toc2:                         # increase toc2 page numbers
         t[2] += pages1                     # by old len(doc1)
 doc1.set_toc(toc1 + toc2)               # now result has total TOC
+
+
+for page in doc1:
+    page.get_text("text")
+    page.get_text("blocks")
+    page.get_text("words")
+
 ```
 
 ```
