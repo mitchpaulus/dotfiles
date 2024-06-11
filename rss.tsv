@@ -17,7 +17,7 @@ https://debarghyadas.com/writes/feed.xml	Debarghya Das
 https://markkarpov.com/feed.atom	Mark Karpov - Haskell
 https://www.vincentprouillet.com/rss.xml	Vincent Prouillet - Developer and Entrepreneur
 https://jaydaigle.net/feed.xml	Jaydaigle - Mathematics
-https://jakeworth.com/rss.xml	Jake Worth - Software Engineer
+https://jakeworth.com/index.xml	Jake Worth - Software Engineer
 https://www.willmcgugan.com/feeds/posts/	Will McGugan - Software Engineer
 https://notes.volution.ro/index.xml	Volution Notes
 https://jonascarpay.com/rss.xml	Jonas Carpay
@@ -43,7 +43,7 @@ https://catonmat.net/feed	Catonmat.net - A website powered by alien technology f
 https://www.haskellforall.com/feeds/posts/default	Haskell for All - Gabriella Gonzalez
 https://austinvernon.site/rss.xml	Austin Vernon
 https://blog.codinghorror.com/rss/	Coding Horror
-https://powershell.anovelidea.org/feed.xml	Dave's Technical Journal
+https://thedavecarroll.com/feed.xml	Dave's Technical Journal
 https://www.davidosomething.com/rss.xml	Computers and stuff
 https://hpjansson.org/blag/feed/	Personal blag of H. P. Jansson: Free Software, Open Source mostly.
 https://fantom.org/forum/blog/feed	Fantom programming language blog
@@ -114,3 +114,5 @@ https://buttondown.email/hillelwayne/rss	Hillel Wayne
 https://dynomight.net/feed.xml	Dynomight
 https://mitchellh.com/feed.xml	Mitchell Hashimoto
 https://mina86.com/atom	Michał Nazarewicz
+https://laughingmeme.org/feed.xml	Kellan Elliott-McCrea
+https://kellanem.com/feed.xml	Kellan Elliott-McCrea (Leadership)
