@@ -2923,6 +2923,7 @@ Options:
     -y, --year: Year
     -o, --offset: Standard offset in hours from UTC (ex: CST is -o -6)
     --dst: Account for daylight savings time (affects --hourly). Default is off.
+    --format: Set timestamp format. Used in Python strftime format. By default, date items are in separate columns.
     --hourly: Get data in interpolated hourly format
     --header: Add header to output (only for hourly output currently)
     --interval: Minute interval for hourly data (default is 60)
