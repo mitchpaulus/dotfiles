@@ -1,0 +1,8 @@
+{
+    "Read TSV": {
+        "prefix": ["rt"],
+        "body": ["with open($1, encoding=\"utf-8\") as file:",
+                "    ${2:data} = [line.split(\"\\t\") for line in file.read().splitlines()]"],
+        "description": "Read TSV file"
+    }
+}
