@@ -60,3 +60,14 @@ POP3: Post Office Protocol 3. 1 Way.
 - Neomutt
 - [aerc](https://aerc-mail.org/)
 - [sup](https://sup-heliotrope.github.io/)
+- [notmuch](https://notmuchmail.org/)
+
+## Message Format
+
+See RFC 5322.
+
+<https://datatracker.ietf.org/doc/html/rfc5322>
+
+## CLI Tools
+
+Assume `maildir` format. Each message is a file in a directory.
