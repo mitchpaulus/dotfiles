@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import sys
 from typing import List, Iterable
+import math
 
 def alphanum_key(s):
     tokens = []
@@ -57,7 +58,7 @@ def idf2tsv(file) -> list[list[str]]:
     return results
 
 
-def tsv2dict(file: list[list[str]]) -> dict:
+def tsv2dict(file: list[list[str]]) -> dict[str, list[list[str]]]:
     results = {}
 
     for line in file:
@@ -186,19 +187,124 @@ def construction_summary(idf_dict: dict):
         print("\t".join([str(x) for x in fields]))
 
 
+def people_load(idf_dict: dict):
+    # Get all people loads
+    people_load_objs = idf_dict['people']
+
+    for people_load in people_load_objs:
+        space = people_load[2]
+        schedule = people_load[3]
+
+        people_type = people_load[4].strip().lower()
+
+        if people_type == "people":
+            people_load_str = f"{people_load[5]:,.0f} people"
+        elif people_type == "people/area":
+            people_per_ft2 = float(people_load[6]) / 10.7639
+            people_load_str = f"{people_per_ft2:.1f} people/ft²"
+        elif people_type == "area/person":
+            ft2_per_person = 10.7639 * float(people_load[7])
+            people_load_str = f"{ft2_per_person:,.0f} ft²/person"
+        else:
+            print("Error: people type '{}' not recognized.".format(people_type))
+            sys.exit(1)
+
+        fields = ["People", space, schedule, people_load_str]
+
+        print("\t".join([str(x) for x in fields]))
+
+
+def lights_load(idf_dict: dict):
+    # Get all light loads
+    light_load_objs = idf_dict['lights']
+
+    for light_load in light_load_objs:
+        space = light_load[2]
+        schedule = light_load[3]
+        lighting_type = light_load[4].strip().lower()
+
+        if lighting_type == "lightinglevel":
+            light_load_str = f"{light_load[5]} people"
+        elif lighting_type == "watts/area":
+            watts_per_ft2 = float(light_load[6]) / 10.7639
+            light_load_str = f"{watts_per_ft2:.2f} W/ft²"
+        elif lighting_type == "watts/person":
+            light_load_str = f"{light_load[7]:.2f} W/person"
+        else:
+            print("Error: people type '{}' not recognized.".format(lighting_type))
+            sys.exit(1)
+
+        fields = ["Lights", space, schedule, light_load_str]
+
+        print("\t".join([str(x) for x in fields]))
+
+def plug_load(idf_dict: dict):
+    # Get all plug loads
+    plug_load_objs = idf_dict['electricequipment']
+
+    for plug_load in plug_load_objs:
+        space = plug_load[2]
+        schedule = plug_load[3]
+        plug_type = plug_load[4].strip().lower()
+
+        if plug_type == "equipmentlevel":
+            watts = float(plug_load[5])
+
+            if watts < 1000:
+                plug_load_str = f"{watts:.0f} W"
+            elif watts < 1000000:
+                plug_load_str = f"{watts / 1000:.1f} kW"
+            else:
+                plug_load_str = f"{watts / 1000000:.1f} MW"
+
+        elif plug_type == "watts/area":
+            watts_per_ft2 = float(plug_load[6]) / 10.7639
+            plug_load_str = f"{watts_per_ft2:.2f} W/ft²"
+        elif plug_type == "watts/person":
+            plug_load_str = f"{float(plug_load[7]):.2f} W/person"
+        else:
+            print("Error: people type '{}' not recognized.".format(plug_type))
+            sys.exit(1)
+
+        fields = ["Plug", space, schedule, plug_load_str]
+
+        print("\t".join([str(x) for x in fields]))
+
+def internal_load_summary(idf_dict: dict):
+    people_load(idf_dict)
+    lights_load(idf_dict)
+    plug_load(idf_dict)
+
+def airloops(idf_dict: dict):
+    airloops = idf_dict['airloophvac']
+    for airloop in airloops:
+        name = airloop[1]
+        design_supply_air_flow_rate_m3s = float(airloop[4])
+        design_supply_air_flow_rate_cfm = design_supply_air_flow_rate_m3s * 2118.88
+        fields = [name, f"{design_supply_air_flow_rate_cfm:,.0f}"]
+        print("\t".join([str(x) for x in fields]))
+
+
 def main():
     filename = None
     command = None
     idx = 1
+    header = False
 
     while idx < len(sys.argv):
         if sys.argv[idx] == '-h' or sys.argv[idx] == '--help':
             print("Usage: idf.py [filename]")
             sys.exit(0)
+        elif sys.argv[idx] == '--header':
+            header = True
         elif sys.argv[idx] == 'elfh':
             command = "elfh"
         elif sys.argv[idx] == 'construction':
             command = "construction"
+        elif sys.argv[idx] == 'int_loads':
+            command = "int_loads"
+        elif sys.argv[idx] == 'airloops':
+            command = "airloops"
         else:
             if command is None:
                 print("Error: no command specified.")
@@ -225,6 +331,18 @@ def main():
         contents = idf2tsv(file)
         idf_dict = tsv2dict(contents)
         construction_summary(idf_dict)
+    elif command == "int_loads":
+        contents = idf2tsv(file)
+        idf_dict = tsv2dict(contents)
+        if header:
+            print("\t".join(["Type", "Space", "Schedule", "Load"]))
+        internal_load_summary(idf_dict)
+    elif command == "airloops":
+        if header:
+            print("\t".join(["Name", "Design Supply Air Flow Rate (CFM)"]))
+        contents = idf2tsv(file)
+        idf_dict = tsv2dict(contents)
+        airloops(idf_dict)
     else:
         print("Command {} not recognized.".format(command))
 
