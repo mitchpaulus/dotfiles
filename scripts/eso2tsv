@@ -1,0 +1,101 @@
+#!/usr/bin/python3
+import sys
+
+idx = 1
+
+period = 8760
+
+while idx < len(sys.argv):
+    if sys.argv[idx] == "-h":
+        print("Usage: eso2tsv < input.eso > output.tsv")
+        sys.exit(0)
+    elif sys.argv[idx] == "-m":
+        period = 12
+        idx += 1
+    elif sys.argv[idx] == "-d":
+        period = 365
+        idx += 1
+    elif sys.argv[idx] == "-a":
+        period = 1
+        idx += 1
+    else:
+        print(f"Unknown option {sys.argv[idx]}", file=sys.stderr)
+        sys.exit(1)
+
+    idx += 1
+
+
+def strip_comment(line):
+    comment_idx = line.find("!")
+    if comment_idx != -1:
+        return line[:comment_idx]
+    return line
+
+title_line = sys.stdin.readline()
+in_data_dir = True
+data_dict = {}
+
+while in_data_dir:
+    line = sys.stdin.readline()
+    if "End of Data Dictionary" in line:
+        in_data_dir = False
+    else:
+        comma_idx = line.find(",")
+        data_dict[line[:comma_idx]] = line[comma_idx+1:].strip()
+
+data = {}
+
+while True:
+    line = sys.stdin.readline()
+    if not line or "End of Data" in line:
+        break
+
+    comma_idx = line.find(",")
+    var_id = line[:comma_idx]
+
+    if var_id not in data:
+        data[var_id] = []
+
+    data[var_id].append(line)
+
+
+hourly_keys: list[str] = []  # Length of hourly trends
+hourly_data: list[list[str]] = []  # Length of hourly trends, inner list is period
+
+for key, value_list in data.items():
+    if len(value_list) == period:
+        hourly_data.append(value_list)
+        hourly_keys.append(key)
+
+headers = []
+header_lengths = [] # Length of hourly_keys/hourly_data
+for key in hourly_keys:
+    header_value = strip_comment(data_dict[key])
+    first_comma = header_value.find(",")
+    eso_count = int(header_value[:first_comma])
+
+    if eso_count == 1:
+        headers.append(header_value[first_comma+1:])
+        header_lengths.append(1)
+    else:
+        split_header = [v.strip() for v in header_value.split(",")]
+        if eso_count == len(split_header) - 1:
+            headers.extend(split_header[1:])
+            header_lengths.append(eso_count)
+        else:
+            var_name = split_header[1]
+            headers.append(var_name)
+            header_lengths.append(1)
+
+print(headers, file=sys.stderr)
+
+print("\t".join(headers))
+
+for i in range(period):
+    row = []
+    for j, hour_data in enumerate(hourly_data):
+        split_data = [v.strip() for v in hour_data[i].split(",")]
+        field_count = header_lengths[j]
+        row.extend(split_data[1:1+field_count])
+
+    print("\t".join(row))
