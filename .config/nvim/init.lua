@@ -704,6 +704,43 @@ tele_colors = function(opts)
   }):find()
 end
 
+-- Function to move to the next line with a blank cell in a TSV file
+function goto_next_blank_cell_line()
+  -- Get the current buffer
+  local buf = vim.api.nvim_get_current_buf()
+
+  -- Get the current cursor position
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+
+  -- Get the total number of lines in the buffer
+  local line_count = vim.api.nvim_buf_line_count(buf)
+
+  -- Loop through the lines starting from the next line
+  for i = row + 1, line_count do
+    -- Get the line content
+    local line = vim.api.nvim_buf_get_lines(buf, i - 1, i, false)[1]
+
+    -- Split the line into cells using tab as delimiter
+    local cells = vim.split(line, '\t')
+
+    local start_pos = 0
+
+    -- Check for blank cells
+    for _, cell in ipairs(cells) do
+      if cell == "" then
+        -- Move the cursor to the line with a blank cell
+        vim.api.nvim_win_set_cursor(0, {i, start_pos})
+        return
+      end
+      start_pos = start_pos + #cell + 1
+    end
+  end
+
+  -- Print a message if no blank cell is found
+  print("No more lines with blank cells found")
+end
+
+
 -- -- to execute the function
 -- colors()
 
@@ -769,6 +806,7 @@ local function addToFiletypeAugroup(pattern, command)
     vim.api.nvim_create_autocmd('FileType', { pattern = pattern, group = filetype_autocmds_id, command = command })
 end
 
+vim.api.nvim_create_autocmd('FileType', { pattern = 'tsv', group=filetype_autocmds_id, callback = function() vim.api.nvim_set_keymap('n', ']n', ':lua goto_next_blank_cell_line()<CR>', { noremap = true, silent = true }) end })
 vim.api.nvim_create_autocmd('FileType', { pattern = 'markdown', group = filetype_autocmds_id, callback = markdownMathBlocks })
 
 -- Remove 'r' and 'o' from formatoptions
