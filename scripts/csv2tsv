@@ -34,7 +34,7 @@ def parse(csv_file):
 
     for row in reader:
         # The only two characters that matter here are newlines and tabs. Remove both.
-        new_rows = [field.replace("\n", "\\n").replace("\t", "\\t") for field in row]
+        new_rows = [field.replace("\n", "\\n").replace('\r', '\\r').replace("\t", "\\t") for field in row]
         try:
             print("\t".join(new_rows))
         except BrokenPipeError:
