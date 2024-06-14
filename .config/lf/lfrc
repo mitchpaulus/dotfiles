@@ -65,15 +65,6 @@ cmd open $ "$OPENER" "$f"
 
 cmd on-cd $ if test -n "$WSL_DISTRO_NAME"; then printf "\e]9;9;%s\e\\" "$(wslpath -w "$PWD")"; fi
 
-# From https://github.com/gokcehan/lf/wiki/Tips#rename-commands-similar-to-those-of-ranger
-# Also see discussion at: https://github.com/gokcehan/lf/issues/279
-# lfrenamehelp is my custom script that basically returns a bunch of '<left>' keys.
-cmd mprename  &{{
-    lf -remote "send $id rename"
-    lf -remote "send $id push $(lfrenamehelp \"$f\")"
-}}
-# Remap over default 'r' rename.
-map r mprename
-map <f-2> mprename
+map <f-2> rename
 
 cmd mkdir &mkdir "$1"; lf -remote "send $id reload"
