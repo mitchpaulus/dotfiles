@@ -6,8 +6,9 @@ import subprocess
 # USAGE
 # code2docx lang [FILE]
 # If file not provided, reads from stdin
-if len(sys.argv) < 2 or len(sys.argv) > 3:
+if len(sys.argv) < 2 or len(sys.argv) > 3 or any([arg == "-h" or arg == "--help" for arg in sys.argv]):
     print("Usage: code2docx lang [FILE]")
+    print("Usage: code2docx lang < FILE")
     sys.exit(1)
 
 lang = sys.argv[1]
