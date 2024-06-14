@@ -167,3 +167,9 @@ from(bucket: "example-bucket")
 expression =~ /regex/
 expression !~ /regex/
 ```
+
+```
+2021-01-01
+2021-01-01T00:00:00Z
+2021-01-01T00:00:00.000Z
+```

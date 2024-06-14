@@ -346,3 +346,22 @@ def to_csv_cell(text):
 
 Cool idea that came up when I was thinking about sorting in xlim.
 <https://en.wikipedia.org/wiki/Sorting_network>
+
+## NMBE/CVRMSE
+
+```
+sum_actual = 0
+sum_diff = 0
+sum_diff_squared = 0
+for i in data:
+    diff = model - actual
+    sum_actual += actual
+    sum_diff += diff
+    sum_diff_squared += diff * diff
+
+mean_actual = sum_actual / n
+nmbe = sum_diff / n / mean_actual * 100
+rmse = sqrt(sum_diff_squared / n)
+cvrmse = rmse / mean_actual * 100
+
+```
