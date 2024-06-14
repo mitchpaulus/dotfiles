@@ -3108,6 +3108,9 @@ def main():
         elif a == "--ip":
             ip = True
             idx += 1
+        elif a == "--iso":
+            datetime_format = "%Y-%m-%d %H:%M"
+            idx += 1
         elif a == "--format":
             if idx + 1 >= len(sys.argv):
                 print("Error: no format given", file=sys.stderr)
