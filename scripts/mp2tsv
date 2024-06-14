@@ -93,8 +93,15 @@ def main(filter_incomplete: bool, interval: int):
 
         large_gap_count = 0
         for loop_idx, idx_gte in enumerate(interpolate_index_array):
-            if idx_gte == 0 or idx_gte is None:
+            if idx_gte is None:
                 new_data.append('')
+            elif idx_gte == 0 :
+                # Check if first value is exactly on boundary.
+                date1, value1 = data[idx_gte]
+                if date1 == interpolation_dates[loop_idx]:
+                    new_data.append(value1)
+                else:
+                    new_data.append('')
             else:
                 # Interpolate the data.
                 date1, value1 = data[idx_gte - 1]
