@@ -221,7 +221,7 @@ func main() {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error in client.Do\n")
+        fmt.Fprintf(os.Stderr, "Error in client.Do '%v'\n", err)
         fmt.Fprintf(os.Stderr, toggl_err)
         os.Exit(1)
     }
@@ -229,7 +229,7 @@ func main() {
     defer resp.Body.Close()
     body, err := ioutil.ReadAll(resp.Body)
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error in reading body\n")
+        fmt.Fprintf(os.Stderr, "Error in reading body '%v'\n", err)
         fmt.Fprintf(os.Stderr, toggl_err)
         os.Exit(1)
     }
