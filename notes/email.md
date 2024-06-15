@@ -2,8 +2,7 @@
 
 ## Schema.org
 
-You can add special interaction with the email client in Gmail (and
-Outlook too I think) using special syntax from Schema.org.
+You can add special interaction with the email client in Gmail (and Outlook too I think) using special syntax from Schema.org.
 
 Example from GitHub:
 
@@ -71,3 +70,7 @@ See RFC 5322.
 ## CLI Tools
 
 Assume `maildir` format. Each message is a file in a directory.
+
+## Email Services
+
+- Proton
