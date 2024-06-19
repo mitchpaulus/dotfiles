@@ -10,6 +10,7 @@ unzip -p zipfile.zip fileinzip > new_file_name  # Extract a single file to stdou
 zipsplit -n SIZE zipfile.zip
 zip -r zipfile.zip dir  # Recursively zip a directory.
 zip -m zipfile.zip file  # Move files into zip file.
+zipinfo -1 zipfile.zip  # List files in zip file.
 ```
 
 ## C\#

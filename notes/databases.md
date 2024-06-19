@@ -21,3 +21,8 @@ MySql: 3306, X Protocol Port 33060
 > To avoid that, checkpoints only run to completion if all reader are using the last transaction in the WAL.
 
 May have to look into what constitutes `xSync` method of the VFS.
+
+
+# References
+
+[Database in C#](https://youtu.be/4TqR8yVVjV4)
