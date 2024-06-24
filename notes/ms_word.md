@@ -235,3 +235,9 @@ Can adjust using Insert -> Page Number -> Format Page Numbers.
 
 Expression2, TrueText, and FalseText must be in quotes.
 Enter nested fields using CTRL-F9.
+
+## Display Math
+
+If you use the approach of having a center and right tab stop, it is impossible to have the equation in display form.
+See <https://superuser.com/questions/483542/what-is-this-change-to-display-of-math-equations-and-why-does-it-change-the-eq>
+Workaround is a 3x1 table.
