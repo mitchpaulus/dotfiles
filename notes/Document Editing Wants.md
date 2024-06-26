@@ -1,23 +1,24 @@
 This is what I want out of document editing, mostly paper/report editing:
 
-1. GUI for editing, programmable, easily editable text data format backing it.
-2. Cross-referencing
+1. Cross-referencing
     - Figures, tables, equations.
-3. Mathematical Equations
-4. Basic styling
+2. Mathematical Equations
+3. Basic styling
     - Bold, Italic, Underline, etc.
-5. Tables, with FULL control
+4. Tables, with FULL control
     - Merged cells, alignment, column widths etc.
-6. Reference management
-7. Numbered lists
-8. Should be brutally simple to parse
+5. Reference management
+6. Numbered lists
+7. Should be brutally simple to parse
+8. Macros
 
 Nice to haves:
 
-1. Compile to Word
+1. GUI for editing, programmable, easily editable text data format backing it.
+2. Compile to Word
     - Maybe through compile to VBA code?
-2. Compile to Latex
-3. Title pages?
+3. Compile to Latex
+4. Title pages?
 
 
 # Grammar
