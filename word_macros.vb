@@ -631,3 +631,10 @@ Sub PrintBottomBorderWidth()
     ' Print the width in a message box
     MsgBox "The bottom border width of the selected cell is: " & bottomBorderWidth
 End Sub
+
+Sub AddEquationNum()
+    Selection.TypeText text:="()"
+    Selection.MoveLeft Unit:=wdCharacter, Count:=1
+    Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldEmpty, PreserveFormatting:=False, text:="seq eq"
+    Selection.Fields.Update
+End Sub
