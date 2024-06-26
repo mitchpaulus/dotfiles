@@ -1,1 +1,1 @@
-complete -c redo -x -a '(rt)'
+complete -c redo -a '(rt)'
