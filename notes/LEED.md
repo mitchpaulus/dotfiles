@@ -145,3 +145,27 @@ Page 363 (373 PDF). Minimum Energy Performance Section, Project Type Variations.
 - Option 3: Prescriptive Path, Advanced Buildings Core Performance Guide
 
 Upstream Equipment may or may not be included in the scope.
+
+
+# Points
+
+% Savings | Points
+----------|-------
+6         | 1
+8         | 2
+10        | 3
+12        | 4
+14        | 5
+16        | 6
+18        | 7
+20        | 8
+22        | 9
+24        | 10
+26        | 11
+29        | 12
+32        | 13
+35        | 14
+38        | 15
+42        | 16
+46        | 17
+50        | 18
