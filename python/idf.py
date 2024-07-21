@@ -256,9 +256,11 @@ def construction_summary(idf_dict: dict):
         print("\t".join([str(x) for x in fields]))
 
 
-def people_load(idf_dict: dict):
+def people_load(idf_dict: dict) -> list[list[str]]:
     # Get all people loads
     people_load_objs = idf_dict['people']
+
+    all_rows = []
 
     for people_load in people_load_objs:
         space = people_load[2]
@@ -270,7 +272,9 @@ def people_load(idf_dict: dict):
             people_load_str = f"{people_load[5]:,.0f} people"
         elif people_type == "people/area":
             people_per_ft2 = float(people_load[6]) / 10.7639
-            people_load_str = f"{people_per_ft2:.1f} people/ft²"
+            # Flip to ft²/people for consistency
+            ft2_per_person = 1 / people_per_ft2
+            people_load_str = f"{ft2_per_person:.1f} ft²/person"
         elif people_type == "area/person":
             ft2_per_person = 10.7639 * float(people_load[7])
             people_load_str = f"{ft2_per_person:,.0f} ft²/person"
@@ -279,14 +283,16 @@ def people_load(idf_dict: dict):
             sys.exit(1)
 
         fields = ["People", space, schedule, people_load_str]
+        all_rows.append(fields)
 
-        print("\t".join([str(x) for x in fields]))
+    return all_rows
 
 
-def lights_load(idf_dict: dict):
+def lights_load(idf_dict: dict) -> list[list[str]]:
     # Get all light loads
     light_load_objs = idf_dict['lights']
 
+    all_rows = []
     for light_load in light_load_objs:
         space = light_load[2]
         schedule = light_load[3]
@@ -304,13 +310,15 @@ def lights_load(idf_dict: dict):
             sys.exit(1)
 
         fields = ["Lights", space, schedule, light_load_str]
+        all_rows.append(fields)
 
-        print("\t".join([str(x) for x in fields]))
+    return all_rows
 
 def plug_load(idf_dict: dict):
     # Get all plug loads
     plug_load_objs = idf_dict['electricequipment']
 
+    all_rows = []
     for plug_load in plug_load_objs:
         space = plug_load[2]
         schedule = plug_load[3]
@@ -336,13 +344,40 @@ def plug_load(idf_dict: dict):
             sys.exit(1)
 
         fields = ["Plug", space, schedule, plug_load_str]
+        all_rows.append(fields)
 
-        print("\t".join([str(x) for x in fields]))
+    return all_rows
 
-def internal_load_summary(idf_dict: dict):
-    people_load(idf_dict)
-    lights_load(idf_dict)
-    plug_load(idf_dict)
+def print_tsv_to_stdout(tsv: list[list[str]]):
+    # If a tty, print nicely with padding, else to TSV standard
+    if sys.stdout.isatty():
+        max_col_widths = [0] * len(tsv[0])
+
+        for line in tsv:
+            for idx, field in enumerate(line):
+                max_col_widths[idx] = max(max_col_widths[idx], len(field))
+
+        for line in tsv:
+            for idx, field in enumerate(line):
+                print(field.ljust(max_col_widths[idx] + 1), end="")
+            print()
+    else:
+        for line in tsv:
+            print("\t".join(line))
+
+def internal_load_summary(idf_dict: dict, header: bool = False):
+    people = people_load(idf_dict)
+    light = lights_load(idf_dict)
+    plug = plug_load(idf_dict)
+
+    all_rows = []
+    if header:
+        all_rows.append(["Type", "Space", "Schedule", "Load"])
+    all_rows.extend(people)
+    all_rows.extend(light)
+    all_rows.extend(plug)
+
+    print_tsv_to_stdout(all_rows)
 
 def airloops(idf_dict: dict):
     airloops = idf_dict['airloophvac']
@@ -543,10 +578,17 @@ def sch_compact(idf_dict: dict):
 
             else:
                 raise ValueError("Unknown compact schedule type: " + schedule[i])
-
-
-
         print()
+
+def analyze_zones(idf_dict: dict):
+    idf_zones = idf_dict.get('zone', [])
+    zones = []
+    for zone in idf_zones:
+        zones.append(zone[1])
+
+    zones.sort()
+    for zone in zones:
+        print(zone)
 
 
 def main():
@@ -559,7 +601,22 @@ def main():
 
     while idx < len(sys.argv):
         if sys.argv[idx] == '-h' or sys.argv[idx] == '--help':
-            print("Usage: idf.py [filename]")
+            print("Usage: idf.py COMMAND [filename]")
+            print("Commands:")
+            print("  elfh: Print the equivalent full load hours of fractional schedules.")
+            print("  construction: Print the R-value and U-value of constructions.")
+            print("  int_loads: Print internal loads.")
+            print("  airloops: Print air loop design flow rates.")
+            print("  chillers: Print chiller design data.")
+            print("  cooling_towers: Print cooling tower design data.")
+            print("  const_sch: Print constant schedules.")
+            print("  day_sch: Print day schedules.")
+            print("  sch_process: Process day schedules.")
+            print("  sch_compact: Print compact schedules.")
+            print("Options:")
+            print("  --header: Print a header row.")
+            print("  --dir DIR: Directory for sch_process.")
+
             sys.exit(0)
         elif sys.argv[idx] == '--header':
             header = True
@@ -583,6 +640,8 @@ def main():
             command = "sch_process"
         elif sys.argv[idx] == "sch_compact":
             command = "sch_compact"
+        elif sys.argv[idx] == "zones":
+            command = "zones"
         elif sys.argv[idx] == "--dir":
             idx += 1
             try:
@@ -623,9 +682,7 @@ def main():
     elif command == "int_loads":
         contents = idf2tsv(file)
         idf_dict = tsv2dict(contents)
-        if header:
-            print("\t".join(["Type", "Space", "Schedule", "Load"]))
-        internal_load_summary(idf_dict)
+        internal_load_summary(idf_dict, header)
     elif command == "airloops":
         if header:
             print("\t".join(["Name", "Design Supply Air Flow Rate (CFM)"]))
@@ -679,6 +736,11 @@ def main():
         contents = idf2tsv(file)
         idf_dict = tsv2dict(contents)
         sch_compact(idf_dict)
+
+    elif command == "zones":
+        contents = idf2tsv(file)
+        idf_dict = tsv2dict(contents)
+        analyze_zones(idf_dict)
 
     else:
         print("Command {} not recognized/implemented.".format(command))
