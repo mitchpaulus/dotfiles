@@ -630,6 +630,22 @@ vim.g.copilot_filetypes = {
     markdown = true,
 }
 
+-- Function to insert a UUID
+local function insert_uuid()
+  local handle = io.popen('uuidgen')
+  local uuid = handle:read("*a")
+  handle:close()
+  -- Remove any trailing newline
+  uuid = uuid:gsub("%s+", "")
+  -- Get the current cursor position
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  vim.api.nvim_buf_set_text(0, row - 1, col, row - 1, col, { uuid })
+  vim.api.nvim_win_set_cursor(0, { row, col + #uuid })
+end
+vim.api.nvim_create_user_command('InsertUUID', insert_uuid, {})
+vim.api.nvim_set_keymap('i', '<localleader>g', '<Cmd>InsertUUID<CR>', { noremap = true, silent = true })
+
+
 function shell_command_output_to_telescope(args)
   -- Validate the input
   if type(args) ~= "table" then
