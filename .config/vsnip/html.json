@@ -92,5 +92,14 @@
         "prefix": "th",
         "body": [ "<th> $1 </th>$0" ],
         "description": "th"
+    },
+    "table": {
+        "prefix": "table",
+        "body": [
+            "<table>",
+            "$1",
+            "</table>"
+        ],
+        "description": "table"
     }
 }
