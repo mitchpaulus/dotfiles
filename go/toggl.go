@@ -107,7 +107,14 @@ func main() {
         } else if os.Args[i] == "stop" {
             command = "stop"
         } else if os.Args[i] == "help" || os.Args[i] == "--help" || os.Args[i] == "-h" {
-            fmt.Print("Usage: toggl [current|stop]\n")
+            fmt.Print("Usage:\n")
+            fmt.Print(" toggl current\n")
+            fmt.Print(" toggl stop\n")
+            fmt.Print(" toggl ts [<Month num> <Month period>]\n")
+            fmt.Print(" toggl ws\n")
+            fmt.Print(" toggl lunch\n")
+            fmt.Print(" toggl break\n")
+            fmt.Print(" toggl start <Project Name> <Description>\n")
             os.Exit(0)
         } else if os.Args[i] == "ts" {
             command = "ts"
