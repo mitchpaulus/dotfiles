@@ -31,5 +31,14 @@
     "Cooling Load": {
         "prefix": ["clgload"],
         "body": ["Output:Variable,*,Plant Supply Side Cooling Demand Rate,hourly; !- HVAC Average [W]"]
+    },
+    "Constant Schedule": {
+        "prefix": ["sch"],
+        "body": [
+            "Schedule:Constant,",
+            "  $1,   ! Name RefList: [ScheduleNames], REQ, #1",
+            "  $2,   ! Schedule Type Limits Name [ScheduleTypeLimitsNames], #2",
+            "  $3;   ! Hourly Value Def: 0, #3"
+        ]
     }
 }
