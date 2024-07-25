@@ -107,3 +107,7 @@ GET /users/{id | userPrincipalName}/calendar/calendarView?startDateTime={start_d
 
 Include the 'system' facet in the 'select'.
 <https://stackoverflow.com/questions/47562127/can-no-longer-find-sharepoint-site-assets-list-via-graph-api/47563009#47563009>
+
+## C# Authentication
+
+<https://github.com/MicrosoftDocs/azure-docs/issues/82951>
