@@ -43,7 +43,9 @@ while in_data_dir:
         comma_idx = line.find(",")
         data_dict[line[:comma_idx]] = line[comma_idx+1:].strip()
 
-data = {}
+# List of dictionaries, each dictionary is for a different run period.
+data = []
+curr_data = {} # Only here for type checker
 
 while True:
     line = sys.stdin.readline()
@@ -53,19 +55,25 @@ while True:
     comma_idx = line.find(",")
     var_id = line[:comma_idx]
 
-    if var_id not in data:
-        data[var_id] = []
+    # The 1 variable is the start of a new run period. Sizing runs and main runs are separated by this.
+    if var_id == "1":
+        curr_data = {}
+        data.append(curr_data)
 
-    data[var_id].append(line)
+    if var_id not in curr_data:
+        curr_data[var_id] = []
+
+    curr_data[var_id].append(line)
 
 
 hourly_keys: list[str] = []  # Length of hourly trends
 hourly_data: list[list[str]] = []  # Length of hourly trends, inner list is period
 
-for key, value_list in data.items():
-    if len(value_list) == period:
-        hourly_data.append(value_list)
-        hourly_keys.append(key)
+for d in data:
+    for key, value_list in d.items():
+        if len(value_list) == period:
+            hourly_data.append(value_list)
+            hourly_keys.append(key)
 
 headers = []
 header_lengths = [] # Length of hourly_keys/hourly_data
@@ -87,7 +95,7 @@ for key in hourly_keys:
             headers.append(var_name)
             header_lengths.append(1)
 
-print(headers, file=sys.stderr)
+# print(headers, file=sys.stderr)
 
 print("\t".join(headers))
 
