@@ -17,3 +17,14 @@ line equality: See 3 proportion equality section (pg. 26)
 a1 b2 - a2 b1 = 0
 b1 c2 - b2 c1 = 0
 c1 a2 - c2 a1 = 0
+
+
+## Reflection of point across line (pg. 52)
+
+l = <a : b : c>
+A = [x, y]
+
+A' = [
+    ((b² - a²) x - 2 a b y - 2 a c) / (a² + b²),
+    (-2 a b x + (a² - b²) y - 2 b c) / (a² + b²),
+]
