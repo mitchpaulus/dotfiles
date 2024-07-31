@@ -84,6 +84,7 @@ def idf2tsv(file) -> list[list[str]]:
 
 
 def tsv2dict(file: list[list[str]]) -> dict[str, list[list[str]]]:
+    """Returns grouping by Object Type. Object Type keys are all lowercase."""
     results = {}
 
     for line in file:
@@ -99,15 +100,48 @@ def tsv2dict(file: list[list[str]]) -> dict[str, list[list[str]]]:
 def eflh(file: list[list[str]]):
     d = tsv2dict(file)
 
+    print("Day Schedules EFLH")
+    day_dict = eflh_days(file)
+    print()
+    print("Weekly Schedules EFLH")
+
+    eflh_hours_weeks(d, day_dict)
+
+    print()
+    print("Annual Schedules EFLH")
     for sch in d['Schedule:Year'.lower()]:
         if sch[2].lower() == 'fractional':
             print(sch[1])
+
+def eflh_hours_weeks(file_dict, day_analysis):
+    week_schedules = file_dict['schedule:week:daily'.lower()]
+
+    week_schedule_dict = {}
+
+    for week_schedule in week_schedules:
+        name = week_schedule[1]
+        # Just do normal days
+        days = [d.lower() for d in week_schedule[2:9]]
+        # Days go from Sun to Sat, Holiday, SummerDesignDay, WinterDesignDay, CustomDay1, CustomDay2
+        eflh_total = 0
+        for day in days:
+            if day in day_analysis:
+                eflh_total += day_analysis[day]
+            else:
+                eflh_total = None
+                break
+
+        print(name, f"{eflh_total:.1f}" if eflh_total is not None else "N/A")
+        week_schedule_dict[name] = eflh_total
 
 
 def eflh_days(file: list[list[str]]):
     d = tsv2dict(file)
 
     all_schedules = []
+
+    day_schedule_dict = {}
+
     for sch in d['Schedule:Day:Interval'.lower()]:
         if sch[2].lower() == 'fractional':
             index = 4
@@ -129,12 +163,15 @@ def eflh_days(file: list[list[str]]):
                 previous_hour = curr_hour
                 index += 2
 
-            fields = [sch[1], eflh_total]
+            day_schedule_dict[sch[1].lower()] = eflh_total
+            fields = [sch[1], f"{eflh_total:.1f}"]
             all_schedules.append(fields)
 
     all_schedules.sort(key=lambda x: x[0])
     for sch in all_schedules:
         print("\t".join([str(x) for x in sch]))
+
+    return day_schedule_dict
 
 
 def process_day_interval_schedule(schedule: list[str]):
@@ -603,7 +640,7 @@ def main():
         if sys.argv[idx] == '-h' or sys.argv[idx] == '--help':
             print("Usage: idf.py COMMAND [filename]")
             print("Commands:")
-            print("  elfh: Print the equivalent full load hours of fractional schedules.")
+            print("  eflh: Print the equivalent full load hours of fractional schedules.")
             print("  construction: Print the R-value and U-value of constructions.")
             print("  int_loads: Print internal loads.")
             print("  airloops: Print air loop design flow rates.")
@@ -620,8 +657,8 @@ def main():
             sys.exit(0)
         elif sys.argv[idx] == '--header':
             header = True
-        elif sys.argv[idx] == 'elfh':
-            command = "elfh"
+        elif sys.argv[idx] == 'eflh':
+            command = "eflh"
         elif sys.argv[idx] == 'construction':
             command = "construction"
         elif sys.argv[idx] == 'int_loads':
@@ -672,7 +709,7 @@ def main():
     else:
         file = open(filename, 'r')
 
-    if command == "elfh":
+    if command == "eflh":
         contents = idf2tsv(file)
         eflh(contents)
     elif command == "construction":
