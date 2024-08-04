@@ -543,3 +543,9 @@ my_time = time(11, 37)
 ## `Pipfile`
 
 `Pipfile.lock` should be put into version control. <https://stackoverflow.com/a/46303305>
+
+## Shapely
+
+<https://shapely.readthedocs.io/en/stable/manual.html#polygons>
+
+Hopefully can aid me in some geometry calculations for EnergyPlus

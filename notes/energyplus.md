@@ -215,3 +215,8 @@ ZoneControl:Thermostat
 ZoneHVAC:EquipmentConnections -> ZoneHVAC:EquipmentList -> ZoneHVAC:AirDistributionUnit -> AirTerminal:SingleDuct:VAV:Reheat etc.
 AirLoopHVAC:ReturnPath -> AirLoopHVAC:ZoneMixer
 ```
+
+## Spaces vs Zones
+
+Every zone has at least one or more spaces.
+Surfaces are always specified as being viewed from the outside of the zone to which they belong.
