@@ -26,3 +26,4 @@ May have to look into what constitutes `xSync` method of the VFS.
 # References
 
 [Database in C#](https://youtu.be/4TqR8yVVjV4)
+[Postgres storage](https://drew.silcock.dev/blog/how-postgres-stores-data-on-disk/)

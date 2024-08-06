@@ -169,3 +169,9 @@ Upstream Equipment may or may not be included in the scope.
 42        | 16
 46        | 17
 50        | 18
+
+
+# References
+
+- Showerhead flow: 2.5 gpm, 2.0 gpm for 'WaterSense' label <https://www.epa.gov/watersense/showerheads>.
+- Faucet flow: 2.2 gpm, 1.5 gpm for 'WaterSense' label <https://www.epa.gov/watersense/bathroom-faucets>.

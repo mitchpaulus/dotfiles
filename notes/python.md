@@ -549,3 +549,7 @@ my_time = time(11, 37)
 <https://shapely.readthedocs.io/en/stable/manual.html#polygons>
 
 Hopefully can aid me in some geometry calculations for EnergyPlus
+
+## References
+
+- [Rye](https://rye.astral.sh/)
