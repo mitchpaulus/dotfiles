@@ -11,6 +11,7 @@ import (
     "strings"
     "bytes"
     "strconv"
+    "runtime"
 )
 
 const toggl_err = `Toggl API error`
@@ -212,6 +213,24 @@ func main() {
         // Print the projects to stdout
         for _, project := range projects {
             fmt.Printf(project.Name + "\n")
+        }
+    }
+
+    // If the command is "current", check whether there an override file.
+    // This is used in my status line, and when the internet goes out, it's a bad experience.
+    // Check for presence of file ~/.config/toggl/off.
+    if runtime.GOOS == "linux" {
+        homeDir, exists := os.LookupEnv("HOME")
+        if !exists {
+            fmt.Fprintf(os.Stderr, "HOME variable doesn't exist?\n")
+            os.Exit(1)
+        }
+
+        _, err := os.Stat(homeDir + "/.config/toggl/off")
+
+        if err == nil {
+            fmt.Printf("Toggl current off\n")
+            os.Exit(0)
         }
     }
 
