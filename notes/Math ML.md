@@ -36,3 +36,9 @@ mtd: Table data/cell
     </mover>
 </math>
 ```
+
+
+# References
+
+- On `mfenced` being deprecated. <https://devblogs.microsoft.com/math-in-office/mathml-element-deprecated-on-web/>
+- <https://danielscully.uk/projects/mathml-guide/>

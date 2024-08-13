@@ -136,8 +136,6 @@ Schedule:Compact,
 
 ```
 
-
-
 # General Surface matching
 
 
@@ -220,3 +218,39 @@ AirLoopHVAC:ReturnPath -> AirLoopHVAC:ZoneMixer
 
 Every zone has at least one or more spaces.
 Surfaces are always specified as being viewed from the outside of the zone to which they belong.
+
+## HVAC-Diagram.exe
+
+Must be run in same directory as `eplusout.bnd` file
+
+## Return Fan and Preheat
+
+Based on output generated from template, the order of components is:
+
+```
+Fan:VariableVolume
+AirLoopHVAC:OutdoorAirSystem
+Coil:Cooling:Water
+Fan:VariableVolume
+```
+
+and then in the `AirLoopHVAC:OutdoorAirSystem`:
+
+```
+AirLoopHVAC:OutdoorAirSystem:EquipmentList,
+  VAV System OA System Equipment,                          !- Name
+  Coil:Heating:Water,                                      !- Component Object Type
+  VAV System Preheat Coil,                                 !- Component Name
+  OutdoorAir:Mixer,                                        !- Component Object Type
+  VAV System OA Mixing Box;                                !- Component Name
+```
+
+## Standard Air Loops
+
+```
+AirLoopHVAC
+    AirLoopHVAC:ControllerList
+    BranchList
+    AvailabilityManagerList
+    ConnectorList (If needed for mixer/splitter)
+```

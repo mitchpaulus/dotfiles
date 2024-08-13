@@ -8,3 +8,9 @@ Therefore, 5/200 + 0.06 = 0.085 CFM/ft2
 
 5 CFM/person = 0.00236 (m3/s)/person
 0.06 CFM/ft2 = 0.00508 (m3/s)/m2
+
+
+Category  | CFM/Person | CFM/ft² | Occupancy Density Default (person / 1000 ft²)
+----------|------------|---------|----------------------------------------------
+Corridors | 0          | 0.06    | 0
+Office    | 5          | 0.06    | 17
