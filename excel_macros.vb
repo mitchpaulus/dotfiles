@@ -11,7 +11,10 @@ Sub CommandHeader()
     Selection.Font.Bold = True
 End Sub
 
-
 Sub FormatThousands()
     Selection.NumberFormat = "#,##0"
+End Sub
+
+Sub FormatDollarThousands()
+    Selection.NumberFormat = "$#,##0"
 End Sub
