@@ -9,7 +9,9 @@ BEGIN { FS=OFS="." }
 /CREATE TABLE/ {
     match($2, /\[.*\]/)
     table_name = substr($2, RSTART + 1, RLENGTH - 2)
-    line[++n] = sprintf("SELECT '%s' as [Table Name], COUNT(*) as Count FROM [%s]", table_name, table_name)
+    if (table_name != "") {
+        line[++n] = sprintf("SELECT '%s' as [Table Name], COUNT(*) as Count FROM [%s]", table_name, table_name)
+    }
 }
 
 END {
