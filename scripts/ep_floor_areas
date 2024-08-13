@@ -1,0 +1,8 @@
+#!/usr/bin/awk -E
+# Expected input to this file is:
+# eplusout.eio
+BEGIN { FS=","; OFS="\t" }
+/^ *Zone Information/ {
+    gsub(/^ */, "", $2)
+    print $2, $23 * 10.76391
+}
