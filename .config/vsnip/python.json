@@ -93,5 +93,10 @@
         "body": ["with open($1, encoding=\"utf-8\") as file:",
                 "    ${2:data} = [line.split(\"\\t\") for line in file.read().splitlines()]"],
         "description": "Read TSV file"
+    },
+    "Read TSV Stdin": {
+        "prefix": ["rts"],
+        "body": [ "${1:data} = [line.split(\"\\t\") for line in sys.stdin.read().splitlines()]" ],
+        "description": "Read TSV from stdin"
     }
 }
