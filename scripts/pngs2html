@@ -1,0 +1,57 @@
+#!/usr/bin/python3
+
+import sys
+import os
+
+def generate_html(images):
+    html_output = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .flex-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+        .flex-container img {
+            max-width: 6in;
+            height: auto;
+            margin: 10px;
+            flex: 1 1 auto;
+        }
+    </style>
+    <title>Image Flexbox</title>
+</head>
+<body>
+    <div class="flex-container">
+"""
+    for image in images:
+        html_output += f'        <img src="{image}" alt="{os.path.basename(image)}">\n'
+
+    html_output += """    </div>
+</body>
+</html>
+"""
+    return html_output
+
+if __name__ == "__main__":
+    if sys.stdin.isatty():
+        print("Usage: python pngs2html < LIST_OF_IMAGES > output.html")
+        sys.exit(1)
+
+    images = sys.stdin.read().splitlines()
+    html_code = generate_html(images)
+    print(html_code)
