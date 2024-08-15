@@ -143,3 +143,15 @@ d1 = d0 mod 146097
 
 
 ```
+
+## AM/PM
+
+```
+// Convert hour based on the period
+if period == "AM":
+    if hour == 12:
+        hour = 00  // Midnight case
+else if period == "PM":
+    if hour < 12:
+        hour = hour + 12  // Afternoon/evening case
+```
