@@ -185,8 +185,12 @@ def process_day_interval_schedule(schedule: list[str]):
         # Time is 'HH:MM'
         time = schedule[index]
         split_time = time.split(':')
-        hour_str = split_time[1]
-        minute_str = split_time[2]
+        if len(split_time) != 2:
+            print("Error: time '{}' is not in HH:MM format. Schedule '{}'".format(time, name))
+            sys.exit(1)
+
+        hour_str = split_time[0]
+        minute_str = split_time[1]
 
         hour = int(hour_str)
         minute = int(minute_str)
@@ -562,8 +566,19 @@ def process_schedules(schedule_list, dir_name):
 
         with open(dir_path/ mplot_file, 'w') as f:
             f.write("START\n")
-            f.write(f"0,{data[0][1]}\n")
+
+            first_val = data[0][1]
+            if sch_type == "temperature":
+                first_val = first_val * 1.8 + 32
+            elif sch_type == "deltatemperature":
+                first_val = first_val
+            f.write(f"0,{first_val}\n")
+
             for time, value in data:
+                if sch_type == "temperature":
+                    value = value * 1.8 + 32
+                elif sch_type == "deltatemperature":
+                    value = value * 1.8
                 f.write(f"{time},{value}\n")
             f.write("END\n")
             if interpolate == "Linear":
