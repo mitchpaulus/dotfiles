@@ -23,7 +23,7 @@ while idx < len(sys.argv):
         if idx + 1 >= len(sys.argv):
             print("Missing argument for -r", file=sys.stderr)
             sys.exit(1)
-        run_period = int(sys.argv[idx + 1])
+        run_period = sys.argv[idx + 1]
         idx += 2
     else:
         print(f"Unknown option {sys.argv[idx]}", file=sys.stderr)
@@ -31,6 +31,16 @@ while idx < len(sys.argv):
 
     idx += 1
 
+if run_period is None:
+    print("Missing run period", file=sys.stderr)
+    sys.exit(1)
+
+def split_comment(line):
+    # Find last '!' in line
+    comment_idx = line.rfind("!")
+    if comment_idx != -1:
+        return line[:comment_idx].strip(), line[comment_idx+1:].strip()
+    return line.strip(), ""
 
 def strip_comment(line):
     comment_idx = line.find("!")
@@ -45,58 +55,179 @@ data_dict = {}
 # 2095,1,BREAK ROOM,Zone Windows Total Heat Gain Rate [W] !Hourly
 # data_dict["2095"] = "1,BREAK ROOM,Zone Windows Total Heat Gain Rate [W] !Hourly"
 
+# Always have these to start:
+# 1,5,Environment Title[],Latitude[deg],Longitude[deg],Time Zone[],Elevation[m]
+# 2,8,Day of Simulation[],Month[],Day of Month[],DST Indicator[1=yes 0=no],Hour[],StartMinute[],EndMinute[],DayType
+# 3,5,Cumulative Day of Simulation[],Month[],Day of Month[],DST Indicator[1=yes 0=no],DayType  ! When Daily Report Variables Requested
+# 4,2,Cumulative Days of Simulation[],Month[]  ! When Monthly Report Variables Requested
+# 5,1,Cumulative Days of Simulation[] ! When Run Period Report Variables Requested
+# 6,1,Calendar Year of Simulation[] ! When Annual Report Variables Requested
+
+# For a 2, have something like this
+# 2,1, 7,21, 0, 1,15.00,30.00,SummerDesignDay
+# or
+# 2,1, 7,21, 0, 1, 0.00,60.00,SummerDesignDay
+# For the hourly.
+
+# 1	Day of Simulation[]
+# 2	Month[]
+# 3	Day of Month[]
+# 4	DST Indicator[1=yes 0=no]
+# 5	Hour[]
+# 6	StartMinute[]
+# 7	EndMinute[]
+# 8	DayType
+
+print("Datetime\tDayType", end="")
+
+trend_id_order = []
+
 while in_data_dir:
-    line = sys.stdin.readline()
+    line = sys.stdin.readline().rstrip()
     if "End of Data Dictionary" in line:
         in_data_dir = False
     else:
-        comma_idx = line.find(",")
-        data_dict[line[:comma_idx]] = line[comma_idx+1:].strip()
+        split_on_comment = split_comment(line)
+        split_on_comma = [v.strip() for v in  split_on_comment[0].split(",")]
+        id_num = split_on_comma[0]
+        if int(id_num) <= 6:
+            continue
+        elif split_on_comment[1] == "Hourly":
+            trend_name = ",".join(split_on_comma[2:4])
+            trend_id_order.append(id_num)
+            print(f"\t{trend_name}", end="")
+            # data_dict[line[:comma_idx]] = line[comma_idx+1:].strip()
+print()
 
 # List of dictionaries, each dictionary is for a different run period.
 data: list[dict[str, list[str]]] = []
-curr_data: dict[str, list[str]] = {} # Only here for type checker
+curr_data: dict[str, str] = {} # Only here for type checker
+
+in_run_period = False
+in_hourly = False
+
+cur_data = {}
 
 while True:
     line = sys.stdin.readline()
     if not line or "End of Data" in line:
+        if any(curr_data):
+            for trend_id in trend_id_order:
+                curr_val = curr_data.get(trend_id)
+                print(f"\t{curr_val}", end="")
+            print() # End with newline
         break
 
     comma_idx = line.find(",")
     var_id = line[:comma_idx]
 
-    # The 1 variable is the start of a new run period. Sizing runs and main runs are separated by this.
-    if var_id == "1":
-        curr_data = {}
-        data.append(curr_data)
-        continue
-    elif int(var_id) <= 6:
-        continue
+    if not in_run_period:
+        # The 1 variable is the start of a new run period. Sizing runs and main runs are separated by this.
+        if var_id == "1":
+            second_comma = line.find(",", comma_idx + 1)
+            run_period_name = line[comma_idx + 1:second_comma]
+            if run_period_name.lower() == run_period.lower():
+                in_run_period = True
+        else:
+            continue
+    elif var_id == "1":
+        # We reached the end of our period.
+        if any(curr_data):
+            for trend_id in trend_id_order:
+                curr_val = curr_data.get(trend_id)
+                print(f"\t{curr_val}", end="")
+            print() # End with newline
+        break
+    elif not in_hourly:
+        if var_id == "2":
+            split_line = [v.strip() for v in line.split(",")]
+            start_min = split_line[6]
+            end_min = split_line[7]
 
-    if var_id not in curr_data:
-        curr_data[var_id] = []
+            if start_min == "0.00" and end_min == "60.00":
+                in_hourly = True
+                month = int(split_line[2])
+                day = int(split_line[3])
+                hour = int(split_line[5]) - 1 # EnergyPlus is 1 - 24, we want 0 - 23
+                day_type = split_line[8]
+                year = 2024
 
-    curr_data[var_id].append(line)
+                timestamp = f"{year}-{month:02d}-{day:02d} {hour:02d}:00\t{day_type}"
+                print(timestamp, end="")
+
+            else:
+                in_hourly = False
+                continue
+        else:
+            continue
+    elif in_hourly:
+        if var_id == "2": # New hour
+            for trend_id in trend_id_order:
+                curr_val = curr_data.get(trend_id)
+                # print(trend_id.__repr__())
+                print(f"\t{curr_val}", end="")
+            print() # End with newline
+
+            split_line = [v.strip() for v in line.split(",")]
+            start_min = split_line[6]
+            end_min = split_line[7]
+
+            if start_min == "0.00" and end_min == "60.00":
+                in_hourly = True
+                month = int(split_line[2])
+                day = int(split_line[3])
+                hour = int(split_line[5]) - 1 # EnergyPlus is 1 - 24, we want 0 - 23
+                day_type = split_line[8]
+                year = 2024
+
+                timestamp = f"{year}-{month:02d}-{day:02d} {hour:02d}:00\t{day_type}"
+                print(timestamp, end="")
+        elif int(var_id) <= 6:
+            in_hourly = False
+            for trend_id in trend_id_order:
+                curr_val = curr_data.get(trend_id)
+                # print(trend_id.__repr__())
+                print(f"\t{curr_val}", end="")
+            print() # End with newline
+            curr_data.clear()
+            continue
+        else:
+            split_line = [v.strip() for v in line.split(",")]
+            curr_data[var_id] = split_line[1]
+            # print(f"\t{split_line[1]}", end="")
+
+    #  # The 1 variable is the start of a new run period. Sizing runs and main runs are separated by this.
+    #  if var_id == "1":
+        #  curr_data = {}
+        #  data.append(curr_data)
+        #  continue
+    #  elif int(var_id) <= 6:
+        #  continue
+
+    #  if var_id not in curr_data:
+        #  curr_data[var_id] = []
+
+    #  curr_data[var_id].append(line)
 
 
-keys: list[str] = []  #
-hourly_data: list[list[str]] = []  # Length of keys, inner list is length of period
+#  keys: list[str] = []  #
+#  hourly_data: list[list[str]] = []  # Length of keys, inner list is length of period
 
-for d in data:
-    for key, value_list in d.items():
-        # Check for lists that have the correct length
-        if len(value_list) == period:
-            hourly_data.append(value_list)
-            keys.append(key)
+#  for d in data:
+    #  for key, value_list in d.items():
+        #  # Check for lists that have the correct length
+        #  if len(value_list) == period:
+            #  hourly_data.append(value_list)
+            #  keys.append(key)
 
-headers = []
-header_lengths = [] # Length of keys/data
-for key in keys:
-    header_value = strip_comment(data_dict[key])
-    first_comma = header_value.find(",")
-    eso_count = int(header_value[:first_comma])
+#  headers = []
+#  header_lengths = [] # Length of keys/data
+#  for key in keys:
+    #  header_value = strip_comment(data_dict[key])
+    #  first_comma = header_value.find(",")
+    #  eso_count = int(header_value[:first_comma])
 
-    headers.append(header_value[first_comma+1:])
+    #  headers.append(header_value[first_comma+1:])
 
     #  if eso_count == 1:
         #  headers.append(header_value[first_comma+1:])
@@ -113,15 +244,15 @@ for key in keys:
 
 # print(headers, file=sys.stderr)
 
-print("\t".join(headers))
+#  print("\t".join(headers))
 
-for i in range(period):
-    row = ['' for _ in range(len(keys))]
-    for j, hour_data in enumerate(hourly_data):
-        split_data = [v.strip() for v in hour_data[i].split(",")]
-        # 1
-        row[j] = split_data[1]
-        #  field_count = header_lengths[j]
-        #  row.extend(split_data[1:1+field_count])
+#  for i in range(period):
+    #  row = ['' for _ in range(len(keys))]
+    #  for j, hour_data in enumerate(hourly_data):
+        #  split_data = [v.strip() for v in hour_data[i].split(",")]
+        #  # 1
+        #  row[j] = split_data[1]
+        #  #  field_count = header_lengths[j]
+        #  #  row.extend(split_data[1:1+field_count])
 
-    print("\t".join(row))
+    #  print("\t".join(row))
