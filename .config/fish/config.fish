@@ -279,8 +279,12 @@ bind vl clear_terminal
 bind qq exit
 
 function work_dir_search
-    cd '/mnt/c/Users/mpaulus/Command Commissioning/'
-    fzf-tmsu -d
+    pushd '/mnt/c/Users/mpaulus/Command Commissioning/'
+    if fzf-tmsu -d
+        cd (cat "$HOME/.config/lf/lf_lastdir")
+    else
+        popd
+    end
     clear_terminal
 end
 
