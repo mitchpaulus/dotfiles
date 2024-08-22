@@ -2,8 +2,9 @@
 
 import sys
 import os
+import base64
 
-def generate_html(images):
+def generate_html(images, embed_images):
     html_output = """
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +18,6 @@ def generate_html(images):
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
             background-color: #f0f0f0;
         }
         .flex-container {
@@ -39,10 +39,58 @@ def generate_html(images):
     <div class="flex-container">
 """
     for image in images:
-        html_output += f'        <img src="{image}" alt="{os.path.basename(image)}">\n'
+        if embed_images:
+            with open(image, "rb") as f:
+                image_data = f.read()
+            image_src = f"data:image/png;base64,{base64.b64encode(image_data).decode('utf-8')}"
+            html_output += f'    <img src="{image_src}" alt="{os.path.basename(image)}">\n'
+        else:
+            html_output += f'    <img src="{image}" alt="{os.path.basename(image)}">\n'
 
     html_output += """    </div>
 </body>
+</html>
+"""
+    return html_output
+
+
+def grid_html(images, columns, embed_images):
+    html_output = f"""
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {{
+            margin: 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat({columns}, 1fr);
+            grid-gap: 10px;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+        }}
+        img {{
+            max-width: 100%;
+            height: auto;
+        }}
+    </style>
+    <title>Image Grid</title>
+</head>
+<body>
+"""
+    for image in images:
+        if embed_images:
+            with open(image, "rb") as f:
+                image_data = f.read()
+            image_src = f"data:image/png;base64,{base64.b64encode(image_data).decode('utf-8')}"
+            html_output += f'    <img src="{image_src}" alt="{os.path.basename(image)}">\n'
+        else:
+            html_output += f'    <img src="{image}" alt="{os.path.basename(image)}">\n'
+
+    html_output += """</body>
 </html>
 """
     return html_output
@@ -52,6 +100,33 @@ if __name__ == "__main__":
         print("Usage: python pngs2html < LIST_OF_IMAGES > output.html")
         sys.exit(1)
 
+    grid = False
+    columns = 3
+
+    embed_images = False
+
+    i = 1
+    while i < len(sys.argv):
+        if sys.argv[i] == "-c":
+            grid = True
+            i += 1
+            if i >= len(sys.argv):
+                print("-c flag requires a number of columns")
+                sys.exit(1)
+            columns = int(sys.argv[i])
+            i += 1
+        elif sys.argv[i] == "--embed" or sys.argv[i] == "--base64":
+            embed_images = True
+            i += 1
+        else:
+            print(f"Unknown flag: {sys.argv[i]}")
+            sys.exit(1)
+
     images = sys.stdin.read().splitlines()
-    html_code = generate_html(images)
+
+    if grid:
+        html_code = grid_html(images, columns, embed_images)
+    else:
+        html_code = generate_html(images, embed_images)
+
     print(html_code)
