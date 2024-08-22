@@ -76,3 +76,43 @@ From <https://unmethours.com/question/37681/energyplus-simulation-run-time-diagn
 ## Post-processing
 
 - <https://andrewmarsh.com/software/data-view2d-web/>
+
+## Service Water Heating
+
+See Chapter 51 of Applications, Table 6 for Office buildings, average 1.0 gal/person/day.
+
+## Fan Curves
+
+<https://unmethours.com/question/18763/what-is-the-source-for-the-vav-fan-power-coefficients-in-the-doe-commercial-reference-buildings/>
+<https://docs.google.com/spreadsheets/d/1x23yuXX55CKhWko0EUtmF-zWJxLA1e29igFlzi5DqDY/edit?gid=0#gid=0>
+
+> The key sources for fan curves are:
+>
+> - 2013 Title 24 NR ACM Manual (p.4-87)
+> - CEC-2003 Advanced Variable Air Volume System Design Guide Appendix 5 DOE-2 Fan Curves
+- > 90.1-2007 Appendix G Table G3.1.3.15 Part-Load Fan Power Equation
+> - ASHRAE 90.1-2010 PRM Reference Manual p3.134
+> The ones for variable volume fans in the Commercial Reference Buildings use the CEC-2003 reference for "Good SP Reset VSD Fan":
+>
+> Created by Jeff Stein 5-5-03
+>
+> These fan curves were developed using the Characteristic System Curve Fan Model developed by Stein and Hydeman.
+> Curves include part load performance of the fan, belt, motor, and VSD.
+>
+> This is based on a plenum airfoil fan on a system curve through 0.5"
+
+90.1 Curve Method 2, TABLE G3.1.3.15
+
+P = 0.0013 + 0.1470 PLR + 0.9506 PLR² - 0.0998 PLR³
+
+CEC-2003 Advanced Variable Air Volume System Design Guide Appendix 5 DOE-2 Fan Curves
+
+Typical VSD Fan [0.047182815, 0.130541742, -0.117286942, 0.940313747]
+
+Good SP Reset VSD Fan [0.040759894, 0.08804497, -0.07292612, 0.943739823]
+
+No SP Reset VSD Fan [0.070428852, 0.385330201, -0.460864118, 1.00920344]
+
+## Polygon to Convex
+
+<https://mathoverflow.net/questions/60212/partitioning-a-polygon-into-convex-parts>

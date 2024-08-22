@@ -28,3 +28,9 @@ A' = [
     ((b² - a²) x - 2 a b y - 2 a c) / (a² + b²),
     (-2 a b x + (a² - b²) y - 2 b c) / (a² + b²),
 ]
+
+## Collinear Points
+
+A, B, C are collinear if (pg. 39):
+
+x1 y2 - x1 y3 + x2 y3 - x3 y2 + x3 y1 - x2 y1 = 0
