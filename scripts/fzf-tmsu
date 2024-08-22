@@ -44,9 +44,13 @@ def try_open_dir(directory_path: str) -> None:
         # Get environement variable FILEMANAGER
         # and open the directory with that filemanager
         filemanager = os.environ.get('FILEMANAGER')
+        home = os.environ.get('HOME')
 
         if filemanager is not None:
-            subprocess.run([filemanager, directory_path])
+            if filemanager == "lf":
+                subprocess.run([filemanager, "--last-dir-path", f"{home}/.config/lf/lf_lastdir", directory_path])
+            else:
+                subprocess.run([filemanager, directory_path])
         else:
             print('No $FILEMANAGER found')
         sys.exit()
