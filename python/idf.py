@@ -233,6 +233,9 @@ def construction_summary(idf_dict: dict):
 
     window_simple_glazing_systems = idf_dict['windowmaterial:simpleglazingsystem']
 
+    window_material_glazings = idf_dict['windowmaterial:glazing']
+
+
     # Get all constructions
     for construction in constructions:
         total_r_value = 0
@@ -262,14 +265,20 @@ def construction_summary(idf_dict: dict):
                                 material = m
                                 break
                         else:
-                            print("Error: material '{}' not found.".format(layer))
-                            print("Possible materials:")
-                            version_sort(materials)
 
-                            for m in materials:
-                                print("\t{}".format(m[1]))
+                            for m in window_material_glazings:
+                                if m[1].lower() == layer.strip().lower():
+                                    material = m
+                                    break
+                            else:
+                                print("Error: material '{}' not found.".format(layer))
+                                print("Possible materials:")
+                                version_sort(materials)
 
-                            sys.exit(1)
+                                for m in materials:
+                                    print("\t{}".format(m[1]))
+
+                                sys.exit(1)
 
             # material = materials[layer[0].lower()]
 
@@ -283,6 +292,11 @@ def construction_summary(idf_dict: dict):
                 R_value_SI = float(material[3])
             elif material[0].lower() == 'windowmaterial:simpleglazingsystem':
                 U_value_SI = float(material[2])
+                R_value_SI = 1 / U_value_SI
+            elif material[0].lower() == 'windowmaterial:glazing':
+                thickness_m = float(material[4])
+                conductivity_W_per_mK = float(material[14])
+                U_value_SI = 1 / (thickness_m / conductivity_W_per_mK)
                 R_value_SI = 1 / U_value_SI
             else:
                 print("Error: material type '{}' not recognized.".format(material[0]))
@@ -730,6 +744,8 @@ def main():
     elif command == "construction":
         contents = idf2tsv(file)
         idf_dict = tsv2dict(contents)
+        if header:
+            print("\t".join(["Construction", "R-Value (ft²·°F·hr/Btu)", "U-Value (Btu/hr·ft²·°F)"]))
         construction_summary(idf_dict)
     elif command == "int_loads":
         contents = idf2tsv(file)
