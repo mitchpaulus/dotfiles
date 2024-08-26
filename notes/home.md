@@ -34,3 +34,7 @@ Typically have a coarse and fine threads per inch
 [SkySpark in the Home](https://www.automatedbuildings.com/news/jul21/articles/adam/210617023801adam.html)
 
 [Fibaro button](https://www.fibaro.com/en/products/the-button/)
+
+## Home Sealing
+
+<https://www.arrowexterminators.com/learning-center/blog/how-to-seal-gaps-around-your-home-and-keep-pests-out>
