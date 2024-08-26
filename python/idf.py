@@ -310,7 +310,7 @@ def people_load(idf_dict: dict) -> list[list[str]]:
         people_type = people_load[4].strip().lower()
 
         if people_type == "people":
-            people_load_str = f"{people_load[5]:,.0f} people"
+            people_load_str = f"{people_load[5]} people"
         elif people_type == "people/area":
             people_per_ft2 = float(people_load[6]) / 10.7639
             # Flip to ft²/people for consistency
