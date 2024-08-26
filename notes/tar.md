@@ -4,6 +4,7 @@
  -x, --extract, --get extract files from an archive
  -v, --verbose verbosely list files processed
  -f ARCHIVE, --file=ARCHIVE use archive file or device ARCHIVE
+ -c create a new archive
 
 
 - GNU tar automatically deals with compression on extraction. Quote from

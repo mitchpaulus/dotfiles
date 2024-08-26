@@ -7,6 +7,11 @@ ax + by + c = 0
 parallel: a1 b2 - a2 b1 = 0
 perpendicular: a1 a2 + b1 b2 = 0
 
+if c == 0, then line passes through origin.
+y-intercept is -c/b
+horizontal line is <0 : n : 0>
+vertical line is <n : 0 : 0>
+
 s(l1, l2) = (a1 b2 - a2 b1)² / (a1² + b1²)(a2² + b2²)
 
 l = A1 A2 = <y1 - y2 : x2 - x1 : x1 y2 - x2 y1>
