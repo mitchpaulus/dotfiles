@@ -77,7 +77,7 @@ else
     set -gx JAVA_HOME /usr/local/jdk-17.0.2/
 end
 
-if not contains $REPOS/xlim/lib $XLIMPATH
+if not contains "$REPOS/xlim/lib" "$XLIMPATH"
     set -gxp XLIMPATH $REPOS/xlim/lib
 end
 
