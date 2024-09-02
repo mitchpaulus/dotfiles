@@ -3,7 +3,7 @@
 # PURPOSE: Quickly edit a script from the dotfiles. Uses 'fd' and 'fzf' to
 # accomplish this goal.
 
-file="$(fd '' "$DOTFILES"/scripts/ -x basename | fzf --preview='lf-preview '"$DOTFILES"'/scripts/{}')"
+file="$(find "$DOTFILES/scripts/" -type f -exec basename {} \; | fzf --preview='lf-preview '"$DOTFILES"'/scripts/{}')"
 
 # When fzf is cancelled it sends error code, just exit normally in that case.
 if test "$?" -ne 0; then
