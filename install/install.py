@@ -262,6 +262,7 @@ def install_excelchop():
 
 
 def install_neovim():
+    # Attempts to install the appimage version
     asset = get_github_asset('neovim', 'neovim', lambda a: a.name == 'nvim.appimage')
     print(f'Downloading {asset.name}...', file=sys.stderr)
     response = requests.get(asset.browser_download_url)
