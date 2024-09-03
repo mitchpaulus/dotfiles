@@ -101,3 +101,5 @@ Others to look into:
 Markdown with macros? Only outputs to HTML for now.
 
 ## [Crystal](https://crystal-lang.org/reference/1.9/index.html)
+
+## [Lush](https://lush.sourceforge.net/index.html)

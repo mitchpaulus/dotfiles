@@ -105,3 +105,9 @@ case "$key" in
     *) echo "default" ;;
 esac
 ```
+
+## Associative Arrays
+
+Can always literally write to disk.
+If the file system area being written to is a tmpfs, then it's not a big deal.
+See <https://stackoverflow.com/a/691023/5932184>.

@@ -90,3 +90,13 @@ set i (math $i + 1)
 ```
 
 [Variable expansion](https://fishshell.com/docs/current/language.html#variable-expansion)
+
+## Associative Arrays
+
+From <https://stackoverflow.com/a/40019138/5932184>. Store keys in one array, values in the other.
+
+```fish
+if set -l index (contains -i -- foo $keys) # `set` won't modify $status, so this succeeds if `contains` succeeds
+    echo $values[$index]
+end
+```
