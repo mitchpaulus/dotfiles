@@ -307,7 +307,7 @@ def construction_summary(idf_dict: dict):
             total_r_value += R_value_IP
 
         u_value_IP = 1 / total_r_value
-        fields = [construction[1], f"{total_r_value:.2f}", f"{u_value_IP:.2f}"]
+        fields = [construction[1], f"{total_r_value:.2f}", f"{u_value_IP:.3f}"]
         print("\t".join([str(x) for x in fields]))
 
 

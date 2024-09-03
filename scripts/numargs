@@ -1,4 +1,3 @@
 #!/bin/sh
 printf "NumArgs: %d\n" $#
-for var in "$@"; do echo "Arg:$var"; done
-printf '\n'
+for var in "$@"; do printf "Arg:%s\n" "$var"; done
