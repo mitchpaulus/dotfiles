@@ -241,3 +241,8 @@ Enter nested fields using CTRL-F9.
 If you use the approach of having a center and right tab stop, it is impossible to have the equation in display form.
 See <https://superuser.com/questions/483542/what-is-this-change-to-display-of-math-equations-and-why-does-it-change-the-eq>
 Workaround is a 3x1 table.
+
+## Equation Numbering
+
+This [reference](https://www.howtogeek.com/740936/how-to-number-or-label-equations-in-microsoft-word/) using the built in equation numbering.
+To make it look halfway decent, they put in on the paragraph below and right align.

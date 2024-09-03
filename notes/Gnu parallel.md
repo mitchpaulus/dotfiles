@@ -13,4 +13,5 @@ parallel [options] [command [arguments]] ( ::: arguments | :::+ arguments | ::::
 
 --halt now,fail=1: Stop on first error
 --progress
+-j N: Number of jobs to run in parallel
 ```

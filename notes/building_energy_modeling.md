@@ -116,3 +116,39 @@ No SP Reset VSD Fan [0.070428852, 0.385330201, -0.460864118, 1.00920344]
 ## Polygon to Convex
 
 <https://mathoverflow.net/questions/60212/partitioning-a-polygon-into-convex-parts>
+
+## Key Assumptions
+
+- Envelope
+    - Windows
+        - U-value
+        - SHGC
+    - Walls, Roof, Doors
+        - U-value
+
+- Loads
+    - People
+    - Equipment
+    - Lighting
+
+- Schedules
+    - Occupancy
+    - Lighting
+    - Equipment On/Off
+
+- Minimum Outdoor Air Flow
+    - 62.1 Calcs
+
+- Minimum Terminal Unit Air Flow
+
+## Plug Loads
+
+References:
+
+- ASHRAE 90.1 User's Manual
+- Plug and Process Loads Capacity and Power Requirements Analysis,
+  Michael Sheppy and Luigi Gentile-Polese, National Renewable Energy Laboratory,
+  Scott Gould, Stanford University, September 2014
+- From NREL: Technical Support Document: Strategies for 50% Energy Savings in Large Office Buildings
+  - 65 W/person baseline
+  - 48 W/person EnergyStar?
