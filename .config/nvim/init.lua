@@ -465,7 +465,7 @@ insertModeNoRecurseMappings = {
 
     -- Shebangs
     { '<localleader>sh', '#!/bin/sh' },
-    { '<localleader>sp', '#!/usr/bin/python3<Esc>:set ft=python<Cr>A<Cr><Cr>' },
+    { '<localleader>sp', '#!/usr/bin/env python3<Esc>:set ft=python<Cr>A<Cr><Cr>' },
 
     -- { '<C-Space>', '<C-x><C-o>' },
 }
