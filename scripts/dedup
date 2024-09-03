@@ -1,0 +1,14 @@
+#!/usr/bin/python3
+import sys
+
+seen = {}
+for line in sys.stdin:
+    if line not in seen:
+        seen[line] = 1
+        print(line, end='')
+
+    else:
+        count = seen[line]
+        # Print a (count) at the end, before the newline
+        print(line.rstrip() + ' (' + str(count) + ')')
+        seen[line] += 1
