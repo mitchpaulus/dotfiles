@@ -92,3 +92,7 @@ IF(
     IF(A2,A2,""),
     ""
 )
+
+## Custom Sorting in Pivot Table
+
+<https://www.extendoffice.com/documents/excel/2025-excel-pivot-table-sort-custom-list.html>
