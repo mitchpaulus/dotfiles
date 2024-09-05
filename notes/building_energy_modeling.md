@@ -117,6 +117,8 @@ No SP Reset VSD Fan [0.070428852, 0.385330201, -0.460864118, 1.00920344]
 
 <https://mathoverflow.net/questions/60212/partitioning-a-polygon-into-convex-parts>
 
+Or just do ear clipping with triangulation.
+
 ## Key Assumptions
 
 - Envelope

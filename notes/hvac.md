@@ -236,6 +236,16 @@ Benchmark value for heat rate is often 7,000 BTU/kWH ~ 50% conversion efficiency
 EER is output BTUs / input Wh. EER = 3.41214 * COP, COP = EER / 3.41214.
 EER = 12 * kW/ton, kW/ton = EER / 12.
 
+See CFR-2021 Title 10 Part 430 for the official documentation
+
+For SEER2, the cooling bins are 5°F in width, from 67°F to 102°F.
+I'd imagine that those are the bin centers.
+
+When reading the documentation, looks like k=1 means low speed, k=2 means high speed.
+
+> Use the superscript k=2 to denote a test with the unit operating at high capacity or full speed,
+> k=1 to denote low capacity or minimum speed, and k=v to denote the intermediate speed.
+
 ## WWR - Window to Wall Ratio, Window percentage
 
 WWR = 1 / (1 - Window Percentage)

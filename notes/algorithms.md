@@ -37,8 +37,7 @@ Algorithms:
 
 - Bala R. Vatti. "A generic solution to polygon clipping", Communications of the ACM, Vol 35, Issue 7 (July 1992) pp. 56–63.
 
-To get intersecting area of polygons, can follow this up with a shoelace
-algorithm.
+To get intersecting area of polygons, can follow this up with a shoelace algorithm.
 
 For [rectangles](https://stackoverflow.com/questions/306316/determine-if-two-rectangles-overlap-each-other).
 
@@ -363,5 +362,38 @@ mean_actual = sum_actual / n
 nmbe = sum_diff / n / mean_actual * 100
 rmse = sqrt(sum_diff_squared / n)
 cvrmse = rmse / mean_actual * 100
+
+```
+
+## Ear Clipping
+
+
+<https://www.youtube.com/watch?v=QAdfkylpYwc>
+<https://www.youtube.com/watch?v=hTJFcHutls8>
+
+Cross Product exploration: <https://www.geogebra.org/m/psMTGDgc>
+
+Can determine whether angle is convex or concave by looking at the cross product of the vectors, at the z component.
+
+### Point in Triangle
+
+Get directional vectors in order of triangle vertices.
+For each one, get cross product of vector from triangle point to test point.
+Make sure the 'z' component of the cross product is the same sign for all three vectors.
+
+If counter-clockwise orientation, all these cross products should be positive. (outside_vec x vec_to_int_point)
+If counter-clockwise orientation, the angle of vertex is < 180 degrees if cross product is positive, when using vectors v1->2 x v2->3.
+
+To test 
+
+
+### Signed Area
+
+Shoelace formula, or signed area of a polygon. Positive if counter-clockwise, negative if clockwise.
+
+A = 1/2 * sum(all pairs of determinants of points, x y as column vectors, or the z component of the cross product of the vectors)
+
+A = 1/2 * sum( | xi Xi+1 | + .. )
+               | yi Yi+1 |
 
 ```
