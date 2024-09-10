@@ -83,6 +83,12 @@ Maybe build a simpler syntax on top?
 Some very interesting compiler enforced design decisions for thought, even though it is a joke.
 
   - Only one comparer `>=`
+    - a >= b => a >= b
+    - a <= b => b >= a
+    - a > b => !(a >= b)
+    - a < b => !(b >= a)
+    - a == b => x = a >= b; y = b >= a; x && y
+    - a != b => x = !(a >= b); y = !(b >= a); x || y
   - No if statement, only switch
 
 ## [Nickel](https://github.com/tweag/nickel)
