@@ -320,6 +320,9 @@ normalNoRecurseMappings = {
     { '<M-i>', 'vi' },
     { '<M-a>', 'va' },
 
+    { '<M-f>', 'E' }, -- Match emacs
+    { '<M-b>', 'B' }, -- Match emacs
+
     -- Copy entire file to clipboard
     { '<leader>y', '<Cmd>%yank +<CR>' },
     -- Move backwards through spell.
