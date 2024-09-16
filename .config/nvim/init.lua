@@ -828,8 +828,8 @@ end
 vim.api.nvim_create_autocmd('FileType', { pattern = 'tsv', group=filetype_autocmds_id, callback = function() vim.api.nvim_set_keymap('n', ']n', ':lua goto_next_blank_cell_line()<CR>', { noremap = true, silent = true }) end })
 vim.api.nvim_create_autocmd('FileType', { pattern = 'markdown', group = filetype_autocmds_id, callback = markdownMathBlocks })
 
--- Remove 'r' and 'o' from formatoptions
-vim.api.nvim_create_autocmd('FileType', { pattern = 'sh,cs', group = filetype_autocmds_id, command = 'setlocal formatoptions-=r formatoptions-=o' })
+-- Remove 'r' and 'o' from formatoptions. This is to remove annoying comment wrapping.
+vim.api.nvim_create_autocmd('FileType', { pattern = 'sh,cs,gitignore,conf', group = filetype_autocmds_id, command = 'setlocal formatoptions-=r formatoptions-=o' })
 
 local function set_xlim_makeprg()
     vim.api.nvim_buf_set_option(0, 'makeprg', 'xlim "%"')
