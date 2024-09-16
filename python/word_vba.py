@@ -213,8 +213,11 @@ class Table:
         elif isinstance(col, Column):
             self.col_widths.append((col.column, width))
 
-    def col_autofit(self, col):
-        if isinstance(col, int):
+    def col_autofit(self, col = None):
+        if col is None:
+            for i in range(1, self.num_cols() + 1):
+                self.autofits.append(i)
+        elif isinstance(col, int):
             self.autofits.append(col)
         elif isinstance(col, Column):
             self.autofits.append(col.column)
