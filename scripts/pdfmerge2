@@ -21,7 +21,7 @@ def merge_pdfs_with_bookmarks(pdf_paths, output_path, filename_bookmark_mode):
                 # Add the filename as a bookmark, minus the extension
                 page = 1 + page_offset
                 bkmk = [1, filename, page]
-                print(bkmk)
+                print(bkmk, file=sys.stderr)
                 bookmarks.append(bkmk)
             else:
                 # Retrieve the current document's bookmarks (if any)
@@ -46,9 +46,9 @@ def merge_pdfs_with_bookmarks(pdf_paths, output_path, filename_bookmark_mode):
     # Save the merged document
     merged_document.save(output_path)
 
-    print("New bookmarks:")
+    print("New bookmarks:", file=sys.stderr)
     for bkmk in merged_document.get_toc(simple=False):
-        print(bkmk)
+        print(bkmk, file=sys.stderr)
 
     merged_document.close()
 
@@ -78,7 +78,7 @@ if __name__ == "__main__":
     input_files = sys.argv[index + 1:]
 
     if output_file.strip() == "":
-        print("Output file cannot be empty")
+        print("Output file cannot be empty", file=sys.stderr)
         sys.exit(1)
 
     # Merge the PDFs
