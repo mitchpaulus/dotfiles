@@ -99,3 +99,10 @@ do: Removing stamp files...
 redo  bin/all
 redo    redo/version/all
 ```
+
+
+## Other implementations
+
+- [list](https://redo.readthedocs.io/en/latest/#how-does-this-redo-compare-to-other-redo-implementations)
+- [zombiezen/redo-rs](https://github.com/zombiezen/redo-rs)
+- [leahneukirchen/redo-c](https://github.com/leahneukirchen/redo-c)
