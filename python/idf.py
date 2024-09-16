@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import sys
-from typing import List, Iterable
+from typing import List, Iterable, Union
 import math
 import json
 import pathlib
@@ -103,39 +103,157 @@ def eflh(file: list[list[str]]):
     print("Day Schedules EFLH")
     day_dict = eflh_days(file)
     print()
-    print("Weekly Schedules EFLH")
 
-    eflh_hours_weeks(d, day_dict)
+    week_dict = eflh_hours_weeks(d, day_dict)
 
-    print()
     print("Annual Schedules EFLH")
     for sch in d['Schedule:Year'.lower()]:
-        if sch[2].lower() == 'fractional':
-            print(sch[1])
+        eflh = analyze_eflh_sch_year(d, sch, week_dict)
+        if eflh is not None:
+            print(f"{sch[1]}: {eflh:.0f}")
 
-def eflh_hours_weeks(file_dict, day_analysis):
+day_map = {
+    "sunday": 0,
+    "monday": 1,
+    "tuesday": 2,
+    "wednesday": 3,
+    "thursday": 4,
+    "friday": 5,
+    "saturday": 6,
+    "": 0 # Default to Sunday
+}
+
+def day_of_year_from_month_day(month: int, day: int) -> int:
+    if month < 1 or month > 12:
+        print("Error: Month must be between 1 and 12.")
+        sys.exit(1)
+
+    if day < 1 or day > 31:
+        print("Error: Day must be between 1 and 31.")
+        sys.exit(1)
+
+    if month == 1:
+        return day
+    elif month == 2:
+        return 31 + day
+    elif month == 3:
+        return 59 + day
+    elif month == 4:
+        return 90 + day
+    elif month == 5:
+        return 120 + day
+    elif month == 6:
+        return 151 + day
+    elif month == 7:
+        return 181 + day
+    elif month == 8:
+        return 212 + day
+    elif month == 9:
+        return 243 + day
+    elif month == 10:
+        return 273 + day
+    elif month == 11:
+        return 304 + day
+    else:
+        return 334 + day
+
+def month_from_day_of_year(day_of_year: int) -> int:
+    if day_of_year < 1 or day_of_year > 365:
+        print("Error: Day of year must be between 1 and 365.")
+        sys.exit(1)
+
+    if day_of_year <= 31:
+        return 1
+    elif day_of_year <= 59:
+        return 2
+    elif day_of_year <= 90:
+        return 3
+    elif day_of_year <= 120:
+        return 4
+    elif day_of_year <= 151:
+        return 5
+    elif day_of_year <= 181:
+        return 6
+    elif day_of_year <= 212:
+        return 7
+    elif day_of_year <= 243:
+        return 8
+    elif day_of_year <= 273:
+        return 9
+    elif day_of_year <= 304:
+        return 10
+    elif day_of_year <= 334:
+        return 11
+    else:
+        return 12
+
+
+def analyze_eflh_sch_year(file_dict, year_schedule: list[str], week_schedules: dict[str, list[float]]) -> Union[None, float]:
+    # First determine day of week for first day of year
+    run_periods = file_dict['runperiod'.lower()]
+    if len(run_periods) == 0:
+        print("Error: No RunPeriod object found.")
+        sys.exit(1)
+
+    run_period = run_periods[0]
+    start_day = run_period[8].lower()
+    start_dow_num = day_map[start_day.strip()]
+
+    index = 3
+
+    total_eflh = 0
+
+    while index < len(year_schedule):
+        week_sch_name = year_schedule[index]
+        start_month = int(year_schedule[index + 1])
+        start_day = int(year_schedule[index + 2])
+        end_month = int(year_schedule[index + 3])
+        end_day = int(year_schedule[index + 4])
+
+        start_day_of_year = day_of_year_from_month_day(start_month, start_day)
+        end_day_of_year = day_of_year_from_month_day(end_month, end_day)
+        if week_sch_name not in week_schedules:
+            return None
+
+        week_sch_data = week_schedules[week_sch_name]
+
+        for i in range(start_day_of_year, end_day_of_year + 1):
+            dow = (start_dow_num + i - 1) % 7
+            eflh = week_sch_data[dow]
+            total_eflh += eflh
+
+        index += 5
+
+    return total_eflh
+
+
+def eflh_hours_weeks(file_dict, day_analysis) -> dict[str, list[float]]:
     week_schedules = file_dict['schedule:week:daily'.lower()]
 
     week_schedule_dict = {}
 
     for week_schedule in week_schedules:
+        valid_fractional_sch = True
         name = week_schedule[1]
         # Just do normal days
         days = [d.lower() for d in week_schedule[2:9]]
         # Days go from Sun to Sat, Holiday, SummerDesignDay, WinterDesignDay, CustomDay1, CustomDay2
-        eflh_total = 0
+        day_items = []
         for day in days:
             if day in day_analysis:
-                eflh_total += day_analysis[day]
+                day_items.append(day_analysis[day])
             else:
-                eflh_total = None
-                break
+                valid_fractional_sch = False
+                day_items.append(None)
 
-        print(name, f"{eflh_total:.1f}" if eflh_total is not None else "N/A")
-        week_schedule_dict[name] = eflh_total
+        if valid_fractional_sch:
+            # print(name, f"{eflh_total:.1f}" if eflh_total is not None else "N/A")
+            week_schedule_dict[name] = day_items
+
+    return week_schedule_dict
 
 
-def eflh_days(file: list[list[str]]):
+def eflh_days(file: list[list[str]]) -> dict[str, float]:
     d = tsv2dict(file)
 
     all_schedules = []
@@ -143,26 +261,49 @@ def eflh_days(file: list[list[str]]):
     day_schedule_dict = {}
 
     for sch in d['Schedule:Day:Interval'.lower()]:
-        if sch[2].lower() == 'fractional':
-            index = 4
-            eflh_total = 0
-            previous_hour = 0
+        index = 4
+        eflh_total = 0
+        previous_hour = 0
 
-            while index + 1 < len(sch):
-                time_str = sch[index]
-                # time_str is like HH:MM
-                time_str = time_str.split(':')
-                hour = int(time_str[0])
-                minute = int(time_str[1])
+        valid_fractional_sch = True
+        while index + 1 < len(sch):
+            time_str = sch[index]
+            value_until_time_str = float(sch[index + 1])
 
-                curr_hour = hour + minute / 60.0
+            if value_until_time_str < 0 or value_until_time_str > 1:
+                valid_fractional_sch = False
+                break
 
-                decimal_hours = (curr_hour) - previous_hour
-                eflh_total += decimal_hours * float(sch[index + 1])
+            # time_str is like HH:MM
+            time_str = time_str.split(':')
+            hour = int(time_str[0])
+            minute = int(time_str[1])
 
-                previous_hour = curr_hour
-                index += 2
+            curr_hour = hour + minute / 60.0
 
+            decimal_hours = (curr_hour) - previous_hour
+            eflh_total += decimal_hours * float(sch[index + 1])
+
+            previous_hour = curr_hour
+            index += 2
+
+        if valid_fractional_sch:
+            day_schedule_dict[sch[1].lower()] = eflh_total
+            fields = [sch[1], f"{eflh_total:.1f}"]
+            all_schedules.append(fields)
+
+    for sch in d.get('Schedule:Day:Hourly'.lower(), []):
+        index = 3
+        valid_fractional_sch = True
+        eflh_total = 0
+        while index < len(sch):
+            value = float(sch[index])
+            if value < 0 or value > 1:
+                valid_fractional_sch = False
+                break
+            eflh_total += value
+
+        if valid_fractional_sch:
             day_schedule_dict[sch[1].lower()] = eflh_total
             fields = [sch[1], f"{eflh_total:.1f}"]
             all_schedules.append(fields)
