@@ -31,7 +31,6 @@ class DateParser:
 
 
 def main(filter_incomplete: bool, interval: int):
-
     date_parser = DateParser()
 
     min_date = datetime.datetime(9998, 1, 1)
@@ -164,6 +163,7 @@ interval_token = 2
 string_token = 3
 integer_token = 4
 help_token = 5
+no_interpolate_token = 6
 eof = 6
 
 class Token:
@@ -192,6 +192,8 @@ class CliLexer:
             return Token(interval_token, str_val)
         elif str_val == "-h" or str_val == "--help":
             return Token(help_token, str_val)
+        elif str_val == "--no-interpolate":
+            return Token(no_interpolate_token, str_val)
         elif str_val.startswith('-'):
             raise Exception(f"Unknown option {str_val}")
         # Else if try parse as integer
@@ -233,11 +235,16 @@ class CliParser:
                 self.options.filter_incomplete = True
             elif self.lookahead.token_type == interval_token:
                 self.parse_interval_option()
+            elif self.lookahead.token_type == no_interpolate_token:
+                self.options.no_interpolate = True
+
+                self.match(no_interpolate_token)
             elif self.lookahead.token_type == help_token:
                 print("Usage: mp2tsv OPTIONS < FILE")
                 print("Options:")
                 print("  --filter-incomplete: Filter out incomplete data, any row that is not totally complete will be removed.")
                 print("  --interval, -i: Set the interval in minutes for the output data. Default is 5 minutes.")
+                print("  --no-interpolate: Do not interpolate data.")
                 sys.exit(0)
             else:
                 raise Exception(f"Unexpected token {self.lookahead}")
@@ -253,6 +260,7 @@ class Options:
     def __init__(self):
         self.filter_incomplete = False
         self.interval = 5
+        self.no_interpolate = False
 
     def __str__(self):
         return f"Filter incomplete: {self.filter_incomplete}, Interval: {self.interval}"
