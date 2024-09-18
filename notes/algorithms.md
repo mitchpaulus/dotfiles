@@ -129,6 +129,8 @@ The version sort ordering rules are:
    initial digit strings) are repeated until a difference is found or
    both strings are exhausted.
 
+See <https://github.com/mitchpaulus/MtpSharp/blob/main/MtpSharp/Extensions.cs> for C# implementation.
+
 ## String Comparison
 
 1. [Levenshtein Distance](https://en.wikipedia.org/wiki/Levenshtein_distance).
@@ -384,7 +386,7 @@ Make sure the 'z' component of the cross product is the same sign for all three 
 If counter-clockwise orientation, all these cross products should be positive. (outside_vec x vec_to_int_point)
 If counter-clockwise orientation, the angle of vertex is < 180 degrees if cross product is positive, when using vectors v1->2 x v2->3.
 
-To test 
+To test
 
 
 ### Signed Area

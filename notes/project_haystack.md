@@ -17,3 +17,11 @@ From docs:
 > fan motor is driven by a VFD then it is recommended to make the fan a
 > sub-equip. However in many cases a simple fan in a terminal unit such
 > as a vav is more easily modeled as just a point.
+
+## Common tags
+
+- `discharge`
+- `temp`
+- `sp` (setpoint)
+- `sensor` (sensors)
+- `cmd` (command)
