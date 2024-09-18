@@ -59,6 +59,19 @@ def parse():
     return data
 
 if __name__ == "__main__":
+    idx = 1
+    while idx < len(sys.argv):
+        arg = sys.argv[idx]
+        idx += 1
+        if arg == "-h":
+            print(f"Usage: {sys.argv[0]} < input.csv > output.mp")
+            print(f"Convert Influx 'Annotated CSV' to an MP file")
+            sys.exit(0)
+        else:
+            print(f"Unknown option: {arg}")
+            sys.exit(1)
+
+
     data = parse()
     for measurement in version_sort(data.keys()):
         print(f"{measurement}")
