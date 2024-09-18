@@ -179,5 +179,21 @@ class TestPolyFit(unittest.TestCase):
         self.assertAlmostEqual(a1, 2.35929, 3)
         self.assertAlmostEqual(a2, 1.86071, 3)
 
+class TestDateTimeParsing(unittest.TestCase):
+    def test_parse_date_1(self):
+        date_str = '8/27/2024 5:05:19 PM'
+        date_parts = mputils.parse_datetime(date_str)
+        self.assertEqual(date_parts, [2024, 8, 27, 17, 5, 19])
+
+    def test_parse_date_2(self):
+        date_str = '2024/8/7 12:05 AM'
+        date_parts = mputils.parse_datetime(date_str)
+        self.assertEqual(date_parts, [2024, 8, 7, 0, 5])
+
+    def test_parse_date_3(self):
+        date_str = '2024-8-7 12:05 PM'
+        date_parts = mputils.parse_datetime(date_str)
+        self.assertEqual(date_parts, [2024, 8, 7, 12, 5])
+
 if __name__ == "__main__":
     unittest.main()

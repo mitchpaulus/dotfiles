@@ -1617,3 +1617,96 @@ def poly_fit(x: list[float], y: list[float]):
     a2 = ((sum_x2**2-sum_x*sum_x3)*sum_y+sum_x2*((-sum_x*sum_xy)-n*sum_x2y) +n*sum_x3*sum_xy+sum_x**2*sum_x2y) /(sum_x2*((-n*sum_x4)-2*sum_x*sum_x3) +sum_x**2*sum_x4+n*sum_x3**2+sum_x2**3)
 
     return (a0, a1, a2)
+
+def parse_datetime(inputStr: str) -> list[int]:
+    int_components: list[str] = []
+    start = 0
+    current = 0
+    am_pm = None
+
+    while current < len(inputStr):
+
+        char = inputStr[current]
+        current += 1
+
+        if char.isdigit():
+            while current < len(inputStr) and inputStr[current].isdigit():
+                current += 1
+
+            int_components.append(inputStr[start:current])
+            start = current
+
+        elif char.lower() == "a":
+            # Peek at next char
+            if current < len(inputStr) and inputStr[current].lower() == "m":
+                am_pm = "am"
+                current += 1
+            else:
+                raise ValueError("Invalid datetime string")
+
+        elif char.lower() == "p":
+            # Peek at next char
+            if current < len(inputStr) and inputStr[current].lower() == "m":
+                am_pm = "pm"
+                current += 1
+            else:
+                raise ValueError("Invalid datetime string")
+
+        else:
+            # Skip whitespace, colon, or hyphen, etc.
+            start = current
+
+    if len(int_components) < 3:
+        raise ValueError("Invalid datetime string")
+
+    hour, minute, second = 0, 0, 0
+
+    # Assume first three components are date components
+    # Check if year is first
+    if len(int_components[0]) == 4:
+        year = int(int_components[0])
+        month = int(int_components[1])
+        day = int(int_components[2])
+
+        if month < 1 or month > 12:
+            raise ValueError("Invalid datetime string")
+
+        if day < 1 or day > days_in_month(year, month):
+            raise ValueError("Invalid datetime string")
+
+    elif len(int_components[2]) == 4:
+        year = int(int_components[2])
+        month = int(int_components[0])
+        day = int(int_components[1])
+
+        if month < 1 or month > 12:
+            raise ValueError("Invalid datetime string")
+
+        if day < 1 or day > days_in_month(year, month):
+            raise ValueError("Invalid datetime string")
+
+    else:
+        raise ValueError("Invalid datetime string")
+
+    if len(int_components) >= 5:
+        hour = int(int_components[3])
+        minute = int(int_components[4])
+
+        if am_pm == "am":
+            if hour == 12:
+                hour = 0
+        elif am_pm == "pm":
+            if hour < 12:
+                hour += 12
+
+    if len(int_components) >= 6:
+        second = int(int_components[5])
+
+    if len(int_components) == 6:
+        return [year, month, day, hour, minute, second]
+    elif len(int_components) == 5:
+        return [year, month, day, hour, minute]
+    elif len(int_components) == 3:
+        return [year, month, day]
+    else:
+        raise ValueError("Invalid datetime string")
