@@ -83,6 +83,16 @@ Directory.EnumerateFiles(string dir) -> List of full file paths.
 ## Sanitize File Names
 
 ```csharp
+    // < (less than)
+    // > (greater than)
+    // : (colon - sometimes works, but is actually NTFS Alternate Data Streams)
+    // " (double quote)
+    // / (forward slash)
+    // \ (backslash)
+    // | (vertical bar or pipe)
+    // ? (question mark)
+    // * (asterisk)
+
     public static string SanitizeFilename(this string name)
     {
         string invalidChars = Regex.Escape(new string(System.IO.Path.GetInvalidFileNameChars()));

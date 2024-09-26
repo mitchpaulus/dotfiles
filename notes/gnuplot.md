@@ -386,3 +386,13 @@ pointtype or pt
 ```
 "%1m/%1d/%Y"
 ```
+
+## Compiling 6 on WSL Ubuntu
+
+Had to turn off the Qt terminal to get it to compile.
+
+```bash
+./configure --with-qt=no
+make
+sudo make install
+```

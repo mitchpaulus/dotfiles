@@ -154,3 +154,32 @@ Order of events:
 ## Debugging
 
 `echom` in vimscript, `print` in lua.
+
+## Default CTRL keys for Vim.
+
+A: Increment
+B: Scroll window pages backwards
+C: Interrupt
+D: Scroll window downwards
+E: Scroll window downwards line
+F: Scroll window pages forwards
+G: Prints current file name, cursor position, and status
+H: Move Left
+I: Move forward in jump list
+J: Move down line
+K: Enter digraph
+L: Clears and redraws
+M: Like Enter
+N: Same as, j, CTRL-J
+O: Move backwards in jump list
+P: Same as k, move line up.
+Q: Same as CTRL-V
+R: Redo
+S: Nothing??
+T: Jump to older entry in tag stack
+U: Scroll upwards in the buffer
+V: Start visual mode blockwise
+W: Starts a prefix for window commands
+X: Decrement
+Y: Scroll window upwards line
+Z: Suspend vim (quit)
