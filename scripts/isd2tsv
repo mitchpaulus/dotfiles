@@ -3179,7 +3179,6 @@ def main():
         print_single_col_fmt(usaf, wban, year, ip, offset, dst)
 
     elif cloud_coverage:
-        contents = get_isd_file_contents_http(usaf, wban, year)
         # Check for offset
         if offset is None:
             print("Error: no offset given", file=sys.stderr)
