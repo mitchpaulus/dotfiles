@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from enum import IntEnum
+
 """Table documentation:
 https://learn.microsoft.com/en-us/office/vba/api/word.table
 
@@ -64,15 +66,18 @@ Uniform
 #   wdAlignParagraphRight         2       Right-aligned.
 #   wdAlignParagraphThaiJustify   9       Justified         according    to    Thai          formatting   layout.
 
-wdAlignParagraphLeft        = 0
-wdAlignParagraphCenter      = 1
-wdAlignParagraphRight       = 2
-wdAlignParagraphJustify     = 3
-wdAlignParagraphDistribute  = 4
-wdAlignParagraphJustifyMed  = 5
-wdAlignParagraphJustifyHi   = 7
-wdAlignParagraphJustifyLow  = 8
-wdAlignParagraphThaiJustify = 9
+# Word Paragraph Alignment
+# https://learn.microsoft.com/en-us/office/vba/api/word.wdparagraphalignment
+class WordParagraphAlignment(IntEnum):
+    wdAlignParagraphLeft        = 0
+    wdAlignParagraphCenter      = 1
+    wdAlignParagraphRight       = 2
+    wdAlignParagraphJustify     = 3
+    wdAlignParagraphDistribute  = 4
+    wdAlignParagraphJustifyMed  = 5
+    wdAlignParagraphJustifyHi   = 7
+    wdAlignParagraphJustifyLow  = 8
+    wdAlignParagraphThaiJustify = 9
 
 # https://learn.microsoft.com/en-us/office/vba/api/Word.WdCellVerticalAlignment
 # Name	                    Value	Description
@@ -80,18 +85,45 @@ wdAlignParagraphThaiJustify = 9
 # wdCellAlignVerticalCenter	1	    Text is aligned to the center of the cell.
 # wdCellAlignVerticalBottom	3	    Text is aligned to the bottom border of the cell.
 
-wdCellAlignVerticalTop     = 0
-wdCellAlignVerticalCenter  = 1
-wdCellAlignVerticalBottom  = 3
+class WordVerticalAlignment(IntEnum):
+    wdCellAlignVerticalTop     = 0
+    wdCellAlignVerticalCenter  = 1
+    wdCellAlignVerticalBottom  = 3
 
 # https://learn.microsoft.com/en-us/office/vba/api/Word.WdRowAlignment
 # wdAlignRowCenter	1	Centered.
 # wdAlignRowLeft	0	Left-aligned. Default.
 # wdAlignRowRight	2	Right-aligned.
 
-wdAlignRowLeft   = 0
-wdAlignRowCenter = 1
-wdAlignRowRight  = 2
+class WordHorizontalRowAlignment(IntEnum):
+    wdAlignRowLeft   = 0
+    wdAlignRowCenter = 1
+    wdAlignRowRight  = 2
+
+
+class WordBorderType(IntEnum):
+    wdBorderBottom       = -3
+    wdBorderDiagonalDown = -7
+    wdBorderDiagonalUp   = -8
+    wdBorderHorizontal   = -5
+    wdBorderLeft         = -2
+    wdBorderRight        = -4
+    wdBorderTop          = -1
+    wdBorderVertical     = -6
+
+# https://learn.microsoft.com/en-us/office/vba/api/word.wdbordertype
+# Name	Value	Description
+# wdBorderBottom	-3	A bottom border.
+# wdBorderDiagonalDown	-7	A diagonal border starting in the upper-left corner.
+# wdBorderDiagonalUp	-8	A diagonal border starting in the lower-left corner.
+# wdBorderHorizontal	-5	Horizontal borders.
+# wdBorderLeft	-2	A left border.
+# wdBorderRight	-4	A right border.
+# wdBorderTop	-1	A top border.
+# wdBorderVertical	-6	Vertical borders.
+
+# Borders Object.
+# https://learn.microsoft.com/en-us/office/vba/api/word.borders
 
 class Row:
     # https://learn.microsoft.com/en-us/office/vba/api/word.row
@@ -138,23 +170,28 @@ CCLLC_BLUE = Color(0, 73, 135)
 
 class Table:
     def __init__(self) -> None:
-        self.merges = []
-        self.background_colors = []
-        self.bolds = []
-        self.vertical_alignments = []
-        self.horizontal_alignments = []
+        self._merges = []
+        self._background_colors = []
+        self._bolds = []
+        self._vertical_alignments = []
+        self._horizontal_alignments = []
         self.font_sizes = []
-        self.col_widths = []
-        self.autofits = []
+        self._col_widths = []
+        self._autofits = []
         self.decimal_tabs = []
 
         self.current_cell_range = None
+
+        self._borders = True
 
     def row(self, row: int):
         self.current_cell_range = Row(row)
 
     def column(self, column: int):
         self.current_cell_range = Column(column)
+
+    def no_borders(self):
+        self._borders = False
 
     def num_rows(self):
         return len(self.data)
@@ -165,7 +202,7 @@ class Table:
         return max([len(row) for row in self.data])
 
     def merge_cells(self, start_row: int, start_col: int, end_row: int, end_col: int):
-        self.merges.append((start_row, start_col, end_row, end_col))
+        self._merges.append((start_row, start_col, end_row, end_col))
         return self
 
     def set_data(self, data: list[list[str]]):
@@ -173,11 +210,11 @@ class Table:
         return self
 
     def set_background_color(self, cell_range, color: Color):
-        self.background_colors.append((cell_range, color))
+        self._background_colors.append((cell_range, color))
         return self
 
     def bold(self, cell_range, bold: bool):
-        self.bolds.append((cell_range, bold))
+        self._bolds.append((cell_range, bold))
         return self
 
     def font_size(self, *args):
@@ -195,32 +232,36 @@ class Table:
         self.font_sizes.append((cell_range, font_size))
         return self
 
-    def vertical_align(self, cell_range, alignment):
-        self.vertical_alignments.append((cell_range, alignment))
+    def vertical_align(self, cell_range, alignment: WordVerticalAlignment):
+        self._vertical_alignments.append((cell_range, alignment))
         return self
 
-    def horizontal_align(self, cell_range, alignment):
-        self.horizontal_alignments.append((cell_range, alignment))
+    def horizontal_align(self, cell_range, alignment: WordParagraphAlignment):
+        self._horizontal_alignments.append((cell_range, alignment))
         return self
 
     def decimal_tab(self, cell_range, position):
         self.decimal_tabs.append((cell_range, position))
         return self
 
-    def col_width(self, col, width):
+    def col_width(self, col, width_inches):
         if isinstance(col, int):
-            self.col_widths.append((col, width))
+            self._col_widths.append((col, width_inches))
         elif isinstance(col, Column):
-            self.col_widths.append((col.column, width))
+            self._col_widths.append((col.column, width_inches))
+
+        return self
 
     def col_autofit(self, col = None):
         if col is None:
             for i in range(1, self.num_cols() + 1):
-                self.autofits.append(i)
+                self._autofits.append(i)
         elif isinstance(col, int):
-            self.autofits.append(col)
+            self._autofits.append(col)
         elif isinstance(col, Column):
-            self.autofits.append(col.column)
+            self._autofits.append(col.column)
+
+        return self
 
     def obj_from_cell_range(self, cell_range):
         if isinstance(cell_range, Cell):
@@ -280,14 +321,14 @@ class Table:
         lines.append("Dim tbl As Table")
         lines.append(f'Set tbl = ActiveDocument.Tables.Add(Range:=Selection.Range, NumRows:={self.num_rows()}, NumColumns:={self.num_cols()}, DefaultTableBehavior:=wdWord9TableBehavior, AutoFitBehavior:=wdAutoFitFixed)')
 
-        for cell_range, color in self.background_colors:
+        for cell_range, color in self._background_colors:
             lines.extend(self.apply_to_range(cell_range, f'.Shading.BackgroundPatternColor = RGB({color.r}, {color.g}, {color.b})'))
 
-        for cell_range, bold in self.bolds:
+        for cell_range, bold in self._bolds:
             vba_bool = 'True' if bold else 'False'
             lines.extend(self.apply_to_range(cell_range, f'.Font.Bold = {vba_bool}'))
 
-        for cell_range, alignment in self.vertical_alignments:
+        for cell_range, alignment in self._vertical_alignments:
             if isinstance(cell_range, Row):
                 lines.append(f'{self.obj_from_cell_range(cell_range)}.Cells.VerticalAlignment = {alignment}')
             elif isinstance(cell_range, Column):
@@ -305,7 +346,7 @@ class Table:
             else:
                 raise ValueError(f"Cell range type not supported yet: {type(cell_range)}")
 
-        for cell_range, alignment in self.horizontal_alignments:
+        for cell_range, alignment in self._horizontal_alignments:
             if isinstance(cell_range, Column):
                 # Columns don't have Range property, so we have to use Cells
                 lines.append(f'For Each c In {self.obj_from_cell_range(cell_range)}.Cells')
@@ -345,28 +386,31 @@ class Table:
             #  for j, cell in enumerate(row):
                 #  lines.append(f'tbl.Cell({i+1}, {j+1}).Range.Text = "{cell}"')
 
-        for col in self.autofits:
+        for col in self._autofits:
             lines.append(f'tbl.Columns({col}).AutoFit')
 
-        if self.col_widths:
+        if self._col_widths:
             # Clear 'PreferredWidth on table width. Remove AllowAutoFit
             lines.append('tbl.PreferredWidthType = wdPreferredWidthAuto')
             lines.append('tbl.PreferredWidth = 0')
             lines.append('tbl.AllowAutoFit = False')
 
-        for col, width in self.col_widths:
-            lines.append(f'tbl.Columns({col}).Width = {width}')
+        for col, width in self._col_widths:
+            lines.append(f'tbl.Columns({col}).Width = InchesToPoints({width})')
 
-        if self.col_widths:
+        if self._col_widths:
             lines.append('tbl.AllowAutoFit = True')
 
-        for merge in self.merges:
+        for merge in self._merges:
             start_row = merge[0] if merge[0] > 0 else self.num_rows() + merge[0] + 1 # 1-based index
             start_col = merge[1] if merge[1] > 0 else self.num_cols() + merge[1] + 1 # 1-based index
             end_row = merge[2] if merge[2] > 0 else self.num_rows() + merge[2] + 1 # 1-based index
             end_col = merge[3] if merge[3] > 0 else self.num_cols() + merge[3] + 1
 
             lines.append(f'tbl.Cell({start_row}, {start_col}).Merge MergeTo:=tbl.Cell({end_row}, {end_col})')
+
+        if not self._borders:
+            lines.append('tbl.Borders.Enable = False')
 
         return "\n".join(lines) + "\n"
 
@@ -381,8 +425,8 @@ def test():
     ])
     table.merge_cells(1, 1, 1, 3)
     table.set_background_color(Cell(1, 1), CCLLC_BLUE)
-    table.bold(Row(1), True).bold(Row(2), True).vertical_align(Row(1), wdCellAlignVerticalBottom).vertical_align(Row(2), wdCellAlignVerticalBottom)
-    table.horizontal_align(Row(1), wdAlignParagraphCenter).horizontal_align(Row(2), wdAlignParagraphCenter)
+    table.bold(Row(1), True).bold(Row(2), True).vertical_align(Row(1), WordVerticalAlignment.wdCellAlignVerticalBottom).vertical_align(Row(2), WordVerticalAlignment.wdCellAlignVerticalBottom)
+    table.horizontal_align(Row(1), WordParagraphAlignment.wdAlignParagraphCenter).horizontal_align(Row(2), WordParagraphAlignment.wdAlignParagraphCenter)
 
     print(table.compile())
 
