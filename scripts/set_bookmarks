@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 
 # USAGE
+# Pass in lines of tab separated values to stdin.
+# Lines are [level, title, page] where level is 1 based and page is 1 based.
 # printf '1\tName\t2\n' | set_bookmarks pdf_file.pdf
 import sys
 import fitz
 
+# https://pymupdf.readthedocs.io/en/latest/document.html#Document.set_toc
 def set_bookmarks(pdf_file):
     bookmarks = []
 
@@ -27,13 +30,15 @@ def set_bookmarks(pdf_file):
         if level_one_based < 1:
             raise ValueError(f'Invalid level on line {line_num}: {level_one_based}')
 
-        if page_one_based < 0:
+        if page_one_based < 1:
             raise ValueError(f'Invalid page on line {line_num}: {page_one_based}')
 
         if level_one_based > prev_level + 1:
             raise ValueError(f'Invalid level on line {line_num}: {level_one_based}, previous level: {prev_level}')
 
         bookmarks.append([level_one_based, title, page_one_based])
+        prev_level = level_one_based
+        line_num += 1
 
 
     if len(bookmarks) == 0:
@@ -45,8 +50,10 @@ def set_bookmarks(pdf_file):
     doc.close()
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2:
+    if len(sys.argv) != 2 or sys.argv[1] in ['-h', '--help']:
         print(f'Usage: {sys.argv[0]} pdf_file.pdf')
-        sys.exit(1)
+        print('Pass in lines of tab separated values to stdin.')
+        print('Lines are [level, title, page] where level is 1 based and page is 1 based.')
+        sys.exit(0)
 
     set_bookmarks(sys.argv[1])
