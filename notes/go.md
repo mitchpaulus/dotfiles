@@ -84,6 +84,10 @@ type Person struct {
     Age  int
 }
 
+type Speaker interface {
+    Speak() string
+}
+
 func (p Person) String() string {
     return fmt.Sprintf("%s: %d", p.Name, p.Age)
 }
