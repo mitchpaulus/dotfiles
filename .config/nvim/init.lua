@@ -373,6 +373,14 @@ normalNoRecurseMappings = {
 
     -- Show full file name when requested
     { '<C-G>', '1<C-G>' },
+
+    -- For emacs like movement
+    { '<C-a>', '0' },
+    { '<C-e>', '$' },
+    { '<C-b>', 'h' },
+    { '<C-f>', 'l' },
+    { '<C-v>', '<C-f>' },
+    { '<M-v>', '<C-b>' },
 }
 
 local insertLikeCmds = { 'i', 'a', 'I', 'A', 'o', 'O' }
@@ -467,10 +475,15 @@ insertModeNoRecurseMappings = {
     { '<localleader>c', '004987' },
 
     -- Shebangs
-    { '<localleader>sh', '#!/bin/sh' },
+    { '<localleader>sh', '#!/bin/sh<Esc>:set ft=sh<CR>' },
     { '<localleader>sp', '#!/usr/bin/env python3<Esc>:set ft=python<Cr>A<Cr><Cr>' },
 
     -- { '<C-Space>', '<C-x><C-o>' },
+    --
+    -- Emacs
+    { '<C-b>', '<Left>' },
+    { '<M-b>', '<Esc>Bi' },
+    -- { '<C-f>', '<Right>' }, used for <C-x><C-f> filename completion.
 }
 
 func_map(function(tbl) inmap(tbl[1], tbl[2]) end, insertModeNoRecurseMappings)
@@ -979,7 +992,7 @@ filetypeAutocmds = {
     { 'awk', 'setlocal path+=$DOTFILES/awk_functions' },
     { 'awk', 'nnoremap <localleader>h i<C-r>=system("headers2awk -c", @+)<Cr>' },
 
-    { 'sh', 'inoremap ,sh #!/bin/sh<CR><C-U>', },
+    { 'sh', 'inoremap ,sh #!/bin/sh<CR><C-U><Esc>:set ft=sh<CR>a', },
     { 'sh,bash', 'nnoremap <localleader>h :read $DOTFILES/snipfiles/shell_help.sh<Cr>', },
     { 'sh,bash', 'inoremap <localleader>h <cmd>read $DOTFILES/snipfiles/shell_help.sh<Cr>', },
     { 'sh,bash', 'nnoremap <localleader>s <cmd>!shellcheck "%"<Cr>', },
