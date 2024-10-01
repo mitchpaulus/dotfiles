@@ -179,6 +179,10 @@ class Table:
         self._col_widths = []
         self._autofits = []
         self.decimal_tabs = []
+        self._left_padding = None
+        self._right_padding = None
+        self._top_padding = None
+        self._bottom_padding = None
 
         self.current_cell_range = None
 
@@ -192,6 +196,7 @@ class Table:
 
     def no_borders(self):
         self._borders = False
+        return self
 
     def num_rows(self):
         return len(self.data)
@@ -215,6 +220,22 @@ class Table:
 
     def bold(self, cell_range, bold: bool):
         self._bolds.append((cell_range, bold))
+        return self
+
+    def left_padding(self, padding_in):
+        self._left_padding = padding_in
+        return self
+
+    def right_padding(self, padding_in):
+        self._right_padding = padding_in
+        return self
+
+    def top_padding(self, padding_in):
+        self._top_padding = padding_in
+        return self
+
+    def bottom_padding(self, padding_in):
+        self._bottom_padding = padding_in
         return self
 
     def font_size(self, *args):
@@ -411,6 +432,18 @@ class Table:
 
         if not self._borders:
             lines.append('tbl.Borders.Enable = False')
+
+        if self._left_padding is not None:
+            lines.append(f'tbl.LeftPadding = InchesToPoints({self._left_padding})')
+
+        if self._right_padding is not None:
+            lines.append(f'tbl.RightPadding = InchesToPoints({self._right_padding})')
+
+        if self._top_padding is not None:
+            lines.append(f'tbl.TopPadding = InchesToPoints({self._top_padding})')
+
+        if self._bottom_padding is not None:
+            lines.append(f'tbl.BottomPadding = InchesToPoints({self._bottom_padding})')
 
         return "\n".join(lines) + "\n"
 
