@@ -61,11 +61,21 @@ class Drawing:
 
 
     def to_svg(self, min_x: float, min_y: float, width: float, height: float):
-        print(f'<svg viewBox="{min_x} {min_y} {width} {height}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">\n', end='')
+        lines = []
+
+        lines.append(f'<svg viewBox="{min_x} {min_y} {width} {height}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">\n')
         for i in self._shapes:
             shape = self._shapes[i]
-            print(shape.to_svg(), end="")
-        print('</svg>')
+            lines.append(shape.to_svg())
+        lines.append('</svg>')
+
+        return "".join(lines)
+
+        #  print(f'<svg viewBox="{min_x} {min_y} {width} {height}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">\n', end='')
+        #  for i in self._shapes:
+            #  shape = self._shapes[i]
+            #  print(shape.to_svg(), end="")
+        #  print('</svg>')
 
 
 # Use fluent syntax
@@ -78,10 +88,12 @@ class Rectangle:
         self._name = name
         self._text = None
         self._font_size = None
+        self._stroke_width = 1
 
         self._fill: Optional[tuple[int, int, int]] = None
 
     def x(self, x = None) -> Any:
+        """Bottom left x-coordinate of the rectangle"""
         if x is None:
             return self._x
 
@@ -89,9 +101,14 @@ class Rectangle:
         return self
 
     def y(self, y = None) -> Any:
+        """Bottom left y-coordinate of the rectangle"""
         if y is None:
             return self._y
         self._y = y
+        return self
+
+    def stroke_width(self, stroke_width) -> 'Rectangle':
+        self._stroke_width = stroke_width
         return self
 
     def text(self, text: str) -> 'Rectangle':
@@ -131,6 +148,18 @@ class Rectangle:
         self._fill = None
         return self
 
+    def bottom(self):
+        return self._y
+
+    def top(self):
+        return compute(self._y) + compute(self._height)
+
+    def left(self):
+        return self._x
+
+    def right(self):
+        return compute(self._x) + compute(self._width)
+
     def fill(self, r: int, g: int, b: int) -> 'Rectangle':
         # Validate the RGB values
         if r < 0 or r > 255:
@@ -165,7 +194,7 @@ class Rectangle:
         else:
             fill_str = 'fill="none"'
 
-        rect_tag = f'<rect stroke="black" stroke-width="0.1" x="{x}" y="{y}" width="{width}" height="{height}" {fill_str} />\n'
+        rect_tag = f'<rect stroke="black" stroke-width="{compute(self._stroke_width)}" x="{x}" y="{y}" width="{width}" height="{height}" {fill_str} />\n'
 
         if self._text:
             if self._font_size:
@@ -230,7 +259,7 @@ class Line:
         return vba
 
     def to_svg(self):
-        return f'<line x1 = "{compute(self._x1)}" y1 = "{compute(self._y1)}" x2 = "{compute(self._x2)}" y2 = "{compute(self._y2)}" />\n'
+        return f'<line x1="{compute(self._x1)}" y1="{-compute(self._y1)}" x2="{compute(self._x2)}" y2="{-compute(self._y2)}" stroke="black" />\n'
 
     def __str__(self):
         return f'Line({self.x1}, {self.y1}, {self.x2}, {self.y2})'
