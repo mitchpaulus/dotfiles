@@ -1,6 +1,6 @@
 #!/usr/bin/fish
 
-set -g fish_prompt_pwd_dir_length 8
+set -g fish_prompt_pwd_dir_length 0
 
 # Add a REPOS environment variable for all those git repositories.
 if test -d '/mnt/c/Users/mpaulus/repos'
@@ -152,7 +152,8 @@ function fish_prompt
     end
 
     set_color cyan
-    printf "%s%s >\n:: " $ssh_text (prompt_pwd)
+
+    printf "%s%s >\n:: " $ssh_text (pwd | sed 's|/mnt/c/Users/mpaulus/Command Commissioning/|🏢 |' | sed (printf 's:%s:~:' $HOME))
 
     if test "$exit_code" -eq 0
         set_color normal
