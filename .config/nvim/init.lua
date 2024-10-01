@@ -8,13 +8,10 @@ vim.fn["plug#begin"]()
 vim.cmd [[ Plug 'altercation/vim-colors-solarized' ]]
 vim.cmd [[ Plug 'arcticicestudio/nord-vim' ]]
 vim.cmd [[ Plug 'chr4/nginx.vim' ]]
-vim.cmd [[ Plug 'dag/vim-fish' ]]
 vim.cmd [[ Plug 'dylon/vim-antlr' ]]
 vim.cmd [[ Plug 'github/copilot.vim' ]]
 vim.cmd [[ Plug 'godlygeek/tabular' ]]
 vim.cmd [[ Plug 'hrsh7th/vim-vsnip' ]]
-vim.cmd [[ Plug 'leafgarland/typescript-vim' ]]
-vim.cmd [[ Plug 'lervag/vimtex' ]]
 vim.cmd [[ Plug 'mboughaba/i3config.vim' ]]
 vim.cmd [[ Plug 'mechatroner/rainbow_csv' ]]
 vim.cmd [[ Plug 'mileszs/ack.vim' ]]
@@ -38,9 +35,7 @@ vim.cmd [[ Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' } ]]
 vim.cmd [[ Plug 'nvim-lua/plenary.nvim' ]]
 vim.cmd [[ Plug 'PProvost/vim-ps1' ]]
 vim.cmd [[ Plug 'scrooloose/nerdcommenter' ]]
-vim.cmd [[ Plug 'scrooloose/nerdtree' ]]
 vim.cmd [[ Plug 'sickill/vim-monokai' ]]
-vim.cmd [[ Plug 'sjl/gundo.vim' ]]
 vim.cmd [[ Plug 'subnut/nvim-ghost.nvim', {'do': ':call nvim_ghost#installer#install()'} ]]
 vim.cmd [[ Plug 'tpope/vim-fugitive' ]]
 vim.cmd [[ Plug 'tpope/vim-surround' ]]
@@ -117,7 +112,7 @@ local function setupLsp()
 
     -- Use a loop to conveniently both setup defined servers
     -- and map buffer local keybindings when the language server attaches
-    local servers = { "bashls", "vimls", "texlab", "hls", "pyright", "ts_ls", "awk_ls" }
+    local servers = { "bashls", "vimls", "hls", "pyright", "ts_ls", "awk_ls" }
     -- local servers = { "bashls", "vimls", "texlab", "hls", "tsserver", "awk_ls" }
     -- local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
     -- local capabilities =
