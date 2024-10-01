@@ -111,3 +111,5 @@ Markdown with macros? Only outputs to HTML for now.
 ## [Lush](https://lush.sourceforge.net/index.html)
 
 ## [Flix](https://flix.dev/)
+
+## [Factor](https://factorcode.org/littledan/dls.pdf)
