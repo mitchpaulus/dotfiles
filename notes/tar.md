@@ -45,3 +45,12 @@
   > compression formats. If this approach fails, tar falls back to using
   > archive name suffix to determine its format (see auto-compress, for a
   > list of recognized suffixes).
+
+
+## Examples
+
+```sh
+tar -cvf archive.tar file1 file2 file3
+tar -xvf archive.tar
+tar -xOvf archive.tar file1 > file1 # extract file1 to stdout
+```

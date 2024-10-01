@@ -18,6 +18,7 @@
 
 ```sh
 diff -w file1 file2
+diff -r -q dir1 dir2 # Recursively compare directories, just at file level.
 ```
 
 ## `diff2html`
