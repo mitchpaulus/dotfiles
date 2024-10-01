@@ -1,11 +1,14 @@
-#!/bin/sh
+#!/usr/bin/env mshell-go
+[
+  find
+  ~/.local/share/nvim/plugged/
+  ~/.config/nvim/plugged/autocorrect.vim/
+  ~/.config/nvim/pack/mp/start/autocorrect.vim
+  -type f -name "updatecorrections.sh"
+]o;
 
-SCRIPT="$(find ~/.local/share/nvim/plugged/ ~/.config/nvim/plugged/autocorrect.vim/ ~/.config/nvim/pack/mp/start/autocorrect.vim \
-    -type f -name "updatecorrections.sh" 2>/dev/null | head -n 1)"
-
-if [ -z "$SCRIPT" ]; then
-    printf "Did not find autocorrect.vim\n"
-    exit 1
-else
-    "$SCRIPT"
-fi
+[
+    (dup len 0 >)
+    (:0: [] append ;)
+    ("Did not find autocorrect.vim/updatecorrections.sh" wl 1 exit)
+] if

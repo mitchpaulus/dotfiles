@@ -1,0 +1,54 @@
+#!/usr/bin/python3
+
+import sys
+
+
+def parse_error_line(line):
+    # Parse line like:
+    # file_path(line,col): error CSXXXX: error message
+    first_colon = -1
+    second_colon = -1
+    left_paren = -1
+    comma = -1
+    i = 0
+
+    while i < len(line):
+        if line[i] == ":":
+            if first_colon == -1:
+                # Check that previous char was a ')'
+                if i > 0 and line[i - 1] != ')':
+                    return None
+                first_colon = i
+            else:
+                second_colon = i
+                break
+        elif line[i] == '(':
+            left_paren = i
+        elif line[i] == ',':
+            comma = i
+        i += 1
+
+    if first_colon == -1 or second_colon == -1 or left_paren == -1 or comma == -1:
+        return None
+
+    file_path = line[:left_paren]
+    try:
+        line_number = int(line[left_paren + 1:comma])
+        col_number = int(line[comma + 1:first_colon - 1])
+        error_message = line[second_colon + 1:].strip()
+
+        return (file_path, line_number, col_number, error_message)
+    except ValueError:
+        return None
+
+errors = []
+
+for line in sys.stdin:
+    parsed = parse_error_line(line)
+    if parsed is not None:
+        # Check for dups
+        if parsed not in errors:
+            errors.append(parsed)
+
+for error in errors:
+    print("\t".join(map(str, error)))

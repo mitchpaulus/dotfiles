@@ -1,3 +1,9 @@
-#!/bin/sh
-printf "NumArgs: %d\n" $#
-for var in "$@"; do printf "Arg:%s\n" "$var"; done
+#!/usr/bin/env mshell-go
+args len @arglen
+[echo "NumArgs: " arglen! str +];
+0 @idx
+(
+    [(idx! arglen! >=) (break)] if
+    "Arg:" args idx! nth wl
+    idx! 1 + @idx
+) loop
