@@ -701,7 +701,24 @@ function shell_command_output_to_telescope(args)
   }):find()
 end
 
+select_plot_header = function()
+    possible_items = vim.fn.systemlist({'mplot', '--headers', vim.fn.expand('%')})
 
+    if #possible_items == 0 then
+        print("No headers found")
+        return
+    end
+
+    -- Use vim.ui.select to prompt the user to select an item
+    vim.ui.select(
+        possible_items,
+        { prompt = "Select a column" },
+        function(selected_item)
+            -- Insert the selected item, surrounded by '"' at the cursor position
+            vim.api.nvim_put({ '"' .. selected_item .. '"' }, "c", true, true)
+        end
+    )
+end
 
 -- Trying out custom telescope picker
 local pickers      = require('telescope.pickers')
