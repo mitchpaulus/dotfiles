@@ -5,8 +5,6 @@ in_windows = vim.fn.has('win32') == 1
 
 vim.fn["plug#begin"]()
 
-vim.cmd [[ Plug 'altercation/vim-colors-solarized' ]]
-vim.cmd [[ Plug 'arcticicestudio/nord-vim' ]]
 vim.cmd [[ Plug 'chr4/nginx.vim' ]]
 vim.cmd [[ Plug 'dylon/vim-antlr' ]]
 vim.cmd [[ Plug 'github/copilot.vim' ]]
@@ -35,7 +33,6 @@ vim.cmd [[ Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' } ]]
 vim.cmd [[ Plug 'nvim-lua/plenary.nvim' ]]
 vim.cmd [[ Plug 'PProvost/vim-ps1' ]]
 vim.cmd [[ Plug 'scrooloose/nerdcommenter' ]]
-vim.cmd [[ Plug 'sickill/vim-monokai' ]]
 vim.cmd [[ Plug 'subnut/nvim-ghost.nvim', {'do': ':call nvim_ghost#installer#install()'} ]]
 vim.cmd [[ Plug 'tpope/vim-fugitive' ]]
 vim.cmd [[ Plug 'tpope/vim-surround' ]]
