@@ -27,3 +27,7 @@ Found from the journal article <https://www.sciencedirect.com/science/article/pi
 - Elementary Functions: Algorithms and Implementation, Jean-Michel Muller
 - <https://www.amazon.com/Handbook-Continued-Fractions-Special-Functions-ebook/dp/B005LBMOSO>
 - Computer Approximations, John F. Hart
+
+# PowerShell
+
+[The PowerShell Scripting and Toolmaking Book](https://leanpub.com/powershell-scripting-toolmaking)
