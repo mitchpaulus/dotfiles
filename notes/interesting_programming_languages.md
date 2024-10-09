@@ -113,3 +113,7 @@ Markdown with macros? Only outputs to HTML for now.
 ## [Flix](https://flix.dev/)
 
 ## [Factor](https://factorcode.org/littledan/dls.pdf)
+
+## [Red](https://www.red-lang.org/)
+
+## [Rebol](https://www.rebol.com/)
