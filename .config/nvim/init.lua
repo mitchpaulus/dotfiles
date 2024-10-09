@@ -3,16 +3,6 @@ in_wsl = os.getenv('WSL_DISTRO_NAME') ~= nil
 
 in_windows = vim.fn.has('win32') == 1
 
-vim.fn["plug#begin"]()
-
-vim.cmd [[ Plug 'chr4/nginx.vim' ]]
-vim.cmd [[ Plug 'dylon/vim-antlr' ]]
-vim.cmd [[ Plug 'github/copilot.vim' ]]
-vim.cmd [[ Plug 'godlygeek/tabular' ]]
-vim.cmd [[ Plug 'hrsh7th/vim-vsnip' ]]
-vim.cmd [[ Plug 'mboughaba/i3config.vim' ]]
-vim.cmd [[ Plug 'mechatroner/rainbow_csv' ]]
-vim.cmd [[ Plug 'mileszs/ack.vim' ]]
 -- Moved all my plugins to $HOME/.vim/pack/mp/start.
 -- This way, I can clone them down directly with SSH, and can work on them live.
 -- vim.cmd [[ Plug 'mitchpaulus/autocorrect.vim' ]]
@@ -27,21 +17,6 @@ vim.cmd [[ Plug 'mileszs/ack.vim' ]]
 -- vim.cmd [[ Plug 'mitchpaulus/vim-awk-indent-fix' ]]
 -- vim.cmd [[ Plug 'mitchpaulus/vim-siemens-ppcl' ]]
 -- vim.cmd [[ Plug 'mitchpaulus/xlim-vim' ]]
-vim.cmd [[ Plug 'mracos/mermaid.vim' ]]
-vim.cmd [[ Plug 'nvim-telescope/telescope.nvim' ]]
-vim.cmd [[ Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' } ]]
-vim.cmd [[ Plug 'nvim-lua/plenary.nvim' ]]
-vim.cmd [[ Plug 'PProvost/vim-ps1' ]]
-vim.cmd [[ Plug 'scrooloose/nerdcommenter' ]]
-vim.cmd [[ Plug 'subnut/nvim-ghost.nvim', {'do': ':call nvim_ghost#installer#install()'} ]]
-vim.cmd [[ Plug 'tpope/vim-fugitive' ]]
-vim.cmd [[ Plug 'tpope/vim-surround' ]]
-vim.cmd [[ Plug 'vmchale/dhall-vim' ]]
-
-
-vim.cmd [[ Plug 'neovim/nvim-lspconfig' ]]
-
-vim.fn["plug#end"]()
 
 if in_wsl then
     vim.g.clipboard = {

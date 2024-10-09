@@ -183,3 +183,13 @@ W: Starts a prefix for window commands
 X: Decrement
 Y: Scroll window upwards line
 Z: Suspend vim (quit)
+
+## Filetype setting sequence
+
+- Triggers FileType autommand
+- Filetype Plugin Loading
+    - ftplugin/{filetype}.vim
+- Indentation
+    - indent/{filetype}.vim
+- Syntax
+    - syntax/{filetype}.vim
