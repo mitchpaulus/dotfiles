@@ -52,7 +52,13 @@ find /usr/local/lib $HOME/.local/lib -name 'antlr-*-complete.jar' 2>/dev/null | 
 end
 
 if set -q ANTLR_JAR
-    set -gx CLASSPATH ".:"$ANTLR_JAR[1]":$CLASSPATH"
+    if not contains $ANTLR_JAR[1] $CLASSPATH
+        set -gxp CLASSPATH $ANTLR_JAR
+    end
+
+    if not contains '.' $CLASSPATH
+        set -gxp CLASSPATH .
+    end
 end
 
 set -gx AWKPATH ".:/usr/local/share/awk:$DOTFILES/awk_functions"
