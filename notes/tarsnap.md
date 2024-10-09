@@ -22,3 +22,7 @@ man/man1/tarsnap.1
 man/man5/
 man/man5/tarsnap.conf.5
 
+
+```
+killall -SIGUSR1 tarsnap # Check progress
+```

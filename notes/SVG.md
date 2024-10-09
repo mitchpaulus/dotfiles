@@ -21,3 +21,17 @@ dominant-baseline = auto | text-bottom | alphabetic | ideographic | middle | cen
 x alignment for text:
 
 text-anchor = start | middle | end
+
+
+## Rect
+
+```
+<rect x="10" y="10" width="100" height="100" fill="none" stroke="black" />
+<text x="10" y="10">My text</text>
+```
+
+## Strokes
+
+```
+For circle, ellipse, line, path, polygon, polyline, rect, text, textPath, tref, tspan
+```

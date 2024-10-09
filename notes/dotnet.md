@@ -58,3 +58,16 @@ rm packages-microsoft-prod.deb
 # Update packages
 sudo apt update
 ```
+
+
+## New Project CLI
+
+```
+mkdir mydir
+cd mydir
+dotnet new sln --name Name
+dotnet new console --name Name
+dotnet new classlib --name Name2
+dotnet sln add Name/Name.csproj
+dotnet sln add Name/Name2.csproj
+```

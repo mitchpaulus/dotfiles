@@ -60,7 +60,7 @@ words:
 (x0, y0, x1, y1, "word", block_no, line_no, word_no)
 ```
 
-Coordinates are in points (1/72 inch).
+Coordinates are in points (1/72 inch). y-axis 0 is at top.
 
 
 <https://pymupdf.readthedocs.io/en/latest/document.html#Document.get_toc>
