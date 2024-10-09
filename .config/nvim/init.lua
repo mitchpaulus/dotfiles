@@ -84,7 +84,7 @@ local function setupLsp()
 
     -- Use a loop to conveniently both setup defined servers
     -- and map buffer local keybindings when the language server attaches
-    local servers = { "bashls", "vimls", "hls", "pyright", "ts_ls", "awk_ls" }
+    local servers = { "bashls", "vimls", "hls", "pyright", "ts_ls", "awk_ls", "gopls" }
     -- local servers = { "bashls", "vimls", "texlab", "hls", "tsserver", "awk_ls" }
     -- local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
     -- local capabilities =
