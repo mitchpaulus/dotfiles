@@ -453,17 +453,21 @@ insertModeNoRecurseMappings = {
     -- { '<C-f>', '<Right>' }, used for <C-x><C-f> filename completion.
 }
 
+-- Command line mappings, mostly to match emacs/shell like defaults.
+-- https://stackoverflow.com/a/60355468/5932184
+vim.api.nvim_set_keymap("c", "<C-p>", [[ wildmenumode() ? "\<C-p>" : "\<Up>" ]], { noremap = true, expr = true  })
+vim.api.nvim_set_keymap("c", "<C-n>", [[ wildmenumode() ? "\<C-n>" : "\<Down>"]], { noremap = true, expr = true })
+vim.api.nvim_set_keymap("c", "<C-b>", "<Left>", { noremap = true })
+vim.api.nvim_set_keymap("c", "<C-f>", "<Right>", { noremap = true })
+vim.api.nvim_set_keymap("c", "<C-a>", "<C-b>", { noremap = true })
+vim.api.nvim_set_keymap("c", "<M-f>", "<S-Right>", { noremap = true })
+vim.api.nvim_set_keymap("c", "<M-b>", "<S-Left>", { noremap = true })
+
 func_map(function(tbl) inmap(tbl[1], tbl[2]) end, insertModeNoRecurseMappings)
 
 vim.api.nvim_set_keymap("i", "<C-n>", [[pumvisible() ? "\<C-n>" : "\<C-o>:set completeopt=menu\<Cr>\<C-n>"]], { noremap = true, silent = true, expr = true })
 vim.api.nvim_set_keymap("i", "<C-f>", [[pumvisible() ? "\<C-f>" : "\<C-o>:set completeopt=menu\<Cr>\<C-x>\<C-f>"]], { noremap = true, silent = true, expr = true })
 vim.api.nvim_set_keymap("i", "<C-Space>", [[pumvisible() ? "\<Space>" : "\<Esc>:set completeopt=menuone,noinsert\<Cr>a\<C-x>\<C-o>"]], { noremap = true, silent = true, expr = true })
-
--- https://stackoverflow.com/a/60355468/5932184
--- vim.api.nvim_exec( [[
--- cnoremap <expr> <C-P> wildmenumode() ? "\<C-P>" : "\<Up>"
--- cnoremap <expr> <C-N> wildmenumode() ? "\<C-N>" : "\<Down>"
--- ]], false)
 
 vim.api.nvim_set_keymap("v", '<leader>y', '"+y', silent)
 -- Quit out of visual mode

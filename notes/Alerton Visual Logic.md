@@ -71,3 +71,12 @@ When the CTRL input is OFF, the output is set to the last stored value.
 ## Switch
 
 The binary input comes from the top - if true, Uses ON analog input, otherwise the OFF analog input.
+
+## Object Types
+
+- Analog Input (0)
+- Analog Output (1)
+- Analog Value (2)
+- Binary Input (3)
+- Binary Output (4)
+- Binary Value (5)
