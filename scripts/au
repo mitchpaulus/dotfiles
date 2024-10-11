@@ -5,7 +5,7 @@
   ~/.config/nvim/plugged/autocorrect.vim/
   ~/.config/nvim/pack/mp/start/autocorrect.vim
   -type f -name "updatecorrections.sh"
-]o;
+] o "/dev/null" 2> ;
 
 [
     (dup len 0 >)
