@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import sys
 from enum import IntEnum
 
 """Table documentation:
@@ -464,4 +464,17 @@ def test():
     print(table.compile())
 
 if __name__ == "__main__":
-    test()
+    i = 1
+    while i < len(sys.argv):
+        if sys.argv[i] == '--test':
+            test()
+            sys.exit(0)
+        i += 1
+
+    # Else read in TSV data, and print a default table
+
+    table = Table()
+    data = [line.split("\t") for line in sys.stdin.read().splitlines()]
+    table.set_data(data)
+    table.bold(Row(1), True).set_background_color(Row(1), CCLLC_BLUE)
+    print(table.compile())
