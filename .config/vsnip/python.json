@@ -98,5 +98,16 @@
         "prefix": ["rts"],
         "body": [ "${1:data} = [line.split(\"\\t\") for line in sys.stdin.read().splitlines()]" ],
         "description": "Read TSV from stdin"
+    },
+    "Group by": {
+        "prefix": ["gb"],
+        "body": ["${1:groups} = {}",
+                "for ${2:element} in ${3:iterable}:",
+                "    ${4:key} = $5",
+                "    if ${4:key} not in ${1:groups}:",
+                "        ${1:groups}[${4:key}] = []",
+                "    ${1:groups}[${4:key}].append(${2:element})",
+                "$0"],
+        "description": "Group by"
     }
 }
