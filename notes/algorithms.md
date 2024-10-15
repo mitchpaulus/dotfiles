@@ -395,7 +395,7 @@ Shoelace formula, or signed area of a polygon. Positive if counter-clockwise, ne
 
 A = 1/2 * sum(all pairs of determinants of points, x y as column vectors, or the z component of the cross product of the vectors)
 
-A = 1/2 * sum( | xi Xi+1 | + .. )
-               | yi Yi+1 |
+A = 1/2 * sum( | xi Xi+1 | + ..  | xn x0 |)
+               | yi Yi+1 |       | yn y0 |
 
 ```
