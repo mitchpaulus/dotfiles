@@ -1,0 +1,9 @@
+#!/bin/sh
+find . -name '*.tsv' -or -name '*.csv' | while read -r file; do
+    # Check if TSV
+    if printf '%s' "$file" | grep -iq '\.tsv$'; then
+        tsvhead "$file"
+    else 
+        csvhead "$file"
+    fi
+done | sort -u | fzf | sed 's/^/"/' | sed 's/$/"/' | clip
