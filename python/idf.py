@@ -364,18 +364,20 @@ def process_day_hourly_schedule(schedule: list[str]):
 
 def construction_summary(idf_dict: dict):
     # Get all constructions
-    constructions = idf_dict['construction']
+    constructions = idf_dict.get('construction', [])
+    material_dict = {}
+
+    def add_materials(m_dict, materials):
+        for material in materials:
+            if material[1].lower() in m_dict:
+                raise ValueError(f"Material '{material[1]}' already exists.")
+            m_dict[material[1].strip().lower()] = material
 
     # Get all materials
-    materials = idf_dict['material']
+    material_object_types = ['material', 'material:airgap', 'material:nomass', 'windowmaterial:gas', 'windowmaterial:simpleglazingsystem', 'windowmaterial:glazing']
 
-    air_gaps = idf_dict['material:airgap']
-    no_mass = idf_dict['material:nomass']
-
-    window_simple_glazing_systems = idf_dict['windowmaterial:simpleglazingsystem']
-
-    window_material_glazings = idf_dict['windowmaterial:glazing']
-
+    for obj_type in material_object_types:
+        add_materials(material_dict, idf_dict.get(obj_type, []))
 
     # Get all constructions
     for construction in constructions:
@@ -385,43 +387,12 @@ def construction_summary(idf_dict: dict):
         layers = construction[2:]
 
         for layer in layers:
-            # Get the material
-            for m in materials:
-                if m[1].lower() == layer.strip().lower():
-                    material = m
-                    break
-            else:
-                for m in air_gaps:
-                    if m[1].lower() == layer.strip().lower():
-                        material = m
-                        break
-                else:
-                    for m in no_mass:
-                        if m[1].lower() == layer.strip().lower():
-                            material = m
-                            break
-                    else:
-                        for m in window_simple_glazing_systems:
-                            if m[1].lower() == layer.strip().lower():
-                                material = m
-                                break
-                        else:
-
-                            for m in window_material_glazings:
-                                if m[1].lower() == layer.strip().lower():
-                                    material = m
-                                    break
-                            else:
-                                print("Error: material '{}' not found.".format(layer))
-                                print("Possible materials:")
-                                version_sort(materials)
-
-                                for m in materials:
-                                    print("\t{}".format(m[1]))
-
-                                sys.exit(1)
-
-            # material = materials[layer[0].lower()]
+            material = material_dict.get(layer.strip().lower())
+            if material is None:
+                print(f"Error: material '{layer}' not found.")
+                print("Possible materials:")
+                version_sort(material_dict.keys())
+                sys.exit(1)
 
             if material[0].lower() == 'material':
                 thickness_m = float(material[3])
@@ -439,6 +410,18 @@ def construction_summary(idf_dict: dict):
                 conductivity_W_per_mK = float(material[14])
                 U_value_SI = 1 / (thickness_m / conductivity_W_per_mK)
                 R_value_SI = 1 / U_value_SI
+            elif material[0].lower() == 'windowmaterial:gas':
+                gas_type = material[2].lower()
+                if gas_type == "air":
+                    thickness_m = float(material[3])
+                    # Has some significant changes with temperature. Choosing something reasonable.
+                    # https://www.engineeringtoolbox.com/air-properties-viscosity-conductivity-heat-capacity-d_1509.html
+                    conductivity_W_per_mK = 0.0255
+                else:
+                    print("Error: gas type '{}' not recognized yet.".format(gas_type))
+                    sys.exit(1)
+                
+                R_value_SI = thickness_m / conductivity_W_per_mK
             else:
                 print("Error: material type '{}' not recognized.".format(material[0]))
                 sys.exit(1)
@@ -454,7 +437,7 @@ def construction_summary(idf_dict: dict):
 
 def people_load(idf_dict: dict) -> list[list[str]]:
     # Get all people loads
-    people_load_objs = idf_dict['people']
+    people_load_objs = idf_dict.get('people', [])
 
     all_rows = []
 
@@ -486,7 +469,7 @@ def people_load(idf_dict: dict) -> list[list[str]]:
 
 def lights_load(idf_dict: dict) -> list[list[str]]:
     # Get all light loads
-    light_load_objs = idf_dict['lights']
+    light_load_objs = idf_dict.get('lights', [])
 
     all_rows = []
     for light_load in light_load_objs:
@@ -787,16 +770,82 @@ def sch_compact(idf_dict: dict):
                 raise ValueError("Unknown compact schedule type: " + schedule[i])
         print()
 
+def floor_area_from_surface(surface: list[str]) -> float:
+    # Start at 12th element
+    area = 0
+    xy_pairs = []
+    for i in range(12, len(surface), 3):
+        xy_pairs.append((float(surface[i]), float(surface[i + 1])))
+
+    for i in range(len(xy_pairs)):
+        x1, y1 = xy_pairs[i]
+        x2, y2 = xy_pairs[(i + 1) % len(xy_pairs)]
+        area += x1 * y2 - x2 * y1
+
+    return abs(area) / 2
+    
+
 def analyze_zones(idf_dict: dict):
     idf_zones = idf_dict.get('zone', [])
+    # spaces = idf_dict.get('space', [])
+    floors = [o for o in idf_dict.get('buildingsurface:detailed', []) if o[2].lower() == "floor"]
+
+    # print(len(floors), file=sys.stderr)
+    
+    floor_groups = {}
+    for f in floors:
+        z_name = f[4].lower()
+        if z_name not in floor_groups:
+            floor_groups[z_name] = []
+        floor_groups[z_name].append(f)
+
     zones = []
     for zone in idf_zones:
-        zones.append(zone[1])
+        area = 0
+        for floor in floor_groups.get(zone[1].lower(), []):
+            area += floor_area_from_surface(floor)
+
+        # m2 to ft2
+        area = area * 10.7639
+        zones.append([zone[1], area])
 
     zones.sort()
-    for zone in zones:
-        print(zone)
+    return zones
 
+
+def analyze_spaces(idf_dict: dict):
+    idf_zones = idf_dict.get('zone', [])
+    all_zone_names = {z[1].lower() for z in idf_zones}
+    spaces = idf_dict.get('space', [])
+    space_dict = { s[1].lower(): s for s in spaces }   
+    floors = [o for o in idf_dict.get('buildingsurface:detailed', []) if o[2].lower() == "floor"]
+
+    # print(len(floors), file=sys.stderr)
+    # Mapping from floor surface to 
+    floor_groups = {}
+    for f in floors:
+        z_name = f[4].lower()
+        s_name = f[5].lower()
+        if s_name.strip() == "":
+            s_name = z_name
+
+        if s_name not in floor_groups:
+            floor_groups[s_name] = []
+        floor_groups[s_name].append(f)
+
+    spaces = []
+    for s in floor_groups:
+        area = 0
+        for floor in floor_groups[s]:
+            area += floor_area_from_surface(floor)
+
+        # m2 to ft2
+        area = area * 10.7639
+        space_type = space_dict.get(s, "General")[6]
+        spaces.append([s, area, space_type])
+
+    spaces.sort()
+    return spaces
 
 def main():
     filename = None
@@ -820,6 +869,8 @@ def main():
             print("  day_sch: Print day schedules.")
             print("  sch_process: Process day schedules.")
             print("  sch_compact: Print compact schedules.")
+            print("  zones: Print zone details.")
+            print("  spaces: Print space details.")
             print("Options:")
             print("  --header: Print a header row.")
             print("  --dir DIR: Directory for sch_process.")
@@ -849,6 +900,8 @@ def main():
             command = "sch_compact"
         elif sys.argv[idx] == "zones":
             command = "zones"
+        elif sys.argv[idx] == "spaces":
+            command = "spaces"
         elif sys.argv[idx] == "--dir":
             idx += 1
             try:
@@ -949,7 +1002,25 @@ def main():
     elif command == "zones":
         contents = idf2tsv(file)
         idf_dict = tsv2dict(contents)
-        analyze_zones(idf_dict)
+        zones = analyze_zones(idf_dict)
+
+        if header:
+            print("\t".join(["Zone", "Area (ft²)"]))
+
+        for zone in zones:
+            print("\t".join([str(x) for x in zone]))
+
+    elif command == "spaces":
+        contents = idf2tsv(file)
+        idf_dict = tsv2dict(contents)
+        spaces = analyze_spaces(idf_dict)
+
+        if header:
+            print("\t".join(["Space", "Area (ft²)", "Space Type"]))
+
+        for space in spaces:
+            fields = [space[0], f"{space[1]:.0f}", space[2]]
+            print("\t".join(fields))
 
     else:
         print("Command {} not recognized/implemented.".format(command))
