@@ -94,3 +94,10 @@ dest – (dict) included only if simple=False. Contains details of the TOC item 
     italic: true if italic item text, or omitted. PDF only.
     collapse: true if sub-items are folded, or omitted. PDF only.
     nameddest: target name if kind=4. PDF only. (New in 1.23.7.)
+
+
+## Definitions
+
+```
+rect-like: sequence of 4 numbers: x1, y1, x2, y2, in pts.
+```
