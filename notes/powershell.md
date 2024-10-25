@@ -45,3 +45,14 @@ Get-Command pwsh.exe
 
 PS C:\> (Get-Command -Name pwsh).Path
 C:\Program Files\PowerShell\6\pwsh.exe
+
+```
+# GREP, alias sls
+Select-String -Path .\file.txt -Pattern "pattern"
+# Returns MatchInfo class
+# -SimpleMatch, -List, -Raw
+# -AllMatches (gets all the matches on a given line)
+
+# FIND, Get-ChildItem, alias dir
+Get-ChildItem -Path .\ -Recurse -Filter "*.txt" | Select-String -Pattern "pattern"
+```
