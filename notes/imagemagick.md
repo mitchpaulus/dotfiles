@@ -35,3 +35,9 @@ Will usually have a comment above saying 'disable ghostscript format types'
 ```
 -units Undefined, PixelsPerInch, PixelsPerCentimeter # Only makes sense with -density
 ```
+
+## Concatenating Images
+
+```
+magick file1.png file2.png file3.png -append output.png
+```

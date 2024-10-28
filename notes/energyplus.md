@@ -254,3 +254,18 @@ AirLoopHVAC
     AvailabilityManagerList
     ConnectorList (If needed for mixer/splitter)
 ```
+
+
+## With Redo
+
+```python
+with open('file.txt') as file:
+    for line in file:
+        s = line.strip()
+        # Create file
+        with open(f'default.{s}.do', encoding='utf-8', mode='w') as f2:
+            f2.write('#!/bin/sh\n')
+            f2.write('set -e')
+            f2.write('redo-ifchange "$2".ep.run.tar\n')
+            f2.write(f'tar -xOf "$2".ep.run.tar "./{s}"\n')
+```

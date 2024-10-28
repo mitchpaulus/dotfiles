@@ -20,6 +20,10 @@ Data storage prices pay-as-you-go | Premium      | Hot           | Cool         
 ----------------------------------|--------------|---------------|--------------|----------------|----------------
 First 50 terabyte (TB) / month    | $0.15 per GB | $0.018 per GB | $0.01 per GB | $0.0036 per GB | $0.00099 per GB
 
+Hot Storage
+100 Gb = $1.8 / month.
+1 Tb = $18 / month.
+
 Cool Storage
 100 Gb = $1 / month.
 1 Tb = $10 / month.

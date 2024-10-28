@@ -47,4 +47,6 @@ root = tree.getroot()
 
 for child in root:
     child.find('element').text = 'new value'
+
+# find and findall are not recursive by default
 ```

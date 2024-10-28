@@ -550,6 +550,42 @@ my_time = time(11, 37)
 
 Hopefully can aid me in some geometry calculations for EnergyPlus
 
+## With construct
+
+The following code:
+
+```
+with EXPRESSION as TARGET:
+    SUITE
+```
+is semantically equivalent to:
+
+```python
+manager = (EXPRESSION)
+enter = type(manager).__enter__
+exit = type(manager).__exit__
+value = enter(manager)
+hit_except = False
+
+try:
+    TARGET = value
+    SUITE
+except:
+    hit_except = True
+    if not exit(manager, *sys.exc_info()):
+        raise
+finally:
+    if not hit_except:
+        exit(manager, None, None, None)
+```
+
+With more than one item, the context managers are processed as if multiple with statements were nested:
+
+```
+with A() as a, B() as b:
+    SUITE
+```
+
 ## References
 
 - [Rye](https://rye.astral.sh/)

@@ -100,6 +100,20 @@ redo  bin/all
 redo    redo/version/all
 ```
 
+## EnergyPlus output file targets:
+
+```fish
+tar --list -f $argv[1] | while read f
+    set target_file default.(printf '%s\n' $f | sed 's|./||').do
+    printf 'Creating %s\n' $target_file
+    begin
+        printf '#!/bin/sh\n'
+        printf 'set -e\n'
+        printf 'redo-ifchange "$2".ep.run.tar\n'
+        printf 'tar -xOf "$2".ep.run.tar "%s"' $f
+    end > $target_file
+end
+```
 
 ## Other implementations
 
