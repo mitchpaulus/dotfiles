@@ -10,7 +10,7 @@ for line in sys.stdin:
     if line.startswith("./"):
         line = line[2:]
 
-    line = line.replace("default", "*")
+    line = line.replace("default", "**/*")
 
     if line.endswith(".do"):
         line = line[:-3]
