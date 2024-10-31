@@ -274,6 +274,7 @@ class Table:
         return self
 
     def col_autofit(self, col = None):
+        """Autofit the column(s). If col is None, all columns are autofitted"""
         if col is None:
             for i in range(1, self.num_cols() + 1):
                 self._autofits.append(i)
@@ -406,6 +407,10 @@ class Table:
                 lines.append(f'{self.obj_from_cell_range(cell_range)}.Range.ParagraphFormat.TabStops.Add Position:={position}, Alignment:=wdAlignTabDecimal, Leader:=wdTabLeaderSpaces')
             #  for j, cell in enumerate(row):
                 #  lines.append(f'tbl.Cell({i+1}, {j+1}).Range.Text = "{cell}"')
+        
+        lines.append('tbl.Range.ParagraphFormat.SpaceBeforeAuto = False')
+        lines.append('tbl.Range.ParagraphFormat.SpaceAfterAuto = False')
+        lines.append('tbl.Range.ParagraphFormat.KeepWithNext = True')
 
         for col in self._autofits:
             lines.append(f'tbl.Columns({col}).AutoFit')
@@ -445,6 +450,7 @@ class Table:
         if self._bottom_padding is not None:
             lines.append(f'tbl.BottomPadding = InchesToPoints({self._bottom_padding})')
 
+
         return "\n".join(lines) + "\n"
 
 
@@ -466,15 +472,21 @@ def test():
 if __name__ == "__main__":
     i = 1
     while i < len(sys.argv):
-        if sys.argv[i] == '--test':
-            test()
-            sys.exit(0)
+        a = sys.argv[i]
         i += 1
 
-    # Else read in TSV data, and print a default table
+        if a == '--test':
+            test()
+            sys.exit(0)
+        elif a == '-h' or a == '--help':
+            print(f"Usage: word_vba.py --test")
+            print(f"       word_vba.py < TSV_DATA")
+            sys.exit(0)
 
+    # Else read in TSV data, and print a default table
     table = Table()
     data = [line.split("\t") for line in sys.stdin.read().splitlines()]
     table.set_data(data)
-    table.bold(Row(1), True).set_background_color(Row(1), CCLLC_BLUE)
+    table.bold(Row(1), True).set_background_color(Row(1), CCLLC_BLUE).col_autofit()
+
     print(table.compile())

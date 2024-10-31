@@ -816,8 +816,12 @@ def analyze_zones(idf_dict: dict):
 def analyze_spaces(idf_dict: dict):
     idf_zones = idf_dict.get('zone', [])
     all_zone_names = {z[1].lower() for z in idf_zones}
+
     spaces = idf_dict.get('space', [])
-    space_dict = { s[1].lower(): s for s in spaces }   
+
+    space_name_map = {s[1].lower().strip(): s[1] for s in spaces} # Just here to get back the original casing from the file instead of all lowercase
+
+    space_dict = { s[1].lower().strip(): s for s in spaces }   
     floors = [o for o in idf_dict.get('buildingsurface:detailed', []) if o[2].lower() == "floor"]
 
     # print(len(floors), file=sys.stderr)
@@ -842,7 +846,7 @@ def analyze_spaces(idf_dict: dict):
         # m2 to ft2
         area = area * 10.7639
         space_type = space_dict.get(s, "General")[6]
-        spaces.append([s, area, space_type])
+        spaces.append([space_name_map[s], area, space_type])
 
     spaces.sort()
     return spaces
@@ -1021,6 +1025,9 @@ def main():
         for space in spaces:
             fields = [space[0], f"{space[1]:.0f}", space[2]]
             print("\t".join(fields))
+
+    elif command == "html":
+        pass
 
     else:
         print("Command {} not recognized/implemented.".format(command))
