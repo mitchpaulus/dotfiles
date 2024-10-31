@@ -113,6 +113,21 @@ Good SP Reset VSD Fan [0.040759894, 0.08804497, -0.07292612, 0.943739823]
 
 No SP Reset VSD Fan [0.070428852, 0.385330201, -0.460864118, 1.00920344]
 
+## Pump Curves
+
+- <https://unmethours.com/question/50936/how-to-model-the-pumps-according-to-ashrae-9012010/>
+- That refers to: [ANSI/ASHRAE/IES Standard 90.1-2010 Performance Rating Method Reference Manual](https://www.pnnl.gov/main/publications/external/technical_reports/PNNL-25130.pdf)
+- Which itself refers to: [Achieving the 30% Goal: Energy and Cost Savings Analysis of ASHRAE Standard 90.1-2010](https://www.pnnl.gov/main/publications/external/technical_reports/PNNL-20405.pdf)
+
+on pg. 5.49, Table 5.21, the pump curve coefficients are given.
+
+Type                                                | C1 | C2     | C3      | C4
+----------------------------------------------------|----|--------|---------|-------
+Constant Speed Pump (pump rides on the curve)       | 0  | 3.2485 | -4.7443 | 2.5294
+Variable Speed Pump Without Pressure Setpoint Reset | 0  | 0.5726 | -0.301  | 0.7347
+Variable Speed Pump with Pressure Setpoint Reset    | 0  | 0.0205 | 0.4101  | 0.5753
+
+
 ## Polygon to Convex
 
 <https://mathoverflow.net/questions/60212/partitioning-a-polygon-into-convex-parts>
