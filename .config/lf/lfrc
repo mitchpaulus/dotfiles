@@ -26,6 +26,8 @@ map gr &git rm --cached "$f"
 map y
 
 map <f-5> reload
+map <c-v> page-down
+map <a-v> page-up
 
 map yy copy
 map yf copy-filename
