@@ -97,7 +97,8 @@ AirLoopHVAC,
     ,                        !- Controller List Name
     VAV_1 Availability Manager List,  !- Availability Manager List Name
     AUTOSIZE,                !- Design Supply Air Flow Rate {m3/s}
-. . .
+    ...
+
 
 AvailabilityManagerAssignmentList,
     VAV_1 Availability Manager List,  !- Name
@@ -268,4 +269,17 @@ with open('file.txt') as file:
             f2.write('set -e')
             f2.write('redo-ifchange "$2".ep.run.tar\n')
             f2.write(f'tar -xOf "$2".ep.run.tar "./{s}"\n')
+```
+
+## Performance Things to Check
+
+From <https://unmethours.com/question/97698/simulation-taking-way-too-long/?answer=97699#post-id-97699>
+
+```
+Air System Solver Iteration Count
+Air System Simulation Maximum Iteration Count
+Air System Simulation Iteration Count
+Air System Component Model Simulation Calls
+Plant Solver Sub Iteration Count
+Plant Solver Half Loop Calls Count
 ```

@@ -42,6 +42,7 @@ Popular ones:
 
 Directive | Meaning
 ----------|------------------------------------------------------
+%b        | Month as locale’s abbreviated name.
 %d        | Day of the month as a zero-padded decimal number.
 %m        | Month as a zero-padded decimal number.
 %y        | Year without century as a zero-padded decimal number.

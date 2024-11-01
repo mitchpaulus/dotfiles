@@ -51,6 +51,8 @@ LMTD = (ΔTa - ΔTb)
       ------------
       ln(ΔTa / ΔTb)
 
+LMTD = (ΔTa - ΔTb) / ln(ΔTa / ΔTb)
+
 q = UA (LMTD)
 
 q, UA, ΔTa, ΔTb
