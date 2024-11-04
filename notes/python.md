@@ -297,6 +297,11 @@ For Pyright, from <https://github.com/microsoft/pyright/issues/283#issuecomment-
 
 Key statement is it will add the root of the *source* tree (i.e. root of git).
 Otherwise add it as a path in the config file under the `executionEnvironments` key.
+<https://github.com/microsoft/pyright/blob/main/docs/import-resolution.md>
+
+```
+{ "extraPaths": [ "." ] }
+```
 
 ## Linear Regression
 
