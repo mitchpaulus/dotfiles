@@ -42,3 +42,37 @@ Install with:
 ```sh
 npm install -g diff2html-cli
 ```
+
+Also, using `git diff` is often better for things with additions/deletions.
+
+
+## Getting names right
+
+The unified diff format only consist of the following (<https://www.gnu.org/software/diffutils/manual/html_node/Detailed-Unified.html>):
+
+2 line header
+chunks
+
+```
+--- from-file from-file-modification-time
++++ to-file to-file-modification-time
+
+@@ from-file-line-numbers to-file-line-numbers @@
+ line-from-either-file
+ line-from-either-file…
+
+All lines begin with one of:
+' ' no change
+'-' line removed
+'+' line added
+```
+
+Information about files being deleted/modes, etc. can be added arbitrarily by other software.
+
+For example, git adds things like:
+
+```
+deleted file mode 100644
+```
+
+on deletion of a file. (This is what diff2html looks for to determine deletions.)
