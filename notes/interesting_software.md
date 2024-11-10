@@ -324,3 +324,7 @@ Slideshows
 Yet another code editor
 
 ## [MiniExcel](https://github.com/mini-software/MiniExcel)
+
+## [IronCalc - Spreadsheet in Rust](https://www.ironcalc.com/index.html#home)
+
+## [Visprex](https://www.visprex.com/)

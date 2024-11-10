@@ -15,6 +15,10 @@ Type=oneshot
 
 ```
 
+```
+systemctl list-timers --all
+```
+
 Type    | Description                                                                                        | Use Case
 --------|----------------------------------------------------------------------------------------------------|---------------------------------------------------
 simple  | The default; the service starts immediately.                                                       | Most services that don’t fork or run in background

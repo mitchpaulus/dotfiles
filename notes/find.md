@@ -2,9 +2,8 @@
 
 `-exec command ;`: Don't forget the ';'.
 `-a` and `-o`: And and or logic
-`-maxdepth`/`-mindepth`: Levels to descend. 0 is literally just the
-starting point. So if it is a single, the most it could ever return is 1
-result, itself.
+`-maxdepth`/`-mindepth`: Levels to descend. 0 is literally just the starting point.
+                         So if it is a single, the most it could ever return is 1 result, itself.
 `-name` or `-iname`: filename matches shell pattern
 `-type`: file type
 
