@@ -45,13 +45,14 @@ def set_bookmarks(pdf_file):
         raise ValueError('No bookmarks found')
 
     doc = fitz.open(pdf_file)
+    print(f"Setting {len(bookmarks)} bookmarks in {pdf_file}", file=sys.stderr)
     doc.set_toc(bookmarks)
     doc.saveIncr()
     doc.close()
 
 if __name__ == '__main__':
     if len(sys.argv) != 2 or sys.argv[1] in ['-h', '--help']:
-        print(f'Usage: {sys.argv[0]} pdf_file.pdf')
+        print(f'Usage: {sys.argv[0]} pdf_file.pdf < INPUT_DATA')
         print('Pass in lines of tab separated values to stdin.')
         print('Lines are [level, title, page] where level is 1 based and page is 1 based.')
         sys.exit(0)
