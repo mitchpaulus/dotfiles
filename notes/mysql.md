@@ -12,3 +12,5 @@ See <https://stackoverflow.com/questions/10259504/delimiters-in-mysql>
 ```sql
 DELIMITER $$
 ```
+
+- Port 3306
