@@ -107,7 +107,7 @@ def main(filter_incomplete: bool, interval: int):
                 date2, value2 = data[idx_gte]
 
                 # Check difference in times.
-                if (date2 - date1).total_seconds() > 2 * interval * 60:
+                if (date2 - date1).total_seconds() > 3 * interval * 60:
                     large_gap_count += 1
                     new_data.append('')
                     continue

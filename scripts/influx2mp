@@ -63,7 +63,7 @@ if __name__ == "__main__":
     while idx < len(sys.argv):
         arg = sys.argv[idx]
         idx += 1
-        if arg == "-h":
+        if arg == "-h" or arg == "--help":
             print(f"Usage: {sys.argv[0]} < input.csv > output.mp")
             print(f"Convert Influx 'Annotated CSV' to an MP file")
             sys.exit(0)

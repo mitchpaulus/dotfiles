@@ -195,5 +195,18 @@ class TestDateTimeParsing(unittest.TestCase):
         date_parts = mputils.parse_datetime(date_str)
         self.assertEqual(date_parts, [2024, 8, 7, 12, 5])
 
+class TestDateTimeParsing2(unittest.TestCase):
+    def test_parse_date_1(self):
+        date_str = '8/27/2024 5:05:19 PM'
+        date_lexer = mputils.DateLexer(date_str)
+        date_parts = date_lexer.tokenize()
+        self.assertEqual(date_parts, ['8', '27', '2024', '5', '05', '19', 'PM'])
+
+    def test_parse_date_2(self):
+        date_str = '8/27/2024 5:05:19 P.M.'
+        date_lexer = mputils.DateLexer(date_str)
+        date_parts = date_lexer.tokenize()
+        self.assertEqual(date_parts, ['8', '27', '2024', '5', '05', '19', 'P', 'M'])
+
 if __name__ == "__main__":
     unittest.main()

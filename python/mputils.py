@@ -1618,6 +1618,75 @@ def poly_fit(x: list[float], y: list[float]):
 
     return (a0, a1, a2)
 
+
+class DateLexer:
+    def __init__(self, date_str) -> None:
+        self.start = 0
+        self.current = 0
+        self.date_str = date_str
+
+    def make_token(self) -> str:
+        return self.date_str[self.start:self.current]
+
+    def advance(self) -> str:
+        c = self.date_str[self.current]
+        self.current += 1
+        return c
+
+    def at_end(self) -> bool:
+        return self.current >= len(self.date_str)
+
+    def peek(self) -> str:
+        return self.date_str[self.current]
+
+    def peek_next(self) -> str:
+        if self.current + 1 >= len(self.date_str):
+            return ""
+        return self.date_str[self.current + 1]
+
+    def eat_unused(self):
+        while True:
+            if self.at_end():
+                return
+            c = self.peek()
+            if c.isnumeric() or c.isalpha():
+                return
+            else:
+                self.advance()
+
+    def scan_token(self) -> str:
+        self.eat_unused()
+        self.start = self.current
+
+        if self.at_end():
+            return self.make_token()
+
+        c = self.advance().lower()
+
+        if c.isnumeric():
+            while not self.at_end() and self.peek().isnumeric():
+                self.advance()
+            return self.make_token()
+
+        elif c.isalpha():
+            while not self.at_end() and self.peek().isalpha():
+                self.advance()
+            return self.make_token()
+
+        else:
+            raise ValueError("Invalid date string")
+
+    def tokenize(self) -> list[str]:
+        tokens = []
+
+        while not self.at_end():
+            t = self.scan_token()
+            if t:
+                tokens.append(t)
+
+        return tokens
+
+
 def parse_datetime(inputStr: str) -> list[int]:
     int_components: list[str] = []
     start = 0
