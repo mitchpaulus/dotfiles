@@ -26,6 +26,10 @@ end
 set -gx LOCALBIN ~/.local/bin
 set -gx FILEMANAGER lf
 
+if test -f $REPOS/mshell/lib/std.msh
+    set -gx MSHSTDLIB $REPOS/mshell/lib/std.msh
+end
+
 # See https://github.com/pypa/pipenv/issues/5075
 # My annoyance with the Python ecosystem grows.
 set -gx SETUPTOOLS_USE_DISTUTILS stdlib
