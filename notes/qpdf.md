@@ -99,12 +99,14 @@ a `--`.
 qpdf --pages file1.pdf 1-2 file2.pdf 3-4 -- --empty output.pdf
 ```
 
-The page range is a set of numbers separated by commas, ranges of
-numbers separated dashes, or combinations of those.  The character
-"z" represents the last page.  A number preceded by an "r" indicates
-to count from the end, so "r3-r1" would be the last three pages of the
-document.  Pages can appear in any order.  Ranges can appear with a
-high number followed by a low number, which causes the pages to appear in
-reverse.  Numbers may be repeated.  A page range may be appended with :odd
-to indicate odd pages in the selected range or :even to indicate even
-pages.
+The page range is a set of numbers separated by commas, ranges of numbers separated dashes,
+or combinations of those.  The character "z" represents the last page.
+A number preceded by an "r" indicates to count from the end, so "r3-r1" would be the last three pages of the document.
+Pages can appear in any order.
+Ranges can appear with a high number followed by a low number, which causes the pages to appear in reverse.
+Numbers may be repeated.
+A page range may be appended with :odd to indicate odd pages in the selected range or :even to indicate even pages.
+
+```sh
+qpdf --rotate=-90 --replace-input mypdf.pdf # Rotate all pages 90 degrees counter-clockwise
+```

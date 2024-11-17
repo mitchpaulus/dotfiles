@@ -52,3 +52,4 @@
 
 [Peephole optimization](https://en.wikipedia.org/wiki/Peephole_optimization)
 [How Compilers Work - Walter Bright](https://accu.org/conf-docs/PDFs_2010/CompilerConstruction_WalterBright.pdf)
+[Parser in Rust](https://www.nhatcher.com/post/a-rustic-invitation-to-parsing/)
