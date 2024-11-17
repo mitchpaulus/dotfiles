@@ -1,0 +1,6 @@
+{
+    "Error nil": {
+        "prefix": "en",
+        "body": ["if err != nil {", "  $1", "}"]
+    }
+}
