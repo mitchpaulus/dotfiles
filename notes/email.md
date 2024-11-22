@@ -70,7 +70,15 @@ See RFC 5322.
 ## CLI Tools
 
 Assume `maildir` format. Each message is a file in a directory.
+Maildir:
+    - `tmp`
+    - `new`
+    - `cur`
 
 ## Email Services
 
 - Proton
+
+## Maildir
+
+<https://cr.yp.to/proto/maildir.html>
