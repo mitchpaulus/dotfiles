@@ -1,0 +1,10 @@
+set mbox_type=Maildir
+set folder="/mnt/c/Users/mpaulus/OneDrive - Command Commissioning/email/Maildir/"
+
+# Functions: https://neomutt.org/guide/reference.html#functions
+bind pager j next-line
+bind pager k previous-line
+bind pager \CN next-entry
+bind pager \CP previous-entry
+
+mailboxes +.Archive
