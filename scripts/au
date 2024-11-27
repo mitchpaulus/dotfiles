@@ -1,4 +1,4 @@
-#!/usr/bin/env mshell-go
+#!/usr/bin/env mshell
 [
   find
   ~/.local/share/nvim/plugged/
@@ -9,6 +9,6 @@
 
 [
     (dup len 0 >)
-    (:0: [] append ;)
+    (:0: [] append ;) # Execute first file found
     ("Did not find autocorrect.vim/updatecorrections.sh" wl 1 exit)
 ] if
