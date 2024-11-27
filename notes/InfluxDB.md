@@ -173,3 +173,12 @@ expression !~ /regex/
 2021-01-01T00:00:00Z
 2021-01-01T00:00:00.000Z
 ```
+
+## Optimize Writes
+
+- Batch to 5000
+- Sort tags by key (Go's bytes.Compare function)
+- Coarsest time
+- gzip compression
+
+<https://docs.influxdata.com/influxdb/v2/write-data/best-practices/optimize-writes/>
