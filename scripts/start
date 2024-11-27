@@ -3,4 +3,7 @@
 # Use CMD to start program/file
 if command -v wslpath >/dev/null; then
     cmd.exe /C start '' "$(wslpath -a -w "$1")"
+else
+    printf "wslpath not found.\n" >&2
+    exit 1
 fi

@@ -39,10 +39,13 @@ map yc copy-command-path
 map yd copy-contents
 # Short for 'yank text'
 map yt copy-contents
+map yl copy-sharepoint-link
 
 # Remap 'f' key. Never really use the find functionality.
 map f mark-load
 map ; mark-load
+
+map x open-with-windows
 
 cmd binlink % binlink "$f" && printf "Successfully linked %s\n" "$f"
 map bl binlink
@@ -59,7 +62,14 @@ cmd copy-windows-full-path &{{
 }}
 cmd copy-command-path & CCLLCCopyToClip.exe "$(wslpath -w "$f")"
 
+cmd copy-sharepoint-link & create_link.py "$f" | clip
+
 cmd copy-gitpath & gitpath "$f" | clip
+
+cmd open-with-windows & {{
+    lf -remote "send $id echomsg Opening $f with Windows"
+    start "$f" || lf -remote "send $id echomsg Failed to open $f with Windows"
+}}
 
 # Changing to syncronous mode instead of the default asyncronous mode because I want to use the terminal editor for most things.
 cmd open $ "$OPENER" "$f"
