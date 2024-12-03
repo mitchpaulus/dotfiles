@@ -1,4 +1,5 @@
-#!/usr/bin/env mshell-go
+#!/usr/bin/env mshell
+soe
 $1
 # Add https:// if it's not there
 [
@@ -7,7 +8,7 @@ $1
     ("https://" swap +)
 ] if
 
-[cd  [wslpath -u [winenv USERPROFILE] oc;]oc;];
+[wslpath -u [winenv USERPROFILE] os;]os; cd
 [cmd.exe /C start $1];
 
 # OLD

@@ -1,17 +1,9 @@
-#!/bin/sh
-set -e
-
-cd "$DOTFILES"  || exit 1
-
-# Set LC_ALL to C to avoid problems with locales.
-export LC_ALL=C
-
-# Sort the 'vim/spell/hvac.utf-8.add' file in place.
-# Sorting helps to avoid merge conflicts that happen if everything
-# is just appended at the end.
-sort vim/spell/hvac.utf-8.add > vim/spell/hvac.utf-8.add.tmp
-mv vim/spell/hvac.utf-8.add.tmp vim/spell/hvac.utf-8.add
-
-git add 'vim/spell/hvac.utf-8.add' && \
-git commit -m 'Add spellings' && \
-git push
+#!/usr/bin/env mshell
+soe
+@DOTFILES cd
+C LC_ALL! LC_ALL export
+[sort vim/spell/hvac.utf-8.add] vim/spell/hvac.utf-8.add.tmp > ;
+[mv vim/spell/hvac.utf-8.add.tmp vim/spell/hvac.utf-8.add] ;
+[git add "vim/spell/hvac.utf-8.add"];
+[git commit -m "Add spellings"];
+[git push];
