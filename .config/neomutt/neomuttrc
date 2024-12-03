@@ -7,4 +7,11 @@ bind pager k previous-line
 bind pager \CN next-entry
 bind pager \CP previous-entry
 
+unbind index g
+bind index gg first-entry
+bind index G last-entry
+
+bind index \Cd half-down
+bind index \Cu half-up
+
 mailboxes +.Archive

@@ -1,3 +1,8 @@
+# Reference
+
+[Function](https://neomutt.org/guide/reference#4-%C2%A0functions)
+
+
 # Configuration
 
 3.128. folder
@@ -12,5 +17,7 @@ In a Maildir setup, I believe this should be the same directory that is the root
 
 
 ## Bindings
+
+[Bindings](https://neomutt.org/guide/configuration.html#bind)
 
 `CTRL-G`: Stop current prompt.
