@@ -1031,7 +1031,7 @@ end
 -- Event Type Autocmds {{{1
 bufEnterAutocmds = {
     { '*.cshtml' , 'set filetype=html' },
-    { '*.do'     , 'set filetype=sh' },
+    -- { '*.do'     , 'set filetype=sh' },
     { '*.do'     , 'inoremap ,ex exec >&2<Cr>' },
     { '*.do'     , 'inoremap ,r redo-ifchange<Space>' },
     { '*.compass', 'set filetype=cem' },
@@ -1065,6 +1065,16 @@ for _, autocmd in ipairs(bufEnterAutocmds) do
     vim.api.nvim_create_autocmd('BufEnter', { pattern = autocmd[1], group = bufenter_augroup_id, command = autocmd[2] })
 end
 
+vim.api.nvim_create_autocmd('BufEnter', { pattern = '*.do', group = bufenter_augroup_id,
+    callback = function()
+        local first_line = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1]
+        if first_line:match("^#!.*msh") then
+            vim.bo.filetype = "mshell" -- Set filetype to mshell if mshell is found
+        else
+            vim.bo.filetype = "sh" -- Default to sh
+        end
+    end
+})
 
 vim.api.nvim_create_augroup('MPEvents', { clear = true })
 --vim.api.nvim_create_autocmd('TermOpen', { pattern = '*',        group = 'MPEvents', command = 'setlocal nonumber norelativenumber | startinsert | echom "Term Open.."' })
