@@ -1,0 +1,19 @@
+#!/usr/bin/env mshell
+soe
+[
+    (args len 2 <) 
+    ("Usage xlsx2pdf <input.xlsx> <output.pdf> <worksheet>" wl)
+] if
+
+[wslpath -u [winenv LOCALAPPDATA] os;] os; local-appdata!
+
+# Need to get the full Windows path to a few things.
+[wslpath -a -w args :0:] os; input-xlsx!
+[wslpath -a -w args :1:] os; aaa!
+[wslpath -a -w @local-appdata "/xlsx2pdf/xlsx2pdf.ps1" +] os; script-path!
+
+[
+    (args len 2 >) 
+    ([powershell.exe -File @script-path @input-xlsx @aaa args :2:];)
+    ([powershell.exe -File @script-path @input-xlsx @aaa];)
+] if
