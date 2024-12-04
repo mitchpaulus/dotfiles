@@ -179,6 +179,7 @@ C:\Windows\System32\cmd.exe
 C:\Windows\System32\where.exe
 C:\Windows\System32\wsl.exe
 C:\Windows\explorer.exe
+C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE
 ```
 
 ## View Programs Holding Drive

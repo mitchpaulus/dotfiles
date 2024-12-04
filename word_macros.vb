@@ -15,7 +15,7 @@ Sub AutoFitTables()
 End Sub
 
 Sub CCLLCFigures()
-    Dim pgh As Paragraph
+    Dim pgh As paragraph
 
     For Each pgh In ActiveDocument.Paragraphs
         ' Images are part of the "InlineShapes"
@@ -70,7 +70,7 @@ Sub UpdateCaptionStyling()
 ' and figures have the caption placed below. The "Spacing After" property should be
 ' small for the table, and larger for the figure.
 
-    Dim pgh As Paragraph
+    Dim pgh As paragraph
 
     For Each pgh In ActiveDocument.Paragraphs
 
@@ -134,13 +134,13 @@ TableNumber = Selection.text
 
 ' If table number ends with ASCII 13 (carriage return), move left one character
 If Right(TableNumber, 1) = Chr(13) Then
-    Selection.MoveLeft Unit:=wdCharacter, Count:=1, Extend:=wdExtend
+    Selection.MoveEnd Unit:=wdCharacter, Count:=-1
     TableNumber = Selection.text
 End If
 
 
 Selection.InsertCrossReference ReferenceType:="Table", ReferenceKind:= _
-        wdOnlyLabelAndNumber, ReferenceItem:=TrimmedTableNumber, InsertAsHyperlink:=True, _
+        wdOnlyLabelAndNumber, ReferenceItem:=TableNumber, InsertAsHyperlink:=True, _
         IncludePosition:=False, SeparateNumbers:=False, SeparatorString:=" "
 
 End Sub
@@ -160,7 +160,7 @@ FigureNumber = Selection.text
 
 ' If figure number ends with ASCII 13 (carriage return), move left one character
 If Right(FigureNumber, 1) = Chr(13) Then
-    Selection.MoveLeft Unit:=wdCharacter, Count:=1, Extend:=wdExtend
+    Selection.MoveEnd Unit:=wdCharacter, Count:=-1
     FigureNumber = Selection.text
 End If
 
@@ -172,6 +172,45 @@ End If
 End Sub
 
 
+Sub CrossReferenceEquation()
+'
+' This macro allows for fast cross referencing of figures
+' USAGE:
+'   Type number of figure, select/highlight it
+'   Run this macro
+'
+' Typically bound to Alt-d (for [d]iagram)
+
+Dim FigureNumber As String
+
+FigureNumber = Selection.text
+
+' If figure number ends with ASCII 13 (carriage return), move left one character
+If Right(FigureNumber, 1) = Chr(13) Then
+    Selection.MoveEnd Unit:=wdCharacter, Count:=-1
+    FigureNumber = Selection.text
+End If
+
+'Name    Value   Description
+'wdContentText   -1  Insert text value of the specified item. For example, insert text of the specified heading.
+'wdEndnoteNumber 6   Insert endnote reference mark.
+'wdEndnoteNumberFormatted    17  Insert formatted endnote reference mark.
+'wdEntireCaption 2   Insert label, number, and any additional caption of specified equation, figure, or table.
+'wdFootnoteNumber    5   Insert footnote reference mark.
+'wdFootnoteNumberFormatted   16  Insert formatted footnote reference mark.
+'wdNumberFullContext -4  Insert complete heading or paragraph number.
+'wdNumberNoContext   -3  Insert heading or paragraph without its relative position in the outline numbered list.
+'wdNumberRelativeContext -2  Insert heading or paragraph with as much of its relative position in the outline numbered list as necessary to identify the item.
+'wdOnlyCaptionText   4   Insert only the caption text of the specified equation, figure, or table.
+'wdOnlyLabelAndNumber    3   Insert only the label and number of the specified equation, figure, or table.
+'wdPageNumber    7   Insert page number of specified item.
+'wdPosition  15  Insert the word "Above" or the word "Below" as appropriate.
+
+ Selection.InsertCrossReference ReferenceType:="Equation", ReferenceKind:= _
+        wdEntireCaption, ReferenceItem:=FigureNumber, InsertAsHyperlink:=True, _
+        IncludePosition:=False, SeparateNumbers:=False, SeparatorString:=" "
+
+End Sub
 
 Sub FixSectionNumbering()
 '
@@ -328,7 +367,7 @@ Sub Level5Next()
 End Sub
 
 Sub TocPrint()
-    Dim pgh As Paragraph
+    Dim pgh As paragraph
     Dim text As String
 
     For Each pgh In ActiveDocument.Paragraphs
@@ -469,7 +508,7 @@ End Sub
 
 Sub ReplaceDateOnFirstPageUsingLoopNoRegex()
 
-    Dim oPara As Paragraph
+    Dim oPara As paragraph
     Dim currentDate As String
     Dim monthName As String
     Dim monthList(1 To 12) As String
@@ -555,12 +594,15 @@ End Sub
 Sub CcllcHeaderFooter()
     Dim currentSection As Section
     Dim doc As Document
+    Dim firstSection As Section
     Set doc = ActiveDocument
 
     ' Get the current section based on the selection
     Set currentSection = doc.Sections(doc.Range(0, Selection.Range.End).Sections.Count)
+    
+    Set firstSection = doc.Sections(1)
 
-    Set header = currentSection.Headers(wdHeaderFooterPrimary)
+    Set header = firstSection.Headers(wdHeaderFooterPrimary)
 
     ' Clear the header
     header.Range.Delete
@@ -569,8 +611,30 @@ Sub CcllcHeaderFooter()
     Set Table = header.Range.Tables.Add(header.Range, 1, 2)
 
     ' Get current width of text area, set each cell to half of that
-    Table.Cell(1, 1).Width = doc.PageSetup.TextColumns(1).Width / 2
-    Table.Cell(1, 2).Width = doc.PageSetup.TextColumns(1).Width / 2
+    Table.Cell(1, 1).Width = firstSection.PageSetup.PageWidth - (firstSection.PageSetup.LeftMargin + firstSection.PageSetup.RightMargin) / 2
+    Table.Cell(1, 2).Width = firstSection.PageSetup.PageWidth - (firstSection.PageSetup.LeftMargin + firstSection.PageSetup.RightMargin) / 2
+
+    ' Add a bottom border to the left cell, with a thickness of 1.5 points
+    ' Make it blue
+    Table.Cell(1, 1).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
+    Table.Cell(1, 1).Borders(wdBorderBottom).LineWidth = wdLineWidth225pt ' 18
+    Table.Cell(1, 1).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
+
+    Table.Cell(1, 2).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
+    Table.Cell(1, 2).Borders(wdBorderBottom).LineWidth = wdLineWidth075pt ' 6
+    Table.Cell(1, 2).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
+    
+    Set header = firstSection.Headers(wdHeaderFooterFirstPage)
+
+    ' Clear the header
+    header.Range.Delete
+
+    ' Insert a 1x2 table
+    Set Table = header.Range.Tables.Add(header.Range, 1, 2)
+
+    ' Get current width of text area, set each cell to half of that
+    Table.Cell(1, 1).Width = firstSection.PageSetup.PageWidth - (firstSection.PageSetup.LeftMargin + firstSection.PageSetup.RightMargin) / 2
+    Table.Cell(1, 2).Width = firstSection.PageSetup.PageWidth - (firstSection.PageSetup.LeftMargin + firstSection.PageSetup.RightMargin) / 2
 
     ' Add a bottom border to the left cell, with a thickness of 1.5 points
     ' Make it blue
@@ -599,7 +663,7 @@ Sub CcllcHeaderFooter()
     Table.Cell(1, 2).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
     Table.Cell(1, 2).Borders(wdBorderBottom).LineWidth = wdLineWidth075pt
     Table.Cell(1, 2).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
-
+    
         ' Insert "Page X of Y" field codes in the table.Cell(1, 2)
     Table.Cell(1, 2).Select
     Selection.TypeText text:="Page "
@@ -608,7 +672,29 @@ Sub CcllcHeaderFooter()
     Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldNumPages, PreserveFormatting:=False
 
     Table.Cell(1, 2).Range.ParagraphFormat.Alignment = wdAlignParagraphRight
+    
+       ' Do the same for the footer
+    Set Footer = currentSection.Footers(wdHeaderFooterFirstPage)
+    Footer.Range.Delete
 
+    Set Table = Footer.Range.Tables.Add(Footer.Range, 1, 2)
+
+    Table.Cell(1, 1).Width = doc.PageSetup.TextColumns(1).Width / 2
+    Table.Cell(1, 2).Width = doc.PageSetup.TextColumns(1).Width / 2
+
+    Table.Cell(1, 1).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
+    Table.Cell(1, 1).Borders(wdBorderBottom).LineWidth = wdLineWidth225pt
+    Table.Cell(1, 1).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
+
+    Table.Cell(1, 2).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
+    Table.Cell(1, 2).Borders(wdBorderBottom).LineWidth = wdLineWidth075pt
+    Table.Cell(1, 2).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
+    
+    If ActiveWindow.View.SplitSpecial = wdPaneNone Then
+        ActiveWindow.ActivePane.View.Type = wdPrintView
+    Else
+        ActiveWindow.View.Type = wdPrintView
+    End If
 
 End Sub
 
@@ -637,4 +723,17 @@ Sub AddEquationNum()
     Selection.MoveLeft Unit:=wdCharacter, Count:=1
     Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldEmpty, PreserveFormatting:=False, text:="seq eq"
     Selection.Fields.Update
+End Sub
+    
+Sub MpPrintToPDF()
+
+ActiveDocument.ExportAsFixedFormat OutputFileName:= _
+        Environ("TMP") & "\docx.pdf", ExportFormat:=wdExportFormatPDF, _
+        OpenAfterExport:=False, OptimizeFor:=wdExportOptimizeForPrint, Range:= _
+        wdExportAllDocument, From:=1, To:=1, Item:=wdExportDocumentContent, _
+        IncludeDocProps:=True, KeepIRM:=True, CreateBookmarks:= _
+        wdExportCreateHeadingBookmarks, DocStructureTags:=True, _
+        BitmapMissingFonts:=True, UseISO19005_1:=False
+        
+Application.Quit SaveChanges:=wdSaveChanges
 End Sub

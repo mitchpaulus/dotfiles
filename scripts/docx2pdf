@@ -1,3 +1,20 @@
-#!/bin/sh
+#!/usr/bin/env mshell
+[   
+    (args len 1 <) 
+    ("Usage: docx2pdf <docx-file> [pdf-file]" wl)
+] if
+
+# /mMpPrintToPDF runs the MpPrintToPDF macro in the Word document.
+# That saves to %TMP%\docx.pdf by default.
+[WINWORD.EXE $1 /mMpPrintToPDF];
+
+def move-result-file
+    [mv [wslpath -u [winenv TMP]os; ]os; "/docx.pdf" + $2];
+end
+
+# If a second arg, it is the name of the output file.
+[(args len 1 >) (move-result-file)] if
+
+# OLD
 # Get from https://github.com/cognidox/OfficeToPDF
-OfficeToPDF.exe '/bookmarks' '/readonly' '/noquit' '/working_dir' 'C:\Users\mpaulus\tmp' "$@"
+# OfficeToPDF.exe '/bookmarks' '/readonly' '/noquit' '/working_dir' 'C:\Users\mpaulus\tmp' "$@"
