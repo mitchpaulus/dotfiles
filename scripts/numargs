@@ -1,9 +1,3 @@
-#!/usr/bin/env mshell-go
-args len @arglen
-[echo "NumArgs: " arglen! str +];
-0 @idx
-(
-    [(idx! arglen! >=) (break)] if
-    "Arg:" args idx! nth wl
-    idx! 1 + @idx
-) loop
+#!/usr/bin/env mshell
+"NumArgs: " w args len str wl
+args (wl) each
