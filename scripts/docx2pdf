@@ -1,4 +1,5 @@
 #!/usr/bin/env mshell
+soe
 [   
     (args len 1 <) 
     ("Usage: docx2pdf <docx-file> [pdf-file]" wl)

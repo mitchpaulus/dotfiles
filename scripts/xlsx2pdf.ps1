@@ -1,6 +1,5 @@
 param (
     [string]$InputPath,      # Full path to the input Excel file
-    [string]$OutputPath,     # Full path to the output PDF file
     [string]$WorksheetName   # Name of the worksheet to export (optional)
 )
 
@@ -11,17 +10,15 @@ $Excel = New-Object -ComObject Excel.Application
 $Excel.Visible = $true  # Run Excel in the background
 $Excel.DisplayAlerts = $false  # Disable alerts
 
-[Console]::Error.Write("Exporting $InputPath to $OutputPath`n")
+[Console]::Error.Write("Exporting $InputPath`n")
 
 try {
     # Open the workbook
     $FullPath = (Resolve-Path $InputPath).Path
 
-    if (![System.IO.Path]::IsPathRooted($OutputPath)) {
-        # Throw an error if the output path is not a full path
-        # Otherwise goes to 'Documents' folder by default?
-        throw "Output path must be a full path."
-    }
+    # Get TMP directory, save to %TMP%/xlsx.pdf
+    $TmpPath = $env:TMP
+    $OutputPath = [System.IO.Path]::Combine($TmpPath, "xlsx.pdf")
 
     $Workbook = $Excel.Workbooks.Open($FullPath)
 
