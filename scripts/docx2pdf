@@ -7,7 +7,17 @@ soe
 
 # /mMpPrintToPDF runs the MpPrintToPDF macro in the Word document.
 # That saves to %TMP%\docx.pdf by default.
-[WINWORD.EXE $1 /mMpPrintToPDF];
+
+# Unix path to Windows TMP file
+[wslpath -u [winenv TMP] os;] os; tmp-dir!
+[mktemp --suffix .docx --tmpdir= @tmp-dir +]os; tmpfile!
+[cp $1 @tmpfile];
+"Converting '" @tmpfile + "' to PDF..." + wle
+
+[wslpath -w -a @tmpfile]os; input-docx!
+
+[WINWORD.EXE @input-docx /mMpPrintToPDF];
+"Successfully printed to PDF." wle
 
 def move-result-file
     [mv [wslpath -u [winenv TMP]os; ]os; "/docx.pdf" + $2];

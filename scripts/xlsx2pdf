@@ -5,11 +5,17 @@ soe
     ("Usage xlsx2pdf <input.xlsx> <output.pdf> <worksheet>" wl)
 ] if
 
+# Unix paths to Windows LOCALAPPDATA and TMP.
 [wslpath -u [winenv LOCALAPPDATA] os;] os; local-appdata!
 [wslpath -u [winenv TMP] os;] os; tmp-dir!
 
 # Need to get the full Windows path to a few things.
-[wslpath -a -w args :0:] os; input-xlsx!
+[mktemp --suffix .xlsx --tmpdir= @tmp-dir +]os; tmpfile!
+args :0: input-xlsx-param!
+
+[cp @input-xlsx-param @tmpfile];
+
+[wslpath -a -w @tmpfile] os; input-xlsx!
 [wslpath -a -w @local-appdata "/xlsx2pdf/xlsx2pdf.ps1" +] os; script-path!
 
 [
