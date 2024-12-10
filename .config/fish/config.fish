@@ -75,7 +75,6 @@ set -gx GEM_HOME $HOME/gems
 
 # Microsoft doesn't need my telemetry
 set -gx DOTNET_CLI_TELEMETRY_OPTOUT 1
-set -gx DOTNET_ROOT /usr/share/dotnet
 
 set -gx TASKRC $HOME/.config/taskwarrior/.taskrc
 
