@@ -35,3 +35,28 @@ text-anchor = start | middle | end
 ```
 For circle, ellipse, line, path, polygon, polyline, rect, text, textPath, tref, tspan
 ```
+
+## Circle
+
+
+
+
+```
+# Color grammar
+color    ::= "#" hexdigit hexdigit hexdigit (hexdigit hexdigit hexdigit)?
+              | "rgb("integer integer integer")"
+              | "rgb("integer "%" integer "%" integer "%)"
+              | color-keyword
+hexdigit ::= [0-9A-Fa-f]
+
+Commas are now optional.
+
+color := #AB09C2 | rgb(10, 20, 30) | rgb(10%, 20%, 30%) | color-keyword
+```
+
+## `rsvg-convert`
+
+Notes from working with it:
+
+- `<image>` elements need to have a `href` that is `file://abs/path/to/file.png`.
+- `<image>` elements need to have both `width` and `height` attributes.

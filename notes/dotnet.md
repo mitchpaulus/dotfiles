@@ -71,3 +71,16 @@ dotnet new classlib --name Name2
 dotnet sln add Name/Name.csproj
 dotnet sln add Name/Name2.csproj
 ```
+
+## Old
+
+```
+/etc/apt/sources.list.d/microsoft-prod.list
+deb [arch=amd64,arm64,armhf] https://packages.microsoft.com/ubuntu/22.04/prod jammy main
+```
+
+## Troubleshooting
+
+Depending on the install method, `DOTNET_ROOT` might have to be set.
+
+I've seen it as `/usr/share/dotnet` for Microsoft packages and `/usr/lib/dotnet` for latest Ubuntu.
