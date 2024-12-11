@@ -61,11 +61,7 @@ cmd copy-windows-full-path &{{
     fi
 }}
 cmd copy-command-path & CCLLCCopyToClip.exe "$(wslpath -w "$f")"
-
-cmd copy-sharepoint-link & {{
-    create_link.py "$f" | clip 
-    lf -remote "send $id echomsg Copied SharePoint link to clipboard"
-}}
+cmd copy-sharepoint-link & copy-sharepoint-link "$f" "$id"
 
 cmd copy-gitpath & gitpath "$f" | clip
 
