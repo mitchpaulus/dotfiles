@@ -246,3 +246,12 @@ Workaround is a 3x1 table.
 
 This [reference](https://www.howtogeek.com/740936/how-to-number-or-label-equations-in-microsoft-word/) using the built in equation numbering.
 To make it look halfway decent, they put in on the paragraph below and right align.
+
+
+## Page Numbering Fields
+
+[`NUMPAGES` field](https://support.microsoft.com/en-us/office/field-codes-numpages-field-536fa716-025b-4dd6-8a04-8a190b5b1490)
+
+```
+Page { PAGE } of { = (StartingNumber - 1) + { NUMPAGES } }
+```

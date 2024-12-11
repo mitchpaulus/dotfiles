@@ -111,3 +111,5 @@ esac
 Can always literally write to disk.
 If the file system area being written to is a tmpfs, then it's not a big deal.
 See <https://stackoverflow.com/a/691023/5932184>.
+
+[Why pipes sometimes get "stuck" buffering](https://jvns.ca/blog/2024/11/29/why-pipes-get-stuck-buffering/)
