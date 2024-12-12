@@ -2,7 +2,7 @@ package main
 
 import (
     "fmt"
-    "io/ioutil"
+    "io"
     "net/http"
     "os"
     "time"
@@ -48,7 +48,38 @@ type TogglProject struct {
     WorkspaceId int64 `json:"workspace_id"`
 }
 
+// Name	Type	Description
+// active	boolean	Whether the project is active or archived
+// auto_estimates	boolean	Whether estimates are based on task hours, optional, premium feature
+// billable	boolean	Whether the project is set as billable, optional, premium feature
+// cid	integer	Client ID, legacy
+// client_id	integer	Client ID, optional
+// client_name	string	Client name, optional
+// color	string	Project color
+// currency	string	Project currency, optional, premium feature
+// end_date	string	End date of a project timeframe
+// estimated_hours	integer	Estimated hours, optional, premium feature
+// fixed_fee	number	Project fixed fee, optional, premium feature
+// is_private	boolean	Whether the project is private or not
+// is_shared	boolean	Shared
+// name	string	Project name
+// rate	number	Hourly rate, optional, premium feature
+// rate_change_mode	string	Rate change mode, optional, premium feature. Can be "start-today", "override-current", "override-all"
+// recurring	boolean	Project is recurring, optional, premium feature
+// recurring_parameters	object	Project recurring parameters, optional, premium feature
+// start_date	string	Start date of a project timeframe
+// template	boolean	Project is template, optional, premium feature
+// template_id	integer	Template ID, optional
+
 type TogglProjectPost struct {
+    Name string `json:"name"`
+    ClientName string `json:"client_name,omitempty"`
+    WorkspaceId int64 `json:"workspace_id"`
+    Active bool `json:"active"`
+}
+
+
+type TogglTimeEntryPost struct {
 
 // name	type	description
 // billable	boolean	Whether the time entry is marked as billable, optional, default false
@@ -79,6 +110,40 @@ type TogglProjectPost struct {
     Start string `json:"start"`
     WorkspaceId int64 `json:"workspace_id"`
 }
+
+// Name	Type	Description
+// api_token	string	will be omitted if empty
+// at	string	-
+// authorization_updated_at	string	AuthorizationUpdatedAt timestamp when the authorization user session object was last updated.
+// beginning_of_week	integer	-
+// clients	Array of object	Clients, null if with_related_data was not set to true or if the user does not have any clients
+// country_id	integer	-
+// created_at	string	-
+// default_workspace_id	integer	-
+// email	string	-
+// fullname	string	-
+// has_password	boolean	-
+// id	integer	-
+// image_url	string	-
+// intercom_hash	string	will be omitted if empty
+// oauth_providers	Array of string	-
+// openid_email	string	-
+// openid_enabled	boolean	-
+// options	object	will be omitted if empty
+// projects	Array of object	Projects, null if with_related_data was not set to true or if the user does not have any projects
+// tags	Array of object	Tags, null if with_related_data was not set to true, or if the user does not have any tags
+// tasks	Array of object	Tasks, null if with_related_data was not set to true or if the user does not have any tasks
+// time_entries	Array of object	TimeEntries, null if with_related_data was not set to true or if the user does not have any time entries
+// timezone	string	-
+// updated_at	string	-
+// workspaces	Array of object	Workspaces, null if with_related_data was not set to true or if the user does not have any workspaces
+
+// All I care about for now is the default_workspace_id
+type TogglMeGet struct {
+    DefaultWorkspaceId int64 `json:"default_workspace_id"`
+}
+
+
 
 func main() {
 
@@ -116,6 +181,7 @@ func main() {
             fmt.Print(" toggl lunch\n")
             fmt.Print(" toggl break\n")
             fmt.Print(" toggl start <Project Name> <Description>\n")
+            fmt.Print(" toggl newproj [Project Name] [Client]\n")
             os.Exit(0)
         } else if os.Args[i] == "ts" {
             command = "ts"
@@ -166,6 +232,61 @@ func main() {
             startTimer(os.Args[i+1], os.Args[i+2], token)
             os.Exit(0)
 
+        } else if os.Args[i] == "newproj" {
+            command = "newproj"
+
+            var client string
+            var newProjectName string
+
+            if i + 2 < len(os.Args) {
+                client = strings.TrimSpace(os.Args[i+2])
+                newProjectName = strings.TrimSpace(os.Args[i+1])
+                // Strip lead/trail whitespace
+
+            } else if i + 1 < len(os.Args) {
+                newProjectName = strings.TrimSpace(os.Args[i+1])
+            } else {
+                // Prompt for project name and client
+                fmt.Print("Enter project name: ")
+                fmt.Scanln(&newProjectName)
+                newProjectName = strings.TrimSpace(newProjectName)
+            }
+
+            // Check whether the project name already exists
+            projects, err := get_projects(token)
+            if err != nil {
+                fmt.Fprintf(os.Stderr, toggl_err)
+                os.Exit(1)
+            }
+
+            for _, project := range projects {
+                if strings.EqualFold(project.Name, newProjectName) {
+                    fmt.Fprintf(os.Stderr, "Project %s already exists\n", newProjectName)
+                    os.Exit(1)
+                }
+            }
+
+            // Create the new project in the default workspace
+            // https://api.track.toggl.com/api/v9/me
+            defaultWorkspaceId := getMe(token).DefaultWorkspaceId
+
+            fmt.Fprintf(os.Stderr, "Creating project '%s' in workspace %d\n", newProjectName, defaultWorkspaceId)
+
+            TogglProjectPost := TogglProjectPost{
+                Name: newProjectName,
+                ClientName: client,
+                WorkspaceId: defaultWorkspaceId,
+                Active: true,
+            }
+
+            err = PostProject(TogglProjectPost, token)
+            if err != nil {
+                fmt.Fprintf(os.Stderr, toggl_err)
+                os.Exit(1)
+            }
+
+            fmt.Printf("Project '%s' created\n", newProjectName)
+            os.Exit(0)
         } else if os.Args[i] == "projects" {
             // Print all projects
             command = "projects"
@@ -253,7 +374,7 @@ func main() {
     }
 
     defer resp.Body.Close()
-    body, err := ioutil.ReadAll(resp.Body)
+    body, err := io.ReadAll(resp.Body)
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error in reading body '%v'\n", err)
         fmt.Fprintf(os.Stderr, toggl_err)
@@ -382,7 +503,7 @@ func main() {
         }
 
         defer resp.Body.Close()
-        body, err := ioutil.ReadAll(resp.Body)
+        body, err := io.ReadAll(resp.Body)
         if err != nil {
             fmt.Fprintf(os.Stderr, toggl_err)
             os.Exit(1)
@@ -480,7 +601,7 @@ func get_projects(token string) ([]TogglProject, error) {
     }
 
     defer resp.Body.Close()
-    body, err := ioutil.ReadAll(resp.Body)
+    body, err := io.ReadAll(resp.Body)
     if err != nil {
         return nil, err
     }
@@ -514,7 +635,7 @@ func getWorkspaces(token string) ([]TogglWorkspace, error) {
     }
 
     defer resp.Body.Close()
-    body, err := ioutil.ReadAll(resp.Body)
+    body, err := io.ReadAll(resp.Body)
     if err != nil {
         return nil, err
     }
@@ -544,6 +665,78 @@ func daysInMonth(year int, month int) int {
     default:
         return 0
     }
+}
+
+func PostProject(project TogglProjectPost, token string) error {
+    // POST body
+    postBytes, err := json.Marshal(project)
+    if err != nil {
+        return err
+    }
+
+    // https://api.track.toggl.com/api/v9/workspaces/{workspace_id}/projects
+    req, err := http.NewRequest(http.MethodPost, fmt.Sprintf("https://api.track.toggl.com/api/v9/workspaces/%d/projects", project.WorkspaceId), bytes.NewBuffer(postBytes))
+    if err != nil {
+        return err
+    }
+
+    req.Header.Set("Content-Type", "application/json; charset=utf-8")
+    req.SetBasicAuth(token, "api_token")
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    if err != nil {
+        return err
+    }
+
+    // Check the response code
+    if resp.StatusCode != 200 {
+        // Get reason for failure
+        body, err := io.ReadAll(resp.Body)
+        if err != nil {
+            return fmt.Errorf("Could not read response body for %s\n", project.Name)
+        }
+
+        return fmt.Errorf("Error in POST request for %s. Reason: %s\n", project.Name, body)
+    }
+
+    return nil
+}
+
+func getMe(token string) TogglMeGet {
+    // https://api.track.toggl.com/api/v9/me
+    req, err := http.NewRequest(http.MethodGet, "https://api.track.toggl.com/api/v9/me", nil)
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Could not build request for https://api.track.toggl.com/api/v9/me")
+        os.Exit(1)
+    }
+
+    req.Header.Set("Content-Type", "application/json; charset=utf-8")
+    req.SetBasicAuth(token, "api_token")
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Could not get response for https://api.track.toggl.com/api/v9/me")
+        os.Exit(1)
+    }
+
+    defer resp.Body.Close()
+    body, err := io.ReadAll(resp.Body)
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Could not read response body for https://api.track.toggl.com/api/v9/me")
+        os.Exit(1)
+    }
+
+    // Parse as TogglMeGet
+    var t TogglMeGet
+    err = json.Unmarshal(body, &t)
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Could not unmarshal response body for https://api.track.toggl.com/api/v9/me")
+        os.Exit(1)
+    }
+
+    return t
 }
 
 func startTimer(projectName string, description string, token string)  {
@@ -583,7 +776,7 @@ func startTimer(projectName string, description string, token string)  {
 
     // Start timer for project
     // https://api.track.toggl.com/api/v9/workspaces/{workspace_id}/time_entries
-    TogglProjectPost := TogglProjectPost{
+    TogglProjectPost := TogglTimeEntryPost{
         CreatedWith: "toggl_cli",
         Description: description,
         Duration: -1,
