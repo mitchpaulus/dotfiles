@@ -841,6 +841,8 @@ vim.api.nvim_create_autocmd('FileType', { pattern = 'xlim', group = filetype_aut
 
 vim.api.nvim_create_autocmd('FileType', { pattern = 'antlr4', group = filetype_autocmds_id, command = 'nnoremap <localleader>c :!antlr4 %<CR>' })
 
+vim.api.nvim_create_autocmd('FileType', { pattern = "go", group = filetype_autocmds_id, command = "setlocal noexpandtab" })
+
 vim.api.nvim_create_autocmd('FileType', {
      pattern = 'python',
      group = filetype_autocmds_id,
