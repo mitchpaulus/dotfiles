@@ -54,3 +54,18 @@ Directive | Meaning
 %S        | Second as a zero-padded decimal number.
 
 There is no non-zero-padded version of the hour.
+
+```python
+import zoneinfo
+import tzdata
+import datetime
+
+cst = zoneinfo.ZoneInfo("America/Chicago")
+utc = zoneinfo.ZoneInfo("UTC")
+
+# This works only because of the 'Z'
+dt = datetime.datetime.fromisoformat("2024-12-16T11:05:00Z")
+dt = dt.astimezone(cst)
+
+print(dt)
+```

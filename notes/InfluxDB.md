@@ -90,19 +90,12 @@ measurement value=10.2 1625097600
 
 ## Pricing Cloud
 
+As of 2024-12-13
 Usage-Based Plan
-- Data In
-  Volume of data written in MB
-  $0.002/MB
-- Query Count
-  Total individual query executions
-  $0.01 per 100 query executions
-- Storage
-  Total disk usage in GB-hours
-  $0.002/GB-hour
-- Data Out
-  Data transferred out of InfluxDB in GB
-  $0.09/GB
+$0.0025/Mb for data in
+$0.09/GB for data out
+$0.012/100 queries
+$0.002/GB-hour for storage or $1.44/GB-month (30-days)
 
 $250 credit for you to use in your first 30 days on the Usage-Based Plan
 
