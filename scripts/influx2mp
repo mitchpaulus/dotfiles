@@ -4,6 +4,11 @@
 import csv
 import sys
 import re
+
+import zoneinfo
+import tzdata
+import datetime
+
 from typing import List, Union, Iterable
 
 def convert_to_int_if_possible(s: str) -> Union[int, str]:
@@ -60,13 +65,19 @@ def parse():
 
 if __name__ == "__main__":
     idx = 1
+
+    convert_to_cst = False
+
     while idx < len(sys.argv):
         arg = sys.argv[idx]
         idx += 1
         if arg == "-h" or arg == "--help":
-            print(f"Usage: {sys.argv[0]} < input.csv > output.mp")
+            print(f"Usage: {sys.argv[0]} [--cst] < input.csv > output.mp")
             print(f"Convert Influx 'Annotated CSV' to an MP file")
+            print(f"  --cst: Convert the time to CST")
             sys.exit(0)
+        elif arg == "--cst":
+            convert_to_cst = True
         else:
             print(f"Unknown option: {arg}")
             sys.exit(1)
@@ -77,5 +88,15 @@ if __name__ == "__main__":
         print(f"{measurement}")
         # Sort by time
         data[measurement].sort(key=lambda x: x[0])
-        for time, value in data[measurement]:
-            print(f"{time}\t{value}")
+
+        if convert_to_cst:
+            cst_time_zone = zoneinfo.ZoneInfo("America/Chicago")
+            utc_time_zone = zoneinfo.ZoneInfo("UTC")
+
+            for time, value in data[measurement]:
+                utc_time = datetime.datetime.fromisoformat(time).astimezone(utc_time_zone)
+                cst_time = utc_time.astimezone(cst_time_zone)
+                print(f"{cst_time.isoformat()}\t{value}")
+        else:
+            for time, value in data[measurement]:
+                print(f"{time}\t{value}")
