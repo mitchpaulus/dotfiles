@@ -1,13 +1,23 @@
-#!/bin/sh
+#!/usr/bin/env mshell
 
-BUCKET="$1"
+[
+    (args len 0 =)
+    (
+        'Usage: influx_meas <bucket>' wl
+        0 exit
+    )
+] if
 
-if [ -z "$BUCKET" ]; then
-  echo "Usage: $0 <bucket>"
-  exit 1
-fi
+args :0: bucket!
 
-influx query -r '
-   import "influxdata/influxdb/schema"
-   schema.measurements(bucket: "'"$BUCKET"'")' | dos2unix \
-       | csv2tsv | cut -d '	' -f 4 | awk 'NR > 4 && $0 != "" { print }'
+[
+    'import "influxdata/influxdb/schema"' 
+    'schema.measurements(bucket: "' @bucket + '")' +
+] unlines query!
+
+[
+    [influx query -r @query]
+    [csv2tsv]
+] o | ;
+
+4: (tsplit) map (len 3 >) filter (:3:) map uw
