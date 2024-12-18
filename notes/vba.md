@@ -22,6 +22,13 @@ End If
 
 Writing to a file:
 
+[Open Statement](https://learn.microsoft.com/en-us/office/vba/language/reference/user-interface-help/open-statement)
+
+Modes = Append Binary Input Output Random
+Access = Read, Write, Read Write
+
+`Open pathname For mode [ Access access ] [ lock ] As [ # ] filenumber [ Len = reclength ]`
+
 ```vba
 FileNum = FreeFile
 Open "C:\Users\mpaulus\properties.txt" For Output As #FileNum
