@@ -6,5 +6,5 @@
         args :0: tsvfile!
         [xlwrite block A1 @tsvfile @tsvfile :-4 ".xlsx" +]; 
     ) 
-    ( [xlwrite block A1 - "output.xlsx" +]; )
+    ( [xlwrite block A1 "-" "output.xlsx"]; )
 ] if 
