@@ -72,10 +72,17 @@ Useful command line functions:
 
 ## Completions
 
-```
+```fish
 # Completing option argument. Note that command substitution needs to be wrapped in quotations.
 
 complete -c command -x -a "(command)"
+
+# Completing files with known extensions
+From https://github.com/fish-shell/fish-shell/blob/master/share/completions/tex.fish
+complete -c tex -k -x -a "(__fish_complete_suffix --description='(La)TeX file' .tex)"
+
+# Wrapping a existing command
+complete -c command -w existing_command
 ```
 
 ## `set -e` equivalent
