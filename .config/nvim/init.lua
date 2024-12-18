@@ -426,7 +426,7 @@ insertModeNoRecurseMappings = {
 
 
     -- Move to end of line when in insert mode
-    { '<C-l>', '<Esc>A' },
+    -- { '<C-l>', '<Esc>A' }, Force myself to use CTRL-E, the common readline/emacs binding.
 
     -- Add undo break points while typing
     { '.', '.<C-g>u'},
