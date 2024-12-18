@@ -788,4 +788,3 @@ tbl.LeftPadding = InchesToPoints(0)
 tbl.RightPadding = InchesToPoints(0)
 
 End Sub
-
