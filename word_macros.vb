@@ -599,7 +599,7 @@ Sub CcllcHeaderFooter()
 
     ' Get the current section based on the selection
     Set currentSection = doc.Sections(doc.Range(0, Selection.Range.End).Sections.Count)
-    
+
     Set firstSection = doc.Sections(1)
 
     Set header = firstSection.Headers(wdHeaderFooterPrimary)
@@ -623,7 +623,7 @@ Sub CcllcHeaderFooter()
     Table.Cell(1, 2).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
     Table.Cell(1, 2).Borders(wdBorderBottom).LineWidth = wdLineWidth075pt ' 6
     Table.Cell(1, 2).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
-    
+
     Set header = firstSection.Headers(wdHeaderFooterFirstPage)
 
     ' Clear the header
@@ -663,7 +663,7 @@ Sub CcllcHeaderFooter()
     Table.Cell(1, 2).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
     Table.Cell(1, 2).Borders(wdBorderBottom).LineWidth = wdLineWidth075pt
     Table.Cell(1, 2).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
-    
+
         ' Insert "Page X of Y" field codes in the table.Cell(1, 2)
     Table.Cell(1, 2).Select
     Selection.TypeText text:="Page "
@@ -672,7 +672,7 @@ Sub CcllcHeaderFooter()
     Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldNumPages, PreserveFormatting:=False
 
     Table.Cell(1, 2).Range.ParagraphFormat.Alignment = wdAlignParagraphRight
-    
+
        ' Do the same for the footer
     Set Footer = currentSection.Footers(wdHeaderFooterFirstPage)
     Footer.Range.Delete
@@ -689,7 +689,7 @@ Sub CcllcHeaderFooter()
     Table.Cell(1, 2).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
     Table.Cell(1, 2).Borders(wdBorderBottom).LineWidth = wdLineWidth075pt
     Table.Cell(1, 2).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
-    
+
     If ActiveWindow.View.SplitSpecial = wdPaneNone Then
         ActiveWindow.ActivePane.View.Type = wdPrintView
     Else
@@ -724,8 +724,9 @@ Sub AddEquationNum()
     Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldEmpty, PreserveFormatting:=False, text:="seq eq"
     Selection.Fields.Update
 End Sub
-    
+
 Sub MpPrintToPDF()
+
 
 ActiveDocument.ExportAsFixedFormat OutputFileName:= _
         Environ("TMP") & "\docx.pdf", ExportFormat:=wdExportFormatPDF, _
@@ -734,6 +735,57 @@ ActiveDocument.ExportAsFixedFormat OutputFileName:= _
         IncludeDocProps:=True, KeepIRM:=True, CreateBookmarks:= _
         wdExportCreateHeadingBookmarks, DocStructureTags:=True, _
         BitmapMissingFonts:=True, UseISO19005_1:=False
-        
-Application.Quit SaveChanges:=wdSaveChanges
+
+Application.Quit SaveChanges:=wdDoNotSaveChanges
 End Sub
+
+Sub MathMp()
+    FileNum = FreeFile
+
+    Open Environ("LOCALAPPDATA") & "\MathMp\input.mp" For Output As #FileNum
+
+    Print #FileNum, Replace(Replace(Selection.text, vbCr, ""), vbLf, "")
+    Close #FileNum
+
+    Shell Environ("MATHMPPATH"), vbNormalFocus
+
+    StartTime = Timer
+    Do While Timer < StartTime + 1
+        DoEvents
+    Loop
+
+    Shell Environ("MATHMPCLIP"), vbNormalFocus
+
+    StartTime = Timer
+    Do While Timer < StartTime + 1
+        DoEvents
+    Loop
+
+    Selection.Paste
+End Sub
+
+Sub EqTable()
+
+Dim tbl As Table
+Set tbl = ActiveDocument.Tables.Add(Range:=Selection.Range, NumRows:=1, NumColumns:=3, DefaultTableBehavior:=wdWord9TableBehavior, AutoFitBehavior:=wdAutoFitFixed)
+tbl.Rows(1).Cells.VerticalAlignment = 1
+For Each c In tbl.Columns(2).Cells
+  c.Range.ParagraphFormat.Alignment = 1
+Next c
+For Each c In tbl.Columns(3).Cells
+  c.Range.ParagraphFormat.Alignment = 2
+Next c
+tbl.Cell(1, 1).Range.text = "": tbl.Cell(1, 2).Range.text = "": tbl.Cell(1, 3).Range.text = ""
+tbl.PreferredWidthType = wdPreferredWidthAuto
+tbl.PreferredWidth = 0
+tbl.AllowAutoFit = False
+tbl.Columns(1).Width = InchesToPoints(0.3)
+tbl.Columns(2).Width = InchesToPoints(5.9)
+tbl.Columns(3).Width = InchesToPoints(0.3)
+tbl.AllowAutoFit = True
+tbl.Borders.Enable = False
+tbl.LeftPadding = InchesToPoints(0)
+tbl.RightPadding = InchesToPoints(0)
+
+End Sub
+
