@@ -1,3 +1,5 @@
 #!/bin/sh
 
-fzf < "$DOTFILES"/work/tags.txt
+TAG="$(fzf < "$DOTFILES"/work/skyspark/tags.txt)"
+printf "%s" "$TAG"
+printf "%s" "$TAG" | clip

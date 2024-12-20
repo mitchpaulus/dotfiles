@@ -451,6 +451,9 @@ insertModeNoRecurseMappings = {
     { '<C-b>', '<Left>' },
     { '<M-b>', '<Esc>Bi' },
     -- { '<C-f>', '<Right>' }, used for <C-x><C-f> filename completion.
+
+    -- Mshell shebang
+    { '<localleader>ms', '#!/usr/bin/env mshell<CR><Esc>:set ft=mshell<CR>' },
 }
 
 -- Command line mappings, mostly to match emacs/shell like defaults.
