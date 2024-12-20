@@ -96,3 +96,11 @@ IF(
 ## Custom Sorting in Pivot Table
 
 <https://www.extendoffice.com/documents/excel/2025-excel-pivot-table-sort-custom-list.html>
+
+## MySQL in Excel
+
+Needed to get both the 64-bit OBDC driver and the 32-bit ADO.NET driver.
+Not sure which versions were the ones that actually worked, since I installed a whole bunch.
+
+[ADO.NET](https://downloads.mysql.com/archives/c-net/)
+[ODBC](https://downloads.mysql.com/archives/c-odbc/)
