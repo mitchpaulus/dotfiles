@@ -1,5 +1,6 @@
 aspell
 bash-completion
+bat
 build-essential
 cmake
 cmatrix
@@ -7,6 +8,7 @@ curl
 datamash
 dos2unix
 exiftran
+fdfind
 fzf
 git
 gnuplot
