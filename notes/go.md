@@ -99,6 +99,8 @@ var mySlice []int
 var myMap map[string]int // Map from string to int
 myMap = map[string]int{"one": 1, "two": 2}
 
+// Stringer interface String()
+
 ```
 
 
