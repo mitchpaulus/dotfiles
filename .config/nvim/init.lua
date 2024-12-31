@@ -1187,7 +1187,7 @@ if not in_windows then vim.api.nvim_create_autocmd('BufReadPost', { pattern = '*
 -- Setting the marks is required so that the cursor doesn't jump
 -- around.
 -- vim.cmd([[autocmd BufWrite * execute "normal! mz" |  keeppatterns %s/\v\s+$//e | normal `z]])
-vim.api.nvim_create_autocmd('BufWrite', { pattern = '*.cs,*.md,*.txt,*.lua,COMMIT_EDITMSG,*.msh', group = 'MPEvents', command = 'execute "normal! mz" |  keeppatterns %s/\\v\\s+$//e | normal `z' })
+vim.api.nvim_create_autocmd('BufWrite', { pattern = '*.cs,*.md,*.txt,*.lua,COMMIT_EDITMSG,*.msh,*.go', group = 'MPEvents', command = 'execute "normal! mz" |  keeppatterns %s/\\v\\s+$//e | normal `z' })
 
 function remove_trailing_blank_lines()
     -- Get number of lines in buffer. 0 is only for unloaded buffer.
