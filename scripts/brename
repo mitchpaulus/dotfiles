@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 # This script accepts relative filepaths from the standard input,
 # opens the default EDITOR to make changes, then makes a shell script to rename
@@ -6,6 +6,7 @@
 import sys
 import os
 import re
+import pathlib
 
 def convert_to_int_if_possible(s: str):
     """
@@ -94,6 +95,13 @@ with open('/tmp/brename', 'r') as f:
                 for i in range(len(files)):
                     if files[i] != new_names[i]:
                         print('Renaming', files[i], 'to', new_names[i])
+
+                        # First make sure new directory exists, create paths if necessary
+                        path = pathlib.Path(new_names[i])
+
+                        if path.parent != pathlib.Path('.'):
+                            os.makedirs(path.parent, exist_ok=True)
+
                         os.rename(files[i], new_names[i])
     except KeyboardInterrupt:
         print('\nCancelled')
