@@ -47,6 +47,12 @@ map ; mark-load
 
 map x open-with-windows
 
+map gd cd_dotfiles
+
+cmd cd_dotfiles ${{
+    lf -remote "send $id cd \"$DOTFILES\""
+}}
+
 cmd binlink % binlink "$f" && printf "Successfully linked %s\n" "$f"
 map bl binlink
 
