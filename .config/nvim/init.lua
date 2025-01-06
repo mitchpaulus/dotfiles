@@ -609,7 +609,7 @@ function fix_completeopt()
 end
 
 -- NERD Commenter
-vim.g.NERDCustomDelimiters = { axon = { left = "//" }, idf = { left = "!" }, xlim = { left = "--" } }
+vim.g.NERDCustomDelimiters = { axon = { left = "//" }, idf = { left = "!" }, xlim = { left = "--" }, mshell = { left = "#" } }
 -- I like spaces around my delimiters
 vim.g.NERDSpaceDelims = 1
 
@@ -826,6 +826,8 @@ local function markdownMathBlocks()
 end
 
 filetype_autocmds_id = vim.api.nvim_create_augroup('filetype_autocmds', { clear = true })
+vim.api.nvim_create_augroup('MPEvents', { clear = true })
+
 local function addToFiletypeAugroup(pattern, command)
     vim.api.nvim_create_autocmd('FileType', { pattern = pattern, group = filetype_autocmds_id, command = command })
 end
@@ -846,6 +848,11 @@ vim.api.nvim_create_autocmd('FileType', { pattern = 'xlim', group = filetype_aut
 vim.api.nvim_create_autocmd('FileType', { pattern = 'antlr4', group = filetype_autocmds_id, command = 'nnoremap <localleader>c :!antlr4 %<CR>' })
 
 vim.api.nvim_create_autocmd('FileType', { pattern = "go", group = filetype_autocmds_id, command = "setlocal noexpandtab" })
+
+-- Trailing whitespace not based on extension, but on filetype.
+vim.api.nvim_create_autocmd('FileType', { pattern = "mshell,sh", group = filetype_autocmds_id, callback = function()
+    vim.api.nvim_create_autocmd('BufWrite', { buffer = vim.api.nvim_get_current_buf(), group = "MPEvents", command = 'execute "normal! mz" |  keeppatterns %s/\\v\\s+$//e | normal `z' })
+end })
 
 vim.api.nvim_create_autocmd('FileType', {
      pattern = 'python',
@@ -1082,7 +1089,6 @@ vim.api.nvim_create_autocmd('BufEnter', { pattern = '*.do', group = bufenter_aug
     end
 })
 
-vim.api.nvim_create_augroup('MPEvents', { clear = true })
 --vim.api.nvim_create_autocmd('TermOpen', { pattern = '*',        group = 'MPEvents', command = 'setlocal nonumber norelativenumber | startinsert | echom "Term Open.."' })
 vim.api.nvim_create_autocmd('BufEnter', { pattern = "term://*", group = 'MPEvents', command = 'startinsert' })
 vim.api.nvim_create_autocmd('TextYankPost', { pattern = '*', group = 'MPEvents', command = 'silent! lua vim.highlight.on_yank { timeout = 500 }' })

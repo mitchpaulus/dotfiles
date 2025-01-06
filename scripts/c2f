@@ -1,3 +1,14 @@
-#!/usr/bin/awk -E
+#!/usr/bin/env mshell
 
-BEGIN { print (ARGV[1] * 9.0 / 5.0) + 32 }
+args
+(
+    [
+        (dup "-h" = swap "--help" = or)
+        ( "Usage: c2f <celsius>\n" w 0 exit)
+    ] if
+)
+each
+
+[(args len 1 < ) ("No temperature entered" wl 1 exit)] if
+
+$1 toFloat 9.0 * 5.0 / 32.0 + str wl
