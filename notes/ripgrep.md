@@ -25,6 +25,6 @@ USAGE:
 
 ## Patterns
 
-Uses Rust regex. https://docs.rs/regex/1.5.4/regex/#syntax
+Uses Rust regex. <https://docs.rs/regex/1.5.4/regex/#syntax>
 
 Most meta constructs do not have escaping: e.g. '(' for grouping, '+' for 1 or more.
