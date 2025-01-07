@@ -101,3 +101,42 @@ dest – (dict) included only if simple=False. Contains details of the TOC item 
 ```
 rect-like: sequence of 4 numbers: x1, y1, x2, y2, in pts.
 ```
+
+## Text from Rectangle
+
+<https://github.com/pymupdf/PyMuPDF-Utilities/tree/master/textbox-extraction>
+
+```
+Page.get_text("words")
+Page.get_textbox(rect)
+Page.get_text("text", clip=rect)
+```
+
+Example that I used on project.
+
+```python
+import fitz
+import re
+
+doc = fitz.open("My file")
+
+x1 = 13.31
+y1 = 9.62
+x2 = x1 + 3.44
+y2 = y1 + 0.94
+
+x1 = x1 * 72
+y1 = y1 * 72
+x2 = x2 * 72
+y2 = y2 * 72
+
+rect = fitz.Rect(x1, y1, x2, y2)
+
+for page_num in range(92, 152):
+    page = doc[page_num]
+    text = page.get_text("text", clip=rect).replace("\n", " ").strip()
+
+    text = re.sub(r"\s+", " ", text)
+
+    print(f"1\t{text}\t{page_num + 1}")
+```

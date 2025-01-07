@@ -26,3 +26,9 @@ sfdx force:schema:sobject:describe -o mpaulus@command-cx.com -s Project__c --jso
 ```soql
 SELECT Field1, Field2 FROM MyObject__c WHERE MyBooleanField__c = true
 ```
+
+
+## Salesforce permissions debugging
+
+- <https://salesforce.stackexchange.com/questions/400073/trying-to-use-salesforce-integration-user-license-unable-to-access-accounts-et>
+- Needed to make a new "permission set" and assign it to the user.
