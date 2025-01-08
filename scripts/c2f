@@ -4,7 +4,7 @@ args
 (
     [
         (dup "-h" = swap "--help" = or)
-        ( "Usage: c2f <celsius>\n" w 0 exit)
+        ("Usage: c2f <celsius>\n" w 0 exit)
     ] if
 )
 each

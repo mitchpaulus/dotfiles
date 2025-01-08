@@ -8,8 +8,14 @@ import sys
 import fitz
 
 # https://pymupdf.readthedocs.io/en/latest/document.html#Document.set_toc
-def set_bookmarks(pdf_file):
-    bookmarks = []
+def set_bookmarks(pdf_file, add = False):
+
+    if add:
+        doc = fitz.open(pdf_file)
+        bookmarks = doc.get_toc()
+        doc.close()
+    else:
+        bookmarks = []
 
     prev_level = 1
 
@@ -57,4 +63,5 @@ if __name__ == '__main__':
         print('Lines are [level, title, page] where level is 1 based and page is 1 based.')
         sys.exit(0)
 
-    set_bookmarks(sys.argv[1])
+    pdf_file = sys.argv[1]
+    set_bookmarks(pdf_file)

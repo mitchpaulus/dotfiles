@@ -6,6 +6,12 @@ import fitz
 if __name__ == "__main__":
     if len(sys.argv) == 1:
         doc = fitz.open(stream=sys.stdin.buffer.read())
-        toc = doc.get_toc()
-        for item in toc:
-            print(f"{item[0]}\t{item[1]}\t{item[2]}")
+    elif len(sys.argv) == 2:
+        doc = fitz.open(sys.argv[1])
+    else:
+        print("Usage: get_bookmarks.py [file.pdf]", file=sys.stderr)
+        sys.exit(1)
+
+    toc = doc.get_toc()
+    for item in toc:
+        print(f"{item[0]}\t{item[1]}\t{item[2]}")
