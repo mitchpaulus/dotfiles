@@ -43,9 +43,13 @@ mktextfm 'fontfile' # Maybe?
 References:
 - <https://www.makeuseof.com/tag/otf-vs-ttf-fonts-one-better/>
 
-TTF (TrueType Font): Apple and Microsoft, late 1980's. Contains screen and printer data
+TTF (TrueType Font): Apple and Microsoft, late 1980's. Contains screen and printer data.
 OTF (OpenType Font): Adobe and Microsoft, somewhat based on TTF.
 
-OTF allows for more features. Ligatures and alternate characters can be
-defined in the single file, vs. TTF which may have had to be additional
-files.
+OTF allows for more features.
+Ligatures and alternate characters can be defined in the single file,
+vs. TTF which may have had to be additional files.
+
+## Iosevka not showing in KDE/Konsole
+
+[Fontconfig is too strict](https://github.com/be5invis/Iosevka/issues/2101)
