@@ -72,6 +72,9 @@ Useful command line functions:
 
 ## Completions
 
+- <https://fishshell.com/docs/current/completions.html>
+- <https://fishshell.com/docs/current/cmds/complete.html>
+
 ```fish
 # Completing option argument. Note that command substitution needs to be wrapped in quotations.
 
