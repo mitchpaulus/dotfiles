@@ -1,7 +1,12 @@
-#!/bin/sh
+#!/bin/bash
+set -e
 
-go build toggl.go
-go build todoist.go
+redo toggl/toggl todoist/todoist
 
-binlink toggl/toggl
-binlink todoist/todoist
+pushd toggl
+binlink toggl
+popd
+
+pushd todoist
+binlink todoist
+popd
