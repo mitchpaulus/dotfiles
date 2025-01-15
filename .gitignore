@@ -15,8 +15,8 @@ notes/*.pdf
 notes/doe2.png
 notes/*.docx
 
-go/toggl
-go/todoist
+go/toggl/toggl
+go/todoist/todoist
 
 # Haskell build files
 *.hi
@@ -42,3 +42,12 @@ vim/vimrc
 python/test_diagram.py
 
 sfeedrc
+
+# REDOGI
+go/toggl/toggl
+haskell/**/*
+haskell/all
+notes/**/*.pdf
+scripts/printmath
+sfeedrc
+vim/vimrc
