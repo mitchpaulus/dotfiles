@@ -882,6 +882,8 @@ filetypeAutocmds = {
     -- { 'markdown,tex,text', 'setlocal textwidth=72' },
     { 'markdown,tex,text', 'setlocal spell' },
     { 'markdown', 'setlocal tabstop=2' },
+    { 'markdown', 'setlocal softtabstop=0' },
+    { 'markdown', 'setlocal shiftwidth=2' },
     { 'markdown', 'nnoremap ]] <Cmd>keeppatterns /^#<Cr>' },
     { 'markdown', 'nnoremap <localleader>- <Cmd>keeppatterns s/[^<bar>]/-/g<Cr>' },
     { 'markdown', 'nnoremap <leader>m vip:!to_markdown<Cr>' },
