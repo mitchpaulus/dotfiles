@@ -223,3 +223,8 @@ msoShapeUTurnArrow	42	Block arrow forming a U shape
 msoShapeVerticalScroll	101	Vertical scroll
 msoShapeWave	103	Wave
 ```
+
+
+EMUs - English Metric Units
+1 inch = 914400 EMUs
+1 cm = 360000 EMUs
