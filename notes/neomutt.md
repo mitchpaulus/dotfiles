@@ -21,3 +21,5 @@ In a Maildir setup, I believe this should be the same directory that is the root
 [Bindings](https://neomutt.org/guide/configuration.html#bind)
 
 `CTRL-G`: Stop current prompt.
+
+<https://tom.wemyss.net/posts/neomutt-markdown-email/>
