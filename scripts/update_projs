@@ -1,0 +1,13 @@
+#!/usr/bin/env mshell
+[toggl ts 1 2]o; (tsplit) map (:2: "No project" =) filter (tab join) map entries!
+[toggl projects] oc;  projects!
+
+@entries
+(
+    entry!
+    ["fzf" "-d" "\\t" "--with-nth=2" "--header=" @entry +] @projects < os ?
+    [ ()
+      (tsplit :0: project_id! [toggl update_proj @entry tsplit :0: @project_id];)
+      ("Not updating " @entry + wl drop)
+    ] if
+) each
