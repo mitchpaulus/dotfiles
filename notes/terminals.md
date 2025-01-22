@@ -55,6 +55,25 @@ PF4            | SS3 S    | SS3 S       | kf4      | k4
 | `\e[38;2;<R>;<G>;<B>m` | Set text foreground color to RGB color. | `R`, `G`, `B` |
 | `\e[48;2;<R>;<G>;<B>m` | Set text background color to RGB color. | `R`, `G`, `B` |
 
+Base 16 colors:
+
+```
+\e[<attribute>;<fg/bg>m
+
+Black 30 90 40 100
+Red 31 91 41 101
+Green 32 92 42 102
+Yellow 33 93 43 103
+Blue 34 94 44 104
+Magenta 35 95 45 105
+Cyan 36 96 46 106
+White 37 97 47 107
+```
+
+
+
+
+
 ## Text Attributes
 
 **NOTE:** Prepend 2 to any code below to turn it's effect off
@@ -156,3 +175,5 @@ ESC ] 9 ; 4 ; [0 thru 4] ; [0-100] ST
 - `:h tui-modifyOtherKeys` in Neovim help
 - [CSI u spec?](https://www.leonerd.org.uk/hacks/fixterms/)
 - [The VT100 manual](https://vt100.net/docs/vt100-ug/chapter1.html)
+
+- Man page for `termios`

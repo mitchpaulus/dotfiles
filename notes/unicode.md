@@ -42,3 +42,10 @@ EF BB BF    | UTF-8
 
 0302: Overhat
 0305: Overbar
+
+## Common mutlibyte characters
+
+```
+U+00A0	 	c2 a0	NO-BREAK SPACE
+U+00B0	°	c2 b0	DEGREE SIGN
+```

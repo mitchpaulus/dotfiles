@@ -44,6 +44,7 @@ Special find/replacements:
 
 "Find what" box only
 
+```
 Character  String
 ^1 or ^g Picture (inline pictures only)
 ^2, ^f (footnote), or ^e (endnote) Auto-referenced footnotes or endnotes
@@ -58,6 +59,7 @@ Character  String
 ^b Section break
 ^w White space (space, nonbreaking space, tab)
 ^unnnn Word 2000 Unicode character search, where "n" is a decimal number corresponding to the Unicode character value
+```
 
 "Replace with" Box only
 
