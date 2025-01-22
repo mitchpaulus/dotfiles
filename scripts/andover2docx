@@ -1,0 +1,9 @@
+#!/usr/bin/env mshell
+
+"```and\n"
+$1 readFile
+"```\n" + + codeMarkdown!
+
+[andover_kde]oc; psub syntax_file!
+
+[pandoc "--syntax-definition=" @syntax_file +  -o $1 ".docx" + '-'] @codeMarkdown < ;
