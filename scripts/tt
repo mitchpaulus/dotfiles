@@ -2,7 +2,7 @@
 set -e
 
 # tt stands for 'Toggl track'
-PROJ="$(toggl projects | sort -V | fzf)"
+PROJ="$(toggl projects | cut -f 2 | sort -V | fzf)"
 
 if [ -z "$PROJ" ]; then
     exit 1
