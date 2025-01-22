@@ -13,32 +13,36 @@ def merge_pdfs_with_bookmarks(pdf_paths, output_path, filename_bookmark_mode):
 
     # Loop through all provided PDF files
     for pdf_path in pdf_paths:
-        with fitz.open(pdf_path) as doc:
+        try:
+            with fitz.open(pdf_path) as doc:
 
-            if filename_bookmark_mode:
-                # Retrieve the current document's filename
-                filename = pathlib.Path(pdf_path).stem
-                # Add the filename as a bookmark, minus the extension
-                page = 1 + page_offset
-                bkmk = [1, filename, page]
-                print(bkmk, file=sys.stderr)
-                bookmarks.append(bkmk)
-            else:
-                # Retrieve the current document's bookmarks (if any)
-                current_bookmarks = doc.get_toc(simple=False)
-                # [level, title, 1-based page, {optional dict}]
-                # Adjust the current document's bookmark page numbers and add to the main list
-                for bkmk in current_bookmarks:
-                    # Increment the page number by the current offset
-                    bkmk[2] += page_offset
-                    bkmk[3]["page"] += page_offset - 1
+                if filename_bookmark_mode:
+                    # Retrieve the current document's filename
+                    filename = pathlib.Path(pdf_path).stem
+                    # Add the filename as a bookmark, minus the extension
+                    page = 1 + page_offset
+                    bkmk = [1, filename, page]
+                    print(bkmk, file=sys.stderr)
                     bookmarks.append(bkmk)
+                else:
+                    # Retrieve the current document's bookmarks (if any)
+                    current_bookmarks = doc.get_toc(simple=False)
+                    # [level, title, 1-based page, {optional dict}]
+                    # Adjust the current document's bookmark page numbers and add to the main list
+                    for bkmk in current_bookmarks:
+                        # Increment the page number by the current offset
+                        bkmk[2] += page_offset
+                        bkmk[3]["page"] += page_offset - 1
+                        bookmarks.append(bkmk)
 
-            # Update the page offset
-            page_offset += doc.page_count
+                # Update the page offset
+                page_offset += doc.page_count
 
-            # Append the document
-            merged_document.insert_pdf(doc, annots=True)
+                # Append the document
+                merged_document.insert_pdf(doc, annots=True)
+        except Exception as e:
+            print(f"Error processing '{pdf_path}': {e}", file=sys.stderr)
+            sys.exit(1)
 
 
     num_inserted = merged_document.set_toc(bookmarks)
@@ -53,7 +57,7 @@ def merge_pdfs_with_bookmarks(pdf_paths, output_path, filename_bookmark_mode):
     merged_document.close()
 
 
-help_message = "Usage: pdfmerge.py [--filename] <output file> <input files...>"
+help_message = "Usage: pdfmerge.py [--filename] <output file> <input files...>\n\nThis script uses PyMuPDF to merge PDFs."
 
 if __name__ == "__main__":
     index = 1
