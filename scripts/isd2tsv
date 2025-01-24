@@ -2784,16 +2784,19 @@ def main():
         elif a == "--dfw": # Shortcut for my location
             usaf = "722590"
             wban = "03927"
+            offset = -6
             idx += 1
 
         elif a == "--iah": # Shortcut for Houston (IAH George Bush)
             usaf = "722430"
             wban = "12960"
+            offset = -6
             idx += 1
 
         elif a == "--hou": # Shortcut for Houston (HOU Hobby)
             usaf = "722440"
             wban = "12918"
+            offset = -6
             idx += 1
 
         elif a == "--epw":
@@ -3016,63 +3019,6 @@ def main():
                 print("\t".join(fields))
             except BrokenPipeError:
                 sys.exit(0)
-
-    elif average_temps_cmd:
-        date_periods = []
-        if date_file is None:
-            # date_file is assumed to be stdin
-            file_io = sys.stdin
-        else:
-            file_io = open(date_file, 'r')
-
-        if offset is None:
-            print("Error: no offset given", file=sys.stderr)
-            sys.exit(1)
-
-        try:
-            for line in file_io:
-                split_line = line.rstrip().split()
-                if len(split_line) != 2:
-                    print(f"Error: invalid date file line: {line}", file=sys.stderr)
-                    sys.exit(1)
-
-                # Each field expected to be YYYY-MM-DD
-                if len(split_line[0]) != 10 or len(split_line[1]) != 10:
-                    print(f"Error: invalid date file line: {line}", file=sys.stderr)
-                    sys.exit(1)
-
-                start_date_rd = parse_iso_date(split_line[0])
-                end_date_rd = parse_iso_date(split_line[1])
-
-                if start_date_rd > end_date_rd:
-                    print(f"Error: start date is after end date: {line}", file=sys.stderr)
-                    sys.exit(1)
-
-                date_periods.append((start_date_rd, end_date_rd))
-        finally:
-            file_io.close()
-
-        # Get the minimum, and maximum start date
-        min_start_date_rd = min([start_date_rd for start_date_rd, _ in date_periods])
-        max_end_date_rd = max([end_date_rd for _, end_date_rd in date_periods])
-
-        min_year = mputils.year_from_rd(min_start_date_rd)
-        max_year = mputils.year_from_rd(max_end_date_rd)
-
-        y = min_year
-
-        all_hourly_data = []
-
-        while y <= max_year:
-            data = hourly_year(usaf, wban, y, offset, ip, dst)
-            all_hourly_data.extend(data)
-            y += 1
-
-        averages = average_temps(date_periods, all_hourly_data)
-
-        for i in range(len(averages)):
-            fields = [mputils.iso_date_str(date_periods[i][0]), mputils.iso_date_str(date_periods[i][1]), str(averages[i])]
-            print("\t".join(fields))
 
     else:
         contents = get_isd_file_contents_http(usaf, wban, year)
