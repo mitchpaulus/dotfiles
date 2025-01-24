@@ -1265,6 +1265,9 @@ def is_weekday(y, m, d):
     dow = day_of_week(y, m, d)
     return dow >= 1 and dow <= 5
 
+def is_weekend(y, m, d):
+    return not is_weekday(y, m, d)
+
 def to_unix_timestamp(year: int, month: int, day: int, hour: int, minute: int, second: int) -> int:
     days = days_since_epoch(year, month, day)
     hours = days * 24 + hour

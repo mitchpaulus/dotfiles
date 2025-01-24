@@ -13,4 +13,6 @@ ignore $x 2 <
 stdin // Read from stdin
 w 10-1/2 // Width in inches
 top above right upperright upperleft bottomright bottomleft aboveright // legend positions
+
+x 3 #3
 ```
