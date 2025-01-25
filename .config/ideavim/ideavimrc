@@ -47,4 +47,3 @@ iabbrev fasle false
 
 " Flash what's been yanked
 set highlightedyank
-
