@@ -17,7 +17,7 @@ while read -r plugin; do
     fi
 
     git clone git@github.com:mitchpaulus/"$plugin".git "$REPOS"/"$plugin"
-    ln -s -r "$REPOS"/"$plugin" ~/.config/nvim/pack/mp/start/"$plugin"
+    ln -s "$REPOS"/"$plugin" ~/.config/nvim/pack/mp/start/"$plugin"
 done < plugins.txt
 
 while read -r opt_plugin; do

@@ -116,6 +116,7 @@ path_prepend $HOME/.pyenv/bin
 path_prepend $HOME/.dotnet/tools
 path_prepend /usr/local/go/bin
 path_prepend $HOME/go/bin
+path_prepend /opt/local/bin # This is for default Mac ports binaries
 
 # Neovim/Vim for all the things
 if command -v nvim >/dev/null 2>&1
