@@ -11,7 +11,7 @@ set output "965155e0-7a6d-4286-b852-794c5da309ff.png"
 set xrange [*:*]
 set title "3-20 to 4-17-21"
 set grid
-set style fill solid border -1
+set style fill solid border -1 # This is black border line around the edges of the boxes
 plot "965155e0-7a6d-4286-b852-794c5da309ff.dat" using 1:2 with boxes notitle lc rgb "#004B87"
 
 ```

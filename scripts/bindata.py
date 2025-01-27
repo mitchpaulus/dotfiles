@@ -24,6 +24,8 @@ def main():
     column_one_based = 1
     trend_name = None
 
+    y_axis_type = "Count"
+
     while idx < len(sys.argv):
         if sys.argv[idx] == '--bin' or sys.argv[idx] == '-b':
             idx += 1
@@ -41,6 +43,10 @@ def main():
             print("Options:")
             print("  -b, --bin <size>   Size of bin (default 1)")
             print("  -h, --help         Display this help message")
+            print("  -c, --column <num> Column number to bin (default 1)")
+            print("  -m, --missing <txt> Text to use for missing values (default blank)")
+            print("  -r, --remove        Remove rows with missing values")
+            print("  -n, --name <name>   Name of trend to bin")
             return
         elif sys.argv[idx] == "-m" or sys.argv[idx] == "--missing":
             idx += 1
@@ -74,6 +80,9 @@ def main():
             trend_name = sys.argv[idx]
             idx += 1
 
+        elif sys.argv[idx] == "-p":
+            idx += 1
+            y_axis_type = "Percent"
         elif sys.argv[idx].startswith('-'):
             print(f"Unknown option '{sys.argv[idx]}'")
             return
@@ -84,10 +93,10 @@ def main():
                 print(f"Unknown option '{sys.argv[idx]}'")
                 return
 
-    bin_data(filename, bin_size, blank_text, remove_blank, column_one_based, trend_name)
+    bin_data(filename, bin_size, blank_text, remove_blank, column_one_based, trend_name, y_axis_type)
 
 
-def bin_data(data_file, bin_size, blank_text, keep_blank, column_one_based, trend_name):
+def bin_data(data_file, bin_size, blank_text, keep_blank, column_one_based, trend_name, y_axis_type):
     if data_file is None:
         # Read from stdin
         file = sys.stdin
@@ -167,11 +176,22 @@ def bin_data(data_file, bin_size, blank_text, keep_blank, column_one_based, tren
     min_bin = min(bin_nums)
     max_bin = max(bin_nums)
     curr_bin = min_bin
-    while curr_bin <= max_bin:
-        center_of_bin = curr_bin * bin_size + bin_size / 2
-        bin_count = bin_counts.get(curr_bin, 0)
-        print(f"{center_of_bin}\t{bin_count}")
-        curr_bin += 1
+
+    
+    if y_axis_type == "Percent":
+        total_count = sum(bin_counts.values())
+        while curr_bin <= max_bin:
+            center_of_bin = curr_bin * bin_size + bin_size / 2
+            bin_count = bin_counts.get(curr_bin, 0)
+            print(f"{center_of_bin}\t{bin_count/total_count*100}")
+            curr_bin += 1
+
+    elif y_axis_type == "Count":
+        while curr_bin <= max_bin:
+            center_of_bin = curr_bin * bin_size + bin_size / 2
+            bin_count = bin_counts.get(curr_bin, 0)
+            print(f"{center_of_bin}\t{bin_count}")
+            curr_bin += 1
 
 
 if __name__ == "__main__":
