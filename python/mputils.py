@@ -1690,6 +1690,9 @@ class DateLexer:
         return tokens
 
 
+def transpose(list_of_list: list[list[T1]]) -> list[list[T1]]:
+    return [list(row) for row in zip(*list_of_list)]
+
 def parse_datetime(inputStr: str) -> list[int]:
     int_components: list[str] = []
     start = 0
