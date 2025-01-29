@@ -1,0 +1,8 @@
+#!/usr/bin/env mshell
+
+# Basic idea is that if we fail on gofmt, we just return the original text.
+stdin stdin-text!
+[gofmt] @stdin-text < "/dev/null" 2> oc ?
+exitcode! gofmt-output!
+@exitcode (@gofmt-output w) (@stdin-text w) iff
+@exitcode exit

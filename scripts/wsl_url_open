@@ -7,9 +7,16 @@ $1
     ()
     ("https://" swap +)
 ] if
+url!
 
-[wslpath -u [winenv USERPROFILE] os;]os; cd
-[cmd.exe /C start $1];
+# Check if we are in WSL or not.
+$WSL_DISTRO_NAME?
+(
+    [wslpath -u [winenv USERPROFILE] os;]os; cd
+    [cmd.exe /C start $1];
+)
+([xdg-open @url];)
+iff
 
 # OLD
 #!/bin/bash
