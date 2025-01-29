@@ -336,3 +336,7 @@ Yet another code editor
 [ctrl-flow](https://ctrl-flow.lbl.gov/)
 
 Web app to create ASHRAE Guideline 36 SOO.
+
+[Build you own X](https://github.com/codecrafters-io/build-your-own-x)
+
+Not really it's own software, but nice page of links to getting started building various things.
