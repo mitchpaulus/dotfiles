@@ -1,10 +1,12 @@
 #!/usr/bin/env mshell
 
-[
-    (args len 0 >) 
-    (
-        args :0: tsvfile!
-        [xlwrite block A1 @tsvfile @tsvfile :-4 ".xlsx" +]; 
-    ) 
-    ( [xlwrite block A1 "-" "output.xlsx"]; )
-] if 
+args (dup "-h" = swap "--help" = or) any ("tsv2xlsx\noutput.xlsx if data piped in.\n" w 0 exit) () iff
+
+
+args len 0 >
+(
+    args :0: tsvfile!
+    [xlwrite block A1 @tsvfile @tsvfile :-4 ".xlsx" +];
+)
+( [xlwrite block A1 "-" "output.xlsx"]; )
+iff
