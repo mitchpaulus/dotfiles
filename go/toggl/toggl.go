@@ -502,7 +502,7 @@ func main() {
 
         // Check whether the date of the month is before or after the 15th
         // Need to get start and end dates in YYYY-MM-DD format.
-        // Assume end_date is inclusive
+        // Assume end_date is exclusive
         var start_date string
         var end_date string
 
@@ -513,8 +513,12 @@ func main() {
         } else {
             // Start date is 16th of the month
             start_date = fmt.Sprintf("%d-%02d-%02d", year, month, 16)
-            last_day := daysInMonth(year, int(month))
-            end_date = fmt.Sprintf("%d-%02d-%02d", year, month, last_day)
+
+			monthId := year * 12 + (month - 1)
+			nextMonthId := monthId + 1
+			nextYear := nextMonthId / 12
+			nextMonth := nextMonthId % 12 + 1
+			end_date = fmt.Sprintf("%d-%02d-%02d", nextYear, nextMonth, 1)
         }
 
         // Get the time entries for the current billing period
