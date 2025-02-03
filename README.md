@@ -14,6 +14,7 @@ As they say, progress not perfection.
   [Windows Terminal](https://github.com/Microsoft/Terminal) in WSL.
 
 * SHELL: [`fish`](https://fishshell.com/). So much more pleasant to work in on a daily basis.
+  Also dogfooding my own shell [mshell](https://github.com/mitchpaulus/mshell) which I also do like a lot because I made it that way.
   ~~Bash, default shell. Though looking into zsh~~.
 
 * BROWSER: Firefox, It's not Google Chrome and works pretty well with vim-vixen extension.
