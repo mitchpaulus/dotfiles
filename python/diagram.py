@@ -1,11 +1,16 @@
 from typing import Callable, Optional, Union, Any
 import uuid
+import sys
 
-# General iterface convention:
-# - Shapes should have a to_vba() and to_svg() method
+# General interface convention:
+# - Shapes should have a to_vba() and to_svg() method, and to_vba_pp(slide_height_pts, scale_factor) method
 # - Shapes should have a min_x and min_y method to get the minimum x and y coordinate
 
 # Type alias for float | Callable[[], float]
+
+# Everything here has the positive y-axis going up
+
+
 Coord = float | Callable[[], float]
 
 def compute(x):
@@ -18,6 +23,13 @@ def compute(x):
 class Drawing:
     def __init__(self) -> None:
         self._shapes = {}
+        self._default_font_size = 12
+        self._pp_slide_height = int(7.5 * 72) # 540 points
+        self._pp_scale_factor = 1 # Scale factor of pts / input unit
+
+    def pp_scale_factor(self, scale_factor: float) -> 'Drawing':
+        self._pp_scale_factor = scale_factor
+        return self
 
     def rect(self, name: Optional[str] = None) -> 'Rectangle':
         if name is None:
@@ -39,14 +51,14 @@ class Drawing:
         self._shapes[name] = Line(name)
         return self._shapes[name]
 
-    def text(self, name: Optional[str] = None) -> 'Text':
+    def text(self, name: Optional[str] = None, text: Optional[str] = None) -> 'Text':
         if name is None:
             name = f"text{len(self._shapes)}"
 
         if name in self._shapes:
             raise KeyError(f"Shape with name {name} already exists")
 
-        self._shapes[name] = Text(name)
+        self._shapes[name] = Text(name, text, self._default_font_size)
         return self._shapes[name]
 
     def circle(self, name: Optional[str] = None) -> 'Circle':
@@ -59,6 +71,9 @@ class Drawing:
         self._shapes[name] = Circle(name)
         return self._shapes[name]
 
+    def default_font_size(self, font_size: float) -> 'Drawing':
+        self._default_font_size = font_size
+        return self
 
     def to_svg(self, min_x: float, min_y: float, width: float, height: float):
         lines = []
@@ -76,6 +91,24 @@ class Drawing:
             #  shape = self._shapes[i]
             #  print(shape.to_svg(), end="")
         #  print('</svg>')
+
+    def to_vba(self):
+        lines = []
+        for i in self._shapes:
+            shape = self._shapes[i]
+            lines.append(shape.to_vba())
+        return "".join(lines)
+
+    def to_vba_pp(self):
+        lines = []
+        for i in self._shapes:
+            shape = self._shapes[i]
+            # Check if to_vba_pp exists, otherwise use to_vba
+            if hasattr(shape, 'to_vba_pp'):
+                lines.append(shape.to_vba_pp(self._pp_slide_height, self._pp_scale_factor))
+            else:
+                lines.append(shape.to_vba())
+        return "".join(lines)
 
 
 # Use fluent syntax
@@ -113,7 +146,7 @@ class Rectangle:
 
     def text(self, text: str) -> 'Rectangle':
         """This is a text element that is tied to the center of the rectangle."""
-        self._text = Text(uuid.uuid4().hex).text(text).x(self.center_x()).y(self.center_y()).xAnchor("middle").yAnchor("middle")
+        self._text = Text(uuid.uuid4().hex, text, self._font_size).x(self.center_x()).y(self.center_y()).xAnchor("middle").yAnchor("middle")
         return self
 
     def font_size(self, font_size: float) -> 'Rectangle':
@@ -181,6 +214,24 @@ class Rectangle:
         vba += f"newShape.Name = \"{self._name}\"\n"
 
         return vba
+
+    def to_vba_pp(self, pp_slide_height_pts, scale_factor):
+        #  y1 = compute(self._y)
+        #  y1 = pp_slide_height_pts - y1
+        top = self.top() * scale_factor
+        top = pp_slide_height_pts - top
+        x = compute(self._x) * scale_factor
+        width = compute(self._width) * scale_factor
+        height = compute(self._height) * scale_factor
+        
+        vba = f"Set newShape = currentSlide.Shapes.AddShape(msoShapeRectangle, {x}, {top}, {width}, {height})\n"
+        if self._fill:
+            vba += f"newShape.Fill.ForeColor.RGB = RGB({self._fill[0]}, {self._fill[1]}, {self._fill[2]})\n"
+        else:
+            vba += f"newShape.Fill.Visible = msoFalse\n"
+        vba += f"newShape.Name = \"{self._name}\"\n"
+        return vba
+
 
     def to_svg(self):
         x = compute(self._x)
@@ -258,6 +309,23 @@ class Line:
         vba = f"ActiveSheet.Shapes.AddShape(msoShapeLine, {compute(self._x1)}, {compute(self._y1)}, {compute(self._x2)}, {compute(self._y2)})\n"
         return vba
 
+    def to_vba_pp(self, pp_slide_height_pts, scale_factor):
+        y1 = compute(self._y1)
+        y2 = compute(self._y2)
+
+        y1 = y1 * scale_factor
+        y2 = y2 * scale_factor
+
+        y1 = pp_slide_height_pts - y1
+        y2 = pp_slide_height_pts - y2
+
+        x1 = compute(self._x1) * scale_factor
+        x2 = compute(self._x2) * scale_factor
+
+        vba = f"Set line = currentSlide.Shapes.AddLine({x1}, {y1}, {x2}, {y2})\n"
+        vba += f"line.Line.ForeColor.RGB = RGB(0, 0, 0)\n"
+        return vba
+
     def to_svg(self):
         return f'<line x1="{compute(self._x1)}" y1="{-compute(self._y1)}" x2="{compute(self._x2)}" y2="{-compute(self._y2)}" stroke="black" />\n'
 
@@ -266,12 +334,12 @@ class Line:
 
 
 class Text:
-    def __init__(self, name) -> None:
+    def __init__(self, name, text, font_size) -> None:
         self._x = 0
         self._y = 0
-        self._text = "Text"
+        self._text = text
         self._name = name
-        self._font_size = None
+        self._font_size = font_size
         self._xAnchor = "start"
         self._yAnchor = "auto"
         self._font_family = "sans-serif"
@@ -305,6 +373,37 @@ class Text:
 
     def to_vba(self):
         vba = f"ActiveSheet.Shapes.AddTextbox(msoTextOrientationHorizontal, {compute(self._x)}, {compute(self._y)}, 100, 50).TextFrame.Characters.Text = \"{self._text}\"\n"
+        return vba
+
+    def to_vba_pp(self, pp_slide_height_pts, scale_factor):
+        x = compute(self._x) * scale_factor
+
+        y = compute(self._y) * scale_factor
+        y = pp_slide_height_pts - y
+
+        vba = f"Set newShape = currentSlide.Shapes.AddTextbox(msoTextOrientationHorizontal, {x}, {y}, 1, 1)\n"
+        vba += "newShape.TextFrame.AutoSize = ppAutoSizeShapeToFitText\n"
+        vba += f"newShape.TextFrame.TextRange.Font.Size = {self._font_size}\n"
+        # Set all margins to 0
+        vba += "newShape.TextFrame.MarginLeft = 0\n"
+        vba += "newShape.TextFrame.MarginRight = 0\n"
+        vba += "newShape.TextFrame.MarginTop = 0\n"
+        vba += "newShape.TextFrame.MarginBottom = 0\n"
+        vba += f"newShape.TextFrame.TextRange.Text = \"{self._text}\"\n"
+        # Add name
+        vba += f"newShape.Name = \"{self._name}\"\n"
+
+        if self._xAnchor == "middle":
+            vba += "newShape.TextFrame.TextRange.ParagraphFormat.Alignment = ppAlignCenter\n"
+        elif self._xAnchor == "end":
+            vba += "newShape.TextFrame.TextRange.ParagraphFormat.Alignment = ppAlignRight\n"
+
+        if self._yAnchor == "middle":
+            vba += "newShape.TextFrame.VerticalAnchor = msoAnchorMiddle\n"
+
+        if self._font_family:
+            vba += f"newShape.TextFrame.TextRange.Font.Name = \"{self._font_family}\"\n"
+
         return vba
 
     def to_svg(self):
