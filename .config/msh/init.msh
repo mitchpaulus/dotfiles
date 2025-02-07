@@ -5,3 +5,11 @@ end
 def q (--)
     0 exit
 end
+
+def lf (--)
+    $HOME "/.config/lf/lf_lastdir" + lastDirFile!
+    ['lf' '-last-dir-path' @lastDirFile]?
+    (@lastDirFile readFile cd) () iff
+end
+
+def f (--) lf end
