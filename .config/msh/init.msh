@@ -13,3 +13,9 @@ def lf (--)
 end
 
 def f (--) lf end
+
+def r (--)
+    $HOME "/.config/lf/lf_lastdir" + lastDirFile!
+    ['lf' '-last-dir-path' @lastDirFile $REPOS]?
+    (@lastDirFile readFile cd) () iff
+end
