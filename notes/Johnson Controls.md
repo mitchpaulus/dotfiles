@@ -55,4 +55,5 @@ References:
 - FEC: Field equipment controller
 - VMA: Variable air volume modular assembly
 - CCT: Controller configuration tool.
+- CAF: Controller Application File
 - SA bus: Sensor Actuator bus

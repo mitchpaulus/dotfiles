@@ -175,5 +175,7 @@ ESC ] 9 ; 4 ; [0 thru 4] ; [0-100] ST
 - `:h tui-modifyOtherKeys` in Neovim help
 - [CSI u spec?](https://www.leonerd.org.uk/hacks/fixterms/)
 - [The VT100 manual](https://vt100.net/docs/vt100-ug/chapter1.html)
+- [Terminal Frustrations](https://jvns.ca/blog/2025/02/05/some-terminal-frustrations/)
+- [The TTY demystified](https://www.linusakesson.net/programming/tty/)
 
 - Man page for `termios`

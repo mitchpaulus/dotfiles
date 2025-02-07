@@ -170,6 +170,31 @@ Upstream Equipment may or may not be included in the scope.
 46        | 17
 50        | 18
 
+## New
+
+% Savings | Points
+----------|-------
+1  | 20
+2 | 25
+3 | 30
+4 | 35
+5 | 40
+6 | 45
+7 | 50
+8 | 55
+9 | 60
+
+% Emissions | Points
+------------|-------
+1 | 20
+2 | 25
+3 | 30
+4 | 35
+5 | 42
+6 | 50
+7 | 60
+8 | 70
+9 | 85
 
 # References
 
