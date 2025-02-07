@@ -1,13 +1,30 @@
 #!/usr/bin/env mshell
-[toggl ts 1 2]o; (tsplit) map (:2: "No project" =) filter (tab join) map entries!
+
+def monthPeriodFromInt (int -- int int)
+    monthInt! @monthInt 2 / 1 +
+    @monthInt 2 mod 1 +
+end
+
+date date!
+@date day 15 <= (1 dayPeriod!) (2 dayPeriod!) iff
+
+@date month 1 - 2 *
+@dayPeriod 1 -
++ periodInt!
+@periodInt 1 - prevPeriodInt!
+
+[toggl ts @periodInt monthPeriodFromInt]o;
+[toggl ts @prevPeriodInt monthPeriodFromInt]o;
++
+
+(tsplit) map (:2: "No project" =) filter (tab join) map entries!
 [toggl projects] oc;  projects!
 
 @entries
 (
     entry!
     ["fzf" "-d" "\\t" "--with-nth=2" "--header=" @entry +] @projects < os ?
-    [ ()
-      (tsplit :0: project_id! [toggl update_proj @entry tsplit :0: @project_id];)
-      ("Not updating " @entry + wl drop)
-    ] if
+    (tsplit :0: project_id! [toggl update_proj @entry tsplit :0: @project_id];) # Update project on success
+    ("Not updating " @entry + wl drop) # Skip on failure
+    iff
 ) each
