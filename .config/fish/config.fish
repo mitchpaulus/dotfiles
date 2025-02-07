@@ -26,8 +26,12 @@ end
 set -gx LOCALBIN ~/.local/bin
 set -gx FILEMANAGER lf
 
+if test -f $HOME/.config/msh/init.msh
+    set --path -gxp MSHSTDLIB $HOME/.config/msh/init.msh
+end
+
 if test -f $REPOS/mshell/lib/std.msh
-    set -gx MSHSTDLIB $REPOS/mshell/lib/std.msh
+    set --path -gxp MSHSTDLIB $REPOS/mshell/lib/std.msh
 end
 
 # See https://github.com/pypa/pipenv/issues/5075

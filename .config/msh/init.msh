@@ -1,0 +1,7 @@
+def gd (--)
+    $DOTFILES cd
+end
+
+def q (--)
+    0 exit
+end
