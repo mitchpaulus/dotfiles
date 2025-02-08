@@ -1,0 +1,10 @@
+#!/usr/bin/env mshell
+
+[select_note]os? not
+(0 exit)
+()
+iff
+
+note!
+
+[$EDITOR $MPNOTES "/" @note ".md" + + +];
