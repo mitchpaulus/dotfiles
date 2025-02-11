@@ -283,3 +283,16 @@ Air System Component Model Simulation Calls
 Plant Solver Sub Iteration Count
 Plant Solver Half Loop Calls Count
 ```
+
+## FourPipeFanCoil
+
+Node order:
+
+Whole Unit
+Zone Exhaust -> Zone Inlet
+Fan:
+Zone Exhaust -> Fan Outlet/CC Inlet
+CC:
+Fan Outlet -> HC Inlet
+HC:
+CC Outlet -> Zone Inlet
