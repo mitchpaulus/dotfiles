@@ -1,7 +1,7 @@
 #!/usr/bin/env mshell
 soe
 [
-    (args len 2 <) 
+    (args len 2 <)
     ("Usage xlsx2pdf <input.xlsx> <output.pdf> <worksheet>" wl)
 ] if
 
@@ -19,7 +19,7 @@ args :0: input-xlsx-param!
 [wslpath -a -w @local-appdata "/xlsx2pdf/xlsx2pdf.ps1" +] os; script-path!
 
 [
-    (args len 2 >) 
+    (args len 2 >)
     ([powershell.exe -File @script-path @input-xlsx args :2:];)
     ([powershell.exe -File @script-path @input-xlsx];)
 ] if
@@ -28,6 +28,6 @@ args :0: input-xlsx-param!
 @tmp-dir "/xlsx.pdf" + tmpfile!
 args :1: outputPath!
 
-"Moving '" @tmpfile "' to '" @outputPath "'"  + + + + wle
+$"Moving '{@tmpfile}' to '{@outputPath}'"  wle
 
 [mv @tmpfile @outputPath];

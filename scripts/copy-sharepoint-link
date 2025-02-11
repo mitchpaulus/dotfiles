@@ -3,15 +3,11 @@ args :0: filepath!
 args :1: lf-id!
 
 [create_link.py @filepath] os ?
-[ 
-    (0 >) 
-    ([lf -remote "send " @lf-id + " echomsg Failed to copy link" +]; "Exiting" wl 1 exit) 
-] if
-
+0 >
+(['lf' -remote $"send {@lf-id} echomsg Failed to copy link"]; "Exiting" wl 1 exit)
+()
+iff
 link!
-[
-    [printf "%s" @link]
-    [clip]
-] | ;
+[clip] @link < ;
 
-[lf -remote "send " @lf-id + " echomsg Copied SharePoint link to clipboard" +] ;
+['lf' -remote $"send {@lf-id} echomsg Copied SharePoint link to clipboard"] ;
