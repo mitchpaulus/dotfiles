@@ -217,6 +217,57 @@ vnmap("<localleader>f2k", "s(<c-r>\" + 459.67) * 5/9")
 
 vnmap("<leader>=", ":Tab /=/<CR>")
 
+function lookup_and_open_pdf()
+  -- Get the word under the cursor
+  local word = vim.fn.expand("<cword>")
+  if word == "" then
+    vim.api.nvim_echo({{"No word under cursor.", "WarningMsg"}}, false, {})
+    return
+  end
+
+  -- Path to your tab-separated bookmarks file; update this as needed.
+  local file_path = "/mnt/c/EnergyPlusV24-2-0/Documentation/ep_bookmarks.tsv"
+  local bookmark_page = nil
+
+  -- Open the bookmarks file for reading.
+  local file = io.open(file_path, "r")
+  if not file then
+    vim.api.nvim_echo({{"Could not open bookmarks file: " .. file_path, "ErrorMsg"}}, false, {})
+    return
+  end
+
+  -- Iterate over each line of the file.
+  for line in file:lines() do
+    local fields = {}
+    -- Split the line by tab characters.
+    for field in string.gmatch(line, "([^\t]+)") do
+      table.insert(fields, field)
+    end
+
+    -- Check if the second column matches the current word.
+    if fields[2] == word then
+      bookmark_page = fields[3]
+      break
+    end
+  end
+  file:close()
+
+  if bookmark_page then
+    -- Build the command arguments.
+    local args = {
+      "SumatraPDF.exe",
+      "-page", bookmark_page,
+      "-reuse-instance",
+      "C:\\EnergyPlusV24-2-0\\Documentation\\InputOutputReference.pdf"
+    }
+    -- Start the process in the background (fire-and-forget).
+    vim.system(args, {detach = true})
+  else
+    -- Print a message if the word is not found.
+    vim.api.nvim_echo({{"Bookmark for '" .. word .. "' not found.", "WarningMsg"}}, false, {})
+  end
+end
+
 
 -- https://stackoverflow.com/a/11671820/5932184
 local function func_map(f, tbl)
@@ -1013,6 +1064,7 @@ filetypeAutocmds = {
     { 'idf', 'set makeprg=idflint\\ %', },
     { 'idf,neobem', 'inoremap <localleader>l λ', },
     { 'idf,neobem', 'nnoremap <localleader>t :Tabularize /!-\\?/l1l1<CR>', },
+    { 'idf,neobem', 'nnoremap <leader>h <cmd>lua lookup_and_open_pdf()<CR>', },
     { 'neobem', 'nnoremap <localleader>c :!nbem -o %:t:r.idf %<CR>', },
     { 'neobem', 'nnoremap <localleader>f <cmd>%!nbem -f %<CR>', },
     { 'neobem', 'nnoremap <localleader>d <cmd>%!nbem -f --doe2 %<CR>', },
@@ -1031,6 +1083,7 @@ filetypeAutocmds = {
     { 'python', 'nnoremap <localleader>gc vip:!python_class_gen<CR>' },
     { 'python', 'xnoremap <localleader>sl s[str(l) for l in <C-r>"]' },
     { 'python', 'xnoremap <localleader>e senumerate(<C-r>")<Left>' },
+    { 'python', 'set iskeyword-=:' },
 
     { 'python,nbem', 'iabbrev improt import', },
 
