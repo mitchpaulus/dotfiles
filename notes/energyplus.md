@@ -290,9 +290,15 @@ Node order:
 
 Whole Unit
 Zone Exhaust -> Zone Inlet
+OA Mixer
+OA Inlet -> OA Outlet
 Fan:
 Zone Exhaust -> Fan Outlet/CC Inlet
 CC:
 Fan Outlet -> HC Inlet
 HC:
 CC Outlet -> Zone Inlet
+
+## Hot Gas Reheat/Bypass
+
+`Coil:Heating:Desuperheater`

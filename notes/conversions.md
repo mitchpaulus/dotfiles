@@ -13,3 +13,5 @@
 
 1 kBTU = 0.29307107 kWh
 1 kWh = 3.41214163 kBTU
+
+1 ft water head = 2989.0669 Pa

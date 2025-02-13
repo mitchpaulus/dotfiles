@@ -169,3 +169,8 @@ References:
 - From NREL: Technical Support Document: Strategies for 50% Energy Savings in Large Office Buildings
   - 65 W/person baseline
   - 48 W/person EnergyStar?
+
+
+## References
+
+- <https://help.iesve.com/ve2021/table_6_thermal_conductivity__specific_heat_capacity_and_density.htm>
