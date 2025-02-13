@@ -1,0 +1,9 @@
+#!/usr/bin/env mshell
+
+`/mnt/c/EnergyPlusV24-2-0/Documentation/ep_bookmarks.tsv` bookmarks!
+`C:\\EnergyPlusV24-2-0\\Documentation\\InputOutputReference.pdf` doc!
+
+[fzf '--with-nth=2' -d tab] @bookmarks < os; tsplit :2: page!
+
+@page wl
+['/mnt/c/Users/mpaulus/AppData/Local/SumatraPDF/SumatraPDF.exe' -reuse-instance -page @page @doc];

@@ -1,0 +1,22 @@
+#!/usr/bin/env python3
+
+import sys
+lines = sys.stdin.read().splitlines()
+
+def to_var_name(input_str: str) -> str:
+    # Make all lowercase, replace spaces with underscores
+    return input_str.lower().replace(" ", "_")
+
+
+if len(lines) == 1:
+    print(f"node_{to_var_name(lines[0])}_inlet = name + ' {lines[0]} Inlet Node'")
+    print(f"node_{to_var_name(lines[0])}_outlet = name + ' {lines[0]} Outlet Node'")
+
+
+else:
+    print(f"node_{to_var_name(lines[0])}_inlet = name + ' {lines[0]} Inlet Node'")
+    print(f"node_{to_var_name(lines[0])}_outlet = name + ' {lines[0]} Outlet Node'")
+
+    for idx, line in enumerate(lines[1:], 1):
+        print(f"node_{to_var_name(line)}_inlet = name + ' {lines[idx - 1]} Outlet Node'")
+        print(f"node_{to_var_name(line)}_outlet = name + ' {line} Outlet Node'")
