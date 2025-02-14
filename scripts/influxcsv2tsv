@@ -1,0 +1,2 @@
+#!/usr/bin/env mshell
+[csv2tsv]o; (len 0 >) filter (:0: "#" !=) filter (tsplit 1:) map (tjoin) map uw
