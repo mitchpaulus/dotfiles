@@ -23,6 +23,7 @@ Algorithms:
 1. Greiner-Hormann
 
 - [Wikipedia](https://en.wikipedia.org/wiki/Greiner%E2%80%93Hormann_clipping_algorithm)
+- [PDF](https://dl.acm.org/doi/pdf/10.1145/274363.274364)
 
 1. Sutherland-Hodgman
 
@@ -393,9 +394,9 @@ To test
 
 Shoelace formula, or signed area of a polygon. Positive if counter-clockwise, negative if clockwise.
 
+```
 A = 1/2 * sum(all pairs of determinants of points, x y as column vectors, or the z component of the cross product of the vectors)
 
 A = 1/2 * sum( | xi Xi+1 | + ..  | xn x0 |)
                | yi Yi+1 |       | yn y0 |
-
 ```
