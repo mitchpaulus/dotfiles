@@ -168,6 +168,10 @@ ESC ] 9 ; 4 ; [0 thru 4] ; [0-100] ST
 
 `ST` is usually either bell ('\a') or escape followed by a backslash ('\033\\').
 
+## CSI u
+
+- ghostty has by default
+
 ## References
 
 - [ASCII control characters in my terminal](https://jvns.ca/blog/2024/10/31/ascii-control-characters/)
