@@ -1,24 +1,13 @@
-#!/bin/sh
+#!/usr/bin/env mshell
 
-# Check if already installed
-# if command -v mgitstatus; then
-#     printf 'mgitstatus already installed.\n'
-#     exit 0
-# fi
+soe
+$REPOS? not ("$REPOS is not set" wl 1 exit) iff
+$REPOS cd
 
-if test -z "$REPOS"; then
-    printf 'Repository environment variable REPOS not set.\n'
-    exit 1
-fi
+`multi-git-status` isDir
+("Looks like the repo is already cloned" wl)
+(['git' 'clone' 'https://github.com/fboender/multi-git-status.git'];)
+iff
 
-cd "$REPOS" || exit 2
-
-if test -d multi-git-status; then
-    printf 'Looks like the repo is already cloned\n'
-else
-    git clone https://github.com/fboender/multi-git-status.git
-fi
-
-cd "$REPOS"/multi-git-status || exit 1
-
-git pull && sudo make install
+`multi-git-status` cd
+[git pull]; [sudo make install];
