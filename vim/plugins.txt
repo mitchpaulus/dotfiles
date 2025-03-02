@@ -5,6 +5,7 @@ doe2-bdl-vim
 energyplus-vim
 genopt.vim
 mplot.vim
+mshell-vim
 neobem-vim
 vim-andover-plain-english
 vim-awk-indent-fix
