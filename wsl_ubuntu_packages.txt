@@ -8,7 +8,7 @@ curl
 datamash
 dos2unix
 exiftran
-fdfind
+fd-find
 fzf
 git
 gnuplot

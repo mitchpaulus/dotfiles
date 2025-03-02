@@ -128,14 +128,39 @@ def update_file(s):
     s["schemes"] = list(s["schemes"].values())
 
 
-# Read standard input to json
-s = json.load(sys.stdin)
+def run_update_in_place(file_path: str):
+    try:
+        # Try to read the settings file
+        with open(file_path, 'r') as f:
+            s = json.load(f)
+            print("Settings file loaded")
 
-# Update the settings
-update_file(s)
+        # Read standard input to json
+        # s = json.load(sys.stdin)
 
-# Write the settings back to standard output
-json.dump(s, sys.stdout, indent=4)
+        # Update the settings
+        update_file(s)
+
+        # Write the settings back to the original file
+        with open(file_path, 'w') as f:
+            json.dump(s, f, indent=4)
+
+    except Exception as e:
+        # Could not open and read settings file
+        print(f'Could not read/update settings file: {file_path}')
+        print(e)
+
+run_update_in_place(settings_file)
+run_update_in_place(preview_settings_file)
+
+#  # Read standard input to json
+#  s = json.load(sys.stdin)
+
+#  # Update the settings
+#  update_file(s)
+
+#  # Write the settings back to standard output
+#  json.dump(s, sys.stdout, indent=4)
 
 #  # If file exists try to read it
 #  try:
