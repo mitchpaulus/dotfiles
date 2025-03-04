@@ -11,6 +11,7 @@
 Description=My Service
 
 [Service]
+Environment=VAR1=VALUE1 VAR2=VALUE2 # Or on separate lines
 ExecStart=/path/to/script.sh
 Type=oneshot
 ```
