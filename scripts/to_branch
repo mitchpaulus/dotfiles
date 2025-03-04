@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+
+import sys
+
+lines = sys.stdin.read().splitlines()
+
+def to_var_name(input_str: str) -> str:
+    # Make all lowercase, replace spaces with underscores
+    return input_str.lower().replace(" ", "_")
+
+
+out = [
+    "Branch,\n",
+    "  <name> Supply Branch, !- Name\n",
+    "  , !- Pressure Drop Curve Name\n",
+]
+
+type_map = {
+    'OA Mixer': 'AirLoopHVAC:OutdoorAirSystem',
+    'CC': 'Coil:Cooling:Water',
+    "HC": "Coil:Heating:Water",
+    "Fan": "Fan:ConstantVolume", # TODO: Adjust this going forward
+}
+
+for n, line in enumerate(lines[:-1], 1):
+    object_type = type_map.get(line, "")
+    out.append(f"  {object_type}, !- Component {n} Object Type\n")
+    out.append(f"  <name> {line}, !- Component {n} Name\n")
+    out.append(f"  <node_{to_var_name(line)}_inlet>, !- Component {n} Inlet Node Name\n")
+    out.append(f"  <node_{to_var_name(line)}_outlet>, !- Component {n} Outlet Node Name\n")
+
+object_type = type_map.get(lines[-1], "")
+n = len(lines)
+line = lines[-1]
+out.append(f"  {object_type}, !- Component {n} Object Type\n")
+out.append(f"  <name> {line}, !- Component {n} Name\n")
+out.append(f"  <node_{to_var_name(line)}_inlet>, !- Component {n} Inlet Node Name\n")
+out.append(f"  <node_{to_var_name(line)}_outlet>; !- Component {n} Outlet Node Name\n")
+
+
+print("".join(out), end="")
