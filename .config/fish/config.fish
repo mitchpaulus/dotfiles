@@ -140,7 +140,7 @@ if command -v exa >/dev/null 2>&1
 end
 
 if command -q pyenv
-    pyenv init --path | source
+    pyenv init --path - fish | source
 end
 
 # https://github.com/fish-shell/fish-shell/issues/6991
