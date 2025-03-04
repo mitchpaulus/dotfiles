@@ -398,6 +398,7 @@ func main() {
     req.SetBasicAuth(token, "api_token")
 
     client := &http.Client{}
+	client.Timeout = 2 * time.Second
     resp, err := client.Do(req)
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error in client.Do '%v'\n", err)
@@ -463,6 +464,7 @@ func main() {
         req.SetBasicAuth(token, "api_token")
 
         client := &http.Client{}
+		client.Timeout = 2 * time.Second
         resp, err := client.Do(req)
         if err != nil {
             fmt.Fprintf(os.Stderr, toggl_err)
@@ -532,6 +534,7 @@ func main() {
         req.SetBasicAuth(token, "api_token")
 
         client := &http.Client{}
+		client.Timeout = 2 * time.Second
         resp, err := client.Do(req)
         if err != nil {
             fmt.Fprintf(os.Stderr, toggl_err)
@@ -632,6 +635,7 @@ func get_projects(token string) ([]TogglProject, error) {
     req.SetBasicAuth(token, "api_token")
 
     client := &http.Client{}
+	client.Timeout = 2 * time.Second
     resp, err := client.Do(req)
     if err != nil {
         return nil, err
@@ -666,6 +670,7 @@ func getWorkspaces(token string) ([]TogglWorkspace, error) {
     req.SetBasicAuth(token, "api_token")
 
     client := &http.Client{}
+	client.Timeout = 2 * time.Second
     resp, err := client.Do(req)
     if err != nil {
         return nil, err
@@ -721,6 +726,7 @@ func PostProject(project TogglProjectPost, token string) error {
     req.SetBasicAuth(token, "api_token")
 
     client := &http.Client{}
+	client.Timeout = 2 * time.Second
     resp, err := client.Do(req)
     if err != nil {
         return err
@@ -752,6 +758,7 @@ func getMe(token string) TogglMeGet {
     req.SetBasicAuth(token, "api_token")
 
     client := &http.Client{}
+	client.Timeout = 2 * time.Second
     resp, err := client.Do(req)
     if err != nil {
         fmt.Fprintf(os.Stderr, "Could not get response for https://api.track.toggl.com/api/v9/me")
@@ -790,6 +797,7 @@ func updateTimeEntryProject(timeEntryId int64, projectId int64, token string) er
 	req.SetBasicAuth(token, "api_token")
 
 	client := &http.Client{}
+	client.Timeout = 2 * time.Second
 	resp, err := client.Do(req)
 	if err != nil {
 		return err
