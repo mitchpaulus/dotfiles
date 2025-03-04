@@ -1,0 +1,6 @@
+#!/bin/sh
+
+sqlite3 -tabs "$1" "SELECT ObjectInstancePath.Path, ObjectInstance.TypeName, ObjectInstance.NAME, ObjectInstance.DESCR FROM
+ObjectInstance
+JOIN ObjectInstancePath on ObjectInstance.Id = ObjectInstancePath.Id
+WHERE ObjectInstance.TypeName like '%trend%'"
