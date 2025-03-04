@@ -1,14 +1,15 @@
 #!/usr/bin/env mshell
 [
-  find
+  'find'
   ~/.local/share/nvim/plugged/
   ~/.config/nvim/plugged/autocorrect.vim/
   ~/.config/nvim/pack/mp/start/autocorrect.vim
-  -type f -name "updatecorrections.sh"
+  -type 'f' -name "updatecorrections.sh"
 ] o "/dev/null" 2> ;
 
-[
-    (dup len 0 >)
-    (:0: [] append ;) # Execute first file found
-    ("Did not find autocorrect.vim/updatecorrections.sh" wl 1 exit)
-] if
+dup len 0 >
+(
+    :0: [] append ; # Execute first file found
+)
+("Did not find autocorrect.vim/updatecorrections.sh" wl 1 exit)
+iff
