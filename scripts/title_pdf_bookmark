@@ -40,11 +40,14 @@ def adjust_bookmarks(pdf_stream, title):
     return output_stream.getvalue()
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
+    if len(sys.argv) != 2 or sys.argv[1] == "-h" or sys.argv[1] == "--help":
         print("Usage: title_pdf_bookmark <title> < input.pdf > output.pdf")
-        print(f"Received {len(sys.argv)} arguments")
-        for i in range(len(sys.argv)):
-            print(f"Argument {i}: {sys.argv[i]}")
+
+        if not (sys.argv[1] == "-h" or sys.argv[1] == "--help"):
+            print(f"Received {len(sys.argv)} arguments")
+            for i in range(len(sys.argv)):
+                print(f"Argument {i}: {sys.argv[i]}")
+
         sys.exit(1)
 
     title = sys.argv[1]

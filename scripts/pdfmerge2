@@ -57,7 +57,7 @@ def merge_pdfs_with_bookmarks(pdf_paths, output_path, filename_bookmark_mode):
     merged_document.close()
 
 
-help_message = "Usage: pdfmerge.py [--filename] <output file> <input files...>\n\nThis script uses PyMuPDF to merge PDFs."
+help_message = "Usage: pdfmerge.py [--filename] <output file> <input files...>\n\nThis script uses PyMuPDF to merge PDFs. --filename can be used to add a bookmark with the filename as the text.\n"
 
 if __name__ == "__main__":
     index = 1
@@ -66,7 +66,7 @@ if __name__ == "__main__":
 
     while index < len(sys.argv):
         if sys.argv[index] == "-h" or sys.argv[index] == "--help":
-            print(help_message)
+            print(help_message, end="")
             sys.exit(1)
         elif sys.argv[index] == "--filename":
             filename_bookmark_mode = True
