@@ -1,0 +1,5 @@
+#!/usr/bin/env mshell
+[
+    [fd '-t' 'x' '--max-depth=1' . [$PATH ':' split]]
+    [sort '-V']
+] | ;
