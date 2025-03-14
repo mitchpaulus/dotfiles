@@ -113,6 +113,9 @@ Good SP Reset VSD Fan [0.040759894, 0.08804497, -0.07292612, 0.943739823]
 
 No SP Reset VSD Fan [0.070428852, 0.385330201, -0.460864118, 1.00920344]
 
+Also see [this questions](https://unmethours.com/question/14589/estimate-fan-pressure-rise-from-esp/) on Total, internal, and external static pressure.
+Related PDF at: `Schild Mysen IEA 2009 TN65_Recommendations on Specific Fan Power and Fan System Efficiency.pdf`
+
 ## Pump Curves
 
 - <https://unmethours.com/question/50936/how-to-model-the-pumps-according-to-ashrae-9012010/>

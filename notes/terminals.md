@@ -181,5 +181,6 @@ ESC ] 9 ; 4 ; [0 thru 4] ; [0-100] ST
 - [The VT100 manual](https://vt100.net/docs/vt100-ug/chapter1.html)
 - [Terminal Frustrations](https://jvns.ca/blog/2025/02/05/some-terminal-frustrations/)
 - [The TTY demystified](https://www.linusakesson.net/programming/tty/)
+- [Terminfo rant](https://twoot.site/@bean/113056942625234032)
 
 - Man page for `termios`

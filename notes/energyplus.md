@@ -302,3 +302,9 @@ CC Outlet -> Zone Inlet
 ## Hot Gas Reheat/Bypass
 
 `Coil:Heating:Desuperheater`
+
+## Multiple spaces in zone
+
+Set thermostat using `SpaceHVAC:ZoneEquipmentSplitter` and Thermostat Control Method.
+
+Generally need a splitter and a `SpaceHVAC:ZoneReturnMixer`, only need the `ZoneEquipmentMixer` if the airflow is going to be combined for an exhaust fan or something.
