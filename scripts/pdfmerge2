@@ -5,7 +5,7 @@ import sys
 import os
 import pathlib
 
-def merge_pdfs_with_bookmarks(pdf_paths, output_path, filename_bookmark_mode):
+def merge_pdfs_with_bookmarks(pdf_paths: list[str], output_path, filename_bookmark_mode):
     merged_document = fitz.open()  # Create a new empty PDF document
 
     page_offset = 0  # Keep track of the number of pages to adjust bookmark page numbers
@@ -13,12 +13,20 @@ def merge_pdfs_with_bookmarks(pdf_paths, output_path, filename_bookmark_mode):
 
     # Loop through all provided PDF files
     for pdf_path in pdf_paths:
+        # Split on ':'. First part should be filename, second part should be an optional new first level bookmark number.
+        pdf_path_parts = pdf_path.split(':', 1)
+        
+        pdf_file_name = pdf_path_parts[0]
+        first_level_bookmark = None
+        if len(pdf_path_parts) > 1:
+            first_level_bookmark = pdf_path_parts[1]
+
         try:
-            with fitz.open(pdf_path) as doc:
+            with fitz.open(pdf_file_name) as doc:
 
                 if filename_bookmark_mode:
                     # Retrieve the current document's filename
-                    filename = pathlib.Path(pdf_path).stem
+                    filename = pathlib.Path(pdf_file_name).stem
                     # Add the filename as a bookmark, minus the extension
                     page = 1 + page_offset
                     bkmk = [1, filename, page]
@@ -26,13 +34,25 @@ def merge_pdfs_with_bookmarks(pdf_paths, output_path, filename_bookmark_mode):
                     bookmarks.append(bkmk)
                 else:
                     # Retrieve the current document's bookmarks (if any)
-                    current_bookmarks = doc.get_toc(simple=False)
+                    current_bookmarks = doc.get_toc(simple=True)
                     # [level, title, 1-based page, {optional dict}]
+                    
+                    if first_level_bookmark is not None:
+                        # Move the level for each bookmark down one
+                        for bkmk in current_bookmarks:
+                            bkmk[0] += 1
+                        bookmarks.append([1, first_level_bookmark, page_offset + 1])
+
                     # Adjust the current document's bookmark page numbers and add to the main list
                     for bkmk in current_bookmarks:
                         # Increment the page number by the current offset
                         bkmk[2] += page_offset
-                        bkmk[3]["page"] += page_offset - 1
+                        #  if "page" not in bkmk[3]:
+                            #  message = f"Bookmark '{bkmk[1]}' in '{pdf_file_name}' does not have a page number in optional dict. Found {bkmk[3]}"
+                            #  raise ValueError(message)
+
+                        #  # This page is 0-based, so thus the -1
+                        #  bkmk[3]["page"] = int(bkmk[3]["page"]) + page_offset - 1
                         bookmarks.append(bkmk)
 
                 # Update the page offset
@@ -41,9 +61,15 @@ def merge_pdfs_with_bookmarks(pdf_paths, output_path, filename_bookmark_mode):
                 # Append the document
                 merged_document.insert_pdf(doc, annots=True)
         except Exception as e:
-            print(f"Error processing '{pdf_path}': {e}", file=sys.stderr)
-            sys.exit(1)
+            print(f"Error processing '{pdf_file_name}': {e}", file=sys.stderr)
+            raise e
+            # sys.exit(1)
 
+    # Assert that there are no bookmarks with page < 1
+    bad_bkmks = [bkmk for bkmk in bookmarks if bkmk[2] < 1]
+    if len(bad_bkmks) > 0:
+        print(f"Error: Found bookmarks with page < 1: {bad_bkmks}", file=sys.stderr)
+        sys.exit(1)
 
     num_inserted = merged_document.set_toc(bookmarks)
     print(f"Inserted {num_inserted} bookmarks", file=sys.stderr)

@@ -1,6 +1,4 @@
-#!/bin/sh
-
-excelchop -w 'Performance_Outputs_1' "$1" | python -c '
+#!/usr/bin/env python3
 import sys
 
 data = [line.split("\t") for line in sys.stdin.read().splitlines()]
@@ -14,12 +12,16 @@ proposed_start_row = -1
 
 state = before_baseline
 
+def remove_energy_type(input_str):
+    # Remove everything after the first '(' and then strip whitespace
+    return input_str.split("(")[0].strip()
+
 print("rows = {")
 
 for row_num, row in enumerate(data, 1):
     if state == in_baseline:
         if row[1].strip() != "" and row[1].strip() != "End_Use" and "Total energy consumption" not in row[1]:
-            print(f"  \"{row[1].strip()}\": {row_num},")
+            print(f"  (\"{remove_energy_type(row[1])}\", \"{row[4].strip()}\"): {row_num},")
         elif "Total energy consumption" in row[1]:
             state = between_baseline_and_proposed
             continue
@@ -39,4 +41,3 @@ for row_num, row in enumerate(data, 1):
 print("}")
 
 print(f"offset = {proposed_start_row - baseline_start_row}")
-'

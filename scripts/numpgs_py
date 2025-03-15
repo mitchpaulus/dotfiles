@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+
+from sys import argv
+# Print number of pages in PDF file
+try:
+    import fitz
+    doc = fitz.open(argv[1])
+    print(doc.page_count)
+
+except ModuleNotFoundError:
+    from PyPDF2 import PdfReader
+    rd = PdfReader(argv[1])
+    print(len(rd.pages))

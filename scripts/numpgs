@@ -1,6 +1,7 @@
-#!/usr/bin/python3
-# Print number of pages in PDF file
-from PyPDF2 import PdfReader
-from sys import argv
-rd = PdfReader(argv[1])
-print(len(rd.pages))
+#!/usr/bin/env mshell
+
+# Try qpdf first
+[qpdf --show-npages $1] os ? (wl 0 exit) iff
+
+# Else try Python
+[numpgs_py $1];
