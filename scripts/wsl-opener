@@ -23,7 +23,7 @@ case "$1" in
     *.xlsx ) \
     cmd.exe '/C' start '' "$(wslpath -w "$1")" ;;
     *.txt|*.md|*.markdown|*.awk|*.fish|*.json|*.idf) "$EDITOR" "$1";;
-    *.zip) if command -v nvim >/dev/null; then
+    *.zip|*.tar.gz|*.tar) if command -v nvim >/dev/null; then
             nvim "$1"
            elif command -v vim > /dev/null; then
             vim "$1"
