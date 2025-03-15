@@ -451,9 +451,13 @@ def people_load(idf_dict: dict) -> list[list[str]]:
             people_load_str = f"{people_load[5]} people"
         elif people_type == "people/area":
             people_per_ft2 = float(people_load[6]) / 10.7639
+            people_per_1000_ft2 = people_per_ft2 * 1000
             # Flip to ft²/people for consistency
-            ft2_per_person = 1 / people_per_ft2
-            people_load_str = f"{ft2_per_person:.1f} ft²/person"
+            if people_per_ft2 > 0.000000001:
+                ft2_per_person = 1 / people_per_ft2
+                people_load_str = f"{ft2_per_person:.1f} ft²/person, {people_per_1000_ft2:.1f} people/1000 ft²"
+            else:
+                people_load_str = "0 persons"
         elif people_type == "area/person":
             ft2_per_person = 10.7639 * float(people_load[7])
             people_load_str = f"{ft2_per_person:,.0f} ft²/person"
@@ -562,9 +566,13 @@ def airloops(idf_dict: dict):
     airloops = idf_dict['airloophvac']
     for airloop in airloops:
         name = airloop[1]
-        design_supply_air_flow_rate_m3s = float(airloop[4])
-        design_supply_air_flow_rate_cfm = design_supply_air_flow_rate_m3s * 2118.88
-        fields = [name, f"{design_supply_air_flow_rate_cfm:,.0f}"]
+        if airloop[4].lower() == "autosize":
+            design_supply_air_flow_rate_cfm_str = "Autosize"
+        else:
+            design_supply_air_flow_rate_m3s = float(airloop[4])
+            design_supply_air_flow_rate_cfm = design_supply_air_flow_rate_m3s * 2118.88
+            design_supply_air_flow_rate_cfm_str = f"{design_supply_air_flow_rate_cfm:,.0f}"
+        fields = [name, design_supply_air_flow_rate_cfm_str]
         print("\t".join([str(x) for x in fields]))
 
 
