@@ -1,0 +1,13 @@
+#!/usr/bin/env mshell
+soe
+args len 1 != ("Usage: upload-ref <file>" wle 1 exit) iff
+
+$REFERENCESKEYID? not ("$REFERENCESKEYID env var not set" wle 1 exit)
+$REFERENCESKEY?   not ("$REFERENCESKEY env var not set" wle 1 exit)
+$REF_BUCKET?      not ("$REF_BUCKET env var not set" wle 1 exit)
+
+$REFERENCESKEYID $B2_APPLICATION_KEY_ID!
+$REFERENCESKEY $B2_APPLICATION_KEY!
+
+[sha256sum $1]os; 0:64 sha256sum!
+[b2-linux upload-file $REF_BUCKET $1 @sha256sum];

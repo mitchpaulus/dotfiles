@@ -1,0 +1,10 @@
+#!/usr/bin/env mshell
+
+$REFERENCESKEYID? not ("$REFERENCESKEYID env var not set" wle 1 exit)
+$REFERENCESKEY?   not ("$REFERENCESKEY env var not set" wle 1 exit)
+$REF_BUCKET?      not ("$REF_BUCKET env var not set" wle 1 exit)
+
+$REFERENCESKEYID $B2_APPLICATION_KEY_ID!
+$REFERENCESKEY $B2_APPLICATION_KEY!
+
+[b2-linux ls $REF_BUCKET];
