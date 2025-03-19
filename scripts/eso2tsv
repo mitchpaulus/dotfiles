@@ -8,7 +8,7 @@ run_period = None
 
 while idx < len(sys.argv):
     if sys.argv[idx] == "-h" or sys.argv[idx] == "--help":
-        print("Usage: eso2tsv [-d|-m|-a] < input.eso > output.tsv")
+        print("Usage: eso2tsv [-d|-m|-a|-r <RUN PERIOD>] < input.eso > output.tsv")
         sys.exit(0)
     elif sys.argv[idx] == "-m":
         period = 12

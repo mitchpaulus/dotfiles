@@ -77,8 +77,8 @@ local function setupLsp()
             ]], false)
 
             vim.api.nvim_create_augroup('LspDocumentHighlight', { clear = true })
-            vim.api.nvim_create_autocmd('CursorHold',  { buffer = 0, callback = vim.lsp.buf.document_highlight })
-            vim.api.nvim_create_autocmd('CursorMoved', { buffer = 0, callback = vim.lsp.buf.clear_references })
+            -- vim.api.nvim_create_autocmd('CursorHold',  { buffer = 0, callback = vim.lsp.buf.document_highlight })
+            -- vim.api.nvim_create_autocmd('CursorMoved', { buffer = 0, callback = vim.lsp.buf.clear_references })
         end
     end
 
@@ -502,6 +502,7 @@ insertModeNoRecurseMappings = {
     -- Emacs
     { '<C-b>', '<Left>' },
     { '<M-b>', '<Esc>Bi' },
+    { '<M-f>', '<Esc>Ea' },
     -- { '<C-f>', '<Right>' }, used for <C-x><C-f> filename completion.
 
     -- Mshell shebang
