@@ -342,3 +342,9 @@ Web app to create ASHRAE Guideline 36 SOO.
 Not really it's own software, but nice page of links to getting started building various things.
 
 ## [Busybox for Windows](https://frippery.org/busybox/)
+
+
+From [Xe iaso](https://xeiaso.net/notes/cursorless-alien-magic/):
+
+[Cursorless](https://www.cursorless.org/)
+[Talon](https://talonvoice.com/docs/#document-api)
