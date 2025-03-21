@@ -1,0 +1,6 @@
+#!/usr/bin/env mshell
+
+# 'gg' => goto github
+soe
+[fzf] `/tmp/gh_repos.txt` < os; repo!
+[wsl_url_open $"https://github.com/{@repo}"];

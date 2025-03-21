@@ -1,0 +1,44 @@
+#!/usr/bin/env python3
+
+import requests
+import os
+
+github_pat_link = os.environ.get("GITHUB_PAT_LINK")
+if not github_pat_link:
+    print("GITHUB_PAT_LINK not set")
+    exit(1)
+
+github_pat_link_ccllc = os.environ.get("GITHUB_PAT_LINK_CCLLC")
+if not github_pat_link_ccllc:
+    print("GITHUB_PAT_LINK_CCLLC not set")
+    exit(1)
+
+def get_items(url, headers):
+    while True:
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        json = response.json()
+
+        for repo in json:
+            print(repo["full_name"])
+
+        if "next" not in response.links:
+            break
+
+        url = response.links["next"]["url"]
+
+headers = {
+    "Authorization": f"Bearer {github_pat_link}",
+    "Accept": "application/vnd.github.v3+json",
+}
+
+url = "https://api.github.com/user/repos"
+get_items(url, headers)
+
+headers = {
+    "Authorization": f"Bearer {github_pat_link_ccllc}",
+    "Accept": "application/vnd.github.v3+json",
+}
+
+url2 = "https://api.github.com/orgs/Command-Commissioning/repos"
+get_items(url2, headers)
