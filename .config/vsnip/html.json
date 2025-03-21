@@ -101,5 +101,12 @@
             "</table>"
         ],
         "description": "table"
+    },
+    "link": {
+        "prefix": "a",
+        "body": [
+            "<a href=\"$1\">$2</a>"
+        ],
+        "description": "link"
     }
 }
