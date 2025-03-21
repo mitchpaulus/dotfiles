@@ -1,0 +1,6 @@
+#!/usr/bin/env mshell
+
+[eqtypes.py $1]o; (tsplit :1:) map fgTypes!
+'*.xlsm' glob (0:-9) map fileTypes!
+
+[setdiff2way --1name 'Facility Grid' --2name 'Template Files' @fgTypes unlines psub @fileTypes unlines psub];
