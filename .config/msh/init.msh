@@ -6,16 +6,19 @@ def q (--)
     0 exit
 end
 
+def lf_last_dir_file (-- str)
+    # This makes it work on Linux and Windows for now.
+    $HOME? ($"{$HOME}/.config/lf/lf_lastdir") ($"{$LOCALAPPDATA}/mshell/lf_lastdir") iff
+end
+
 def lf (--)
-    $HOME "/.config/lf/lf_lastdir" + lastDirFile!
-    ['lf' '-last-dir-path' @lastDirFile]?
-    (@lastDirFile readFile cd) () iff
+    ['lf' '-last-dir-path' lf_last_dir_file]?
+    (lf_last_dir_file readFile cd) iff
 end
 
 def f (--) lf end
 
 def r (--)
-    $HOME "/.config/lf/lf_lastdir" + lastDirFile!
-    ['lf' '-last-dir-path' @lastDirFile $REPOS]?
-    (@lastDirFile readFile cd) () iff
+    ['lf' '-last-dir-path' lf_last_dir_file $REPOS]?
+    (lf_last_dir_file readFile cd) iff
 end

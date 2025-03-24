@@ -1,0 +1,19 @@
+# Windows specific lfrc
+
+set hidden true
+map <esc> quit
+
+# Unmap single y
+map y
+
+map <f-5> reload
+map <c-v> page-down
+map <a-v> page-up
+
+map yy copy
+
+# Remap 'f' key. Never really use the find functionality.
+map f mark-load
+map ; mark-load
+
+map <f-2> rename
