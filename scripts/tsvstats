@@ -1,0 +1,56 @@
+#!/usr/bin/env python3
+
+import mputils
+import sys
+
+# Read input from stdin
+data = [line.split("\t") for line in sys.stdin.read().splitlines()]
+
+# Check for argument to use as filter
+filter_str = None
+if len(sys.argv) > 1:
+    filter_str = sys.argv[1].lower()
+
+max_cols = max(len(row) for row in data)
+
+header_row = data[0]
+
+numeric_data = []
+
+output_headers = ["Column"] + mputils.Stat.prop_headers()
+print("\t".join(output_headers))
+
+if filter_str is None:
+    for i in range(max_cols):
+        header = header_row[i] if i < len(header_row) else f"Column {i+1}"
+        print(f"{header}\t", end = "")
+
+        numeric_data.clear()
+        for row in data[1:]:
+            if i < len(row):
+                try:
+                    numeric_data.append(float(row[i]))
+                except ValueError:
+                    pass
+
+        stats = mputils.stats(numeric_data)
+        stat_str = "\t".join(f"{stat:.2f}" for stat in stats.props())
+        print(stat_str)
+else:
+    for i in range(max_cols):
+        header = header_row[i] if i < len(header_row) else f"Column {i+1}"
+        if filter_str not in header.lower():
+            continue
+        print(f"{header}\t", end = "")
+
+        numeric_data.clear()
+        for row in data[1:]:
+            if i < len(row):
+                try:
+                    numeric_data.append(float(row[i]))
+                except ValueError:
+                    pass
+
+        stats = mputils.stats(numeric_data)
+        stat_str = "\t".join(f"{stat:.2f}" for stat in stats.props())
+        print(stat_str)
