@@ -4,8 +4,19 @@ soe
 $REPOS? not ("$REPOS env var is not defined" wle 1 exit) iff
 $LOCALAPPDATA? not ("$LOCALAPPDATA env var is not defined" wle 1 exit) iff
 
-$"{$LOCALAPPDATA}/nvim/pack/mp/start/" mkdirp
-$"{$LOCALAPPDATA}/nvim/pack/github/start/" mkdirp
+$"{$LOCALAPPDATA}\\nvim\\pack\\mp\\start" mkdirp
+$"{$LOCALAPPDATA}\\nvim\\pack\\github\\start" mkdirp
+
+"opt_plugins.txt" readFile lines
+(
+	repo!
+	@repo "/" split :1: packageName!
+
+	$"{$LOCALAPPDATA}/nvim/pack/github/start/{@packageName}" isDir
+	($"Plugin {@repo} already installed" wle)
+	([git clone --depth 1 $"git@github.com:{@repo}.git" $"{$LOCALAPPDATA}/nvim/pack/github/start/{@packageName}"];)
+	iff
+) each
 
 #!/bin/sh
 # set -e
