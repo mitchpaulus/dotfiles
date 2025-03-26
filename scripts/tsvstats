@@ -2,6 +2,7 @@
 
 import mputils
 import sys
+import re
 
 # Read input from stdin
 data = [line.split("\t") for line in sys.stdin.read().splitlines()]
@@ -9,7 +10,7 @@ data = [line.split("\t") for line in sys.stdin.read().splitlines()]
 # Check for argument to use as filter
 filter_str = None
 if len(sys.argv) > 1:
-    filter_str = sys.argv[1].lower()
+    filter_str = sys.argv[1]
 
 max_cols = max(len(row) for row in data)
 
@@ -39,7 +40,7 @@ if filter_str is None:
 else:
     for i in range(max_cols):
         header = header_row[i] if i < len(header_row) else f"Column {i+1}"
-        if filter_str not in header.lower():
+        if re.search(filter_str, header, re.IGNORECASE) is None:
             continue
         print(f"{header}\t", end = "")
 
