@@ -1,19 +1,17 @@
-#!/bin/sh
-set -e
+#!/usr/bin/env mshell
+soe
 
-# tt stands for 'Toggl track'
-PROJ="$(toggl projects | cut -f 2 | sort -V | fzf)"
+[
+    [toggl projects]
+    [cut -f 2]
+    [sort -V]
+    [fzf]
+] | os ?
+not (1 exit) iff
+proj!
 
-if [ -z "$PROJ" ]; then
-    exit 1
-fi
+"Description: " w read
+not (1 exit) iff
+desc!
 
-# Prompt for a description
-printf "Description: "
-read -r DESC
-
-if [ -z "$DESC" ]; then
-    exit 1
-fi
-
-toggl start "$PROJ" "$DESC"
+[toggl start @proj @desc];

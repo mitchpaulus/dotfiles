@@ -1,2 +1,2 @@
-#!/bin/sh
-curl --silent 'https://raw.githubusercontent.com/mitchpaulus/andover-plain-english-kde/refs/heads/main/and.xml'
+#!/usr/bin/env mshell
+[curl --silent 'https://raw.githubusercontent.com/mitchpaulus/andover-plain-english-kde/refs/heads/main/and.xml'];

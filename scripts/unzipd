@@ -1,29 +1,15 @@
-#!/bin/sh
+#!/usr/bin/env mshell
 
-# The purpose of this script is to unzip file to a folder
-# with the same name. The folder will be in the same directory
-# as the passed in file.
-
-helptext() {
-    cat <<EOF
-unzip file.zip
+'unzip file.zip
 
 The purpose of this script is to unzip file to a folder
 with the same name. The folder will be in the same directory
-as the passed in file.
-EOF
-}
+as the passed in file.' helpText!
 
-if test "$1" = "-h" || test "$1" = "--help"; then
-    helptext
-exit 0
-fi
+args ('-h' =) any args ('--help' =) any or
+(@helpText wl 0 exit)
+iff
 
-if test "$#" -ne 1; then
-    printf "unzipd expects a single argument, the zip file.\n\n"
-    helptext
-    exit 1
-fi
+args len 1 != ("unzipd expects a single argument, the zip file." wl 1 exit) iff
 
-filename="$(basename "$1")"
-unzip "$1" -d "$(dirname "$1")"/"${filename%.*}"
+[unzip $1 -d $"{$1 dirname}/{$1 stem}"];

@@ -1,8 +1,7 @@
-#!/bin/sh
-
-# Once in a while, I need to fix executable permissions for script files en masse.
-find . -type f | while read -r file; do
-    if has_shebang "$file" ; then
-        chmod +x "$file"
-    fi
-done
+#!/usr/bin/env mshell
+[find . '-type' 'f']o;
+(
+    file! @file readFile lines :0: '#!' in
+    ([chmod '+x' @file];)
+    iff
+) each
