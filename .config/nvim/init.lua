@@ -695,8 +695,9 @@ function shell_command_output_to_telescope(args)
     error("The argument must be a table of string arguments.")
   end
 
-  -- Concatenate the arguments into a shell command
-  local command = table.concat(args, " ")
+  -- Concatenate the arguments into a shell command. Escape all the arguments.
+  -- local command = table.concat(args, " ")
+  local command = table.concat(vim.tbl_map(vim.fn.shellescape, args), " ")
 
   -- Execute the command and capture the output
   local handle = io.popen(command, "r")
