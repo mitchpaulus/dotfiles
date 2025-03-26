@@ -517,13 +517,21 @@ class Stat:
     def __repr__(self):
         return str(self)
 
+    def props(self) -> list[float]:
+        return [self.mean, self.median, self.std_dev, self.min, self.max, self.one_percentile, self.five_percentile, self.twenty_five_percentile, self.seventy_five_percentile, self.ninety_five_percentile, self.ninety_nine_percentile]
+
+    @classmethod
+    def prop_headers(cls) -> list[str]:
+        return ['Mean', 'Median', 'Standard Deviation', 'Min', 'Max', '1%', '5%', '25%', '75%', '95%', '99%']
+
 
 def stats(data: List[float]) -> Stat:
     """
     Return the mean, median, standard deviation, min, and max of the given data.
     """
     if not data:
-        raise ValueError("Cannot compute stats on empty data")
+        nan = float('nan')
+        return Stat(nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan)
 
     # Calculate mean
     mean = sum(data) / len(data)
