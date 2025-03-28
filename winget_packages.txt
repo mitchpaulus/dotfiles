@@ -1,0 +1,4 @@
+BurntSushi.ripgrep.MSVC
+junegunn.fzf
+sharkdp.fd
+Git.Git
