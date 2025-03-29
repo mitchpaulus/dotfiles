@@ -82,3 +82,9 @@ Maildir:
 ## Maildir
 
 <https://cr.yp.to/proto/maildir.html>
+
+## Content Types
+
+multipart/alternative	Different representations of the same content	Show one (usually HTML)
+multipart/mixed	Bundle of unrelated parts	Show all, offer downloads
+multipart/related	Related parts for rendering together (e.g. inline images)	Render as a unit (HTML + resources)
