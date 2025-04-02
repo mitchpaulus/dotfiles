@@ -43,11 +43,10 @@ From plain English post:
 
 Good comment [here](https://stackoverflow.com/a/42720468/5932184):
 
-> The real answer has to do with the way function types interact with
-> subtyping. The short story is if a type parameter is used as a return
-> type, it is covariant. On the other hand, if a type parameter is used as
-> an argument type, it is contravariant. If it is used both as a return
-> type and as an argument type, it is invariant.
+> The real answer has to do with the way function types interact with subtyping.
+> The short story is if a type parameter is used as a return type, it is covariant.
+> On the other hand, if a type parameter is used as an argument type, it is contravariant.
+> If it is used both as a return type and as an argument type, it is invariant.
 
 ## Dependent Types
 
@@ -66,3 +65,8 @@ each type.
 
 This is in contrast to "ad hoc polymorphism", in which functions can act
 *differently* for each type. See '[Ad hoc polymorphism](https://doi.org/10.1145/75277.75283)'.
+
+
+## References
+
+[Faking ADTs and GADTs in Languages That Shouldn't Have Them](https://blog.jle.im/entry/faking-adts-and-gadts.html)
