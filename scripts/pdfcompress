@@ -1,22 +1,24 @@
-#!/bin/sh
+#!/usr/bin/env mshell
 
-# See: https://askubuntu.com/a/256449
-
-if test "$1" = "-h" || test "$1" = "--help"; then
-    cat <<EOF
-Usage:
+args (arg! @arg "-h" = (@arg "--help" =) or) any
+(
+ "Usage:
  pdfcompress INPUT_FILE OUTPUT_FILE
- pdfcompress [-h | --help]
-EOF
-exit 0
-fi
+ pdfcompress [-h | --help]" wl
+ 0 exit
+)
+iff
 
-gs \
-    -sDEVICE=pdfwrite \
-    -dCompatibilityLevel=1.4 \
-    -dPDFSETTINGS=/ebook \
-    -dNOPAUSE \
-    -dQUIET \
-    -dBATCH \
-    -sOutputFile="$2" \
-    "$1"
+args len 2 < ( "pdfcompress requires 2 arguments" wle 1 exit) iff
+$1 $2 = ("pdfcompress cannot compress in-place" wle 1 exit) iff
+
+[gs
+    '-sDEVICE=pdfwrite'
+    '-dCompatibilityLevel=1.4'
+    '-dPDFSETTINGS=/ebook'
+    '-dNOPAUSE'
+    '-dQUIET'
+    '-dBATCH'
+    $"-sOutputFile={$2}"
+    $1
+];
