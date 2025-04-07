@@ -45,3 +45,13 @@ $  shell           shell command
 !  shell-wait      shell command waiting for key press
 &  shell-async     shell command running asynchronously
 ```
+
+## Previews
+
+Arguments to command:
+
+1. File name
+2. Width
+3. Height
+4. Horizontal position
+5. Vertical position
