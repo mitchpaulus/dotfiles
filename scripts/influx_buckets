@@ -1,0 +1,5 @@
+#!/usr/bin/env mshell
+[
+    [influx bucket ls --json]
+    [jq -r ".[] | .name"]
+] | ;
