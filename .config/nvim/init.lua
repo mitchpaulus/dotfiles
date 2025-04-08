@@ -581,6 +581,7 @@ vim.o.sidescrolloff = 10
 vim.o.hidden = true  -- Stop asking me to write file
 vim.o.mouse = 'a'  -- The mouse can be useful
 vim.o.isfname = '@,48-57,/,.,-,_,+,,,#,$,%,~,='
+if in_windows then vim.opt.isfname:append('\\') end
 vim.o.listchars = 'tab:▸ ,eol:¬,trail:-,nbsp:+'
 vim.o.showmode = true
 vim.o.shiftround = true
