@@ -608,7 +608,11 @@ vim.o.synmaxcol = 300
 vim.o.swapfile = false
 
 if os.getenv('DOTFILES') ~= nil then
-    vim.o.spellfile = os.getenv('DOTFILES') .. '/vim/spell/hvac.utf-8.add'
+    if in_windows then
+        vim.o.spellfile = os.getenv('DOTFILES') .. '\\vim\\spell\\hvac.utf-8.add'
+    else
+        vim.o.spellfile = os.getenv('DOTFILES') .. '/vim/spell/hvac.utf-8.add'
+    end
 end
 
 vim.o.nrformats = 'bin,hex,alpha'
