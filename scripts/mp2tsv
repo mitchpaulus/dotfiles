@@ -10,6 +10,7 @@ class DateParser:
         self.formats = [
             '%Y-%m-%dT%H:%M:%SZ',
             '%Y-%m-%d %H:%M:%S',
+            '%Y-%m-%dT%H:%M:%S%z',
             '%Y-%m-%d %H:%M',
         ]
 
@@ -18,13 +19,13 @@ class DateParser:
     def try_parse(self, date_str: str) -> Optional[datetime.datetime]:
         if self.current_match is not None:
             try:
-                return datetime.datetime.strptime(date_str, self.formats[self.current_match])
+                return datetime.datetime.strptime(date_str, self.formats[self.current_match]).replace(tzinfo=None)
             except ValueError:
                 pass
 
         for fmt in self.formats:
             try:
-                return datetime.datetime.strptime(date_str, fmt)
+                return datetime.datetime.strptime(date_str, fmt).replace(tzinfo=None)
             except ValueError:
                 pass
         return None
