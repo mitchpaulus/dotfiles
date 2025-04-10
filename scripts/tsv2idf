@@ -1,0 +1,3 @@
+#!/usr/bin/env mshell
+
+tt (",\n  " join ";\n" +) map uw
