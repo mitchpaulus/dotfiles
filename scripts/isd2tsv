@@ -2243,8 +2243,16 @@ def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, ds
             year, mon, d, h, m = mputils.ymdhm_from_rd(year_dates[i])
             wind_speed = None
         else:
-            wind_speed_float = (interpolate(wind_speed_array, lambda r: r.wind_speed, wind_speed_index) / 10)
-            wind_speed = wind_speed_float
+            try:
+                wind_speed_float = (interpolate(wind_speed_array, lambda r: r.wind_speed, wind_speed_index) / 10)
+                wind_speed = wind_speed_float
+            except OverflowError:
+                # Print out details
+                record_1 = wind_speed_array[wind_speed_index - 1].wind_speed
+                record_2 = wind_speed_array[wind_speed_index].wind_speed
+                print(f"OverflowError: {record_1} and {record_2}", file=sys.stderr)
+                wind_speed = None
+
 
         # Calculate Total Cloud Cover
         if total_cloud_cover_index is None or total_cloud_cover_index == 0:
@@ -2508,10 +2516,14 @@ def average_temps(dates: List[Tuple[int, int]], data_hourly) -> List[float]:
         end_date_exc = date[1]
 
         records.clear()
-
+        
         for record in data_hourly:
-            rd_date = mputils.fixed_from_gregorian(record[0], record[1], record[2])
-            if rd_date >= start_date_inc and rd_date < end_date_exc:
+            try:
+                rd_date = mputils.fixed_from_gregorian(record[0], record[1], record[2])
+            except Exception as e:
+                print(f"Error: {e}", file=sys.stderr)
+                continue
+            if rd_date >= start_date_inc and rd_date < end_date_exc and record[5] is not None:
                 records.append(record)
             elif rd_date >= end_date_exc:
                 break
