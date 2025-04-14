@@ -88,3 +88,56 @@ Maildir:
 multipart/alternative	Different representations of the same content	Show one (usually HTML)
 multipart/mixed	Bundle of unrelated parts	Show all, offer downloads
 multipart/related	Related parts for rendering together (e.g. inline images)	Render as a unit (HTML + resources)
+
+From <https://mimekit.net/docs/html/Frequently-Asked-Questions.htm>
+
+MIME is a tree structure of parts.
+There are multiparts which contain other parts (even other multiparts).
+There are message parts which contain messages. And finally, there are leaf-node parts which contain content.
+
+There are a few common message structures:
+
+The message contains only a text/plain or text/html part (easy, just use that).
+
+The message contains a multipart/alternative which will typically look a bit like this:
+
+multipart/alternative
+  text/plain
+  text/html
+
+Same as above, but the html part is inside a multipart/related so that it can embed images:
+
+multipart/alternative
+  text/plain
+  multipart/related
+    text/html
+    image/jpeg
+    image/png
+
+The message contains a textual body part as well as some attachments:
+
+multipart/mixed
+  text/plain
+  application/octet-stream
+  application/zip
+
+The same as above, but with the first part replaced with either #2 or #3 To illustrate:
+
+multipart/mixed
+  multipart/alternative
+    text/plain
+    text/html
+  application/octet-stream
+  application/zip
+
+Or:
+
+multipart/mixed
+  multipart/alternative
+    text/plain
+    multipart/related
+      text/html
+      image/jpeg
+      image/png
+  application/octet-stream
+  application/zip
