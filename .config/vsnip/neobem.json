@@ -64,5 +64,14 @@
             ".."
         ],
         "description": "DOE-2 Schedule"
+    },
+    "Constant Schedule": {
+        "prefix": ["sc"],
+        "body": [
+            "Schedule:Constant,",
+            "  $1 Schedule, ! Name RefList: [ScheduleNames], REQ, #1",
+            "  ,            ! Schedule Type Limits Name [ScheduleTypeLimitsNames], #2",
+            "$2;            ! Hourly Value Def: 0, #3"
+        ]
     }
 }
