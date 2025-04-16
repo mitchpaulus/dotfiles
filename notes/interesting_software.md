@@ -348,3 +348,5 @@ From [Xe iaso](https://xeiaso.net/notes/cursorless-alien-magic/):
 
 [Cursorless](https://www.cursorless.org/)
 [Talon](https://talonvoice.com/docs/#document-api)
+
+[Sqlite file format viewer](https://sqlite-internal.pages.dev)

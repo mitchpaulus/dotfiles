@@ -22,3 +22,7 @@ def r (--)
     ['lf' '-last-dir-path' lf_last_dir_file $REPOS]?
     (lf_last_dir_file readFile cd) iff
 end
+
+def wt_cwd (--)
+    $"\e]9;9;{pwd}\e\\" w
+end
