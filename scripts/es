@@ -1,13 +1,7 @@
-#!/bin/sh
+#!/usr/bin/env mshell
 
-# PURPOSE: Quickly edit a script from the dotfiles. Uses 'fd' and 'fzf' to
-# accomplish this goal.
-
-file="$(find "$DOTFILES/scripts/" -type f -exec basename {} \; | fzf --preview='lf-preview '"$DOTFILES"'/scripts/{}')"
-
-# When fzf is cancelled it sends error code, just exit normally in that case.
-if test "$?" -ne 0; then
-    exit 0
-fi
-
-"$EDITOR" "$DOTFILES"/scripts/"$file"
+# PURPOSE: Quickly edit a script from the dotfiles.
+# Uses 'fd' and 'fzf' to accomplish this goal.
+['find' $"{$DOTFILES}/scripts" -type 'f'] o; (basename) map unlines scripts!
+[fzf $"--preview=lf-preview {$DOTFILES}/scripts/" "{}" +] @scripts < os ? not (0 exit) iff
+[$EDITOR $"{$DOTFILES}/scripts/{@file}"];
