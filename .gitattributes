@@ -1,2 +1,5 @@
 *.jpg bin
 *.md eol=lf
+*.sh text eol=lf
+lfrc text eol=lf
+.gitattributes text eol=lf
