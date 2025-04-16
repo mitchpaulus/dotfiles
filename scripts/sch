@@ -1,0 +1,18 @@
+#!/usr/bin/env mshell
+
+args len 0 =
+( ['nbem' '--objects' stdin psub] o; )
+( ['nbem' '--objects' args :0:] o; )
+iff
+
+(tsplit :1: objType!
+ @objType lower 'schedule:constant' =
+ @objType lower 'schedule:year' =
+ @objType lower 'schedule:compact' =
+or or ) filter
+
+unlines input!
+
+[clip]
+[fzf] @input < oc; tsplit :2:
+<;

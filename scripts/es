@@ -3,5 +3,5 @@
 # PURPOSE: Quickly edit a script from the dotfiles.
 # Uses 'fd' and 'fzf' to accomplish this goal.
 ['find' $"{$DOTFILES}/scripts" -type 'f'] o; (basename) map unlines scripts!
-[fzf $"--preview=lf-preview {$DOTFILES}/scripts/" "{}" +] @scripts < os ? not (0 exit) iff
+[fzf $"--preview=lf-preview {$DOTFILES}/scripts/" "{}" +] @scripts < os ? not (0 exit) iff file!
 [$EDITOR $"{$DOTFILES}/scripts/{@file}"];
