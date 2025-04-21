@@ -31,6 +31,7 @@ plot-element:
   <data source> |
   keyentry {axes <axes>}
 )
+{axes <axes>}
 {<title-spec>}
 {with <style options>}
 ```

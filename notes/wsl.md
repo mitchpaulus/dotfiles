@@ -123,3 +123,26 @@ See:
     "useAtlasEngine": true
 }
 ```
+
+## Issue with NAT
+
+- Having issues on my work surface
+
+`wsl: Failed to configure network (networkingMode Nat), falling back to networkingMode VirtioProxy.`
+
+- Unregistering and re-registering the distro does not fix the issue.
+
+- On working computer, have the following features selected:
+
+- .NET Framework 4.8 Advanced Services
+- Containers
+- Hyper-V
+- Media Features
+- Microsoft Print to PDF
+- Print and Document Services
+- Remote Differential Compression API Support
+- SMB Direct
+- Virtual Machine Platform
+- Windows PowerShell 2.0
+- Windows Subsystem for Linux
+- Work Folders Client
