@@ -47,6 +47,7 @@ sfeedrc
 
 # REDOGI
 go/toggl/toggl
+go/toggl/toggl.exe
 haskell/**/*
 haskell/all
 notes/**/*.pdf
