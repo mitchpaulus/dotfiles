@@ -1,0 +1,4 @@
+#!/usr/bin/env mshell
+
+[fd . $"{$HOME}/.config/nvim/pack/github/start" --type 'd' --max-depth 1]o;
+(d! [git -C @d pull ]; ) each
