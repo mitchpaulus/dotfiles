@@ -1,8 +1,7 @@
-#!/bin/sh
-
-cat <<EOF
-*.tokens
+#!/usr/bin/env mshell
+"*.tokens
 *.interp
 *.class
-*.java
-EOF
+*.java" wl
+
+
