@@ -59,7 +59,6 @@ map bl binlink
 cmd explore-here &explorer.exe "$(wslpath -w "$PWD")"
 map w explore-here
 
-
 cmd copy-filename & basename "$f" | tr -d '\n' | clip
 cmd copy-fullpath & printf '%s' "$f" | clip
 cmd copy-contents &clip < "$f"
@@ -74,6 +73,8 @@ cmd copy-command-path & CCLLCCopyToClip.exe "$(wslpath -w "$f")"
 cmd copy-sharepoint-link & copy-sharepoint-link "$f" "$id"
 
 cmd copy-gitpath & gitpath "$f" | clip
+cmd run-redo ! redo "$f"
+map br run-redo
 
 cmd open-with-windows & {{
     lf -remote "send $id echomsg Opening $f with Windows"
