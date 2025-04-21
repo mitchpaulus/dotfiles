@@ -43,4 +43,3 @@ helpText = unlines [
     "USAGE:",
     "linear_reset_excel "
     ]
-
