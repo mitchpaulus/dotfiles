@@ -1,3 +1,8 @@
-#!/bin/sh
+#!/usr/bin/env mshell
 
-rm *.java *.tokens *.interp *.class
+[rm
+    *.java glob
+    *.tokens glob
+    *.interp glob
+    *.class glob
+];

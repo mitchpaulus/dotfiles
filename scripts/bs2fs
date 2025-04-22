@@ -1,6 +1,2 @@
-#!/usr/bin/awk -E
-
-{
-    gsub(/\\/, "/")
-    print
-}
+#!/usr/bin/env mshell
+:: ("\\" "/" findReplace wl) each

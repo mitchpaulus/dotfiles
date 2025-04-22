@@ -1,3 +1,2 @@
-#!/bin/sh
-
-mv "$1" "$LOCALBIN"/"$1"
+#!/usr/bin/env mshell
+$1 $"{$LOCALBIN}/{$1}" mv

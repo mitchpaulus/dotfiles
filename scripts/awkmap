@@ -1,2 +1,2 @@
-#!/bin/sh
-excelchop "$1" | head -n 1 | headers2awk -c
+#!/usr/bin/env mshell
+[headers2awk -c] [excelchop $1]o; :0: < ;

@@ -1,3 +1,4 @@
-#!/bin/sh
-java -jar "$ANTLR_JAR" -Dlanguage=Java ./*.g4
-javac ./*.java
+#!/usr/bin/env mshell
+
+[java -jar $ANTLR_JAR '-Dlanguage=Java' ./*.g4 glob];
+[javac ./*.java glob];

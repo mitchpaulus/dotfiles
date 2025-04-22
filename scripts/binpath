@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env mshell
 
 # Follow the symlinks to the real executable.
-realpath "$(which "$1")"
+[realpath [which $1]os;];
