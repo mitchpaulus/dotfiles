@@ -350,3 +350,5 @@ From [Xe iaso](https://xeiaso.net/notes/cursorless-alien-magic/):
 [Talon](https://talonvoice.com/docs/#document-api)
 
 [Sqlite file format viewer](https://sqlite-internal.pages.dev)
+
+[TreeSheets](https://strlen.com/treesheets/)

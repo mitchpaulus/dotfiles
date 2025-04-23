@@ -111,3 +111,7 @@ Module: A collection of related Go packages that are versioned together as a sin
 Module Path: the import path prefix for all packages within the module.
 Repository: Contains one or more modules.
 Import Path: String used to import a package. A package's import path is its module path joined with its subdirectory within the module.
+
+# References
+
+[Constants](https://go.dev/blog/constants#)
