@@ -934,6 +934,8 @@ filetypeAutocmds = {
 
     { 'gitcommit', 'startinsert' },
 
+    { 'go', 'set iskeyword-=:' },
+
     -- make a header 1 line, deleting trailing whitespace first.
     --{ 'markdown', 'nnoremap <silent> <leader>h1 :<c-u>call<Space><SID>MakeHeading("=")<cr>', },
     --{ 'markdown', 'nnoremap <silent> <leader>h2 :<c-u>call<Space><SID>MakeHeading("-")<cr>', },
