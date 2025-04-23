@@ -17,3 +17,7 @@ Point Types
 
 - PPCL plugin and syntax for Sublime Text 3
   - <https://packagecontrol.io/packages/PPCL%20Language%20Syntax%20and%20Editor>
+
+- See: `hvac/Siemens PPCL Rev 6 A6V10374898_en.pdf`
+
+- LOOP(type,pv,cv,sp,pg,ig,dg,st,bias,lo,hi,0)

@@ -1,6 +1,6 @@
 
 ```python
-import fitz
+import fitz # pip install PyMuPDF
 
 doc = fitz.open("test.pdf")
 
