@@ -2,3 +2,4 @@ BurntSushi.ripgrep.MSVC
 junegunn.fzf
 sharkdp.fd
 Git.Git
+WinDirStat.WinDirStat
