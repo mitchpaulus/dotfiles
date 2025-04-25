@@ -23,6 +23,11 @@ def r (--)
     (lf_last_dir_file readFile cd) iff
 end
 
+def j (--)
+    ['lf' '-last-dir-path' lf_last_dir_file `/mnt/c/Users/mpaulus/Command Commissioning`]?
+    (lf_last_dir_file readFile cd) iff
+end
+
 def wt_cwd (--)
     $"\e]9;9;{pwd}\e\\" w
 end
