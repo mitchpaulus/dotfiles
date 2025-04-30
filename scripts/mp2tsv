@@ -31,7 +31,54 @@ class DateParser:
         return None
 
 
-def main(filter_incomplete: bool, interval: int):
+def no_interpolate(filter_incomplete: bool):
+    dates = set()
+    data: dict[tuple[str, str], str] = {}
+
+    trends = []
+    current_trend = ""
+    for line in sys.stdin:
+        line = line.strip()
+        splitline = line.split('\t')
+
+        if len(splitline) == 1:
+            current_trend = splitline[0]
+            trends.append(current_trend)
+        else:
+            date = splitline[0]
+            value = splitline[1]
+
+            dates.add(date)
+            data[(date, current_trend)] = value
+
+    dates = sorted(dates)
+    trends = sorted(trends)
+
+    print('Timestamp', end='')
+    for trend in trends:
+        print('\t' + trend, end='')
+    print()
+
+    if filter_incomplete:
+        for date in dates:
+            if any((date, trend) not in data for trend in trends):
+                continue
+
+            print(date, end='')
+            for trend in trends:
+                print('\t' + data[(date, trend)], end='')
+            print()
+    else:
+        for date in dates:
+            print(date, end='')
+            for trend in trends:
+                if (date, trend) in data:
+                    print('\t' + data[(date, trend)], end='')
+                else:
+                    print('\t', end='')
+            print()
+
+def main(filter_incomplete: bool, minute_interval: int):
     date_parser = DateParser()
 
     min_date = datetime.datetime(9998, 1, 1)
@@ -74,14 +121,14 @@ def main(filter_incomplete: bool, interval: int):
     # Round the min_date down to the nearest interval minutes.
     print(f"Min date: {min_date}, Max date: {max_date}", file=sys.stderr)
 
-    min_date = min_date - datetime.timedelta(minutes=min_date.minute % interval, seconds=min_date.second, microseconds=min_date.microsecond)
-    max_date = max_date - datetime.timedelta(minutes=max_date.minute % interval, seconds=max_date.second, microseconds=max_date.microsecond)
+    min_date = min_date - datetime.timedelta(minutes=min_date.minute % minute_interval, seconds=min_date.second, microseconds=min_date.microsecond)
+    max_date = max_date - datetime.timedelta(minutes=max_date.minute % minute_interval, seconds=max_date.second, microseconds=max_date.microsecond)
 
     interpolation_dates = []
     current_date = min_date
     while current_date <= max_date:
         interpolation_dates.append(current_date)
-        current_date += datetime.timedelta(minutes=interval)
+        current_date += datetime.timedelta(minutes=minute_interval)
 
     # Interpolate all the data to interval minutes.
     for trend, data in all_data:
@@ -108,7 +155,7 @@ def main(filter_incomplete: bool, interval: int):
                 date2, value2 = data[idx_gte]
 
                 # Check difference in times.
-                if (date2 - date1).total_seconds() > 3 * interval * 60:
+                if (date2 - date1).total_seconds() > 3 * minute_interval * 60:
                     large_gap_count += 1
                     new_data.append('')
                     continue
@@ -165,7 +212,7 @@ string_token = 3
 integer_token = 4
 help_token = 5
 no_interpolate_token = 6
-eof = 6
+eof = 7
 
 class Token:
     def __init__(self, token_type: int, value: str):
@@ -238,7 +285,6 @@ class CliParser:
                 self.parse_interval_option()
             elif self.lookahead.token_type == no_interpolate_token:
                 self.options.no_interpolate = True
-
                 self.match(no_interpolate_token)
             elif self.lookahead.token_type == help_token:
                 print("Usage: mp2tsv OPTIONS < FILE")
@@ -264,7 +310,7 @@ class Options:
         self.no_interpolate = False
 
     def __str__(self):
-        return f"Filter incomplete: {self.filter_incomplete}, Interval: {self.interval}"
+        return f"Filter incomplete: {self.filter_incomplete}, Interval: {self.interval}, No interpolate: {self.no_interpolate}"
 
     def __repr__(self):
         return str(self)
@@ -276,4 +322,8 @@ if __name__ == "__main__":
     options = parser.parse()
 
     print(options, file=sys.stderr)
-    main(options.filter_incomplete, options.interval)
+
+    if options.no_interpolate:
+        no_interpolate(options.filter_incomplete)
+    else:
+        main(options.filter_incomplete, options.interval)
