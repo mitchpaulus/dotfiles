@@ -596,23 +596,107 @@ Sub CcllcHeaderFooter()
     Dim doc As Document
     Dim firstSection As Section
     Set doc = ActiveDocument
+    Dim Header As HeaderFooter
+    Dim Footer As HeaderFooter
+    Dim Table As Table
 
     ' Get the current section based on the selection
     Set currentSection = doc.Sections(doc.Range(0, Selection.Range.End).Sections.Count)
 
-    Set firstSection = doc.Sections(1)
+    headerSubject = InputBox( _
+        Prompt:="Header subject", _
+        Title:="Header Subject", _
+        Default:="Type here…" _
+    )
 
-    Set header = firstSection.Headers(wdHeaderFooterPrimary)
 
+    ' https://learn.microsoft.com/en-us/office/vba/api/word.wdheaderfooterindex
+    'Name   Value   Description
+    ' wdHeaderFooterEvenPages   3   Returns all headers or footers on even-numbered pages.
+    ' wdHeaderFooterFirstPage   2   Returns the first header or footer in a document or section.
+    ' wdHeaderFooterPrimary 1   Returns the header or footer on all pages other than the first page of a document or section.
+    
+    For Each currentSection In doc.Sections
+        currentSection.PageSetup.DifferentFirstPageHeaderFooter = False
+        
+        ' First section header should have first page different
+        Set Header = currentSection.Headers(wdHeaderFooterPrimary)
+        Header.LinkToPrevious = False
+        ' Clear the header
+        Header.Range.Delete
+
+        ' Insert a 1x2 table
+        Set Table = Header.Range.Tables.Add(Header.Range, 1, 2)
+
+        colWidth = (currentSection.PageSetup.PageWidth - (currentSection.PageSetup.LeftMargin + currentSection.PageSetup.RightMargin)) / 2
+
+        ' Get current width of text area, set each cell to half of that
+        Table.Cell(1, 1).Width = colWidth
+        Table.Cell(1, 2).Width = colWidth
+
+        ' Add a bottom border to the left cell, with a thickness of 1.5 points
+        ' Make it blue
+        Table.Cell(1, 1).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
+        Table.Cell(1, 1).Borders(wdBorderBottom).LineWidth = wdLineWidth225pt ' 18
+        Table.Cell(1, 1).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
+
+        Table.Cell(1, 2).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
+        Table.Cell(1, 2).Borders(wdBorderBottom).LineWidth = wdLineWidth075pt ' 6
+        Table.Cell(1, 2).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
+        Table.Cell(1, 2).Range.ParagraphFormat.Alignment = wdAlignParagraphRight
+        Table.Cell(1, 2).Range.text = headerSubject
+        
+        Table.Range.ParagraphFormat.SpaceAfter = 0
+
+
+        ' Do the same for the footer
+        Set Footer = currentSection.Footers(wdHeaderFooterPrimary)
+        Footer.LinkToPrevious = False
+        Footer.Range.Delete
+
+        Set Table = Footer.Range.Tables.Add(Footer.Range, 1, 2)
+
+        Table.Cell(1, 1).Width = colWidth
+        Table.Cell(1, 2).Width = colWidth
+
+        Table.Cell(1, 1).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
+        Table.Cell(1, 1).Borders(wdBorderBottom).LineWidth = wdLineWidth225pt
+        Table.Cell(1, 1).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
+
+        Table.Cell(1, 2).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
+        Table.Cell(1, 2).Borders(wdBorderBottom).LineWidth = wdLineWidth075pt
+        Table.Cell(1, 2).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
+
+            ' Insert "Page X of Y" field codes in the table.Cell(1, 2)
+        Table.Cell(1, 2).Select
+        Selection.TypeText text:="Page "
+        Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldPage, PreserveFormatting:=False
+        Selection.TypeText text:=" of "
+        Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldNumPages, PreserveFormatting:=False
+
+        Table.Cell(1, 2).Range.ParagraphFormat.Alignment = wdAlignParagraphRight
+        
+        Table.Range.ParagraphFormat.SpaceAfter = 0
+    
+    Next currentSection
+    
+    Set currentSection = doc.Sections(1)
+    currentSection.PageSetup.DifferentFirstPageHeaderFooter = True
+                    
+    ' First section header should have first page different
+    Set Header = currentSection.Headers(wdHeaderFooterFirstPage)
+    Header.LinkToPrevious = False
     ' Clear the header
-    header.Range.Delete
+    Header.Range.Delete
 
     ' Insert a 1x2 table
-    Set Table = header.Range.Tables.Add(header.Range, 1, 2)
+    Set Table = Header.Range.Tables.Add(Header.Range, 1, 2)
+
+    colWidth = (currentSection.PageSetup.PageWidth - (currentSection.PageSetup.LeftMargin + currentSection.PageSetup.RightMargin)) / 2
 
     ' Get current width of text area, set each cell to half of that
-    Table.Cell(1, 1).Width = firstSection.PageSetup.PageWidth - (firstSection.PageSetup.LeftMargin + firstSection.PageSetup.RightMargin) / 2
-    Table.Cell(1, 2).Width = firstSection.PageSetup.PageWidth - (firstSection.PageSetup.LeftMargin + firstSection.PageSetup.RightMargin) / 2
+    Table.Cell(1, 1).Width = colWidth
+    Table.Cell(1, 2).Width = colWidth
 
     ' Add a bottom border to the left cell, with a thickness of 1.5 points
     ' Make it blue
@@ -623,38 +707,18 @@ Sub CcllcHeaderFooter()
     Table.Cell(1, 2).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
     Table.Cell(1, 2).Borders(wdBorderBottom).LineWidth = wdLineWidth075pt ' 6
     Table.Cell(1, 2).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
-
-    Set header = firstSection.Headers(wdHeaderFooterFirstPage)
-
-    ' Clear the header
-    header.Range.Delete
-
-    ' Insert a 1x2 table
-    Set Table = header.Range.Tables.Add(header.Range, 1, 2)
-
-    ' Get current width of text area, set each cell to half of that
-    Table.Cell(1, 1).Width = firstSection.PageSetup.PageWidth - (firstSection.PageSetup.LeftMargin + firstSection.PageSetup.RightMargin) / 2
-    Table.Cell(1, 2).Width = firstSection.PageSetup.PageWidth - (firstSection.PageSetup.LeftMargin + firstSection.PageSetup.RightMargin) / 2
-
-    ' Add a bottom border to the left cell, with a thickness of 1.5 points
-    ' Make it blue
-    Table.Cell(1, 1).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
-    Table.Cell(1, 1).Borders(wdBorderBottom).LineWidth = wdLineWidth225pt ' 18
-    Table.Cell(1, 1).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
-
-    Table.Cell(1, 2).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
-    Table.Cell(1, 2).Borders(wdBorderBottom).LineWidth = wdLineWidth075pt ' 6
-    Table.Cell(1, 2).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
-
+    
+    Table.Range.ParagraphFormat.SpaceAfter = 0
 
     ' Do the same for the footer
-    Set Footer = currentSection.Footers(wdHeaderFooterPrimary)
+    Set Footer = currentSection.Footers(wdHeaderFooterFirstPage)
+    Footer.LinkToPrevious = False
     Footer.Range.Delete
 
     Set Table = Footer.Range.Tables.Add(Footer.Range, 1, 2)
 
-    Table.Cell(1, 1).Width = doc.PageSetup.TextColumns(1).Width / 2
-    Table.Cell(1, 2).Width = doc.PageSetup.TextColumns(1).Width / 2
+    Table.Cell(1, 1).Width = colWidth
+    Table.Cell(1, 2).Width = colWidth
 
     Table.Cell(1, 1).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
     Table.Cell(1, 1).Borders(wdBorderBottom).LineWidth = wdLineWidth225pt
@@ -672,29 +736,19 @@ Sub CcllcHeaderFooter()
     Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldNumPages, PreserveFormatting:=False
 
     Table.Cell(1, 2).Range.ParagraphFormat.Alignment = wdAlignParagraphRight
-
-       ' Do the same for the footer
-    Set Footer = currentSection.Footers(wdHeaderFooterFirstPage)
-    Footer.Range.Delete
-
-    Set Table = Footer.Range.Tables.Add(Footer.Range, 1, 2)
-
-    Table.Cell(1, 1).Width = doc.PageSetup.TextColumns(1).Width / 2
-    Table.Cell(1, 2).Width = doc.PageSetup.TextColumns(1).Width / 2
-
-    Table.Cell(1, 1).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
-    Table.Cell(1, 1).Borders(wdBorderBottom).LineWidth = wdLineWidth225pt
-    Table.Cell(1, 1).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
-
-    Table.Cell(1, 2).Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
-    Table.Cell(1, 2).Borders(wdBorderBottom).LineWidth = wdLineWidth075pt
-    Table.Cell(1, 2).Borders(wdBorderBottom).Color = RGB(0, 73, 135)
+    
+    Table.Range.ParagraphFormat.SpaceAfter = 0
+      
+    
 
     If ActiveWindow.View.SplitSpecial = wdPaneNone Then
         ActiveWindow.ActivePane.View.Type = wdPrintView
     Else
         ActiveWindow.View.Type = wdPrintView
     End If
+    
+    InsertDateInExistingTableInHeaders
+
 
 End Sub
 
@@ -724,7 +778,7 @@ Sub AddEquationNum()
     Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldEmpty, PreserveFormatting:=False, text:="seq eq"
     Selection.Fields.Update
 End Sub
-
+    
 Sub MpPrintToPDF()
 
 
@@ -735,32 +789,32 @@ ActiveDocument.ExportAsFixedFormat OutputFileName:= _
         IncludeDocProps:=True, KeepIRM:=True, CreateBookmarks:= _
         wdExportCreateHeadingBookmarks, DocStructureTags:=True, _
         BitmapMissingFonts:=True, UseISO19005_1:=False
-
+        
 Application.Quit SaveChanges:=wdDoNotSaveChanges
 End Sub
 
 Sub MathMp()
     FileNum = FreeFile
-
+         
     Open Environ("LOCALAPPDATA") & "\MathMp\input.mp" For Output As #FileNum
-
+    
     Print #FileNum, Replace(Replace(Selection.text, vbCr, ""), vbLf, "")
     Close #FileNum
-
+    
     Shell Environ("MATHMPPATH"), vbNormalFocus
-
+    
     StartTime = Timer
     Do While Timer < StartTime + 1
         DoEvents
     Loop
-
+        
     Shell Environ("MATHMPCLIP"), vbNormalFocus
-
+    
     StartTime = Timer
     Do While Timer < StartTime + 1
         DoEvents
     Loop
-
+    
     Selection.Paste
 End Sub
 
@@ -786,5 +840,6 @@ tbl.AllowAutoFit = True
 tbl.Borders.Enable = False
 tbl.LeftPadding = InchesToPoints(0)
 tbl.RightPadding = InchesToPoints(0)
+
 
 End Sub
