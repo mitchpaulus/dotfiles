@@ -31,3 +31,5 @@ Found from the journal article <https://www.sciencedirect.com/science/article/pi
 # PowerShell
 
 [The PowerShell Scripting and Toolmaking Book](https://leanpub.com/powershell-scripting-toolmaking)
+
+[The Data Compression Book](https://www.amazon.com/Data-Compression-Book-Mark-Nelson/dp/1558514341/ref=as_li_ss_tl?dchild=1&keywords=the+data+compression+book&qid=1595120567&sr=8-1&linkCode=sl1&tag=stelos-20&linkId=629ed01090f8a13a2d52fac9c7a829c7&language=en_US)
