@@ -1,7 +1,7 @@
 #!/usr/bin/env mshell
 soe
 
-args len 1 < ("Usage: docx2pdf <docx-file> [pdf-file]" wl 0 exit) () iff
+args len 1 < ("Usage: docx2pdf <docx-file> [pdf-file]" wl 0 exit) iff
 
 # /mMpPrintToPDF runs the MpPrintToPDF macro in the Word document.
 # That saves to %TMP%\docx.pdf by default.
@@ -9,7 +9,7 @@ args len 1 < ("Usage: docx2pdf <docx-file> [pdf-file]" wl 0 exit) () iff
 # Unix path to Windows TMP file
 [wslpath -u [winenv TMP] os;] os; tmp-dir!
 [mktemp --suffix .docx '--tmpdir=' @tmp-dir +]os; tmpfile!
-[cp $1 @tmpfile];
+$1 @tmpfile cp
 "Converting '" @tmpfile + "' to PDF..." + wle
 
 [wslpath -w -a @tmpfile]os; input-docx!
@@ -18,13 +18,12 @@ args len 1 < ("Usage: docx2pdf <docx-file> [pdf-file]" wl 0 exit) () iff
 "Successfully printed to PDF." wle
 
 def move-result-file (--)
-    [mv [wslpath -u [winenv TMP]os; ]os; "/docx.pdf" + $2];
+    ['mv' [wslpath -u [winenv TMP]os; ]os; "/docx.pdf" + $2];
 end
 
 # If a second arg, it is the name of the output file.
 args len 1 >
 (move-result-file)
-()
 iff
 
 # OLD
