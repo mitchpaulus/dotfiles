@@ -1,5 +1,8 @@
 BurntSushi.ripgrep.MSVC
 junegunn.fzf
+sharkdp.bat
 sharkdp.fd
 Git.Git
 WinDirStat.WinDirStat
+OliverBetz.ExifTool
+hpjansson.Chafa
