@@ -13,6 +13,7 @@
 set hidden true
 # set mouse on
 set previewer lf-preview
+set sixel true
 map <esc> quit
 
 map t push !tmsu<space>tag<space>"$f"<space>

@@ -8,12 +8,22 @@
 # $3: Height of the preview pane.
 # $4: Horizontal position of the preview pane.
 # $5: Vertical position of the preview pane.
-
 case "$1" in
     *.xlsx|*.XLSX|*.xlsm) excelchop "$1" ;;
     *.zip|*.ZIP|*.xbk) unzip -l "$1" ;;
     *.docx|.DOCX) pandoc --to plain "$1" ;;
-    *.png|*.PNG|*.jpg|*.JPG) chafa "$1" ;;
+    *.png|*.PNG|*.jpg|*.JPG)
+        # Check if img2sixel is installed
+        # if command -v img2sixel >/dev/null 2>&1; then
+        # img2sixel -w "1000" "$1" -w "$(awk -v 'width'="$2" "{print width * 4}")"
+        # img2sixel -w "$(awk -v 'width'="$2" "BEGIN {print width * 5}")"  -h "$(awk -v 'height'="$2" "BEGIN {print height * 5}")"  "$1"
+        print_sixel "$1" "$2" "$3"
+            # chafa -f sixel -s "$2x$3" --animate off --polite on "$1"
+        # else
+            # Fallback to chafa if img2sixel is not installed
+            # chafa "$1"
+        # fi
+    ;;
     *.tar.gz|*.TAR.GZ) tar -tzf "$1" ;;
     *.tar) tar -tf "$1" ;;
     *.eml) memail parse "$1" | fold -s -w "$2" ;;
