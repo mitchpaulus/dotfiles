@@ -46,11 +46,12 @@ python/test_diagram.py
 sfeedrc
 
 # REDOGI
+go/lf-preview-win/lf-preview-win.exe
+go/todoist/todoist
 go/toggl/toggl
 go/toggl/toggl.exe
 haskell/**/*
 haskell/all
 notes/**/*.pdf
-scripts/printmath
 sfeedrc
 vim/vimrc

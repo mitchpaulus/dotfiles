@@ -1,6 +1,7 @@
 # Windows specific lfrc
 
 set hidden true
+set sixel
 map <esc> quit
 
 # Unmap single y
@@ -29,3 +30,10 @@ cmd copy-filename & msh -c "[clip.exe] $f 1:-1 basename < ;"
 cmd on-cd $ msh -c wt_cwd
 
 map <f-2> rename
+
+set previewer lf-preview-win.exe
+
+map gd cd_dotfiles
+cmd cd_dotfiles ${{
+    lf -remote "send $id cd \"$DOTFILES\""
+}}

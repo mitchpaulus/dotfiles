@@ -1,21 +1,8 @@
 #!/usr/bin/env mshell
 
 # See on cell pixel size: https://github.com/hpjansson/chafa/issues/211
+# But chafa seems to handle it well enough.
 soe
 args len 3 < ("Expected 3 args, file path, output width max, output height max" wl 0 exit) iff
-
-$2 toInt widthCells!
-$3 toInt heightCells!
-
-# Get width and height of actual image
-[exiftool -n -s3 -ImageWidth -ImageHeight $1]o; response!
-
-@response :0: toInt imageWidth!
-@response :1: toInt imageHeight!
-
-@widthCells 10 * toFloat @imageWidth /
-@heightCells 20 * toFloat @imageHeight /
-<
-([img2sixel -w @widthCells 10 * $1];  "width\n" `/tmp/sixel.txt` appendFile ) # Width constrained
-([img2sixel -h @heightCells 20 * $1]; "height\n" `/tmp/sixel.txt` appendFile ) # Height constrained
-iff
+$"{$2}x{$3}" size!
+[chafa -f sixel -s @size --animate off --polite on -t 1 --bg black $1];
