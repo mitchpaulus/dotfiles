@@ -1,0 +1,10 @@
+#!/usr/bin/env mshell
+
+args len 3 < ("Usage: lf-preview-win.msh <file> <width> <height>" wl 1 exit) iff
+
+$1 ext ".jpg" =
+(
+    [msh.exe $"{$DOTFILES}/scripts/print_sixel" $1 $2 $3];
+)
+(bat $1)
+iff
