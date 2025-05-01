@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import sys
 from enum import IntEnum
+from typing import Optional
 
 """Table documentation:
 https://learn.microsoft.com/en-us/office/vba/api/word.table
@@ -125,6 +126,7 @@ class WordBorderType(IntEnum):
 # Borders Object.
 # https://learn.microsoft.com/en-us/office/vba/api/word.borders
 
+
 class Row:
     # https://learn.microsoft.com/en-us/office/vba/api/word.row
     # Methods:
@@ -160,6 +162,9 @@ class Range:
         self.end_row = end_row
         self.end_col = end_col
 
+
+type IRange = Row | Column | Cell | Range | Table
+
 class Color:
     def __init__(self, r: int, g: int, b: int) -> None:
         self.r = r
@@ -170,7 +175,7 @@ CCLLC_BLUE = Color(0, 73, 135)
 
 class Table:
     def __init__(self) -> None:
-        self._merges = []
+        self._merges: list[tuple[int, int, int, int]] = [] # List of tuples (start_row, start_col, end_row, end_col), all on 1-based index
         self._background_colors = []
         self._bolds = []
         self._vertical_alignments = []
@@ -183,6 +188,7 @@ class Table:
         self._right_padding = None
         self._top_padding = None
         self._bottom_padding = None
+        self._style: Optional[str] = None
 
         self.current_cell_range = None
 
@@ -206,8 +212,8 @@ class Table:
             return 0
         return max([len(row) for row in self.data])
 
-    def merge_cells(self, start_row: int, start_col: int, end_row: int, end_col: int):
-        self._merges.append((start_row, start_col, end_row, end_col))
+    def merge_cells(self, start_row_one_based: int, start_col_one_based: int, end_row_one_based: int, end_col_one_based: int):
+        self._merges.append((start_row_one_based, start_col_one_based, end_row_one_based, end_col_one_based))
         return self
 
     def set_data(self, data: list[list[str]]):
@@ -218,7 +224,7 @@ class Table:
         self._background_colors.append((cell_range, color))
         return self
 
-    def bold(self, cell_range, bold: bool):
+    def bold(self, cell_range: IRange, bold: bool):
         self._bolds.append((cell_range, bold))
         return self
 
@@ -261,8 +267,12 @@ class Table:
         self._horizontal_alignments.append((cell_range, alignment))
         return self
 
-    def decimal_tab(self, cell_range, position):
+    def decimal_tab(self, cell_range: IRange, position):
         self.decimal_tabs.append((cell_range, position))
+        return self
+
+    def style(self, word_table_style: str):
+        self._style = word_table_style
         return self
 
     def col_width(self, col, width_inches):
@@ -285,7 +295,7 @@ class Table:
 
         return self
 
-    def obj_from_cell_range(self, cell_range):
+    def obj_from_cell_range(self, cell_range: IRange):
         if isinstance(cell_range, Cell):
             row = self.eval_row(cell_range.row)
             col = self.eval_col(cell_range.column)
@@ -450,6 +460,8 @@ class Table:
         if self._bottom_padding is not None:
             lines.append(f'tbl.BottomPadding = InchesToPoints({self._bottom_padding})')
 
+        if self._style:
+            lines.append(f'tbl.Style = "{self._style}"') # Probably need some escaping here
 
         return "\n".join(lines) + "\n"
 
