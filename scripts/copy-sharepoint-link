@@ -1,12 +1,12 @@
 #!/usr/bin/env mshell
-args :0: filepath!
-args :1: lf-id!
+$1 filepath!
+$2 lf-id!
 
 [create_link.py @filepath] os ?
 0 >
 (['lf' -remote $"send {@lf-id} echomsg Failed to copy link"]; "Exiting" wl 1 exit)
-()
 iff
+
 link!
 [clip] @link < ;
 

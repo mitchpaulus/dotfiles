@@ -43,6 +43,7 @@ map yd copy-contents
 # Short for 'yank text'
 map yt copy-contents
 map yl copy-sharepoint-link
+map yh copy-sharepoint-link-html
 
 # Remap 'f' key. Never really use the find functionality.
 map f mark-load
@@ -74,6 +75,8 @@ cmd copy-windows-full-path &{{
 }}
 cmd copy-command-path & CCLLCCopyToClip.exe "$(wslpath -w "$f")"
 cmd copy-sharepoint-link & copy-sharepoint-link "$f" "$id"
+
+cmd copy-sharepoint-link-html & copy_sharepoint_link_html
 
 cmd copy-gitpath & gitpath "$f" | clip
 cmd run-redo ! redo "$f"

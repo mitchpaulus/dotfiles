@@ -1,0 +1,66 @@
+#!/usr/bin/env python3
+
+# link_to_clipboard.py
+import sys
+import win32clipboard as wc
+import win32con
+
+def make_cf_html(fragment: str) -> bytes:
+    """
+    Build a CF_HTML-compliant byte string from an HTML fragment.
+    """
+    # The CF_HTML header template
+    header = (
+        "Version:0.9\r\n"
+        "StartHTML:<<<<<<<\r\n"
+        "EndHTML:>>>>>>> \r\n"
+        "StartFragment:^^^^^^^\r\n"
+        "EndFragment:*******\r\n"
+    )
+    # Markers
+    start_frag_marker = "<!--StartFragment-->"
+    end_frag_marker   = "<!--EndFragment-->"
+
+    # Assemble full HTML
+    html = header + start_frag_marker + fragment + end_frag_marker
+    b = html.encode("utf-8")
+
+    # Compute offsets
+    start_html    = b.find(start_frag_marker.encode("utf-8")) - len(header.encode("utf-8"))
+    start_fragment= start_html + len(start_frag_marker)
+    end_fragment  = start_fragment + len(fragment.encode("utf-8"))
+    end_html      = len(b)
+
+    # Patch in numeric offsets (10-digit, zero-padded)
+    def pad(n): return f"{n:010d}"
+    patched = (
+        html
+        .replace("<<<<<<<", pad(len(header.encode("utf-8"))))
+        .replace(">>>>>>>", pad(end_html))
+        .replace("^^^^^^^", pad(start_fragment))
+        .replace("*******", pad(end_fragment))
+    )
+    return patched.encode("utf-8")
+
+def copy_link(url: str, text: str):
+    html_fragment = f'<a href="{url}">{text}</a>'
+    cf_html = make_cf_html(html_fragment)
+
+    # Prepare clipboard
+    wc.OpenClipboard()
+    wc.EmptyClipboard()
+
+    # Register the HTML format and set data
+    CF_HTML = wc.RegisterClipboardFormat("HTML Format")
+    wc.SetClipboardData(CF_HTML, cf_html)
+
+    # Also set plain text as a fallback
+    wc.SetClipboardData(win32con.CF_UNICODETEXT, f"{text} ({url})")
+
+    wc.CloseClipboard()
+
+if __name__ == "__main__":
+    if len(sys.argv) != 3:
+        print("Usage: python link_to_clipboard.py <URL> <Link Text>")
+        sys.exit(1)
+    copy_link(sys.argv[1], sys.argv[2])

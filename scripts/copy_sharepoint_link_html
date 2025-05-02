@@ -1,0 +1,22 @@
+#!/usr/bin/env mshell
+
+[create_link.py $f] os ? not
+(['lf' -remote $"send {$id} echomsg Failed to copy link"]; "Exiting" wl 1 exit)
+iff
+link!
+
+$f "/mnt/c/Users/mpaulus/Command Commissioning/" startsWith $f "C:\\Users\\mpaulus\\Command Commissioning\\" startsWith or
+(
+    $f "/mnt/c/Users/mpaulus/Command Commissioning/" "" findReplace shortened!
+    @shortened "Jobs - " startsWith
+    (@shortened 7: path!)
+    (@shortened path!)
+    iff
+)
+( $f path!)
+iff
+
+[WinCopyLink.exe @link @path] ?
+(['lf' -remote $"send {$id} echomsg Copied HTML link"];)
+(['lf' -remote $"send {$id} echomsg Failed to copy HTML link for {@link} {@path}"]; "Exiting" wl 1 exit)
+iff
