@@ -230,3 +230,11 @@ def twb_from_tdb_w(tdb: float, w: float, total_pressure = None) -> float:
         tries += 1
 
     return guess
+
+def twb_from_tdb_tdp(tdb: float, tdp: float, total_pressure = None) -> float:
+    """Return wet bulb temperature [°F] given dry bulb temperature [°F] and dew point temperature [°F]"""
+    if total_pressure is None:
+        total_pressure = sea_level_pressure_psia
+
+    w = w_from_tdp(tdp, total_pressure)
+    return twb_from_tdb_w(tdb, w, total_pressure)
