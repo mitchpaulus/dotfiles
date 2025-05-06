@@ -1647,6 +1647,25 @@ class IsdRecord:
 
         return (int(self.dew_point_air_temperature)/10) * 9 / 5 + 32
 
+    def parsed_air_pressure_psi(self) -> Optional[float]:
+        if self.air_pressure == "99999":
+            return None
+
+        return int(self.air_pressure) / 10.0 * 100.0 / 6894.7573
+
+    def calculated_wet_bulb_deg_f(self) -> Optional[float]:
+        parsed_dew_point_deg_f = self.parsed_dew_point_deg_f()
+        parsed_air_pressure_psi = self.parsed_air_pressure_psi()
+        parsed_dry_bulb_deg_f = self.parsed_dry_bulb_deg_f()
+
+        if  parsed_dew_point_deg_f is None or parsed_air_pressure_psi is None or parsed_dry_bulb_deg_f is None:
+            return None
+
+        humid_ratio = psy.w_from_tdp(parsed_dew_point_deg_f, parsed_air_pressure_psi)
+        wet_bulb_temp = psy.twb_from_tdb_w(parsed_dry_bulb_deg_f, humid_ratio, parsed_air_pressure_psi)
+
+        return wet_bulb_temp
+
     def year(self) -> int:
         return int(self.date[0:4])
 
@@ -2047,7 +2066,7 @@ def get_year_utilizing_cache(usaf: str, wban: str, y: int) -> str:
     return contents
 
 
-def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, dst = False, minute_interval = 60, datetime_format = None):
+def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, dst = False, minute_interval = 60, datetime_format = None, include_wet_bulb = False):
     """
     returns list of tuples
     0: year (YYYY)
@@ -2145,35 +2164,35 @@ def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, ds
                     # Update to 0-10 scale
                     tenths = cloud_cover_map[total_cloud_cover_int]
                     total_cloud_cover_array.append(tenths)
-                    total_cloud_cover_rd_date_array.append(rec.rd_date(offset_hrs))
+                    total_cloud_cover_rd_date_array.append(rec.rd_date())
             except ValueError:
                 continue
 
 
     # As minute integer
-    year_dates = rd_dates_for_year(year, minute_interval)
+    year_dates = rd_dates_for_year_utc(year, minute_interval, offset_hrs)
 
     print(f"Len year dates for year {year}: {len(year_dates)}", file=sys.stderr)
 
-    toa_indicies = mputils.first_index_gteq(year_dates, [r.rd_date(offset_hrs) for r in toa_array])
-    tdp_indicies = mputils.first_index_gteq(year_dates, [r.rd_date(offset_hrs) for r in tdp_array])
-    press_indicies = mputils.first_index_gteq(year_dates, [r.rd_date(offset_hrs) for r in press_array])
-    wind_dir_indicies = mputils.first_index_gteq(year_dates, [r.rd_date(offset_hrs) for r in wind_dir_array])
-    wind_speed_indicies = mputils.first_index_gteq(year_dates, [r.rd_date(offset_hrs) for r in wind_speed_array])
+    toa_indicies = mputils.first_index_gteq(year_dates, [r.rd_date() for r in toa_array])
+    tdp_indicies = mputils.first_index_gteq(year_dates, [r.rd_date() for r in tdp_array])
+    press_indicies = mputils.first_index_gteq(year_dates, [r.rd_date() for r in press_array])
+    wind_dir_indicies = mputils.first_index_gteq(year_dates, [r.rd_date() for r in wind_dir_array])
+    wind_speed_indicies = mputils.first_index_gteq(year_dates, [r.rd_date() for r in wind_speed_array])
     total_cloud_cover_indicies = mputils.first_index_gteq(year_dates, total_cloud_cover_rd_date_array)
 
     def interpolate(record_array: List[IsdRecord], selector, index) -> float:
         record_1: IsdRecord = record_array[index - 1]
         record_2 = record_array[index]
 
-        datetime_1 = record_1.rd_date(offset_hrs)
-        datetime_2 = record_2.rd_date(offset_hrs)
+        datetime_1 = record_1.rd_date()
+        datetime_2 = record_2.rd_date()
 
         if datetime_2 - datetime_1 > 120:
             print(f"Warning: {datetime_2 - datetime_1} minutes between records: {record_1.iso_date()} and {record_2.iso_date()}", file=sys.stderr)
 
-        slope = (float(selector(record_2)) - float(selector(record_1))) / (record_2.rd_date(offset_hrs) - record_1.rd_date(offset_hrs))
-        return slope * (year_dates[i] - record_1.rd_date(offset_hrs)) + float(selector(record_1))
+        slope = (float(selector(record_2)) - float(selector(record_1))) / (record_2.rd_date() - record_1.rd_date())
+        return slope * (year_dates[i] - record_1.rd_date()) + float(selector(record_1))
 
 
     for i in range(len(year_dates)):
@@ -2232,11 +2251,11 @@ def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, ds
             distance_2 = (angle_1 + 360 - angle_2)
 
             if distance_1 < distance_2:
-                slope: float = (distance_1) / (record_2.rd_date(offset_hrs) - record_1.rd_date(offset_hrs))
-                wind_dir = float(slope * (year_dates[i] - record_1.rd_date(offset_hrs)) + angle_1)
+                slope: float = (distance_1) / (record_2.rd_date() - record_1.rd_date())
+                wind_dir = float(slope * (year_dates[i] - record_1.rd_date()) + angle_1)
             else:
-                slope: float = (distance_2) / (record_2.rd_date(offset_hrs) - record_1.rd_date(offset_hrs))
-                wind_dir = float((slope * (year_dates[i] - record_1.rd_date(offset_hrs)) + angle_2) % 360)
+                slope: float = (distance_2) / (record_2.rd_date() - record_1.rd_date())
+                wind_dir = float((slope * (year_dates[i] - record_1.rd_date()) + angle_2) % 360)
 
         # Calculate wind speed
         if wind_speed_index is None or wind_speed_index == 0:
@@ -2269,10 +2288,17 @@ def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, ds
             total_cloud_cover = int(round(slope * (year_dates[i] - rd_date_1) + tenths_1))
 
 
-        y, mon, d, h, m = mputils.ymdhm_from_rd(year_dates[i])
+        # Convert to local time if needed
+        y, mon, d, h, m = mputils.ymdhm_from_rd(year_dates[i] + offset_hrs * 60)
 
         if dst and mputils.is_dst(y, mon, d, h):
-            y, mon, d, h, m = mputils.ymdhm_from_rd(year_dates[i] + 60)
+            y, mon, d, h, m = mputils.ymdhm_from_rd(year_dates[i] + offset_hrs * 60 + 60)
+
+        twb = None
+        if include_wet_bulb and toa is not None and tdp is not None and press is not None:
+            # TODO: Stop the nonsense
+            twb = psy.twb_from_tdb_tdp(toa * 9.0 / 5.0 + 32.0, tdp * 9.0 / 5.0 + 32.0, press / 6894.7573)
+            twb = (twb - 32) * 5.0 / 9.0
 
         if ip:
             toa = toa * 9 / 5 + 32 if toa is not None else None
@@ -2281,12 +2307,20 @@ def hourly_year(usaf: str, wban: str, year: int, offset_hrs: int, ip = False, ds
             press = press / 6894.7573 if press is not None else None
             # m/s to mph
             wind_speed = wind_speed * 2.23694 if wind_speed is not None else None
+            twb = twb * 9 / 5 + 32 if twb is not None else None
 
+        
         if datetime_format is not None:
+
             datetime_str = datetime.datetime(y, mon, d, h, m).strftime(datetime_format)
-            lines.append((datetime_str, toa, tdp, relative_humidity, press, wind_dir, wind_speed, total_cloud_cover))
+            line = [datetime_str, toa, tdp, relative_humidity, press, wind_dir, wind_speed, total_cloud_cover]
         else:
-            lines.append((y, mon, d, h, m, toa, tdp, relative_humidity, press, wind_dir, wind_speed, total_cloud_cover))
+            line = [y, mon, d, h, m, toa, tdp, relative_humidity, press, wind_dir, wind_speed, total_cloud_cover]
+
+        if include_wet_bulb:
+            line.append(twb)
+
+        lines.append(line)
 
     return lines
 
@@ -2507,6 +2541,11 @@ def rd_dates_for_year(year: int, minute_interval: int = 60) -> List[int]:
     end = mputils.fixed_from_gregorian(year + 1, 1, 1, 0, 0, True)
     return list(range(start, end, minute_interval))
 
+def rd_dates_for_year_utc(year: int, minute_interval: int = 60, offset_hr = 0) -> List[int]:
+    start = mputils.fixed_from_gregorian(year, 1, 1, 0, 0, True) - (offset_hr * 60)
+    end = mputils.fixed_from_gregorian(year + 1, 1, 1, 0, 0, True) - (offset_hr * 60)
+    return list(range(start, end, minute_interval))
+
 def average_temps(dates: List[Tuple[int, int]], data_hourly) -> List[float]:
     outputs = []
     records = []
@@ -2668,6 +2707,7 @@ Options:
     --header: Add header to output (only for hourly output currently)
     --interval: Minute interval for hourly data (default is 60)
     --ip: Convert to imperial units
+    --iso: Use ISO format for date in hourly output, same as --format "%Y-%m-%d %H:%M"
     --dfw: Shortcut for my location (DFW airport)
     --iah: Shortcut for Houston (IAH airport)
     --hou: Shortcut for Houston (HOU airport)
@@ -2743,6 +2783,8 @@ def main():
     date_file = None
 
     datetime_format = None
+
+    include_wet_bulb = False
 
     idx = 1
     while idx < len(sys.argv):
@@ -2879,6 +2921,9 @@ def main():
         elif a == "--ave":
             average_temps_cmd = True
             idx += 1
+        elif a == "--wet-bulb":
+            include_wet_bulb = True
+            idx += 1
         else:
             print(f"Error: unknown argument {a}", file=sys.stderr)
             sys.exit(1)
@@ -3004,7 +3049,7 @@ def main():
             print("Error: no offset given", file=sys.stderr)
             sys.exit(1)
 
-        lines = hourly_year(usaf, wban, year, offset, ip, dst, minute_interval, datetime_format)
+        lines = hourly_year(usaf, wban, year, offset, ip, dst, minute_interval, datetime_format, include_wet_bulb)
 
         if header:
             if datetime_format is None:
@@ -3014,8 +3059,13 @@ def main():
 
             if ip:
                 headers.extend(["Outdoor Air Temperature (°F)", "Dew Point Temperature (°F)", "Relative Humidity (%)", "Atmospheric Station Pressure (psi)", "Wind Direction (0-360)", "Wind Speed (mph)", "Total Sky Cover (tenths)"])
+                if include_wet_bulb:
+                    headers.append("Wet Bulb Temperature (°F)")
             else:
                 headers.extend(["Outdoor Air Temperature (°C)", "Dew Point Temperature (°C)", "Relative Humidity (%)", "Atmospheric Station Pressure (Pa)", "Wind Direction (0-360)", "Wind Speed (m/s)", "Total Sky Cover (tenths)"])
+
+                if include_wet_bulb:
+                    headers.append("Wet Bulb Temperature (°C)")
 
             print(*headers, sep='\t')
 
