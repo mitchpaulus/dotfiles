@@ -211,7 +211,9 @@ American Meteorological Society
 
 T in Celsius, RH% (0-100), atan taking radians.
 
-Tw = T * atan[ 0.151977 * ( (RH% + 8.313659)^1/2  ) ] + atan(T + RH%) - atan(RH% - 1.676331) +  0.00391838(RH%)^3/2 * atan(0.023101 * RH%) - 4.686035
+Tw = T * atan[ 0.151977 * ( (RH% + 8.313659)^1/2  ) ] + atan(T + RH%) - atan(RH% - 1.676331) +  0.00391838 * (RH%)^3/2 * atan(0.023101 * RH%) - 4.686035
+
+H2 * atan( 0.151977 * ( (G2 + 8.313659)^(1/2)  ) ) + atan(H2 + G2) - atan(G2 - 1.676331) +  (0.00391838 * ((G2)^(3/2))) * atan(0.023101 * G2) - 4.686035
 
 ## Spark Spread
 
