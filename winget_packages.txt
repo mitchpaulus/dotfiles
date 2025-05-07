@@ -7,3 +7,4 @@ WinDirStat.WinDirStat
 OliverBetz.ExifTool
 hpjansson.Chafa
 QPDF.QPDF
+astral-sh.uv
