@@ -6,3 +6,4 @@ Git.Git
 WinDirStat.WinDirStat
 OliverBetz.ExifTool
 hpjansson.Chafa
+QPDF.QPDF
