@@ -6,8 +6,11 @@ soe
 args len 3 < ("Expected 3 args, file path, output width max, output height max" wl 0 exit) iff
 $"{$2}x{$3}" size!
 
-[chafa --version]e; :0: version!
-@version "1.8.0" in
-([chafa -f sixel -s @size -t 1 --bg black $1];)
-([chafa -f sixel -s @size --animate off --polite on -t 1 --bg black $1];)
+# Depending on the chafa it prints version to either stdout or stderr :(
+[chafa --version] oc ec;
+stderr! stdout!
+@stderr "1.8.0" in
+@stdout "1.8.0" in or
+( [chafa -f sixel -s @size -t 1 --bg black $1]; )
+( [chafa -f sixel -s @size --animate off --polite on -t 1 --bg black $1]; )
 iff
