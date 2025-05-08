@@ -2,7 +2,10 @@
 
 args len 3 < ("Usage: lf-preview-win.msh <file> <width> <height>" wl 1 exit) iff
 
-$1 ext ".jpg" =
+$1 ext lower ext!
+@ext ".jpg" =
+@ext ".jpeg" = or
+@ext ".png" = or
 (
     [msh.exe $"{$DOTFILES}/scripts/print_sixel" $1 $2 $3];
 )
