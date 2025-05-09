@@ -5,5 +5,12 @@
 # ['find' $"{$DOTFILES}/scripts" -type 'f'] o;
 $"{$DOTFILES}/scripts" filesIn
 (basename) map unlines scripts!
-[fzf $"--preview=lf-preview {$DOTFILES}/scripts/" "{}" +] @scripts < os ? not (0 exit) iff file!
+
+runtime 'windows' =
+('bat.exe')
+('lf-preview')
+iff
+previewer!
+
+[fzf $"--preview={@previewer} {$DOTFILES}/scripts/" "{}" +] @scripts < os ? not (0 exit) iff file!
 [$EDITOR $"{$DOTFILES}/scripts/{@file}"];
