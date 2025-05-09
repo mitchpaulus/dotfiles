@@ -26,3 +26,8 @@ Can take network requests send to public IP and then send them to a particular
 device on the local network based on the port the network request came in on.
 
 <https://www.youtube.com/watch?v=mLLKtO-qlNM>
+
+
+## Tracking all web requests
+
+`edge://net-export/`
