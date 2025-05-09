@@ -78,7 +78,7 @@ def no_interpolate(filter_incomplete: bool):
                     print('\t', end='')
             print()
 
-def main(filter_incomplete: bool, minute_interval: int):
+def main(filter_incomplete: bool, minute_interval: int, dt: bool):
     date_parser = DateParser()
 
     min_date = datetime.datetime(9998, 1, 1)
@@ -124,7 +124,7 @@ def main(filter_incomplete: bool, minute_interval: int):
     min_date = min_date - datetime.timedelta(minutes=min_date.minute % minute_interval, seconds=min_date.second, microseconds=min_date.microsecond)
     max_date = max_date - datetime.timedelta(minutes=max_date.minute % minute_interval, seconds=max_date.second, microseconds=max_date.microsecond)
 
-    interpolation_dates = []
+    interpolation_dates: list[datetime.datetime] = []
     current_date = min_date
     while current_date <= max_date:
         interpolation_dates.append(current_date)
@@ -189,21 +189,47 @@ def main(filter_incomplete: bool, minute_interval: int):
     mputils.version_sort_by_in_place(all_data, lambda x: x[0])
 
     # Print as TSV
-
-    # print Header
-    print('Timestamp', end='')
-    for trend, _ in all_data:
-        print('\t' + trend, end='')
-    print()
-
-    for idx_gte, date in enumerate(interpolation_dates):
-        if filter_incomplete and any(data[idx_gte][1] == '' for _, data in all_data):
-            continue
-
-        print(date.strftime('%Y-%m-%d %H:%M:%S'), end='')
-        for _, data in all_data:
-            print('\t' + data[idx_gte][1], end='')
+    if dt:
+        # print Header
+        print('Timestamp\tYear\tMonth\tDay\tHour\tMinute\tDay Num', end='')
+        for trend, _ in all_data:
+            print('\t' + trend, end='')
         print()
+
+        for idx_gte, date in enumerate(interpolation_dates):
+            if filter_incomplete and any(data[idx_gte][1] == '' for _, data in all_data):
+                continue
+
+            date_fields = [
+                date.strftime('%Y-%m-%d %H:%M:%S'),
+                date.year,
+                date.month,
+                date.day,
+                date.hour,
+                date.minute,
+                date.weekday(),
+            ]
+
+            print("\t".join(map(str, date_fields)), end='')
+            for _, data in all_data:
+                print('\t' + data[idx_gte][1], end='')
+            print()
+
+    else:
+        # print Header
+        print('Timestamp', end='')
+        for trend, _ in all_data:
+            print('\t' + trend, end='')
+        print()
+
+        for idx_gte, date in enumerate(interpolation_dates):
+            if filter_incomplete and any(data[idx_gte][1] == '' for _, data in all_data):
+                continue
+
+            print(date.strftime('%Y-%m-%d %H:%M:%S'), end='')
+            for _, data in all_data:
+                print('\t' + data[idx_gte][1], end='')
+            print()
 
 # Define tokens
 filter_incomplete_token = 1
@@ -212,7 +238,8 @@ string_token = 3
 integer_token = 4
 help_token = 5
 no_interpolate_token = 6
-eof = 7
+dt_token = 7
+eof = 8
 
 class Token:
     def __init__(self, token_type: int, value: str):
@@ -242,6 +269,8 @@ class CliLexer:
             return Token(help_token, str_val)
         elif str_val == "--no-interpolate":
             return Token(no_interpolate_token, str_val)
+        elif str_val == "--dt":
+            return Token(dt_token, str_val)
         elif str_val.startswith('-'):
             raise Exception(f"Unknown option {str_val}")
         # Else if try parse as integer
@@ -275,9 +304,10 @@ class CliParser:
 
     def parse_options(self):
         while True:
-            print(self.lookahead, file=sys.stderr)
+            # print(self.lookahead, file=sys.stderr)
             if self.lookahead.token_type == eof:
                 break
+
             if self.lookahead.token_type == filter_incomplete_token:
                 self.match(filter_incomplete_token)
                 self.options.filter_incomplete = True
@@ -293,6 +323,9 @@ class CliParser:
                 print("  --interval, -i: Set the interval in minutes for the output data. Default is 5 minutes.")
                 print("  --no-interpolate: Do not interpolate data.")
                 sys.exit(0)
+            elif self.lookahead.token_type == dt_token:
+                self.options.dt = True
+                self.match(dt_token)
             else:
                 raise Exception(f"Unexpected token {self.lookahead}")
 
@@ -308,6 +341,7 @@ class Options:
         self.filter_incomplete = False
         self.interval = 5
         self.no_interpolate = False
+        self.dt = False
 
     def __str__(self):
         return f"Filter incomplete: {self.filter_incomplete}, Interval: {self.interval}, No interpolate: {self.no_interpolate}"
@@ -326,4 +360,4 @@ if __name__ == "__main__":
     if options.no_interpolate:
         no_interpolate(options.filter_incomplete)
     else:
-        main(options.filter_incomplete, options.interval)
+        main(options.filter_incomplete, options.interval, options.dt)
