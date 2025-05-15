@@ -108,5 +108,40 @@
             "<a href=\"$1\">$2</a>"
         ],
         "description": "link"
+    },
+    "h1": {
+        "prefix": "h1",
+        "body": [
+            "<h1>$1</h1>"
+        ],
+        "description": "h1"
+    },
+    "h2": {
+        "prefix": "h2",
+        "body": [
+            "<h2>$1</h2>"
+        ],
+        "description": "h2"
+    },
+    "h3": {
+        "prefix": "h3",
+        "body": [
+            "<h3>$1</h3>"
+        ],
+        "description": "h3"
+    },
+    "code": {
+        "prefix": "c",
+        "body": [
+            "<code>$1</code>"
+        ],
+        "description": "code"
+    },
+    "italic": {
+        "prefix": "i",
+        "body": [
+            "<i>$1</i>"
+        ],
+        "description": "italic"
     }
 }
