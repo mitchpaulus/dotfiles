@@ -1,10 +1,11 @@
 #!/usr/bin/env mshell
 soe
 
+[toggl projects]o; projs!
+@projs (tsplit :1:) map projs!
+
 [
-    [toggl projects]
-    [cut -f 2]
-    [sort -V]
+    ['sort' -V] @projs unlines <
     [fzf]
 ] | os ?
 not (1 exit) iff

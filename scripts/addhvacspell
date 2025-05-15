@@ -2,8 +2,10 @@
 soe
 @DOTFILES cd
 "C" $LC_ALL!
-[sort vim/spell/hvac.utf-8.add] `vim/spell/hvac.utf-8.add.tmp` > ;
-[mv vim/spell/hvac.utf-8.add.tmp vim/spell/hvac.utf-8.add] ;
+['sort' vim/spell/hvac.utf-8.add] `vim/spell/hvac.utf-8.add.tmp` > ;
+
+vim/spell/hvac.utf-8.add.tmp vim/spell/hvac.utf-8.add mv
+
 [git add "vim/spell/hvac.utf-8.add"];
 [git commit -m "Add spellings"];
 [git push];

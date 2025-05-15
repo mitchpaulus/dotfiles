@@ -1,6 +1,14 @@
 #!/usr/bin/env mshell
 
-$"```and\n{$1 readFile}```\n" codeMarkdown!
+args (a! @a "--help" = @a "-h" = or) any
+(
+    "andover2docx code.and" wl
+    0 exit
+) iff
+
+$"```and\n{$1 readFile}\n```\n" codeMarkdown!
+
+@codeMarkdown w
 
 [andover_kde]oc; psub syntax_file!
 
