@@ -1,0 +1,3 @@
+#!/usr/bin/env mshell
+
+['lf' -remote $"send {$id} cd \"{$DOTFILES}\""];
