@@ -20,6 +20,8 @@ notes/*.docx
 go/toggl/toggl
 go/todoist/todoist
 
+win_scripts/
+
 # Haskell build files
 *.hi
 *.o

@@ -1,0 +1,23 @@
+#!/usr/bin/env mshell
+
+`win_scripts` mkdirp
+
+`scripts/*` glob
+(
+    f!
+    # Get first line
+    @f readFile lines :0: shebang!
+
+    @shebang "msh" in
+    (
+        @f
+        @f ".msh" endsWith
+        ($"{@f basename}")
+        ($"{@f basename}.msh")
+        iff
+        toFile!
+        $"win_scripts/{@toFile}"
+        cp
+    )
+    iff
+) each
