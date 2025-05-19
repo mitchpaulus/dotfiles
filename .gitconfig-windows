@@ -1,0 +1,45 @@
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+[user]
+	name = Mitchell Paulus
+	email = paulusm14@gmail.com
+
+[core]
+	editor = C:\\\\Users\\\\mpaulus\\\\bin\\\\nvim-win64\\\\bin\\\\nvim.exe
+    fileMode = false
+    ignorecase = true
+    symlinks = false
+    autocrlf = input
+
+[pull]
+    ff = only
+
+[push]
+    autoSetupRemote = true
+    default = simple
+
+[diff]
+    algorithm = histogram
+
+[init]
+	defaultBranch = main
+
+[alias]
+    st = status -u
+    co = checkout
+    logg = log --graph --date=format:'%b-%d %H:%M' -n 50 --format=format:'%C(yellow)%d%Creset %s %Cred%an %Cgreen%cd %Cblue%h%Creset'
+    fp = fetch --prune
+    pull = pull --ff-only
+    branches = branch -a
+    remotes = remote -v
+    cm = commit -m
+    r = rebase
+    sl = stash list
+    sc = stash clear
+    # Taken from https://blog.jez.io/cli-code-review/
+    files = !git diff --name-only $(git merge-base HEAD Dev_branch)
+    stat = !git diff --stat $(git merge-base HEAD Dev_branch)
+    review = !nvim $(git files) +\"bufdo Gdiffsplit Dev_branch\"

@@ -35,5 +35,5 @@ set previewer lf-preview-win.exe
 
 map gd cd_dotfiles
 cmd cd_dotfiles ${{
-    lf -remote "send $id cd \"$DOTFILES\""
+    lf_send_dotfiles.msh
 }}
