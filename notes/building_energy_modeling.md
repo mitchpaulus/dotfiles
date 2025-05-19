@@ -174,6 +174,14 @@ References:
   - 48 W/person EnergyStar?
 
 
+## Schedules
+
+<https://unmethours.com/question/18/are-there-more-recent-sources-of-building-occupancyload-schedules-based-on-measured-empirical-data-from-real-buildings/>
+
+ASHRAE 90.1 User Manuals
+
 ## References
 
 - <https://help.iesve.com/ve2021/table_6_thermal_conductivity__specific_heat_capacity_and_density.htm>
+
+- [COMNET](https://www.comnet.org/reference-appendices)
