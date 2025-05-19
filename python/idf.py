@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import sys
-from typing import List, Iterable, Union
+from typing import List, Iterable, Union, Optional
 import math
 import json
 import pathlib
@@ -84,7 +84,7 @@ def idf2tsv(file) -> list[list[str]]:
 
 
 def tsv2dict(file: list[list[str]]) -> dict[str, list[list[str]]]:
-    """Returns grouping by Object Type. Object Type keys are all lowercase."""
+    """Returns grouping by Object Type. Object Type keys are all lowercase. The list of fields includes the object type as the first field."""
     results = {}
 
     for line in file:
@@ -227,10 +227,81 @@ def analyze_eflh_sch_year(file_dict, year_schedule: list[str], week_schedules: d
     return total_eflh
 
 
-def eflh_hours_weeks(file_dict, day_analysis) -> dict[str, list[float]]:
+def def_parse_compact_week(fields: list[str], day_dict: dict[str, float]) -> list[float]:
+    # 0, 1  are the type and name
+    index = 2
+
+    # initialize length 12 array with Nones
+    days: list[Optional[str]] = [ None, None, None, None, None, None, None, None, None, None, None, None, ]
+    # Sunday = 0 Monday = 1 Tuesday = 2 Wednesday = 3 Thursday = 4 Friday = 5 Saturday = 6 Holiday = 7 SummerDesignDay = 8 WinterDesignDay = 9 CustomDay1 = 10 CustomDay2 = 11
+
+    while index + 1 < len(fields):
+        day_type = fields[index].lower();
+        value = fields[index + 1]
+
+        if "alldays" in day_type:
+            for i in range(len(days)):
+                days[i] = value
+        elif "weekdays" in day_type:
+            for i in range(1, 6):
+                days[i] = value
+        elif "weekends" in day_type:
+            days[0] = value
+            days[6] = value
+        elif "holidays" in day_type:
+            days[7] = value
+        elif "summerdesignday" in day_type:
+            days[8] = value
+        elif "winterdesignday" in day_type:
+            days[9] = value
+        elif "sunday" in day_type:
+            days[0] = value
+        elif "monday" in day_type:
+            days[1] = value
+        elif "tuesday" in day_type:
+            days[2] = value
+        elif "wednesday" in day_type:
+            days[3] = value
+        elif "thursday" in day_type:
+            days[4] = value
+        elif "friday" in day_type:
+            days[5] = value
+        elif "saturday" in day_type:
+            days[6] = value
+        elif "customday1" in day_type:
+            days[10] = value
+        elif "customday2" in day_type:
+            days[11] = value
+        elif "allotherdays" in day_type:
+            for i in range(len(days)):
+                if days[i] is None:
+                    days[i] = value
+        else:
+            raise ValueError(f"Unknown day type '{day_type}' in compact week schedule at index {index}.")
+
+        index += 2
+
+    # Check for any Nones
+    for i in range(len(days)):
+        if days[i] is None:
+            raise ValueError(f"Compact week schedule '{fields[1]}' has None value at index {i} {days}.")
+
+    float_values: list[float] = []
+
+    for d in days:
+        if d is not None and d.lower() in day_dict:
+            float_values.append(day_dict[d.lower()])
+        else:
+            raise ValueError(f"Compact week schedule '{fields[1]}' has unknown day '{d}'.")
+
+    return float_values
+
+
+
+def eflh_hours_weeks(file_dict: dict[str, list[list[str]]], day_analysis) -> dict[str, list[float]]:
     week_schedules = file_dict['schedule:week:daily'.lower()]
 
-    week_schedule_dict = {}
+    week_schedule_dict: dict[str, list[float]] = {}
 
     for week_schedule in week_schedules:
         valid_fractional_sch = True
@@ -249,6 +320,12 @@ def eflh_hours_weeks(file_dict, day_analysis) -> dict[str, list[float]]:
         if valid_fractional_sch:
             # print(name, f"{eflh_total:.1f}" if eflh_total is not None else "N/A")
             week_schedule_dict[name] = day_items
+
+    compact_week_schedules = file_dict['schedule:week:compact'.lower()]
+    for week_schedule in compact_week_schedules:
+        values = def_parse_compact_week(week_schedule, day_analysis)
+        name = week_schedule[1]
+        week_schedule_dict[name] = values
 
     return week_schedule_dict
 
@@ -302,6 +379,7 @@ def eflh_days(file: list[list[str]]) -> dict[str, float]:
                 valid_fractional_sch = False
                 break
             eflh_total += value
+            index += 1
 
         if valid_fractional_sch:
             day_schedule_dict[sch[1].lower()] = eflh_total
