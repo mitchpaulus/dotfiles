@@ -1,0 +1,2 @@
+#!/usr/bin/env mshell
+[curl --silent 'https://raw.githubusercontent.com/mitchpaulus/andover-plain-english-sublime/refs/heads/main/andover.sublime-syntax'];
