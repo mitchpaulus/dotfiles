@@ -10,6 +10,9 @@ b2 ls BUCKET_NAME path/to/prefix
 b2 upload-file BUCKET_NAME local-file-name remote-file-name
 b2 download-file B2_URI local-file-name
 
+b2 sync sourceDir destinationDir
+b2 sync mydir b2://BUCKET_NAME/dir
+
 B2_URI = b2://BUCKET_NAME/remote-file-name
 ```
 
