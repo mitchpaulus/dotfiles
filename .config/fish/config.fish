@@ -280,7 +280,7 @@ bind ';f' filemanager
 bind ';j' workdir
 bind ';c' workdir
 
-bind -k f1 filemanager
+bind f1 filemanager
 
 bind jc git_commit
 bind jd git_diff

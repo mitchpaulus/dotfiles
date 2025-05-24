@@ -1,7 +1,7 @@
 #!/usr/bin/env mshell
 
 def envCheck (bool str -- )
-    error! not (@error wl 1 exit) () iff
+    error! not (@error wl 1 exit) iff
 end
 
 $WINRDPIP?    "IP address env var $WINRDPIP not set" envCheck
