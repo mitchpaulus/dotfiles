@@ -1,2 +1,3 @@
 #!/usr/bin/env mshell
+$LOCALBIN? not ('$LOCALBIN not set' wle 1 exit) iff
 $1 $"{$LOCALBIN}/{$1}" mv
