@@ -1,4 +1,5 @@
 BurntSushi.ripgrep.MSVC
+frippery.busybox-w32
 junegunn.fzf
 sharkdp.bat
 sharkdp.fd
