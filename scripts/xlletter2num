@@ -1,35 +1,34 @@
-#!/bin/sh
-# Print out column number for Excel column letter
+#!/usr/bin/env mshell
 
-printf '%s' \
-'A 1 0
-B 2 1
-C 3 2
-D 4 3
-E 5 4
-F 6 5
-G 7 6
-H 8 7
-I 9 8
-J 10 9
-K 11 10
-L 12 11
-M 13 12
-N 14 13
-O 15 14
-P 16 15
-Q 17 16
-R 18 17
-S 19 18
-T 20 19
-U 21 20
-V 22 21
-W 23 22
-X 24 23
-Y 25 24
-Z 26 25
+# Print out column number for Excel column letter
+'A  1  0
+B  2  1
+C  3  2
+D  4  3
+E  5  4
+F  6  5
+G  7  6
+H  8  7
+I  9  8
+J  10 9
+K  11 10
+L  12 11
+M  13 12
+N  14 13
+O  15 14
+P  16 15
+Q  17 16
+R  18 17
+S  19 18
+T  20 19
+U  21 20
+V  22 21
+W  23 22
+X  24 23
+Y  25 24
+Z  26 25
 AA 27 26
 AB 28 27
 AC 29 28
 AD 30 29
-AE 31 30'
+AE 31 30' wl
