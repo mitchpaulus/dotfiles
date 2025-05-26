@@ -9,3 +9,4 @@ hpjansson.Chafa
 QPDF.QPDF
 astral-sh.uv
 JohnMacFarlane.Pandoc
+Neovim.Neovim
