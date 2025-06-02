@@ -143,5 +143,12 @@
             "<i>$1</i>"
         ],
         "description": "italic"
+    },
+    "pre": {
+        "prefix": "pre",
+        "body": [
+            "<pre><code>$1</code></pre>"
+        ],
+        "description": "pre"
     }
 }
