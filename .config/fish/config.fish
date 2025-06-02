@@ -280,7 +280,12 @@ bind ';f' filemanager
 bind ';j' workdir
 bind ';c' workdir
 
-bind f1 filemanager
+# Check whether the fish version is 3.x 
+if fish --version | grep -q 'version 3'
+    bind -k f1 filemanager
+else
+    bind f1 filemanager
+end
 
 bind jc git_commit
 bind jd git_diff
