@@ -82,3 +82,5 @@ P. L. Wadler. Deforestation: Transforming programs to eliminate trees. Theoretic
 [URL:](http://homepages.inf.ed.ac.uk/wadler/topics/deforestation.html).
 
 Kiselyov, Biboudis, Palladinos, Smaragdakis: Stream Fusion, to Completeness
+
+[Functors, applicatives, and monads in pictures](https://www.adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html)
