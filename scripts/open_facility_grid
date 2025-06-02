@@ -1,6 +1,6 @@
 #!/usr/bin/env mshell
 soe
-[fzf -d tab -n 1,2 "--with-nth=1,2"] `/tmp/fg_projects.tsv` < os;
+[fzf -d tab -n '1,2' "--with-nth=1,2"] `/tmp/fg_projects.tsv` < os;
 tsplit :-1: projectId!
 "https://facilitygrid.net/main/project/" @projectId + "/overview" + url!
 [wsl_url_open @url];
