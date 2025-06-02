@@ -2,7 +2,8 @@
 
 ['fzf' '-1']
 
-['find' $MPNOTES -type 'f' -name '*.md']o;
+$MPNOTES filesIn ('.md' endsWith) filter
+# ['find' $MPNOTES -type 'f' -name '*.md']o;
 (basename :-3) map unlines <
 
 ? exit # Return the exit code from fzf
