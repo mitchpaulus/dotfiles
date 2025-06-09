@@ -2,7 +2,7 @@
 # Get duplicates. Check if we got a file. If no arguments,
 # assume we are passing in data via stdin
 if test -n "$1"; then
-    sort "$1" | uniq -cd
+    sort -V "$1" | uniq -cd
 else
-    sort - | uniq -cd
+    sort -V - | uniq -cd
 fi
