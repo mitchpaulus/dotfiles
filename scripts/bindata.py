@@ -23,80 +23,94 @@ def main():
     filename = None
     column_one_based = 1
     trend_name = None
+    num_skip_rows = 0
 
     y_axis_type = "Count"
 
     while idx < len(sys.argv):
-        if sys.argv[idx] == '--bin' or sys.argv[idx] == '-b':
+        arg = sys.argv[idx]
+        idx += 1
+
+        if arg == '--bin' or arg == '-b':
+            arg = sys.argv[idx]
             idx += 1
             try:
-                bin_size = float(sys.argv[idx])
+                bin_size = float(arg)
             except ValueError:
-                print(f"Invalid bin size '{sys.argv[idx]}'")
+                print(f"Invalid bin size '{arg}'")
                 return
             except IndexError:
                 print("Missing bin size")
                 return
-            idx += 1
-        elif sys.argv[idx] == '-h' or sys.argv[idx] == '--help':
+        elif arg == '-h' or arg == '--help':
             print("Usage: bindata.py OPTIONS <filename>")
             print("Options:")
-            print("  -b, --bin <size>   Size of bin (default 1)")
-            print("  -h, --help         Display this help message")
-            print("  -c, --column <num> Column number to bin (default 1)")
+            print("  -b, --bin <size>    Size of bin (default 1)")
+            print("  -h, --help          Display this help message")
+            print("  -c, --column <num>  Column number to bin (default 1)")
             print("  -m, --missing <txt> Text to use for missing values (default blank)")
             print("  -r, --remove        Remove rows with missing values")
+            print("  -s, --skip <num>    Number of rows to skip at start of file (default 0)")
             print("  -n, --name <name>   Name of trend to bin")
             return
-        elif sys.argv[idx] == "-m" or sys.argv[idx] == "--missing":
-            idx += 1
+        elif arg == "-m" or arg == "--missing":
             if idx >= len(sys.argv):
                 print("Missing missing value text")
                 return
             blank_text = sys.argv[idx]
             idx += 1
-        elif sys.argv[idx] == "-r" or sys.argv[idx] == "--remove":
+        elif arg == "-r" or arg == "--remove":
             remove_blank = True
-            idx += 1
-        elif sys.argv[idx] == "-c" or sys.argv[idx] == "--column":
-            idx += 1
+        elif arg == "-c" or arg == "--column":
             try:
-                column_one_based = int(sys.argv[idx])
+                arg = sys.argv[idx]
+                idx += 1
+
+                column_one_based = int(arg)
             except ValueError:
-                print(f"Invalid column number '{sys.argv[idx]}'")
+                print(f"Invalid column number '{arg}'")
                 return
             except IndexError:
                 print("Missing column number")
                 return
-            idx += 1
+
             if column_one_based < 1:
                 print("Column number must be greater than 0")
                 return
-        elif sys.argv[idx] == "-n" or sys.argv[idx] == "--name":
-            idx += 1
+        elif arg == "-n" or arg == "--name":
             if idx >= len(sys.argv):
                 print("Missing trend name")
                 return
             trend_name = sys.argv[idx]
             idx += 1
 
-        elif sys.argv[idx] == "-p":
-            idx += 1
+        elif arg == "-p":
             y_axis_type = "Percent"
-        elif sys.argv[idx].startswith('-'):
-            print(f"Unknown option '{sys.argv[idx]}'")
+        elif arg == "-s" or arg == "--skip":
+            arg = sys.argv[idx]
+            idx += 1
+            try:
+                num_skip_rows = int(arg)
+            except ValueError:
+                print(f"Invalid number of rows to skip '{arg}'")
+                return
+            except IndexError:
+                print("Missing number of rows to skip")
+                return
+        elif arg.startswith('-'):
+            print(f"Unknown option '{arg}'")
             return
         else:
-            filename = sys.argv[idx]
-            idx += 1
+            print(f"Processing file: {arg}")
+            filename = arg
             if idx < len(sys.argv):
-                print(f"Unknown option '{sys.argv[idx]}'")
+                print(f"Unknown option '{arg}'")
                 return
 
-    bin_data(filename, bin_size, blank_text, remove_blank, column_one_based, trend_name, y_axis_type)
+    bin_data(filename, bin_size, blank_text, remove_blank, column_one_based, trend_name, y_axis_type, num_skip_rows)
 
 
-def bin_data(data_file, bin_size, blank_text, keep_blank, column_one_based, trend_name, y_axis_type):
+def bin_data(data_file, bin_size, blank_text, remove_blank, column_one_based, trend_name, y_axis_type, num_skip_rows):
     if data_file is None:
         # Read from stdin
         file = sys.stdin
@@ -108,7 +122,7 @@ def bin_data(data_file, bin_size, blank_text, keep_blank, column_one_based, tren
             return
 
     # Read first line to figure out file type.
-    contents = file.read().splitlines()
+    contents = file.read().splitlines()[num_skip_rows:]
 
     if "\t" in contents[0]:
         delim = "\t"
@@ -135,9 +149,12 @@ def bin_data(data_file, bin_size, blank_text, keep_blank, column_one_based, tren
 
         for row_num, row in enumerate(reader):
             try:
-                data = float(row[column_one_based - 1])
+                data_str = row[column_one_based - 1]
+                if data_str.strip() == "" and remove_blank:
+                    continue
+                data = float(data_str)
             except ValueError:
-                continue
+                raise ValueError(f"Invalid data in row {row_num + 1}, column {column_one_based}")
             except IndexError:
                 raise ValueError(f"Column {column_one_based} not found in row {row_num + 1}")
 
@@ -160,9 +177,12 @@ def bin_data(data_file, bin_size, blank_text, keep_blank, column_one_based, tren
 
         for row_num, row in enumerate(contents):
             try:
-                data = float(row.split(delim)[column_one_based - 1])
+                data_str = row.split(delim)[column_one_based - 1]
+                if data_str.strip() == "" and remove_blank:
+                    continue
+                data = float(data_str)
             except ValueError:
-                continue
+                raise ValueError(f"Invalid data in row {row_num + 1}, column {column_one_based}")
             except IndexError:
                 raise ValueError(f"Column {column_one_based} not found in row {row_num + 1}")
 
