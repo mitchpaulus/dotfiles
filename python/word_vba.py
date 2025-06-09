@@ -128,6 +128,8 @@ class WordBorderType(IntEnum):
 
 
 class Row:
+    # One based Row
+
     # https://learn.microsoft.com/en-us/office/vba/api/word.row
     # Methods:
     # ConvertToText Delete Select
@@ -138,6 +140,7 @@ class Row:
     # HeadingFormat Height HeightRule ID Index IsFirst IsLast LeftIndent NestingLevel
     # Next Parent Previous Range Shading SpaceBetweenColumns
     def __init__(self, row: int) -> None:
+        "Row: 1-based index"
         self.row = row
 
 class Column:
@@ -162,8 +165,12 @@ class Range:
         self.end_row = end_row
         self.end_col = end_col
 
+class ColumnMinusHeader:
+    def __init__(self, column: int) -> None:
+        self.column = column
 
-type IRange = Row | Column | Cell | Range | Table
+
+type IRange = Row | Column | Cell | Range | Table | ColumnMinusHeader
 
 class Color:
     def __init__(self, r: int, g: int, b: int) -> None:
@@ -189,10 +196,11 @@ class Table:
         self._top_padding = None
         self._bottom_padding = None
         self._style: Optional[str] = None
+        self._header_repeat_rows = 0
 
         self.current_cell_range = None
 
-        self._borders = True
+        self._borders: Optional[bool] = None
 
     def row(self, row: int):
         self.current_cell_range = Row(row)
@@ -200,8 +208,20 @@ class Table:
     def column(self, column: int):
         self.current_cell_range = Column(column)
 
+    def borders(self):
+        """Enable borders for the table."""
+        self._borders = True
+        return self
+
     def no_borders(self):
         self._borders = False
+        return self
+
+    def header_repeat_rows(self, num_rows: int):
+        """Set the number of header rows to repeat at the top of the table."""
+        if num_rows < 0:
+            self._header_repeat_rows = 0
+        self._header_repeat_rows = num_rows
         return self
 
     def num_rows(self):
@@ -268,6 +288,7 @@ class Table:
         return self
 
     def decimal_tab(self, cell_range: IRange, position):
+        """position is in units of points"""
         self.decimal_tabs.append((cell_range, position))
         return self
 
@@ -353,6 +374,9 @@ class Table:
         lines.append("Dim tbl As Table")
         lines.append(f'Set tbl = ActiveDocument.Tables.Add(Range:=Selection.Range, NumRows:={self.num_rows()}, NumColumns:={self.num_cols()}, DefaultTableBehavior:=wdWord9TableBehavior, AutoFitBehavior:=wdAutoFitFixed)')
 
+        if self._style:
+            lines.append(f'tbl.Style = "{self._style}"') # Probably need some escaping here
+
         for cell_range, color in self._background_colors:
             lines.extend(self.apply_to_range(cell_range, f'.Shading.BackgroundPatternColor = RGB({color.r}, {color.g}, {color.b})'))
 
@@ -437,16 +461,12 @@ class Table:
         if self._col_widths:
             lines.append('tbl.AllowAutoFit = True')
 
-        for merge in self._merges:
-            start_row = merge[0] if merge[0] > 0 else self.num_rows() + merge[0] + 1 # 1-based index
-            start_col = merge[1] if merge[1] > 0 else self.num_cols() + merge[1] + 1 # 1-based index
-            end_row = merge[2] if merge[2] > 0 else self.num_rows() + merge[2] + 1 # 1-based index
-            end_col = merge[3] if merge[3] > 0 else self.num_cols() + merge[3] + 1
 
-            lines.append(f'tbl.Cell({start_row}, {start_col}).Merge MergeTo:=tbl.Cell({end_row}, {end_col})')
-
-        if not self._borders:
-            lines.append('tbl.Borders.Enable = False')
+        if self._borders is not None:
+            if self._borders:
+                lines.append('tbl.Borders.Enable = True')
+            else:
+                lines.append('tbl.Borders.Enable = False')
 
         if self._left_padding is not None:
             lines.append(f'tbl.LeftPadding = InchesToPoints({self._left_padding})')
@@ -460,8 +480,17 @@ class Table:
         if self._bottom_padding is not None:
             lines.append(f'tbl.BottomPadding = InchesToPoints({self._bottom_padding})')
 
-        if self._style:
-            lines.append(f'tbl.Style = "{self._style}"') # Probably need some escaping here
+
+        for i in range(1, self._header_repeat_rows + 1):
+            lines.append(f'tbl.Rows({i}).HeadingFormat = True')
+
+        for merge in self._merges:
+            start_row = merge[0] if merge[0] > 0 else self.num_rows() + merge[0] + 1 # 1-based index
+            start_col = merge[1] if merge[1] > 0 else self.num_cols() + merge[1] + 1 # 1-based index
+            end_row = merge[2] if merge[2] > 0 else self.num_rows() + merge[2] + 1 # 1-based index
+            end_col = merge[3] if merge[3] > 0 else self.num_cols() + merge[3] + 1
+
+            lines.append(f'tbl.Cell({start_row}, {start_col}).Merge MergeTo:=tbl.Cell({end_row}, {end_col})')
 
         return "\n".join(lines) + "\n"
 

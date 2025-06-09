@@ -193,7 +193,8 @@ def version_sort_by_in_place(l: List[T1], key_selector: Callable[[T1], str]):
 
 def percentile(array: List[float], percent: float) -> float:
     """
-    Returns the percentile of the list of data.
+    Returns the array value associated with a percentile of the list of data.
+    Given 50%, returns the median.
     See https://en.wikipedia.org/wiki/Percentile, Nearest-Rank method.
     Definition from Wikipedia:
     One definition of percentile, often given in texts,
