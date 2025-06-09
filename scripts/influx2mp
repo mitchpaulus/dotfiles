@@ -9,7 +9,7 @@ import zoneinfo
 import tzdata
 import datetime
 
-from typing import List, Union, Iterable
+from typing import List, Union, Iterable, Optional
 
 def convert_to_int_if_possible(s: str) -> Union[int, str]:
     """
@@ -31,9 +31,11 @@ def version_sort(l: Iterable[str]) -> List[str]:
     return sorted(l, key=alphanum_key)
 
 
-def parse():
+def parse(col_name: Optional[str]) -> dict:
     csv_reader = csv.reader(sys.stdin)
     data = {}
+
+    measurement_name = col_name if col_name else "_measurement"
 
     time_col = -1
     value_col = -1
@@ -51,7 +53,7 @@ def parse():
             # Header row, so get the column for "_time", "_value", and "_measurement"
             time_col = row.index("_time")
             value_col = row.index("_value")
-            measurement_col = row.index("_measurement")
+            measurement_col = row.index(measurement_name)
         else:
             # Data row
             measurement = row[measurement_col]
@@ -68,6 +70,8 @@ if __name__ == "__main__":
 
     convert_to_cst = False
 
+    alternate_name_col = None
+
     while idx < len(sys.argv):
         arg = sys.argv[idx]
         idx += 1
@@ -78,12 +82,18 @@ if __name__ == "__main__":
             sys.exit(0)
         elif arg == "--cst":
             convert_to_cst = True
+        elif arg == "--col":
+            if idx >= len(sys.argv):
+                print("Error: --col requires an argument")
+                sys.exit(1)
+            alternate_name_col = sys.argv[idx]
+            idx += 1
         else:
             print(f"Unknown option: {arg}")
             sys.exit(1)
 
 
-    data = parse()
+    data = parse(alternate_name_col)
     for measurement in version_sort(data.keys()):
         print(f"{measurement}")
         # Sort by time
