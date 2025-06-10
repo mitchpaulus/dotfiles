@@ -2,10 +2,9 @@
 $REPOS? not ("REPOS environment variable not set" wl 1 exit) iff
 $"Refreshing {@REPOS}" wle
 
-['find' @REPOS '-maxdepth' 2 '-type' 'd' '-name' '.git']o;
 
 def process-repo (--)
-    dir! @dir cd '..' cd
+    dir! @dir cd
     $"Fetching {pwd}.." wle
     [git fetch --prune]?
         (
@@ -23,4 +22,4 @@ def process-repo (--)
 
 end
 
-(process-repo) each
+@REPOS lsDir (isDir) filter (process-repo) each
