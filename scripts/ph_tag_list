@@ -1,0 +1,9 @@
+#!/usr/bin/env mshell
+
+[curl --silent 'https://project-haystack.org/download/defs.json']  oc; parseJson "rows" get
+(
+    "def" get "val" get name!
+    @name "-" in @name ":" in or not
+    (@name wl)
+    iff
+) each
