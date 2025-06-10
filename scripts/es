@@ -3,7 +3,7 @@
 # PURPOSE: Quickly edit a script from the dotfiles.
 # Uses 'fd' and 'fzf' to accomplish this goal.
 # ['find' $"{$DOTFILES}/scripts" -type 'f'] o;
-$"{$DOTFILES}/scripts" filesIn
+$"{$DOTFILES}/scripts" lsDir
 (basename) map unlines scripts!
 
 runtime 'windows' =
