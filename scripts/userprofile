@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env mshell
 # Print out USERPROFILE Windows environment variable
-set -e
+soe
 # Need to change into a windows dir before cmd.exe or else it complains.
-cd /mnt/c/ || exit 1
-wslpath "$(cmd.exe /C 'echo %USERPROFILE%' | tr -d '\r')"
+`/mnt/c/` cd
+[wslpath [cmd.exe '/C' 'echo %USERPROFILE%']oc; "\r" "" findReplace "\n" "" findReplace];
