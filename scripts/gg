@@ -2,5 +2,7 @@
 
 # 'gg' => goto github
 soe
+
+`/tmp/gh_repos.txt` isFile not ($"/tmp/gh_repos.txt not found. Usually made using `github_repos > /tmp/gh_repos.txt`" wle 1 exit) iff
 [fzf] `/tmp/gh_repos.txt` < os; repo!
 [wsl_url_open $"https://github.com/{@repo}"];
