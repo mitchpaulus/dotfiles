@@ -1,6 +1,4 @@
-#!/bin/sh
-
-set -e
+#!/usr/bin/env mshell
 
 # Normally it's expected that the repo:
 # https://github.com/mitchpaulus/idf-default-objects
@@ -8,33 +6,21 @@ set -e
 
 # Allow myself to set the directory arbitrarily in a particular dir. Also serves
 # as cached location, so the directory doesn't have to be searched for each time.
-if test -f "$HOME"/.config/idf-default-objects/dir; then
-    DIR="$(cat "$HOME"/.config/idf-default-objects/dir)"
-else
+$"{$HOME}/.config/idf-default-objects/dir" isFile
+($"{$HOME}/.config/idf-default-objects/dir" readFile trim dir!)
+(
     # Search for directory named 'idf-default-objects'
-    REPODIR="$(fd --type d idf-default-objects "$HOME")"
-    if test -n "$REPODIR"; then
-        # Get the latest version available
-        DIR="$(fd --type d '^[0-9]' "$REPODIR" | sort -V -r | head -n 1)"
-        mkdir -p "$HOME"/.config/idf-default-objects
-        # Write the file location to a cached location
-        printf "%s\n" "$DIR" > "$HOME"/.config/idf-default-objects/dir
-    else
-        printf "Could not find repository directory.\n"
-        exit 1
-    fi
-fi
+    [fd --type 'd' 'idf-default-objects' $HOME] o ! repos!
+    @repos len 0 ("Could not find repository directory" wle 1 exit)
+    (
+        @repos sortV :0: dir!
+        $"{$HOME}/.config/idf-default-objects" mkdirp
+        @dir $"{$HOME}/.config/idf-default-objects/dir" writeFile
+    )
+    iff
+)
+iff
 
-if test ! -d "$DIR"; then
-    printf 'The cached directory "%s" at "%s" does not exist.' "$DIR" "$HOME"/.config/idf-default-objects/dir
-    exit 1
-fi
-
-filepath="$DIR"/"$(fd '.' "$DIR" -x basename | fzf)"
-
-# Send filenames into fzf, then use appropriate clipboard functionality
-if test -n "$WSL_DISTRO_NAME"; then
-    clip.exe < "$filepath"
-else
-    xclip -selection clipboard < "$filepath"
-fi
+@dir isDir not ($"The cached directory at '{@dir}' does not exist." wle 1 exit) iff
+[fzf] os @dir lsDir (basename) map unlines < ! filepath!
+['clip'] $"{@dir}/{@filepath}" toPath <!
