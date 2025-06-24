@@ -1,4 +1,2 @@
-#!/bin/sh
-
-# Make files executable according to git
-git update-index --chmod=+x "$@"
+#!/usr/bin/env mshell
+[git update-index '--chmod=+x' args]!

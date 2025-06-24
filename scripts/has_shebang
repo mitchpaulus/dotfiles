@@ -1,3 +1,2 @@
-#!/bin/sh
-# Check if first line of file has '#!'
-head -n 1 "$1" | grep -q '^#!'
+#!/usr/bin/env mshell
+$1 readFile "#!" startsWith (0) (1) iff exit

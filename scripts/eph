@@ -1,5 +1,6 @@
 #!/usr/bin/env mshell
 
+# eph = EnergyPlus help
 `/mnt/c/EnergyPlusV24-2-0/Documentation/ep_bookmarks.tsv` bookmarks!
 `C:\\EnergyPlusV24-2-0\\Documentation\\InputOutputReference.pdf` doc!
 
