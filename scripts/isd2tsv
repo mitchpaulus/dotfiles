@@ -2716,19 +2716,19 @@ Options:
     --cc: Cloud coverage
     --fmt: Format
     --solar FILE: Solar data file, used in creating fmt
-    --ave-dates DATEFILE: Get average outdoor air temperature for each period in DATEFILE, a whitespace separated file of ISO-dates (YYYY-MM-DD)
+    --ave-dates DATEFILE: Get average outdoor air temperature for each period in DATEFILE, a whitespace separated file of ISO-dates (YYYY-MM-DD). Start date is inclusive, end date is exclusive. Example: "2020-01-01 2020-02-01" for the month of January.
 
 
 Examples:
 
     Get epw for DFW for 2019:
-    isd2tsv --dfw --year 2019 -o 6 --epw
+    isd2tsv --dfw --year 2019 -o -6 --epw
 
     Get average temperature data in IP for IAH airport for dates in dates.txt:
-    isd2tsv --iah -o 6 --ip --ave-dates dates.txt
+    isd2tsv --iah -o -6 --ip --ave-dates dates.txt
 
     Get hourly data for DFW for 2019, accounting for DST:
-    isd2tsv --dfw --year 2019 -o 6 --hourly --dst
+    isd2tsv --dfw --year 2019 -o -6 --hourly --dst
 
 Formats:
 

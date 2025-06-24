@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import sys
 from enum import IntEnum
-from typing import Optional
+from typing import Optional, Union
 
 """Table documentation:
 https://learn.microsoft.com/en-us/office/vba/api/word.table
@@ -174,6 +174,7 @@ type IRange = Row | Column | Cell | Range | Table | ColumnMinusHeader
 
 class Color:
     def __init__(self, r: int, g: int, b: int) -> None:
+        """These are 0-255 integer values"""
         self.r = r
         self.g = g
         self.b = b
@@ -296,7 +297,7 @@ class Table:
         self._style = word_table_style
         return self
 
-    def col_width(self, col, width_inches):
+    def col_width(self, col: Union[int, Column], width_inches: float):
         if isinstance(col, int):
             self._col_widths.append((col, width_inches))
         elif isinstance(col, Column):
