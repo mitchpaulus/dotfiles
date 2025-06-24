@@ -636,6 +636,8 @@ vim.cmd('highlight XlimUnit guifg=#fc9c9e')
 
 vim.cmd('highlight Title guifg=#5ca1b2')
 
+vim.cmd('highlight MshellPath guifg=#46b5a6')
+
 -- if not pcall(function() vim.cmd('colorscheme monokai') end) then
 -- vim.cmd('colorscheme desert')
 -- end
