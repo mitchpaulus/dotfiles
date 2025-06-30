@@ -172,9 +172,14 @@ Upstream Equipment may or may not be included in the scope.
 
 ## New
 
-% Savings | Points
+For any projects registered after March 1, 2024.
+<https://support.usgbc.org/hc/en-us/articles/24332416264595-Applying-the-LEED-v4-energy-update-to-your-project>.
+<https://support.usgbc.org/hc/en-us/articles/28304771684115-LEED-v4-energy-update-basics>.
+
+
+% Cost Savings | Points
 ----------|-------
-1  | 20
+1 | 20
 2 | 25
 3 | 30
 4 | 35
@@ -184,7 +189,12 @@ Upstream Equipment may or may not be included in the scope.
 8 | 55
 9 | 60
 
-% Emissions | Points
+<https://leeduser.buildinggreen.com/forum/ghg-emissions-calculations-leed-v4-2024-update>
+Site energy use multiplied by given factors for CO2e.
+
+Also see <https://portfoliomanager.energystar.gov/pdf/reference/Emissions.pdf> or `EnergyStar Portfolio Manager Emissions Technical Reference` in saved references.
+
+% Site Emissions | Points
 ------------|-------
 1 | 20
 2 | 25
