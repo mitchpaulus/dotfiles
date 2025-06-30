@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+# Input is expected to be TSV data of the idf file.
+
 import sys
 
 def parse_day_interval(split_line: list[str]):

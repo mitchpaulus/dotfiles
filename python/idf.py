@@ -426,8 +426,8 @@ def process_day_interval_schedule(schedule: list[str]):
 def process_day_hourly_schedule(schedule: list[str]):
     name = schedule[1]
 
-    # First time index is at 4
-    index = 4
+    # First time index is at 4 (one based)
+    index = 3
     time_values = []
 
     hour = 1
@@ -436,6 +436,7 @@ def process_day_hourly_schedule(schedule: list[str]):
         value = float(schedule[index])
         time_values.append((hour, value))
         index += 1
+        hour += 1
 
     return (name, time_values)
 
