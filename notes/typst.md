@@ -8,4 +8,11 @@
   columns: (1fr, 1fr),
   content1, content2
 )
+#strong[bold text]
+#emph[italic text]
+
+
+- List item 1
+- List item 2
+
 ```
