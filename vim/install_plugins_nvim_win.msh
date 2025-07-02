@@ -23,14 +23,16 @@ $"{$LOCALAPPDATA}\\nvim\\pack\\github\\start" githubPluginDir!
 
 "plugins.txt" readFile lines
 (
-
     packageName!
     $"{$REPOS}\\{@packageName}" isDir
-    ($"Plugin {@repo} already installed" wle)
+    ($"Plugin {@packageName} already installed" wle)
     ([git clone $"git@github.com:mitchpaulus/{@packageName}.git" $"{$REPOS}\\{@packageName}"];)
     iff
 
-    $"{$REPOS}\\{@packageName}" $"{@mpPluginDir}\\{@packageName}" hardLink
+    $"{@mpPluginDir}\\{@packageName}" isDir
+    ($"Directory junction to {@mpPluginDir}\\{@packageName} already created." wle)
+    ([cmd.exe '/C' 'mklink' '/J' $"{@mpPluginDir}\\{@packageName}" $"{$REPOS}\\{@packageName}"];)
+    iff
 ) each
 
 #!/bin/sh
