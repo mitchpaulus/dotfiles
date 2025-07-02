@@ -17,7 +17,7 @@ https://debarghyadas.com/writes/feed.xml	Debarghya Das
 https://markkarpov.com/feed.atom	Mark Karpov - Haskell
 https://www.vincentprouillet.com/rss.xml	Vincent Prouillet - Developer and Entrepreneur
 https://jaydaigle.net/feed.xml	Jaydaigle - Mathematics
-https://jakeworth.com/index.xml	Jake Worth - Software Engineer
+https://jakeworth.com/rss.xml	Jake Worth - Software Engineer
 https://www.willmcgugan.com/feeds/posts/	Will McGugan - Software Engineer
 https://notes.volution.ro/index.xml	Volution Notes
 https://jonascarpay.com/rss.xml	Jonas Carpay
@@ -32,18 +32,16 @@ http://www.norvig.com/rss-feed.xml	Peter Norvig
 https://blog.wesleyac.com/feed.xml	Wesley Aptekar-Cassels
 https://mb21.github.io/blog/feed.xml	Mauro Bieg - Computer Science
 https://feeds.feedburner.com/mrmoneymustache	Mr. Money Mustache
-https://250bpm.com/rss.xml	250bpm - Martin Sústrik
 https://adamralph.com/feed.xml	Adam Ralph - Software Engineer
 https://andrewkelley.me/rss.xml	Andrew Kelley - Zig
 http://www.panozzaj.com/atom.xml	Anthony Panozzo
 https://apenwarr.ca/log/rss.php	Apenwarr
 https://lucumr.pocoo.org/feed.atom	Armin Ronacher
-https://bsago.me/feed.atom	Benjamin Sago - Exa, What the Format
 https://catonmat.net/feed	Catonmat.net - A website powered by alien technology from the future
 https://www.haskellforall.com/feeds/posts/default	Haskell for All - Gabriella Gonzalez
 https://austinvernon.site/rss.xml	Austin Vernon
 https://blog.codinghorror.com/rss/	Coding Horror
-https://thedavecarroll.com/feed.xml	Dave's Technical Journal
+https://thedavecarroll.com/index.xml	Dave's Technical Journal
 https://www.davidosomething.com/rss.xml	Computers and stuff
 https://hpjansson.org/blag/feed/	Personal blag of H. P. Jansson: Free Software, Open Source mostly.
 https://fantom.org/forum/blog/feed	Fantom programming language blog
