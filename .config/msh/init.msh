@@ -24,8 +24,13 @@ def r (--)
 end
 
 def j (--)
-    ['lf' '-last-dir-path' lf_last_dir_file `/mnt/c/Users/mpaulus/Command Commissioning`]?
-    (lf_last_dir_file readFile cd) iff
+    `/mnt/c/Users/mpaulus/Command Commissioning` isDir
+    (
+        ['lf' '-last-dir-path' lf_last_dir_file `/mnt/c/Users/mpaulus/Command Commissioning`]?
+        (lf_last_dir_file readFile cd) iff
+    )
+    ('Jobs dir not found.' wle)
+    iff
 end
 
 def wt_cwd (--)

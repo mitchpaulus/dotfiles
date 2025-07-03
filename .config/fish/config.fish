@@ -112,8 +112,10 @@ path_prepend "/opt/fantom-1.0.76/bin"
 # Recommended by jekyll
 path_prepend $HOME/gems/bin
 path_prepend $HOME/.local/share/gem/ruby/3.0.0/bin
+path_prepend $HOME/.local/share/gem/ruby/3.4.0/bin
 path_prepend "$HOME/.gem/ruby/2.7.0/bin"
 path_prepend "$HOME/.gem/ruby/3.0.0/bin"
+path_prepend "$HOME/.gem/ruby/3.4.0/bin"
 path_prepend "$HOME/bin"
 path_prepend "$HOME/.local/bin"
 path_prepend $HOME/.pyenv/bin
@@ -555,5 +557,8 @@ if test -n "$WSL_DISTRO_NAME"
     set PATH (string match -v '/mnt/c/*' $PATH)
 end
 
+if command -q rbenv
+    rbenv init - fish | source
+end
 
 # vim:ft=fish
