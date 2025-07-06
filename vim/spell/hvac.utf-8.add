@@ -43,6 +43,7 @@ Brittanie
 CAS
 CAV
 CBECC
+CBRE
 CCIP
 CCIPs
 CCIR
@@ -162,6 +163,7 @@ GUID
 GenOpt
 GitHub
 GnuPlot
+Grafana
 HAS
 HDD
 HEPA
@@ -491,6 +493,7 @@ exchangers
 factor
 formatter
 foundational
+freezestat
 frontend
 gbXML
 gnuplot
