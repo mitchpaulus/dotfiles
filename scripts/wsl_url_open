@@ -1,13 +1,6 @@
 #!/usr/bin/env mshell
 soe
-$1
-# Add https:// if it's not there
-[
-    (dup 0:8 "https://" =)
-    ()
-    ("https://" swap +)
-] if
-url!
+$1 "https://" startsWith not ($"https://{$1}") ($1) iff url!
 
 # Check if we are in WSL or not.
 $WSL_DISTRO_NAME?
