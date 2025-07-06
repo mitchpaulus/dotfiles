@@ -1,0 +1,5 @@
+#!/usr/bin/env mshell
+
+$JOBS_DATA_FILE? not ("$JOBS_DATA environment variable not set" 1 exit) iff
+[fzf -d "\t" -n 1 --with-nth 1] $JOBS_DATA_FILE toPath < os ! tsplit :-1: url!
+[wsl_url_open @url]!

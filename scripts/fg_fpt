@@ -1,0 +1,80 @@
+#!/usr/bin/env mshell
+
+# Purpose: Process simple markdown like FPT defintions.
+# # Header
+# Sensor: Sensor Name
+# Dev: Device Name : Device Type (Device Type = "OnOff", "OpenClose", "VFD", "Mod")
+# Otherwise normal questionaire item.
+
+{}
+"OnOff" "Two Position(OnOff)" set
+"OpenClose" "Two Position" set
+"VFD" "VFD" set
+"Mod" "Modulating" set
+map!
+
+def processLine (str dict -- str)
+map! l!
+@l "# " startsWith
+(["FPT" @l 2: trim "Section"])
+(
+
+@l "Sensor:" startsWith
+(["SensCal" @l 7: trim ""])
+(
+
+
+@l "Dev:" startsWith
+(
+    @l ":" split splitLine!
+    @splitLine :1: device!
+    @splitLine :2: type!
+    ["DevCal" @device trim @map @type trim get]
+)
+(["FPT" @l "Pass-Fail"])
+iff
+
+)
+iff
+
+)
+iff
+end
+
+false makeExcel!
+"Test FPT" name!
+
+0 i!
+(
+  @i args len >= (break) iff
+  args @i nth a!
+  @i 1 + i!
+  @a "-x" =
+  (true makeExcel!)
+  (
+    @a "-n" =
+    (
+        args @i nth a!
+        @i 1 + i!
+        @a name!
+    )
+    iff
+
+  )
+  iff
+) loop
+
+args :-1: readFile lines
+(trim) map
+(len 0 !=) filter
+(@map processLine tjoin) map
+unlines data!
+
+@makeExcel
+(
+    $FG_FPT_TEMPLATE_XLSX "out.xlsx" cp
+    [xlwrite -w "Sheet1" block C9 @data psub `out.xlsx`]!
+    [xlwrite -w "Sheet1" block B6 @name psub `out.xlsx`]!
+)
+(@data w)
+iff
