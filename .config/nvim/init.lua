@@ -605,7 +605,7 @@ vim.o.spelllang = 'en_us' -- U.S. only spelling
 vim.o.expandtab = true -- Yes, I use spaces
 vim.o.tabstop = 4      -- Default of 8 is absurd
 vim.o.shiftwidth = 0      -- 0 makes this follow tabstop
-vim.o.synmaxcol = 300
+vim.o.synmaxcol = 3000
 vim.o.swapfile = false
 
 if os.getenv('DOTFILES') ~= nil then
