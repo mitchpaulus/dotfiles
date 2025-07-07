@@ -1,41 +1,18 @@
-#!/usr/bin/env python3
+#!/usr/bin/env mshell
+"Usage: newreport <report name>" usage!
 
-import sys
-import os
-import shutil
+args len 1 != (@usage wle 1 exit) iff
 
-if __name__ == "__main__":
-    # Check for single argument
-    if len(sys.argv) != 2:
-        print("Usage: newreport <report name>")
-        exit(1)
+args (a! @a "-h" = @a "--help" = or) any (@usage wle 0 exit) iff
 
-    # Handle -h or --help
-    if sys.argv[1] == "-h" or sys.argv[1] == "--help":
-        print("Usage: newreport <report name>")
-        exit(0)
+args :0: reportName!
+@reportName ".docx" endsWith not ($"{@reportName}.docx" reportName!) iff
+@reportName isFile ($"Report {@reportName} already exists" wle 1 exit) iff
 
-    # Get report name
-    report_name = sys.argv[1]
+`/mnt/c/Users/mpaulus/Command Commissioning/Library - Resources/Templates/ccllc-technical-report-template.docx` isFile
+(`/mnt/c/Users/mpaulus/Command Commissioning/Library - Resources/Templates/ccllc-technical-report-template.docx` @reportName cp 0 exit) iff
 
-    # If report name doesn't end with .docx, add it
-    if not report_name.endswith(".docx"):
-        report_name += ".docx"
+`/mnt/c/Users/mpaulus/Command Commissioning/Library - Documents/Resources/Templates/ccllc-technical-report-template.docx` isFile
+(`/mnt/c/Users/mpaulus/Command Commissioning/Library - Documents/Resources/Templates/ccllc-technical-report-template.docx` @reportName cp 0 exit) iff
 
-    # Check if report already exists
-    if os.path.exists(report_name):
-        print("Report already exists")
-        exit(1)
-
-    # Copy report template
-    # Check 2 locations:
-    # - '/mnt/c/Users/mpaulus/Command Commissioning/Library - Resources/Templates/ccllc-technical-report-template.docx'
-    # - '/mnt/c/Users/mpaulus/Command Commissioning/Library - Documents/Resources/Templates/ccllc-technical-report-template.docx'
-    # If neither exist, exit
-    if os.path.exists("/mnt/c/Users/mpaulus/Command Commissioning/Library - Resources/Templates/ccllc-technical-report-template.docx"):
-        shutil.copy("/mnt/c/Users/mpaulus/Command Commissioning/Library - Resources/Templates/ccllc-technical-report-template.docx", report_name)
-    elif os.path.exists("/mnt/c/Users/mpaulus/Command Commissioning/Library - Documents/Resources/Templates/ccllc-technical-report-template.docx"):
-        shutil.copy("/mnt/c/Users/mpaulus/Command Commissioning/Library - Documents/Resources/Templates/ccllc-technical-report-template.docx", report_name)
-    else:
-        print("Could not find report template")
-        exit(1)
+"Could not find report template" wle 1 exit
