@@ -18,3 +18,7 @@ From [File type advisor](https://www.filetypeadvisor.com/extension/tgml):
 <https://hvac-talk.com/vbb/threads/2242881-Schneider-MP-X-scripting-language-reference?highlight=numeric+input>
 
 [Differences between Continuum Plain English and StruxureWare Building Operation Script](https://community.se.com/t5/Building-Automation-Knowledge/Differences-between-Continuum-Plain-English-and-StruxureWare/ta-p/4711)
+
+# EcoStruxure xbk backups
+
+`System -> Backup and Restore -> Backup sets -> Local -> Right click -> Save to`

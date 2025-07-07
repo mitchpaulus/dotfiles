@@ -352,3 +352,5 @@ From [Xe iaso](https://xeiaso.net/notes/cursorless-alien-magic/):
 [Sqlite file format viewer](https://sqlite-internal.pages.dev)
 
 [TreeSheets](https://strlen.com/treesheets/)
+
+[Open SCAD](https://openscad.org/)
