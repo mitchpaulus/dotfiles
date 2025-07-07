@@ -464,11 +464,6 @@ end
 # Edit idf files
 abbr -a i "$EDITOR *.idf"
 
-function en --description 'Edit a note'
-    set file (select_note)
-    and "$EDITOR" "$MPNOTES"/"$file".md
-end
-
 function gn --description 'Grep notes';
     rg -i $argv[1] $MPNOTES
 end

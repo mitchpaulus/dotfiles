@@ -1,8 +1,2 @@
 #!/usr/bin/env mshell
-
-['fzf' '-1']
-
-$MPNOTES lsDir ('.md' endsWith) filter
-(stem) map unlines <
-
-? exit # Return the exit code from fzf
+['fzf' '-1'] $MPNOTES lsDir ('.md' endsWith) filter (basename stem) map unlines < !
