@@ -24,12 +24,12 @@ def r (--)
 end
 
 def j (--)
-    `/mnt/c/Users/mpaulus/Command Commissioning` isDir
+    $JOBSDIR?
     (
-        ['lf' '-last-dir-path' lf_last_dir_file `/mnt/c/Users/mpaulus/Command Commissioning`]?
+        ['lf' '-last-dir-path' lf_last_dir_file $JOBSDIR]?
         (lf_last_dir_file readFile cd) iff
     )
-    ('Jobs dir not found.' wle)
+    ('Jobs dir ($JOBSDIR) not set.' wle)
     iff
 end
 

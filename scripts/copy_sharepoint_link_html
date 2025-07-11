@@ -5,9 +5,11 @@
 iff
 link!
 
-$f "/mnt/c/Users/mpaulus/Command Commissioning/" startsWith $f "C:\\Users\\mpaulus\\Command Commissioning\\" startsWith or
+$JOBSDIR? ($JOBSDIR) ("basdfasdf") iff jDir!
+
+$f @jDir startsWith
 (
-    $f "/mnt/c/Users/mpaulus/Command Commissioning/" "" findReplace shortened!
+    $f @jDir "" findReplace shortened!
     @shortened "Jobs - " startsWith
     (@shortened 7: path!)
     (@shortened path!)
