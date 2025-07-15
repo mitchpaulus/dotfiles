@@ -45,6 +45,14 @@ Pretty much go to `Data.Text` right way when dealing with text.
 import qualified Data.Text as T
 ```
 
+## Applicatives
+
+Basically are used when you have a function with multiple arguments, and those arguments could be wrapped.
+
+Allows you to take a wrapped function and apply it to wrapped values.
+The wrapped function is usually coming from the application of a function on the first argument.
+
+
 ## Useful links
 
 [Reddit post](https://www.reddit.com/r/haskell/comments/npxfba/ive_tried_to_learn_haskell_several_times_but_keep/)
