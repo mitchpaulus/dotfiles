@@ -43,6 +43,19 @@ SET column1 = value1, column2 = value2, ...
 WHERE condition;
 ```
 
+## Schema Query
+
+```sql
+SELECT
+    t.name AS table_name,
+    c.name AS column_name,
+    ty.name AS data_type
+FROM
+    YourDatabaseName.sys.tables t
+    INNER JOIN YourDatabaseName.sys.columns c ON t.object_id = c.object_id
+    INNER JOIN YourDatabaseName.sys.types ty ON c.user_type_id = ty.user_type_id
+```
+
 ## Operations
 
 String concatenation: `+`.

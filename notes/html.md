@@ -130,6 +130,14 @@ In this order:
 - `<video>`
 - `<wbr>`
 
+## Format
+
+```
+xmllint --format
+```
+
 ## Progress Element
 
 [Cool builtin element for progress.](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress)
+
+[Just Fucking use HTML](https://justfuckingusehtml.com/)
