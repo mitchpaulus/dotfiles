@@ -454,8 +454,8 @@ class Line:
 
 class Text:
     def __init__(self, name, text, font_size) -> None:
-        self._x = 0
-        self._y = 0
+        self._x: float = 0
+        self._y: float = 0
         self._text = text
         self._name = name
         self._font_size = font_size
@@ -463,13 +463,22 @@ class Text:
         self._yAnchor = "auto"
         self._font_family = "sans-serif"
 
-    def x(self, x: Value) -> 'Text':
+    def x(self, x: float) -> 'Text':
         self._x = x
         return self
 
-    def y(self, y: Value) -> 'Text':
+    def y(self, y: float) -> 'Text':
         self._y = y
         return self
+
+    def shift_x(self, dx: float) -> 'Text':
+        self._x = self._x + dx
+        return self
+
+    def shift_y(self, dy: float) -> 'Text':
+        self._y = self._y + dy
+        return self
+
 
     def text(self, text = None) -> 'Text':
         if text is None:
