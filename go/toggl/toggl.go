@@ -105,9 +105,10 @@ type TogglTimeEntryPost struct {
 
     CreatedWith string `json:"created_with"`
     Description string `json:"description"`
-    Duration int64 `json:"duration"`
-    ProjectId int64 `json:"project_id"`
+    Duration *int64 `json:"duration,omitempty"` // Use pointer, since it can be null
+    ProjectId *int64 `json:"project_id,omitempty"` // Use pointer, since it can be null
     Start string `json:"start"`
+	Stop *string `json:"stop,omitempty"` // Use pointer, since it can be null
     WorkspaceId int64 `json:"workspace_id"`
 }
 
@@ -181,6 +182,7 @@ func main() {
             fmt.Print(" toggl lunch\n")
             fmt.Print(" toggl break\n")
             fmt.Print(" toggl start <Project Name> <Description>\n")
+			fmt.Print(" toggl post <Project Name> <Description> <year> <month> <day> <start hour> <start min> <end hour> <end min>\n")
 			fmt.Print(" toggl projects\n")
             fmt.Print(" toggl newproj [Project Name] [Client]\n")
 			fmt.Print(" toggl update_proj <Time Entry Id> <Project Id>\n")
@@ -234,6 +236,102 @@ func main() {
             startTimer(os.Args[i+1], os.Args[i+2], token)
             os.Exit(0)
 
+		} else if os.Args[i] == "post" {
+			// Post a time entry
+			// Args: // toggl post <Project Name> <Description> <year> <month> <day> <start hour> <start min> <end hour> <end min>
+			if i + 9 >= len(os.Args) {
+				fmt.Fprintf(os.Stderr, "Missing arguments for post command\n")
+				os.Exit(1)
+			}
+
+			projectName := os.Args[i+1]
+			description := os.Args[i+2]
+			year, err := strconv.Atoi(os.Args[i+3])
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "Invalid year: %s\n", os.Args[i+3])
+				os.Exit(1)
+			}
+
+			month, err := strconv.Atoi(os.Args[i+4])
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "Invalid month: %s\n", os.Args[i+4])
+				os.Exit(1)
+			}
+
+			if month < 1 || month > 12 {
+				fmt.Fprintf(os.Stderr, "Invalid month: %d\n", month)
+				os.Exit(1)
+			}
+			day, err := strconv.Atoi(os.Args[i+5])
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "Invalid day: %s\n", os.Args[i+5])
+				os.Exit(1)
+			}
+
+			if day < 1 || day > daysInMonth(year, month) {
+				fmt.Fprintf(os.Stderr, "Invalid day: %d for month %d\n", day, month)
+				os.Exit(1)
+			}
+
+			startHour, err := strconv.Atoi(os.Args[i+6])
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "Invalid start hour: %s\n", os.Args[i+6])
+				os.Exit(1)
+			}
+
+			if startHour < 0 || startHour > 23 {
+				fmt.Fprintf(os.Stderr, "Invalid start hour: %d\n", startHour)
+				os.Exit(1)
+			}
+
+			startMin, err := strconv.Atoi(os.Args[i+7])
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "Invalid start minute: %s\n", os.Args[i+7])
+				os.Exit(1)
+			}
+			if startMin < 0 || startMin > 59 {
+				fmt.Fprintf(os.Stderr, "Invalid start minute: %d\n", startMin)
+				os.Exit(1)
+			}
+
+			endHour, err := strconv.Atoi(os.Args[i+8])
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "Invalid end hour: %s\n", os.Args[i+8])
+				os.Exit(1)
+			}
+
+			if endHour < 0 || endHour > 23 {
+				fmt.Fprintf(os.Stderr, "Invalid end hour: %d\n", endHour)
+				os.Exit(1)
+			}
+
+			endMin, err := strconv.Atoi(os.Args[i+9])
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "Invalid end minute: %s\n", os.Args[i+9])
+				os.Exit(1)
+			}
+
+			if endMin < 0 || endMin > 59 {
+				fmt.Fprintf(os.Stderr, "Invalid end minute: %d\n", endMin)
+				os.Exit(1)
+			}
+
+			cstLocation, err := time.LoadLocation("America/Chicago")
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "Error loading time zone: %v\n", err)
+				fmt.Fprintf(os.Stderr, toggl_err)
+				os.Exit(1)
+			}
+
+			// Create the start and end time in UTC
+			startTime := time.Date(year, time.Month(month), day, startHour, startMin, 0, 0, cstLocation)
+			endTime := time.Date(year, time.Month(month), day, endHour, endMin, 0, 0, cstLocation)
+
+			startTimeUTC := startTime.UTC()
+			endTimeUTC := endTime.UTC()
+
+			addTimeEntry(projectName, description, startTimeUTC, endTimeUTC, token)
+			os.Exit(0)
         } else if os.Args[i] == "newproj" {
             command = "newproj"
 
@@ -882,13 +980,16 @@ func startTimer(projectName string, description string, token string)  {
 
     workspaceId := togglProject.WorkspaceId
 
+	var duration int64
+	duration = -1
+
     // Start timer for project
     // https://api.track.toggl.com/api/v9/workspaces/{workspace_id}/time_entries
     TogglProjectPost := TogglTimeEntryPost{
         CreatedWith: "toggl_cli",
         Description: description,
-        Duration: -1,
-        ProjectId: projectId,
+        Duration: &duration,
+        ProjectId: &projectId,
         Start: time.Now().UTC().Format("2006-01-02T15:04:05Z"),
         WorkspaceId: workspaceId,
     }
@@ -921,6 +1022,109 @@ func startTimer(projectName string, description string, token string)  {
     // Check the response code
     if resp.StatusCode != 200 {
         fmt.Fprintf(os.Stderr, "Error in POST request for %s\n", projectName)
+        fmt.Fprintf(os.Stderr, toggl_err)
+        os.Exit(1)
+    }
+}
+
+func addTimeEntry(projectName string, description string, startTime time.Time, endTime time.Time, token string)  {
+	var TogglProjectPost TogglTimeEntryPost
+	var workspaceId int64
+
+	if projectName != "none" {
+		// Look for project with name "projectName", case-insensitive
+		projects, err := get_projects(token)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, toggl_err)
+			os.Exit(1)
+		}
+
+		// Check if project with name "project" exists
+		var projectId int64
+		var togglProject TogglProject
+		for _, project := range projects {
+			if strings.EqualFold(project.Name, projectName) {
+				projectId = project.Id
+				togglProject = project
+				break
+			}
+		}
+
+		if projectId == 0 {
+			fmt.Fprintf(os.Stderr, "Project %s not found\n", projectName)
+			// Print all available projects, sorted
+			fmt.Fprintf(os.Stderr, "Available projects:\n")
+			for _, project := range projects {
+				fmt.Fprintf(os.Stderr, "%s\n", project.Name)
+			}
+
+			os.Exit(1)
+		}
+
+		// Print project Id to STDERR
+		fmt.Fprintf(os.Stderr, "%s project ID: %d\n", projectName, projectId)
+
+		workspaceId = togglProject.WorkspaceId
+		var endTimeStr string
+		endTimeStr = endTime.Format("2006-01-02T15:04:05Z")
+
+
+		// POST time entry for project
+		// https://api.track.toggl.com/api/v9/workspaces/{workspace_id}/time_entries
+		TogglProjectPost = TogglTimeEntryPost{
+			CreatedWith: "toggl_cli",
+			Description: description,
+			ProjectId: &projectId,
+			Start: startTime.Format("2006-01-02T15:04:05Z"),
+			Stop: &endTimeStr,
+			WorkspaceId: workspaceId,
+		}
+	} else {
+		// No project, just use the default workspace
+		workspaceId = getMe(token).DefaultWorkspaceId
+		var endTimeStr string
+		endTimeStr = endTime.Format("2006-01-02T15:04:05Z")
+
+		TogglProjectPost = TogglTimeEntryPost{
+			CreatedWith: "toggl_cli",
+			Description: description,
+			Start: startTime.Format("2006-01-02T15:04:05Z"),
+			Stop: &endTimeStr,
+			WorkspaceId: workspaceId,
+		}
+	}
+
+    postBytes, err := json.Marshal(TogglProjectPost)
+	// Print the JSON to stderr for debugging
+	fmt.Fprintf(os.Stderr, "Post JSON: %s\n", string(postBytes))
+
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error in marshalling TogglProjectPost\n")
+        fmt.Fprintf(os.Stderr, toggl_err)
+        os.Exit(1)
+    }
+
+    req, err := http.NewRequest(http.MethodPost, fmt.Sprintf("https://api.track.toggl.com/api/v9/workspaces/%d/time_entries", workspaceId), bytes.NewBuffer(postBytes))
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error in building new request.\n")
+        fmt.Fprintf(os.Stderr, toggl_err)
+        os.Exit(1)
+    }
+
+    req.Header.Set("Content-Type", "application/json; charset=utf-8")
+    req.SetBasicAuth(token, "api_token")
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error in POST request for %s. %s\n", projectName, err)
+        fmt.Fprintf(os.Stderr, toggl_err)
+        os.Exit(1)
+    }
+
+    // Check the response code
+    if resp.StatusCode != 200 {
+        fmt.Fprintf(os.Stderr, "Error in POST request for %s. %s\n", projectName, resp.Status)
         fmt.Fprintf(os.Stderr, toggl_err)
         os.Exit(1)
     }
