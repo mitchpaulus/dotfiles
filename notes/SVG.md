@@ -18,9 +18,9 @@ y alignment for text:
 
 dominant-baseline = auto | text-bottom | alphabetic | ideographic | middle | central | mathematical | hanging | text-top
 
-x alignment for text:
-
-text-anchor = start | middle | end
+```
+text-anchor = start | middle | end # x-align
+```
 
 
 ## Rect
