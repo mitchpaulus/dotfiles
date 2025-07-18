@@ -1,3 +1,8 @@
-#!/bin/sh
+#!/usr/bin/env mshell
 
-csv2tsv "$1" | xlwrite block A1 - "$(printf "%s" "$1" | rev | cut -c 5- | rev)".xlsx
+args (opt! @opt "-h" = @opt "--help" = or) any ("Convert CSV to XLSX format using csv2tsv and xlwrite." wl 0 exit) iff
+
+[
+    [csv2tsv $1]
+    [xlwrite block A1 '-' $1 stem '.xlsx' +]
+]|!
