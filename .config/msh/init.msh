@@ -36,3 +36,7 @@ end
 def wt_cwd (--)
     $"\e]9;9;{pwd}\e\\" w
 end
+
+def buildings (-- [str])
+    [ "XI2004" "Q12480" "82361" "ORK037" "L23120" "SB025" "33222" "J2301" "G3108" "CO0609" ]
+end
