@@ -1,0 +1,2 @@
+#!/usr/bin/env mshell
+['python3' $"{$REPOS}/facility-grid-api/fg_projects.py"];

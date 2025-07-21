@@ -1,9 +1,10 @@
 #!/usr/bin/env mshell
 soe
 
-`/tmp/fg_projects.tsv` isFile not ($"/tmp/fg_projects.tsv does not exist, usually created using `fg_projects.py` > /tmp/fg_projects.tsv" wle 1 exit) iff
+tempDir `fg_projects.tsv` / f!
+@f  isFile not ($"{@f} does not exist, usually created using `fg_projects` > {@f}" wle 1 exit) iff
 
-[fzf -d tab -n '1,2' "--with-nth=1,2"] `/tmp/fg_projects.tsv` < os;
+[fzf -d tab -n '1,2' "--with-nth=1,2"] @f < os;
 tsplit :-1: projectId!
-"https://facilitygrid.net/main/project/" @projectId + "/overview" + url!
+$"https://facilitygrid.net/main/project/{@projectId}/overview" url!
 [wsl_url_open @url];
