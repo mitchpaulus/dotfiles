@@ -2,7 +2,7 @@
 soe
 $1 "https://" startsWith not ($"https://{$1}") ($1) iff url!
 
-runtime "windows"
+runtime "windows" =
 ( ['EXPLORER.EXE' @url]; )
 (
     # Check if we are in WSL or not.
