@@ -40,3 +40,7 @@ end
 def buildings (-- [str])
     [ "XI2004" "Q12480" "82361" "ORK037" "L23120" "SB025" "33222" "J2301" "G3108" "CO0609" ]
 end
+
+def of (--)
+    [open_facility_grid];
+end
