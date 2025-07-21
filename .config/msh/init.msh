@@ -44,3 +44,7 @@ end
 def of (--)
     [open_facility_grid];
 end
+
+def g (--)
+  pwd [fzf-tmsu]? (drop) (cd) iff
+end
