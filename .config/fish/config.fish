@@ -464,10 +464,6 @@ end
 # Edit idf files
 abbr -a i "$EDITOR *.idf"
 
-function gn --description 'Grep notes';
-    rg -i $argv[1] $MPNOTES
-end
-
 function cn --description 'Create note'
     # If file name given, edit file directly, otherwise cd to directory.
     if count $argv > /dev/null
