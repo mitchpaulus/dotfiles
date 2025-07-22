@@ -18,4 +18,4 @@ pages.' wl 0 exit
 ) iff
 
 args len 3 < ( '3 arguments required.' wl 1 exit)
-[qpdf --empty --pages $1 $2 -- $3]!
+[qpdf --empty --pages $1 $2 '--' $3]!
