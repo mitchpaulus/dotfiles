@@ -1,8 +1,7 @@
-#!/bin/sh
+#!/usr/bin/env mshell
 
-if [ "$1" = "-h" ] || [ "$1" = "--help" ] ; then
-    cat <<EOF
-rippdf
+args (a! @a "-h" = @a "--help" = or) any (
+'rippdf
 
 USAGE:
 rippdf input.pdf pages output.pdf
@@ -15,11 +14,8 @@ document.  Pages can appear in any order.  Ranges can appear with a
 high number followed by a low number, which causes the pages to appear in
 reverse.  Numbers may be repeated.  A page range may be appended with :odd
 to indicate odd pages in the selected range or :even to indicate even
-pages.
-EOF
-    exit 0
-fi
+pages.' wl 0 exit
+) iff
 
-[ $# -lt 3 ] && printf "3 arguments required.\n" && exit 1
-
-qpdf --empty --pages "$1" "$2" -- "$3"
+args len 3 < ( '3 arguments required.' wl 1 exit)
+[qpdf --empty --pages $1 $2 -- $3]!
