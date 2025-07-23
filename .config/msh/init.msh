@@ -48,3 +48,12 @@ end
 def g (--)
   pwd [fzf-tmsu]? (drop) (cd) iff
 end
+
+def gm (--)
+     $OneDriveCommercial toPath 'meetingnotes' /
+     path!
+     @path isDir
+     (@path cd)
+     ($"{@path} is not a directory." wle)
+     iff
+end
