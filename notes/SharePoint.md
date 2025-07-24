@@ -34,3 +34,7 @@ Add the following to the end of the base URL of the site:
 [List vs Doc Library](https://sharepointmaven.com/lists-vs-libraries-in-sharepoint-online/)
 
 Doc library is special subset of lists.
+
+## Report MS Graph
+
+<https://learn.microsoft.com/en-us/graph/api/reportroot-getsharepointsiteusagestorage?view=graph-rest-1.0&tabs=http>
