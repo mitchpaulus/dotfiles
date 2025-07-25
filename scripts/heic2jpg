@@ -1,0 +1,13 @@
+#!/usr/bin/env mshell
+'
+from PIL import Image
+import pillow_heif
+import sys
+
+# Register HEIF opener
+pillow_heif.register_heif_opener()
+img = Image.open(sys.argv[1])
+img.save(sys.argv[2], "JPEG")
+' py!
+
+[uv run --with pillow-heif '-' $1 $1 stem ".jpg" +] @py < !
