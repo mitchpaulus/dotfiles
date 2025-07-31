@@ -284,8 +284,18 @@ class Table:
         self._vertical_alignments.append((cell_range, alignment))
         return self
 
+    def vertical_align_bottom(self, cell_range: IRange):
+        """Align the cell range vertically to the bottom."""
+        self._vertical_alignments.append((cell_range, WordVerticalAlignment.wdCellAlignVerticalBottom))
+        return self
+
     def horizontal_align(self, cell_range, alignment: WordParagraphAlignment):
         self._horizontal_alignments.append((cell_range, alignment))
+        return self
+
+    def horizontal_align_center(self, cell_range: IRange):
+        """Align the cell range horizontally to the center."""
+        self._horizontal_alignments.append((cell_range, WordParagraphAlignment.wdAlignParagraphCenter))
         return self
 
     def decimal_tab(self, cell_range: IRange, position):
@@ -298,6 +308,7 @@ class Table:
         return self
 
     def col_width(self, col: Union[int, Column], width_inches: float):
+        """Col is 1-based index of column number"""
         if isinstance(col, int):
             self._col_widths.append((col, width_inches))
         elif isinstance(col, Column):
@@ -314,6 +325,11 @@ class Table:
             self._autofits.append(col)
         elif isinstance(col, Column):
             self._autofits.append(col.column)
+        elif isinstance(col, list) or isinstance(col, range):
+            for c in col:
+                self.col_autofit(c)
+        else:
+            raise ValueError(f"Invalid column type: {type(col).__name__}")
 
         return self
 
@@ -346,6 +362,13 @@ class Table:
         if col < 0:
             return self.num_cols() + col + 1
         return col
+
+    def ccllc_header(self):
+        self.set_background_color(Row(1), CCLLC_BLUE)
+        self.bold(Row(1), True)
+        self.horizontal_align_center(Row(1))
+        self.vertical_align(Row(1), WordVerticalAlignment.wdCellAlignVerticalBottom)
+        return self
 
     def apply_to_range(self, cell_range, vba):
         if not vba.startswith('.'):
