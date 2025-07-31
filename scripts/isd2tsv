@@ -2956,6 +2956,11 @@ def main():
             print(line)
 
     elif tsv:
+        # Check that --hourly is not also given
+        if hourly:
+            print("Error: --hourly and --tsv cannot be used together", file=sys.stderr)
+            sys.exit(1)
+
         contents = get_year_utilizing_cache(usaf, wban, year)
         lines = parse_isd_file_2(contents)
 
@@ -3047,6 +3052,10 @@ def main():
     elif hourly:
         if offset is None:
             print("Error: no offset given", file=sys.stderr)
+            sys.exit(1)
+
+        if tsv:
+            print("Error: --hourly and --tsv cannot be used together", file=sys.stderr)
             sys.exit(1)
 
         lines = hourly_year(usaf, wban, year, offset, ip, dst, minute_interval, datetime_format, include_wet_bulb)
