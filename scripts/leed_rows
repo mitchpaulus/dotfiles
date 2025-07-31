@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 import sys
 
+if "-h" in sys.argv or "--help" in sys.argv:
+    print("Usage: excelchop -w sheet xlsm | python leed_rows.py")
+    sys.exit(0)
+
 data = [line.split("\t") for line in sys.stdin.read().splitlines()]
 
 before_baseline = 0

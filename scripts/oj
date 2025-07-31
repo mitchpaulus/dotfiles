@@ -1,5 +1,7 @@
 #!/usr/bin/env mshell
 
+# Usually update JOBS_DATA_FILE with something like:
+# cc_archive jobsdrives
 $JOBS_DATA_FILE? not ("$JOBS_DATA environment variable not set" 1 exit) iff
 [fzf -d "\t" -n 1 --with-nth 1] $JOBS_DATA_FILE toPath < os ! tsplit :-1: url!
 [wsl_url_open @url]!
