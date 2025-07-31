@@ -210,3 +210,10 @@ Also see <https://portfoliomanager.energystar.gov/pdf/reference/Emissions.pdf> o
 
 - Showerhead flow: 2.5 gpm, 2.0 gpm for 'WaterSense' label <https://www.epa.gov/watersense/showerheads>.
 - Faucet flow: 2.2 gpm, 1.5 gpm for 'WaterSense' label <https://www.epa.gov/watersense/bathroom-faucets>.
+
+# LEED Links
+
+- <https://www.usgbc.org/resources/leed-minimum-energy-performance-calculator-2024-update-only>
+- <https://www.usgbc.org/sites/default/files/2024-07/v4_Minimum_Energy_Performance_Calculator-v07%20%282024%20update%29.xlsm>
+- <https://www.usgbc.org/credits/>
+- <https://www.usgbc.org/credits/BDC/v4/ea404/2024update?return=/credits/New%20Construction/v4/Energy%20&%20atmosphere>
