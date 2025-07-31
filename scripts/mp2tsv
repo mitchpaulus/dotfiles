@@ -172,9 +172,9 @@ def main(filter_incomplete: bool, minute_interval: int, dt: bool):
                 # Interpolate the value.
                 new_value = (float2 - float1) / (date2 - date1).total_seconds() * (interpolation_dates[loop_idx] - date1).total_seconds() + float1
 
-                if new_value > 10000:
-                    print(f'Warning: {trend} has a value of {new_value} at {interpolation_dates[loop_idx]}', file=sys.stderr)
-                    print(f'float 1: {float1}, float 2: {float2}, date 1: {date1}, date 2: {date2}', file=sys.stderr)
+                #  if new_value > 10000:
+                    #  print(f'Warning: {trend} has a value of {new_value} at {interpolation_dates[loop_idx]}', file=sys.stderr)
+                    #  print(f'float 1: {float1}, float 2: {float2}, date 1: {date1}, date 2: {date2}', file=sys.stderr)
 
                 new_data.append(str(new_value))
 
