@@ -10,3 +10,4 @@ squared ²
 mu µ
 subscript2 ₂
 superscript_plus ⁺
+cubed ³
