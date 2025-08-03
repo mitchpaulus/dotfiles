@@ -9,7 +9,7 @@ if test -n "$WSLENV"; then
     cmd.exe /C start '' "$(wslpath -w "$DIR")"
     cd "$PREV_DIR" || exit 1
 else
-    IOREF="$(fd -t f InputOutput | sort -rV | head -n 1)"
+    IOREF="$(fd -t f InputOutputReference.pdf '/' | sort -rV | head -n 1)"
     if test -n "$IOREF"; then
         xdg-open "$IOREF"
     else

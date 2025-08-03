@@ -160,6 +160,7 @@ class Rectangle:
         self._font_size = None
         self._stroke_width = 1
         self._drawing: Optional[Drawing] = None
+        self._stroke = None
 
         self._fill: Optional[tuple[int, int, int]] = None
 
@@ -267,6 +268,22 @@ class Rectangle:
         self._fill = (r, g, b)
         return self
 
+    def stroke_rgb(self, r: int, g: int, b: int) -> 'Rectangle':
+        # Validate the RGB values
+        if r < 0 or r > 255:
+            raise ValueError(f"Red value {r} is not in the range 0-255")
+        if g < 0 or g > 255:
+            raise ValueError(f"Green value {g} is not in the range 0-255")
+        if b < 0 or b > 255:
+            raise ValueError(f"Blue value {b} is not in the range 0-255")
+        self._stroke = f"rgb({r} {g} {b})"
+        return self
+
+    def stroke_name(self, name: str) -> 'Rectangle':
+        """Set the stroke color by name. This is a named color in SVG."""
+        self._stroke = name
+        return self
+
     def to_vba(self):
         vba = f"Set newShape = ActiveSheet.Shapes.AddShape(msoShapeRectangle, {compute(self._x)}, {compute(self._y)}, {compute(self._width)}, {compute(self._height)})\n"
         if self._fill:
@@ -308,7 +325,12 @@ class Rectangle:
         else:
             fill_str = 'fill="none"'
 
-        rect_tag = f'<rect stroke="black" stroke-width="{compute(self._stroke_width)}" x="{x}" y="{y}" width="{width}" height="{height}" {fill_str} />\n'
+        if self._stroke is not None:
+            stroke_str = f'stroke="{self._stroke}"'
+        else:
+            stroke_str = 'stroke="black"'
+
+        rect_tag = f'<rect stroke-width="{compute(self._stroke_width)}" x="{x}" y="{y}" width="{width}" height="{height}" {fill_str} {stroke_str}/>\n'
 
         if self._text:
             if self._font_size:
@@ -353,6 +375,11 @@ class Line:
         self._drawing: Optional[Drawing] = None
         self._name = name
         self._dash_pattern: Optional[str] = None
+        self._stroke = None
+
+    def red(self) -> 'Line':
+        self._stroke = "rgb(255, 0, 0)"
+        return self
 
     def x1(self, x1: Value) -> 'Line':
         self._x1 = x1
@@ -442,7 +469,13 @@ class Line:
         return self
 
     def to_svg(self):
-        element = f'<line x1="{compute(self._x1)}" y1="{-compute(self._y1)}" x2="{compute(self._x2)}" y2="{-compute(self._y2)}" stroke="black"'
+        if self._stroke is not None:
+            stroke_str = f'stroke="{self._stroke}"'
+        else:
+            stroke_str = 'stroke="black"'
+
+
+        element = f'<line x1="{compute(self._x1)}" y1="{-compute(self._y1)}" x2="{compute(self._x2)}" y2="{-compute(self._y2)}" {stroke_str}'
         if self._dash_pattern:
             element += f' stroke-dasharray="{self._dash_pattern}"'
         element += ' />\n'
