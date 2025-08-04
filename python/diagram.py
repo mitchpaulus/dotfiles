@@ -1,4 +1,4 @@
-from typing import Callable, Optional, Union
+from typing import Callable, Optional, Union, Tuple
 import uuid
 import sys
 
@@ -72,7 +72,10 @@ class Drawing:
         if name in self._shapes:
             raise KeyError(f"Shape with name {name} already exists")
 
-        self._shapes[name] = Circle(name)
+        c = Circle(name)
+        self._shapes[name] = c
+        c._drawing = self
+        
         return self._shapes[name]
 
     def default_font_size(self, font_size: float) -> 'Drawing':
@@ -148,6 +151,26 @@ class Drawing:
                 raise NotImplementedError(f"Shape {shape} does not support shifting in y direction")
         return self
 
+
+class VertDimension:
+    def __init__(self, name) -> None:
+        self._name = name
+        self._x1 = 0
+        self._y1 = 0
+        self._x2 = 1
+        self._y2 = 1
+
+    def p1(self, x1, y1) -> 'VertDimension':
+        self._x1 = x1
+        self._y1 = y1
+        return self
+
+    def p2(self, x2, y2) -> 'VertDimension':
+        self._x2 = x2
+        self._y2 = y2
+        return self
+
+
 # Use fluent syntax
 class Rectangle:
     def __init__(self, name):
@@ -221,9 +244,13 @@ class Rectangle:
     def center_y(self):
         return lambda:compute(self._y) + compute(self._height) / 2
 
-    def width(self, width: float) -> 'Rectangle':
+    def width(self, width) -> 'Rectangle':
         self._width = width
         return self
+
+    def get_width(self) -> float:
+        """Get the width of the rectangle."""
+        return self._width
 
     def height(self, height: float) -> 'Rectangle':
         self._height = height
@@ -277,6 +304,11 @@ class Rectangle:
         if b < 0 or b > 255:
             raise ValueError(f"Blue value {b} is not in the range 0-255")
         self._stroke = f"rgb({r} {g} {b})"
+        return self
+
+    def red(self) -> 'Rectangle':
+        """Set the stroke color to red."""
+        self._stroke = "rgb(255, 0, 0)"
         return self
 
     def stroke_name(self, name: str) -> 'Rectangle':
@@ -366,6 +398,20 @@ class Rectangle:
     def __str__(self):
         return f'Rectangle({self.width}, {self.height})'
 
+def line_through_two_points(x1: float, y1: float, x2: float, y2: float) -> Tuple[float, float, float]:
+    """Return the coefficients (a, b, c) of the line equation ax + by + c = 0 that passes through the points (x1, y1) and (x2, y2)."""
+    a = y1 - y2
+    b = x2 - x1
+    c = x1 * y2 - x2 * y1
+    return a, b, c
+
+def reflection_of_point_in_line(line_x1, line_y1, line_x2, line_y2, point_x, point_y) -> Tuple[float, float]:
+    a, b, c = line_through_two_points(line_x1, line_y1, line_x2, line_y2)
+    x = ((b*b - a*a) * point_x - 2 * a * b * point_y - 2 * a * c) / (a*a + b*b)
+    y = ((-2*a*b*point_x + (a*a - b*b) * point_y - 2 * b * c) / (a*a + b*b))
+    return x, y
+
+
 class Line:
     def __init__(self, name):
         self._x1: Value = 0.0
@@ -396,6 +442,15 @@ class Line:
     def y2(self, y2: Value) -> 'Line':
         self._y2 = y2
         return self
+
+    def _a(self) -> float:
+        return compute(self._y1) - compute(self._y2)
+
+    def _b(self) -> float:
+        return compute(self._x2) - compute(self._x1)
+
+    def _c(self) -> float:
+        return compute(self._x1) * compute(self._y2) - compute(self._x2) * compute(self._y1)
 
     def coords(self, x1: Value, y1: Value, x2: Value, y2: Value) -> 'Line':
         self._x1 = x1
@@ -582,6 +637,7 @@ class Circle:
         self._y = 0
         self._r = 10
         self._name = name
+        self._drawing: Optional[Drawing] = None
 
     def x(self, x: Value) -> 'Circle':
         self._x = x
@@ -603,7 +659,40 @@ class Circle:
         x = compute(self._x)
         y = -compute(self._y)
         r = compute(self._r)
-        return f'<circle cx="{x}" cy="{y}" r="{r}" />\n'
+        return f'<circle name="{self._name}" cx="{x}" cy="{y}" r="{r}" />\n'
+
+    def dup(self, name: Optional[str] = None) -> 'Circle':
+        if name is None and self._drawing is not None:
+            name = f"line{len(self._drawing._shapes)}"
+        elif name is None and self._drawing is None:
+            name = f"line{uuid.uuid4().hex}"
+        if self._drawing is not None and name in self._drawing._shapes:
+            raise KeyError(f"Shape with name {name} already exists in drawing")
+
+
+        new_circle = Circle(name)
+        new_circle._x = self._x
+        new_circle._y = self._y
+        new_circle._r = self._r
+        new_circle._drawing = self._drawing
+        self._drawing._shapes[name] = new_circle
+
+        return new_circle
+
+    def shift_x(self, dx: float) -> 'Circle':
+        self._x = compute(self._x) + dx
+        return self
+
+    def shift_y(self, dy: float) -> 'Circle':
+        self._y = compute(self._y) + dy
+        return self
+
+    def reflect(self, line_x1: float, line_y1: float, line_x2: float, line_y2: float) -> 'Circle':
+        """Reflect the circle across a line defined by two points."""
+        new_x, new_y = reflection_of_point_in_line(line_x1, line_y1, line_x2, line_y2, compute(self._x), compute(self._y))
+        self._x = new_x
+        self._y = new_y
+        return self
 
 
 class Sensor:

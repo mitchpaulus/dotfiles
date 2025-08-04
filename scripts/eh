@@ -4,7 +4,7 @@
 (['explorer.exe'  ['wslpath' -w pwd] os ! ] `/dev/null` > `/dev/null` 2> &!)
 (
     'dolphin' isCmd
-    (['dolphin'] `/dev/null` > `/dev/null` 2> &!)
+    (['dolphin' pwd] `/dev/null` > `/dev/null` 2> &!)
     ("No GUI file manager set up." wle 1 exit)
     iff
 )
