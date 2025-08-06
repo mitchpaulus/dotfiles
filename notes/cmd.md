@@ -23,3 +23,19 @@
 - Shutdown/Restart
     - `shutdown /s`: Shutdown
     -  `shutdown /r`: Restart
+
+## For loops
+
+```bat
+REM only single character variable names are allowed
+for %%a in (1 2 3) do
+(
+  echo %%a
+  cmd %%a
+)
+```
+
+# References
+
+[Parsing algorithm](https://stackoverflow.com/a/4095133)
+[Batsh](https://github.com/batsh-dev-team/Batsh)
