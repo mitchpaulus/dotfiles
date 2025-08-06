@@ -462,7 +462,7 @@ insertModeNoRecurseMappings = {
     { '<localleader>sigma', 'σ' },
 
     -- Faster file name completion
-    -- { '<C-F>', '<C-X><C-F>' },
+    { '<localleader>f', '<C-X><C-F>' },
 
     { '<C-@>', '' },
 
@@ -503,7 +503,7 @@ insertModeNoRecurseMappings = {
     { '<C-b>', '<Left>' },
     { '<M-b>', '<Esc>Bi' },
     { '<M-f>', '<Esc>Ea' },
-    -- { '<C-f>', '<Right>' }, used for <C-x><C-f> filename completion.
+    { '<C-f>', '<Right>' }, -- used for <C-x><C-f> filename completion.
 
     -- Mshell shebang
     { '<localleader>ms', '#!/usr/bin/env mshell<CR><Esc>:set ft=mshell<CR>' },
@@ -522,7 +522,7 @@ vim.api.nvim_set_keymap("c", "<M-b>", "<S-Left>", { noremap = true })
 func_map(function(tbl) inmap(tbl[1], tbl[2]) end, insertModeNoRecurseMappings)
 
 vim.api.nvim_set_keymap("i", "<C-n>", [[pumvisible() ? "\<C-n>" : "\<C-o>:set completeopt=menu\<Cr>\<C-n>"]], { noremap = true, silent = true, expr = true })
-vim.api.nvim_set_keymap("i", "<C-f>", [[pumvisible() ? "\<C-f>" : "\<C-o>:set completeopt=menu\<Cr>\<C-x>\<C-f>"]], { noremap = true, silent = true, expr = true })
+-- vim.api.nvim_set_keymap("i", "<C-f>", [[pumvisible() ? "\<C-f>" : "\<C-o>:set completeopt=menu\<Cr>\<C-x>\<C-f>"]], { noremap = true, silent = true, expr = true })
 vim.api.nvim_set_keymap("i", "<C-Space>", [[pumvisible() ? "\<Space>" : "\<Esc>:set completeopt=menuone,noinsert\<Cr>a\<C-x>\<C-o>"]], { noremap = true, silent = true, expr = true })
 
 vim.api.nvim_set_keymap("v", '<leader>y', '"+y', silent)
@@ -977,8 +977,8 @@ filetypeAutocmds = {
     { 'markdown', 'inoremap <localleader>aj (adj.)', },
     { 'markdown', 'inoremap <localleader>b ****<Left><Left>', },
     { 'markdown', 'inoremap <localleader>e $$  $$<Esc>2hi', },
-    { 'markdown', 'inoremap <localleader>fi ![]()<Esc>2hi', },
-    { 'markdown', 'inoremap <localleader>fr \\frac{}{}<esc>2hi', },
+    -- { 'markdown', 'inoremap <localleader>fi ![]()<Esc>2hi', },
+    -- { 'markdown', 'inoremap <localleader>fr \\frac{}{}<esc>2hi', },
     { 'markdown', 'inoremap <localleader>i **<Left>', },
     { 'markdown', 'inoremap <localleader>m $$<Left>', },
     { 'markdown', 'inoremap <localleader>n \\begin{equation}<CR>\\end{equation}<Esc>0ko', },
