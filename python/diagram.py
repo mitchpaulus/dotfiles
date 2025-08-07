@@ -184,8 +184,57 @@ class Rectangle:
         self._stroke_width = 1
         self._drawing: Optional[Drawing] = None
         self._stroke = None
+        self._dash_pattern: Optional[str] = None
 
         self._fill: Optional[tuple[int, int, int]] = None
+
+    def right_dimension(self, offset: float, tick_width: float, unit: str) -> 'Rectangle':
+        line = self._drawing.line(f"{self._name}_right_dimension")
+        line.x1(self.x2() + offset).y1(self._y).x2(self.x2() + offset).y2(self._y + self._height)
+
+        line = self._drawing.line(f"{self._name}_right_dimension_tick1")
+        line.x1(self.x2() + offset - tick_width / 2).y1(self._y).x2(self.x2() + offset + tick_width / 2).y2(self._y)
+
+        line = self._drawing.line(f"{self._name}_right_dimension_tick2")
+        line.x1(self.x2() + offset - tick_width / 2).y1(self._y + self._height).x2(self.x2() + offset + tick_width / 2).y2(self._y + self._height)
+
+        self._drawing.text().text(f"{self._height}{unit}").x(self.x2() + offset + 2).y(self.center_y()).xAnchor("start").yAnchor("middle").font_size(2.5)
+
+        return self
+
+    def top_dimension(self, offset: float, tick_width: float, unit: str) -> 'Rectangle':
+        line = self._drawing.line(f"{self._name}_top_dimension")
+        line.x1(self._x).y1(self.top() + offset).x2(self._x + self._width).y2(self.top() + offset)
+
+        line = self._drawing.line(f"{self._name}_top_dimension_tick1")
+        line.x1(self._x).y1(self.top() + offset - tick_width / 2).x2(self._x).y2(self.top() + offset + tick_width / 2)
+
+        line = self._drawing.line(f"{self._name}_top_dimension_tick2")
+        line.x1(self._x + self._width).y1(self.top() + offset - tick_width / 2).x2(self._x + self._width).y2(self.top() + offset + tick_width / 2)
+
+        self._drawing.text().text(f"{self._width}{unit}").x(self.center_x()).y(self.top() + offset + 2).xAnchor("middle").yAnchor("start").font_size(2.5)
+
+        return self
+
+    def left_dimension(self, offset: float, tick_width: float, unit: str) -> 'Rectangle':
+        line = self._drawing.line(f"{self._name}_left_dimension")
+        line.x1(self._x - offset).y1(self._y).x2(self._x - offset).y2(self._y + self._height)
+
+        line = self._drawing.line(f"{self._name}_left_dimension_tick1")
+        line.x1(self._x - offset - tick_width / 2).y1(self._y).x2(self._x - offset + tick_width / 2).y2(self._y)
+
+        line = self._drawing.line(f"{self._name}_left_dimension_tick2")
+        line.x1(self._x - offset - tick_width / 2).y1(self._y + self._height).x2(self._x - offset + tick_width / 2).y2(self._y + self._height)
+
+        self._drawing.text().text(f"{self._height}{unit}").x(self._x - offset - 2).y(self.center_y()).xAnchor("end").yAnchor("middle").font_size(2.5)
+
+        return self
+
+
+    def dash_pattern(self, pattern: str) -> 'Rectangle':
+        """Set the dash pattern for the rectangle. Example: '5, 2' for a dashed line."""
+        self._dash_pattern = pattern
+        return self
 
     def dup(self, name: Optional[str] = None) -> 'Rectangle':
         if name is None:
@@ -232,17 +281,17 @@ class Rectangle:
         self._font_size = font_size
         return self
 
-    def x2(self) -> Value:
-        return lambda: compute(self._x) + compute(self._width)
+    def x2(self) -> float:
+        return compute(self._x) + compute(self._width)
 
-    def y2(self) -> Value:
-        return lambda: compute(self._y) + compute(self._height)
+    def y2(self) -> float:
+        return compute(self._y) + compute(self._height)
 
     def center_x(self):
-        return lambda: compute(self._x) + compute(self._width) / 2
+        return  compute(self._x) + compute(self._width) / 2
 
     def center_y(self):
-        return lambda:compute(self._y) + compute(self._height) / 2
+        return compute(self._y) + compute(self._height) / 2
 
     def width(self, width) -> 'Rectangle':
         self._width = width
@@ -361,6 +410,9 @@ class Rectangle:
             stroke_str = f'stroke="{self._stroke}"'
         else:
             stroke_str = 'stroke="black"'
+
+        if self._dash_pattern:
+            stroke_str += f' stroke-dasharray="{self._dash_pattern}"'
 
         rect_tag = f'<rect stroke-width="{compute(self._stroke_width)}" x="{x}" y="{y}" width="{width}" height="{height}" {fill_str} {stroke_str}/>\n'
 
@@ -530,7 +582,7 @@ class Line:
             stroke_str = 'stroke="black"'
 
 
-        element = f'<line x1="{compute(self._x1)}" y1="{-compute(self._y1)}" x2="{compute(self._x2)}" y2="{-compute(self._y2)}" {stroke_str}'
+        element = f'<line name="{self._name}" x1="{compute(self._x1)}" y1="{-compute(self._y1)}" x2="{compute(self._x2)}" y2="{-compute(self._y2)}" {stroke_str}'
         if self._dash_pattern:
             element += f' stroke-dasharray="{self._dash_pattern}"'
         element += ' />\n'
@@ -638,6 +690,14 @@ class Circle:
         self._r = 10
         self._name = name
         self._drawing: Optional[Drawing] = None
+        self._dash_pattern: Optional[str] = None
+        self._fill: Optional[str] = "black"
+        self._stroke: str = "black"
+
+    def dash_pattern(self, pattern: str) -> 'Circle':
+        """Set the dash pattern for the circle. Example: '5, 2' for a dashed line."""
+        self._dash_pattern = pattern
+        return self
 
     def x(self, x: Value) -> 'Circle':
         self._x = x
@@ -651,6 +711,11 @@ class Circle:
         self._r = r
         return self
 
+    def no_fill(self) -> 'Circle':
+        """Set the circle to have no fill."""
+        self._fill = None
+        return self
+
     def to_vba(self):
         vba = f"ActiveSheet.Shapes.AddShape(msoShapeOval, {compute(self._x)}, {compute(self._y)}, {compute(self._r)}, {compute(self._r)})\n"
         return vba
@@ -659,7 +724,24 @@ class Circle:
         x = compute(self._x)
         y = -compute(self._y)
         r = compute(self._r)
-        return f'<circle name="{self._name}" cx="{x}" cy="{y}" r="{r}" />\n'
+        attrs = []
+
+        if self._dash_pattern:
+            attrs.append(f'stroke-dasharray="{self._dash_pattern}"')
+
+        if self._fill is None:
+            attrs.append('fill="none"')
+        else:
+            attrs.append(f'fill="{self._fill}"')
+
+        if self._stroke is not None:
+            attrs.append(f'stroke="{self._stroke}"')
+        else:
+            attrs.append('stroke="black"')
+
+        attr_str = ' '.join(attrs)
+
+        return f'<circle name="{self._name}" cx="{x}" cy="{y}" r="{r}" {attr_str} />\n'
 
     def dup(self, name: Optional[str] = None) -> 'Circle':
         if name is None and self._drawing is not None:
@@ -675,6 +757,9 @@ class Circle:
         new_circle._y = self._y
         new_circle._r = self._r
         new_circle._drawing = self._drawing
+        new_circle._fill = self._fill
+        new_circle._stroke = self._stroke
+        new_circle._dash_pattern = self._dash_pattern
         self._drawing._shapes[name] = new_circle
 
         return new_circle
