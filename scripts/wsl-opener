@@ -15,6 +15,7 @@ case "$1" in
     *.msg  | \
     *.pdf  | \
     *.PDF  | \
+    *.Pdf  | \
     *.png  | \
     *.PNG  | \
     *.pptx | \
