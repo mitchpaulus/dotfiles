@@ -4,12 +4,20 @@ import sys
 import fitz
 
 if __name__ == "__main__":
+    if "-h" in sys.argv or "--help" in sys.argv:
+        print("Usage: get_bookmarks.py [file.pdf]")
+        print("Usage: get_bookmarks.py < [file.pdf]")
+        print("Prints the bookmarks of a PDF file to stdout.")
+        sys.exit(0)
+
     if len(sys.argv) == 1:
         doc = fitz.open(stream=sys.stdin.buffer.read())
     elif len(sys.argv) == 2:
         doc = fitz.open(sys.argv[1])
     else:
         print("Usage: get_bookmarks.py [file.pdf]", file=sys.stderr)
+        print("Usage: get_bookmarks.py < [file.pdf]", file=sys.stderr)
+        print("Prints the bookmarks of a PDF file to stdout.", file=sys.stderr)
         sys.exit(1)
 
     toc = doc.get_toc()
