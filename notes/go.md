@@ -94,6 +94,7 @@ func (p Person) String() string {
 
 // Mon Jan 2 15:04:05 MST 2006
 // 01/02 03:04:05PM '06 -0700
+myTime.Format("2006-01-02 15:04:05")
 
 var mySlice []int
 var myMap map[string]int // Map from string to int
