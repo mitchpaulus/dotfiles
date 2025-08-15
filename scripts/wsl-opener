@@ -22,6 +22,7 @@ case "$1" in
     *.xls  | \
     *.xlsm | \
     *.eml  | \
+    *.dwg  | \
     *.xlsx ) \
     cmd.exe '/C' start '' "$(wslpath -w "$1")" ;;
     *.txt|*.md|*.markdown|*.awk|*.fish|*.json|*.idf) "$EDITOR" "$1";;
