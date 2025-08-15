@@ -29,3 +29,24 @@ await using var cmd = new MySqlCommand(insertQuery, conn, (MySqlTransaction)tran
 cmd.Parameters.AddWithValue("@WBS1", MySqlDbType.VarChar, 'hello world');
 
 ```
+
+## Root
+
+```sh
+sudo -i
+mysql
+
+sudo mysql # Does not work.
+```
+
+```
+SHOW GRANTS FOR CURRENT_USER;
+
+CREATE database mydatabasename;
+SHOW DATABASES;
+
+GRANT ALL PRIVILEGES ON mydatabasename.* TO 'myuser'@'%'
+ALTER TABLE dbname.mytablename ADD MyColumnName VARCHAR(255) NOT NULL;
+
+INSERT INTO mydatabasename.mytable (MyColumnName1, MyColumnName2) VALUES ('Value1', 'Value2');
+```
