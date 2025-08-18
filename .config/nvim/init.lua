@@ -676,8 +676,9 @@ nnmap('<leader>n', ':NERDTree<cr>')
 vim.g.NERDTreeIgnore = { '\\.aux.*$','\\.fls$','\\.lof$','\\.toc$','\\.out$','\\.vrb$','\\.nav$','\\.snm$','\\.bbl$','\\.bib','\\.fdb_latexmk$','\\.xdv','\\.gif','\\.pdf','\\~$','\\.blg$','\\.lot$' }
 
 vim.g.copilot_filetypes = {
-    yaml = true,
-    markdown = true,
+    ["*"] = false,
+    -- yaml = true,
+    -- markdown = true,
 }
 
 -- Function to insert a UUID
@@ -827,6 +828,8 @@ end
 
 -- -- to execute the function
 -- colors()
+
+
 
 -- vim-vsnip {{{
 -- https://github.com/hrsh7th/vim-vsnip
