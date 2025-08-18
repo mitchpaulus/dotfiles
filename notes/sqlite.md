@@ -11,6 +11,16 @@ ALTER TABLE <Table> ADD COLUMN <column name> <Column-def>
 <Column-constraint> := PRIMARY KEY AUTOINCREMENT?
 ```
 
+## Create Table
+
+```
+CREATE TABLE mytable (
+ id INTEGER PRIMARY KEY,
+ name TEXT NOT NULL,
+ email TEXT UNIQUE
+);
+```
+
 ## Storage Classes
 
 NULL
