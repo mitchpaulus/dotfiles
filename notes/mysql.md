@@ -48,5 +48,37 @@ SHOW DATABASES;
 GRANT ALL PRIVILEGES ON mydatabasename.* TO 'myuser'@'%'
 ALTER TABLE dbname.mytablename ADD MyColumnName VARCHAR(255) NOT NULL;
 
-INSERT INTO mydatabasename.mytable (MyColumnName1, MyColumnName2) VALUES ('Value1', 'Value2');
+INSERT INTO mydatabasename.mytable (MyColumnName1, MyColumnName2) VALUES ('Value1', 'Value2'), ('Value 3', 'Value 4');
+```
+
+```
+column_definition: {
+    data_type [NOT NULL | NULL] [DEFAULT {literal | (expr)} ]
+      [VISIBLE | INVISIBLE]
+      [AUTO_INCREMENT] [UNIQUE [KEY]] [[PRIMARY] KEY]
+      [COMMENT 'string']
+      [COLLATE collation_name]
+      [COLUMN_FORMAT {FIXED | DYNAMIC | DEFAULT}]
+      [ENGINE_ATTRIBUTE [=] 'string']
+      [SECONDARY_ENGINE_ATTRIBUTE [=] 'string']
+      [STORAGE {DISK | MEMORY}]
+      [reference_definition]
+      [check_constraint_definition]
+  | data_type
+      [COLLATE collation_name]
+      [GENERATED ALWAYS] AS (expr)
+      [VIRTUAL | STORED] [NOT NULL | NULL]
+      [VISIBLE | INVISIBLE]
+      [UNIQUE [KEY]] [[PRIMARY] KEY]
+      [COMMENT 'string']
+      [reference_definition]
+      [check_constraint_definition]
+}
+
+```
+
+```
+strings: CHAR, VARCHAR, BINARY, VARBINARY, BLOB, TEXT, ENUM, and SET.
+INTEGER
+TINYINT(1)
 ```
