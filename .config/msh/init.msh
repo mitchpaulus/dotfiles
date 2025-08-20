@@ -57,3 +57,7 @@ def gm (--)
      ($"{@path} is not a directory." wle)
      iff
 end
+
+def zip2list (a b --)
+    (val2! val1! [@val1 @val2]) zip
+end
