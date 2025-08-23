@@ -136,8 +136,23 @@ In this order:
 xmllint --format
 ```
 
+## Bullet Lists
+
+```
+<ul>
+  <li>Item 1
+    <ul>
+      <li>Subitem 1</li>
+      <li>Subitem 2</li>
+    </ul>
+  </li>
+  <li>Item 2</li>
+</ul>
+```
+
 ## Progress Element
 
 [Cool builtin element for progress.](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress)
 
 [Just Fucking use HTML](https://justfuckingusehtml.com/)
+
