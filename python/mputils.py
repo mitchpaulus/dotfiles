@@ -191,6 +191,19 @@ def version_sort_by_in_place(l: List[T1], key_selector: Callable[[T1], str]):
     """
     l.sort(key = lambda x: alphanum_key(key_selector(x)))
 
+def percent_rank(array: List[float], value: float) -> float:
+    """
+    Returns the percent rank of the given value in the array. (0-100)
+    Percent rank is defined as the percentage of values in the array that are less than or equal to the given value.
+    :param array: List of data (Doesn't have to be pre-sorted)
+    :param value: Value to calculate percent rank for
+    """
+    if len(array) == 0:
+        raise ValueError("Cannot calculate percent rank of empty list")
+
+    count_less_equal = sum(1 for x in array if x <= value)
+    return (count_less_equal / len(array)) * 100
+
 def percentile(array: List[float], percent: float) -> float:
     """
     Returns the array value associated with a percentile of the list of data.

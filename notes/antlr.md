@@ -35,7 +35,7 @@ Make sure the java classes have been compiled.
 
 ## Installing the Java Development Kit for WSL on Windows OS
 
-- Used Open Source version from <https://jdk.java.net>. Normally Linux/x64.
+- Used Open Source version from <https://jdk.java.net>. Normally Linux/x64. AArch64 is for ARM64.
 - Extract to desired directory
     - Installed to `/usr/java/jdk-14.0.2/`
     - Added `/usr/java/jdk-14.0.2/bin` to `PATH`
