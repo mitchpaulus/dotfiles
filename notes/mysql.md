@@ -77,8 +77,17 @@ column_definition: {
 
 ```
 
+Data Types:
 ```
 strings: CHAR, VARCHAR, BINARY, VARBINARY, BLOB, TEXT, ENUM, and SET.
 INTEGER
 TINYINT(1)
+DATE TIME DATETIME TIMESTAMP YEAR
 ```
+
+```
+mysql -B < file.sql # Output as TSV
+```
+
+<https://dev.mysql.com/doc/refman/8.4/en/data-types.html>
+<https://dev.mysql.com/doc/refman/8.4/en/string-literals.html>

@@ -8,10 +8,11 @@ Construction Specifications
 23 09 00 - Instrumentation and Control for HVAC
 
 
-General Requirements
+# General Requirements
 Division 00 - Procurement and Contracting Requirements
 Division 01 - General Requirements
-Facility Construction
+
+# Facility Construction
 Division 02 - Existing Conditions
 Division 03 - Concrete
 Division 04 - Masonry
@@ -25,7 +26,8 @@ Division 11 - Equipment
 Division 12 - Furnishings
 Division 13 - Special Construction
 Division 14 - Conveying Equipment
-Facility Services
+
+# Facility Services
 Division 21 - Fire Suppression
 Division 22 – Plumbing
 Division 23 - Heating, Ventilating and Air Conditioning (HVAC)
@@ -33,7 +35,8 @@ Division 25 - Integrated Automation
 Division 26 – Electrical
 Division 27 – Communications
 Division 28 - Electronic Safety and Security
-Site and Infrastructure
+
+# Site and Infrastructure
 Division 31 - Earthwork
 Division 32 - Exterior Improvements
 Division 33 - Utilities

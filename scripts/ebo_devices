@@ -1,0 +1,11 @@
+#!/usr/bin/env mshell
+
+[sqlite3 -tabs $1
+
+"SELECT Name, TypeName FROM ObjectInstance
+WHERE TypeName like '%Device%'
+  and TypeName <> 'bacnet.mpx.DeviceReport'
+  and TypeName <> 'lon2.network.DeviceTable'
+  and TypeName <> 'masscreate.ModbusDeviceRule'
+  and TypeName <> 'inet.DeviceFolder'
+ORDER BY TypeName, Name"]!

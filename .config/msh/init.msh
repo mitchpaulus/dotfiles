@@ -61,3 +61,5 @@ end
 def zip2list (a b --)
     (val2! val1! [@val1 @val2]) zip
 end
+
+def minPerDay (-- float) 1440 end

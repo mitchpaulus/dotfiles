@@ -56,6 +56,37 @@ TopPadding
 Uniform
 """
 
+def escape_string(input_str: str) -> str:
+    new_str = []
+    max_line_length = 500
+
+    nLines, rem = divmod(len(input_str), max_line_length)
+
+    line_groups = [input_str[i*max_line_length:min(len(input_str), (i+1)*max_line_length)] for i in range(nLines + 1)]
+    end_line_str = "\" _\n  & "
+
+    for g in line_groups:
+        new_str.append('"')
+        for c in g:
+            if c == '"':
+                new_str.append('""')
+            elif c == '\r':
+                pass
+            elif c == '\n':
+                new_str.append('" & vbCrLf & "')
+            else:
+                new_str.append(c)
+
+        new_str.append(end_line_str)
+
+    new_str.pop()
+
+    new_str.append('"')
+
+    return "".join(new_str)
+
+
+
 #   Name                          Value   Description
 #   wdAlignParagraphCenter        1       Center-aligned.
 #   wdAlignParagraphDistribute    4       Paragraph         characters   are   distributed   to           fill          the      entire   width   of   the   paragraph.
@@ -288,6 +319,11 @@ class Table:
         """Align the cell range vertically to the bottom."""
         self._vertical_alignments.append((cell_range, WordVerticalAlignment.wdCellAlignVerticalBottom))
         return self
+    
+    def vertical_align_center(self, cell_range: IRange):
+        """Align the cell range vertically to the center."""
+        self._vertical_alignments.append((cell_range, WordVerticalAlignment.wdCellAlignVerticalCenter))
+        return self
 
     def horizontal_align(self, cell_range, alignment: WordParagraphAlignment):
         self._horizontal_alignments.append((cell_range, alignment))
@@ -392,7 +428,7 @@ class Table:
         return lines
 
 
-    def compile(self):
+    def compile(self) -> str:
         """Compile table information into the required Word VBA"""
         lines = []
         lines.append("Dim tbl As Table")
@@ -446,8 +482,19 @@ class Table:
             lines.append(f'{self.obj_from_cell_range(cell_range)}.Range.Font.Size = {font_size}')
 
         for i, row in enumerate(self.data):
-            statements = [f'tbl.Cell({i+1}, {j+1}).Range.Text = "{cell}"' for j, cell in enumerate(row)]
-            lines.append(" : ".join(statements))
+            statements = [f'tbl.Cell({i+1}, {j+1}).Range.Text = {escape_string(cell)}' for j, cell in enumerate(row)]
+            joined = " : ".join(statements)
+
+            # Too lazy to make this dynamic
+            if len(joined) > 1000:
+                group1 = statements[0:len(statements) // 2]
+                group2 = statements[len(statements) // 2:]
+                joined1 = " : ".join(group1)
+                joined2 = " : ".join(group2)
+                lines.append(joined1)
+                lines.append(joined2)
+            else:
+                lines.append(joined)
 
         for cell_range, position in self.decimal_tabs:
             if isinstance(cell_range, Column):
@@ -508,7 +555,9 @@ class Table:
         for i in range(1, self._header_repeat_rows + 1):
             lines.append(f'tbl.Rows({i}).HeadingFormat = True')
 
-        for merge in self._merges:
+        # Do merge from bottom right to left top because otherwise it all gets mangled.
+        sorted_merges = sorted(self._merges, key=lambda x: (x[1], x[0]), reverse=True)
+        for merge in sorted_merges:
             start_row = merge[0] if merge[0] > 0 else self.num_rows() + merge[0] + 1 # 1-based index
             start_col = merge[1] if merge[1] > 0 else self.num_cols() + merge[1] + 1 # 1-based index
             end_row = merge[2] if merge[2] > 0 else self.num_rows() + merge[2] + 1 # 1-based index

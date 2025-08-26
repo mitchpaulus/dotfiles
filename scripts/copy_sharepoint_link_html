@@ -10,7 +10,7 @@ $JOBSDIR? ($JOBSDIR) ("basdfasdf") iff jDir!
 $f @jDir startsWith
 (
     $f @jDir "" findReplace shortened!
-    @shortened "Jobs - " startsWith
+    @shortened "/Jobs - " startsWith
     (@shortened 7: path!)
     (@shortened path!)
     iff
