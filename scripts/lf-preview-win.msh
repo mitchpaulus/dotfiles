@@ -9,5 +9,10 @@ $1 ext lower ext!
 (
     [msh.exe $"{$DOTFILES}/scripts/print_sixel" $1 $2 $3];
 )
-([bat $1];)
+(
+    @ext ".zip" =
+    ([unzip -l $1];)
+    ([bat $1];)
+    iff
+)
 iff
