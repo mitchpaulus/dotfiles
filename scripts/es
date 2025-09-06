@@ -4,7 +4,7 @@
 # Uses 'fd' and 'fzf' to accomplish this goal.
 # ['find' $"{$DOTFILES}/scripts" -type 'f'] o;
 $"{$DOTFILES}/scripts" lsDir
-(basename) map unlines scripts!
+(basename str) map unlines scripts!
 
 runtime 'windows' =
 ('bat.exe')
