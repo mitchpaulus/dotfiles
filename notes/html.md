@@ -155,4 +155,3 @@ xmllint --format
 [Cool builtin element for progress.](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress)
 
 [Just Fucking use HTML](https://justfuckingusehtml.com/)
-
