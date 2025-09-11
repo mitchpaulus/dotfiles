@@ -117,3 +117,7 @@ Markdown with macros? Only outputs to HTML for now.
 ## [Red](https://www.red-lang.org/)
 
 ## [Rebol](https://www.rebol.com/)
+
+## [MiniZinc](https://www.minizinc.org/)
+
+Constraint solving language
