@@ -12,7 +12,12 @@ $1 ext lower ext!
 (
     @ext ".zip" =
     ([unzip -l $1];)
-    ([bat $1];)
+    (
+        @ext ".xlsx" =
+        ([excelchop $1];)
+        ([bat $1];)
+        iff
+    )
     iff
 )
 iff
