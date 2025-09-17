@@ -1,0 +1,10 @@
+#!/usr/bin/env mshell
+# [redo-ifchange toggl.go];
+'amd64' $GOARCH!
+'windows' $GOOS!
+'Building toggl.exe' wle
+['go' 'build' '-o' toggl.exe toggl.go];
+
+'linux' $GOOS!
+'Building toggl' wle
+['go' 'build' '-o' toggl toggl.go];

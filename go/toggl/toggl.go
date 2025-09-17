@@ -12,6 +12,7 @@ import (
     "bytes"
     "strconv"
     "runtime"
+	_ "time/tzdata"
 )
 
 const toggl_err = `Toggl API error`
