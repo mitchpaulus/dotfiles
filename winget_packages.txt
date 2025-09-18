@@ -12,3 +12,4 @@ astral-sh.uv
 JohnMacFarlane.Pandoc
 Neovim.Neovim
 gokcehan.lf
+SQLite.SQLite
