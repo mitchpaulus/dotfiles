@@ -63,3 +63,5 @@ def zip2list (a b --)
 end
 
 def minPerDay (-- float) 1440 end
+
+hostname "prec3660-mp" = runtime "windows" = and ($"{$PATH};C:\\Program Files\\MySQL\\MySQL Workbench 8.0 CE" $PATH!) iff
