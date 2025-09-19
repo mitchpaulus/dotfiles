@@ -16,6 +16,12 @@ def lf (--)
     (lf_last_dir_file readFile cd) iff
 end
 
+def yazi (--)
+    tempFile t!
+    ['yazi' $"--cwd-file={@t}"]?
+    (@t readFile cd) iff
+end
+
 def f (--) lf end
 
 def r (--)

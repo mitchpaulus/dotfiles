@@ -113,6 +113,12 @@ Module Path: the import path prefix for all packages within the module.
 Repository: Contains one or more modules.
 Import Path: String used to import a package. A package's import path is its module path joined with its subdirectory within the module.
 
+# Go LSP (gopls)
+
+```
+go install golang.org/x/tools/gopls@latest
+```
+
 # References
 
 [Constants](https://go.dev/blog/constants#)

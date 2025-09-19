@@ -13,3 +13,4 @@ JohnMacFarlane.Pandoc
 Neovim.Neovim
 gokcehan.lf
 SQLite.SQLite
+7zip.7zip
