@@ -15,7 +15,9 @@ $1 ext lower ext!
     (
         @ext ".xlsx" =
         ([excelchop $1];)
-        ([bat $1];)
+        (
+            [bat --italic-text always --style plain --color always --theme=ansi $1];
+        )
         iff
     )
     iff
