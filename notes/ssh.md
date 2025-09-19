@@ -37,3 +37,13 @@ Host psy
 2. `ssh -T git@github.com`
 3. Accept fingerprint
 4. May have to change remote: `git remote set-url origin git@github.com:username/your-repository.git`
+
+
+## Windows
+
+Fix permissions on private key on Windows:
+
+```
+icacls C:\Users\<YourName>\.ssh\id_rsa /inheritance:r
+icacls C:\Users\<YourName>\.ssh\id_rsa /grant:r "%USERNAME%:R"
+```
