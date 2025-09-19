@@ -1,28 +1,25 @@
 #!/usr/bin/env mshell
 soe
-[
-    (args len 2 <)
-    ("Usage xlsx2pdf <input.xlsx> <output.pdf> <worksheet>" wl)
-] if
+
+args len 2 < ("Usage xlsx2pdf <input.xlsx> <output.pdf> <worksheet>" wl 0 exit) iff
 
 # Unix paths to Windows LOCALAPPDATA and TMP.
 [wslpath -u [winenv LOCALAPPDATA] os;] os; local-appdata!
 [wslpath -u [winenv TMP] os;] os; tmp-dir!
 
 # Need to get the full Windows path to a few things.
-[mktemp --suffix .xlsx --tmpdir= @tmp-dir +]os; tmpfile!
+[mktemp --suffix '.xlsx' --tmpdir= @tmp-dir +]os; tmpfile!
 args :0: input-xlsx-param!
 
-[cp @input-xlsx-param @tmpfile];
+['cp' @input-xlsx-param @tmpfile];
 
 [wslpath -a -w @tmpfile] os; input-xlsx!
 [wslpath -a -w @local-appdata "/xlsx2pdf/xlsx2pdf.ps1" +] os; script-path!
 
-[
-    (args len 2 >)
-    ([powershell.exe -File @script-path @input-xlsx args :2:];)
-    ([powershell.exe -File @script-path @input-xlsx];)
-] if
+args len 2 >
+ ([powershell.exe -File @script-path @input-xlsx args :2:];)
+ ([powershell.exe -File @script-path @input-xlsx];)
+iff
 
 # Move %TMP%/xlsx.pdf to the output location.
 @tmp-dir "/xlsx.pdf" + tmpfile!
@@ -30,4 +27,4 @@ args :1: outputPath!
 
 $"Moving '{@tmpfile}' to '{@outputPath}'"  wle
 
-[mv @tmpfile @outputPath];
+['mv' @tmpfile @outputPath];
