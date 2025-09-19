@@ -19,6 +19,7 @@ notes/*.docx
 
 go/toggl/toggl
 go/todoist/todoist
+go/todoist/todoist.exe
 
 win_scripts/
 

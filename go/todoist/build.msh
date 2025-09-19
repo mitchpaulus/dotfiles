@@ -1,0 +1,10 @@
+#!/usr/bin/env mshell
+# [redo-ifchange todoist.go];
+'amd64' $GOARCH!
+'windows' $GOOS!
+'Building todoist.exe' wle
+['go' 'build' '-o' todoist.exe todoist.go];
+
+'linux' $GOOS!
+'Building todoist' wle
+['go' 'build' '-o' todoist todoist.go];
