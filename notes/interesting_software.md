@@ -354,3 +354,7 @@ From [Xe iaso](https://xeiaso.net/notes/cursorless-alien-magic/):
 [TreeSheets](https://strlen.com/treesheets/)
 
 [Open SCAD](https://openscad.org/)
+
+[Monica](https://github.com/monicahq/monica)
+
+Contact management software. Can self-host.
