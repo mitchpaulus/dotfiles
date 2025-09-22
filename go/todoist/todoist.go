@@ -85,6 +85,7 @@ func main() {
     for index < len(os.Args) {
         if os.Args[index] == "-h" || os.Args[index] == "--help" {
             fmt.Println("Usage: todoist")
+			fmt.Println("       todoist add <DESCRIPTION>")
             os.Exit(0)
         } else if os.Args[index] == "add" || os.Args[index] == "a" {
             command = "add"
