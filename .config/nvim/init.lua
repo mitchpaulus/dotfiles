@@ -28,59 +28,59 @@ if in_wsl then
 end
 
 local function setupLsp()
-    local nvim_lsp = require('lspconfig')
-    local on_attach = function(client, bufnr)
-        local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-        local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+    -- local nvim_lsp = require('lspconfig')
+    -- local on_attach = function(client, bufnr)
+        -- local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+        -- -- local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-        buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-        -- require'completion'.on_attach()
+        -- --- buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+        -- -- require'completion'.on_attach()
 
-        -- Mappings.
-        local opts = { noremap=true, silent=true }
-        buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-        buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-        buf_set_keymap('n', 'gh', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-        buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-        -- buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-        buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-        buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-        buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-        buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-        buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-        buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-        buf_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.get()<CR>', opts)
-        buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-        buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-        buf_set_keymap('n', '<localleader>d', '<cmd>lua vim.diagnostic.setqflist()<CR>', opts)
-        buf_set_keymap('n', '<space>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-        buf_set_keymap('v', '<space>la', ':lua vim.lsp.buf.code_action()<CR>', opts)
+        -- -- Mappings.
+        -- local opts = { noremap=true, silent=true }
+        -- buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+        -- buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+        -- buf_set_keymap('n', 'gh', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+        -- buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+        -- -- buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+        -- buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+        -- buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+        -- buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+        -- buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+        -- buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+        -- buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+        -- buf_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.get()<CR>', opts)
+        -- buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+        -- buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+        -- buf_set_keymap('n', '<localleader>d', '<cmd>lua vim.diagnostic.setqflist()<CR>', opts)
+        -- buf_set_keymap('n', '<space>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+        -- buf_set_keymap('v', '<space>la', ':lua vim.lsp.buf.code_action()<CR>', opts)
 
-        -- Critical to have the noinsert option
-        -- vim.o.completeopt = 'menuone,noinsert'
+        -- -- Critical to have the noinsert option
+        -- -- vim.o.completeopt = 'menuone,noinsert'
 
-        -- Set some keybinds conditional on server capabilities
-        if client.server_capabilities.documentFormattingProvider then
-            buf_set_keymap("n", "<space>i", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-        elseif client.server_capabilities.documentRangeFormattingProvider then
-            buf_set_keymap("v", "<space>i", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
-        end
+        -- -- -- Set some keybinds conditional on server capabilities
+        -- -- if client.server_capabilities.documentFormattingProvider then
+            -- -- buf_set_keymap("n", "<space>i", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+        -- -- elseif client.server_capabilities.documentRangeFormattingProvider then
+            -- -- buf_set_keymap("v", "<space>i", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
+        -- -- end
 
-        -- Set autocommands conditional on server_capabilities
-        -- To see all capabilities of your language server run
-        -- :lua =vim.lsp.get_active_clients()[1].server_capabilities
-        if client.server_capabilities.documentHighlightProvider then
-            vim.api.nvim_exec([[
-            hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
-            hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
-            hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
-            ]], false)
+        -- -- Set autocommands conditional on server_capabilities
+        -- -- To see all capabilities of your language server run
+        -- -- :lua =vim.lsp.get_active_clients()[1].server_capabilities
+        -- -- if client.server_capabilities.documentHighlightProvider then
+            -- -- vim.api.nvim_exec([[
+            -- -- hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
+            -- -- hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
+            -- -- hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
+            -- -- ]], false)
 
-            vim.api.nvim_create_augroup('LspDocumentHighlight', { clear = true })
-            -- vim.api.nvim_create_autocmd('CursorHold',  { buffer = 0, callback = vim.lsp.buf.document_highlight })
-            -- vim.api.nvim_create_autocmd('CursorMoved', { buffer = 0, callback = vim.lsp.buf.clear_references })
-        end
-    end
+            -- -- vim.api.nvim_create_augroup('LspDocumentHighlight', { clear = true })
+            -- -- -- vim.api.nvim_create_autocmd('CursorHold',  { buffer = 0, callback = vim.lsp.buf.document_highlight })
+            -- -- -- vim.api.nvim_create_autocmd('CursorMoved', { buffer = 0, callback = vim.lsp.buf.clear_references })
+        -- -- end
+    -- end
 
     -- Use a loop to conveniently both setup defined servers
     -- and map buffer local keybindings when the language server attaches
@@ -92,16 +92,17 @@ local function setupLsp()
     for _, lsp in ipairs(servers) do
         -- Setup lspconfig. Update capabilities with nvim-cmp stuff
         -- nvim_lsp[lsp].setup { on_attach = on_attach, capabilities = capabilities }
-        nvim_lsp[lsp].setup { on_attach = on_attach }
+        vim.lsp.enable(lsp)
+        -- nvim_lsp[lsp].setup { on_attach = on_attach }
     end
 
-    -- OmniSharp stuff
-    local omnisharp_bin = "/usr/local/omnisharp/OmniSharp"
-    -- check if omnisharp is installed
-    if vim.fn.executable(omnisharp_bin) == 1 then
-        local pid = vim.fn.getpid()
-        nvim_lsp.omnisharp.setup { on_attach = on_attach, capabilities = capabilities, cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid)  } }
-    end
+    -- -- OmniSharp stuff
+    -- local omnisharp_bin = "/usr/local/omnisharp/OmniSharp"
+    -- -- check if omnisharp is installed
+    -- if vim.fn.executable(omnisharp_bin) == 1 then
+        -- local pid = vim.fn.getpid()
+        -- nvim_lsp.omnisharp.setup { on_attach = on_attach, capabilities = capabilities, cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid)  } }
+    -- end
 end
 
 -- Setup lsp for xlim, custom language.
@@ -1160,6 +1161,30 @@ vim.api.nvim_create_autocmd('BufEnter', { pattern = '*.do', group = bufenter_aug
 
 vim.api.nvim_create_autocmd('TermOpen', { pattern = '*',        group = 'MPEvents', command = 'startinsert' })
 vim.api.nvim_create_autocmd('TextYankPost', { pattern = '*', group = 'MPEvents', command = 'silent! lua vim.highlight.on_yank { timeout = 500 }' })
+
+vim.api.nvim_create_autocmd('LspAttach', {
+	group = 'MPEvents',
+	callback = function(args)
+		local bufnr = args.buf
+		local opts = { buffer = bufnr, silent = true, desc = nil }  -- add `desc` if you want descriptions
+
+		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+		vim.keymap.set("n", "gh", vim.lsp.buf.hover, opts)
+		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+		-- vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+
+		vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, opts)
+		vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, opts)
+		vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+		vim.keymap.set("n", "<space>e", vim.diagnostic.get, opts)
+		vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+		vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+		vim.keymap.set("n", "<localleader>d", vim.diagnostic.setqflist, opts)
+		vim.keymap.set("n", "<space>la", vim.lsp.buf.code_action, opts)
+		vim.keymap.set("v", "<space>la", vim.lsp.buf.code_action, opts)
+	end
+})
 
 local ignore_dirs = { }
 
