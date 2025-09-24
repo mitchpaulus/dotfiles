@@ -1,0 +1,3 @@
+#!/usr/bin/env mshell
+# ot = Open Toggl
+['wsl_url_open' 'https://app.todoist.com/app/project/work-6Px2qFqGPQFg64Vw']!

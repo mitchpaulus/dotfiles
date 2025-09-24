@@ -23,9 +23,9 @@ map ; mark-load
 map <f-2> rename
 
 # The 1:-1 removes the outer quotes
-cmd copy-command-path & msh -c "[CCLLCCopyToClip.exe $f 1:-1];"
-cmd copy-fullpath & msh -c "[clip.exe] $f 1:-1 < ;"
-cmd copy-filename & msh -c "[clip.exe] $f 1:-1 basename < ;"
+cmd copy-command-path & msh -c "[CCLLCCopyToClip.exe $f 1:-1]!"
+cmd copy-fullpath & msh -c "[clip.exe] $f 1:-1 < !"
+cmd copy-filename & msh -c "[clip.exe] $f 1:-1 basename < !"
 
 cmd on-cd $ msh -c wt_cwd
 
