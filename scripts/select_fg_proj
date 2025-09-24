@@ -1,0 +1,6 @@
+#!/usr/bin/env mshell
+
+[
+    [mysql] 'SELECT Number, Name, Id FROM ccllc.FacilityGridProjects' <
+    [fzf]
+] | os ! tsplit :-1: wl
