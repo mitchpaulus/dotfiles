@@ -86,7 +86,8 @@ DATE TIME DATETIME TIMESTAMP YEAR
 ```
 
 ```
-mysql -B < file.sql # Output as TSV
+mysql < file.sql # Output as TSV
+mysql -N # no header
 ```
 
 <https://dev.mysql.com/doc/refman/8.4/en/data-types.html>
