@@ -18,6 +18,8 @@ map yc copy-command-path
 map yf copy-filename
 map yp copy-fullpath
 
+map w & ['explorer.exe' '.'];
+
 # Remap 'f' key. Never really use the find functionality.
 map f mark-load
 map ; mark-load
@@ -25,9 +27,9 @@ map ; mark-load
 map <f-2> rename
 
 # The 1:-1 removes the outer quotes
-cmd copy-command-path & [CCLLCCopyToClip.exe $f 1:-1];
-cmd copy-fullpath & [clip.exe] $f 1:-1 < ;
-cmd copy-filename & [clip.exe] $f 1:-1 basename < ;
+cmd copy-command-path & [CCLLCCopyToClip.exe $f];
+cmd copy-fullpath & [clip.exe] $f < ;
+cmd copy-filename & [clip.exe] $f basename < ;
 
 cmd on-cd $ wt_cwd
 
@@ -35,9 +37,11 @@ map <f-2> rename
 
 set previewer lf-preview-win.exe
 
+cmd open & ['cmd.exe' '/C' 'start' 'Window Title' $f ];
+
 map e $ [$EDITOR $f]!
 
 map gd cd_dotfiles
 cmd cd_dotfiles ${{
-    lf_send_dotfiles.msh
+    ['lf' '-remote' $"send {$id} cd '{$DOTFILES}'"];
 }}
