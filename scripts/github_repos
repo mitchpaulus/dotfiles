@@ -8,15 +8,16 @@
 
 import requests
 import os
+import sys
 
 github_pat_link = os.environ.get("GITHUB_PAT_LINK")
 if not github_pat_link:
-    print("GITHUB_PAT_LINK not set")
+    print("GITHUB_PAT_LINK not set", file=sys.stderr)
     exit(1)
 
 github_pat_link_ccllc = os.environ.get("GITHUB_PAT_LINK_CCLLC")
 if not github_pat_link_ccllc:
-    print("GITHUB_PAT_LINK_CCLLC not set")
+    print("GITHUB_PAT_LINK_CCLLC not set", file=sys.stderr)
     exit(1)
 
 def get_items(url, headers):

@@ -92,3 +92,16 @@ mysql -N # no header
 
 <https://dev.mysql.com/doc/refman/8.4/en/data-types.html>
 <https://dev.mysql.com/doc/refman/8.4/en/string-literals.html>
+
+# Install
+
+```
+sudo apt install mysql-server
+sudo mysql_secure_installation # On Ubuntu, it used auth_socket
+
+sudo mysql
+
+CREATE DATABASE mydb;
+CREATE USER myuser@'localhost' IDENTIFIED BY 'password'
+GRANT ALL PRIVILEGES ON mydb.* TO myuser@'%';
+```
