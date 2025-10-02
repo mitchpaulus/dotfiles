@@ -24,7 +24,7 @@ def main():
         else:
             # Check for two arguments
             if len(args) != 3:
-                print("Expected two arguments, got", len(args), file=sys.stderr)
+                print("Expected three arguments, got", len(args), file=sys.stderr)
                 sys.exit(1)
 
             datafile = args[0]
@@ -98,17 +98,22 @@ def process(datafile: str, col: int, binsize: float):
         if (col - 1) >= len(split_line):
             raise ValueError(f"Line {line} has {len(split_line)} columns, but column {col} was requested")
 
-        try:
-            parsed = float(split_line[col - 1])
-        except ValueError:
-            # Assume header
-            if first_line:
-                continue
-            else:
-                raise ValueError(f"Could not parse {split_line[col]} as a float")
+        strValue = split_line[col - 1].strip()
 
-        first_line = False
-        data.append(parsed)
+        if strValue == '':
+            first_line = False
+        else:
+            try:
+                parsed = float(split_line[col - 1])
+            except ValueError:
+                # Assume header
+                if first_line:
+                    continue
+                else:
+                    raise ValueError(f"Could not parse {split_line[col]} as a float")
+
+            first_line = False
+            data.append(parsed)
 
 
     # Bin data
