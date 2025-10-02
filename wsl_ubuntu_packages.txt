@@ -13,6 +13,7 @@ fzf
 git
 gnuplot
 imagemagick
+jpegoptim
 jq
 libbz2-dev
 libffi-dev
