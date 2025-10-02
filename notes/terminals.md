@@ -95,16 +95,16 @@ White 37 97 47 107
 ## Cursor Movement
 
 | Sequence              | What does it do?                      | Value            |
-| --------              | ----------------                      | -----            |
-| `\e[<LINE>;<COLUMN>H` | Move cursor to absolute position.     | `line`, `column`
-| `\e[H`                | Move cursor to home position (`0,0`). |
-| `\e[<NUM>A`           | Move cursor up N lines.               | `num`
-| `\e[<NUM>B`           | Move cursor down N lines.             | `num`
-| `\e[<NUM>C`           | Move cursor right N columns.          | `num`
-| `\e[<NUM>D`           | Move cursor left N columns.           | `num`
-| `\e[s`                | Save cursor position.                 |
-| `\e[u`                | Restore cursor position.              |
-| `\e[<NUM>G`            | Move cursor to column N (1-based).              | `num`
+|-----------------------|---------------------------------------|------------------|-
+| `\e[<LINE>;<COLUMN>H` | Move cursor to absolute position.     | `line`, `column` |
+| `\e[H`                | Move cursor to home position (`0,0`). |                  |
+| `\e[<NUM>A`           | Move cursor up N lines.               | `num`            |
+| `\e[<NUM>B`           | Move cursor down N lines.             | `num`            |
+| `\e[<NUM>C`           | Move cursor right N columns.          | `num`            |
+| `\e[<NUM>D`           | Move cursor left N columns.           | `num`            |
+| `\e[s`                | Save cursor position.                 |                  |
+| `\e[u`                | Restore cursor position.              |                  |
+| `\e[<NUM>G`           | Move cursor to column N (1-based).    | `num`            |
 
 
 ## Erasing Text
