@@ -1,5 +1,5 @@
 #!/usr/bin/env mshell
-[csv2tsv]* ! lines
+[uv run --script $"{$DOTFILES}/scripts/csv2tsv"]* ! lines
 (len 0 >) filter # Remove blank rows
 (:0: "#" !=) filter # Remove comment rows
 (tsplit 1: tjoin) map # Remove first blank column
