@@ -1,12 +1,3 @@
-#!/bin/sh
-
-printf "\n"
-
-for color in 30 31 32 33 34 35 36 37; do
-    printf "\e[%smColor %s hello\t\e[%smColor %s hello\n" "$color" "$color" "$((color + 60))" "$((color + 60))";
-done
-
-printf "\e[97m"
-for color in 40 41 42 43 44 45 46 47; do
-    printf "\e[%sm Color %s hello \e[40\t\e[%sm Color %s hello \e[40m\n" "$color" "$color" "$((color + 60))" "$((color + 60))";
-done
+#!/usr/bin/env mshell
+8 seq (30 + c! $"\e[{@c}mColor {@c} hello\t\e[{@c 60 +}mColor {@c 60 +} hello") map uw
+8 seq (40 + c! $"\e[{@c}mColor {@c} hello\e[0m\t\e[{@c 60 +}mColor {@c 60 +} hello\e[0m") map uw

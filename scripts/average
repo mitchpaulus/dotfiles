@@ -1,3 +1,3 @@
-#!/usr/bin/awk -E
-$0 !~ /^ *$/ { sum += $0; count++ }
-END { print sum / count }
+#!/usr/bin/env mshell
+stdin lines (trim) map ("" !=) filter (toFloat?) map data!
+@data len 0 > ( @data sum @data len / 2 toFixed wl ) ( "No elements." wl ) iff

@@ -54,3 +54,7 @@ sudo systemctl list-timers --all
 ```
 
 [Time format](https://www.freedesktop.org/software/systemd/man/latest/systemd.time.html#)
+
+```sh
+~/.config/systemd/user/ # User location
+```

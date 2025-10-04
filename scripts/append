@@ -1,13 +1,2 @@
-#!/usr/bin/python3
-import sys
-to_append = sys.argv[1]
-for line in sys.stdin:
-    if line[-1] == '\n':
-        if len(line) > 1 and line[-2] == '\r':
-            stripped = line[:-2]
-        else:
-            stripped = line[:-1]
-    else:
-        stripped = line
-
-    print(stripped + to_append)
+#!/usr/bin/env mshell
+stdin lines (args :0: +) map uw
