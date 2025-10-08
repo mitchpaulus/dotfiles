@@ -2708,7 +2708,7 @@ Options:
     --interval: Minute interval for hourly data (default is 60)
     --ip: Convert to imperial units
     --iso: Use ISO format for date in hourly output, same as --format "%Y-%m-%d %H:%M"
-    --dfw: Shortcut for my location (DFW airport)
+    --dfw: Shortcut for my location (DFW airport, USAF: 722590, WBAN: 03927)
     --iah: Shortcut for Houston (IAH airport)
     --hou: Shortcut for Houston (HOU airport)
     --epw: Convert to epw
