@@ -10,4 +10,10 @@ img = Image.open(sys.argv[1])
 img.save(sys.argv[2], "JPEG")
 ' py!
 
-[uv run --with pillow-heif '-' $1 $1 stem str ".jpg" +] @py < !
+args len 2 <
+($1 stem str ".jpg" +)
+($2)
+iff
+outputFile!
+
+[uv run --with pillow-heif '-' $1 @outputFile] @py < !

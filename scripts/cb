@@ -1,17 +1,13 @@
-#!/bin/sh
-# Want to be able to include current clipboard contents in WSL pipelines
-if test "$1" = "-h" || test "$1" = "--help"; then
-    cat <<EOF
-cb - Put clipboard contents to standard output
+#!/usr/bin/env mshell
 
-USAGE: cb
-EOF
-exit 0
-fi
+args (a! @a '-h' = @a '--help' = or) any
+('cb - Put clipboard contents to standard output
 
-if test -n "$WSL_DISTRO_NAME"; then
-    # WSL
-    powershell.exe Get-Clipboard | tr -d '\r' | sed -z '$ s/\n$//'
-else
-    xclip -o -selection clipboard
-fi
+USAGE: cb' wl
+0 exit
+) iff
+
+$WSL_DISTRO_NAME?
+    ( [powershell.exe Get-Clipboard] * ! "\r" "" findReplace '\n$' '' reReplace w )
+    ( [xclip -o -selection clipboard] * ! w )
+iff

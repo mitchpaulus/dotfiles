@@ -1,3 +1,2 @@
-#!/bin/sh
-
-printf "%s" "$PATH" | awk 'BEGIN { RS=":"; } { print }'
+#!/usr/bin/env mshell
+$PATH? ($PATH ":" split uw) iff

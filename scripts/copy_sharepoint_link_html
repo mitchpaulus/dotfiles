@@ -1,5 +1,5 @@
 #!/usr/bin/env mshell
-
+['lf' -remote $"send {$id} echomsg Copying.."];
 [create_link.py $f] os ? not
 (['lf' -remote $"send {$id} echomsg Failed to copy link"]; "Exiting" wl 1 exit)
 iff
