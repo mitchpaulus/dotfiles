@@ -16,3 +16,4 @@ subnut/nvim-ghost.nvim
 tpope/vim-fugitive
 tpope/vim-surround
 neovim/nvim-lspconfig
+gianarb/vim-flux

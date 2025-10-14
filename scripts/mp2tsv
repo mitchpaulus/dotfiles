@@ -13,6 +13,7 @@ class DateParser:
             '%Y-%m-%dT%H:%M:%S%z',
             '%Y-%m-%d %H:%M',
             '%Y-%m-%dT%H:%M',
+            '%Y-%m-%dT%H%M',
         ]
 
         self.current_match = None
