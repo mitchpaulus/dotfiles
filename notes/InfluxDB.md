@@ -175,3 +175,9 @@ expression !~ /regex/
 - gzip compression
 
 <https://docs.influxdata.com/influxdb/v2/write-data/best-practices/optimize-writes/>
+
+## Grouping
+
+```
+|> group(columns: ["my_field", "_field"])
+```

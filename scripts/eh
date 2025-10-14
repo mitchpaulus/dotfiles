@@ -1,11 +1,16 @@
 #!/usr/bin/env mshell
 
-'explorer.exe' isCmd
-(['explorer.exe'  ['wslpath' -w pwd] os ! ] `/dev/null` > `/dev/null` 2> &!)
+"windows" runtime =
+( ['explorer.exe' pwd]! )
 (
-    'dolphin' isCmd
-    (['dolphin' pwd] `/dev/null` > `/dev/null` 2> &!)
-    ("No GUI file manager set up." wle 1 exit)
+    'explorer.exe' isCmd
+    (['explorer.exe'  ['wslpath' -w pwd] os ! ] `/dev/null` > `/dev/null` 2> &!)
+    (
+        'dolphin' isCmd
+        (['dolphin' pwd] `/dev/null` > `/dev/null` 2> &!)
+        ("No GUI file manager set up." wle 1 exit)
+        iff
+    )
     iff
 )
 iff
