@@ -45,3 +45,5 @@ map gd cd_dotfiles
 cmd cd_dotfiles ${{
     ['lf' '-remote' $"send {$id} cd '{$DOTFILES}'"];
 }}
+
+map x open
