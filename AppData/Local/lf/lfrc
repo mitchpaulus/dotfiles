@@ -47,3 +47,6 @@ cmd cd_dotfiles ${{
 }}
 
 map x open
+
+map yh copy-sharepoint-link-html
+cmd copy-sharepoint-link-html & [copy_sharepoint_link_html]!
