@@ -11,7 +11,7 @@ unset COLORTERM
 
 # if two arguments (program counts as one)
 if test "$#" -eq 3; then
-    bat --italic-text always --color always --style 'plain' --theme 'ansi' --line-range ":$2" "$1"
+    bat --italic-text always --color always --style 'plain' --theme 'Visual Studio Dark+' --line-range ":$2" "$1"
 else
-    bat --italic-text always --color always --style 'plain' --theme 'ansi' "$1"
+    bat --italic-text always --color always --style 'plain' --theme 'Visual Studio Dark+' "$1"
 fi
