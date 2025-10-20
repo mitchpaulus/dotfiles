@@ -53,3 +53,10 @@ NR-16   NR-8    COLOR NAME
 Normal
 LineNr
 NonText (buffer at the end of the file)
+
+## LSP
+
+```
+lua print(vim.inspect(vim.lsp.semantic_tokens.get_at_pos()))
+:Inspect
+```

@@ -3,6 +3,7 @@ in_wsl = os.getenv('WSL_DISTRO_NAME') ~= nil
 
 in_windows = vim.fn.has('win32') == 1
 
+
 -- Moved all my plugins to $HOME/.vim/pack/mp/start.
 -- This way, I can clone them down directly with SSH, and can work on them live.
 -- vim.cmd [[ Plug 'mitchpaulus/autocorrect.vim' ]]
@@ -534,9 +535,9 @@ vim.api.nvim_set_keymap("c", "<M-b>", "<S-Left>", { noremap = true })
 
 func_map(function(tbl) inmap(tbl[1], tbl[2]) end, insertModeNoRecurseMappings)
 
-vim.api.nvim_set_keymap("i", "<C-n>", [[pumvisible() ? "\<C-n>" : "\<C-o>:set completeopt=menu\<Cr>\<C-n>"]], { noremap = true, silent = true, expr = true })
+-- vim.api.nvim_set_keymap("i", "<C-n>", [[pumvisible() ? "\<C-n>" : "\<C-o>:set completeopt=menu\<Cr>\<C-n>"]], { noremap = true, silent = true, expr = true })
 -- vim.api.nvim_set_keymap("i", "<C-f>", [[pumvisible() ? "\<C-f>" : "\<C-o>:set completeopt=menu\<Cr>\<C-x>\<C-f>"]], { noremap = true, silent = true, expr = true })
-vim.api.nvim_set_keymap("i", "<C-Space>", [[pumvisible() ? "\<Space>" : "\<Esc>:set completeopt=menuone,noinsert\<Cr>a\<C-x>\<C-o>"]], { noremap = true, silent = true, expr = true })
+-- vim.api.nvim_set_keymap("i", "<C-Space>", [[pumvisible() ? "\<Space>" : "\<Esc>:set completeopt=menuone,noinsert\<Cr>a\<C-x>\<C-o>"]], { noremap = true, silent = true, expr = true })
 
 vim.api.nvim_set_keymap("v", '<leader>y', '"+y', silent)
 -- Quit out of visual mode
@@ -601,7 +602,7 @@ vim.o.shiftround = true
 vim.o.spellsuggest = 'best,9'
 -- Remove the noinsert option if we aren't in LSP mode.
 -- vim.o.completeopt = 'menuone,preview'
-vim.o.completeopt = 'menu,preview'
+vim.o.completeopt = 'menu,popup'
 
 local wildignorePatterns = table.concat({
     '*.aux', '*.asv', '*.log', '*.swp', '*.nav', '*.toc', '*.out', '*.fdb_latexmk', '*.blg', '*.fls', '*.xdv', '*.bbl', '*.snm', '*.lof',
@@ -636,6 +637,18 @@ vim.o.formatoptions = vim.o.formatoptions:gsub('[ro]', '')
 
 -- Modern terminals are great am i right?
 vim.o.termguicolors = true
+
+-- https://tonsky.me/blog/syntax-highlighting/
+-- https://gist.github.com/swarn/fb37d9eefe1bc616c2a7e476c0bc0316
+vim.api.nvim_create_autocmd('ColorScheme', {
+  callback = function ()
+    vim.api.nvim_set_hl(0, '@lsp.type.variable', { })
+    vim.api.nvim_set_hl(0, '@lsp.type.parameter', { })
+    vim.api.nvim_set_hl(0, '@lsp.type.typeParameter', { })
+    vim.api.nvim_set_hl(0, '@lsp.type.method', { })
+    vim.api.nvim_set_hl(0, '@lsp.type.function.python', { })
+  end
+})
 
 -- Nah, just use desert.  Colorscheme, try monokai
 vim.cmd('colorscheme desert')
