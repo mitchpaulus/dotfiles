@@ -180,4 +180,7 @@ expression !~ /regex/
 
 ```
 |> group(columns: ["my_field", "_field"])
+
+|> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
+|> pivot(rowKey: ["_time"], columnKey: ["_measurement"], valueColumn: "_value")
 ```

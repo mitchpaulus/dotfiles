@@ -308,3 +308,15 @@ CC Outlet -> Zone Inlet
 Set thermostat using `SpaceHVAC:ZoneEquipmentSplitter` and Thermostat Control Method.
 
 Generally need a splitter and a `SpaceHVAC:ZoneReturnMixer`, only need the `ZoneEquipmentMixer` if the airflow is going to be combined for an exhaust fan or something.
+
+
+## Order of Operation
+
+- Build geometry and zones
+- Version Object
+- Building Object
+- `SimulationControl`
+- `RunPeriod`
+- GlobalGeometryRules
+- Timestep
+- Zone objects
