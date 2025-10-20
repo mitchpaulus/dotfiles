@@ -22,5 +22,5 @@ $"{$HOME}/.config/idf-default-objects/dir" isFile
 iff
 
 @dir isDir not ($"The cached directory at '{@dir}' does not exist." wle 1 exit) iff
-[fzf] os @dir lsDir (basename) map unlines < ! filepath!
+[fzf] os @dir lsDir (basename str) map unlines < ! filepath!
 ['clip'] $"{@dir}/{@filepath}" toPath <!
