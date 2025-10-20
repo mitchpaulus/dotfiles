@@ -85,7 +85,7 @@ local function setupLsp()
     -- Use a loop to conveniently both setup defined servers
     -- and map buffer local keybindings when the language server attaches
     -- Old: bashls
-    local servers = { "vimls", "hls", "pyright", "ts_ls", "awk_ls", "gopls" }
+    local servers = { "vimls", "hls", "ty", "ts_ls", "awk_ls", "gopls" }
     -- local servers = { "bashls", "vimls", "texlab", "hls", "tsserver", "awk_ls" }
     -- local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
     -- local capabilities =
@@ -103,6 +103,18 @@ local function setupLsp()
         -- local pid = vim.fn.getpid()
         -- nvim_lsp.omnisharp.setup { on_attach = on_attach, capabilities = capabilities, cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid)  } }
     -- end
+end
+
+function setup_msh_lsp()
+    name = 'msh-lsp'
+    cmd = {'msh', 'lsp'}
+    -- set root dir to current directory
+    root_dir = vim.fn.getcwd()
+    vim.lsp.start({
+        cmd = cmd,
+        name = name,
+        root_dir = root_dir,
+    })
 end
 
 -- Setup lsp for xlim, custom language.
@@ -907,6 +919,7 @@ local function set_xlim_makeprg()
 end
 
 vim.api.nvim_create_autocmd('FileType', { pattern = 'xlim', group = filetype_autocmds_id, callback = setup_xlimlsp })
+vim.api.nvim_create_autocmd('FileType', { pattern = 'mshell', group = filetype_autocmds_id, callback = setup_msh_lsp })
 vim.api.nvim_create_autocmd('FileType', { pattern = 'xlim', group = filetype_autocmds_id, callback = set_xlim_makeprg })
 
 vim.api.nvim_create_autocmd('FileType', { pattern = 'antlr4', group = filetype_autocmds_id, command = 'nnoremap <localleader>c :!antlr4 %<CR>' })
