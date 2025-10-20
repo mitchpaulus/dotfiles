@@ -1,45 +1,104 @@
-#!/bin/sh
+#!/usr/bin/env mshell
 
-if test "$1" = "-h" || test "$1" = "--help"; then
-    cat <<EOF
-binlink
+args (a! @a "-h" = @a "--help" = or) any
+(
+'binlink
 
 USAGE:
     binlink <executable file>
 
-binlink creates a relative symlink to the executable file in ~/.local/bin under the same name.
-EOF
-exit 0
-fi
+binlink creates a relative symlink to the executable file in ~/.local/bin or $USERPROFILE/bin under the same name.
+' w 0 exit
+)
+iff
 
-if [ $# -ne 1 ]; then
-    printf "1 argument expected, %s received.\n" "$#"
-    exit 1
-fi
+args len 1 != ($"1 argument expected, {args len} received." wle 1 exit) iff
 
-if [ -x "$1" ]; then
-    # Check for $LOCALBIN environment variable, and if the directory it points to exists.
-    if [ -n "$LOCALBIN" ] && [ -d "$LOCALBIN" ]; then
-        DIR="$LOCALBIN"
-    else
-        DIR="$HOME/.local/bin"
-    fi
-    mkdir -p "$DIR"
-    # Check if link or file already exists
-    if test -e "$DIR/$1" -o -L "$DIR/$1"; then
-        # Ask user if they want to remove it.
-        printf "Link already exists. Do you want to remove it? [y/N] "
-        read -r answer
-        if [ "$answer" = "y" ] || [ "$answer" = "Y" ]; then
-            rm "$DIR/$1"
-        elif [ "$answer" = "n" ] || [ "$answer" = "N" ] || [ -z "$answer" ]; then
-            exit 0
-        else
-            printf "Invalid answer. Exiting.\n"
-            exit 1
-        fi
-    fi
-    ln -s -r "$1" "$DIR"
-else
-  printf "%s is not an executable file\n" "$1"
-fi
+$LOCALBIN?
+(
+    $LOCALBIN isDir
+    ($LOCALBIN)
+    (
+        runtime "windows" = ($"{$USERPROFILE}\\bin") ( $"{$HOME}/.local/bin") iff
+    )
+    iff
+)
+(
+    runtime "windows" = ( $"{$USERPROFILE}\\bin") ( $"{$HOME}/.local/bin") iff
+)
+iff
+dir!
+
+@dir mkdirp
+$1 basename filename!
+$"{@dir}/{@filename}" fileExists
+(
+    $"Link already exists. Do you want to remove it? [y/N] " wle
+    read
+    (
+        ans! @ans "y" = @ans "Y" = or
+        (
+            $"{@dir}/{@filename}" rm
+        )
+        (
+            @ans "n" = @ans "N" = or @ans trim "" = or
+            (0 exit)
+            ($"Invalid answer. Exiting." wle 1 exit)
+            iff
+        )
+        iff
+    )
+    (0 exit)
+    iff
+)
+iff
+
+runtime "windows" =
+( $1  $"{@dir}/{@filename}"  hardLink )
+(['ln' '-s' $1 @dir]!)
+iff
+# #!/bin/sh
+
+# if test "$1" = "-h" || test "$1" = "--help"; then
+    # cat <<EOF
+# binlink
+
+# USAGE:
+    # binlink <executable file>
+
+# binlink creates a relative symlink to the executable file in ~/.local/bin under the same name.
+# EOF
+# exit 0
+# fi
+
+# if [ $# -ne 1 ]; then
+    # printf "1 argument expected, %s received.\n" "$#"
+    # exit 1
+# fi
+
+# if [ -x "$1" ]; then
+    # # Check for $LOCALBIN environment variable, and if the directory it points to exists.
+    # if [ -n "$LOCALBIN" ] && [ -d "$LOCALBIN" ]; then
+        # DIR="$LOCALBIN"
+    # else
+        # DIR="$HOME/.local/bin"
+    # fi
+    # mkdir -p "$DIR"
+    # # Check if link or file already exists
+    # if test -e "$DIR/$1" -o -L "$DIR/$1"; then
+        # # Ask user if they want to remove it.
+        # printf "Link already exists. Do you want to remove it? [y/N] "
+        # read -r answer
+        # if [ "$answer" = "y" ] || [ "$answer" = "Y" ]; then
+            # rm "$DIR/$1"
+        # elif [ "$answer" = "n" ] || [ "$answer" = "N" ] || [ -z "$answer" ]; then
+            # exit 0
+        # else
+            # printf "Invalid answer. Exiting.\n"
+            # exit 1
+        # fi
+    # fi
+    # ln -s -r "$1" "$DIR"
+# else
+  # printf "%s is not an executable file\n" "$1"
+# fi
