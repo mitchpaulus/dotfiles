@@ -7,7 +7,11 @@ USAGE: cb' wl
 0 exit
 ) iff
 
-$WSL_DISTRO_NAME?
-    ( [powershell.exe Get-Clipboard] * ! "\r" "" findReplace '\n$' '' reReplace w )
+$WSL_DISTRO_NAME? "windows" runtime = or
+    ( [powershell.exe Get-Clipboard] * !
+      "\r" "" findReplace
+      # '\n$' '' reReplace
+      w
+    )
     ( [xclip -o -selection clipboard] * ! w )
 iff
