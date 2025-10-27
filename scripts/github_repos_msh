@@ -1,0 +1,43 @@
+#!/usr/bin/env mshell
+
+$GITHUB_PAT_LINK? not ("$GITHUB_PAT_LINK not set" wle 1 exit)
+$GITHUB_PAT_LINK_CCLLC? not ("$GITHUB_PAT_LINK_CCLLC not set" wle 1 exit)
+
+def getItems (dict -- )
+    request!
+    (
+        @request httpGet? response!
+        @response "status" get? 200 != (
+            f"Non 200 response" wle
+            1 exit
+        ) iff
+        @response "body" get? utf8Str parseJson ("full_name" get? wl) each
+
+        @response "headers" get? respHeaders!
+
+        # @respHeaders str wle
+        @respHeaders "Link" get [] maybe (parseLinkHeader) map concat linkHeaders!
+        @linkHeaders (d! @d "rel" get "" maybe "next" =) filter nextUrls!
+        @nextUrls len 0 = (break) iff
+        @nextUrls :0: "url" get? nextUrl!
+        @request "url" @nextUrl set request!
+    ) loop
+end
+
+{
+    'url': 'https://api.github.com/user/repos',
+    'headers': {
+        "Authorization": $"Bearer {$GITHUB_PAT_LINK}",
+        "Accept": "application/vnd.github.v3+json",
+    }
+}
+getItems
+
+{
+    'url': 'https://api.github.com/orgs/Command-Commissioning/repos',
+    'headers': {
+        "Authorization": $"Bearer {$GITHUB_PAT_LINK_CCLLC}",
+        "Accept": "application/vnd.github.v3+json",
+    }
+}
+getItems
