@@ -1,0 +1,4 @@
+#!/usr/bin/env mshell
+
+$JOBS_DATA_FILE? not ("$JOBS_DATA_FILE environment variable not set. Data usually created with cc_archive.py jobsdrives." wle 1 exit) iff
+[fzf -d "\t" -n 1 --with-nth 1] $JOBS_DATA_FILE toPath < * ! tsplit :0: trim wl

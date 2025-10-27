@@ -244,6 +244,9 @@ vnmap("<localleader>f2k", "s(<c-r>\" + 459.67) * 5/9")
 
 vnmap("<leader>=", ":Tab /=/<CR>")
 
+-- Quote single
+vnmap("<leader>qs", "<Cmd>keeppatterns '<,'>s/\\v^\\s*\\zs.*$/'\\0'/<CR>")
+
 function lookup_and_open_pdf()
   -- Get the word under the cursor
   local word = vim.fn.expand("<cword>")
@@ -518,7 +521,7 @@ insertModeNoRecurseMappings = {
     { '<localleader>ab', 'BEGIN { FS=OFS="\\t" }' },
 
     -- Company brand standard hex color
-    { '<localleader>c', '004987' },
+    -- { '<localleader>c', '004987' },
 
     -- Shebangs
     { '<localleader>sh', '#!/bin/sh<Esc>:set ft=sh<CR>' },
