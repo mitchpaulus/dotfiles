@@ -106,6 +106,19 @@ local function setupLsp()
     -- end
 end
 
+function setup_nbem_lsp()
+    name = 'nbem-lsp'
+    cmd = {'nbem', '--lsp'}
+    -- set root dir to current directory
+    root_dir = vim.fn.getcwd()
+    vim.lsp.start({
+        cmd = cmd,
+        name = name,
+        root_dir = root_dir,
+    })
+end
+
+
 function setup_msh_lsp()
     name = 'msh-lsp'
     cmd = {'msh', 'lsp'}
