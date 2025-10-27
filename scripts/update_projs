@@ -5,7 +5,7 @@ def monthPeriodFromInt (int -- int int)
     @monthInt 2 mod 1 +
 end
 
-date date!
+now date!
 @date day 15 <= (1 dayPeriod!) (2 dayPeriod!) iff
 
 @date month 1 - 2 *
