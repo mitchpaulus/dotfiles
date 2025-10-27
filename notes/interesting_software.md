@@ -358,3 +358,5 @@ From [Xe iaso](https://xeiaso.net/notes/cursorless-alien-magic/):
 [Monica](https://github.com/monicahq/monica)
 
 Contact management software. Can self-host.
+
+[kmonad](https://github.com/kmonad/kmonad) Keyboard manager

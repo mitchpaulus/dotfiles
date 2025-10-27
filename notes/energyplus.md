@@ -320,3 +320,4 @@ Generally need a splitter and a `SpaceHVAC:ZoneReturnMixer`, only need the `Zone
 - GlobalGeometryRules
 - Timestep
 - Zone objects
+- Output:VariableDictionary
