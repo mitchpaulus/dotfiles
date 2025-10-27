@@ -1,31 +1,44 @@
-#!/usr/bin/python3
+#!/usr/bin/env mshell
 
-# read from stdin
-import sys
+args len 0 =
+(stdin)
+($1 readFile)
+iff
 
-# If argument, use that as filename, otherwise read from stdin
-if len(sys.argv) > 1:
-    filename = sys.argv[1]
-    file = open(filename, 'r')
-else:
-    file = sys.stdin
+lines ("!" split :0:) map unlines
+";" split ("," split (trim) map tjoin) map
+("" !=) filter
+uw
+# # [str]
 
-cleaned = []
-for line in file:
-    # strip everything to right of first exclamation point
-    line = line.split('!')[0]
-    line = line.strip()
-    cleaned.append(line)
+# #!/usr/bin/python3
 
-file_contents = "".join(cleaned)
+# # read from stdin
+# import sys
 
-# split on semicolon, then on comma, strip each field
+# # If argument, use that as filename, otherwise read from stdin
+# if len(sys.argv) > 1:
+    # filename = sys.argv[1]
+    # file = open(filename, 'r')
+# else:
+    # file = sys.stdin
 
-# split on semicolon
-file_contents = file_contents.split(';')
+# cleaned = []
+# for line in file:
+    # # strip everything to right of first exclamation point
+    # line = line.split('!')[0]
+    # line = line.strip()
+    # cleaned.append(line)
 
-# When splitting on
-for obj in file_contents[0:-1]:
-    fields = obj.split(',')
-    fields = [field.strip() for field in fields]
-    print("\t".join(fields))
+# file_contents = "".join(cleaned)
+
+# # split on semicolon, then on comma, strip each field
+
+# # split on semicolon
+# file_contents = file_contents.split(';')
+
+# # When splitting on
+# for obj in file_contents[0:-1]:
+    # fields = obj.split(',')
+    # fields = [field.strip() for field in fields]
+    # print("\t".join(fields))

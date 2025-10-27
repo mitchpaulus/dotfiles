@@ -1,0 +1,22 @@
+#!/usr/bin/env mshell
+
+[idf2tsv $1] * ! lines (tsplit) map objs!
+
+@objs (:0: "Construction" =) filter constructions!
+
+[fzf '--with-nth' 2 -d "\t"] * @constructions (tjoin) map unlines < ! selected!
+
+@selected tsplit (trim) map 2: materials!
+
+@objs ( :1: ) ( ) listToDict lookup!
+[@selected trim] output!
+
+@materials
+(
+    m!
+    @lookup @m get? value!
+    @output @value tjoin append drop
+)
+each
+
+[tsv2idf] @output unlines < !
