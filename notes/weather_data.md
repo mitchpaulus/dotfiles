@@ -70,3 +70,12 @@ AE1: Liquid precipitation, number of days with specific amounts, for the month 2
 
 
 <https://climate.onebuilding.org/>
+
+
+## Meteostat
+
+Can get daily average exports:
+
+<https://meteostat.net/en/station/72259?t=2025-09-24/2025-10-23>
+
+<https://rapidapi.com/meteostat/api/meteostat>
