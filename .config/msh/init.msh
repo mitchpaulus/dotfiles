@@ -70,4 +70,4 @@ end
 
 def minPerDay (-- float) 1440 end
 
-hostname "prec3660-mp" = runtime "windows" = and ($"{$PATH};C:\\Program Files\\MySQL\\MySQL Workbench 8.0 CE;C:\\Program Files\\7-zip" $PATH!) iff
+hostname "prec3660-mp" = runtime "windows" = and ($"{$PATH};C:\\Program Files\\MySQL\\MySQL Workbench 8.0 CE;C:\\Program Files\\7-zip;AppData\\Local\\Microsoft\\WinGet\\Packages\\hpjansson.Chafa_Microsoft.Winget.Source_8wekyb3d8bbwe\\chafa-1.16.2-1-x86_64-win\\" $PATH!) iff
