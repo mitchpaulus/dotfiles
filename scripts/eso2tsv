@@ -3,7 +3,7 @@ import sys
 
 idx = 1
 
-period = 8760
+period = 'Hourly'
 run_period = None
 
 while idx < len(sys.argv):
@@ -13,11 +13,11 @@ while idx < len(sys.argv):
         print("Usage: eso2tsv [-d|-m|-a|-r <RUN PERIOD>] < input.eso > output.tsv")
         sys.exit(0)
     elif a == "-m":
-        period = 12
+        period = 'Monthly'
     elif a == "-d":
-        period = 365
+        period = 'Daily'
     elif a == "-a":
-        period = 1
+        period = 'Annual'
     elif a == "-r":
         if idx >= len(sys.argv):
             print("Missing argument for -r", file=sys.stderr)
@@ -75,9 +75,10 @@ data_dict = {}
 # 7	EndMinute[]
 # 8	DayType
 
-print("Datetime\tDayType", end="")
+print("Datetime\tDayType\t", end="")
 
 trend_id_order = []
+trend_names = []
 
 while in_data_dir:
     line = sys.stdin.readline().rstrip()
@@ -89,26 +90,45 @@ while in_data_dir:
         id_num = split_on_comma[0]
         if int(id_num) <= 6:
             continue
-        elif split_on_comment[1] == "Hourly":
+        elif period == "Hourly" and split_on_comment[1] == "Hourly":
             trend_name = ",".join(split_on_comma[2:4])
             trend_id_order.append(id_num)
-            print(f"\t{trend_name}", end="")
-            # data_dict[line[:comma_idx]] = line[comma_idx+1:].strip()
-print()
+            trend_names.append(trend_name)
+        elif period == "Daily" and "Daily" in split_on_comment[1]:
+            trend_name = ",".join(split_on_comma[2:4])
+            trend_id_order.append(id_num)
+            trend_names.append(trend_name)
+        elif period == "Monthly" and "Monthly" in split_on_comment[1]:
+            trend_name = ",".join(split_on_comma[2:4])
+            trend_id_order.append(id_num)
+            trend_names.append(trend_name)
+        elif period == "Annual" and "Annual" in split_on_comment[1]:
+            trend_name = ",".join(split_on_comma[2:4])
+            trend_id_order.append(id_num)
+            trend_names.append(trend_name)
+
+if len(trend_id_order) == 0:
+    print(f"No trends found for the specified run period '{run_period}' and period '{period}'.", file=sys.stderr)
+    sys.exit(1)
+
+print("\t".join(trend_names))
 
 # List of dictionaries, each dictionary is for a different run period.
 data: list[dict[str, list[str]]] = []
+
+# Mapping from integer trend id to current value for the time stamp
 curr_data: dict[str, str] = {} # Only here for type checker
 
 in_run_period = False
 in_hourly = False
 
-cur_data = {}
+current_timestamp = ''
 
 while True:
     line = sys.stdin.readline()
     if not line or "End of Data" in line:
         if any(curr_data):
+            print(current_timestamp, end="")
             for trend_id in trend_id_order:
                 curr_val = curr_data.get(trend_id)
                 print(f"\t{curr_val}", end="")
@@ -125,73 +145,69 @@ while True:
             run_period_name = line[comma_idx + 1:second_comma]
             if run_period_name.lower() == run_period.lower():
                 in_run_period = True
-        else:
-            raise(f"Expected variable ID 1, got {var_id} in line: {line.strip()}")
+        #  else:
+            #  raise ValueError(f"Expected variable ID 1, got {var_id} in line: {line.strip()}")
     elif var_id == "1":
         # We reached the end of our period.
         if any(curr_data):
+            print(current_timestamp, end="")
             for trend_id in trend_id_order:
                 curr_val = curr_data.get(trend_id)
                 print(f"\t{curr_val}", end="")
             print() # End with newline
         break
-    elif not in_hourly:
-        if var_id == "2":
-            split_line = [v.strip() for v in line.split(",")]
-            start_min = split_line[6]
-            end_min = split_line[7]
-
-            if start_min == "0.00" and end_min == "60.00":
-                in_hourly = True
-                month = int(split_line[2])
-                day = int(split_line[3])
-                hour = int(split_line[5]) - 1 # EnergyPlus is 1 - 24, we want 0 - 23
-                day_type = split_line[8]
-                year = 2024
-
-                timestamp = f"{year}-{month:02d}-{day:02d} {hour:02d}:00\t{day_type}"
-                print(timestamp, end="")
-
-            else:
-                in_hourly = False
-                continue
-        else:
-            continue
-    elif in_hourly:
-        if var_id == "2": # New hour
-            for trend_id in trend_id_order:
-                curr_val = curr_data.get(trend_id)
-                # print(trend_id.__repr__())
-                print(f"\t{curr_val}", end="")
-            print() # End with newline
-
-            split_line = [v.strip() for v in line.split(",")]
-            start_min = split_line[6]
-            end_min = split_line[7]
-
-            if start_min == "0.00" and end_min == "60.00":
-                in_hourly = True
-                month = int(split_line[2])
-                day = int(split_line[3])
-                hour = int(split_line[5]) - 1 # EnergyPlus is 1 - 24, we want 0 - 23
-                day_type = split_line[8]
-                year = 2024
-
-                timestamp = f"{year}-{month:02d}-{day:02d} {hour:02d}:00\t{day_type}"
-                print(timestamp, end="")
-        elif int(var_id) <= 6:
-            in_hourly = False
+    elif var_id == "2": # New timestamp
+        if len(curr_data) > 0:
+            print(current_timestamp, end="")
             for trend_id in trend_id_order:
                 curr_val = curr_data.get(trend_id)
                 # print(trend_id.__repr__())
                 print(f"\t{curr_val}", end="")
             print() # End with newline
             curr_data.clear()
-            continue
-        else:
-            split_line = [v.strip() for v in line.split(",")]
-            curr_data[var_id] = split_line[1]
-            # print(f"\t{split_line[1]}", end="")
+
+        split_line = [v.strip() for v in line.split(",")]
+        start_min = split_line[6]
+        end_min = split_line[7]
+
+        # This is to deal with sub hourly data, in which the start and end minute won't be 0 and 60.
+        if start_min == "0.00" and end_min == "60.00":
+            in_hourly = True
+            month = int(split_line[2])
+            day = int(split_line[3])
+            hour = int(split_line[5]) - 1 # EnergyPlus is 1 - 24, we want 0 - 23
+            day_type = split_line[8]
+            year = 2024
+
+            if period == "Hourly":
+                timestamp = f"{year}-{month:02d}-{day:02d} {hour:02d}:00\t{day_type}"
+            elif period == "Daily":
+                timestamp = f"{year}-{month:02d}-{day:02d}\t{day_type}"
+            elif period == "Monthly":
+                timestamp = f"{year}-{month:02d}\t{day_type}"
+            elif period == "Annual":
+                timestamp = f"{year}\t{day_type}"
+            else:
+                raise ValueError(f"Unknown period: {period}")
+
+            current_timestamp = timestamp
+            # print(timestamp, end="")
+    elif int(var_id) <= 6:
+        #  in_hourly = False
+
+        #  if len(curr_data) > 0:
+            #  for trend_id in trend_id_order:
+                #  curr_val = curr_data.get(trend_id)
+                #  # print(trend_id.__repr__())
+                #  print(f"\t{curr_val}", end="")
+            #  print() # End with newline
+
+        #  curr_data.clear()
+        continue
+    elif var_id in trend_id_order:
+        split_line = [v.strip() for v in line.split(",")]
+        curr_data[var_id] = split_line[1]
+        # print(f"\t{split_line[1]}", end="")
 
     #  # The 1 variable is the start of a new run period. Sizing runs and main runs are separated by this.
     #  if var_id == "1":
