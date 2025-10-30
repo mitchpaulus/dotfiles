@@ -33,6 +33,10 @@ Make sure the java classes have been compiled.
 
 - Add visitor classes `-visitor` CLI option
 
+### On Windows
+
+Make sure to get the JDK, not the JRE.
+
 ## Installing the Java Development Kit for WSL on Windows OS
 
 - Used Open Source version from <https://jdk.java.net>. Normally Linux/x64. AArch64 is for ARM64.
