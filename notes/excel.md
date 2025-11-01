@@ -104,3 +104,8 @@ Not sure which versions were the ones that actually worked, since I installed a 
 
 [ADO.NET](https://downloads.mysql.com/archives/c-net/)
 [ODBC](https://downloads.mysql.com/archives/c-odbc/)
+
+## PERSONAL.xlsb location
+
+$APPDATA\Microsoft\Excel\XLSTART\PERSONAL.XLSB
+C:\Users\<user>\AppData\Roaming\Microsoft\Excel\XLSTART\PERSONAL.XLSB
