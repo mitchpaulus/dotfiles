@@ -246,6 +246,7 @@ vnmap("<leader>=", ":Tab /=/<CR>")
 
 -- Quote single
 vnmap("<leader>qs", "<Cmd>keeppatterns '<,'>s/\\v^\\s*\\zs.*$/'\\0'/<CR>")
+vnmap("<leader>qd", "<Cmd>keeppatterns '<,'>s/\\v^\\s*\\zs.*$/\"\\0\"/<CR>")
 
 function lookup_and_open_pdf()
   -- Get the word under the cursor
