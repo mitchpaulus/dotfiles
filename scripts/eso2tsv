@@ -18,6 +18,8 @@ while idx < len(sys.argv):
         period = 'Daily'
     elif a == "-a":
         period = 'Annual'
+    elif a == "--run":
+        period = "RunPeriod"
     elif a == "-r":
         if idx >= len(sys.argv):
             print("Missing argument for -r", file=sys.stderr)
@@ -106,6 +108,10 @@ while in_data_dir:
             trend_name = ",".join(split_on_comma[2:4])
             trend_id_order.append(id_num)
             trend_names.append(trend_name)
+        elif period == "RunPeriod" and "RunPeriod" in split_on_comment[1]:
+            trend_name = ",".join(split_on_comma[2:4])
+            trend_id_order.append(id_num)
+            trend_names.append(trend_name)
 
 if len(trend_id_order) == 0:
     print(f"No trends found for the specified run period '{run_period}' and period '{period}'.", file=sys.stderr)
@@ -187,6 +193,8 @@ while True:
                 timestamp = f"{year}-{month:02d}\t{day_type}"
             elif period == "Annual":
                 timestamp = f"{year}\t{day_type}"
+            elif period == "RunPeriod":
+                timestamp = f"{run_period_name}\t{day_type}"
             else:
                 raise ValueError(f"Unknown period: {period}")
 
