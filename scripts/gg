@@ -3,6 +3,6 @@
 # 'gg' => goto github
 tempDir `gh_repos.txt` / repoFile!
 
-@repoFile isFile not ($"{@repoFile} not found. Usually made using `github_repos > {@repoFile}`" wle 1 exit) iff
+@repoFile isFile not ($"{@repoFile} not found. Usually made using `github_repos > {@repoFile}` or [github_repos] `{@repoFile}` >;" wle 1 exit) iff
 [fzf] @repoFile < *! trim repo!
 [wsl_url_open $"https://github.com/{@repo}"]!
