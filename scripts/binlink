@@ -31,7 +31,10 @@ dir!
 
 @dir mkdirp
 $1 basename filename!
-$"{@dir}/{@filename}" fileExists
+
+$"{@dir}/{@filename}" fullBinPath!
+$"Checking {@fullBinPath}.." wle
+@fullBinPath fileExists
 (
     $"Link already exists. Do you want to remove it? [y/N] " wle
     read
@@ -55,7 +58,10 @@ iff
 
 runtime "windows" =
 ( $1  $"{@dir}/{@filename}"  hardLink )
-(['ln' '-s' $1 @dir]!)
+(
+    ['ln' '-s' $1 absPath @fullBinPath]!
+    ['chmod''+x' @fullBinPath]!
+)
 iff
 # #!/bin/sh
 
