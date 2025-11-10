@@ -245,7 +245,7 @@ vnmap("<localleader>f2k", "s(<c-r>\" + 459.67) * 5/9")
 vnmap("<leader>=", ":Tab /=/<CR>")
 
 -- Quote single
-vnmap("<leader>qs", "<Cmd>keeppatterns '<,'>s/\\v^\\s*\\zs.*$/'\\0'/<CR>")
+vnmap("<leader>qs", ":<C-u>keeppatterns '<,'>s/\\v^\\s*\\zs.*$/'\\0'/<CR>")
 vnmap("<leader>qd", "<Cmd>keeppatterns '<,'>s/\\v^\\s*\\zs.*$/\"\\0\"/<CR>")
 
 function lookup_and_open_pdf()
