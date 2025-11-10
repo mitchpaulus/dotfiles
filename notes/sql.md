@@ -63,3 +63,17 @@ String concatenation: `+`.
 ## Recursion
 
 <https://medium.com/swlh/recursion-in-sql-explained-graphically-679f6a0f143b>
+
+```
+SELECT
+FROM
+[JOIN ...]
+WHERE
+GROUP BY
+HAVING
+WINDOW        -- if supported
+ORDER BY
+LIMIT or OFFSET / FETCH
+```
+
+Smart Ferrets Juggle Watermelons; Geeks Hate Windows on Linux
