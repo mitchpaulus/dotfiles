@@ -172,6 +172,10 @@ ESC ] 9 ; 4 ; [0 thru 4] ; [0-100] ST
 
 - ghostty has by default
 
+## Getting ghostty to work on SSH
+
+- `infocmp -x "$TERM" | ssh user@host 'mkdir -p ~/.terminfo && tic -x -o ~/.terminfo -'`
+
 ## References
 
 - [ASCII control characters in my terminal](https://jvns.ca/blog/2024/10/31/ascii-control-characters/)
