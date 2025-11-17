@@ -16,3 +16,4 @@ SQLite.SQLite
 7zip.7zip
 jqlang.jq
 astral-sh.ty
+Y2Z.Monolith
