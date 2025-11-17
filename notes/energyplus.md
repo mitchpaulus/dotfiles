@@ -321,3 +321,46 @@ Generally need a splitter and a `SpaceHVAC:ZoneReturnMixer`, only need the `Zone
 - Timestep
 - Zone objects
 - Output:VariableDictionary
+
+- Loads
+  - People
+  - Lights
+  - Plug
+
+
+## Naming Convention
+
+- Underscores
+- Schedules
+  - `Sch_...`
+- Zones
+  - `Zone_`
+  - `Space_`
+  - `ZoneList_
+  - `Thermostat_`
+
+
+
+## Typical examples
+
+AirTerminal:SingleDuct:VAV:Reheat,
+  <zone_name> Zone VAV Reheat,                             !- Name
+  ,                                                        !- Availability Schedule Name
+  <zone_name> Zone Damper Outlet,                          !- Damper Air Outlet Node Name
+  <zone_name> Zone Zone Equip Inlet,                       !- Air Inlet Node Name
+  autosize,                                                !- Maximum air flow rate {m3/s}
+  Constant,                                                !- Zone Minimum Air Flow Input Method
+  0.2,                                                     !- Constant Minimum Air Flow Fraction
+  ,                                                        !- Fixed Minimum Air Flow Rate
+  ,                                                        !- Minimum Air Flow Fraction Schedule Name
+  Coil:Heating:Water,                                      !- Reheat Coil Object Type
+  <zone_name> Zone Reheat Coil,                            !- Reheat Coil Name
+  autosize,                                                !- Maximum Hot Water or Steam Flow Rate {m3/s}
+  0,                                                       !- Minimum Hot Water or Steam Flow Rate {m3/s}
+  <zone_name> Zone Supply Inlet,                           !- Air Outlet Node Name
+  0.001,                                                   !- Convergence Tolerance
+  Reverse,                                                 !- Damper Heating Action
+  ,                                                        !- Maximum Flow per Zone Floor Area During Reheat
+  ,                                                        !- Maximum Flow Fraction During Reheat
+  ,                                                        !- Maximum Reheat Air Temperature
+  ;                                                        !- Design Specification Outdoor Air Object Name

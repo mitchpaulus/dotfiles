@@ -178,16 +178,16 @@ For any projects registered after March 1, 2024.
 
 
 % Cost Savings | Points
-----------|-------
-1 | 20
-2 | 25
-3 | 30
-4 | 35
-5 | 40
-6 | 45
-7 | 50
-8 | 55
-9 | 60
+---------------|-------
+1              | 20
+2              | 25
+3              | 30
+4              | 35
+5              | 40
+6              | 45
+7              | 50
+8              | 55
+9              | 60
 
 <https://leeduser.buildinggreen.com/forum/ghg-emissions-calculations-leed-v4-2024-update>
 Site energy use multiplied by given factors for CO2e.
@@ -195,16 +195,42 @@ Site energy use multiplied by given factors for CO2e.
 Also see <https://portfoliomanager.energystar.gov/pdf/reference/Emissions.pdf> or `EnergyStar Portfolio Manager Emissions Technical Reference` in saved references.
 
 % Site Emissions | Points
+-----------------|-------
+1                | 20
+2                | 25
+3                | 30
+4                | 35
+5                | 42
+6                | 50
+7                | 60
+8                | 70
+9                | 85
+
+## v4.1
+
+Energy Cost | Points
 ------------|-------
-1 | 20
-2 | 25
-3 | 30
-4 | 35
-5 | 42
-6 | 50
-7 | 60
-8 | 70
-9 | 85
+5           | 1
+10          | 2
+15          | 3
+20          | 4
+25          | 5
+30          | 6
+35          | 7
+40          | 8
+45          | 9
+
+Emissions | Points
+----------|-------
+5         | 1
+10        | 2
+16        | 3
+24        | 4
+32        | 5
+40        | 6
+50        | 7
+65        | 8
+80        | 9
 
 # References
 
