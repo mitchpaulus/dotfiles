@@ -4,8 +4,15 @@
 import fitz
 import sys
 doc = fitz.open(sys.argv[1])
-page = doc[int(sys.argv[2])]
-text = page.get_text("text", sort=True)
-print(text)
+
+page_num = sys.argv[2]
+if page_num == "*" or page_num.lower() == "all":
+    for page in doc:
+        text = page.get_text("text", sort=True)
+        print(text)
+else:
+    page = doc[int(page_num)]
+    text = page.get_text("text", sort=True)
+    print(text)
 '
 $1 $2]!
