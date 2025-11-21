@@ -1,0 +1,213 @@
+#!/usr/bin/env python3
+import sys
+import csv
+import gi
+
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk, Gdk, GLib
+
+
+class TsvGrid(Gtk.Window):
+    def __init__(self, rows):
+        super().__init__(title="TSV Grid")
+        self.set_default_size(800, 600)
+        self._message_timeout_id = None
+        self.hover_cell = None  # (path_str, col_index)
+        self.fade_out_cell = None
+        self._animation_id = None
+        self._animation_progress = 0.0
+        self._highlight_base = Gdk.RGBA(0.82, 0.88, 1.0, 0.65)
+
+        # Determine number of columns from the widest row
+        self.ncols = max(len(r) for r in rows)
+
+        # First row as headers (if present)
+        headers = rows[0] if rows else []
+        data_rows = rows[1:] if len(rows) > 1 else []
+
+        # ListStore: one string column per TSV column
+        self.store = Gtk.ListStore(*([str] * self.ncols))
+        self.original_rows = [
+            row + [""] * (self.ncols - len(row)) for row in data_rows
+        ]
+        for padded in self.original_rows:
+            self.store.append(padded)
+
+        treeview = Gtk.TreeView(model=self.store)
+        treeview.set_hover_selection(False)
+        treeview.add_events(
+            Gdk.EventMask.POINTER_MOTION_MASK | Gdk.EventMask.LEAVE_NOTIFY_MASK
+        )
+        treeview.set_headers_clickable(True)
+        treeview.get_selection().set_mode(Gtk.SelectionMode.NONE)
+
+        # Build columns with headers
+        for i in range(self.ncols):
+            header = headers[i] if i < len(headers) and headers[i] else f"Col {i + 1}"
+            renderer = Gtk.CellRendererText()
+            column = Gtk.TreeViewColumn(header, renderer, text=i)
+            column.set_sort_column_id(i)
+            column.set_sort_indicator(True)
+            column.set_cell_data_func(renderer, self.make_cell_highlighter(i))
+            treeview.append_column(column)
+
+        # Double-click row → copy entire row
+        treeview.connect("row-activated", self.on_row_activated)
+
+        # Single-click cell → copy just that cell (optional)
+        treeview.connect("button-press-event", self.on_button_press)
+        treeview.connect("motion-notify-event", self.on_motion)
+        treeview.connect("leave-notify-event", self.on_leave)
+        treeview.set_grid_lines(Gtk.TreeViewGridLines.BOTH)
+
+        scrolled = Gtk.ScrolledWindow()
+        scrolled.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+        scrolled.add(treeview)
+        self.treeview = treeview
+
+        self.message_label = Gtk.Label(xalign=0)
+        self.message_revealer = Gtk.Revealer()
+        self.message_revealer.set_transition_type(Gtk.RevealerTransitionType.CROSSFADE)
+        self.message_revealer.add(self.message_label)
+
+        reset_button = Gtk.Button(label="Reset Sort")
+        reset_button.connect("clicked", self.on_reset_sort)
+
+        header_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+        header_box.pack_start(self.message_revealer, True, True, 0)
+        header_box.pack_end(reset_button, False, False, 0)
+
+        vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
+        vbox.pack_start(header_box, False, False, 0)
+        vbox.pack_start(scrolled, True, True, 0)
+
+        self.add(vbox)
+
+    def copy_to_clipboard(self, text: str, note: str):
+        cb = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+        cb.set_text(text, -1)
+        cb.store()
+        self.show_message(note)
+
+    def on_row_activated(self, treeview, path, column):
+        """Double-click row: copy entire row as TSV."""
+        row = self.store[path]
+        text = "\t".join(str(v) for v in row)
+        self.copy_to_clipboard(text, "Copied row to clipboard")
+
+    def on_button_press(self, treeview, event):
+        """Single left-click cell: copy that cell only."""
+        if event.type == Gdk.EventType.BUTTON_PRESS and event.button == 1:
+            x = int(event.x)
+            y = int(event.y)
+            pthinfo = treeview.get_path_at_pos(x, y)
+            if pthinfo is not None:
+                path, column, cell_x, cell_y = pthinfo
+                model = treeview.get_model()
+                col_index = treeview.get_columns().index(column)
+                value = model[path][col_index]
+                if value:
+                    display = value if len(value) <= 40 else value[:37] + "..."
+                    self.copy_to_clipboard(value, f"Copied cell: {display}")
+        return False
+
+    def make_cell_highlighter(self, col_index):
+        def data_func(column, renderer, model, tree_iter, _data=None):
+            path_str = model.get_path(tree_iter).to_string()
+            intensity = 0.0
+
+            if self.hover_cell == (path_str, col_index):
+                intensity = self._animation_progress if self._animation_id else 1.0
+            elif self.fade_out_cell == (path_str, col_index):
+                intensity = 1.0 - self._animation_progress
+
+            if intensity > 0:
+                color = Gdk.RGBA(
+                    self._highlight_base.red,
+                    self._highlight_base.green,
+                    self._highlight_base.blue,
+                    self._highlight_base.alpha * intensity,
+                )
+                renderer.set_property("cell-background-rgba", color)
+                renderer.set_property("cell-background-set", True)
+            else:
+                renderer.set_property("cell-background-set", False)
+
+        return data_func
+
+    def on_motion(self, treeview, event):
+        new_hover = None
+        pthinfo = treeview.get_path_at_pos(int(event.x), int(event.y))
+        if pthinfo is not None:
+            path, column, _cell_x, _cell_y = pthinfo
+            col_index = treeview.get_columns().index(column)
+            new_hover = (path.to_string(), col_index)
+        self.update_hover_cell(new_hover)
+        return False
+
+    def on_leave(self, treeview, event):
+        self.update_hover_cell(None)
+        return False
+
+    def show_message(self, text: str):
+        if self._message_timeout_id:
+            GLib.source_remove(self._message_timeout_id)
+            self._message_timeout_id = None
+        self.message_label.set_text(text)
+        self.message_revealer.set_reveal_child(True)
+        self._message_timeout_id = GLib.timeout_add(1500, self.hide_message)
+
+    def on_reset_sort(self, _button):
+        # Clear any active sort and restore original order
+        self.store.set_sort_column_id(
+            Gtk.TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID, Gtk.SortType.ASCENDING
+        )
+        self.store.clear()
+        for row in self.original_rows:
+            self.store.append(row)
+        for col in self.treeview.get_columns():
+            col.set_sort_indicator(True)
+            col.set_sort_order(Gtk.SortType.ASCENDING)
+        self.treeview.queue_draw()
+
+    def update_hover_cell(self, new_hover):
+        if new_hover == self.hover_cell:
+            return
+        self.fade_out_cell = self.hover_cell
+        self.hover_cell = new_hover
+        self._animation_progress = 0.0
+        if self._animation_id is None:
+            self._animation_id = GLib.timeout_add(16, self.step_animation)
+        self.treeview.queue_draw()
+
+    def step_animation(self):
+        self._animation_progress = min(1.0, self._animation_progress + 0.08)
+        self.treeview.queue_draw()
+        if self._animation_progress >= 1.0:
+            self.fade_out_cell = None
+            self._animation_id = None
+            return False
+        return True
+
+    def hide_message(self):
+        self.message_revealer.set_reveal_child(False)
+        self._message_timeout_id = None
+        return False
+
+
+def main():
+    reader = csv.reader(sys.stdin, delimiter="\t")
+    rows = [row for row in reader]
+
+    if not rows:
+        # No input; you could also show an empty window with a message if you like
+        return
+
+    win = TsvGrid(rows)
+    win.connect("destroy", Gtk.main_quit)
+    win.show_all()
+    Gtk.main()
+
+
+if __name__ == "__main__":
+    main()
