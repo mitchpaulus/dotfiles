@@ -50,6 +50,7 @@ map f mark-load
 map ; mark-load
 
 map x open-with-windows
+map o open-with-Sumatra
 
 map gd cd_dotfiles
 
@@ -85,6 +86,10 @@ map br run-redo
 cmd open-with-windows & {{
     lf -remote "send $id echomsg Opening $f with Windows"
     start "$f" || lf -remote "send $id echomsg Failed to open $f with Windows"
+}}
+
+cmd open-with-Sumatra & {{
+    SumatraPDF.exe "$(wslpath -w "$f")"
 }}
 
 # Changing to syncronous mode instead of the default asyncronous mode because I want to use the terminal editor for most things.
