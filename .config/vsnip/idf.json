@@ -36,9 +36,59 @@
         "prefix": ["sch"],
         "body": [
             "Schedule:Constant,",
-            "  $1,   ! Name RefList: [ScheduleNames], REQ, #1",
+            "  Sch_$1,   ! Name RefList: [ScheduleNames], REQ, #1",
             "  $2,   ! Schedule Type Limits Name [ScheduleTypeLimitsNames], #2",
             "  $3;   ! Hourly Value Def: 0, #3"
         ]
+    },
+    "Global Geometry Rules": {
+        "prefix": "ggr",
+        "body": [
+            "GlobalGeometryRules,",
+            "LowerLeftCorner,  ! Starting Vertex Position [UpperLeftCorner, LowerLeftCorner, UpperRightCorner, LowerRightCorner], REQ, #1",
+            "Counterclockwise, ! Vertex Entry Direction [Counterclockwise, Clockwise], REQ, #2",
+            "World,            ! Coordinate System [Relative, World], REQ, #3",
+            "Relative,         ! Daylighting Reference Point Coordinate System Def: Relative, [Relative, World], #4",
+            "Relative;         ! Rectangular Surface Coordinate System Def: Relative, [Relative, World], #5"
+        ]
+    },
+    "Building": {
+        "prefix": "building",
+        "body": [
+            "! Min Fields: 8",
+            "Building,",
+            "  ${1:Building Name},   ! Name Def: NONE, #1",
+            "  0,   ! North Axis {deg}, Def: 0.0, #2",
+            "  Suburbs   ! Terrain Def: Suburbs, [Country, Suburbs, City, Ocean, Urban], #3",
+            "  0.04,   ! Loads Convergence Tolerance Value {W}, Def: .04, #4",
+            "  0.4,   ! Temperature Convergence Tolerance Value {deltaC}, Def: .4, #5",
+            "  FullExterior,   ! Solar Distribution Def: FullExterior, [MinimalShadowing, FullExterior, FullInteriorAndExterior, FullExteriorWithReflections, FullInteriorAndExteriorWithReflections], #6",
+            "  25,   ! Maximum Number of Warmup Days Def: 25, #7",
+            "  1;   ! Minimum Number of Warmup Days Def: 1, #8" 
+        ]
+    },
+    "Annual Run Period": {
+        "prefix": "ann",
+        "body": [
+            "! Min Fields: 7",
+            "RunPeriod,",
+            "  Annual,   ! Name RefList: [RunPeriodsAndDesignDays], REQ, #1",
+            "  1,   ! Begin Month REQ, #2",
+            "  1,   ! Begin Day of Month REQ, #3",
+            "  ${year},   ! Begin Year #4",
+            "  12,   ! End Month REQ, #5",
+            "  31,   ! End Day of Month REQ, #6",
+            "  ${year},   ! End Year #7",
+            "  ,   ! Day of Week for Start Day [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday], #8",
+            "  Yes,   ! Use Weather File Holidays and Special Days Def: Yes, [Yes, No], #9",
+            "  Yes,   ! Use Weather File Daylight Saving Period Def: Yes, [Yes, No], #10",
+            "  No,   ! Apply Weekend Holiday Rule Def: No, [Yes, No], #11",
+            "  Yes,   ! Use Weather File Rain Indicators Def: Yes, [Yes, No], #12",
+            "  Yes,   ! Use Weather File Snow Indicators Def: Yes, [Yes, No], #13",
+            "  No,   ! Treat Weather as Actual Def: No, [Yes, No], #14",
+            "  Hour24;   ! First Hour Interpolation Starting Values Def: Hour24, [Hour1, Hour24], #15"
+
+        ]
+
     }
 }
