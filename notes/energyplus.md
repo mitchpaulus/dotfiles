@@ -321,6 +321,7 @@ Generally need a splitter and a `SpaceHVAC:ZoneReturnMixer`, only need the `Zone
 - Timestep
 - Zone objects
 - Output:VariableDictionary
+- OutputControl:Table:Style, Output:Table:SummaryReports
 
 - Loads
   - People

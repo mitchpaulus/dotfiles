@@ -183,4 +183,14 @@ expression !~ /regex/
 
 |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
 |> pivot(rowKey: ["_time"], columnKey: ["_measurement"], valueColumn: "_value")
+
+// Deployed September 8
+from(bucket: "Siemens Grand Prairie Paint Line")
+    |> range(start: 2025-09-10)
+    |> filter(fn: (r) => r._field == "temp")
+    |> group(columns: ["name"])
+    |> aggregateWindow(every: 15m, fn: mean, createEmpty: true)
+    |> pivot(rowKey: ["_time"], columnKey: ["name"], valueColumn: "_value")
+    |> yield()
+
 ```

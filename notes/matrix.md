@@ -16,3 +16,14 @@ a7 = b5 b7 - b4 b8
 a8 = b2 b7 - b1 b8
 a9 = b2 b4 - b1 b5
 ```
+
+```
+A^-1 = adj(A) / det(A)
+
+adjoint, adj(A) = transpose of matrix of cofactors
+
+cofactors is +/- of minors matrix
+
+det = 1 * (5*9 - 6 *8) - 2*(4*9 - 6 * 7) + 3 * (4*8 - 5*7)
+det = 11 * (22*33 - 23*32) - 12*(
+```
