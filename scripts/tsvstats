@@ -4,6 +4,15 @@ import mputils
 import sys
 import re
 
+def try_parse(input_str: str):
+    try:
+        return float(input_str)
+    except ValueError:
+        try:
+            return float(input_str.replace(",", ""))
+        except:
+            return None
+
 # Read input from stdin
 data = [line.split("\t") for line in sys.stdin.read().splitlines()]
 
@@ -29,10 +38,11 @@ if filter_str is None:
         numeric_data.clear()
         for row in data[1:]:
             if i < len(row):
-                try:
-                    numeric_data.append(float(row[i]))
-                except ValueError:
-                    pass
+                parsed = try_parse(row[i])
+                if parsed is None:
+                    continue
+                else:
+                    numeric_data.append(parsed)
 
         stats = mputils.stats(numeric_data)
         stat_str = "\t".join(f"{stat:.2f}" for stat in stats.props())
@@ -47,10 +57,11 @@ else:
         numeric_data.clear()
         for row in data[1:]:
             if i < len(row):
-                try:
-                    numeric_data.append(float(row[i]))
-                except ValueError:
-                    pass
+                parsed = try_parse(row[i])
+                if parsed is None:
+                    continue
+                else:
+                    numeric_data.append(parsed)
 
         stats = mputils.stats(numeric_data)
         stat_str = "\t".join(f"{stat:.2f}" for stat in stats.props())
