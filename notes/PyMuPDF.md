@@ -1,8 +1,9 @@
 
 ```python
-import fitz # pip install PyMuPDF
+# import fitz # pip install PyMuPDF
+import pymupdf # pip install PyMuPDF
 
-doc = fitz.open("test.pdf")
+doc = pymupdf.open("test.pdf")
 
 bookmarks = doc.get_toc()
 # List of lists: [level, title, page, dest]
@@ -17,8 +18,8 @@ bookmarks = doc.get_toc()
 # Insert PDF example
 
 ```python
-doc1 = fitz.open("file1.pdf")          # must be a PDF
-doc2 = fitz.open("file2.pdf")          # must be a PDF
+doc1 = pymupdf.open("file1.pdf")          # must be a PDF
+doc2 = pymupdf.open("file2.pdf")          # must be a PDF
 pages1 = len(doc1)                     # save doc1's page count
 toc1 = doc1.get_toc(False)     # save TOC 1
 toc2 = doc2.get_toc(False)     # save TOC 2
@@ -115,10 +116,11 @@ Page.get_text("text", clip=rect)
 Example that I used on project.
 
 ```python
-import fitz
+# import fitz
+import pymupdf
 import re
 
-doc = fitz.open("My file")
+doc = pymupdf.open("My file")
 
 x1 = 13.31
 y1 = 9.62
@@ -130,7 +132,7 @@ y1 = y1 * 72
 x2 = x2 * 72
 y2 = y2 * 72
 
-rect = fitz.Rect(x1, y1, x2, y2)
+rect = pymupdf.Rect(x1, y1, x2, y2)
 
 for page_num in range(92, 152):
     page = doc[page_num]

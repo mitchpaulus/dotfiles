@@ -13,6 +13,9 @@ if __name__ == "__main__":
     elif len(sys.argv) == 2:
         doc = pymupdf.open(sys.argv[1])
     else:
+        print(f"ARGS: {len(sys.argv)}", file=sys.stderr)
+        for arg in sys.argv:
+            print(f"ARG: {arg}", file=sys.stderr)
         print("Usage: get_bookmarks.py [file.pdf]", file=sys.stderr)
         print("Usage: get_bookmarks.py < [file.pdf]", file=sys.stderr)
         print("Prints the bookmarks of a PDF file to stdout.", file=sys.stderr)
