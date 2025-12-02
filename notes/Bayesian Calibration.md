@@ -33,6 +33,10 @@ x > c: (2 * (b - x)) / ((b - a) * (b - c))
 - MAP: Maximum A Posteriori. Maximizing the posterior (Using likelihood and priors)
 
 
+# PDF for Normal Distribution
+
+PDF(x) = 1 / sqrt(2 * pi * sigma²) exp( - ((x - mean)² / (2 * sigma²)))
+
 # References
 
 <https://en.wikipedia.org/wiki/Triangular_distribution>

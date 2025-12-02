@@ -6,8 +6,21 @@ Text file based optimization.
 
 3 files required:
 
-1. Configuration File: Usually set up once per type of program, i.e. EnergyPlus, xlim, Transys
-2. Initialization file:
+1. Configuration File (`.cfg` extension): Usually set up once per type of program, i.e. EnergyPlus, xlim, Transys
+
+```
+// vim: ft=genoptcfg
+
+SimulationError { ErrorMessage = "Error"; }
+IO { NumberFormat = Double; }
+SimulationStart
+{
+    Command = "./runxlim.sh";
+    WriteInputFileExtension = true;
+}
+```
+
+2. Initialization file (`.ini`):
   - Where the runtime optimization files are located
   - What files should be saved after finished
   - Additional strings to be passed to the command line invocation
@@ -15,7 +28,42 @@ Text file based optimization.
   - Whether that cost function needs to be post-processed
   - What simulation program is being used.
 
-3. Command file
+
+```
+Simulation {
+    Files {
+        Template {
+            File1 = "./gen_hx_fit.xlim";
+        }
+        Input {
+            File1 = "./in.xlim";
+        }
+        Log {
+            File1 = "./log.txt";
+        }
+        Output {
+            File1 = "./out.txt";
+        }
+        Configuration {
+            File1 = "./xlim.cfg";
+        }
+    }
+    ObjectiveFunctionLocation {
+        Name1  = "objective";
+        Delimiter1 = "=";
+    }
+}
+Optimization {
+    Files {
+        Command {
+            File1 = "./command.txt";
+        }
+    }
+}
+```
+
+
+3. Command file (`command.txt`)
   - optimization variables
   - stopping criteria
   - optimization algorithm
