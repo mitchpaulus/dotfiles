@@ -1,0 +1,70 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.13"
+# dependencies = [
+#     "pymupdf",
+# ]
+# ///
+
+# The purpose of this script is to add a bookmark to the beginning of a PDF,
+# and adjust the existing bookmarks to account for the new bookmark.
+
+
+import fitz
+import sys
+import io
+
+def adjust_bookmarks(pdf_stream, title):
+    # Open the PDF from a stream
+    doc = fitz.open(stream=pdf_stream, filetype="pdf")
+
+    # Retrieve all existing bookmarks
+    bookmarks = doc.get_toc()
+
+    # Adjust the level of each existing bookmark
+    for i in range(len(bookmarks)):
+        bookmarks[i][0] += 1  # Increment the level by 1
+
+    bookmark = [1, title, 1]
+
+    # Add the new bookmark to the beginning of the list
+    bookmarks.insert(0, bookmark)
+
+    # Update the TOC with adjusted bookmarks
+    doc.set_toc(bookmarks)
+
+    # Create a binary stream to hold the output PDF
+    output_stream = io.BytesIO()
+    doc.save(output_stream)
+    doc.close()
+
+    # Return the binary stream containing the adjusted PDF
+    return output_stream.getvalue()
+
+if __name__ == "__main__":
+    if len(sys.argv) == 2:
+        if sys.argv[1] == "-h" or sys.argv[1] == "--help":
+            print("Usage: title_pdf_bookmark <title> < input.pdf > output.pdf")
+            print("OPTIONS:")
+            print("  -h, --help    Show this help message and exit")
+            sys.exit(0)
+    else:
+        print("Usage: title_pdf_bookmark <title> < input.pdf > output.pdf", file=sys.stderr)
+        print("OPTIONS:", file=sys.stderr)
+        print("  -h, --help    Show this help message and exit", file=sys.stderr)
+
+        print(f"Received {len(sys.argv)} arguments", file=sys.stderr)
+        for i in range(len(sys.argv)):
+            print(f"Argument {i}: {sys.argv[i]}", file=sys.stderr)
+        sys.exit(1)
+
+    title = sys.argv[1]
+
+    # Read PDF data from standard input
+    pdf_data = sys.stdin.buffer.read()
+
+    # Process the PDF and get the adjusted PDF data
+    adjusted_pdf_data = adjust_bookmarks(pdf_data, title)
+
+    # Write the adjusted PDF data to standard output
+    sys.stdout.buffer.write(adjusted_pdf_data)
