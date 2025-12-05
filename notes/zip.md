@@ -55,3 +55,7 @@ class Program
 gunzip FILE # Uncompress in place
 gunzip -c FILE > OUT # Uncompress to stdout
 ```
+
+# Zip file specification
+
+<https://pkwaredownloads.blob.core.windows.net/pem/APPNOTE.txt>
