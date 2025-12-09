@@ -13,3 +13,4 @@ not (1 exit) iff
 desc!
 
 ['toggl' start @proj @desc];
+['toggl_set']!

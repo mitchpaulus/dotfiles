@@ -155,7 +155,8 @@ function fish_prompt
     set exit_code "$status"
 
     if test (hostname) = 'prec3660-mp'; and command -v toggl >/dev/null 2>&1
-        set toggl_response (toggl)
+        set toggl_response (cut -f 2 '/tmp/toggl_status.tsv')
+        # set toggl_response (toggl)
         if test "$toggl_response" = "$TOGGL_NOT_TRACKING"
             read -P 'Please acknowledge not tracking. Press Enter to continue.'
         end
@@ -185,7 +186,8 @@ function fish_greeting
         random_remind
     end
     if command -v toggl >/dev/null 2>&1
-        set toggl_response (toggl)
+        set toggl_response (cut -f 2 '/tmp/toggl_status.tsv')
+        # set toggl_response (toggl)
         if test "$toggl_response" = "$TOGGL_NOT_TRACKING"
             set_color C80000
             printf '%s\n' $toggl_response

@@ -1,0 +1,4 @@
+#!/usr/bin/env mshell
+[toggl] * ! status!
+now "2006-01-12T15:04" dateFmt date!
+$"{@date}\t{@status}" tempDir `toggl_status.tsv` / writeFile
