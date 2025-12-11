@@ -101,7 +101,7 @@ def main():
             print(f"Unknown option '{arg}'")
             return
         else:
-            print(f"Processing file: {arg}")
+            print(f"Processing file: {arg}", file=sys.stderr)
             filename = arg
             if idx < len(sys.argv):
                 print(f"Unknown option '{arg}'")

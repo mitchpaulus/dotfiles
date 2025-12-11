@@ -16,6 +16,14 @@ strict digraph graphname {
   node1 [label="label with spaces"]
   node1 -> node2 [label="edge label"]
   ...
+
+    # Must start with 'cluster'
+      subgraph cluster_simple {
+        label = "SZ or DOAS"
+        Vot_simple [label="Vot"]
+        Voz ->Vot_simple
+    }
+
 }
 ```
 
