@@ -101,3 +101,23 @@ For Each Item in Collection
 Continue:
 Next Item
 ```
+
+```
+' The Resume SetSmallLabel is key here. You have to reset the error, otherwise next runtime errors won't be caught.
+' SmallLabel style
+    On Error GoTo CreateSmallLabel
+    Set s = ActiveDocument.Styles("SmallLabel")
+    Goto SetSmallLabel
+CreateSmallLabel:
+    ActiveDocument.Styles.Add Name:="SmallLabel", Type:=wdStyleTypeParagraph
+    Set s = ActiveDocument.Styles("SmallLabel")
+    Resume SetSmallLabel
+SetSmallLabel:
+    s.Font.Name = "Arial"
+    s.Font.Size = 8
+    s.Font.Bold = Falser
+    s.Font.Italic = True
+    s.ParagraphFormat.SpaceAfter = 0
+    s.ParagraphFormat.SpaceBefore = 0
+    s.QuickStyle = True
+```
