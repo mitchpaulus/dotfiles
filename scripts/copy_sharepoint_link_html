@@ -1,9 +1,9 @@
 #!/usr/bin/env mshell
 ['lf' -remote $"send {$id} echomsg Copying.."];
-['uv' 'run' $"{$REPOS}/ms-graph/create_link.py" $f] os ? not
+['uv' 'run' $"{$REPOS}/ms-graph/create_link.py" $f] * ? not
 (['lf' -remote $"send {$id} echomsg Failed to copy link"]; "Exiting" wl 1 exit)
 iff
-link!
+trim link!
 
 ['lf' -remote $"send {$id} echomsg Link created.."]!
 

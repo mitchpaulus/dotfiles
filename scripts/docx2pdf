@@ -10,7 +10,7 @@ args len 1 < ("Usage: docx2pdf <docx-file> [pdf-file]" wl 0 exit) iff
 [wslpath -u [winenv TMP]*; trim]*; trim tmp-dir!
 $"Tmp Dir {@tmp-dir}" wle
 ['mktemp' --suffix .docx $"--tmpdir={@tmp-dir}"]*; trim tmpfile!
-$"Tmp File {@tmp-dir}" wle
+$"Tmp File {@tmpFile}" wle
 $1 @tmpfile cp
 "Converting '" @tmpfile + "' to PDF..." + wle
 
