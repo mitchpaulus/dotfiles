@@ -57,6 +57,9 @@ Uniform
 """
 
 def escape_string(input_str: str) -> str:
+    """
+    Escape a string for use in Word VBA. String is return with double quotes
+    """
     new_str = []
     max_line_length = 500
 
@@ -212,6 +215,30 @@ class Color:
 
 CCLLC_BLUE = Color(0, 73, 135)
 
+class TextRun:
+    def __init__(self, text: str, *, style = None, bold = None, italic = None, font_size = None):
+        self.text = text
+        self.style = style
+        self.bold = bold
+        self.italic = italic
+        self.font_size = font_size
+
+    def vba(self) -> list[str]:
+        lines = []
+        if self.style is not None:
+            lines.append(f"Selection.Style = ActiveDocument.Styles(\"{self.style}\")")
+        if self.bold is not None:
+            lines.append(f"Selection.Font.Bold = {'True' if self.bold else 'False'}")
+        if self.italic is not None:
+            lines.append(f"Selection.Font.Italic = {'True' if self.italic else 'False'}")
+        if self.font_size is not None:
+            lines.append(f"Selection.Font.Size = {self.font_size}")
+
+        lines.append(f'Selection.TypeText Text:={escape_string(self.text)}')
+        return lines
+        
+
+
 class Table:
     def __init__(self) -> None:
         self._merges: list[tuple[int, int, int, int]] = [] # List of tuples (start_row, start_col, end_row, end_col), all on 1-based index
@@ -264,8 +291,8 @@ class Table:
             return 0
         return max([len(row) for row in self.data])
 
-    def merge_cells(self, start_row_one_based: int, start_col_one_based: int, end_row_one_based: int, end_col_one_based: int):
-        self._merges.append((start_row_one_based, start_col_one_based, end_row_one_based, end_col_one_based))
+    def merge_cells(self, start_row_one_based: int, start_col_one_based: int, end_row_one_based_inc: int, end_col_one_based_inc: int):
+        self._merges.append((start_row_one_based, start_col_one_based, end_row_one_based_inc, end_col_one_based_inc))
         return self
 
     def set_data(self, data: list[list[str]]):
@@ -296,7 +323,7 @@ class Table:
         self._bottom_padding = padding_in
         return self
 
-    def font_size(self, *args):
+    def font_size(self, *args) -> 'Table':
         if len(args) == 1:
             if self.current_cell_range is None:
                 raise ValueError("No cell range set")
@@ -482,7 +509,24 @@ class Table:
             lines.append(f'{self.obj_from_cell_range(cell_range)}.Range.Font.Size = {font_size}')
 
         for i, row in enumerate(self.data):
-            statements = [f'tbl.Cell({i+1}, {j+1}).Range.Text = {escape_string(cell)}' for j, cell in enumerate(row)]
+            statements = []
+            for j, cell in enumerate(row):
+                # If cell is str, then do Range.Text. If cell is list of TextRun, then print out the vba for those, else throw
+                if isinstance(cell, str):
+                    statements.append(f'tbl.Cell({i+1}, {j+1}).Range.Text = {escape_string(cell)}')
+                elif isinstance(cell, TextRun):
+                    # If cell is a TextRun, then we need to apply the text run properties
+                    statements.append(f'tbl.Cell({i+1}, {j+1}).Range.Select')
+                    statements.extend(cell.vba())
+                elif isinstance(cell, list):
+                    # If cell is a list of TextRun, then we need to apply each text run
+                    statements.append(f'tbl.Cell({i+1}, {j+1}).Range.Select')
+                    for text_run in cell:
+                        statements.extend(text_run.vba())
+                else:
+                    raise ValueError(f"Unsupported cell type: {type(cell).__name__}")
+
+            # statements = [f'tbl.Cell({i+1}, {j+1}).Range.Text = {escape_string(cell)}' for j, cell in enumerate(row)]
             joined = " : ".join(statements)
 
             # Too lazy to make this dynamic
