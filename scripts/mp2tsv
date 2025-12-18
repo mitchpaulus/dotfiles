@@ -37,7 +37,7 @@ def no_interpolate(filter_incomplete: bool):
     dates = set()
     data: dict[tuple[str, str], str] = {}
 
-    trends = []
+    trends = set([])
     current_trend = ""
     for line in sys.stdin:
         line = line.strip("\r\n")
@@ -45,7 +45,7 @@ def no_interpolate(filter_incomplete: bool):
 
         if len(splitline) == 1:
             current_trend = splitline[0]
-            trends.append(current_trend)
+            trends.add(current_trend)
         else:
             date = splitline[0]
             value = splitline[1]
