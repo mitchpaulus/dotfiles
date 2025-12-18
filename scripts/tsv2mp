@@ -8,6 +8,9 @@ def main():
 
     data = [line.split("\t") for line in sys.stdin.read().splitlines()]
 
+    if len(data) == 0:
+        return
+
     header_idx = 1
 
     while header_idx < len(data[0]):
