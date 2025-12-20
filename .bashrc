@@ -58,8 +58,12 @@ alias l='ls -CF'
 # shellcheck disable=SC1090
 if [ -f ~/.bash_aliases ]; then . ~/.bash_aliases; fi
 
-bind '"\C-p": history-search-backward'
-bind '"\C-n": history-search-forward'
+case $- in
+    *i*)
+        bind '"\C-p": history-search-backward'
+        bind '"\C-n": history-search-forward'
+        ;;
+esac
 
 getlast() {
     fc -ln "$1" "$1" | sed '1s/^[[:space:]]*//'
