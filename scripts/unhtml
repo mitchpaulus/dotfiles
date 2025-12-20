@@ -1,0 +1,7 @@
+#!/usr/bin/env -S uv run --script
+import sys
+from bs4 import BeautifulSoup
+
+html = sys.stdin.read()
+soup = BeautifulSoup(html, "html.parser")
+sys.stdout.write("" if soup is None else soup.get_text())
