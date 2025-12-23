@@ -22,6 +22,9 @@ dominant-baseline = auto | text-bottom | alphabetic | ideographic | middle | cen
 text-anchor = start | middle | end # x-align
 ```
 
+## Text
+
+Default font-size is 12.
 
 ## Rect
 
