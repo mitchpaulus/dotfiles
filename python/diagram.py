@@ -631,12 +631,32 @@ class Text:
         self._font_size = font_size
         return self
 
+    def xStart(self) -> 'Text':
+        self.xAnchor = "start"
+        return self
+
+    def xMiddle(self) -> 'Text':
+        self._xAnchor = "middle"
+        return self
+
+    def xEnd(self) -> 'Text':
+        self._xAnchor = "end"
+        return self
+
     def xAnchor(self, xAnchor: str) -> 'Text':
         self._xAnchor = xAnchor
         return self
 
     def yAnchor(self, yAnchor: str) -> 'Text':
         self._yAnchor = yAnchor
+        return self
+
+    def yAlignTop(self) -> 'Text':
+        self._yAnchor = "hanging"
+        return self
+
+    def yAlignMiddle(self) -> 'Text':
+        self._yAnchor = "middle"
         return self
 
     def to_vba(self):
