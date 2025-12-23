@@ -931,6 +931,17 @@ local function markdownMathBlocks()
     vim.cmd [[ hi link inlineMarkdownMath Statement ]]
 end
 
+local function mathmp_word_to_clipboard()
+    local line = vim.api.nvim_get_current_line() .. "\n"
+    local result = vim.system({ "MathMp", "--word" }, { stdin = line, text = true }):wait()
+    if result.code ~= 0 then
+        local err = result.stderr ~= "" and (": " .. result.stderr) or ""
+        vim.notify("MathMp --word failed" .. err, vim.log.levels.ERROR)
+        return
+    end
+    vim.fn.setreg("+", result.stdout)
+end
+
 filetype_autocmds_id = vim.api.nvim_create_augroup('filetype_autocmds', { clear = true })
 vim.api.nvim_create_augroup('MPEvents', { clear = true })
 
@@ -951,6 +962,13 @@ end
 vim.api.nvim_create_autocmd('FileType', { pattern = 'xlim', group = filetype_autocmds_id, callback = setup_xlimlsp })
 vim.api.nvim_create_autocmd('FileType', { pattern = 'mshell', group = filetype_autocmds_id, callback = setup_msh_lsp })
 vim.api.nvim_create_autocmd('FileType', { pattern = 'xlim', group = filetype_autocmds_id, callback = set_xlim_makeprg })
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'mathmp',
+    group = filetype_autocmds_id,
+    callback = function()
+        vim.keymap.set('n', '<leader>m', mathmp_word_to_clipboard, { buffer = true, silent = true })
+    end,
+})
 
 vim.api.nvim_create_autocmd('FileType', { pattern = 'antlr4', group = filetype_autocmds_id, command = 'nnoremap <localleader>c :!antlr4 %<CR>' })
 
@@ -1166,6 +1184,7 @@ bufEnterAutocmds = {
     { '*.har'    , 'set filetype=json' },
     { '*.ce'     , 'set filetype=ce' },
     { '*.maxima' , 'set filetype=maxima' },
+    { '*.mathmp' , 'set filetype=mathmp' },
     { '.gitignore', 'set filetype=conf' }, -- close enough
     { '.gitignore', 'inoremap ,dt :read !do-targets' },
     { '*.BAT', 'set filetype=dosbatch' }, -- Assume Windows Batch files
