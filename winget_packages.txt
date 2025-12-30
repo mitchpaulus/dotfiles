@@ -4,6 +4,7 @@ junegunn.fzf
 sharkdp.bat
 sharkdp.fd
 Git.Git
+gnuplot.gnuplot
 WinDirStat.WinDirStat
 OliverBetz.ExifTool
 hpjansson.Chafa
