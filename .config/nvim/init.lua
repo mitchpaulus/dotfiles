@@ -152,7 +152,7 @@ function setup_xlimlsp()
     vim.api.nvim_buf_set_keymap(0, 'n', '[d', '<Cmd>lua vim.diagnostic.goto_prev()<CR>', { noremap=true, silent=true })
     vim.api.nvim_buf_set_keymap(0, 'n', ']d', '<Cmd>lua vim.diagnostic.goto_next()<CR>', { noremap=true, silent=true })
     vim.api.nvim_buf_set_keymap(0, 'n', '<localleader>d', '<Cmd>lua vim.diagnostic.setqflist()<CR>', { noremap=true, silent=true })
-    vim.api.nvim_buf_set_keymap(0, 'n', 'gr', '<Cmd>lua vim.lsp.buf.references()<CR>', { noremap=true, silent=true })
+    -- 'gr' was goto references, but now there's a nvim default of grr, so now use that.
 end
 
 
