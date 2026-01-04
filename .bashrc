@@ -109,7 +109,7 @@ gn() {
 }
 
 # Go to dotfiles
-gd() { cd ~/dotfiles || return ; }
+gd() { cd "$DOTFILES" || return ; }
 
 wttr() { curl 'wttr.in/Dallas?format=%l:+%C+%t+%h+%w'; }
 
@@ -133,12 +133,19 @@ alias sb='source ~/.bashrc && printf ".bashrc reloaded.\n"'
 
 export EDITOR=nvim
 
-mkdir -p "$HOME"/dotfiles
-export DOTFILES="$HOME"/dotfiles
+# mkdir -p "$HOME"/dotfiles
+# export DOTFILES="$HOME"/dotfiles
 mkdir -p "$HOME"/repos
 export REPOS="$HOME"/repos
 mkdir -p "$HOME"/.local/bin
 export LOCALBIN="$HOME"/.local/bin
+
+# If $REPOS/dotfiles exists, use that
+if [ -d "$REPOS"/dotfiles ]; then
+    export DOTFILES="$REPOS"/dotfiles
+else
+    export DOTFILES="$HOME"/dotfiles
+fi
 
 if ! printf '%s' "$PYTHONPATH" | grep -q "$DOTFILES"/python; then
     if test -n "$PYTHONPATH"; then
@@ -243,6 +250,8 @@ if [[ -f ~/.host-bashrc ]]; then
     # shellcheck disable=SC1090
     source ~/.host-bashrc
 fi
+
+export MSHSTDLIB="$REPOS/mshell/lib/std.msh:$DOTFILES/.config/msh/init.msh"
 
 # I hate all these programs that have to automatically add lines to my configs. But alas, here they are.
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
