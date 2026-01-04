@@ -71,3 +71,37 @@ end
 def minPerDay (-- float) 1440 end
 
 hostname "prec3660-mp" = runtime "windows" = and ($"C:\\Program Files\\gnuplot\\bin;C:\\Program Files\\Java\\jdk-25\\bin;{$PATH};C:\\Program Files\\MySQL\\MySQL Workbench 8.0 CE;C:\\Program Files\\7-zip;{$LOCALAPPDATA}\\Microsoft\\WinGet\\Packages\\hpjansson.Chafa_Microsoft.Winget.Source_8wekyb3d8bbwe\\chafa-1.16.2-1-x86_64-win\\" $PATH!) iff
+
+def mshCompletion ([str] -- [str])
+    input!
+    ['-h' '--help' '--html' '--lex' '--parse' '--version' '-c'] options!
+    ['lsp' 'bin' 'completions'] subcommands!
+
+    @input len 0 >
+    (
+        @input :0: first!
+        @first 'lsp' =
+        ([]) # Nothing after lsp
+        (
+            @input :0: 'bin' =
+            (
+                ['add' 'remove' 'list' 'path' 'edit' 'audit' 'debug']
+            )
+            (
+                @input :0: 'completions' =
+                (
+                    ['fish' 'bash' 'nushell' 'elvish']
+                )
+                (
+                    []
+                ) iff
+            )
+            iff
+        )
+        iff
+    )
+    (
+        @options @subcommands extend
+    )
+    iff
+end
