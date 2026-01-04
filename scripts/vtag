@@ -1,0 +1,5 @@
+#!/usr/bin/env mshell
+# Create git tag used for versioning'
+['check_version' $1]!
+['git' 'tag' $1]!
+['git' 'push' '--tags' 'origin' $1]!
