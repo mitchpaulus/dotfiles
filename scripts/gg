@@ -3,6 +3,12 @@
 # 'gg' => goto github
 tempDir `gh_repos.txt` / repoFile!
 
-@repoFile isFile not ($"{@repoFile} not found. Usually made using\ngithub_repos > {@repoFile}\nor\n[github_repos] `{@repoFile}` >;" wle 1 exit) iff
+@repoFile isFile not
+(
+    $"Rebuilding gh_repos.txt.." wle
+    [github_repos_msh] @repoFile > !
+    # $"{@repoFile} not found. Usually made using\ngithub_repos > {@repoFile}\nor\n[github_repos] `{@repoFile}` >;" wle 1 exit
+)
+iff
 [fzf] @repoFile < *! trim repo!
 [wsl_url_open $"https://github.com/{@repo}"]!
