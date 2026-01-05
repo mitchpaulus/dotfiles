@@ -105,3 +105,14 @@ CREATE DATABASE mydb;
 CREATE USER myuser@'localhost' IDENTIFIED BY 'password'
 GRANT ALL PRIVILEGES ON mydb.* TO myuser@'%';
 ```
+
+# cnf locations on Windows
+
+```
+C:\WINDOWS\my.ini
+C:\WINDOWS\my.cnf
+C:\my.ini
+C:\my.cnf
+C:\Program Files\MySQL\my.ini
+C:\Program Files\MySQL\my.cnf
+```
