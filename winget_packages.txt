@@ -19,3 +19,4 @@ jqlang.jq
 astral-sh.ty
 Y2Z.Monolith
 infisical.infisical
+JesseDuffield.lazygit
