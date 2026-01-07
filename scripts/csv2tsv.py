@@ -1,0 +1,63 @@
+#!/usr/bin/env python3
+
+# Inspired by: https://unix.stackexchange.com/a/359838/296724
+# Why use python? Because I don't have time to deal with RFC 4180 subtlities
+# right now.
+#
+# Use with standard input or pass single file name (expected file is utf-8).
+#
+# csv2tsv < file.csv
+# program | csv2tsv
+# csv2tsv file.csv
+
+import csv
+import sys
+
+
+help_text = (
+"""csv2tsv
+
+USAGE: csv2tsv file
+
+This will take a CSV file, possibly formatted under RFC 4180, and turn it into
+a tab separated file.
+"""
+)
+
+if (any([ arg == "-h" or arg == "--help" for arg in sys.argv])):
+    print(help_text, end='')
+    sys.exit()
+
+
+def parse(csv_file):
+    reader = csv.reader(csv_file, dialect='excel')
+
+    for row in reader:
+        # The only two characters that matter here are newlines and tabs. Remove both.
+        new_rows = [field.replace("\n", "\\n").replace('\r', '\\r').replace("\t", "\\t") for field in row]
+        try:
+            print("\t".join(new_rows))
+        except BrokenPipeError:
+            sys.exit()
+
+if (len(sys.argv) > 1):
+    try:
+        with open(sys.argv[1], encoding="utf-8") as csv_file:
+            parse(csv_file)
+    except FileNotFoundError:
+        print(f"File '{sys.argv[1]}' not found.", file=sys.stderr)
+        sys.exit()
+    except UnicodeDecodeError:
+        # Try again with 'iso-8859-1' encoding
+        try:
+            with open(sys.argv[1], encoding="iso-8859-1") as csv_file:
+                parse(csv_file)
+        except UnicodeDecodeError:
+            print(f"File '{sys.argv[1]}' is not utf-8 or iso-8859-1 encoded.", file=sys.stderr)
+            sys.exit()
+        except FileNotFoundError:
+            print(f"File '{sys.argv[1]}' not found.", file=sys.stderr)
+            sys.exit()
+else:
+    csv_file = sys.stdin
+    parse(csv_file)

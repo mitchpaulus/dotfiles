@@ -1,23 +1,16 @@
 #!/usr/bin/env mshell
 
-[
-    (args len 0 =)
-    (
-        'Usage: influx_meas <bucket>' wl
-        0 exit
-    )
-] if
+args len 0 =
+('Usage: influx_meas <bucket>' wl 0 exit)
+iff
 
 args :0: bucket!
 
 [
-    'import "influxdata/influxdb/schema"' 
+    'import "influxdata/influxdb/schema"'
     'schema.measurements(bucket: "' @bucket + '")' +
 ] unlines query!
 
-[
-    [influx query -r @query]
-    [csv2tsv]
-] o | ;
+[influx query -r @query] * ! parseCsv
 
-4: (tsplit) map (len 3 >) filter (:3:) map uw
+4: (tsplit) map (len 3 >) filter (:3:) map tuw
