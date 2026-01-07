@@ -76,3 +76,7 @@ deleted file mode 100644
 ```
 
 on deletion of a file. (This is what diff2html looks for to determine deletions.)
+
+# Tabular Diff
+
+<https://specs.frictionlessdata.io/tabular-diff/#language>
