@@ -79,6 +79,10 @@ type TogglProjectPost struct {
     Active bool `json:"active"`
 }
 
+type TogglProjectPut struct {
+	Color string `json:"color"`
+}
+
 
 type TogglTimeEntryPost struct {
 
@@ -187,6 +191,7 @@ func main() {
 			fmt.Print(" toggl projects\n")
             fmt.Print(" toggl newproj [Project Name] [Client]\n")
 			fmt.Print(" toggl update_proj <Time Entry Id> <Project Id>\n")
+			fmt.Print(" toggl color <COLOR> <Project Name>\n")
             os.Exit(0)
         } else if os.Args[i] == "ts" {
             command = "ts"
@@ -415,7 +420,29 @@ func main() {
 			err = updateTimeEntryProject(int64(time_entry_id), int64(project_id), token)
 
 			if err != nil {
-				fmt.Fprintf(os.Stderr, err.Error())
+				fmt.Fprint(os.Stderr, err.Error())
+				os.Exit(1)
+			}
+
+			os.Exit(0)
+		} else if os.Args[i] == "color" {
+			// Update project color
+			if i + 2 >= len(os.Args) {
+				fmt.Fprintf(os.Stderr, "Missing color and project name\n")
+				os.Exit(1)
+			}
+
+			color := strings.TrimSpace(os.Args[i+1])
+			projectName := strings.TrimSpace(os.Args[i+2])
+
+			if !isValidHexColor(color) {
+				fmt.Fprintf(os.Stderr, "Invalid color: %s\n", os.Args[i+1])
+				os.Exit(1)
+			}
+
+			err := updateProjectColor(projectName, normalizeHexColor(color), token)
+			if err != nil {
+				fmt.Fprint(os.Stderr, err.Error())
 				os.Exit(1)
 			}
 
@@ -882,6 +909,32 @@ func getMe(token string) TogglMeGet {
     return t
 }
 
+func isValidHexColor(color string) bool {
+	if strings.HasPrefix(color, "#") {
+		color = color[1:]
+	}
+
+	if len(color) != 6 {
+		return false
+	}
+
+	for _, r := range color {
+		if !((r >= '0' && r <= '9') || (r >= 'a' && r <= 'f') || (r >= 'A' && r <= 'F')) {
+			return false
+		}
+	}
+
+	return true
+}
+
+func normalizeHexColor(color string) string {
+	if strings.HasPrefix(color, "#") {
+		color = color[1:]
+	}
+
+	return "#" + strings.ToLower(color)
+}
+
 func updateTimeEntryProject(timeEntryId int64, projectId int64, token string) error {
 	// PUT
 	// https://api.track.toggl.com/api/v9/workspaces/{workspace_id}/time_entries/{time_entry_id}
@@ -941,6 +994,58 @@ func updateTimeEntryProject(timeEntryId int64, projectId int64, token string) er
 	// Check the response code
 	if resp.StatusCode != 200 {
 		return fmt.Errorf("Error in PUT request for %d\n", timeEntryId)
+	}
+
+	return nil
+}
+
+func updateProjectColor(projectName string, color string, token string) error {
+	projects, err := get_projects(token)
+	if err != nil {
+		return err
+	}
+
+	var projectId int64
+	var workspaceId int64
+	for _, project := range projects {
+		if strings.EqualFold(project.Name, projectName) {
+			projectId = project.Id
+			workspaceId = project.WorkspaceId
+			break
+		}
+	}
+
+	if projectId == 0 {
+		return fmt.Errorf("Project %s not found\n", projectName)
+	}
+
+	putBody := TogglProjectPut{
+		Color: color,
+	}
+
+	putBytes, err := json.Marshal(putBody)
+	if err != nil {
+		return err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, fmt.Sprintf("https://api.track.toggl.com/api/v9/workspaces/%d/projects/%d", workspaceId, projectId), bytes.NewBuffer(putBytes))
+	if err != nil {
+		return err
+	}
+
+	req.Header.Set("Content-Type", "application/json; charset=utf-8")
+	req.SetBasicAuth(token, "api_token")
+
+	client := &http.Client{}
+	client.Timeout = 2 * time.Second
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+
+	defer resp.Body.Close()
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		return fmt.Errorf("Error in PUT request for %s. %s\n", projectName, resp.Status)
 	}
 
 	return nil
