@@ -190,8 +190,9 @@ func main() {
 			fmt.Print(" toggl post <Project Name> <Description> <year> <month> <day> <start hour> <start min> <end hour> <end min>\n")
 			fmt.Print(" toggl projects\n")
             fmt.Print(" toggl newproj [Project Name] [Client]\n")
-			fmt.Print(" toggl update_proj <Time Entry Id> <Project Id>\n")
-			fmt.Print(" toggl color <COLOR> <Project Name>\n")
+            fmt.Print(" toggl update proj <Time Entry Id> <Project Id>\n")
+            fmt.Print(" toggl update desc <Entry Id> <Description>\n")
+			fmt.Print(" toggl update color <COLOR> <Project Name>\n")
             os.Exit(0)
         } else if os.Args[i] == "ts" {
             command = "ts"
@@ -396,57 +397,86 @@ func main() {
         } else if os.Args[i] == "projects" {
             // Print all projects
             command = "projects"
-		} else if os.Args[i] == "update_proj" {
-			// Update the project for a time entry
-			// Check for time entry ID and project ID
-			if i + 2 >= len(os.Args) {
-				fmt.Fprintf(os.Stderr, "Missing time entry ID and project ID\n")
+		} else if os.Args[i] == "update" {
+			if i + 1 >= len(os.Args) {
+				fmt.Fprintf(os.Stderr, "Missing update subcommand\n")
 				os.Exit(1)
 			}
 
-			// Get the time entry ID and project ID
-			time_entry_id, err := strconv.Atoi(os.Args[i+1])
-			if err != nil {
-				fmt.Fprintf(os.Stderr, "Invalid time entry ID: %s\n", os.Args[i+1])
+			updateSubcommand := os.Args[i+1]
+			if updateSubcommand == "proj" {
+				// Update the project for a time entry
+				if i + 3 >= len(os.Args) {
+					fmt.Fprintf(os.Stderr, "Missing time entry ID and project ID\n")
+					os.Exit(1)
+				}
+
+				timeEntryId, err := strconv.Atoi(os.Args[i+2])
+				if err != nil {
+					fmt.Fprintf(os.Stderr, "Invalid time entry ID: %s\n", os.Args[i+2])
+					os.Exit(1)
+				}
+
+				projectId, err := strconv.Atoi(os.Args[i+3])
+				if err != nil {
+					fmt.Fprintf(os.Stderr, "Invalid project ID: %s\n", os.Args[i+3])
+					os.Exit(1)
+				}
+
+				err = updateTimeEntryProject(int64(timeEntryId), int64(projectId), token)
+				if err != nil {
+					fmt.Fprint(os.Stderr, err.Error())
+					os.Exit(1)
+				}
+
+				os.Exit(0)
+			} else if updateSubcommand == "desc" {
+				// Update the description for a time entry
+				if i + 3 >= len(os.Args) {
+					fmt.Fprintf(os.Stderr, "Missing time entry ID and description\n")
+					os.Exit(1)
+				}
+
+				timeEntryId, err := strconv.Atoi(os.Args[i+2])
+				if err != nil {
+					fmt.Fprintf(os.Stderr, "Invalid time entry ID: %s\n", os.Args[i+2])
+					os.Exit(1)
+				}
+
+				description := os.Args[i+3]
+				err = updateTimeEntryDescription(int64(timeEntryId), description, token)
+				if err != nil {
+					fmt.Fprint(os.Stderr, err.Error())
+					os.Exit(1)
+				}
+
+				os.Exit(0)
+			} else if updateSubcommand == "color" {
+				// Update project color
+				if i + 3 >= len(os.Args) {
+					fmt.Fprintf(os.Stderr, "Missing color and project name\n")
+					os.Exit(1)
+				}
+
+				color := strings.TrimSpace(os.Args[i+2])
+				projectName := strings.TrimSpace(os.Args[i+3])
+
+				if !isValidHexColor(color) {
+					fmt.Fprintf(os.Stderr, "Invalid color: %s\n", os.Args[i+2])
+					os.Exit(1)
+				}
+
+				err := updateProjectColor(projectName, normalizeHexColor(color), token)
+				if err != nil {
+					fmt.Fprint(os.Stderr, err.Error())
+					os.Exit(1)
+				}
+
+				os.Exit(0)
+			} else {
+				fmt.Fprintf(os.Stderr, "Unknown update subcommand: %s\n", updateSubcommand)
 				os.Exit(1)
 			}
-
-			project_id, err := strconv.Atoi(os.Args[i+2])
-			if err != nil {
-				fmt.Fprintf(os.Stderr, "Invalid project ID: %s\n", os.Args[i+2])
-				os.Exit(1)
-			}
-
-			err = updateTimeEntryProject(int64(time_entry_id), int64(project_id), token)
-
-			if err != nil {
-				fmt.Fprint(os.Stderr, err.Error())
-				os.Exit(1)
-			}
-
-			os.Exit(0)
-		} else if os.Args[i] == "color" {
-			// Update project color
-			if i + 2 >= len(os.Args) {
-				fmt.Fprintf(os.Stderr, "Missing color and project name\n")
-				os.Exit(1)
-			}
-
-			color := strings.TrimSpace(os.Args[i+1])
-			projectName := strings.TrimSpace(os.Args[i+2])
-
-			if !isValidHexColor(color) {
-				fmt.Fprintf(os.Stderr, "Invalid color: %s\n", os.Args[i+1])
-				os.Exit(1)
-			}
-
-			err := updateProjectColor(projectName, normalizeHexColor(color), token)
-			if err != nil {
-				fmt.Fprint(os.Stderr, err.Error())
-				os.Exit(1)
-			}
-
-			os.Exit(0)
         } else {
             // Print to stderr
             fmt.Fprintf(os.Stderr, "Unknown command: %s\n", os.Args[i])
@@ -992,6 +1022,63 @@ func updateTimeEntryProject(timeEntryId int64, projectId int64, token string) er
 	}
 
 	// Check the response code
+	if resp.StatusCode != 200 {
+		return fmt.Errorf("Error in PUT request for %d\n", timeEntryId)
+	}
+
+	return nil
+}
+
+func updateTimeEntryDescription(timeEntryId int64, description string, token string) error {
+	// GET
+	// https://api.track.toggl.com/api/v9/me/time_entries/{time_entry_id}
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("https://api.track.toggl.com/api/v9/me/time_entries/%d", timeEntryId), nil)
+	if err != nil {
+		return err
+	}
+
+	req.Header.Set("Content-Type", "application/json; charset=utf-8")
+	req.SetBasicAuth(token, "api_token")
+
+	client := &http.Client{}
+	client.Timeout = 2 * time.Second
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
+
+	var t TogglTimeEntry
+	err = json.Unmarshal(body, &t)
+	if err != nil {
+		return err
+	}
+
+	t.Description = description
+
+	putBytes, err := json.Marshal(t)
+	if err != nil {
+		return err
+	}
+
+	req, err = http.NewRequest(http.MethodPut, fmt.Sprintf("https://api.track.toggl.com/api/v9/workspaces/%d/time_entries/%d", t.WorkspaceID, t.ID), bytes.NewBuffer(putBytes))
+	if err != nil {
+		return err
+	}
+
+	req.Header.Set("Content-Type", "application/json; charset=utf-8")
+	req.SetBasicAuth(token, "api_token")
+
+	resp, err = client.Do(req)
+	if err != nil {
+		return err
+	}
+
 	if resp.StatusCode != 200 {
 		return fmt.Errorf("Error in PUT request for %d\n", timeEntryId)
 	}
