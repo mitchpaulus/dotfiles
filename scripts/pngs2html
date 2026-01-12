@@ -97,7 +97,12 @@ def grid_html(images, columns, embed_images):
 
 if __name__ == "__main__":
     if sys.stdin.isatty():
-        print("Usage: python pngs2html < LIST_OF_IMAGES > output.html")
+        print("Usage: python pngs2html OPTIONS.. < LIST_OF_IMAGES > output.html")
+        print("")
+        print("OPITONS:")
+        print("  -c <number>   Create a grid layout with the specified number of columns.")
+        print("  --embed       Embed images as base64 in the HTML (default is to link to images).")
+        print("  --base64      Alias for --embed.")
         sys.exit(1)
 
     grid = False
