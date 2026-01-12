@@ -13,6 +13,7 @@ class DateParser:
             '%Y-%m-%dT%H:%M:%S%z',
             '%Y-%m-%d %H:%M',
             '%Y-%m-%dT%H:%M',
+            '%Y-%m-%dT%H:%M:%S',
             '%Y-%m-%dT%H%M',
         ]
 
@@ -91,8 +92,9 @@ def main(filter_incomplete: bool, minute_interval: int, dt: bool):
     index = -1
 
     for line in sys.stdin:
-        line = line.strip()
-        splitline = line.split('\t')
+        splitline = [s.strip() for s in line.split('\t')]
+
+        #  line = line.strip()
 
         if len(splitline) == 1:
             # Search for all_data with the same name
@@ -114,7 +116,7 @@ def main(filter_incomplete: bool, minute_interval: int, dt: bool):
             if date is None:
                 raise Exception(f"Could not parse date: {splitline[0]}")
 
-            all_data[index][1].append((date, splitline[1]))
+            all_data[index][1].append((date, splitline[1].strip()))
             if date < min_date:
                 min_date = date
             if date > max_date:
