@@ -1,6 +1,18 @@
 #!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.13"
+# dependencies = [
+#     "beautifulsoup4",
+# ]
+# ///
 import sys
 from bs4 import BeautifulSoup
+
+# First check for help
+if len(sys.argv) > 1 and sys.argv[1] in ("-h", "--help"):
+    print("Usage: unhtml < input.html > output.txt")
+    print("This script reads HTML from standard input and outputs plain text.")
+    sys.exit(0)
 
 html = sys.stdin.read()
 soup = BeautifulSoup(html, "html.parser")
