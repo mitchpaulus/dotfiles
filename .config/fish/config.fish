@@ -141,6 +141,10 @@ if command -v exa >/dev/null 2>&1
     end
 end
 
+if command -q msh
+    msh completions fish | source
+end
+
 if command -q pyenv
     pyenv init --path - fish | source
 end
