@@ -8,7 +8,7 @@ def getItems (dict -- )
     (
         @request httpGet? response!
         @response "status" get? 200 != (
-            f"Non 200 response" wle
+            "Non 200 response" wle
             1 exit
         ) iff
         @response "body" get? utf8Str parseJson ("full_name" get? wl) each
