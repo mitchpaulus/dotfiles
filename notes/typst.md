@@ -28,6 +28,8 @@
 - List item 1
 - List item 2
 
+`code` in text.
+
 // Call a function.
 #list([A], [B])
 
