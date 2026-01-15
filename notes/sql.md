@@ -77,3 +77,11 @@ LIMIT or OFFSET / FETCH
 ```
 
 Smart Ferrets Juggle Watermelons; Geeks Hate Windows on Linux
+
+```
+SELECT
+  group_col,
+  COUNT(DISTINCT value_col) AS distinct_count
+FROM my_table
+GROUP BY group_col;
+```

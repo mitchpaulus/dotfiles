@@ -116,3 +116,19 @@ C:\my.cnf
 C:\Program Files\MySQL\my.ini
 C:\Program Files\MySQL\my.cnf
 ```
+
+# Dump schema
+
+```
+SELECT
+  TABLE_NAME,
+  COLUMN_NAME,
+  COLUMN_TYPE,
+  IS_NULLABLE,
+  COLUMN_DEFAULT,
+  COLUMN_KEY,
+  EXTRA
+FROM information_schema.COLUMNS
+WHERE TABLE_SCHEMA = 'MyTable'
+ORDER BY TABLE_NAME, ORDINAL_POSITION;
+```
