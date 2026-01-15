@@ -17,8 +17,10 @@ args :0: input-xlsx-param!
 [wslpath -a -w @local-appdata "/xlsx2pdf/xlsx2pdf.ps1" +] os; script-path!
 
 args len 2 >
- ([powershell.exe -File @script-path @input-xlsx args :2:];)
- ([powershell.exe -File @script-path @input-xlsx];)
+ # ([powershell.exe -File @script-path @input-xlsx args :2:];)
+ # ([powershell.exe -File @script-path @input-xlsx];)
+ ([xlsx2pdf.exe @input-xlsx args :2:];)
+ ([xlsx2pdf.exe @input-xlsx];)
 iff
 
 # Move %TMP%/xlsx.pdf to the output location.
