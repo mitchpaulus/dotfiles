@@ -70,7 +70,18 @@ end
 
 def minPerDay (-- float) 1440 end
 
-hostname "prec3660-mp" = runtime "windows" = and ($"{$USERPROFILE}\\.local\\bin;C:\\Program Files\\gnuplot\\bin;C:\\Program Files\\Java\\jdk-25\\bin;{$PATH};C:\\Program Files\\MySQL\\MySQL Workbench 8.0 CE;C:\\Program Files\\7-zip;{$LOCALAPPDATA}\\Microsoft\\WinGet\\Packages\\hpjansson.Chafa_Microsoft.Winget.Source_8wekyb3d8bbwe\\chafa-1.16.2-1-x86_64-win\\" $PATH!) iff
+hostname "prec3660-mp" = runtime "windows" = and if
+    [
+        $"{$USERPROFILE}\\.local\\bin"
+        "C:\\Program Files\\gnuplot\\bin"
+        "C:\\Program Files\\Java\\jdk-25\\bin"
+        "C:\\Program Files\\MySQL\\MySQL Workbench 8.0 CE"
+        "C:\\Program Files\\7-zip"
+        $"{$LOCALAPPDATA}\\Microsoft\\WinGet\\Packages\\hpjansson.Chafa_Microsoft.Winget.Source_8wekyb3d8bbwe\\chafa-1.16.2-1-x86_64-win"
+        'C:\Users\mpaulus\repos\excelchop\excelchop\bin\Debug\net9.0'
+        $PATH
+    ] ';' join $PATH!
+end
 
 def mshCompletion ([str] -- [str])
     input!

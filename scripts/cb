@@ -1,17 +1,17 @@
 #!/usr/bin/env mshell
 
-args (a! @a '-h' = @a '--help' = or) any
-('cb - Put clipboard contents to standard output
+args (a! @a '-h' = @a '--help' = or) any if
+'cb - Put clipboard contents to standard output
 
 USAGE: cb' wl
 0 exit
-) iff
+end
 
-$WSL_DISTRO_NAME? "windows" runtime = or
-    ( [powershell.exe Get-Clipboard] * !
+$WSL_DISTRO_NAME? "windows" runtime = or if
+     ['powershell.exe' 'Get-Clipboard'] * !
       "\r" "" findReplace
       # '\n$' '' reReplace
       w
-    )
-    ( [xclip -o -selection clipboard] * ! w )
-iff
+else
+     [xclip -o -selection clipboard] * ! w
+end
