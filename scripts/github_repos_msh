@@ -1,7 +1,7 @@
 #!/usr/bin/env mshell
 
-$GITHUB_PAT_LINK? not ("$GITHUB_PAT_LINK not set" wle 1 exit)
-$GITHUB_PAT_LINK_CCLLC? not ("$GITHUB_PAT_LINK_CCLLC not set" wle 1 exit)
+$GITHUB_PAT_LINK? not if "$GITHUB_PAT_LINK not set" wle 1 exit end
+$GITHUB_PAT_LINK_CCLLC? not if "$GITHUB_PAT_LINK_CCLLC not set" wle 1 exit end
 
 def getItems (dict -- )
     request!
