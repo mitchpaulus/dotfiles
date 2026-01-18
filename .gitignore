@@ -13,6 +13,8 @@ tmp/
 
 .config/fish/completions/CCLLCParser.exe.fish
 
+.config/fish/conf.d/rustup.fish
+
 notes/*.pdf
 notes/doe2.png
 notes/*.docx
