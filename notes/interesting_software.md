@@ -362,3 +362,5 @@ Contact management software. Can self-host.
 [kmonad](https://github.com/kmonad/kmonad) Keyboard manager
 
 [mlsql - AI for generating SQL queries](https://github.com/paulfitz/mlsql)
+
+[excalidraw](https://excalidraw.com/)

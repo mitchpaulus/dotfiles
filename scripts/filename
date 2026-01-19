@@ -1,2 +1,2 @@
-#!/usr/bin/awk -E
-BEGIN { FS="/" } { print $NF }
+#!/usr/bin/env mshell
+stdin trim basename wl

@@ -1,15 +1,14 @@
 #!/usr/bin/env mshell
 
-args (a! @a '-h' = @a '--help' =) any
-(
-'csv2tsv
+args (a! @a '-h' = @a '--help' = or) any if
+    'csv2tsv
 
-USAGE: csv2tsv file
+    USAGE: csv2tsv file
 
-This will take a CSV file, possibly formatted under RFC 4180, and turn it into
-a tab separated file.' wl
-0 exit
-) iff
+    This will take a CSV file, possibly formatted under RFC 4180, and turn it into
+    a tab separated file.' wl
+    0 exit
+end
 
 args len 1 > ('Expected only a single argument' wle 1 exit) iff
-args len 1 = ($1 readFile) (stdin) iff parseCsv ((tab '\t' findReplace "\n" '\n' findReplace) map) map tuw
+args len 1 = if $1 readFile else stdin end parseCsv ((tab '\t' findReplace "\n" '\n' findReplace) map) map tuw

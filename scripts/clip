@@ -1,20 +1,8 @@
 #!/usr/bin/env mshell
-$WSL_DISTRO_NAME?
-(['wsl_clip']!)
-(
-    $WAYLAND_DISPLAY?
-    (['wl-copy']!)
-    (['xclip' '-selection' 'clipboard']!)
-    iff
-)
-iff
-
-# #!/bin/sh
-
-# # Meant to be cross-platform copy to clipboard
-# if test -n "$WSL_DISTRO_NAME"; then
-    # wsl_clip
-# else
-    # # Use xclip.
-    # xclip -selection clipboard
-# fi
+$WSL_DISTRO_NAME? if
+    ['wsl_clip']!
+else* $WAYLAND_DISPLAY? *if
+    ['wl-copy']! # Need wl-clipboard package sometimes.
+else
+    ['xclip' '-selection' 'clipboard']!
+end

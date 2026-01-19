@@ -1,4 +1,3 @@
-#!/bin/sh
-
-# Implementation of string contains
-printf 'NOT(ISERROR(SEARCH("%s", %s)))' "$1" "$2"
+#!/usr/bin/env mshell
+# Implementation of string contains in Excel
+$"NOT(ISERROR(SEARCH(\"{$1}\", {$2})))" wl
