@@ -1,25 +1,22 @@
 #!/usr/bin/env mshell
 $REPOS? not ("REPOS environment variable not set" wl 1 exit) iff
-$"Refreshing {@REPOS}" wle
-
+$"Refreshing {$REPOS}" wle
 
 def process-repo (--)
-    dir! @dir cd
-    $"Fetching {pwd}.." wle
-    [git fetch --prune]?
-        (
-            # Check if git status --porcelain is empty
-            [git status --porcelain]?
-                (
-                    $"Refreshing {@dir}.." wle
-                    [git merge --ff-only];
-                ) # Clean
-                ($"Skipping {@dir}.." wle) # Not clean
-            iff
-        )
-        ("Could not fetch repo, maybe internet or bad remote?" wle)
-    iff
-
+    absPath dir!
+    $"Fetching {@dir}.." wle
+    [git -C @dir fetch --prune]? if
+        # Check if git status --porcelain is empty
+        [git -C @dir status --porcelain]? if
+            # Clean
+            $"Refreshing {@dir}.." wle
+            [git -C @dir merge --ff-only];
+        else
+            $"Skipping {@dir}.." wle # Not clean
+        end
+    else
+        "Could not fetch repo, maybe internet or bad remote?" wle
+    end
 end
 
-@REPOS lsDir (isDir) filter (process-repo) each
+$REPOS lsDir (isDir) filter (process-repo) each
