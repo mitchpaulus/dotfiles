@@ -14,6 +14,26 @@
     - Copy license file
 - Usually add the following `start.sh` file to the `bin` directory:
 
+## Setting up SkySpark service
+
+<https://skyfoundry.com/doc/docTraining/SetupLinuxService>
+
+Example service file in the video.
+
+```
+[Unit]
+Description=SkySpark
+After=network.target
+
+[Service]
+User=skyspark
+WorkingDirectory=/home/skyspark/skyspark-3.0.11
+ExecStart=/home/skyspark/skyspark-3.0.11
+
+[Install]
+WantedBy=multi-user.target
+```
+
 ```
 #!/bin/sh
 ./skyspark >stdout.log 2> stderr.log &

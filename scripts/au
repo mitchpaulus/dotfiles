@@ -1,23 +1,5 @@
 #!/usr/bin/env mshell
-runtime "windows" =
-(
-    "Windows not handled yet." wle 1 exit
-    # ['fd' '-t' 'f' 'updatecorrections.sh"]
-)
-(
-    [
-    'find'
-    ~/.local/share/nvim/plugged/
-    ~/.config/nvim/plugged/autocorrect.vim/
-    ~/.config/nvim/pack/mp/start/autocorrect.vim
-    -type 'f' -name "updatecorrections.sh"
-    ] * nullDevice 2> ; lines
-)
-iff
-
-dup len 0 >
-(
-    :0: [] append ; # Execute first file found
-)
-("Did not find autocorrect.vim/updatecorrections.sh" wl 1 exit)
-iff
+$REPOS? not ($"REPOS env not defined" wle 1 exit) iff
+$REPOS toPath `autocorrect.vim` / `updatecorrections.msh` / script!
+@script isFile not ($"Could not find '{@script}'" wle) iff
+[msh @script]!
