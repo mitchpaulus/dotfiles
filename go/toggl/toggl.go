@@ -326,7 +326,6 @@ func main() {
 			cstLocation, err := time.LoadLocation("America/Chicago")
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "Error loading time zone: %v\n", err)
-				fmt.Fprintf(os.Stderr, toggl_err)
 				os.Exit(1)
 			}
 
@@ -362,7 +361,7 @@ func main() {
             // Check whether the project name already exists
             projects, err := get_projects(token)
             if err != nil {
-                fmt.Fprintf(os.Stderr, toggl_err)
+				fmt.Fprintf(os.Stderr, "Failed to get toggl projects.\n")
                 os.Exit(1)
             }
 
@@ -388,7 +387,7 @@ func main() {
 
             err = PostProject(TogglProjectPost, token)
             if err != nil {
-                fmt.Fprintf(os.Stderr, toggl_err)
+				fmt.Fprintf(os.Stderr, "Failed to create project: %s\n", err.Error())
                 os.Exit(1)
             }
 
@@ -521,7 +520,7 @@ func main() {
         // Print the projects to stdout
         for _, project := range projects {
 			line := fmt.Sprintf("%d\t%s\n", project.Id, project.Name)
-			fmt.Printf(line)
+			fmt.Print(line)
         }
     }
 
@@ -629,6 +628,7 @@ func main() {
 
         // Check the response code
         if resp.StatusCode != 200 {
+            fmt.Fprintf(os.Stderr, "HTTP %s\n", resp.Status)
             fmt.Fprintf(os.Stderr, toggl_err)
             os.Exit(1)
         }
@@ -774,7 +774,7 @@ func main() {
                                 local_start.Format("3:04 PM"),
                                 local_stop.Format("3:04 PM")}
 
-            fmt.Printf(strings.Join(fields, "\t") + "\n")
+            fmt.Print(strings.Join(fields, "\t") + "\n")
         }
     }
 }
@@ -896,7 +896,7 @@ func PostProject(project TogglProjectPost, token string) error {
             return fmt.Errorf("Could not read response body for %s\n", project.Name)
         }
 
-        return fmt.Errorf("Error in POST request for %s. Reason: %s\n", project.Name, body)
+        return fmt.Errorf("Error in POST request for %s. HTTP %s. Reason: %s\n", project.Name, resp.Status, body)
     }
 
     return nil
@@ -940,9 +940,7 @@ func getMe(token string) TogglMeGet {
 }
 
 func isValidHexColor(color string) bool {
-	if strings.HasPrefix(color, "#") {
-		color = color[1:]
-	}
+	strings.TrimPrefix(color, "#")
 
 	if len(color) != 6 {
 		return false
@@ -958,10 +956,7 @@ func isValidHexColor(color string) bool {
 }
 
 func normalizeHexColor(color string) string {
-	if strings.HasPrefix(color, "#") {
-		color = color[1:]
-	}
-
+	strings.TrimPrefix(color, "#")
 	return "#" + strings.ToLower(color)
 }
 
@@ -1023,7 +1018,7 @@ func updateTimeEntryProject(timeEntryId int64, projectId int64, token string) er
 
 	// Check the response code
 	if resp.StatusCode != 200 {
-		return fmt.Errorf("Error in PUT request for %d\n", timeEntryId)
+		return fmt.Errorf("Error in PUT request for %d. HTTP %s\n", timeEntryId, resp.Status)
 	}
 
 	return nil
@@ -1080,7 +1075,7 @@ func updateTimeEntryDescription(timeEntryId int64, description string, token str
 	}
 
 	if resp.StatusCode != 200 {
-		return fmt.Errorf("Error in PUT request for %d\n", timeEntryId)
+		return fmt.Errorf("Error in PUT request for %d. HTTP %s\n", timeEntryId, resp.Status)
 	}
 
 	return nil
@@ -1132,7 +1127,7 @@ func updateProjectColor(projectName string, color string, token string) error {
 
 	defer resp.Body.Close()
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		return fmt.Errorf("Error in PUT request for %s. %s\n", projectName, resp.Status)
+		return fmt.Errorf("Error in PUT request for %s. HTTP %s\n", projectName, resp.Status)
 	}
 
 	return nil
@@ -1214,7 +1209,7 @@ func startTimer(projectName string, description string, token string)  {
 
     // Check the response code
     if resp.StatusCode != 200 {
-        fmt.Fprintf(os.Stderr, "Error in POST request for %s\n", projectName)
+        fmt.Fprintf(os.Stderr, "Error in POST request for %s. HTTP %s\n", projectName, resp.Status)
         fmt.Fprintf(os.Stderr, toggl_err)
         os.Exit(1)
     }
@@ -1293,14 +1288,12 @@ func addTimeEntry(projectName string, description string, startTime time.Time, e
 
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error in marshalling TogglProjectPost\n")
-        fmt.Fprintf(os.Stderr, toggl_err)
         os.Exit(1)
     }
 
     req, err := http.NewRequest(http.MethodPost, fmt.Sprintf("https://api.track.toggl.com/api/v9/workspaces/%d/time_entries", workspaceId), bytes.NewBuffer(postBytes))
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error in building new request.\n")
-        fmt.Fprintf(os.Stderr, toggl_err)
         os.Exit(1)
     }
 
@@ -1311,14 +1304,12 @@ func addTimeEntry(projectName string, description string, startTime time.Time, e
     resp, err := client.Do(req)
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error in POST request for %s. %s\n", projectName, err)
-        fmt.Fprintf(os.Stderr, toggl_err)
         os.Exit(1)
     }
 
     // Check the response code
     if resp.StatusCode != 200 {
-        fmt.Fprintf(os.Stderr, "Error in POST request for %s. %s\n", projectName, resp.Status)
-        fmt.Fprintf(os.Stderr, toggl_err)
+        fmt.Fprintf(os.Stderr, "Error in POST request for %s. HTTP %s\n", projectName, resp.Status)
         os.Exit(1)
     }
 }
