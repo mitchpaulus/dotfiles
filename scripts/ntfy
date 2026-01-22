@@ -1,14 +1,11 @@
 #!/usr/bin/env mshell
 args len 0 = ('No args provided' wl 1 exit) iff
 
-args :0: 'in' =
-(
+args :0: 'in' = if
     args :1: delay!
     args 2: ' ' join message!
-    [curl '-H' $"In: {@delay}" '-H' 'p:4' '-d' @message $NTFY_URL];
-)
-(
+    { 'url': $NTFY_URL, 'headers': { 'In': @delay, 'p': 4 }, 'body': @message } httpPost?:body? utf8Str we
+else
     args ' ' join message!
-    [curl '-H' 'p:4' '-d' @message $NTFY_URL];
-)
-iff
+    { 'url': $NTFY_URL, 'headers': { 'p': 4 }, 'body': @message } httpPost?:body? utf8Str we
+end
