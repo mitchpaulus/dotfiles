@@ -257,7 +257,7 @@ function lookup_and_open_pdf()
   end
 
   -- Path to your tab-separated bookmarks file; update this as needed.
-  local file_path = "/mnt/c/EnergyPlusV24-2-0/Documentation/ep_bookmarks.tsv"
+  local file_path = "/mnt/c/EnergyPlusV25-2-0/Documentation/ep_bookmarks.tsv"
   local bookmark_page = nil
 
   -- Open the bookmarks file for reading.
@@ -289,7 +289,7 @@ function lookup_and_open_pdf()
       "SumatraPDF.exe",
       "-page", bookmark_page,
       "-reuse-instance",
-      "C:\\EnergyPlusV24-2-0\\Documentation\\InputOutputReference.pdf"
+      "C:\\EnergyPlusV25-2-0\\Documentation\\InputOutputReference.pdf"
     }
     -- Start the process in the background (fire-and-forget).
     vim.system(args, {detach = true})
