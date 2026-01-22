@@ -15,9 +15,6 @@ import (
 	_ "time/tzdata"
 )
 
-const toggl_err = `Toggl API error`
-
-
 type TogglTimeEntry struct {
     ID                int64      `json:"id"`
     WorkspaceID       int64      `json:"workspace_id"`
@@ -493,7 +490,7 @@ func main() {
 
         workspaces, err := getWorkspaces(token)
         if err != nil {
-            fmt.Fprintf(os.Stderr, toggl_err)
+            fmt.Fprintf(os.Stderr, "Error getting workspaces: %v\n", err)
             os.Exit(1)
         }
 
@@ -513,7 +510,7 @@ func main() {
         // Get the projects for the current user
         projects, err := get_projects(token)
         if err != nil {
-            fmt.Fprintf(os.Stderr, toggl_err)
+            fmt.Fprintf(os.Stderr, "Error getting projects: %v\n", err)
             os.Exit(1)
         }
 
@@ -546,7 +543,7 @@ func main() {
     req, err := http.NewRequest(http.MethodGet, "https://api.track.toggl.com/api/v9/me/time_entries/current", nil)
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error in building new request.\n")
-        fmt.Fprintf(os.Stderr, toggl_err)
+        fmt.Fprintf(os.Stderr, "Request: /me/time_entries/current\n")
         os.Exit(1)
     }
     req.Header.Set("Content-Type", "application/json; charset=utf-8")
@@ -557,7 +554,7 @@ func main() {
     resp, err := client.Do(req)
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error in client.Do '%v'\n", err)
-        fmt.Fprintf(os.Stderr, toggl_err)
+        fmt.Fprintf(os.Stderr, "Request: /me/time_entries/current\n")
         os.Exit(1)
     }
 
@@ -565,7 +562,13 @@ func main() {
     body, err := io.ReadAll(resp.Body)
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error in reading body '%v'\n", err)
-        fmt.Fprintf(os.Stderr, toggl_err)
+        fmt.Fprintf(os.Stderr, "Request: /me/time_entries/current\n")
+        os.Exit(1)
+    }
+
+    if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+        fmt.Fprintf(os.Stderr, "HTTP %s\n", resp.Status)
+        fmt.Fprintf(os.Stderr, "Reason: %s\n", httpReason(body))
         os.Exit(1)
     }
 
@@ -582,7 +585,7 @@ func main() {
         err = json.Unmarshal(body, &t)
         if err != nil {
             // Print to sdterr
-            fmt.Fprintf(os.Stderr, toggl_err)
+            fmt.Fprintf(os.Stderr, "Error in parsing current time entry response: %v\n", err)
             os.Exit(1)
         }
 
@@ -604,7 +607,7 @@ func main() {
         err = json.Unmarshal(body, &t)
         if err != nil {
             // Print to sdterr
-            fmt.Fprintf(os.Stderr, toggl_err)
+            fmt.Fprintf(os.Stderr, "Error in parsing current time entry response: %v\n", err)
             os.Exit(1)
         }
 
@@ -612,7 +615,7 @@ func main() {
         // https://api.track.toggl.com/api/v9/workspaces/{workspace_id}/time_entries/{time_entry_id}/stop
         req, err := http.NewRequest(http.MethodPatch, fmt.Sprintf("https://api.track.toggl.com/api/v9/workspaces/%d/time_entries/%d/stop", t.WorkspaceID, t.ID), nil)
         if err != nil {
-            fmt.Fprintf(os.Stderr, toggl_err)
+            fmt.Fprintf(os.Stderr, "Error in building stop request for time entry %d: %v\n", t.ID, err)
             os.Exit(1)
         }
         req.Header.Set("Content-Type", "application/json; charset=utf-8")
@@ -622,14 +625,20 @@ func main() {
 		client.Timeout = 2 * time.Second
         resp, err := client.Do(req)
         if err != nil {
-            fmt.Fprintf(os.Stderr, toggl_err)
+            fmt.Fprintf(os.Stderr, "Error stopping time entry %d: %v\n", t.ID, err)
             os.Exit(1)
         }
+        defer resp.Body.Close()
 
         // Check the response code
         if resp.StatusCode != 200 {
             fmt.Fprintf(os.Stderr, "HTTP %s\n", resp.Status)
-            fmt.Fprintf(os.Stderr, toggl_err)
+            body, err := io.ReadAll(resp.Body)
+            if err != nil {
+                fmt.Fprintf(os.Stderr, "Error in reading body '%v'\n", err)
+                os.Exit(1)
+            }
+            fmt.Fprintf(os.Stderr, "Reason: %s\n", httpReason(body))
             os.Exit(1)
         }
     } else if command == "ts" {
@@ -682,7 +691,7 @@ func main() {
         // Get the time entries for the current billing period
         req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("https://api.track.toggl.com/api/v9/me/time_entries?start_date=%s&end_date=%s", start_date, end_date), nil)
         if err != nil {
-            fmt.Fprintf(os.Stderr, toggl_err)
+            fmt.Fprintf(os.Stderr, "Error in building time entries request for %s to %s: %v\n", start_date, end_date, err)
             os.Exit(1)
         }
 
@@ -693,14 +702,20 @@ func main() {
 		client.Timeout = 2 * time.Second
         resp, err := client.Do(req)
         if err != nil {
-            fmt.Fprintf(os.Stderr, toggl_err)
+            fmt.Fprintf(os.Stderr, "Error in fetching time entries for %s to %s: %v\n", start_date, end_date, err)
             os.Exit(1)
         }
 
         defer resp.Body.Close()
         body, err := io.ReadAll(resp.Body)
         if err != nil {
-            fmt.Fprintf(os.Stderr, toggl_err)
+            fmt.Fprintf(os.Stderr, "Error in reading time entries response body '%v'\n", err)
+            os.Exit(1)
+        }
+
+        if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+            fmt.Fprintf(os.Stderr, "HTTP %s\n", resp.Status)
+            fmt.Fprintf(os.Stderr, "Reason: %s\n", httpReason(body))
             os.Exit(1)
         }
 
@@ -709,21 +724,21 @@ func main() {
         err = json.Unmarshal(body, &t)
         if err != nil {
             // Print to sdterr
-            fmt.Fprintf(os.Stderr, toggl_err)
+            fmt.Fprintf(os.Stderr, "Error in parsing time entries response: %v\n", err)
             os.Exit(1)
         }
 
         // Load Central Time Zone
         loc, err := time.LoadLocation("America/Chicago")
         if err != nil {
-            fmt.Fprintf(os.Stderr, toggl_err)
+            fmt.Fprintf(os.Stderr, "Error loading time zone: %v\n", err)
             os.Exit(1)
         }
 
         projects, err := get_projects(token)
         // project_map, err := get_projects(token)
         if err != nil {
-            fmt.Fprintf(os.Stderr, toggl_err)
+            fmt.Fprintf(os.Stderr, "Error getting projects for time entries: %v\n", err)
             os.Exit(1)
         }
 
@@ -803,6 +818,10 @@ func get_projects(token string) ([]TogglProject, error) {
         return nil, err
     }
 
+    if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+        return nil, fmt.Errorf("Error in GET request for projects. HTTP %s\nReason: %s\n", resp.Status, httpReason(body))
+    }
+
     body_text := string(body)
 
     // Parse as slice of TooglProject
@@ -836,6 +855,10 @@ func getWorkspaces(token string) ([]TogglWorkspace, error) {
     body, err := io.ReadAll(resp.Body)
     if err != nil {
         return nil, err
+    }
+
+    if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+        return nil, fmt.Errorf("Error in GET request for workspaces. HTTP %s\nReason: %s\n", resp.Status, httpReason(body))
     }
 
     // Parse as slice of TogglWorkspace
@@ -928,6 +951,12 @@ func getMe(token string) TogglMeGet {
         os.Exit(1)
     }
 
+    if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+        fmt.Fprintf(os.Stderr, "HTTP %s\n", resp.Status)
+        fmt.Fprintf(os.Stderr, "Reason: %s\n", httpReason(body))
+        os.Exit(1)
+    }
+
     // Parse as TogglMeGet
     var t TogglMeGet
     err = json.Unmarshal(body, &t)
@@ -986,6 +1015,10 @@ func updateTimeEntryProject(timeEntryId int64, projectId int64, token string) er
 		return err
 	}
 
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		return fmt.Errorf("Error in GET request for %d. HTTP %s\nReason: %s\n", timeEntryId, resp.Status, httpReason(body))
+	}
+
 	// Parse as TooglTimeEntry
 	var t TogglTimeEntry
 	err = json.Unmarshal(body, &t)
@@ -1015,10 +1048,15 @@ func updateTimeEntryProject(timeEntryId int64, projectId int64, token string) er
 	if err != nil {
 		return err
 	}
+	defer resp.Body.Close()
 
 	// Check the response code
 	if resp.StatusCode != 200 {
-		return fmt.Errorf("Error in PUT request for %d. HTTP %s\n", timeEntryId, resp.Status)
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return fmt.Errorf("Error in PUT request for %d. HTTP %s\nReason: Could not read response body: %v\n", timeEntryId, resp.Status, err)
+		}
+		return fmt.Errorf("Error in PUT request for %d. HTTP %s\nReason: %s\n", timeEntryId, resp.Status, httpReason(body))
 	}
 
 	return nil
@@ -1048,6 +1086,10 @@ func updateTimeEntryDescription(timeEntryId int64, description string, token str
 		return err
 	}
 
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		return fmt.Errorf("Error in GET request for %d. HTTP %s\nReason: %s\n", timeEntryId, resp.Status, httpReason(body))
+	}
+
 	var t TogglTimeEntry
 	err = json.Unmarshal(body, &t)
 	if err != nil {
@@ -1073,9 +1115,14 @@ func updateTimeEntryDescription(timeEntryId int64, description string, token str
 	if err != nil {
 		return err
 	}
+	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
-		return fmt.Errorf("Error in PUT request for %d. HTTP %s\n", timeEntryId, resp.Status)
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return fmt.Errorf("Error in PUT request for %d. HTTP %s\nReason: Could not read response body: %v\n", timeEntryId, resp.Status, err)
+		}
+		return fmt.Errorf("Error in PUT request for %d. HTTP %s\nReason: %s\n", timeEntryId, resp.Status, httpReason(body))
 	}
 
 	return nil
@@ -1127,7 +1174,11 @@ func updateProjectColor(projectName string, color string, token string) error {
 
 	defer resp.Body.Close()
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		return fmt.Errorf("Error in PUT request for %s. HTTP %s\n", projectName, resp.Status)
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return fmt.Errorf("Error in PUT request for %s. HTTP %s\nReason: Could not read response body: %v\n", projectName, resp.Status, err)
+		}
+		return fmt.Errorf("Error in PUT request for %s. HTTP %s\nReason: %s\n", projectName, resp.Status, httpReason(body))
 	}
 
 	return nil
@@ -1137,7 +1188,7 @@ func startTimer(projectName string, description string, token string)  {
     // Look for project with name "projectName", case-insensitive
     projects, err := get_projects(token)
     if err != nil {
-        fmt.Fprintf(os.Stderr, toggl_err)
+        fmt.Fprintf(os.Stderr, "Error getting projects: %v\n", err)
         os.Exit(1)
     }
 
@@ -1185,14 +1236,14 @@ func startTimer(projectName string, description string, token string)  {
     postBytes, err := json.Marshal(TogglProjectPost)
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error in marshalling TogglProjectPost\n")
-        fmt.Fprintf(os.Stderr, toggl_err)
+        fmt.Fprintf(os.Stderr, "Marshal error: %v\n", err)
         os.Exit(1)
     }
 
     req, err := http.NewRequest(http.MethodPost, fmt.Sprintf("https://api.track.toggl.com/api/v9/workspaces/%d/time_entries", workspaceId), bytes.NewBuffer(postBytes))
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error in building new request.\n")
-        fmt.Fprintf(os.Stderr, toggl_err)
+        fmt.Fprintf(os.Stderr, "Request: start timer for %s\n", projectName)
         os.Exit(1)
     }
 
@@ -1203,14 +1254,20 @@ func startTimer(projectName string, description string, token string)  {
     resp, err := client.Do(req)
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error in POST request for %s\n", projectName)
-        fmt.Fprintf(os.Stderr, toggl_err)
+        fmt.Fprintf(os.Stderr, "Request failed: %v\n", err)
         os.Exit(1)
     }
+    defer resp.Body.Close()
 
     // Check the response code
     if resp.StatusCode != 200 {
         fmt.Fprintf(os.Stderr, "Error in POST request for %s. HTTP %s\n", projectName, resp.Status)
-        fmt.Fprintf(os.Stderr, toggl_err)
+        body, err := io.ReadAll(resp.Body)
+        if err != nil {
+            fmt.Fprintf(os.Stderr, "Error in reading body '%v'\n", err)
+            os.Exit(1)
+        }
+        fmt.Fprintf(os.Stderr, "Reason: %s\n", httpReason(body))
         os.Exit(1)
     }
 }
@@ -1223,7 +1280,7 @@ func addTimeEntry(projectName string, description string, startTime time.Time, e
 		// Look for project with name "projectName", case-insensitive
 		projects, err := get_projects(token)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, toggl_err)
+			fmt.Fprintf(os.Stderr, "Error getting projects: %v\n", err)
 			os.Exit(1)
 		}
 
@@ -1301,15 +1358,30 @@ func addTimeEntry(projectName string, description string, startTime time.Time, e
     req.SetBasicAuth(token, "api_token")
 
     client := &http.Client{}
-    resp, err := client.Do(req)
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error in POST request for %s. %s\n", projectName, err)
-        os.Exit(1)
-    }
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error in POST request for %s. %s\n", projectName, err)
+		os.Exit(1)
+	}
+	defer resp.Body.Close()
 
-    // Check the response code
-    if resp.StatusCode != 200 {
-        fmt.Fprintf(os.Stderr, "Error in POST request for %s. HTTP %s\n", projectName, resp.Status)
-        os.Exit(1)
-    }
+	// Check the response code
+	if resp.StatusCode != 200 {
+		fmt.Fprintf(os.Stderr, "Error in POST request for %s. HTTP %s\n", projectName, resp.Status)
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error in reading body '%v'\n", err)
+			os.Exit(1)
+		}
+		fmt.Fprintf(os.Stderr, "Reason: %s\n", httpReason(body))
+		os.Exit(1)
+	}
+}
+
+func httpReason(body []byte) string {
+	reason := strings.TrimSpace(string(body))
+	if reason == "" {
+		return "(empty response body)"
+	}
+	return reason
 }
