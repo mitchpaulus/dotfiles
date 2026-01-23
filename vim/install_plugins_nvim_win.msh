@@ -15,24 +15,34 @@ $"{$LOCALAPPDATA}\\nvim\\pack\\github\\start" githubPluginDir!
 	repo!
 	@repo "/" split :1: packageName!
 
-	$"{$LOCALAPPDATA}/nvim/pack/github/start/{@packageName}" isDir
-	($"Plugin {@repo} already installed" wle)
-	([git clone --depth 1 $"git@github.com:{@repo}.git" $"{$LOCALAPPDATA}/nvim/pack/github/start/{@packageName}"];)
-	iff
+	$"{$LOCALAPPDATA}/nvim/pack/github/start/{@packageName}" isDir if
+        $"Plugin {@repo} already installed" wle
+    else
+        ['git' 'clone' '--depth' 1 $"git@github.com:{@repo}.git" $"{$LOCALAPPDATA}/nvim/pack/github/start/{@packageName}"];
+    end
 ) each
 
 "plugins.txt" readFile lines
 (
     packageName!
-    $"{$REPOS}\\{@packageName}" isDir
-    ($"Plugin {@packageName} already installed" wle)
-    ([git clone $"git@github.com:mitchpaulus/{@packageName}.git" $"{$REPOS}\\{@packageName}"];)
-    iff
+    $"{$REPOS}\\{@packageName}" repoDir!
 
-    $"{@mpPluginDir}\\{@packageName}" isDir
-    ($"Directory junction to {@mpPluginDir}\\{@packageName} already created." wle)
-    ([cmd.exe '/C' 'mklink' '/J' $"{@mpPluginDir}\\{@packageName}" $"{$REPOS}\\{@packageName}"];)
-    iff
+    @repoDir isDir if
+        $"Plugin {@packageName} already cloned in repos" wle
+    else
+        $"Cloning {$REPOS}\\{@packageName}.." wle
+        [git clone $"git@github.com:mitchpaulus/{@packageName}.git" $"{$REPOS}\\{@packageName}"];)
+    end
+
+    $"{@mpPluginDir}\\{@packageName}" packDir!
+    @packDir isDir if
+        $"Directory junction to {@mpPluginDir}\\{@packageName} already created." wle
+    else
+
+        ['powershell.exe' '-NoProfile' '-Command' $"New-Item -ItemType Junction -Path '{@packDir}' -Target '{@repoDir}'"]!
+        # ['cmd.exe' '/C' 'mklink' '/J' $"{@mpPluginDir}\\{@packageName}" $"{$REPOS}\\{@packageName}"] cmd!
+        # [git clone $"git@github.com:mitchpaulus/{@packageName}.git" $"{@mpPluginDir}\\{@packageName}"]!
+    end
 ) each
 
 #!/bin/sh
