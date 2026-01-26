@@ -1,2 +1,2 @@
 #!/usr/bin/env mshell
-[fd -e do]*! lines ("default" "**/*" findReplace 0:-3) map sortV uniq uw
+[fd -e do]*! lines ("default" "**/*" findReplace 0:-3 '\' '/' findReplace) map sortV uniq uw
