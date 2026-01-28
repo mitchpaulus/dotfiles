@@ -1,3 +1,2 @@
-#!/bin/sh
-
-rg -o "exists\(.*?\)" "$@" | cut -c 8- | rev | cut -c 2- | rev | sort -u
+#!/usr/bin/env mshell
+['rg' '-o' 'exists\(.*?\)' args] * ! lines (8:-2) map sortV uniq uw
