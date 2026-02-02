@@ -107,5 +107,28 @@ Not sure which versions were the ones that actually worked, since I installed a 
 
 ## PERSONAL.xlsb location
 
+```
 $APPDATA\Microsoft\Excel\XLSTART\PERSONAL.XLSB
 C:\Users\<user>\AppData\Roaming\Microsoft\Excel\XLSTART\PERSONAL.XLSB
+```
+
+## Database Operations
+
+GROUP BY: Typically
+
+```
+=UNIQUE(HSTACK(T[Column1], T[Column2]))
+```
+
+```
+PIVOTBY
+
+=LET(g, UNIQUE(T[Dept]),
+     HSTACK(
+        g,
+        SUMIFS(T[Amount], T[Dept], g),
+        COUNTIFS(T[Dept], g),
+        AVERAGEIFS(T[Amount], T[Dept], g)
+     )
+)
+```
