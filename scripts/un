@@ -1,7 +1,6 @@
 #!/usr/bin/env mshell
 
 # Commit updated notes
-soe
-[git add $"{$DOTFILES}/notes/*.md" glob];
-[git commit -m "Update notes"];
-[git push];
+[git add $"{$DOTFILES}/notes/*.md" glob]!
+[git commit -m "Update notes"]!
+[git push]!
