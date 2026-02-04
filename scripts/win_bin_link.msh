@@ -1,0 +1,13 @@
+#!/usr/bin/env mshell
+
+$1 fileExists not if $"'{$1}' does not exist." wle 1 exit end
+
+$1 $LOCALBIN toPath $1 basename / binPath!
+
+@binPath fileExists if
+    $"{@binPath} exists.." wle 1 exit
+end
+
+$1 @binPath hardLink
+
+"Linked" wl
