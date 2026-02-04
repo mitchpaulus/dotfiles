@@ -1,0 +1,65 @@
+#!/usr/bin/env mshell
+
+soe
+
+args (arg! @arg "-h" = @arg "--help" = or) any if
+'pdfsplit
+
+USAGE:
+pdfsplit MAX_MIB INPUT.pdf
+
+Splits INPUT.pdf into parts smaller than MAX_MIB, writing files named
+<stem>_partN.pdf in the current directory.' wl
+0 exit
+end
+
+args len 2 < if
+    "pdfsplit requires 2 arguments: max_mib and input.pdf" wle
+    1 exit
+end
+
+args :0: toFloat size_mib_maybe!
+@size_mib_maybe isNone if
+    "max_mib must be a number" wle
+    1 exit
+end
+@size_mib_maybe ? size_mib!
+@size_mib 1024 1024 * * floor limit_bytes!
+@limit_bytes 0 <= if
+    "max_mib must be greater than 0" wle
+    1 exit
+end
+
+args :1: input!
+@input fileExists not if
+    "input file does not exist" wle
+    1 exit
+end
+
+def findSplit (str int int int int -- int)
+    input!, start!, endpg!, limit_bytes!, trynum!
+    $"{@input stem}-{@trynum}.pdf" newName!
+    $"Trying {@start}-{@endpg} for {@newName}" wle
+    [rippdf @input $"{@start}-{@endpg}" @newName]!
+
+    @newName fileSize? @limit_bytes < if
+        @endpg
+    else
+        # Recurse by splitting in half.
+        @start @endpg + 2 / midpg!
+        @input @start @midpg @limit_bytes @trynum findSplit
+    end
+end
+
+[numpgs @input] * ! trim toInt? endPg!
+
+def splitAll (str int int int int --)
+    input!, start!, endpg!, limit_bytes!, trynum!
+    @input @start @endpg @limit_bytes @trynum findSplit newEnd!
+
+    @newEnd @endpg < if
+        @input @newEnd 1 + @endpg @limit_bytes @trynum 1 + splitAll
+    end
+end
+
+@input 1 @endPg @limit_bytes 1 splitAll

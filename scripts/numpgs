@@ -1,7 +1,12 @@
 #!/usr/bin/env mshell
 
+args len 1 < or. args any. a! @a '-h' = or. @a '--help' = end end end if
+    $"USAGE: numpgs FILE.pdf" wl
+    0 exit
+end
+
 # Try qpdf first
-[qpdf --show-npages $1] os ? (wl 0 exit) iff
+[qpdf --show-npages $1] * ? (trim wl 0 exit) iff
 
 # Else try Python
 [numpgs_py $1];
