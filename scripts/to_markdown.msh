@@ -1,0 +1,60 @@
+#!/usr/bin/env mshell
+
+def pad_row ([str]:row int:maxColumns -- [str]:row)
+    row!
+    maxColumns!
+    @row len rowLen!
+    @rowLen @maxColumns < (
+        @maxColumns @rowLen - missing!
+        0 i!
+        (
+            @i @missing >= (break) iff
+            @row "" append drop
+            @i 1 + i!
+        ) loop
+    ) iff
+    @row
+end
+
+stdin lines lines!
+@lines len 2 < (1 exit) iff
+
+@lines :1: '^[-| ]+$' reMatch isMarkdown!
+
+@isMarkdown if
+    @lines ("|" split (trim) map) map data!
+else
+    @lines (tab split (trim) map) map data!
+end
+
+@data len count!
+0 maxColumns!
+0 i!
+(
+    @i @count >= (break) iff
+    @data @i nth row!
+    @row len rowLen!
+    @rowLen @maxColumns > (@rowLen maxColumns!) iff
+    @i 1 + i!
+) loop
+
+@data :0: header!
+@header @maxColumns pad_row " | " join wl
+
+[] sepCells!
+0 i!
+(
+    @i @maxColumns >= (break) iff
+    @sepCells "---" append drop
+    @i 1 + i!
+) loop
+@sepCells " | " join wl
+
+@isMarkdown (2 startIndex!) (1 startIndex!) iff
+@startIndex i!
+(
+    @i @count >= (break) iff
+    @data @i nth row!
+    @row @maxColumns pad_row " | " join wl
+    @i 1 + i!
+) loop
