@@ -1,26 +1,34 @@
 #!/usr/bin/env mshell
-soe
 
 args len 1 < ("Usage: docx2pdf <docx-file> [pdf-file]" wl 0 exit) iff
 
-# /mMpPrintToPDF runs the MpPrintToPDF macro in the Word document.
-# That saves to %TMP%\docx.pdf by default.
+'.docx' tempFileExt tmpfile!
 
-# Unix path to Windows TMP file
-[wslpath -u [winenv TMP]*; trim]*; trim tmp-dir!
-$"Tmp Dir {@tmp-dir}" wle
-['mktemp' --suffix .docx $"--tmpdir={@tmp-dir}"]*; trim tmpfile!
 $"Tmp File {@tmpfile}" wle
 $1 @tmpfile cp
-"Converting '" @tmpfile + "' to PDF..." + wle
+$"Converting '{@tmpfile}' to PDF..." wle
 
-[wslpath -w -a @tmpfile]os; input-docx!
+runtime "windows" != if
+    [wslpath -w -a @tmpfile]*! trim input-docx!
+else
+    @tmpfile input-docx!
+end
 
-[WINWORD.EXE @input-docx /mMpPrintToPDF];
+runtime "windows" = if
+    `C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE` word!
+else
+    'WINWORD.EXE' word!
+end
+
+[@word @input-docx /mMpPrintToPDF]!
 "Successfully printed to PDF." wle
 
 def move-result-file (--)
-    ['mv' [wslpath -u [winenv TMP]os; ]os; "/docx.pdf" + $2];
+    runtime "windows" = if
+        $TMP toPath `docx.pdf` / $2 mv
+    else
+        ['mv' [wslpath -u [winenv TMP]*! chomp ]*! chomp "/docx.pdf" + $2];
+    end
 end
 
 # If a second arg, it is the name of the output file.
