@@ -48,7 +48,7 @@ def set_bookmarks(pdf_file, add = False, output_file = None):
 
 
     if len(bookmarks) == 0:
-        raise ValueError('No bookmarks found')
+        print("No bookmarks found.", file=sys.stderr)
 
     doc = fitz.open(pdf_file)
     print(f"Setting {len(bookmarks)} bookmarks in {pdf_file}", file=sys.stderr)

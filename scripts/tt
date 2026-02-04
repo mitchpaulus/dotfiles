@@ -1,16 +1,14 @@
 #!/usr/bin/env mshell
-soe
-
-['toggl' projects]o; projs!
+['toggl' 'projects']*! lines projs!
 @projs (tsplit :1:) map sortV unlines projs!
 
-['fzf'] @projs < os ?
+['fzf'] @projs < * ?
 not (1 exit) iff
-proj!
+trim proj!
 
 "Description: " w read
 not (1 exit) iff
-desc!
+trim desc!
 
-['toggl' start @proj @desc];
+['toggl' start @proj @desc]!
 ['toggl_set']!
