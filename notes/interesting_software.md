@@ -364,3 +364,5 @@ Contact management software. Can self-host.
 [mlsql - AI for generating SQL queries](https://github.com/paulfitz/mlsql)
 
 [excalidraw](https://excalidraw.com/)
+
+[msgvault](https://wesmckinney.com/blog/announcing-msgvault/) - For email. Done the way I would have done it.

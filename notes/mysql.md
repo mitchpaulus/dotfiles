@@ -108,6 +108,8 @@ GRANT ALL PRIVILEGES ON mydb.* TO myuser@'%';
 
 # cnf locations on Windows
 
+From `mysql --help`.
+
 ```
 C:\WINDOWS\my.ini
 C:\WINDOWS\my.cnf
