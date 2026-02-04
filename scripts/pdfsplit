@@ -13,22 +13,13 @@ Splits INPUT.pdf into parts smaller than MAX_MIB, writing files named
 0 exit
 end
 
-args len 2 < if
-    "pdfsplit requires 2 arguments: max_mib and input.pdf" wle
-    1 exit
-end
+args len 2 < if "pdfsplit requires 2 arguments: max_mib and input.pdf" wle 1 exit end
 
 args :0: toFloat size_mib_maybe!
-@size_mib_maybe isNone if
-    "max_mib must be a number" wle
-    1 exit
-end
+@size_mib_maybe isNone if "max_mib must be a number" wle 1 exit end
 @size_mib_maybe ? size_mib!
 @size_mib 1024 1024 * * floor limit_bytes!
-@limit_bytes 0 <= if
-    "max_mib must be greater than 0" wle
-    1 exit
-end
+@limit_bytes 0 <= if "max_mib must be greater than 0" wle 1 exit end
 
 args :1: input!
 @input fileExists not if
@@ -36,30 +27,49 @@ args :1: input!
     1 exit
 end
 
-def findSplit (str int int int int -- int)
-    input!, start!, endpg!, limit_bytes!, trynum!
+def findSplit (str int int int int [[str]] -- int)
+    input!, start!, endpg!, limit_bytes!, trynum!, bookmarkData!
     $"{@input stem}-{@trynum}.pdf" newName!
     $"Trying {@start}-{@endpg} for {@newName}" wle
     [rippdf @input $"{@start}-{@endpg}" @newName]!
 
     @newName fileSize? @limit_bytes < if
+        # Reset the bookmarks
+        @start 1 - offset!
+        @bookmarkData stack filter. :-1: toInt? bPg! @bPg @start >= @bPg @endpg <= and end
+        map.
+            b!
+            @b :0: level!
+            @b :1: name!
+            @b :2: pg!
+            [ @level @name @pg toInt? @offset - str ] tjoin
+        end
+        unlines newBookmarks!
+        # If the first bookmarks isn't a level 1, this will fail.
+        # We'll deal with that later.
+        [set_bookmarks.msh @newName] @newBookmarks < !
+
         @endpg
     else
         # Recurse by splitting in half.
         @start @endpg + 2 / midpg!
-        @input @start @midpg @limit_bytes @trynum findSplit
+        @input @start @midpg @limit_bytes @trynum @bookmarkData findSplit
     end
 end
 
 [numpgs @input] * ! trim toInt? endPg!
 
-def splitAll (str int int int int --)
-    input!, start!, endpg!, limit_bytes!, trynum!
-    @input @start @endpg @limit_bytes @trynum findSplit newEnd!
+[get_bookmarks.msh @input] * ! lines (tsplit) map bookmarkData!
+
+def splitAll (str int int int int [[str]] --)
+    input!, start!, endpg!, limit_bytes!, trynum!, bookmarkData!
+    @input @start @endpg @limit_bytes @trynum @bookmarkData findSplit newEnd!
+
+    $"Now starting at pg {@newEnd 1 +}" wle
 
     @newEnd @endpg < if
-        @input @newEnd 1 + @endpg @limit_bytes @trynum 1 + splitAll
+        @input @newEnd 1 + @endpg @limit_bytes @trynum 1 + @bookmarkData splitAll
     end
 end
 
-@input 1 @endPg @limit_bytes 1 splitAll
+@input 1 @endPg @limit_bytes 1 @bookmarkData splitAll
