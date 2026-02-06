@@ -1,4 +1,12 @@
 #!/usr/bin/env mshell
 
-[fd . $"{$HOME}/.config/nvim/pack/github/start" --type 'd' --max-depth 1]o;
-(d! [git -C @d pull ]; ) each
+runtime "windows" = if
+    [fd . $"{$LOCALAPPDATA}/nvim/pack/github/start" --type 'd' --max-depth 1] * ! lines
+else
+    [fd . $"{$HOME}/.config/nvim/pack/github/start" --type 'd' --max-depth 1] * ! lines
+end
+each.
+    d!
+    $"Updating {@d}.." wle
+    [git -C @d pull ];
+end
