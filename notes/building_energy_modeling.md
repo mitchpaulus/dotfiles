@@ -126,7 +126,7 @@ on pg. 5.49, Table 5.21, the pump curve coefficients are given.
 
 Type                                                | C1 | C2     | C3      | C4
 ----------------------------------------------------|----|--------|---------|-------
-Constant Speed Pump (pump rides on the curve)       | 0  | 3.2485 | -4.7443 | 2.5294
+Constant Speed Pump (pump rides/riding on the curve)       | 0  | 3.2485 | -4.7443 | 2.5294
 Variable Speed Pump Without Pressure Setpoint Reset | 0  | 0.5726 | -0.301  | 0.7347
 Variable Speed Pump with Pressure Setpoint Reset    | 0  | 0.0205 | 0.4101  | 0.5753
 
