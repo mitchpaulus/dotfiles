@@ -1,13 +1,5 @@
-#!/bin/sh
+#!/usr/bin/env mshell
 # Script to remove git tag from local and remote repository
-
-# Check for single argument, the tag name, and exit if not found
-if [ $# -ne 1 ]; then
-    echo "Usage: removetag tagname"
-    exit 1
-fi
-
-# Remove tag from local repository
-git tag -d "$1" || exit 1
-# Remove tag from remote repository
-git push origin :refs/tags/"$1" || exit 1
+args len 1 != if "Usage: removetag tagname" wle 1 exit end
+['git' 'tag' '-d' $1]!
+['git' 'push' 'origin' $":refs/tags/{$1}"]!
