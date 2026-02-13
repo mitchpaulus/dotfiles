@@ -60,4 +60,21 @@ In Email/get, maxBodyValueBytes cannot be 0, it needs to be omitted in that case
 
   * Many responses include `state` / `queryState`. Use these to do incremental changes later (instead of re-listing everything).
 
-If you want, I can turn this into a minimal “two-call template” you can paste into a script: (1) Session discovery, (2) “search subject + fetch text body” request.
+# Filters
+
+
+
+```
+["Email/query" {
+            "accountId": @accountId,
+            "filter": {
+                "inMailbox": "P-F",
+                "subject": "Ordered:"
+                "after": "2026-01-24T00:00:00Z"
+                "before": "2026-01-24T00:00:00Z"
+            },
+            "sort": [{ "property": "receivedAt", "isAscending": false }],
+            "position": 0,
+            "limit": 20
+        } "q"]
+```
