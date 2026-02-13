@@ -79,6 +79,7 @@ hostname "prec3660-mp" = runtime "windows" = and if
         "C:\\Program Files\\7-zip"
         $"{$LOCALAPPDATA}\\Microsoft\\WinGet\\Packages\\hpjansson.Chafa_Microsoft.Winget.Source_8wekyb3d8bbwe\\chafa-1.16.2-1-x86_64-win"
         'C:\Users\mpaulus\repos\excelchop\excelchop\bin\Debug\net9.0'
+        'C:\Users\mpaulus\repos\mplot\MplotCli\bin\Debug\net8.0'
         $PATH
     ] ';' join $PATH!
 end
