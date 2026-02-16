@@ -1,3 +1,5 @@
+Root finding, zero finding, alternative to Brent's method
+
 <https://docs.rs/kurbo/0.8.1/kurbo/common/fn.solve_itp.html>
 
 <https://dl.acm.org/doi/10.1145/3423597>
