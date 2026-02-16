@@ -1,10 +1,9 @@
 #!/usr/bin/env mshell
-soe
 
 tempDir `fg_projects.tsv` / f!
 @f  isFile not ($"{@f} does not exist, usually created using \n`fg_projects` > {@f}\nor\n[fg_projects] `{@f}` > !" wle 1 exit) iff
 
-[fzf -d tab -n '1,2' "--with-nth=1,2"] @f < os;
+[fzf -d tab -n '1,2' "--with-nth=1,2"] @f < * ! trim
 tsplit :-1: projectId!
 $"https://facilitygrid.net/main/project/{@projectId}/overview" url!
 [wsl_url_open @url];

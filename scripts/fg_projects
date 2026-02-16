@@ -1,2 +1,4 @@
 #!/usr/bin/env mshell
-['uv' 'run' '--with=requests' $"{$REPOS}/facility-grid-api/fg_projects.py"];
+['uv' 'run' '--with=requests' $"{$REPOS}/facility-grid-api/fg_projects.py" "ls"] * ! lines (tsplit) map
+sortByCmp. (:-1: toFloat?) 2each floatCmp -1 * end
+tuw
