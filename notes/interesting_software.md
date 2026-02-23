@@ -366,3 +366,5 @@ Contact management software. Can self-host.
 [excalidraw](https://excalidraw.com/)
 
 [msgvault](https://wesmckinney.com/blog/announcing-msgvault/) - For email. Done the way I would have done it.
+
+[Tectonic](https://tectonic-typesetting.github.io/book/latest/index.html) - Simpler, smaller Tex document compiler.

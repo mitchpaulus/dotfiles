@@ -194,3 +194,19 @@ from(bucket: "Siemens Grand Prairie Paint Line")
     |> yield()
 
 ```
+
+## Backup
+
+```
+influxd inspect export-lp \
+  --bucket-id <BUCKET_ID> \
+  --engine-path <INFLUXDB_ENGINE_PATH> \
+  --output-path /path/to/bucket-export.lp
+
+sudo influxd inspect export-lp \
+  --bucket-id <BUCKET_ID> \
+  --engine-path /var/lib/influxdb/engine/ \
+  --output-path /path/to/bucket-export.lp
+
+influx write --host http://localhost:8086 --token <token> --bucket 'Bucket Name' --org-id '1234556' -f data.lp --format lp
+```
