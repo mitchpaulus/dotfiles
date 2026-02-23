@@ -1,5 +1,4 @@
 #!/usr/bin/env mshell
-soe
-@DOTFILES cd `vim/spell/hvac.utf-8.add` f!
-@f readFile sort @f writeFile
-[git add @f]; [git commit -m "Add spellings"]; [git push];
+$DOTFILES cd `vim` `spell` / `hvac.utf-8.add` / f!
+@f readFile lines sort unlines @f writeFile
+[git add @f]! [git commit -m "Add spellings"]! [git push]!
