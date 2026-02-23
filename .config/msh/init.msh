@@ -22,21 +22,14 @@ def yazi (--)
     (@t readFile cd) iff
 end
 
-def f (--) lf end
+def f (--) '.' mshFileManager end
 
 def r (--)
-    ['lf' '-last-dir-path' lf_last_dir_file $REPOS]?
-    (lf_last_dir_file readFile cd) iff
+    $REPOS? if $REPOS mshFileManager else 'Repos dir ($REPOS) not set.' wle end
 end
 
 def j (--)
-    $JOBSDIR?
-    (
-        ['lf' '-last-dir-path' lf_last_dir_file $JOBSDIR]?
-        (lf_last_dir_file readFile cd) iff
-    )
-    ('Jobs dir ($JOBSDIR) not set.' wle)
-    iff
+    $JOBSDIR? if $JOBSDIR mshFileManager else 'Jobs dir ($JOBSDIR) not set.' wle end
 end
 
 def wt_cwd (--)
