@@ -60,14 +60,15 @@ Base 16 colors:
 ```
 \e[<attribute>;<fg/bg>m
 
-Black 30 90 40 100
-Red 31 91 41 101
-Green 32 92 42 102
-Yellow 33 93 43 103
-Blue 34 94 44 104
-Magenta 35 95 45 105
-Cyan 36 96 46 106
-White 37 97 47 107
+Color     FG   Bright   BG   Bright
+Black     30   90       40   100
+Red       31   91       41   101
+Green     32   92       42   102
+Yellow    33   93       43   103
+Blue      34   94       44   104
+Magenta   35   95       45   105
+Cyan      36   96       46   106
+White     37   97       47   107
 ```
 
 
