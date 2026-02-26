@@ -1,0 +1,15 @@
+#!/usr/bin/env mshell
+[git for-each-ref refs/heads '--format=%(refname:short) %(upstream:short)'] * ! lines (wsplit) map locals!
+[git for-each-ref refs/remotes '--format=%(refname:short)'] * ! lines () () listToDict remotes!
+
+@locals each.
+    l!
+    @l len 2 < if
+        @l :0: wl
+    else
+        @l :1: refUpstream!
+        @remotes @refUpstream in not if
+            @l :0: wl
+        end
+    end
+end
