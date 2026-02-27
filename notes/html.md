@@ -159,3 +159,7 @@ xmllint --format
 ## Emmet
 
 Fast way to generate HTML
+
+```
+border: 1px solid #000;
+```

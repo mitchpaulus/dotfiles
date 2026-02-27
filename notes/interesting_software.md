@@ -368,3 +368,5 @@ Contact management software. Can self-host.
 [msgvault](https://wesmckinney.com/blog/announcing-msgvault/) - For email. Done the way I would have done it.
 
 [Tectonic](https://tectonic-typesetting.github.io/book/latest/index.html) - Simpler, smaller Tex document compiler.
+
+[Current RSS reader](https://www.terrygodier.com/current) - I like the concept of article "velocity".
