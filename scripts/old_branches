@@ -1,6 +1,7 @@
 #!/usr/bin/env mshell
-[git for-each-ref refs/heads '--format=%(refname:short) %(upstream:short)'] * ! lines (wsplit) map locals!
-[git for-each-ref refs/remotes '--format=%(refname:short)'] * ! lines () () listToDict remotes!
+['git' 'fetch' '--prune']!
+['git' 'for-each-ref' 'refs/heads' '--format=%(refname:short) %(upstream:short)'] * ! lines (wsplit) map locals!
+['git' 'for-each-ref' 'refs/remotes' '--format=%(refname:short)'] * ! lines () () listToDict remotes!
 
 @locals each.
     l!

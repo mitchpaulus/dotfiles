@@ -6,39 +6,28 @@
 # Dev: Device Name : Device Type (Device Type = "OnOff", "OpenClose", "VFD", "Mod")
 # Otherwise normal questionaire item.
 
-{}
-"OnOff" "Two Position(OnOff)" set
-"OpenClose" "Two Position" set
-"VFD" "VFD" set
-"Mod" "Modulating" set
+{
+    'OnOff': 'Two Position(OnOff)',
+    'OpenClose': 'Two Position',
+    'VFD': 'VFD',
+    'Mod': 'Modulating',
+}
 map!
 
 def processLine (str dict -- str)
-map! l!
-@l "# " startsWith
-(["FPT" @l 2: trim "Section"])
-(
-
-@l "Sensor:" startsWith
-(["SensCal" @l 7: trim ""])
-(
-
-
-@l "Dev:" startsWith
-(
-    @l ":" split splitLine!
-    @splitLine :1: device!
-    @splitLine :2: type!
-    ["DevCal" @device trim @map @type trim get]
-)
-(["FPT" @l "Pass-Fail"])
-iff
-
-)
-iff
-
-)
-iff
+    map! l!
+    @l "# " startsWith if
+        ["FPT" @l 2: trim "Section"]
+    else* @l "Sensor:" startsWith *if
+        ["SensCal" @l 7: trim ""]
+    else* @l "Dev:" startsWith *if
+        @l ":" split splitLine!
+        @splitLine :1: device!
+        @splitLine :2: type!
+        ["DevCal" @device trim @map @type trim get]
+    else
+        ["FPT" @l "Pass-Fail"]
+    end
 end
 
 false makeExcel!
@@ -46,26 +35,19 @@ false makeExcel!
 
 0 i!
 (
-  @i args len >= (break) iff
-  args @i nth a!
-  @i 1 + i!
-  @a "-x" =
-  (
-     true makeExcel!
-     args @i nth a!
-     @i 1 + i!
-     @a toPath xlsxFile!
-  )
-  (
-    @a "-n" =
-    (
+    @i args len >= (break) iff
+    args @i nth a!
+    @i 1 + i!
+    @a "-x" = if
+        true makeExcel!
+        args @i nth a!
+        @i 1 + i!
+        @a toPath xlsxFile!
+    else* @a "-n" = *if
         args @i nth a!
         @i 1 + i!
         @a name!
-    )
-    iff
-  )
-  iff
+    end
 ) loop
 
 args :-1: readFile lines
@@ -74,11 +56,10 @@ args :-1: readFile lines
 (@map processLine tjoin) map
 unlines data!
 
-@makeExcel
-(
+@makeExcel if
     $FG_FPT_TEMPLATE_XLSX @xlsxFile cp
     [xlwrite -w "Sheet1" block C9 @data psub @xlsxFile]!
     [xlwrite -w "Sheet1" block B6 @name psub @xlsxFile]!
-)
-(@data w)
-iff
+else
+    @data w
+end

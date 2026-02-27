@@ -15,4 +15,9 @@ args :0: reportName!
 `/mnt/c/Users/mpaulus/Command Commissioning/Library - Documents/Resources/Templates/ccllc-technical-report-template.docx` isFile
 (`/mnt/c/Users/mpaulus/Command Commissioning/Library - Documents/Resources/Templates/ccllc-technical-report-template.docx` @reportName cp 0 exit) iff
 
+$JOBSDIR? if
+    $JOBSDIR toPath `Library - Documents` / `Resources` / `Templates` / `ccllc-technical-report-template.docx` / f!
+    @f isFile if @f @reportName cp 0 exit end
+end
+
 "Could not find report template" wle 1 exit
