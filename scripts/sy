@@ -1,4 +1,4 @@
-#!/bin/sh
-
-# Purpose: To quickly copy symbols/greek letters to the clipboard in WSL.
-fzf < "$DOTFILES"/greek_letters.txt | awk '{ print $2 }' | tr -d '\n' | clip
+#!/usr/bin/env mshell
+# Purpose: To quickly copy symbols/greek letters to the clipboard
+[fzf] $DOTFILES toPath `greek_letters.txt` / < * ! wsplit :1: trim symbol!
+[msh.exe $DOTFILES toPath `scripts` `clip` / /] @symbol < !
