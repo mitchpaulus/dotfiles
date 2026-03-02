@@ -6,6 +6,8 @@ tmp/
 *.aux
 *.log
 
+skills/mplot/doc.md
+
 .idea/
 
 .config/fish/fish_variables

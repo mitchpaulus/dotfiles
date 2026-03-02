@@ -1,0 +1,3 @@
+$REPOS toPath `mplot` `docs` `doc.md` / / /
+`doc.md`
+cp
