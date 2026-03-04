@@ -256,7 +256,6 @@ class Table:
         self._bottom_padding = None
         self._style: Optional[str] = None
         self._header_repeat_rows = 0
-        self._table_alignment: Optional[WordParagraphAlignment] = None
 
         self.current_cell_range = None
 
@@ -397,11 +396,6 @@ class Table:
 
         return self
 
-    def center_table(self):
-        """Center the table in the document (Table Properties alignment)."""
-        self._table_alignment = WordParagraphAlignment.wdAlignParagraphCenter
-        return self
-
     def obj_from_cell_range(self, cell_range: IRange):
         if isinstance(cell_range, Cell):
             row = self.eval_row(cell_range.row)
@@ -469,8 +463,6 @@ class Table:
 
         if self._style:
             lines.append(f'tbl.Style = "{self._style}"') # Probably need some escaping here
-        if self._table_alignment is not None:
-            lines.append(f'tbl.Range.ParagraphFormat.Alignment = {self._table_alignment}')
 
         for cell_range, color in self._background_colors:
             lines.extend(self.apply_to_range(cell_range, f'.Shading.BackgroundPatternColor = RGB({color.r}, {color.g}, {color.b})'))
@@ -565,8 +557,8 @@ class Table:
             #  for j, cell in enumerate(row):
                 #  lines.append(f'tbl.Cell({i+1}, {j+1}).Range.Text = "{cell}"')
         
-        lines.append('tbl.Range.ParagraphFormat.SpaceBeforeAuto = True')
-        lines.append('tbl.Range.ParagraphFormat.SpaceAfterAuto = True')
+        lines.append('tbl.Range.ParagraphFormat.SpaceBeforeAuto = False')
+        lines.append('tbl.Range.ParagraphFormat.SpaceAfterAuto = False')
         lines.append('tbl.Range.ParagraphFormat.KeepWithNext = True')
 
         for col in self._autofits:
