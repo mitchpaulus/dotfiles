@@ -11,3 +11,7 @@ Typical parameters:
 - time handling
 - x/y ranges
 - x/y tics
+
+
+
+[Accessible Color Sequences for Data Visualization](https://arxiv.org/pdf/2107.02270)
