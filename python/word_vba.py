@@ -670,6 +670,11 @@ class Table:
             elif self._table_alignment == WordParagraphAlignment.wdAlignParagraphRight:
                 row_def += '\\trqr'
 
+            # Row-level borders
+            if self._borders:
+                bdr = '\\brdrs\\brdrw10 '
+                row_def += f'\\trbrdrt{bdr}\\trbrdrb{bdr}\\trbrdrl{bdr}\\trbrdrr{bdr}'
+
             # Cell definitions
             cellx_pos = 0
             for c in range(num_cols):
@@ -681,16 +686,6 @@ class Table:
                     cell_props += '\\clvertalc'
                 elif va == WordVerticalAlignment.wdCellAlignVerticalBottom:
                     cell_props += '\\clvertalb'
-
-                # Borders
-                if self._borders:
-                    border = '\\brdrs\\brdrw10'
-                    cell_props += f'\\clbrdrt{border}\\clbrdrb{border}\\clbrdrl{border}\\clbrdrr{border}'
-
-                # Background color
-                ci = get_bg_color_index(r + 1, c + 1)
-                if ci is not None:
-                    cell_props += f'\\clcbpat{ci}'
 
                 # Horizontal merge
                 if h_merge[r][c] == 'first':
@@ -704,15 +699,24 @@ class Table:
                 elif v_merge[r][c] == 'cont':
                     cell_props += '\\clvmrg'
 
+                # Cell borders
+                if self._borders:
+                    bdr = '\\brdrs\\brdrw10 '
+                    cell_props += f'\\clbrdrt{bdr}\\clbrdrb{bdr}\\clbrdrl{bdr}\\clbrdrr{bdr}'
+
+                # Background color
+                ci = get_bg_color_index(r + 1, c + 1)
+                if ci is not None:
+                    cell_props += f'\\clcbpat{ci}'
+
                 cellx_pos += col_widths_twips[c]
                 row_def += f'{cell_props}\\cellx{cellx_pos}'
 
             lines.append(row_def)
 
             # Cell contents
-            cell_parts = []
             for c in range(num_cols):
-                content = ''
+                content = '\\pard\\intbl '
 
                 # Paragraph alignment
                 ha = get_h_align(r + 1, c + 1)
@@ -746,10 +750,9 @@ class Table:
                 if bold:
                     content += '\\b0'
 
-                content += '\\cell'
-                cell_parts.append(content)
+                content += '\\cell '
+                lines.append(content)
 
-            lines.append(''.join(cell_parts))
             lines.append('\\row')
 
         table_rtf = '\n'.join(lines)
