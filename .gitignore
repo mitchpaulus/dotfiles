@@ -12,6 +12,7 @@ skills/mplot/doc.md
 
 .config/fish/fish_variables
 .config/fish/secrets.fish
+.claude/
 
 # These were added on update to 4.3
 .config/fish/conf.d/fish_frozen_key_bindings.fish

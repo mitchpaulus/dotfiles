@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import sys
 from enum import IntEnum
+from dataclasses import dataclass, field
 from typing import Optional, Union
 
 """Table documentation:
@@ -88,6 +89,42 @@ def escape_string(input_str: str) -> str:
 
     return "".join(new_str)
 
+
+def _rtf_escape(text: str) -> str:
+    """Escape text for use in RTF content."""
+    result = []
+    for ch in text:
+        if ch == '\\':
+            result.append('\\\\')
+        elif ch == '{':
+            result.append('\\{')
+        elif ch == '}':
+            result.append('\\}')
+        elif ch == '\n':
+            result.append('\\line ')
+        elif ord(ch) > 127:
+            result.append(f'\\u{ord(ch)}?')
+        else:
+            result.append(ch)
+    return ''.join(result)
+
+
+def _cell_in_range(cell_range, row_1: int, col_1: int, table: 'Table') -> bool:
+    """Check if a 1-based (row, col) is within the given cell range."""
+    if isinstance(cell_range, Row):
+        return table.eval_row(cell_range.row) == row_1
+    elif isinstance(cell_range, Column):
+        return table.eval_col(cell_range.column) == col_1
+    elif isinstance(cell_range, Cell):
+        return table.eval_row(cell_range.row) == row_1 and table.eval_col(cell_range.column) == col_1
+    elif isinstance(cell_range, Range):
+        return (table.eval_row(cell_range.start_row) <= row_1 <= table.eval_row(cell_range.end_row) and
+                table.eval_col(cell_range.start_col) <= col_1 <= table.eval_col(cell_range.end_col))
+    elif isinstance(cell_range, Table):
+        return True
+    elif isinstance(cell_range, ColumnMinusHeader):
+        return table.eval_col(cell_range.column) == col_1 and row_1 > 1
+    return False
 
 
 #   Name                          Value   Description
@@ -214,6 +251,61 @@ class Color:
         self.b = b
 
 CCLLC_BLUE = Color(0, 73, 135)
+
+
+@dataclass
+class RtfFragment:
+    """A piece of RTF content with associated colors that need color table entries."""
+    body: str
+    colors: list[Color] = field(default_factory=list)
+
+
+def rtf_document(*fragments: Union[str, RtfFragment]) -> str:
+    """Assemble a complete RTF document from fragments (strings or RtfFragments).
+
+    Builds a unified color table from all fragments and adjusts color indices
+    so that \\clcbpat references are correct in the merged document.
+    """
+    # Collect all unique colors across fragments, preserving order
+    all_colors: list[Color] = []
+    color_set: dict[tuple[int, int, int], int] = {}
+    # Map from (fragment_index, old_color_index) -> new_color_index
+    remap: list[dict[int, int]] = []
+
+    for frag in fragments:
+        frag_remap: dict[int, int] = {}
+        if isinstance(frag, RtfFragment):
+            for i, color in enumerate(frag.colors):
+                key = (color.r, color.g, color.b)
+                if key not in color_set:
+                    color_set[key] = len(all_colors) + 1  # 1-based
+                    all_colors.append(color)
+                frag_remap[i + 1] = color_set[key]  # old 1-based -> new 1-based
+        remap.append(frag_remap)
+
+    # Build color table
+    colortbl = '{\\colortbl ;'
+    for color in all_colors:
+        colortbl += f'\\red{color.r}\\green{color.g}\\blue{color.b};'
+    colortbl += '}'
+
+    # Build body, remapping color indices
+    import re
+    body_parts = []
+    for i, frag in enumerate(fragments):
+        if isinstance(frag, str):
+            body_parts.append(frag)
+        else:
+            text = frag.body
+            if remap[i]:
+                def _replace(m, rm=remap[i]):
+                    old_idx = int(m.group(1))
+                    new_idx = rm.get(old_idx, old_idx)
+                    return f'\\clcbpat{new_idx}'
+                text = re.sub(r'\\clcbpat(\d+)', _replace, text)
+            body_parts.append(text)
+
+    return '{\\rtf1\\ansi\\deff0\n' + colortbl + '\n' + '\n'.join(body_parts) + '\n}'
 
 class TextRun:
     def __init__(self, text: str, *, style = None, bold = None, italic = None, font_size = None):
@@ -461,6 +553,217 @@ class Table:
         return lines
 
 
+    def compile_rtf(self, standalone: bool = True) -> Union[str, RtfFragment]:
+        """Compile table to RTF format.
+
+        Args:
+            standalone: If True, returns a complete RTF document string with
+                headers (font table, color table). If False, returns an
+                RtfFragment containing the table body and its required colors,
+                which can be combined with other fragments via rtf_document().
+        """
+        num_rows = self.num_rows()
+        num_cols = self.num_cols()
+
+        # Collect unique colors for the color table
+        colors: list[Color] = []
+        color_map: dict[tuple[int, int, int], int] = {}
+        for _cr, color in self._background_colors:
+            key = (color.r, color.g, color.b)
+            if key not in color_map:
+                color_map[key] = len(colors) + 1  # 1-based; index 0 is auto
+                colors.append(color)
+
+        # Build merge maps (0-based indexing)
+        # h_merge[r][c]: 'first' = start of horizontal merge, 'cont' = continuation
+        # v_merge[r][c]: 'first' = start of vertical merge, 'cont' = continuation
+        h_merge = [[None] * num_cols for _ in range(num_rows)]
+        v_merge = [[None] * num_cols for _ in range(num_rows)]
+
+        for sr, sc, er, ec in self._merges:
+            sr0 = self.eval_row(sr) - 1
+            sc0 = self.eval_col(sc) - 1
+            er0 = self.eval_row(er) - 1
+            ec0 = self.eval_col(ec) - 1
+            for r in range(sr0, er0 + 1):
+                for c in range(sc0, ec0 + 1):
+                    if c == sc0:
+                        if ec0 > sc0:
+                            h_merge[r][c] = 'first'
+                    else:
+                        h_merge[r][c] = 'cont'
+                    if r == sr0:
+                        if er0 > sr0:
+                            v_merge[r][c] = 'first'
+                    else:
+                        v_merge[r][c] = 'cont'
+
+        # Column widths in twips (1 inch = 1440 twips)
+        col_width_map = {col: w for col, w in self._col_widths}
+        default_width = 1440
+        col_widths_twips = []
+        for c in range(1, num_cols + 1):
+            if c in col_width_map:
+                col_widths_twips.append(int(col_width_map[c] * 1440))
+            else:
+                col_widths_twips.append(default_width)
+
+        # Lookup helpers for per-cell properties
+        def get_bg_color_index(row1, col1):
+            for cr, color in self._background_colors:
+                if _cell_in_range(cr, row1, col1, self):
+                    return color_map[(color.r, color.g, color.b)]
+            return None
+
+        def is_bold(row1, col1):
+            for cr, bold in self._bolds:
+                if _cell_in_range(cr, row1, col1, self):
+                    return bold
+            return False
+
+        def get_font_size_hs(row1, col1):
+            for cr, fs in self.font_sizes:
+                if _cell_in_range(cr, row1, col1, self):
+                    return int(fs * 2)  # RTF uses half-points
+            return None
+
+        def get_h_align(row1, col1):
+            for cr, alignment in self._horizontal_alignments:
+                if _cell_in_range(cr, row1, col1, self):
+                    return alignment
+            return None
+
+        def get_v_align(row1, col1):
+            for cr, alignment in self._vertical_alignments:
+                if _cell_in_range(cr, row1, col1, self):
+                    return alignment
+            return None
+
+        # Padding in twips
+        def pad_twips(inches):
+            return int(inches * 1440) if inches is not None else None
+
+        lpad = pad_twips(self._left_padding)
+        rpad = pad_twips(self._right_padding)
+        tpad = pad_twips(self._top_padding)
+        bpad = pad_twips(self._bottom_padding)
+
+        # Build RTF rows
+        lines = []
+
+        for r in range(num_rows):
+            row_def = '\\trowd\\trgaph108'
+
+            # Row-level padding
+            if lpad is not None:
+                row_def += f'\\trpaddl{lpad}\\trpaddfl3'
+            if rpad is not None:
+                row_def += f'\\trpaddr{rpad}\\trpaddfr3'
+            if tpad is not None:
+                row_def += f'\\trpaddt{tpad}\\trpaddft3'
+            if bpad is not None:
+                row_def += f'\\trpaddb{bpad}\\trpaddfb3'
+
+            # Table alignment
+            if self._table_alignment == WordParagraphAlignment.wdAlignParagraphCenter:
+                row_def += '\\trqc'
+            elif self._table_alignment == WordParagraphAlignment.wdAlignParagraphRight:
+                row_def += '\\trqr'
+
+            # Cell definitions
+            cellx_pos = 0
+            for c in range(num_cols):
+                cell_props = ''
+
+                # Vertical alignment
+                va = get_v_align(r + 1, c + 1)
+                if va == WordVerticalAlignment.wdCellAlignVerticalCenter:
+                    cell_props += '\\clvertalc'
+                elif va == WordVerticalAlignment.wdCellAlignVerticalBottom:
+                    cell_props += '\\clvertalb'
+
+                # Borders
+                if self._borders:
+                    border = '\\brdrs\\brdrw10'
+                    cell_props += f'\\clbrdrt{border}\\clbrdrb{border}\\clbrdrl{border}\\clbrdrr{border}'
+
+                # Background color
+                ci = get_bg_color_index(r + 1, c + 1)
+                if ci is not None:
+                    cell_props += f'\\clcbpat{ci}'
+
+                # Horizontal merge
+                if h_merge[r][c] == 'first':
+                    cell_props += '\\clmgf'
+                elif h_merge[r][c] == 'cont':
+                    cell_props += '\\clmrg'
+
+                # Vertical merge
+                if v_merge[r][c] == 'first':
+                    cell_props += '\\clvmgf'
+                elif v_merge[r][c] == 'cont':
+                    cell_props += '\\clvmrg'
+
+                cellx_pos += col_widths_twips[c]
+                row_def += f'{cell_props}\\cellx{cellx_pos}'
+
+            lines.append(row_def)
+
+            # Cell contents
+            cell_parts = []
+            for c in range(num_cols):
+                content = ''
+
+                # Paragraph alignment
+                ha = get_h_align(r + 1, c + 1)
+                if ha == WordParagraphAlignment.wdAlignParagraphCenter:
+                    content += '\\qc '
+                elif ha == WordParagraphAlignment.wdAlignParagraphRight:
+                    content += '\\qr '
+                elif ha == WordParagraphAlignment.wdAlignParagraphJustify:
+                    content += '\\qj '
+
+                # Character formatting
+                bold = is_bold(r + 1, c + 1)
+                if bold:
+                    content += '\\b '
+
+                fs = get_font_size_hs(r + 1, c + 1)
+                if fs is not None:
+                    content += f'\\fs{fs} '
+
+                # Cell text
+                if r < len(self.data) and c < len(self.data[r]):
+                    cell_val = self.data[r][c]
+                    if isinstance(cell_val, str):
+                        content += _rtf_escape(cell_val)
+                    elif isinstance(cell_val, TextRun):
+                        content += _rtf_escape(cell_val.text)
+                    elif isinstance(cell_val, list):
+                        for tr in cell_val:
+                            content += _rtf_escape(tr.text)
+
+                if bold:
+                    content += '\\b0'
+
+                content += '\\cell'
+                cell_parts.append(content)
+
+            lines.append(''.join(cell_parts))
+            lines.append('\\row')
+
+        table_rtf = '\n'.join(lines)
+
+        if standalone:
+            colortbl = '{\\colortbl ;'
+            for color in colors:
+                colortbl += f'\\red{color.r}\\green{color.g}\\blue{color.b};'
+            colortbl += '}'
+
+            return '{\\rtf1\\ansi\\deff0\n' + colortbl + '\n' + table_rtf + '\n}'
+        else:
+            return RtfFragment(body=table_rtf, colors=colors)
+
     def compile(self) -> str:
         """Compile table information into the required Word VBA"""
         lines = []
@@ -577,7 +880,6 @@ class Table:
             lines.append('tbl.AllowAutoFit = False')
 
 
-
         if self._borders is not None:
             if self._borders:
                 lines.append('tbl.Borders.Enable = True')
@@ -600,6 +902,13 @@ class Table:
         for i in range(1, self._header_repeat_rows + 1):
             lines.append(f'tbl.Rows({i}).HeadingFormat = True')
 
+        # Auto fit before merges, otherwise you get hit with an error.
+        for col in self._autofits:
+            lines.append(f'tbl.Columns({col}).AutoFit')
+
+        for col, width in self._col_widths:
+            lines.append(f'tbl.Columns({col}).Width = InchesToPoints({width})')
+
         # Do merge from bottom right to left top because otherwise it all gets mangled.
         sorted_merges = sorted(self._merges, key=lambda x: (x[1], x[0]), reverse=True)
         for merge in sorted_merges:
@@ -609,13 +918,6 @@ class Table:
             end_col = merge[3] if merge[3] > 0 else self.num_cols() + merge[3] + 1
 
             lines.append(f'tbl.Cell({start_row}, {start_col}).Merge MergeTo:=tbl.Cell({end_row}, {end_col})')
-
-        # Auto fit after merges to get desired result
-        for col in self._autofits:
-            lines.append(f'tbl.Columns({col}).AutoFit')
-
-        for col, width in self._col_widths:
-            lines.append(f'tbl.Columns({col}).Width = InchesToPoints({width})')
 
         if self._col_widths:
             lines.append('tbl.AllowAutoFit = True')
