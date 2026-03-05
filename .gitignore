@@ -26,6 +26,7 @@ notes/doe2.png
 notes/*.docx
 
 go/toggl/toggl
+go/toggl/toggl.exe
 go/todoist/todoist
 go/todoist/todoist.exe
 
@@ -59,10 +60,9 @@ sfeedrc
 # REDOGI
 go/lf-preview-win/lf-preview-win.exe
 go/todoist/todoist
-go/toggl/toggl
-go/toggl/toggl.exe
 haskell/**/*
 haskell/all
 notes/**/*.pdf
 sfeedrc
+skills/Word Tables/word_vba.py
 vim/vimrc

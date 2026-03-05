@@ -569,8 +569,6 @@ class Table:
         lines.append('tbl.Range.ParagraphFormat.SpaceAfterAuto = True')
         lines.append('tbl.Range.ParagraphFormat.KeepWithNext = True')
 
-        for col in self._autofits:
-            lines.append(f'tbl.Columns({col}).AutoFit')
 
         if self._col_widths:
             # Clear 'PreferredWidth on table width. Remove AllowAutoFit
@@ -578,11 +576,6 @@ class Table:
             lines.append('tbl.PreferredWidth = 0')
             lines.append('tbl.AllowAutoFit = False')
 
-        for col, width in self._col_widths:
-            lines.append(f'tbl.Columns({col}).Width = InchesToPoints({width})')
-
-        if self._col_widths:
-            lines.append('tbl.AllowAutoFit = True')
 
 
         if self._borders is not None:
@@ -616,6 +609,16 @@ class Table:
             end_col = merge[3] if merge[3] > 0 else self.num_cols() + merge[3] + 1
 
             lines.append(f'tbl.Cell({start_row}, {start_col}).Merge MergeTo:=tbl.Cell({end_row}, {end_col})')
+
+        # Auto fit after merges to get desired result
+        for col in self._autofits:
+            lines.append(f'tbl.Columns({col}).AutoFit')
+
+        for col, width in self._col_widths:
+            lines.append(f'tbl.Columns({col}).Width = InchesToPoints({width})')
+
+        if self._col_widths:
+            lines.append('tbl.AllowAutoFit = True')
 
         return "\n".join(lines) + "\n"
 
