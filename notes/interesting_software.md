@@ -370,3 +370,5 @@ Contact management software. Can self-host.
 [Tectonic](https://tectonic-typesetting.github.io/book/latest/index.html) - Simpler, smaller Tex document compiler.
 
 [Current RSS reader](https://www.terrygodier.com/current) - I like the concept of article "velocity".
+
+[Personal handwriting font](https://arcade.pirillo.com/fontcrafter.html)
