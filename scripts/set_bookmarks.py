@@ -73,6 +73,7 @@ if __name__ == '__main__':
             print('Pass in lines of tab separated values to stdin.')
             print('Lines are [level, title, page] where level is 1 based and page is 1 based.')
             print('Update the bookmarks in the PDF file in-place with the given data.')
+            print('If -o output_file.pdf is provided, write the updated PDF to output_file.pdf instead of modifying in-place.')
             sys.exit(0)
         elif arg in ['-o']:
             if i >= len(sys.argv):
@@ -81,8 +82,8 @@ if __name__ == '__main__':
             output_file = sys.argv[i]
             i += 1
         else:
-            if output_file is not None:
-                print(f'Error: unexpected argument {arg}')
+            if pdf_file is not None:
+                print(f'Error: unexpected argument {pdf_file} {arg}')
                 sys.exit(1)
             pdf_file = arg
 

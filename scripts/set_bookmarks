@@ -1,2 +1,2 @@
 #!/usr/bin/env mshell
-[uv run --with PyMuPDF $DOTFILES toPath `scripts` `set_bookmarks.py` / / '--' args]!
+[uv run --with PyMuPDF $DOTFILES toPath `scripts` `set_bookmarks.py` / / args]!
