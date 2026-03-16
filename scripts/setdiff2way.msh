@@ -1,0 +1,202 @@
+#!/usr/bin/env mshell
+
+def printHelp (--)
+    "Usage: setdiff2way [options]... file1 file2" wl
+    "Options:" wl
+    "  (-1 | --1col) n  set column to extract from file1 (default: 1)" wl
+    "  (-2 | --2col) n  set column to extract from file2 (default: 1)" wl
+    "  --1name name     set name for file 1 (default: A)" wl
+    "  --2name name     set name for file 2 (default: B)" wl
+    "  -d delim         set field delimiter (default: tab)" wl
+    "  -s               print shared lines" wl
+    "  --h1             skip header line in file 1" wl
+    "  --h2             skip header line in file 2" wl
+    "  --x1             suppress printing A - B" wl
+    "  --x2             suppress printing B - A" wl
+end
+
+def maybeNth ([str] int -- str)
+    items!, idx!
+    @idx 0 < if
+        ""
+    else
+        @idx @items len < if
+            @items @idx nth
+        else
+            ""
+        end
+    end
+end
+
+def extractField (str str int -- str)
+    line!, delim!, col!
+    @col 0 = if
+        @line
+    else
+        @line @delim reSplit @col 1 - maybeNth
+    end
+end
+
+def loadFile (str str int bool int int dict [str] -- dict [str])
+    path!, delim!, col!, verbose!, fileNum!, startRow!, seen!, order!
+    @path readFile lines fileLines!
+
+    0 i!
+    (
+        @i @fileLines len >= (break) iff
+        @i 1 + fnr!
+        @fileLines @i nth line!
+
+        @verbose if
+            $"File number: {@fileNum}, FNR: {@fnr}" wl
+        end
+
+        @fnr @startRow >= if
+            @line @delim @col extractField key!
+
+            @verbose if
+                @fileNum 1 = if
+                    $"Printing column {@col}" wl
+                    @key wl
+                    @line wl
+                else
+                    @key wl
+                end
+            end
+
+            @seen @key in not if
+                @order @key append order!
+            end
+            @seen @key true set seen!
+        end
+
+        @i 1 + i!
+    ) loop
+
+    @seen @order
+end
+
+def printDiffSection (str str [str] --)
+    nameLeft!, nameRight!, items!
+    @items len count!
+    @count 0 > if
+        $"{@nameLeft} - {@nameRight} ({@count})" wl
+        @items sortV (wl) each
+    end
+end
+
+def printSharedSection (str str [str] --)
+    nameLeft!, nameRight!, items!
+    @items len count!
+    @count 0 > if
+        $"{@nameLeft} & {@nameRight} ({@count})" wl
+        @items sortV (wl) each
+    end
+end
+
+0 colFile1!
+0 colFile2!
+"A" nameFile1!
+"B" nameFile2!
+tab delim!
+false printShared!
+1 startRowFile1!
+1 startRowFile2!
+false suppressOneMinusTwo!
+false suppressTwoMinusOne!
+false verbose!
+[] fileArgs!
+
+0 i!
+(
+    @i args len >= (break) iff
+    args @i nth arg!
+    @i 1 + i!
+
+    @arg "-h" = @arg "--help" = or if
+        printHelp
+        0 exit
+    else* @arg "--1col" = @arg "-1" = or *if
+        @i args len >= if
+            $"Error: missing argument for option {@arg}" wl
+            1 exit
+        end
+        args @i nth toInt 0 maybe colFile1!
+        @i 1 + i!
+    else* @arg "--2col" = @arg "-2" = or *if
+        @i args len >= if
+            $"Error: missing argument for option {@arg}" wl
+            1 exit
+        end
+        args @i nth toInt 0 maybe colFile2!
+        @i 1 + i!
+    else* @arg "--1name" = *if
+        @i args len >= if
+            $"Error: missing argument for option {@arg}" wl
+            1 exit
+        end
+        args @i nth nameFile1!
+        @i 1 + i!
+    else* @arg "--2name" = *if
+        @i args len >= if
+            $"Error: missing argument for option {@arg}" wl
+            1 exit
+        end
+        args @i nth nameFile2!
+        @i 1 + i!
+    else* @arg "--shared" = @arg "-s" = or *if
+        true printShared!
+    else* @arg "--h1" = *if
+        2 startRowFile1!
+    else* @arg "--h2" = *if
+        2 startRowFile2!
+    else* @arg "--x1" = *if
+        true suppressOneMinusTwo!
+    else* @arg "--x2" = *if
+        true suppressTwoMinusOne!
+    else* @arg "--verbose" = *if
+        true verbose!
+    else* @arg "-d" = *if
+        @i args len >= if
+            "Missing delimiter argument" wl
+            1 exit
+        end
+        args @i nth delim!
+        @i 1 + i!
+    else
+        @fileArgs @arg append fileArgs!
+    end
+) loop
+
+{} fileOne!
+{} fileTwo!
+[] fileOneOrder!
+[] fileTwoOrder!
+
+@fileArgs len 0 > if
+    @fileArgs :0: @delim @colFile1 @verbose 1 @startRowFile1 @fileOne @fileOneOrder loadFile fileOne!, fileOneOrder!
+end
+
+@fileArgs len 1 > if
+    @fileArgs :1: @delim @colFile2 @verbose 2 @startRowFile2 @fileTwo @fileTwoOrder loadFile fileTwo!, fileTwoOrder!
+end
+
+@verbose if
+    "File 1:" wl @fileOneOrder (wl) each
+    "File 2:" wl @fileTwoOrder (wl) each
+end
+
+@suppressOneMinusTwo not if
+    @fileOneOrder (@fileTwo swap in not) filter oneMinusTwo!
+    @nameFile1 @nameFile2 @oneMinusTwo printDiffSection
+end
+
+@suppressTwoMinusOne not if
+    @fileTwoOrder (@fileOne swap in not) filter twoMinusOne!
+    @nameFile2 @nameFile1 @twoMinusOne printDiffSection
+end
+
+@printShared if
+    @fileOneOrder (@fileTwo swap in) filter shared!
+    @nameFile1 @nameFile2 @shared printSharedSection
+end

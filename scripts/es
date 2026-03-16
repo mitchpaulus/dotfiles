@@ -8,4 +8,4 @@ $DOTFILES toPath `scripts` / lsDir (basename str) map unlines scripts!
 runtime 'windows' = if 'bat.exe' else 'lf-preview' end previewer!
 
 [fzf $"--preview={@previewer} {$DOTFILES}/scripts/" "{}" +] @scripts < * ! chomp file!
-[$EDITOR $DOTFILES toPath `scripts` @file toPath / /];
+[$EDITOR $DOTFILES toPath `scripts` @file toPath / /]!
