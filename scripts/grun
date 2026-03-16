@@ -1,0 +1,2 @@
+#!/usr/bin/env mshell
+['java' 'org.antlr.v4.gui.TestRig' args]!
