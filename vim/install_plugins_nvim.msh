@@ -1,0 +1,39 @@
+#!/usr/bin/env mshell
+
+def clonePlugin (str -- )
+    toPath p!
+    $REPOS toPath @p / repoPath!
+    @repoPath fileExists if
+        $"{@p} already cloned." wl
+    else
+        ['git' 'clone' $"git@github.com:mitchpaulus/{@p}.git" @repoPath]!
+    end
+end
+
+$REPOS? not if "REPOS not defined." wle 1 exit end
+
+$HOME toPath `.config/nvim/pack/mp/start` / mpPluginDir! @mpPluginDir mkdirp
+$HOME toPath `.config/nvim/pack/github/start` / optPluginDir!  @optPluginDir mkdirp
+
+`plugins.txt` readFile lines map. toPath end each.
+    p!
+    $REPOS toPath @p / repoDir!      @mpPluginDir @p / pluginDir!
+    @mpPluginDir @p / fileExists if
+        $"Plugin {@p} already exists" wl
+    else
+        @p clonePlugin
+        ['ln' '-s' @repoDir @pluginDir]!
+    end
+end
+
+`opt_plugins.txt` readFile lines each.
+    githubRepo!
+    @githubRepo "/" split :1: toPath packageName!
+
+    @optPluginDir @packageName / pluginDir!
+    @pluginDir fileExists if
+        $"Plugin {@githubRepo} already exists" wl
+    else
+        ['git' 'clone' '--depth' '1' $"git@github.com:{@githubRepo}.git" @pluginDir]!
+    end
+end
