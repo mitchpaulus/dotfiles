@@ -696,7 +696,7 @@ end
 
 --vim.api.nvim_set_keymap("v", '*', ':<C-u>lua vsetsearch()', silent)
 
-vim.g.AutocorrectFiletypes = { "markdown", "tex", "text", "gitcommit", "html" }
+vim.g.AutocorrectFiletypes = { "markdown", "tex", "text", "gitcommit", "html", "typst" }
 vim.g.AutocorrectDisableDefaultMappings = true
 vim.api.nvim_set_keymap("n", "<leader>a", "<Plug>(AutocorrectAddToAbbrev)" , {noremap = false, silent = true})
 
@@ -1007,7 +1007,7 @@ filetypeAutocmds = {
     --{ 'markdown', 'nnoremap <silent> <leader>h1 :<c-u>call<Space><SID>MakeHeading("=")<cr>', },
     --{ 'markdown', 'nnoremap <silent> <leader>h2 :<c-u>call<Space><SID>MakeHeading("-")<cr>', },
     -- { 'markdown,tex,text', 'setlocal textwidth=72' },
-    { 'markdown,tex,text', 'setlocal spell' },
+    { 'markdown,tex,text,typst', 'setlocal spell' },
     { 'markdown', 'setlocal tabstop=2' },
     { 'markdown', 'setlocal softtabstop=0' },
     { 'markdown', 'setlocal shiftwidth=2' },
