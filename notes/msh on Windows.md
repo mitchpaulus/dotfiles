@@ -10,3 +10,4 @@ Things solved
 
 - Busybox for windows solves many utilities
 - sqlite CLI
+- mysql CLI

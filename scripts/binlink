@@ -22,7 +22,7 @@ dir!
 @dir mkdirp
 $1 basename filename!
 
-$"{@dir}/{@filename}" fullBinPath!
+@dir toPath @filename toPath / fullBinPath!
 $"Checking {@fullBinPath}.." wle
 @fullBinPath fileExists if
     $"Link already exists. Do you want to remove it? [y/N] " prompt
@@ -37,7 +37,7 @@ $"Checking {@fullBinPath}.." wle
 end
 
 runtime "windows" = if
-    $1  $"{@dir}/{@filename}"  hardLink
+    $1  @fullBinPath hardLink
 else
     ['ln' '-s' $1 absPath @fullBinPath]!
     ['chmod''+x' @fullBinPath]!
