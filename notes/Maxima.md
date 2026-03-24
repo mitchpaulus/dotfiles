@@ -2,7 +2,7 @@
 
 Don't forget to end each line with ';' or '$'. ';' prints result, '$' hides result.
 
-- `linel`: sets line length.
+- `linel`: sets line length. Ex: `linel:1000$`
 - `stardisp` controls whether spaces or \*'s are used to represent multiplication.
 
 # Solving

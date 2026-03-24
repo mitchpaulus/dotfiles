@@ -27,7 +27,7 @@ map ; mark-load
 map <f-2> rename
 
 # The 1:-1 removes the outer quotes
-cmd copy-command-path & [CCLLCCopyToClip.exe $f];
+cmd copy-command-path & [clip] $f $JOBSDIR '' findReplace 'Jobs - ' '' findReplace < !
 cmd copy-fullpath & [clip.exe] $f < ;
 cmd copy-filename & [clip.exe] $f basename str < ;
 
