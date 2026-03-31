@@ -2,15 +2,15 @@
 
 # See on cell pixel size: https://github.com/hpjansson/chafa/issues/211
 # But chafa seems to handle it well enough.
-soe
-args len 3 < ("Expected 3 args, file path, output width max, output height max" wl 0 exit) iff
+args len 3 < if "Expected 3 args, file path, output width max, output height max" wl 0 exit end
 $"{$2}x{$3}" size!
 
 # Depending on the chafa it prints version to either stdout or stderr :(
-[chafa --version] oc ec;
-stderr! stdout!
+[chafa --version] * ^ !
+stdout!, stderr!
 @stderr "1.8.0" in
-@stdout "1.8.0" in or
-( [chafa -f sixel -s @size -t 1 --bg black $1]; )
-( [chafa -f sixel -s @size --animate off --polite on -t 1 --bg black $1]; )
-iff
+@stdout "1.8.0" in or if
+    [chafa -f sixel -s @size -t 1 --bg black $1]!
+else
+    [chafa -f sixel -s @size --animate off --polite on -t 1 --bg black $1]!
+end

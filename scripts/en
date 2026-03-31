@@ -1,3 +1,2 @@
 #!/usr/bin/env mshell
-[select_note] os ! note!
-[$EDITOR $"{$MPNOTES}/{@note}.md"];
+[select_note] * ! chomp note! [$EDITOR $MPNOTES toPath $"{@note}.md" toPath /]!

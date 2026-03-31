@@ -121,3 +121,13 @@ SetSmallLabel:
     s.ParagraphFormat.SpaceBefore = 0
     s.QuickStyle = True
 ```
+
+- wdListNumberStyles
+
+
+- `0: wdListNumberStyleArabic` 1. 2. 3.
+- `1: wdListNumberStyleUppercaseRoman` II
+- `2: wdListNumberStyleLowercaseRoman` ii
+- `3: wdListNumberStyleUppercaseLetter` A
+- `4: wdListNumberStyleLowercaseLetter` a
+- `5: wdListNumberStyleOrdinal` 1st, 2nd, 3rd, 4th, etc.

@@ -47,7 +47,7 @@ def findSplit (str int int int int [[str]] -- int)
         unlines newBookmarks!
         # If the first bookmarks isn't a level 1, this will fail.
         # We'll deal with that later.
-        [set_bookmarks.msh @newName] @newBookmarks < !
+        [set_bookmarks @newName] @newBookmarks < !
 
         @endpg
     else
@@ -59,7 +59,7 @@ end
 
 [numpgs @input] * ! trim toInt? endPg!
 
-[get_bookmarks.msh @input] * ! lines (tsplit) map bookmarkData!
+[get_bookmarks @input] * ! lines (tsplit) map bookmarkData!
 
 def splitAll (str int int int int [[str]] --)
     input!, start!, endpg!, limit_bytes!, trynum!, bookmarkData!
