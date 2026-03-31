@@ -51,3 +51,25 @@ Digit 48: Spring Isolators
 Digit 49: Manufacturing Location
 Digit 50: Evaporator and Condenser Size
 Digit 51: Special Option
+
+## Surge Prevention
+
+Avoiding Centrifugal Chiller Surge ASHRAE Journal November 2018.
+
+Plant control logic should be designed to minimize the chance for surge to occur,
+which also often enhances energy performance at the same time.
+For instance:
+
+• Chilled water supply temperature should be reset upward at low loads to reduce lift.
+  The reset logic should be based on chilled water valve position,
+  as required by Standard 90.1, to ensure coils are not starved, which can result in loss of temperature and humidity control.
+• Condenser water supply temperature should be reset downward,
+  where possible, based on ambient conditions to reduce lift.
+• Staging points for variable speed chillers must be adjusted as a function of current operating lift.
+  It is well known that variable speed chillers can be more efficient at low load and low lift,
+  but staging on more chillers to operate at low load can push the chillers into surge if the current lift is not low enough.
+• Minimum tower flow must be maintained at the rate recommended by the tower manufacturer to ensure the fill remains fully wetted at the air entry,
+  thus avoiding scaling on the fill which will decrease tower efficiency over time.
+  The optimum control logic for cooling towers is to enable as many cells as possible without causing flow to fall below the recommended minimum.
+• If condenser water flow rate is being reduced dynamically,
+  avoid reducing the flow rate when the outdoor air wet-bulb temperature is high.
