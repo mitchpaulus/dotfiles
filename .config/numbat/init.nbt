@@ -1,0 +1,2 @@
+unit btu = 1 Btu
+unit tonref: Power = 12000 Btu/hr

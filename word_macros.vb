@@ -843,3 +843,39 @@ tbl.RightPadding = InchesToPoints(0)
 
 
 End Sub
+
+Sub AddCcllcTableStyle
+    Dim sty As Style
+
+    ' Create the style
+    On Error GoTo CreateStyle
+    Set sty = ActiveDocument.Styles("ccxtable")
+    Goto SetCcllcTableStyle
+CreateStyle:
+    Set sty = ActiveDocument.Styles.Add( _
+        Name:="ccxtable", _
+        Type:=wdStyleTypeTable)
+    Resume SetCcllcTableStyle
+SetCcllcTableStyle:
+    ' Configure the table style
+    sty.NoSpaceBetweenParagraphsOfSameStyle = True
+
+    With sty.Table
+        ' Whole-table formatting
+        .Borders(wdBorderTop).LineStyle = wdLineStyleSingle
+        .Borders(wdBorderBottom).LineStyle = wdLineStyleSingle
+        .Borders(wdBorderLeft).LineStyle = wdLineStyleSingle
+        .Borders(wdBorderRight).LineStyle = wdLineStyleSingle
+        .Borders(wdBorderVertical).LineStyle = wdLineStyleSingle
+
+        ' Header row formatting
+        With .Condition(wdFirstRow)
+            .Shading.BackgroundPatternColor = RGB(0, 73, 135)
+            ' .Font.Color = wdColorWhite
+            .Font.Bold = True
+        End With
+
+    End With
+
+
+End Sub

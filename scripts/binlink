@@ -1,7 +1,6 @@
 #!/usr/bin/env mshell
 
-args (a! @a "-h" = @a "--help" = or) any
-(
+args (a! @a "-h" = @a "--help" = or) any if
 'binlink
 
 USAGE:
@@ -9,60 +8,40 @@ USAGE:
 
 binlink creates a relative symlink to the executable file in ~/.local/bin or $USERPROFILE/bin under the same name.
 ' w 0 exit
-)
-iff
+end
 
 args len 1 != ($"1 argument expected, {args len} received." wle 1 exit) iff
 
-$LOCALBIN?
-(
-    $LOCALBIN isDir
-    ($LOCALBIN)
-    (
-        runtime "windows" = ($"{$USERPROFILE}\\bin") ( $"{$HOME}/.local/bin") iff
-    )
-    iff
-)
-(
-    runtime "windows" = ( $"{$USERPROFILE}\\bin") ( $"{$HOME}/.local/bin") iff
-)
-iff
+$LOCALBIN? if
+    $LOCALBIN isDir if $LOCALBIN end
+else
+    runtime "windows" = ($"{$USERPROFILE}\\bin") ($"{$HOME}/.local/bin") iff
+end
 dir!
 
 @dir mkdirp
 $1 basename filename!
 
-$"{@dir}/{@filename}" fullBinPath!
+@dir toPath @filename toPath / fullBinPath!
 $"Checking {@fullBinPath}.." wle
-@fullBinPath fileExists
-(
-    $"Link already exists. Do you want to remove it? [y/N] " wle
-    read
-    (
-        ans! @ans "y" = @ans "Y" = or
-        (
-            $"{@dir}/{@filename}" rm
-        )
-        (
-            @ans "n" = @ans "N" = or @ans trim "" = or
-            (0 exit)
-            ($"Invalid answer. Exiting." wle 1 exit)
-            iff
-        )
-        iff
-    )
-    (0 exit)
-    iff
-)
-iff
+@fullBinPath fileExists if
+    $"Link already exists. Do you want to remove it? [y/N] " prompt
+    ans!
+    @ans "y" = @ans "Y" = or if
+        $"{@dir}/{@filename}" rm
+    else* @ans "n" = @ans "N" = or @ans trim "" = or *if
+        0 exit
+    else
+        $"Invalid answer. Exiting." wle 1 exit
+    end
+end
 
-runtime "windows" =
-( $1  $"{@dir}/{@filename}"  hardLink )
-(
+runtime "windows" = if
+    $1  @fullBinPath hardLink
+else
     ['ln' '-s' $1 absPath @fullBinPath]!
     ['chmod''+x' @fullBinPath]!
-)
-iff
+end
 # #!/bin/sh
 
 # if test "$1" = "-h" || test "$1" = "--help"; then

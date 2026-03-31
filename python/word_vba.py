@@ -258,6 +258,7 @@ class RtfFragment:
     """A piece of RTF content with associated colors that need color table entries."""
     body: str
     colors: list[Color] = field(default_factory=list)
+    font_name: Optional[str] = None
 
 
 def rtf_document(*fragments: Union[str, RtfFragment]) -> str:
@@ -305,7 +306,15 @@ def rtf_document(*fragments: Union[str, RtfFragment]) -> str:
                 text = re.sub(r'\\clcbpat(\d+)', _replace, text)
             body_parts.append(text)
 
-    return '{\\rtf1\\ansi\\deff0\n' + colortbl + '\n' + '\n'.join(body_parts) + '\n}'
+    # Determine font name from fragments (use first specified, fallback to Calibri)
+    font_name = 'Calibri'
+    for frag in fragments:
+        if isinstance(frag, RtfFragment) and frag.font_name:
+            font_name = frag.font_name
+            break
+    fonttbl = '{\\fonttbl{\\f0 ' + font_name + ';}}'
+
+    return '{\\rtf1\\ansi\\deff0\n' + fonttbl + '\n' + colortbl + '\n' + '\n'.join(body_parts) + '\n}'
 
 class TextRun:
     def __init__(self, text: str, *, style = None, bold = None, italic = None, font_size = None):
@@ -349,6 +358,8 @@ class Table:
         self._style: Optional[str] = None
         self._header_repeat_rows = 0
         self._table_alignment: Optional[WordParagraphAlignment] = None
+        self._font_name: Optional[str] = None
+        self._horizontal_cell_margin: Optional[float] = None
 
         self.current_cell_range = None
 
@@ -416,6 +427,10 @@ class Table:
         self._bottom_padding = padding_in
         return self
 
+    def horizontal_cell_margin(self, margin_inches: float) -> 'Table':
+        self._horizontal_cell_margin = margin_inches
+        return self
+
     def font_size(self, *args) -> 'Table':
         if len(args) == 1:
             if self.current_cell_range is None:
@@ -429,6 +444,10 @@ class Table:
             raise ValueError("Invalid number of arguments")
 
         self.font_sizes.append((cell_range, font_size))
+        return self
+
+    def font_name(self, name: str) -> 'Table':
+        self._font_name = name
         return self
 
     def vertical_align(self, cell_range, alignment: WordVerticalAlignment):
@@ -610,34 +629,39 @@ class Table:
 
         # Lookup helpers for per-cell properties
         def get_bg_color_index(row1, col1):
+            result = None
             for cr, color in self._background_colors:
                 if _cell_in_range(cr, row1, col1, self):
-                    return color_map[(color.r, color.g, color.b)]
-            return None
+                    result = color_map[(color.r, color.g, color.b)]
+            return result
 
         def is_bold(row1, col1):
+            result = False
             for cr, bold in self._bolds:
                 if _cell_in_range(cr, row1, col1, self):
-                    return bold
-            return False
+                    result = bold
+            return result
 
         def get_font_size_hs(row1, col1):
+            result = None
             for cr, fs in self.font_sizes:
                 if _cell_in_range(cr, row1, col1, self):
-                    return int(fs * 2)  # RTF uses half-points
-            return None
+                    result = int(fs * 2)  # RTF uses half-points
+            return result
 
         def get_h_align(row1, col1):
+            result = None
             for cr, alignment in self._horizontal_alignments:
                 if _cell_in_range(cr, row1, col1, self):
-                    return alignment
-            return None
+                    result = alignment
+            return result
 
         def get_v_align(row1, col1):
+            result = None
             for cr, alignment in self._vertical_alignments:
                 if _cell_in_range(cr, row1, col1, self):
-                    return alignment
-            return None
+                    result = alignment
+            return result
 
         # Padding in twips
         def pad_twips(inches):
@@ -670,9 +694,28 @@ class Table:
             elif self._table_alignment == WordParagraphAlignment.wdAlignParagraphRight:
                 row_def += '\\trqr'
 
-            # Cell definitions
+            # Row-level borders
+            if self._borders:
+                bdr = '\\brdrs\\brdrw10'
+                row_def += f'\\trbrdrt{bdr}\\trbrdrb{bdr}\\trbrdrl{bdr}\\trbrdrr{bdr}'
+
+            # Determine visible columns and their cellx right-edge positions.
+            # For horizontally merged cells, the first cell's cellx must be at the
+            # right edge of the last continuation column.
+            visible_cols = []
+            visible_cellx = []
             cellx_pos = 0
             for c in range(num_cols):
+                cellx_pos += col_widths_twips[c]
+                if h_merge[r][c] != 'cont':
+                    visible_cols.append(c)
+                    visible_cellx.append(cellx_pos)
+                else:
+                    # Continuation: extend the previous visible cell's right edge
+                    visible_cellx[-1] = cellx_pos
+
+            # Cell definitions (only for visible columns)
+            for i, c in enumerate(visible_cols):
                 cell_props = ''
 
                 # Vertical alignment
@@ -682,46 +725,45 @@ class Table:
                 elif va == WordVerticalAlignment.wdCellAlignVerticalBottom:
                     cell_props += '\\clvertalb'
 
-                # Borders
-                if self._borders:
-                    border = '\\brdrs\\brdrw10'
-                    cell_props += f'\\clbrdrt{border}\\clbrdrb{border}\\clbrdrl{border}\\clbrdrr{border}'
-
-                # Background color
-                ci = get_bg_color_index(r + 1, c + 1)
-                if ci is not None:
-                    cell_props += f'\\clcbpat{ci}'
-
-                # Horizontal merge
-                if h_merge[r][c] == 'first':
-                    cell_props += '\\clmgf'
-                elif h_merge[r][c] == 'cont':
-                    cell_props += '\\clmrg'
-
                 # Vertical merge
                 if v_merge[r][c] == 'first':
                     cell_props += '\\clvmgf'
                 elif v_merge[r][c] == 'cont':
                     cell_props += '\\clvmrg'
 
-                cellx_pos += col_widths_twips[c]
-                row_def += f'{cell_props}\\cellx{cellx_pos}'
+                # Cell borders
+                if self._borders:
+                    bdr = '\\brdrs\\brdrw10'
+                    cell_props += f'\\clbrdrt{bdr}\\clbrdrb{bdr}\\clbrdrl{bdr}\\clbrdrr{bdr}'
+
+                # Horizontal cell margin
+                if self._horizontal_cell_margin is not None:
+                    hm = int(self._horizontal_cell_margin * 1440)
+                    cell_props += f'\\clpadl{hm}\\clpadfl3\\clpadr{hm}\\clpadfr3'
+
+                # Background color
+                ci = get_bg_color_index(r + 1, c + 1)
+                if ci is not None:
+                    cell_props += f'\\clcbpat{ci}'
+
+                row_def += f'{cell_props}\\cellx{visible_cellx[i]}'
 
             lines.append(row_def)
 
-            # Cell contents
-            cell_parts = []
-            for c in range(num_cols):
-                content = ''
+            # Cell contents (only for visible columns)
+            for c in visible_cols:
+                content = '\\pard\\intbl\\sa0\\keepn'
 
                 # Paragraph alignment
                 ha = get_h_align(r + 1, c + 1)
                 if ha == WordParagraphAlignment.wdAlignParagraphCenter:
-                    content += '\\qc '
+                    content += '\\qc'
                 elif ha == WordParagraphAlignment.wdAlignParagraphRight:
-                    content += '\\qr '
+                    content += '\\qr'
                 elif ha == WordParagraphAlignment.wdAlignParagraphJustify:
-                    content += '\\qj '
+                    content += '\\qj'
+
+                content += ' '
 
                 # Character formatting
                 bold = is_bold(r + 1, c + 1)
@@ -747,22 +789,23 @@ class Table:
                     content += '\\b0'
 
                 content += '\\cell'
-                cell_parts.append(content)
+                lines.append(content)
 
-            lines.append(''.join(cell_parts))
             lines.append('\\row')
 
         table_rtf = '\n'.join(lines)
 
         if standalone:
+            font_name = self._font_name or 'Calibri'
+            fonttbl = '{\\fonttbl{\\f0 ' + font_name + ';}}'
             colortbl = '{\\colortbl ;'
             for color in colors:
                 colortbl += f'\\red{color.r}\\green{color.g}\\blue{color.b};'
             colortbl += '}'
 
-            return '{\\rtf1\\ansi\\deff0\n' + colortbl + '\n' + table_rtf + '\n}'
+            return '{\\rtf1\\ansi\\deff0\n' + fonttbl + '\n' + colortbl + '\n' + table_rtf + '\n}'
         else:
-            return RtfFragment(body=table_rtf, colors=colors)
+            return RtfFragment(body=table_rtf, colors=colors, font_name=self._font_name)
 
     def compile(self) -> str:
         """Compile table information into the required Word VBA"""
@@ -815,6 +858,9 @@ class Table:
                 lines.append('Next IntRow')
             else:
                 lines.append(f'{self.obj_from_cell_range(cell_range)}.Range.ParagraphFormat.Alignment = {alignment}')
+
+        if self._font_name is not None:
+            lines.append(f'tbl.Range.Font.Name = "{self._font_name}"')
 
         for cell_range, font_size in self.font_sizes:
             lines.append(f'{self.obj_from_cell_range(cell_range)}.Range.Font.Size = {font_size}')
@@ -885,6 +931,10 @@ class Table:
                 lines.append('tbl.Borders.Enable = True')
             else:
                 lines.append('tbl.Borders.Enable = False')
+
+        if self._horizontal_cell_margin is not None:
+            lines.append(f'tbl.LeftPadding = InchesToPoints({self._horizontal_cell_margin})')
+            lines.append(f'tbl.RightPadding = InchesToPoints({self._horizontal_cell_margin})')
 
         if self._left_padding is not None:
             lines.append(f'tbl.LeftPadding = InchesToPoints({self._left_padding})')

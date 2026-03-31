@@ -1,7 +1,10 @@
 #!/usr/bin/env mshell
 
 tempDir `fg_projects.tsv` / f!
-@f  isFile not ($"{@f} does not exist, usually created using \n`fg_projects` > {@f}\nor\n[fg_projects] `{@f}` > !" wle 1 exit) iff
+@f isFile not if
+    "Rebuilding.." wle
+    [fg_projects] @f > !
+end
 
 [fzf -d tab -n '1,2' "--with-nth=1,2"] @f < * ! trim
 tsplit :-1: projectId!
