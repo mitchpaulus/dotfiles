@@ -248,6 +248,49 @@ vnmap("<leader>=", ":Tab /=/<CR>")
 vnmap("<leader>qs", ":<C-u>keeppatterns '<,'>s/\\v^\\s*\\zs.*$/'\\0'/<CR>")
 vnmap("<leader>qd", "<Cmd>keeppatterns '<,'>s/\\v^\\s*\\zs.*$/\"\\0\"/<CR>")
 
+local function get_energyplus_documentation_paths()
+  local install_glob
+  local separator
+
+  if in_windows then
+    install_glob = "C:\\EnergyPlus*"
+    separator = "\\"
+  elseif in_wsl then
+    install_glob = "/mnt/c/EnergyPlus*"
+    separator = "/"
+  else
+    return nil, "EnergyPlus help lookup is only configured for Windows or WSL."
+  end
+
+  local matches = vim.fn.glob(install_glob, false, true)
+  local install_dirs = {}
+
+  for _, match in ipairs(matches) do
+    if vim.fn.isdirectory(match) == 1 then
+      table.insert(install_dirs, match)
+    end
+  end
+
+  if #install_dirs == 0 then
+    return nil, "No EnergyPlus installations found in " .. install_glob
+  end
+
+  table.sort(install_dirs, function(path_a, path_b)
+    return path_a > path_b
+  end)
+
+  local install_dir = install_dirs[1]
+  local documentation_dir = install_dir .. separator .. "Documentation"
+  local bookmark_path = documentation_dir .. separator .. "ep_bookmarks.tsv"
+  local pdf_path = documentation_dir .. separator .. "InputOutputReference.pdf"
+
+  return {
+    install_dir = install_dir,
+    bookmark_path = bookmark_path,
+    pdf_path = pdf_path,
+  }
+end
+
 function lookup_and_open_pdf()
   -- Get the word under the cursor
   local word = vim.fn.expand("<cword>")
@@ -256,8 +299,13 @@ function lookup_and_open_pdf()
     return
   end
 
-  -- Path to your tab-separated bookmarks file; update this as needed.
-  local file_path = "/mnt/c/EnergyPlusV25-2-0/Documentation/ep_bookmarks.tsv"
+  local docs, err = get_energyplus_documentation_paths()
+  if not docs then
+    vim.api.nvim_echo({{err, "ErrorMsg"}}, false, {})
+    return
+  end
+
+  local file_path = docs.bookmark_path
   local bookmark_page = nil
 
   -- Open the bookmarks file for reading.
@@ -289,7 +337,7 @@ function lookup_and_open_pdf()
       "SumatraPDF.exe",
       "-page", bookmark_page,
       "-reuse-instance",
-      "C:\\EnergyPlusV25-2-0\\Documentation\\InputOutputReference.pdf"
+      docs.pdf_path
     }
     -- Start the process in the background (fire-and-forget).
     vim.system(args, {detach = true})

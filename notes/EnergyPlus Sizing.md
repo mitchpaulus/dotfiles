@@ -9,3 +9,7 @@ Calculated Design Air: Uses the input about temperature difference or supply tem
 User Design Air: Calculated Design Air * Sizing Factor (1.15 or 1.25 typically for cooling and heating)
 
 Note that the ratio that the zone will actually heat at is *not* taken into account here.
+
+- Anywhere a component has an 'autosize', there should be a component sizing summary in the HTML output. Table name like:
+
+`FullName:Component Sizing Summary_Entire Facility_ZoneHVAC:PackagedTerminalHeatPump`
