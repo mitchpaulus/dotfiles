@@ -76,7 +76,7 @@ hostname "prec3660-mp" = runtime "windows" = and if
         'C:\maxima-5.47.0\bin'
         $"{$LOCALAPPDATA}\\SumatraPDF"
         $PATH
-    ] (isDir) filter ';' join $PATH!
+    ] ';' join $PATH!
 end
 
 def mshCompletion ([str] -- [str])
