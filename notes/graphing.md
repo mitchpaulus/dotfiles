@@ -1,5 +1,6 @@
 coordinates:
 
+Typically have separate x and y versions of each.
 data -> chart -> figure -> print
 
 # Typical linear scaling

@@ -9,10 +9,9 @@ mplot "$2".mplot | gnuplot -
 
 ```mshell
 #!/usr/bin/env mshell
-soe
 $"{$2}.mplot" file!
-[redo-ifchange @file [mplot -d @file]o;];
-[ [mplot @file] [gnuplot '-'] ] | ;
+[redo-ifchange @file [mplot -d @file]o;]!
+[ [mplot @file] [gnuplot '-'] ] | !
 ```
 
 ```mplot

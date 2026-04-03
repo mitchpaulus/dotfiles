@@ -1,0 +1,21 @@
+#!/usr/bin/env mshell
+# Help select out node names from an nbem file.
+
+[nbem --objects $1]*!lines (tsplit) map
+map.
+    obj!
+
+    @obj :1: lower type!
+
+    @type 'zonehvac:equipmentconnections' = if
+        @obj 4:8
+    else* @type 'branch' = *if
+        @obj 4: 4 chunk map. 2: end concat
+    else* @type 'outdoorair:node' = *if
+        [@obj :2:]
+    else
+        []
+    end
+end
+concat map. trim end uniq sortV nodes!
+[fzf] @nodes unlines < !

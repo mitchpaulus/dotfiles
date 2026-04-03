@@ -1,6 +1,7 @@
 #!/usr/bin/env mshell
+VER "v0.13.0"
 
-args (dup "-h" = swap "--help" = or) any ("tsv2xlsx [input.tsv]\noutput.xlsx if data piped in.\n" w 0 exit) iff
+args (a! @a "-h" = @a "--help" = or) any ("tsv2xlsx [input.tsv]\noutput.xlsx if data piped in.\n" w 0 exit) iff
 
 args len 0 > if
     args :0: tsvfile!
