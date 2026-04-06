@@ -332,13 +332,18 @@ function lookup_and_open_pdf()
   file:close()
 
   if bookmark_page then
-    -- Build the command arguments.
+    -- if in wsl, convert the docs.pdf_path to a windows path: Replace /mnt/c with C:\ and switch separators
+    if in_wsl then
+      docs.pdf_path = docs.pdf_path:gsub("^/mnt/c", "C:"):gsub("/", "\\")
+    end
+
     local args = {
       "SumatraPDF.exe",
       "-page", bookmark_page,
       "-reuse-instance",
       docs.pdf_path
     }
+
     -- Start the process in the background (fire-and-forget).
     vim.system(args, {detach = true})
   else
