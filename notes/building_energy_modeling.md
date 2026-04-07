@@ -180,6 +180,17 @@ References:
 
 ASHRAE 90.1 User Manuals
 
+## Entering cold water temperature
+
+<https://bigladdersoftware.com/epx/docs/25-2/engineering-reference/water-systems.html>
+Have this in my references: Hendron, R., Anderson, R., Christensen, C., Eastment, M., and Reeves, P. 2004. “Development of an Energy Savings Benchmark for All Residential End-Uses”, Proceedings of SimBuild 2004, IBPSA-USA National Conference, Boulder, CO, August 4 - 6, 2004.
+
+Tmain = (Toa,avg,ann + 6°F) + (0.4 + 0.01 * (Toa,avg,ann - 44)) * (Toa,max avg monthly diff  / 2) * sin(0.986°/day * day num  - 15 -  ( 35 - (Toa,avg,ann - 44)          )                )
+No lower than 32°F obviously.
+
+Implies that the average of that function is ~(Toa,avg,ann + 6°F)
+
+
 ## References
 
 - <https://help.iesve.com/ve2021/table_6_thermal_conductivity__specific_heat_capacity_and_density.htm>
