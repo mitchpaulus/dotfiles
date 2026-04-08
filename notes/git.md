@@ -145,3 +145,7 @@ git ls-files --deleted -z | xargs -0 git add
 ```
 
 <https://git-send-email.io/>
+
+## Git Ignore pattern format
+
+<https://git-scm.com/docs/gitignore#_pattern_format>

@@ -55,3 +55,12 @@ temperature setpoint down towards design. Parametric plant analysis performed in
 the development of ASHRAE’s “Fundamentals of Design and Control of Central Chilled-Water Plants” Self-Directed
 Learning Course showed that the pump energy penalty incurred with this approach is more than offset by
 chiller energy savings resulting from keeping the chilled water supply temperature setpoint as high as possible.
+
+
+## Variable Primary - Variable Secondary
+
+### Primary Pump control
+
+- If decoupler flow is measured, or can be calculated via supply and return: PID loop to maintain near 0 bypass flow
+- If no decoupler flow:
+  - Try to maintain 0°F between primary supply and secondary supply temperature. G36 uses T&R for this.
