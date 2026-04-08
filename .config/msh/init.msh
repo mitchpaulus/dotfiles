@@ -1,14 +1,10 @@
-def gd (--)
-    $DOTFILES cd
-end
+def gd (--) $DOTFILES cd end
 
-def q (--)
-    0 exit
-end
+def q (--) 0 exit end
 
 def lf_last_dir_file (-- str)
     # This makes it work on Linux and Windows for now.
-    $HOME? ($"{$HOME}/.config/lf/lf_lastdir") ($"{$LOCALAPPDATA}/mshell/lf_lastdir") iff
+    $HOME? ($"{$HOME}/.config/lf/lf_lastdir") ($"{$LOCALAPPDATA}/msh/lf_lastdir") iff
 end
 
 def lf (--)
@@ -84,31 +80,15 @@ def mshCompletion ([str] -- [str])
     ['-h' '--help' '--html' '--lex' '--parse' '--version' '-c'] options!
     ['lsp' 'bin' 'completions'] subcommands!
 
-    @input len 0 >
-    (
-        @input :0: first!
-        @first 'lsp' =
-        ([]) # Nothing after lsp
-        (
-            @input :0: 'bin' =
-            (
-                ['add' 'remove' 'list' 'path' 'edit' 'audit' 'debug']
-            )
-            (
-                @input :0: 'completions' =
-                (
-                    ['fish' 'bash' 'nushell' 'elvish']
-                )
-                (
-                    []
-                ) iff
-            )
-            iff
-        )
-        iff
-    )
-    (
+    @input len 0 > if
+        @input :0:
+        match
+            "lsp": drop [], # Nothing after lsp
+            "bin": drop ['add' 'remove' 'list' 'path' 'edit' 'audit' 'debug'],
+            "completions": drop ['fish' 'bash' 'nushell' 'elvish'],
+            _: drop [],
+        end
+    else
         @options @subcommands extend
-    )
-    iff
+    end
 end

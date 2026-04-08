@@ -1,0 +1,50 @@
+def tagsFromFiles ([str] -- [str]) files! ['tmsu' 'tags' @files] * nullDevice 2> ; lines (':' split :1: wsplit) map concat uniq end
+
+def handleSelection (str [str] -- )
+    input!, tags!
+
+    $"Handling {@input}.." wle
+
+    @input isFile if
+        [ '.docx' '.jpg' '.msg' '.pdf' '.png' '.pptx' '.xls' '.xlsm' '.eml' '.dwg' '.xlsx'] exts!
+        @input ext ext! @exts (lower @ext =) linearSearch found!
+
+        @found isNone not if
+            $"Trying to open {@input}.." wle
+            ['cmd.exe' '/C' 'start' @input @input];
+            0 exit
+        end
+
+        [$EDITOR @input] &
+    else* @input isDir *if
+        0 exit # TODO
+    else
+        # Assume selection was tag
+        @tags @input append uniq tags!
+        @tags query
+    end
+end
+
+def query ([str] --)
+    tags! ['tmsu' 'files' '--file' @tags] * ! lines files!
+    "Got here" wle
+    @files len 0 = if 'No files found from current directory location' wle 1 exit end
+
+    @files len 1 = if
+        @files :0: @tags handleSelection
+    else
+        "Looking for tags from files" wle
+        @files tagsFromFiles sortV tagsFromFiles!
+        "Got tags from files" wle
+        @tags () () listToDict tDict!
+        @tagsFromFiles filter. t! @tDict @t in not end sortV unusedTags!
+
+        @unusedTags @files extend unlines fzfInput!
+
+        ['fzf'] @fzfInput < * ! chomp selectedOutput!
+
+        @selectedOutput @tags handleSelection
+    end
+end
+
+[] query
