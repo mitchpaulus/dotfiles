@@ -1,8 +1,7 @@
 #!/usr/bin/env mshell
 
-def pad_row ([str]:row int:maxColumns -- [str]:row)
-    row!
-    maxColumns!
+def pad_row ([str] int -- [str])
+    row!, maxColumns!
     @row len rowLen!
     @rowLen @maxColumns < (
         @maxColumns @rowLen - missing!

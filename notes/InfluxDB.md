@@ -210,3 +210,15 @@ sudo influxd inspect export-lp \
 
 influx write --host http://localhost:8086 --token <token> --bucket 'Bucket Name' --org-id '1234556' -f data.lp --format lp
 ```
+
+## Deleting Data
+
+Using the CLI:
+
+```
+influx delete \
+  --bucket my-bucket \
+  --start 2026-04-01T00:00:00Z \
+  --stop  2026-04-10T00:00:00Z \
+  --predicate '_measurement="cpu" AND host="server-1"'
+```

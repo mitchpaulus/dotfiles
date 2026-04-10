@@ -1,31 +1,12 @@
 #!/usr/bin/env mshell
-soe
+VER "v0.14.0"
 $1 "https://" startsWith not ($"https://{$1}") ($1) iff url!
 
-runtime "windows" =
-( ['EXPLORER.EXE' @url]; )
-(
-    # Check if we are in WSL or not.
-    $WSL_DISTRO_NAME?
-    (
-        [wslpath -u [winenv USERPROFILE] os;]os; cd
-        [cmd.exe /C start $1];
-    )
-    ([xdg-open @url];)
-    iff
-)
-iff
-
-
-# OLD
-#!/bin/bash
-# set -e
-#
-# # If $1 doesn't start with https://, prepend it
-# if [ "${1:0:8}" != "https://" ]; then
-#     set -- "https://$1"
-# fi
-#
-# cd "$(wslpath -u "$(winenv USERPROFILE)")"
-#
-# cmd.exe /C start "$1"
+runtime "windows" = if
+    ['EXPLORER.EXE' @url]!
+else*  $WSL_DISTRO_NAME? *if # Check if we are in WSL or not.
+    [wslpath -u [winenv USERPROFILE] * ! chomp] * ! chomp cd
+    [cmd.exe /C start $1]!
+else
+    [xdg-open @url]!
+end
