@@ -146,3 +146,20 @@ See:
 - Windows PowerShell 2.0
 - Windows Subsystem for Linux
 - Work Folders Client
+
+## Reclaiming file space
+
+<https://github.com/microsoft/WSL/issues/4699>
+
+In WSL:
+
+```
+sudo fstrim -av
+```
+
+In Admin PowerShell:
+
+```
+wsl --shutdown
+Optimize-VHD -Path "C:\Users\mpaulus\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu_79rhkp1fndgsc\LocalState\ext4.vhdx" -Mode Full
+```
