@@ -789,6 +789,24 @@ end
 vim.api.nvim_create_user_command('InsertUUID', insert_uuid, {})
 vim.api.nvim_set_keymap('i', '<localleader>g', '<Cmd>InsertUUID<CR>', { noremap = true, silent = true })
 
+function html_template()
+  local snippet = [[
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${2:title}</title>
+</head>
+<body>
+  ${0}
+</body>
+</html>]]
+    vim.snippet.expand(snippet)
+end
+
+vim.api.nvim_create_user_command('HtmlTemplate', html_template, {})
+
 
 function shell_command_output_to_telescope(args)
   -- Validate the input

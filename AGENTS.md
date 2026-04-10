@@ -23,3 +23,8 @@ Library that has many primitives for creating SVG diagrams.
 ### `idf.py`
 
 CLI that helps inspect EnergyPlus `.idf` files.
+
+## Vim Configuration
+
+I exclusively use Neovim at this point.
+My configuration is in a single file at: `.config/nvim/init.lua`.
