@@ -28,13 +28,18 @@
 - List item 1
 - List item 2
 
++ Numbered item 1
++ Numbered item 2
+
 `code` in text.
 
 // Call a function.
 #list([A], [B])
 
-// Named arguments and trailing content blocks.
+// Named arguments and trailing content blocks. The `][` must touch with no space.
 #enum(start: 2)[A][B]
+// https://typst.app/docs/reference/model/enum/
+#set enum(numbering: "(a)") // https://typst.app/docs/reference/model/numbering/
 
 // Version without parentheses.
 #list[A][B]
@@ -60,5 +65,11 @@
 ) <glacier>
 
 #pagebreak()
+
+// 3 modes:
+
+// Code, prefixed with '#'
+// Math, $
+// Content, [ ... ]
 
 ```
