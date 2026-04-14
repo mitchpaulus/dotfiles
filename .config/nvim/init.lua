@@ -688,6 +688,7 @@ vim.o.tabstop = 4      -- Default of 8 is absurd
 vim.o.shiftwidth = 0      -- 0 makes this follow tabstop
 vim.o.synmaxcol = 3000
 vim.o.swapfile = false
+vim.o.modeline = false
 
 if os.getenv('DOTFILES') ~= nil then
     if in_windows then
