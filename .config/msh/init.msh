@@ -72,6 +72,8 @@ hostname "prec3660-mp" = runtime "windows" = and if
         'C:\maxima-5.47.0\bin'
         $"{$LOCALAPPDATA}\\SumatraPDF"
         $"{$REPOS}\\andover-dmp\\andover-dmp\\bin\\debug\\net9.0"
+        $"{$REPOS}\\andover-antlr\\AndoverPlainEnglishApp\\bin\\Debug\\net8.0"
+        $"C:\\Program Files\\Graphviz\\bin"
         $PATH
     ] ';' join $PATH!
 end
