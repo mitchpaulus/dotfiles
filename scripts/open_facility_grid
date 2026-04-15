@@ -4,7 +4,7 @@ VER "v0.13.0"
 tempDir `fg_projects.tsv` / f!
 @f isFile not if
     "Rebuilding.." wle
-    [fg_projects] @f > !
+    [fg_projects 'ls-old'] @f > !
 end
 
 [fzf -d tab -n '1,2' "--with-nth=1,2"] @f < * ! trim
