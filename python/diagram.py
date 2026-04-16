@@ -86,10 +86,10 @@ class Drawing:
         self._default_stroke_width = stroke_width
         return self
 
-    def to_svg(self, min_x: float, min_y: float, width: float, height: float):
+    def to_svg(self, left: float, bottom: float, width: float, height: float):
         lines = []
-
-        lines.append(f'<svg viewBox="{min_x} {min_y} {width} {height}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="stroke-width: {self._default_stroke_width}">\n')
+        top = (-1 * bottom) - height
+        lines.append(f'<svg viewBox="{left} {top} {width} {height}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="stroke-width: {self._default_stroke_width}">\n')
         for i in self._shapes:
             shape = self._shapes[i]
             lines.append(shape.to_svg())
@@ -427,7 +427,7 @@ class Rectangle:
 
         return rect_tag
 
-    def right_of(self, other, distance = 0) -> 'Rectangle':
+    def right_of(self, other, distance = 72) -> 'Rectangle':
         self._x = compute(other._x) + compute(other._width) + distance
         self._y = compute(other.center_y()) - compute(self._height) / 2
         return self
