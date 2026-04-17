@@ -5,6 +5,7 @@ pack/
 tmp/
 *.aux
 *.log
+.codex
 
 skills/mplot/doc.md
 skills/mshell/mshell.md

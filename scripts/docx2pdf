@@ -2,32 +2,28 @@
 
 args len 1 < ("Usage: docx2pdf <docx-file> [pdf-file]" wl 0 exit) iff
 
-'.docx' tempFileExt tmpfile!
-
 $"Tmp File {@tmpfile}" wle
 $1 @tmpfile cp
 $"Converting '{@tmpfile}' to PDF..." wle
 
 runtime "windows" != if
+    'WINWORD.EXE' word!
     [wslpath -w -a @tmpfile]*! trim input-docx!
 else
+    `C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE` word!
     @tmpfile input-docx!
 end
 
-runtime "windows" = if
-    `C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE` word!
-else
-    'WINWORD.EXE' word!
-end
-
-[@word @input-docx /mMpPrintToPDF]!
+[@word @input-docx '/mMpPrintToPDF']!
 "Successfully printed to PDF." wle
 
 def move-result-file (--)
     runtime "windows" = if
         $TMP toPath `docx.pdf` / $2 mv
     else
-        ['mv' [wslpath -u [winenv TMP]*! chomp ]*! chomp "/docx.pdf" + $2];
+        [winenv TMP]*! chomp windowsTmpPath!
+        [wslpath -u @windowsTmpPath]*! chomp unixTempPath!
+        ['mv' @unixTempPath "/docx.pdf" + $2];
     end
 end
 
