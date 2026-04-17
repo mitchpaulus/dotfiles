@@ -63,4 +63,6 @@ chiller energy savings resulting from keeping the chilled water supply temperatu
 
 - If decoupler flow is measured, or can be calculated via supply and return: PID loop to maintain near 0 bypass flow
 - If no decoupler flow:
-  - Try to maintain 0°F between primary supply and secondary supply temperature. G36 uses T&R for this.
+  - Try to maintain 0°F between primary supply and secondary supply temperature. G36 uses T&R for this. (pg. 202, 204 of PDF).
+- Typically requires knowing `CH-MinPriPumpSpdStage`: the primary chilled water pump speed necessary to deliver minimum
+  chilled water flow, CHW-MinFlowX, through the operating chiller(s) in the stage.
