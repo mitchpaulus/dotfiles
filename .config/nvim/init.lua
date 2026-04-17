@@ -96,14 +96,6 @@ local function setupLsp()
         vim.lsp.enable(lsp)
         -- nvim_lsp[lsp].setup { on_attach = on_attach }
     end
-
-    -- -- OmniSharp stuff
-    -- local omnisharp_bin = "/usr/local/omnisharp/OmniSharp"
-    -- -- check if omnisharp is installed
-    -- if vim.fn.executable(omnisharp_bin) == 1 then
-        -- local pid = vim.fn.getpid()
-        -- nvim_lsp.omnisharp.setup { on_attach = on_attach, capabilities = capabilities, cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid)  } }
-    -- end
 end
 
 vim.lsp.config('nbem_lsp', {
