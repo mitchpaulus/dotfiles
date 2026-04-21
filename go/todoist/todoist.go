@@ -13,6 +13,8 @@ import (
 	"strings"
 )
 
+const workProjectID = "6Px2qFqGPQFg64Vw"
+
 // Example task object:
 /* { */
 /* "creator_id": "2671355", */
@@ -151,7 +153,7 @@ func list(token string) {
 		os.Exit(1)
 	}
 
-	// Print tasks that match project_id 2315202256
+	// Print tasks that match the Work project.
 	// print content, project_id, and labels, tab separated
 	// Order by child order (ascending)
 	sort.Slice(tasks, func(i, j int) bool {
@@ -162,7 +164,7 @@ func list(token string) {
 	})
 
 	for _, task := range tasks {
-		if task.ProjectId == "2315202256" {
+		if task.ProjectId == workProjectID {
 			fmt.Printf("%s\t%s\n", task.Content, strings.Join(task.Labels, ","))
 		}
 	}
@@ -337,7 +339,7 @@ func add(token string, description string) {
 	// Create a map with the task description
 	task := map[string]string{
 		"content":    description,
-		"project_id": "2315202256",
+		"project_id": workProjectID,
 	}
 
 	// Convert the map to a JSON string
