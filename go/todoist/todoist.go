@@ -100,12 +100,13 @@ func main() {
 	var description string
 
 	for index < len(os.Args) {
-		if os.Args[index] == "-h" || os.Args[index] == "--help" {
+		switch os.Args[index] {
+		case "-h", "--help":
 			fmt.Println("Usage: todoist")
 			fmt.Println("       todoist projects")
 			fmt.Println("       todoist add <DESCRIPTION>")
 			os.Exit(0)
-		} else if os.Args[index] == "add" || os.Args[index] == "a" {
+		case "add", "a":
 			command = "add"
 
 			// Get the next arguments as the description for the task, space separated
@@ -118,7 +119,7 @@ func main() {
 				// Join the description items with a space
 				description = strings.Join(descriptionItems, " ")
 			}
-		} else if os.Args[index] == "projects" || os.Args[index] == "p" {
+		case "projects", "p":
 			command = "projects"
 		}
 
@@ -134,13 +135,14 @@ func main() {
 		os.Exit(1)
 	}
 
-	if command == "list" {
+	switch command {
+	case "list":
 		list(token)
-	} else if command == "projects" {
+	case "projects":
 		projects(token)
-	} else if command == "add" {
+	case "add":
 		add(token, description)
-	} else {
+	default:
 		// Should never reach here, print what invalid command was used
 		fmt.Fprint(os.Stderr, "Invalid command: ", command, "\n")
 	}
