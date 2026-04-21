@@ -56,3 +56,10 @@ Its site describes it as an ADO.NET provider for SQLite, typically installed wit
 Microsoft’s comparison page notes the history: it began in 2005, and the SQLite team took over maintenance in 2010.
 
 So I'm going to prefer Microsoft.Data.Sqlite
+
+## REPL
+
+```
+.tables
+.schema table name
+```
