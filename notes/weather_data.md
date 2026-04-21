@@ -82,3 +82,15 @@ Can get daily average exports:
 
 Base URL
 `https://meteostat.p.rapidapi.com`
+
+## National Weather Service API
+
+<https://www.weather.gov/documentation/services-web-api>
+
+## Iowa Environmental Mesonet
+
+<https://www.mesonet.agron.iastate.edu/cgi-bin/request/asos.py?help=>
+
+Networks:
+
+<https://www.mesonet.agron.iastate.edu/sites/networks.php>

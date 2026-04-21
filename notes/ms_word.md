@@ -257,3 +257,12 @@ To make it look halfway decent, they put in on the paragraph below and right ali
 ```
 Page { PAGE } of { = (StartingNumber - 1) + { NUMPAGES } }
 ```
+
+## Style Properties
+
+```
+s.ParagraphFormat.Alignment = wdAlignParagraphCenter
+s.Font.Name = "name"
+s.Font.Size = 12
+s.NoSpaceBetweenParagraphsOfSameStyle = True
+```

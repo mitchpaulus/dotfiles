@@ -69,3 +69,14 @@ dotnet new avalonia.window -n InfluxDialog
 ## ScrollViewer properties on ListBox
 
 <https://github.com/AvaloniaUI/Avalonia/discussions/12029>
+
+## StackPanel
+
+```
+Spacing="10"
+Orientation="Horizontal|Vertical"
+```
+
+## WrapPanel
+
+Will wrap unlike StackPanel.
