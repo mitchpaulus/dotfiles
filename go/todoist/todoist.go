@@ -78,15 +78,14 @@ func main() {
 		case "add", "a":
 			command = "add"
 
-			// Get the next arguments as the description for the task, space separated
-			// If the description is not provided, print an error message and exit
+			// Treat every remaining argument as part of the task description.
 			if index+1 >= len(os.Args) {
 				fmt.Fprint(os.Stderr, "Description required for add command.\n")
 				os.Exit(1)
 			} else {
-				descriptionItems := os.Args[index+1:]
-				// Join the description items with a space
-				description = strings.Join(descriptionItems, " ")
+				description = strings.Join(os.Args[index+1:], " ")
+				index = len(os.Args)
+				continue
 			}
 		case "projects", "p":
 			command = "projects"
