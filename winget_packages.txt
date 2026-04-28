@@ -1,3 +1,4 @@
+AlDanial.Cloc
 BurntSushi.ripgrep.MSVC
 frippery.busybox-w32
 junegunn.fzf

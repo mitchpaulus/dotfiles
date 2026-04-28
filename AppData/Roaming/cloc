@@ -1,0 +1,1 @@
+--exclude-dir=.redo,.idea,.claude,.gocache,.gopath,node_modules
