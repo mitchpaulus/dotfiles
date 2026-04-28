@@ -74,6 +74,10 @@ hostname "prec3660-mp" = runtime "windows" = and if
         $"{$REPOS}\\andover-dmp\\andover-dmp\\bin\\debug\\net9.0"
         $"{$REPOS}\\andover-antlr\\AndoverPlainEnglishApp\\bin\\Debug\\net8.0"
         $"C:\\Program Files\\Graphviz\\bin"
+        $"{$REPOS}\\mathmp\\MathMp\\bin\\Debug\\net9.0"
+        $"{$REPOS}\\xls2xlsx\\bin\\Debug\\net10.0\\win-x64"
+        $"{$REPOS}\\iem"
+        $"{$REPOS}\\cpmodel\\cpmodel\\bin\\Debug\\net9.0"
         $PATH
     ] ';' join $PATH!
 end
