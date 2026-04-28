@@ -67,6 +67,58 @@ az storage blob list --account-name mystorageaccount --container-name mycontaine
 # This keeps the directory structure of the blobs.
 az storage blob download-batch -d . -s mycontainer --pattern 'myprefix/*'
 
+#     "container": "datablob",
+#     "content": "",
+#     "deleted": null,
+#     "encryptedMetadata": null,
+#     "encryptionKeySha256": null,
+#     "encryptionScope": null,
+#     "hasLegalHold": null,
+#     "hasVersionsOnly": null,
+#     "immutabilityPolicy": { "expiryTime": null, "policyMode": null },
+#     "isAppendBlobSealed": null,
+#     "isCurrentVersion": null,
+#     "lastAccessedOn": null,
+#     "metadata": {},
+#     "name": "Fidelity_TDW_Meterlogic/2023-05-21T05:03:02 00:00__support@meterlogic.com__Meterlogic-Cx-TX-2D BLDG2__TX-2D BLDG2 [Last 7d].xls",
+#     "objectReplicationDestinationPolicy": null,
+#     "objectReplicationSourceProperties": [],
+#     "properties": {
+#       "appendBlobCommittedBlockCount": null,
+#       "blobTier": "Cool",
+#       "blobTierChangeTime": null,
+#       "blobTierInferred": true,
+#       "blobType": "BlockBlob",
+#       "contentLength": 288768,
+#       "contentRange": null,
+#       "contentSettings": {
+#         "cacheControl": null,
+#         "contentDisposition": null,
+#         "contentEncoding": null,
+#         "contentLanguage": null,
+#         "contentMd5": "uczIP6XUTccaQWjheXdV1Q==",
+#         "contentType": "application/octet-stream"
+#       },
+#       "copy": { "completionTime": null, "destinationSnapshot": null, "id": null, "incrementalCopy": null, "progress": null, "source": null, "status": null, "statusDescription": null },
+#       "creationTime": "2023-06-02T17:37:30+00:00",
+#       "deletedTime": null,
+#       "etag": "0x8DB63900A5B3191",
+#       "lastModified": "2023-06-02T17:37:30+00:00",
+#       "lease": { "duration": null, "state": "available", "status": "unlocked" },
+#       "pageBlobSequenceNumber": null,
+#       "pageRanges": null,
+#       "rehydrationStatus": null,
+#       "remainingRetentionDays": null,
+#       "serverEncrypted": true
+#     },
+#     "rehydratePriority": null,
+#     "requestServerEncrypted": null,
+#     "snapshot": null,
+#     "tagCount": null,
+#     "tags": null,
+#     "versionId": null
+
+
 ```
 
 

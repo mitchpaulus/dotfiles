@@ -111,4 +111,4 @@ if set -l index (contains -i -- foo $keys) # `set` won't modify $status, so this
 end
 ```
 
-<https://dpc.pw/posts/cool-fish-shell-abbreviations/>
+[Cool fish shell abbreviations](https://dpc.pw/posts/cool-fish-shell-abbreviations/)

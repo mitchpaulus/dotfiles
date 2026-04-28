@@ -85,3 +85,11 @@ SELECT
 FROM my_table
 GROUP BY group_col;
 ```
+
+```
+CASE
+  WHEN ... THEN ...
+  WHEN ... THEN ...
+  ELSE ...
+END
+```
