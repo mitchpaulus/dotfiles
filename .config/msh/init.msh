@@ -78,6 +78,7 @@ hostname "prec3660-mp" = runtime "windows" = and if
         $"{$REPOS}\\xls2xlsx\\bin\\Debug\\net10.0\\win-x64"
         $"{$REPOS}\\iem"
         $"{$REPOS}\\cpmodel\\cpmodel\\bin\\Debug\\net9.0"
+        $"{$REPOS}\\MpInflux\\MpInflux\\bin\\Debug\\net8.0"
         $PATH
     ] ';' join $PATH!
 end
