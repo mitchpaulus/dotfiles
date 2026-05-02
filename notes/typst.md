@@ -65,6 +65,8 @@
 ) <glacier>
 
 #pagebreak()
+#super[3]
+#sub[2]
 
 // 3 modes:
 
