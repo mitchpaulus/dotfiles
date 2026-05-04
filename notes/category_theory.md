@@ -8,3 +8,7 @@ function. This way, you can compose with other functions, especially in
 diagrammitic order. When he says $x: { :) } -> X$ *represents* $x$, he
 really means it. Just think of it as the literal element $x$, just
 wrapped up in a simple function that takes a singleton set to $x$.
+
+
+Category: collection of "objects" that are linked by "arrows".
+Arrows must compose associatively and existence of identity arrow
