@@ -24,6 +24,17 @@
   "More content"
 )
 
+// Table captions
+#figure(
+ table(
+  ...
+ ),
+ figure.caption(
+  position: top,
+  [Caption]
+))
+
+
 
 - List item 1
 - List item 2

@@ -122,6 +122,7 @@ import re
 
 doc = pymupdf.open("My file")
 
+# point 1 must be top left, point 2 bottom right
 x1 = 13.31
 y1 = 9.62
 x2 = x1 + 3.44
@@ -136,7 +137,11 @@ rect = pymupdf.Rect(x1, y1, x2, y2)
 
 for page_num in range(92, 152):
     page = doc[page_num]
-    text = page.get_text("text", clip=rect).replace("\n", " ").strip()
+
+    # Sometimes pages come rotated differently from each other :(
+    clip_rect = rect * page.derotation_matrix
+
+    text = page.get_text("text", clip=clip_rect).replace("\n", " ").strip()
 
     text = re.sub(r"\s+", " ", text)
 
