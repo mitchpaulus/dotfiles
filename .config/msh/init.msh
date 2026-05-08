@@ -79,6 +79,7 @@ hostname "prec3660-mp" = runtime "windows" = and if
         $"{$REPOS}\\iem"
         $"{$REPOS}\\cpmodel\\cpmodel\\bin\\Debug\\net9.0"
         $"{$REPOS}\\MpInflux\\MpInflux\\bin\\Debug\\net8.0"
+        $"{$REPOS}\\mmysql"
         $PATH
     ] ';' join $PATH!
 end
