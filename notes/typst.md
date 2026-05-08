@@ -125,6 +125,9 @@
 ]
 
 
+// User defined function:
+
+#let my_func(content) = block(sticky: true)[ #strong[#content] ]
 
 ```
 

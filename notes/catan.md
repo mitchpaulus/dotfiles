@@ -32,10 +32,10 @@ Blue (Politics/Coin) Progress Cards
 - 2x Deserter (Swap knights)
 - 2x Diplomat
 - 2x Intrigue
-- 2x Saboteur
+- 2x Saboteur (Persons with >= victory points, lose half)
 - 3x Spy (Steal progress card)
 - 2x Warlord (activate all knights)
-- 2x Wedding
+- 2x Wedding (Persons with more victory points, 2 cards)
 
 Green (Science/Paper) Progress Cards
 
