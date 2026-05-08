@@ -52,6 +52,19 @@ INSERT INTO mydatabasename.mytable (MyColumnName1, MyColumnName2) VALUES ('Value
 ```
 
 ```
+CREATE [TEMPORARY] TABLE [IF NOT EXISTS] tbl_name
+    (create_definition,...)
+    [table_options]
+    [partition_options]
+
+CREATE TABLE MyTable (
+    column1 datatype constraint,
+    column2 datatype constraint,
+    column3 datatype constraint,
+)
+DEFAULT CHARSET=utf8mb4
+;
+
 column_definition: {
     data_type [NOT NULL | NULL] [DEFAULT {literal | (expr)} ]
       [VISIBLE | INVISIBLE]
@@ -74,7 +87,6 @@ column_definition: {
       [reference_definition]
       [check_constraint_definition]
 }
-
 ```
 
 Data Types:

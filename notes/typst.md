@@ -1,4 +1,11 @@
 ```
+#set text(font: "Times New Roman")
+
+// Table captions on top
+#show figure.where(
+  kind: table
+): set figure.caption(position: top)
+
 = Header
 == Level 2 Header
 <labelforpreviousheader>
@@ -19,8 +26,22 @@
 
 #set page(flipped: true) // landscape
 
+// Center all tables
+#show table: it => align(center, it)
+
+// CCLLC color headers
+#set table(fill: (x, y) => if y == 0 { rgb(0, 73, 135) })
+#show table.cell.where(y: 0): it => {
+  set text(fill: white, weight: "bold")
+  it
+}
+
 #table(
+    columns: (auto, auto, auto, auto, auto),
+    fill: (x, y) => if y == 0 { rgb(0, 73, 135) },
+    align: (left, center, center, center, center),
   table.header(repeat: true, ..content),
+
   "More content"
 )
 
@@ -33,7 +54,6 @@
   position: top,
   [Caption]
 ))
-
 
 
 - List item 1
@@ -85,4 +105,35 @@
 // Math, $
 // Content, [ ... ]
 
+// Bookmark a page without having anything really there:
+#let bookmark(title, level: 1) = {
+  place(top + left)[
+    #box(width: 0pt, height: 0pt)[
+      #hide[#heading(level: level, outlined: false, bookmarked: true)[#title]]
+    ]
+  ]
+}
+
+// Allow breaks in long tables
+
+#[
+  #show figure: set block(breakable: true)
+  #figure(
+    caption: [Estimated AHU and IRCU capacities.],
+    include "ahu_table.typ"
+  )
+]
+
+
+
 ```
+
+Set and Show
+
+```
+#set element_function(optionalParma1: newValue, optionalParma2: newValue..)
+```
+
+Set is basically resetting the defaults on element functions.
+
+Show is an arbitrary transformation.

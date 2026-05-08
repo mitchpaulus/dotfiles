@@ -147,3 +147,21 @@ for page_num in range(92, 152):
 
     print(f"1\t{text}\t{page_num + 1}")
 ```
+
+## Annotations:
+
+```python
+# <https://pymupdf.readthedocs.io/en/latest/annot.html#annot>
+for annot in page.annots() or []:
+    print(annot)
+    annot.info # dict with optional:
+    # name
+    # content
+    # title
+    # creationDate
+    # modDate
+    # subject
+    # id
+    annot.colors
+
+```
