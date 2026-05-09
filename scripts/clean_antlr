@@ -1,8 +1,8 @@
 #!/usr/bin/env mshell
 
-[rm
-    *.java glob
-    *.tokens glob
-    *.interp glob
-    *.class glob
+['rm'
+    '*.java' glob
+    '*.tokens' glob
+    '*.interp' glob
+    '*.class' glob
 ];

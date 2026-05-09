@@ -1,6 +1,6 @@
 #!/usr/bin/env mshell
 
-def envCheck (bool:found str -- )
+def envCheck (bool str -- )
     message! not (@message wl 1 exit) iff
 end
 

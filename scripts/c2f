@@ -1,14 +1,12 @@
 #!/usr/bin/env mshell
 
-args
-(
-    [
-        (dup "-h" = swap "--help" = or)
-        ("Usage: c2f <celsius>\n" w 0 exit)
-    ] if
-)
-each
 
-[(args len 1 < ) ("No temperature entered" wl 1 exit)] if
+[args] ['-h' '--help'] cartesian (2unpack =) any if
+    "Usage: c2f <celsius>" wl 0 exit
+end
 
-$1 toFloat 9.0 * 5.0 / 32.0 + str wl
+args len 1 < if
+    "No temperature entered" wl 1 exit
+end
+
+$1 toFloat? 9.0 * 5.0 / 32.0 + str wl

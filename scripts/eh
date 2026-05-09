@@ -3,7 +3,7 @@
 "windows" runtime = if
     ['explorer.exe' pwd]!
 else* 'explorer.exe' isCmd *if
-    ['explorer.exe'  ['wslpath' -w pwd] os ! ] nullDevice &> &!)
+    ['explorer.exe'  ['wslpath' -w pwd] os ! ] nullDevice &> & !
 else* 'dolphin' isCmd *if
     ['dolphin' pwd] nullDevice &> &!
 else

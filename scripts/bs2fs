@@ -1,2 +1,2 @@
 #!/usr/bin/env mshell
-:: ("\\" "/" findReplace wl) each
+stdin lines ("\\" "/" findReplace wl) each

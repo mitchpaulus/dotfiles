@@ -13,7 +13,7 @@ end
 args len 1 != ($"1 argument expected, {args len} received." wle 1 exit) iff
 
 $LOCALBIN? if
-    $LOCALBIN isDir if $LOCALBIN end
+    $LOCALBIN isDir if $LOCALBIN else "$LOCALBIN not a directory?" wle 1 exit end
 else
     runtime "windows" = ($"{$USERPROFILE}\\bin") ($"{$HOME}/.local/bin") iff
 end
