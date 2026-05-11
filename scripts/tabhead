@@ -1,4 +1,3 @@
-#!/bin/sh
-
+#!/usr/bin/env mshell
 # Print out the headers in a TSV file
-head -q -n 1 "$@" | tr '\t' '\n' | sort -V
+stdin lines 1 take map. tsplit end concat sortV uw
