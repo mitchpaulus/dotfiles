@@ -870,6 +870,75 @@ def floor_area_from_surface(surface: list[str]) -> float:
         area += x1 * y2 - x2 * y1
 
     return abs(area) / 2
+
+
+def surface_area_from_vertices(surface: list[str], first_vertex_index: int) -> float:
+    vertices = []
+    for i in range(first_vertex_index, len(surface), 3):
+        if i + 2 >= len(surface):
+            break
+        vertices.append((float(surface[i]), float(surface[i + 1]), float(surface[i + 2])))
+
+    if len(vertices) < 3:
+        return 0
+
+    x_area = 0
+    y_area = 0
+    z_area = 0
+    for i in range(len(vertices)):
+        x1, y1, z1 = vertices[i]
+        x2, y2, z2 = vertices[(i + 1) % len(vertices)]
+        x_area += y1 * z2 - z1 * y2
+        y_area += z1 * x2 - x1 * z2
+        z_area += x1 * y2 - y1 * x2
+
+    return math.sqrt(x_area * x_area + y_area * y_area + z_area * z_area) / 2
+
+
+def surface_boundary_type(outside_boundary_condition: str) -> str:
+    boundary_condition = outside_boundary_condition.strip().lower()
+    if boundary_condition in ["surface", "zone", "adiabatic"]:
+        return "Interior"
+    elif boundary_condition.startswith("ground") or boundary_condition in ["outdoors", "othersidecoefficients", "othersideconditionsmodel"]:
+        return "Exterior"
+    elif boundary_condition == "":
+        return "Unknown"
+    else:
+        return outside_boundary_condition
+
+
+def surface_area_summary(idf_dict: dict) -> list[list[str]]:
+    area_by_type_boundary: dict[tuple[str, str], float] = {}
+
+    def add_area(surface_type: str, boundary_condition: str, area_m2: float):
+        key = (surface_type, boundary_condition)
+        if key not in area_by_type_boundary:
+            area_by_type_boundary[key] = 0
+        area_by_type_boundary[key] += area_m2 * 10.7639
+
+    building_surface_by_name = {}
+    for surface in idf_dict.get('buildingsurface:detailed', []):
+        building_surface_by_name[surface[1].strip().lower()] = surface
+        surface_type = surface[2]
+        boundary_condition = surface_boundary_type(surface[6])
+        add_area(surface_type, boundary_condition, surface_area_from_vertices(surface, 12))
+
+    for surface in idf_dict.get('fenestrationsurface:detailed', []):
+        surface_type = surface[2]
+        parent_surface = building_surface_by_name.get(surface[4].strip().lower())
+        if parent_surface is not None:
+            boundary_condition = surface_boundary_type(parent_surface[6])
+        else:
+            boundary_condition = surface_boundary_type(surface[5])
+
+        multiplier = 1
+        if len(surface) > 8 and surface[8].strip() != "":
+            multiplier = float(surface[8])
+        add_area(surface_type, boundary_condition, surface_area_from_vertices(surface, 10) * multiplier)
+
+    rows = [[surface_type, boundary_condition, area] for (surface_type, boundary_condition), area in area_by_type_boundary.items()]
+    rows.sort(key=lambda x: (x[0].lower(), x[1].lower()))
+    return rows
     
 
 def analyze_zones(idf_dict: dict):
@@ -960,6 +1029,7 @@ def main():
             print("  day_sch: Print day schedules.")
             print("  sch_process: Process day schedules.")
             print("  sch_compact: Print compact schedules.")
+            print("  surface_areas: Print gross surface area grouped by surface type and boundary condition.")
             print("  zones: Print zone details.")
             print("  spaces: Print space details.")
             print("Options:")
@@ -989,6 +1059,8 @@ def main():
             command = "sch_process"
         elif sys.argv[idx] == "sch_compact":
             command = "sch_compact"
+        elif sys.argv[idx] == "surface_areas":
+            command = "surface_areas"
         elif sys.argv[idx] == "zones":
             command = "zones"
         elif sys.argv[idx] == "spaces":
@@ -1089,6 +1161,17 @@ def main():
         contents = idf2tsv(file)
         idf_dict = tsv2dict(contents)
         sch_compact(idf_dict)
+
+    elif command == "surface_areas":
+        contents = idf2tsv(file)
+        idf_dict = tsv2dict(contents)
+        rows = surface_area_summary(idf_dict)
+
+        if header:
+            print("\t".join(["Surface Type", "Boundary Condition", "Total Area (ft²)"]))
+
+        for row in rows:
+            print("\t".join([row[0], row[1], f"{row[2]:.0f}"]))
 
     elif command == "zones":
         contents = idf2tsv(file)
