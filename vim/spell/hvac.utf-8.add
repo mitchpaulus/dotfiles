@@ -335,6 +335,7 @@ Regex
 Resizing
 Retrocommissioning
 Revit
+Rivier
 SCADA
 SCFH
 SCFM
@@ -438,11 +439,13 @@ Workspace
 XLS
 YouTube
 Zathura
+Zig
 ZigBee
 Zotero
 ajax
 analytics
 archiver
+arity
 arrestors
 asbestosis
 asbestosis
@@ -460,6 +463,7 @@ canonicalization
 canonicalize
 checkbox
 collinear
+combinatorics
 compile
 concatenative
 config
@@ -488,10 +492,12 @@ ducted
 eQUEST
 eQuest
 efficiencies
+enablement
 enthalpy
 exchanger
 exchangers
 factor
+feedwater
 formatter
 foundational
 freezestat
@@ -501,6 +507,7 @@ gbXML
 gnuplot
 gpm
 gpm
+headered
 hostname
 hyperparameters
 iOS
@@ -596,9 +603,3 @@ workflows
 worktree
 xlim
 ΔT
-Rivier
-enablement
-headered
-feedwater
-combinatorics
-Zig
