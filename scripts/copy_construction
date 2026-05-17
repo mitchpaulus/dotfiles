@@ -8,7 +8,7 @@
 
 @selected tsplit (trim) map 2: materials!
 
-@objs ( :1: ) ( ) listToDict lookup!
+@objs ( :1: ) (id) listToDict lookup!
 [@selected trim] output!
 
 @materials

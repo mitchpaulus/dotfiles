@@ -1,4 +1,4 @@
 #!/usr/bin/env mshell
 
 # Follow the symlinks to the real executable.
-[realpath [which $1]os;];
+[realpath [which $1] * ! chomp];
