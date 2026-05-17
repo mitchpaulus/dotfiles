@@ -70,7 +70,7 @@
 // Named arguments and trailing content blocks. The `][` must touch with no space.
 #enum(start: 2)[A][B]
 // https://typst.app/docs/reference/model/enum/
-#set enum(numbering: "(a)") // https://typst.app/docs/reference/model/numbering/
+#set enum(numbering: "(a)", indent: 5pt) // https://typst.app/docs/reference/model/numbering/
 
 // Version without parentheses.
 #list[A][B]
@@ -95,9 +95,13 @@
   caption: [A curious figure.],
 ) <glacier>
 
+# Valid image types: "png", "jpg", "gif", "svg", "pdf", "webp"
+
 #pagebreak()
 #super[3]
 #sub[2]
+
+#quote(block: true)[My block quote content like > in markdown]
 
 // 3 modes:
 
