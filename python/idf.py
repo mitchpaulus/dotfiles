@@ -4,6 +4,7 @@ from typing import List, Iterable, Union, Optional
 import math
 import json
 import pathlib
+from dataclasses import dataclass
 
 def alphanum_key(s):
     tokens = []
@@ -18,9 +19,9 @@ def alphanum_key(s):
             start = idx
             while idx < len(s) and not s[idx].isdigit():
                 idx += 1
-            tokens.append(s[start:idx])
+            tokens.append(s[start:idx].lower())
 
-    return tokens
+    return [(0, token) if isinstance(token, int) else (1, token) for token in tokens]
 
 def version_sort(l: Iterable[str]) -> List[str]:
     """ Sort the given iterable in the way that humans expect."""
@@ -97,6 +98,23 @@ def tsv2dict(file: list[list[str]]) -> dict[str, list[list[str]]]:
     return results
 
 
+@dataclass
+class DayScheduleValues:
+    name: str
+    values: list[float]
+
+    def full_load_hours(self, timesteps_per_hour: int) -> float:
+        return sum(self.values) / timesteps_per_hour
+
+
+@dataclass
+class AnnualScheduleValues:
+    name: str
+    source_type: str
+    day_schedules: list[Optional[list[Optional[DayScheduleValues]]]]
+    constant_value: Optional[float] = None
+
+
 def eflh(file: list[list[str]]):
     d = tsv2dict(file)
 
@@ -107,10 +125,27 @@ def eflh(file: list[list[str]]):
     week_dict = eflh_hours_weeks(d, day_dict)
 
     print("Annual Schedules EFLH")
-    for sch in d['Schedule:Year'.lower()]:
+    for sch in d.get('Schedule:Year'.lower(), []):
         eflh = analyze_eflh_sch_year(d, sch, week_dict)
         if eflh is not None:
             print(f"{sch[1]}: {eflh:.0f}")
+
+
+def eflh_days_command(file: list[list[str]], header: bool = False):
+    if header:
+        print("\t".join(["Schedule", "EFLH"]))
+
+    eflh_days(file)
+
+
+def eflh_annual(file: list[list[str]], header: bool = False, base_dir: Optional[pathlib.Path] = None):
+    rows = annual_fractional_schedule_eflh(tsv2dict(file), base_dir)
+
+    if header:
+        print("\t".join(["Schedule", "EFLH"]))
+
+    for name, annual_hours in rows:
+        print("\t".join([name, f"{annual_hours:.0f}"]))
 
 day_map = {
     "sunday": 0,
@@ -122,6 +157,441 @@ day_map = {
     "saturday": 6,
     "": 0 # Default to Sunday
 }
+
+NORMAL_DAY_COUNT = 7
+ALL_DAY_TYPE_COUNT = 12
+
+
+def schedule_day_selector_indexes(selector: str) -> list[int]:
+    selector = selector.strip().lower().replace(" ", "")
+
+    if "alldays" in selector:
+        return list(range(ALL_DAY_TYPE_COUNT))
+    elif "weekdays" in selector:
+        return [1, 2, 3, 4, 5]
+    elif "weekends" in selector or "weekend" in selector:
+        return [0, 6]
+    elif "allotherdays" in selector:
+        return []
+    elif "holidays" in selector or "holiday" in selector:
+        return [7]
+    elif "summerdesignday" in selector:
+        return [8]
+    elif "winterdesignday" in selector:
+        return [9]
+    elif "sunday" in selector:
+        return [0]
+    elif "monday" in selector:
+        return [1]
+    elif "tuesday" in selector:
+        return [2]
+    elif "wednesday" in selector:
+        return [3]
+    elif "thursday" in selector:
+        return [4]
+    elif "friday" in selector:
+        return [5]
+    elif "saturday" in selector:
+        return [6]
+    elif "customday1" in selector:
+        return [10]
+    elif "customday2" in selector:
+        return [11]
+    else:
+        raise ValueError(f"Unknown schedule day selector '{selector}'.")
+
+
+def parse_schedule_time_to_minute(time_str: str) -> int:
+    time_str = time_str.strip()
+    if time_str.lower().startswith("until:"):
+        time_str = time_str.split(":", 1)[1].strip()
+
+    parts = time_str.split(":")
+    if len(parts) != 2:
+        raise ValueError(f"Schedule time '{time_str}' is not HH:MM.")
+
+    hour = int(parts[0])
+    minute = int(parts[1])
+    if hour == 24 and minute == 0:
+        return 1440
+    if hour < 0 or hour > 23 or minute < 0 or minute > 59:
+        raise ValueError(f"Schedule time '{time_str}' is outside the valid day.")
+    return hour * 60 + minute
+
+
+def date_to_leap_day_of_year(month: int, day: int) -> int:
+    month_lengths = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    if month < 1 or month > 12:
+        raise ValueError(f"Month {month} is outside 1..12.")
+    if day < 1 or day > month_lengths[month - 1]:
+        raise ValueError(f"Day {day} is outside the valid range for month {month}.")
+    return sum(month_lengths[:month - 1]) + day
+
+
+def schedule_timesteps_per_hour(idf_dict: dict[str, list[list[str]]]) -> int:
+    timestep = idf_dict.get("timestep", [])
+    if len(timestep) == 0 or len(timestep[0]) < 2 or timestep[0][1].strip() == "":
+        return 6
+
+    return int(float(timestep[0][1]))
+
+
+def runperiod_start_day(idf_dict: dict[str, list[list[str]]]) -> int:
+    run_periods = idf_dict.get("runperiod", [])
+    if len(run_periods) == 0:
+        return 0
+
+    for field in run_periods[0][2:]:
+        day = field.strip().lower()
+        if day in day_map:
+            return day_map[day]
+
+    return 0
+
+
+def expand_minute_values_to_timesteps(minute_values: list[float], interpolate: str, timesteps_per_hour: int) -> list[float]:
+    if len(minute_values) != 1440:
+        raise ValueError("Minute schedule must contain exactly 1440 values.")
+    if 60 % timesteps_per_hour != 0:
+        raise ValueError("Timesteps per hour must divide evenly into 60.")
+
+    minutes_per_step = 60 // timesteps_per_hour
+    timestep_values = []
+    interpolate = interpolate.strip().lower()
+
+    for start in range(0, 1440, minutes_per_step):
+        end = start + minutes_per_step
+        if interpolate == "average":
+            timestep_values.append(sum(minute_values[start:end]) / minutes_per_step)
+        else:
+            timestep_values.append(minute_values[end - 1])
+
+    return timestep_values
+
+
+def minute_values_from_until_pairs(pairs: list[tuple[int, float]], interpolate: str) -> list[float]:
+    minute_values: list[Optional[float]] = [None] * 1440
+    previous_minute = 0
+    previous_value: Optional[float] = None
+    interpolate = interpolate.strip().lower()
+
+    for until_minute, value in pairs:
+        if until_minute <= previous_minute:
+            raise ValueError("Schedule until times must be strictly increasing.")
+
+        for minute in range(previous_minute, until_minute):
+            if interpolate == "linear" and previous_value is not None:
+                fraction = (minute - previous_minute + 1) / (until_minute - previous_minute)
+                minute_values[minute] = previous_value + (value - previous_value) * fraction
+            else:
+                minute_values[minute] = value
+
+        previous_minute = until_minute
+        previous_value = value
+
+    if previous_minute != 1440:
+        raise ValueError("Schedule day does not extend through 24:00.")
+
+    return [0 if value is None else value for value in minute_values]
+
+
+def day_schedule_from_until_pairs(name: str, pairs: list[tuple[int, float]], interpolate: str, timesteps_per_hour: int) -> DayScheduleValues:
+    minute_values = minute_values_from_until_pairs(pairs, interpolate)
+    return DayScheduleValues(name, expand_minute_values_to_timesteps(minute_values, interpolate, timesteps_per_hour))
+
+
+def build_day_schedules(idf_dict: dict[str, list[list[str]]], timesteps_per_hour: int) -> dict[str, DayScheduleValues]:
+    day_schedules: dict[str, DayScheduleValues] = {}
+
+    for schedule in idf_dict.get("schedule:day:hourly", []):
+        if len(schedule) < 27:
+            continue
+        values: list[float] = []
+        for value in schedule[3:27]:
+            values.extend([float(value)] * timesteps_per_hour)
+        day_schedules[schedule[1].strip().lower()] = DayScheduleValues(schedule[1], values)
+
+    for schedule in idf_dict.get("schedule:day:interval", []):
+        interpolate = schedule[3].strip() if len(schedule) > 3 and schedule[3].strip() != "" else "No"
+        pairs = []
+        for index in range(4, len(schedule), 2):
+            if index + 1 >= len(schedule):
+                break
+            pairs.append((parse_schedule_time_to_minute(schedule[index]), float(schedule[index + 1])))
+        day_schedules[schedule[1].strip().lower()] = day_schedule_from_until_pairs(schedule[1], pairs, interpolate, timesteps_per_hour)
+
+    for schedule in idf_dict.get("schedule:day:list", []):
+        if len(schedule) < 6:
+            continue
+        interpolate = schedule[3].strip() if schedule[3].strip() != "" else "No"
+        minutes_per_item = int(float(schedule[4]))
+        if minutes_per_item <= 0 or 60 % minutes_per_item != 0:
+            raise ValueError(f"Schedule:Day:List '{schedule[1]}' has invalid Minutes per Item.")
+        minute_values = []
+        for value in schedule[5:]:
+            minute_values.extend([float(value)] * minutes_per_item)
+        if len(minute_values) != 1440:
+            raise ValueError(f"Schedule:Day:List '{schedule[1]}' does not cover exactly 24 hours.")
+        values = expand_minute_values_to_timesteps(minute_values, interpolate, timesteps_per_hour)
+        day_schedules[schedule[1].strip().lower()] = DayScheduleValues(schedule[1], values)
+
+    return day_schedules
+
+
+def build_week_schedules(idf_dict: dict[str, list[list[str]]], day_schedules: dict[str, DayScheduleValues]) -> dict[str, list[Optional[DayScheduleValues]]]:
+    week_schedules: dict[str, list[Optional[DayScheduleValues]]] = {}
+
+    for schedule in idf_dict.get("schedule:week:daily", []):
+        days: list[Optional[DayScheduleValues]] = []
+        for day_name in schedule[2:14]:
+            days.append(day_schedules.get(day_name.strip().lower()))
+        while len(days) < ALL_DAY_TYPE_COUNT:
+            days.append(None)
+        week_schedules[schedule[1].strip().lower()] = days
+
+    for schedule in idf_dict.get("schedule:week:compact", []):
+        days: list[Optional[DayScheduleValues]] = [None] * ALL_DAY_TYPE_COUNT
+        index = 2
+        while index + 1 < len(schedule):
+            selector = schedule[index]
+            day_schedule = day_schedules.get(schedule[index + 1].strip().lower())
+            indexes = schedule_day_selector_indexes(selector)
+            if "allotherdays" in selector.strip().lower().replace(" ", ""):
+                indexes = [i for i, value in enumerate(days) if value is None]
+            for day_index in indexes:
+                days[day_index] = day_schedule
+            index += 2
+        week_schedules[schedule[1].strip().lower()] = days
+
+    return week_schedules
+
+
+def assign_week_schedule_days(
+    day_schedules_by_year_day: list[Optional[list[Optional[DayScheduleValues]]]],
+    week: list[Optional[DayScheduleValues]],
+    start_day: int,
+    end_day: int,
+):
+    if end_day >= start_day:
+        ranges = [(start_day, end_day)]
+    else:
+        ranges = [(start_day, 366), (1, end_day)]
+
+    for start, end in ranges:
+        for day in range(start, end + 1):
+            day_schedules_by_year_day[day] = week
+
+
+def finalize_leap_schedule_days(days: list[Optional[list[Optional[DayScheduleValues]]]]):
+    if days[60] is None:
+        days[60] = days[59]
+
+
+def build_schedule_year(schedule: list[str], week_schedules: dict[str, list[Optional[DayScheduleValues]]]) -> Optional[list[Optional[list[Optional[DayScheduleValues]]]]]:
+    days: list[Optional[list[Optional[DayScheduleValues]]]] = [None] * 367
+    index = 3
+    while index + 4 < len(schedule):
+        week = week_schedules.get(schedule[index].strip().lower())
+        if week is None:
+            return None
+        start_day = date_to_leap_day_of_year(int(schedule[index + 1]), int(schedule[index + 2]))
+        end_day = date_to_leap_day_of_year(int(schedule[index + 3]), int(schedule[index + 4]))
+        assign_week_schedule_days(days, week, start_day, end_day)
+        index += 5
+
+    finalize_leap_schedule_days(days)
+    return [week[0:ALL_DAY_TYPE_COUNT] if week is not None else None for week in days]
+
+
+def build_compact_annual_schedule(schedule: list[str], timesteps_per_hour: int) -> list[Optional[list[Optional[DayScheduleValues]]]]:
+    zero_day = DayScheduleValues(f"{schedule[1]} Generated Missing Day", [0.0] * 24 * timesteps_per_hour)
+    annual_days: list[Optional[list[Optional[DayScheduleValues]]]] = [None] * 367
+    block_start_day = 1
+    index = 3
+
+    while index < len(schedule):
+        field = schedule[index].strip()
+        if not field.lower().startswith("through:"):
+            raise ValueError(f"Expected Through field in Schedule:Compact '{schedule[1]}'.")
+
+        through_text = field.split(":", 1)[1].strip()
+        month_text, day_text = through_text.split("/")
+        block_end_day = date_to_leap_day_of_year(int(month_text), int(day_text))
+        week: list[Optional[DayScheduleValues]] = [zero_day] * ALL_DAY_TYPE_COUNT
+        index += 1
+
+        while index < len(schedule) and not schedule[index].strip().lower().startswith("through:"):
+            for_field = schedule[index].strip()
+            if not for_field.lower().startswith("for:"):
+                raise ValueError(f"Expected For field in Schedule:Compact '{schedule[1]}'.")
+            selector = for_field.split(":", 1)[1].strip()
+            indexes = schedule_day_selector_indexes(selector)
+            if "allotherdays" in selector.lower().replace(" ", ""):
+                indexes = [i for i, value in enumerate(week) if value == zero_day]
+            index += 1
+
+            interpolate = "No"
+            if index < len(schedule) and schedule[index].strip().lower().startswith("interpolate:"):
+                interpolate = schedule[index].split(":", 1)[1].strip()
+                index += 1
+
+            pairs = []
+            while index < len(schedule) and schedule[index].strip().lower().startswith("until:"):
+                until_minute = parse_schedule_time_to_minute(schedule[index])
+                if index + 1 >= len(schedule):
+                    raise ValueError(f"Missing value after Until field in Schedule:Compact '{schedule[1]}'.")
+                pairs.append((until_minute, float(schedule[index + 1])))
+                index += 2
+
+            day_name = f"{schedule[1]} Generated Day {block_end_day} {selector}"
+            day_schedule = day_schedule_from_until_pairs(day_name, pairs, interpolate, timesteps_per_hour)
+            for day_index in indexes:
+                week[day_index] = day_schedule
+
+        assign_week_schedule_days(annual_days, week, block_start_day, block_end_day)
+        block_start_day = block_end_day + 1
+
+    finalize_leap_schedule_days(annual_days)
+    return [week[0:ALL_DAY_TYPE_COUNT] if week is not None else None for week in annual_days]
+
+
+def annual_schedule_values_are_fractional(schedule: AnnualScheduleValues, start_day_of_week: int, days_in_year: int) -> bool:
+    if schedule.constant_value is not None:
+        return 0 <= schedule.constant_value <= 1
+
+    day_type = start_day_of_week
+    for day_of_year in range(1, days_in_year + 1):
+        week = schedule.day_schedules[day_of_year]
+        if week is None:
+            return False
+        day = week[day_type]
+        if day is None:
+            return False
+        for value in day.values:
+            if value < 0 or value > 1:
+                return False
+        day_type = (day_type + 1) % NORMAL_DAY_COUNT
+    return True
+
+
+def annual_schedule_full_load_hours(schedule: AnnualScheduleValues, start_day_of_week: int, days_in_year: int, timesteps_per_hour: int) -> float:
+    if schedule.constant_value is not None:
+        return days_in_year * 24 * schedule.constant_value
+
+    total = 0.0
+    day_type = start_day_of_week
+    for day_of_year in range(1, days_in_year + 1):
+        week = schedule.day_schedules[day_of_year]
+        if week is None:
+            raise ValueError(f"Schedule '{schedule.name}' is missing day {day_of_year}.")
+        day_schedule = week[day_type]
+        if day_schedule is None:
+            raise ValueError(f"Schedule '{schedule.name}' is missing day type {day_type}.")
+        total += day_schedule.full_load_hours(timesteps_per_hour)
+        day_type = (day_type + 1) % NORMAL_DAY_COUNT
+    return total
+
+
+def read_schedule_file_values(schedule: list[str], base_dir: Optional[pathlib.Path], timesteps_per_hour: int) -> Optional[list[Optional[list[Optional[DayScheduleValues]]]]]:
+    if base_dir is None or len(schedule) < 10:
+        return None
+
+    schedule_file = pathlib.Path(schedule[3])
+    if not schedule_file.is_absolute():
+        schedule_file = base_dir / schedule_file
+    if not schedule_file.exists():
+        print(f"Warning: Schedule:File '{schedule[1]}' file not found: {schedule_file}", file=sys.stderr)
+        return None
+
+    column_number = int(float(schedule[4]))
+    rows_to_skip = int(float(schedule[5]))
+    column_separator = schedule[7].strip().lower() if len(schedule) > 7 else "comma"
+    interpolate = "Average" if len(schedule) > 8 and schedule[8].strip().lower() == "yes" else "No"
+    minutes_per_item = int(float(schedule[9])) if len(schedule) > 9 and schedule[9].strip() != "" else 60
+
+    if column_separator == "tab":
+        separator = "\t"
+    elif column_separator == "space":
+        separator = None
+    else:
+        separator = ","
+
+    values = []
+    with open(schedule_file, "r") as f:
+        for _ in range(rows_to_skip):
+            next(f, None)
+        for line in f:
+            line = line.strip()
+            if line == "":
+                continue
+            parts = line.split(separator) if separator is not None else line.split()
+            if column_number - 1 < len(parts):
+                values.append(float(parts[column_number - 1]))
+
+    items_per_day = 1440 // minutes_per_item
+    annual_days: list[Optional[list[Optional[DayScheduleValues]]]] = [None] * 367
+    file_day_count = min(366, len(values) // items_per_day)
+    for file_day in range(1, file_day_count + 1):
+        if file_day_count < 366 and file_day >= 60:
+            day = file_day + 1
+        else:
+            day = file_day
+
+        minute_values = []
+        start = (file_day - 1) * items_per_day
+        for value in values[start:start + items_per_day]:
+            minute_values.extend([value] * minutes_per_item)
+        day_schedule = DayScheduleValues(
+            f"{schedule[1]} File Day {day}",
+            expand_minute_values_to_timesteps(minute_values, interpolate, timesteps_per_hour),
+        )
+        annual_days[day] = [day_schedule] * ALL_DAY_TYPE_COUNT
+
+    finalize_leap_schedule_days(annual_days)
+    return annual_days
+
+
+def annual_fractional_schedule_eflh(idf_dict: dict[str, list[list[str]]], base_dir: Optional[pathlib.Path] = None) -> list[tuple[str, float]]:
+    timesteps_per_hour = schedule_timesteps_per_hour(idf_dict)
+    start_day_of_week = runperiod_start_day(idf_dict)
+    days_in_year = 365
+
+    day_schedules = build_day_schedules(idf_dict, timesteps_per_hour)
+    week_schedules = build_week_schedules(idf_dict, day_schedules)
+
+    annual_schedules: list[AnnualScheduleValues] = []
+
+    for schedule in idf_dict.get("schedule:constant", []):
+        if len(schedule) > 3:
+            annual_schedules.append(AnnualScheduleValues(schedule[1], schedule[0], [], float(schedule[3])))
+
+    for schedule in idf_dict.get("schedule:year", []):
+        days = build_schedule_year(schedule, week_schedules)
+        if days is not None:
+            annual_schedules.append(AnnualScheduleValues(schedule[1], schedule[0], days))
+
+    for schedule in idf_dict.get("schedule:compact", []):
+        days = build_compact_annual_schedule(schedule, timesteps_per_hour)
+        annual_schedules.append(AnnualScheduleValues(schedule[1], schedule[0], days))
+
+    for schedule in idf_dict.get("schedule:file", []):
+        days = read_schedule_file_values(schedule, base_dir, timesteps_per_hour)
+        if days is not None:
+            annual_schedules.append(AnnualScheduleValues(schedule[1], schedule[0], days))
+
+    for schedule in idf_dict.get("externalinterface:schedule", []):
+        if len(schedule) > 3:
+            annual_schedules.append(AnnualScheduleValues(schedule[1], schedule[0], [], float(schedule[3])))
+
+    rows = []
+    for schedule in annual_schedules:
+        if annual_schedule_values_are_fractional(schedule, start_day_of_week, days_in_year):
+            hours = annual_schedule_full_load_hours(schedule, start_day_of_week, days_in_year, timesteps_per_hour)
+            rows.append((schedule.name, hours))
+
+    version_sort_by_in_place(rows, lambda row: row[0])
+    return rows
+
 
 def day_of_year_from_month_day(month: int, day: int) -> int:
     if month < 1 or month > 12:
@@ -299,7 +769,7 @@ def def_parse_compact_week(fields: list[str], day_dict: dict[str, float]) -> lis
 
 
 def eflh_hours_weeks(file_dict: dict[str, list[list[str]]], day_analysis) -> dict[str, list[float]]:
-    week_schedules = file_dict['schedule:week:daily'.lower()]
+    week_schedules = file_dict.get('schedule:week:daily'.lower(), [])
 
     week_schedule_dict: dict[str, list[float]] = {}
 
@@ -321,7 +791,7 @@ def eflh_hours_weeks(file_dict: dict[str, list[list[str]]], day_analysis) -> dic
             # print(name, f"{eflh_total:.1f}" if eflh_total is not None else "N/A")
             week_schedule_dict[name] = day_items
 
-    compact_week_schedules = file_dict['schedule:week:compact'.lower()]
+    compact_week_schedules = file_dict.get('schedule:week:compact'.lower(), [])
     for week_schedule in compact_week_schedules:
         values = def_parse_compact_week(week_schedule, day_analysis)
         name = week_schedule[1]
@@ -337,7 +807,7 @@ def eflh_days(file: list[list[str]]) -> dict[str, float]:
 
     day_schedule_dict = {}
 
-    for sch in d['Schedule:Day:Interval'.lower()]:
+    for sch in d.get('Schedule:Day:Interval'.lower(), []):
         index = 4
         eflh_total = 0
         previous_hour = 0
@@ -1020,6 +1490,9 @@ def main():
             print("Usage: idf.py COMMAND [filename]")
             print("Commands:")
             print("  eflh: Print the equivalent full load hours of fractional schedules.")
+            print("  eflh_days: Print the equivalent full load hours of fractional day schedules.")
+            print("  eflh_annual: Print the equivalent full load hours of all annual fractional schedules.")
+            print("  eflh_all: Alias for eflh_annual.")
             print("  construction: Print the R-value and U-value of constructions.")
             print("  int_loads: Print internal loads.")
             print("  airloops: Print air loop design flow rates.")
@@ -1041,6 +1514,12 @@ def main():
             header = True
         elif sys.argv[idx] == 'eflh':
             command = "eflh"
+        elif sys.argv[idx] == 'eflh_days':
+            command = "eflh_days"
+        elif sys.argv[idx] == 'eflh_annual':
+            command = "eflh_annual"
+        elif sys.argv[idx] == 'eflh_all':
+            command = "eflh_annual"
         elif sys.argv[idx] == 'construction':
             command = "construction"
         elif sys.argv[idx] == 'int_loads':
@@ -1078,7 +1557,7 @@ def main():
             sys.exit(1)
         else:
             if command is None:
-                print("Error: no command specified.")
+                print(f"Unknown command `{sys.argv[idx]}`")
                 sys.exit(1)
 
             filename = sys.argv[idx]
@@ -1098,6 +1577,13 @@ def main():
     if command == "eflh":
         contents = idf2tsv(file)
         eflh(contents)
+    elif command == "eflh_days":
+        contents = idf2tsv(file)
+        eflh_days_command(contents, header)
+    elif command == "eflh_annual":
+        contents = idf2tsv(file)
+        base_dir = pathlib.Path(filename).resolve().parent if filename is not None and filename != '-' else None
+        eflh_annual(contents, header, base_dir)
     elif command == "construction":
         contents = idf2tsv(file)
         idf_dict = tsv2dict(contents)
