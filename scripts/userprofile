@@ -3,4 +3,4 @@
 soe
 # Need to change into a windows dir before cmd.exe or else it complains.
 `/mnt/c/` cd
-[wslpath [cmd.exe '/C' 'echo %USERPROFILE%']oc; "\r" "" findReplace "\n" "" findReplace];
+[wslpath [cmd.exe '/C' 'echo %USERPROFILE%']*; "\r" "" findReplace "\n" "" findReplace];

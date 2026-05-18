@@ -6,21 +6,22 @@
 
 # Allow myself to set the directory arbitrarily in a particular dir. Also serves
 # as cached location, so the directory doesn't have to be searched for each time.
-$"{$HOME}/.config/idf-default-objects/dir" isFile
-($"{$HOME}/.config/idf-default-objects/dir" readFile trim dir!)
-(
+$"{$HOME}/.config/idf-default-objects/dir" isFile if
+    $"{$HOME}/.config/idf-default-objects/dir" readFile trim dir!
+else
+
     # Search for directory named 'idf-default-objects'
-    [fd --type 'd' 'idf-default-objects' $HOME] o ! repos!
-    @repos len 0 ("Could not find repository directory" wle 1 exit)
-    (
+    [fd --type 'd' 'idf-default-objects' $HOME] * ! lines repos!
+
+    @repos len 0 if
+        "Could not find repository directory" wle 1 exit
+    else
         @repos sortV :0: dir!
         $"{$HOME}/.config/idf-default-objects" mkdirp
         @dir $"{$HOME}/.config/idf-default-objects/dir" writeFile
-    )
-    iff
-)
-iff
+    end
+end
 
 @dir isDir not ($"The cached directory at '{@dir}' does not exist." wle 1 exit) iff
-[fzf] os @dir lsDir (basename str) map unlines < ! filepath!
+[fzf] * @dir lsDir (basename str) map unlines < ! chomp filepath!
 ['clip'] $"{@dir}/{@filepath}" toPath <!

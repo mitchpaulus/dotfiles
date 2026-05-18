@@ -11,16 +11,12 @@ Examples:
 
 
 args (a! @a '-h' = @a '--help' = or) any (@help wl 0 exit) iff
-[userprofile]os; cd
+[userprofile]*; chomp cd
 
-args len 0 >
-(
+args len 0 > if
     $"IF DEFINED {args :0:} (echo %{args :0:}%) ELSE (echo {args :0:} does not exist)" command!
-    [cmd.exe '/C' @command]os; output!
-    @output len 0 >
-    (@output wl)
-    (1 exit)
-    iff
-)
-([cmd.exe '/C' 'SET']os; "\r" "" findReplace wl)
-iff
+    [cmd.exe '/C' @command]*; chomp output!
+    @output len 0 > if @output wl else 1 exit end
+else
+    [cmd.exe '/C' 'SET']*; chomp "\r" "" findReplace wl
+end

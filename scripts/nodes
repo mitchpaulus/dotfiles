@@ -5,13 +5,13 @@
 map.
     obj!
 
-    @obj :1: lower type!
+    @obj :1: lower objType!
 
-    @type 'zonehvac:equipmentconnections' = if
+    @objType 'zonehvac:equipmentconnections' = if
         @obj 4:8
-    else* @type 'branch' = *if
+    else* @objType 'branch' = *if
         @obj 4: 4 chunk map. 2: end concat
-    else* @type 'outdoorair:node' = *if
+    else* @objType 'outdoorair:node' = *if
         [@obj :2:]
     else
         []
