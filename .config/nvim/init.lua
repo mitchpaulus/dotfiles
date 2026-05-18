@@ -893,6 +893,71 @@ tele_colors = function(opts)
   }):find()
 end
 
+function nbem_objects(opts)
+  opts = opts or {}
+
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  local output = vim.fn.systemlist({ "nbem", "--objects", "-" }, table.concat(lines, "\n"))
+
+  if vim.v.shell_error ~= 0 then
+    vim.notify(table.concat(output, "\n"), vim.log.levels.ERROR)
+    return
+  end
+
+  local objects = {}
+  for _, line in ipairs(output) do
+    local columns = vim.split(line, "\t", { plain = true })
+    local line_number = tonumber(columns[1])
+
+    if line_number ~= nil and columns[2] ~= nil and columns[3] ~= nil then
+      table.insert(objects, {
+        line_number = line_number,
+        object_type = columns[2],
+        object_name = columns[3],
+      })
+    end
+  end
+
+  if #objects == 0 then
+    vim.notify("No nbem objects found", vim.log.levels.INFO)
+    return
+  end
+
+  pickers.new(opts, {
+    prompt_title = "nbem objects",
+    finder = finders.new_table {
+      results = objects,
+      entry_maker = function(object)
+        local display = object.object_type .. "\t" .. object.object_name
+        return {
+          value = object,
+          display = display,
+          ordinal = display,
+          lnum = object.line_number,
+        }
+      end,
+    },
+    sorter = conf.generic_sorter(opts),
+    attach_mappings = function(prompt_bufnr, map)
+      actions.select_default:replace(function()
+        local selection = action_state.get_selected_entry()
+        actions.close(prompt_bufnr)
+
+        if selection == nil then
+          return
+        end
+
+        vim.cmd("normal! m'")
+        vim.api.nvim_win_set_cursor(0, { selection.value.line_number, 0 })
+        vim.cmd("normal! zz")
+      end)
+      return true
+    end,
+  }):find()
+end
+
+vim.api.nvim_create_user_command("NbemObjects", nbem_objects, {})
+
 -- Function to move to the next line with a blank cell in a TSV file
 function goto_next_blank_cell_line()
   -- Get the current buffer
@@ -1012,6 +1077,13 @@ end
 
 vim.api.nvim_create_autocmd('FileType', { pattern = 'tsv', group=filetype_autocmds_id, callback = function() vim.api.nvim_set_keymap('n', ']n', ':lua goto_next_blank_cell_line()<CR>', { noremap = true, silent = true }) end })
 vim.api.nvim_create_autocmd('FileType', { pattern = 'markdown', group = filetype_autocmds_id, callback = markdownMathBlocks })
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = { 'neobem', 'nbem' },
+    group = filetype_autocmds_id,
+    callback = function(args)
+        vim.keymap.set('n', '<localleader>o', nbem_objects, { buffer = args.buf, silent = true })
+    end,
+})
 
 -- Remove 'r' and 'o' from formatoptions. This is to remove annoying comment wrapping.
 vim.api.nvim_create_autocmd('FileType', { pattern = 'sh,cs,gitignore,conf', group = filetype_autocmds_id, command = 'setlocal formatoptions-=r formatoptions-=o' })
