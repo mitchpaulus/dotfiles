@@ -1,7 +1,8 @@
 "scripts" lsDir (isFile) filter (readFile lines :0: "env msh" in) filter
 each. f!
-    [msh --type-check-only @f]? not if
-        @f str wl
+    $"File: `{@f str}`" wle
+    ['msh' '--type-check-only' @f]? not if
+        # @f str wl
         1 exit
     end
 end

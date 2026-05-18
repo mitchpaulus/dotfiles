@@ -3,7 +3,7 @@
 stdin lines (tsplit) map data!
 
 @data match
-    [] : "",
+    [] : ,
     [header ...rows] :
     @header map. v! $"[{@v}]" end ", " join headerContents!
     $"table.header({@headerContents})," wl

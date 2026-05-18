@@ -1,5 +1,5 @@
 #!/usr/bin/env mshell
-VER "v0.13.0"
+# VER "v0.13.0"
 
 def monthPeriodFromInt (int -- int int)
     monthInt! @monthInt 2 / 1 +

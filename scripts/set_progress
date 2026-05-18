@@ -3,4 +3,7 @@
 # If first argument is a integer between 0 and 100, use that.
 # If integer outside of 1 to 99, reset progress.
 # Else, do nothing
-$1 toInt n! @n 0 > @n 100 < and ($"\e]9;4;1;{$1}\e\\") ("\e]9;4;0;0\e\\") iff w
+$1 toInt match
+    just n: @n 0 > @n 100 < and ($"\e]9;4;1;{$1}\e\\") ("\e]9;4;0;0\e\\") iff w,
+    none: $"Could not parse {$1} as an integer." wle,
+end

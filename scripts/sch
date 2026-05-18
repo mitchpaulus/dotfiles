@@ -2,8 +2,8 @@
 
 # This script extracts all schedule objects and presents them in fzf to then be copied to the clipboard.
 args len 0 =
-( ['nbem' '--objects' stdin psub] o; )
-( ['nbem' '--objects' args :0:] o; )
+( ['nbem' '--objects' stdin psub] *; lines )
+( ['nbem' '--objects' args :0:] *; lines )
 iff
 
 (tsplit :1: objType!
@@ -17,5 +17,5 @@ or or ) filter
 unlines input!
 
 [clip]
-[fzf] @input < oc; tsplit :2:
+[fzf] @input < *; tsplit :2:
 <;

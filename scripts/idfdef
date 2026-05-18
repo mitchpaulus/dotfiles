@@ -13,7 +13,7 @@ else
     # Search for directory named 'idf-default-objects'
     [fd --type 'd' 'idf-default-objects' $HOME] * ! lines repos!
 
-    @repos len 0 if
+    @repos len 0 = if
         "Could not find repository directory" wle 1 exit
     else
         @repos sortV :0: dir!

@@ -2,7 +2,7 @@
 $REPOS? not ("REPOS environment variable not set" wl 1 exit) iff
 $"Refreshing {$REPOS}" wle
 
-def process-repo (--)
+def process-repo (path --)
     absPath dir!
     $"Fetching {@dir}.." wle
     [git -C @dir fetch --prune]? if

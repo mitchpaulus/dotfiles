@@ -1,2 +1,2 @@
 #!/usr/bin/env mshell
-['fzf' '-1'] $MPNOTES lsDir ('.md' endsWith) filter (basename stem str) map unlines < !
+['fzf' '-1'] $MPNOTES lsDir (str '.md' endsWith) filter (basename stem str) map unlines < !

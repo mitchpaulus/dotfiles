@@ -15,7 +15,7 @@ end
 
 args len 2 < if "pdfsplit requires 2 arguments: max_mib and input.pdf" wle 1 exit end
 
-args :0: toFloat size_mib_maybe!
+args :0: toInt size_mib_maybe!
 @size_mib_maybe isNone if "max_mib must be a number" wle 1 exit end
 @size_mib_maybe ? size_mib!
 @size_mib 1024 1024 * * floor limit_bytes!
