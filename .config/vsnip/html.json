@@ -85,7 +85,7 @@
     },
     "td": {
         "prefix": "td",
-        "body": [ "<td> $1 </td>" ],
+        "body": [ "<td> $1 </td>$0" ],
         "description": "td"
     },
     "th": {
