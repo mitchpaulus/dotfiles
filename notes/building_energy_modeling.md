@@ -191,6 +191,12 @@ No lower than 32°F obviously.
 Implies that the average of that function is ~(Toa,avg,ann + 6°F)
 
 
+## Adjusted COP for no fan
+
+```
+COP_no_fan_cooling = Gross Cooling (btu/hr) / (Total input power (W) - Indoor fan power (W)) x 3.413 ((BTU/h) / W)
+```
+
 ## References
 
 - <https://help.iesve.com/ve2021/table_6_thermal_conductivity__specific_heat_capacity_and_density.htm>

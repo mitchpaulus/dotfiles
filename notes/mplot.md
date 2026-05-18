@@ -10,7 +10,7 @@ mplot "$2".mplot | gnuplot -
 ```mshell
 #!/usr/bin/env mshell
 $"{$2}.mplot" file!
-[redo-ifchange @file [mplot -d @file]o;]!
+[redo-ifchange @file [mplot -d @file]*; lines]!
 [ [mplot @file] [gnuplot '-'] ] | !
 ```
 

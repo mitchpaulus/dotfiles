@@ -194,7 +194,7 @@ Site energy use multiplied by given factors for CO2e.
 
 Also see <https://portfoliomanager.energystar.gov/pdf/reference/Emissions.pdf> or `EnergyStar Portfolio Manager Emissions Technical Reference` in saved references.
 
-% Site Emissions | Points
+Points | % site emissions
 -----------------|-------
 1                | 20
 2                | 25
@@ -231,6 +231,9 @@ Emissions | Points
 50        | 7
 65        | 8
 80        | 9
+
+For baseline building
+PCIt = (Unreg cost + (BPF * Reg cost)) / BBP
 
 # References
 
