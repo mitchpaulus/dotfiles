@@ -1,5 +1,5 @@
 #!/usr/bin/env mshell
-[find . '-type' 'f']o;
+[find . '-type' 'f']*! lines
 (
     file! @file readFile lines :0: '#!' in
     ([chmod '+x' @file];)

@@ -1,2 +1,5 @@
 #!/usr/bin/env mshell
-$1 toFloat 459.67 + 5 * 9 / 2 toFixed wl
+$1 toFloat match
+ just f :> @f 459.67 + 5.0 * 9.0 / 2 toFixed wl,
+ _ : $"Could not parse '{$1}' as a float." wle 1 exit
+end

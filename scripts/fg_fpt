@@ -14,7 +14,7 @@
 }
 map!
 
-def processLine (str dict -- str)
+def processLine (str dict -- [str])
     map! l!
     @l "# " startsWith if
         ["FPT" @l 2: trim "Section"]
@@ -23,8 +23,14 @@ def processLine (str dict -- str)
     else* @l "Dev:" startsWith *if
         @l ":" split splitLine!
         @splitLine :1: device!
-        @splitLine :2: type!
-        ["DevCal" @device trim @map @type trim get]
+        @splitLine :2: eqtype!
+
+        @map @eqtype trim get match
+            just devType :,
+            none: $"{@eqtype} is not valid." wle 1 exit
+        end
+
+        ["DevCal" @device trim @devType]
     else
         ["FPT" @l "Pass-Fail"]
     end
@@ -32,6 +38,7 @@ end
 
 false makeExcel!
 "Test FPT" name!
+'' xlsxFile!
 
 0 i!
 (
@@ -50,9 +57,11 @@ false makeExcel!
     end
 ) loop
 
+def notEmpty (str -- bool) len 0 != end
+
 args :-1: readFile lines
 (trim) map
-(len 0 !=) filter
+(notEmpty) filter
 (@map processLine tjoin) map
 unlines data!
 

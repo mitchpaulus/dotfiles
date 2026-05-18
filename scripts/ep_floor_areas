@@ -1,4 +1,4 @@
 #!/usr/bin/env mshell
 # Expected input to this file is: eplusout.eio
 sl ('^ *Zone Information' reMatch) filter
-("," split f! [@f :1: trim @f :22: trim toFloat? 10.76391 * 0 toFixed] tjoin wl) map
+("," split f! [@f :1: trim @f :22: trim toFloat? 10.76391 * 0 toFixed] tjoin wl) each

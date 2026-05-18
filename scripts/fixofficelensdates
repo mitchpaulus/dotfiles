@@ -1,7 +1,7 @@
 #!/usr/bin/env mshell
 
 files
-(f! @f 'Scan - ' startsWith and. @f '.pdf' endsWith end) filter
+(str f! @f 'Scan - ' startsWith and. @f '.pdf' endsWith end) filter
 (f! @f @f 7: mv) each
 
 #!/usr/bin/env python3

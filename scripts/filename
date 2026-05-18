@@ -1,2 +1,2 @@
 #!/usr/bin/env mshell
-stdin trim basename wl
+stdin trim basename str wl
