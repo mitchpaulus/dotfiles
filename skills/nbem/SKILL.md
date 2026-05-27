@@ -60,3 +60,5 @@ Zone,
 
 print zones |= zone_template
 ```
+
+You can find the complete documentation at: `neobem.html` in this skill directory.
