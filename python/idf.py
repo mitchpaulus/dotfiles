@@ -1327,6 +1327,196 @@ def sch_compact(idf_dict: dict):
                 raise ValueError("Unknown compact schedule type: " + schedule[i])
         print()
 
+def sch_ranges(idf_dict: dict):
+    schedule_type_limits = { stl[1].lower(): stl for stl in idf_dict.get('scheduletypelimits', []) }
+
+    skip_day_types = {"summerdesignday", "winterdesignday", "allotherdays", "customday1", "customday2"}
+    day_type_display = {"alldays": "All Days"}
+    day_pos_label = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Holiday", "SummerDesignDay", "WinterDesignDay", "CustomDay1", "CustomDay2"]
+
+    def fmt_hour(h: float) -> str:
+        if abs(h - round(h)) < 1e-9:
+            return str(int(round(h)))
+        return f"{h:g}"
+
+    def fmt_value(value_str: str, sch_type: str) -> str:
+        if sch_type == "temperature":
+            return f"{float(value_str) * 1.8 + 32:.1f}°F"
+        if sch_type == "deltatemperature":
+            return f"{float(value_str) * 1.8:.1f}°F"
+        return value_str
+
+    def rollup_until_pairs(pairs: list, sch_type: str) -> list[str]:
+        ranges = []
+        start_h = 0.0
+        k = 0
+        while k < len(pairs):
+            j = k
+            while j + 1 < len(pairs) and pairs[j + 1][1] == pairs[k][1]:
+                j += 1
+            ranges.append(f"{fmt_hour(start_h)} - {fmt_hour(pairs[j][0])}: {fmt_value(pairs[k][1], sch_type)}")
+            start_h = pairs[j][0]
+            k = j + 1
+        return ranges
+
+    def print_entries(entries: list[str]):
+        if entries:
+            print("  " + ", ".join(entries))
+
+    day_sch_pairs: dict[str, list] = {}
+    for sch in idf_dict.get('schedule:day:hourly', []):
+        if len(sch) < 27:
+            continue
+        values = [v.strip() for v in sch[3:27]]
+        pairs = []
+        for h in range(24):
+            if h == 0 or values[h] != values[h - 1]:
+                pairs.append([h + 1, values[h]])
+            else:
+                pairs[-1][0] = h + 1
+        day_sch_pairs[sch[1].strip().lower()] = [(float(p[0]), p[1]) for p in pairs]
+
+    for sch in idf_dict.get('schedule:day:interval', []):
+        pairs = []
+        idx = 4
+        while idx + 1 < len(sch):
+            until_str = sch[idx].lower().replace("until:", "").strip()
+            parts = until_str.split(":")
+            end_hour = int(parts[0]) + (int(parts[1]) / 60.0 if len(parts) > 1 else 0)
+            pairs.append((end_hour, sch[idx + 1].strip()))
+            idx += 2
+        day_sch_pairs[sch[1].strip().lower()] = pairs
+
+    week_sch_days: dict[str, list] = {}
+    for sch in idf_dict.get('schedule:week:daily', []):
+        if len(sch) >= 14:
+            week_sch_days[sch[1].strip().lower()] = [d.strip() for d in sch[2:14]]
+
+    for sch in idf_dict.get('schedule:week:compact', []):
+        days: list = [None] * 12
+        idx = 2
+        while idx + 1 < len(sch):
+            selector = sch[idx].strip()
+            day_sch_name = sch[idx + 1].strip()
+            try:
+                indexes = schedule_day_selector_indexes(selector)
+            except ValueError:
+                indexes = []
+            if "allotherdays" in selector.lower().replace(" ", ""):
+                indexes = [di for di, v in enumerate(days) if v is None]
+            for di in indexes:
+                days[di] = day_sch_name
+            idx += 2
+        week_sch_days[sch[1].strip().lower()] = days
+
+    def collapse_labels(labels: list[str]) -> str:
+        label_set = set(labels)
+        weekdays = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"}
+        weekends = {"Saturday", "Sunday"}
+
+        parts = []
+        if weekdays <= label_set:
+            parts.append("Weekdays")
+            label_set -= weekdays
+        if weekends <= label_set:
+            parts.append("Weekends")
+            label_set -= weekends
+        for l in day_pos_label:
+            if l in label_set:
+                parts.append(day_type_display[l.lower()] if l.lower() in day_type_display else l)
+        return " ".join(parts)
+
+    def print_week(week_name: str, sch_type: str):
+        days = week_sch_days.get(week_name.lower())
+        if days is None:
+            print(f"  (week schedule '{week_name}' not found)")
+            return
+
+        groups: list = []
+        seen: dict[str, int] = {}
+        for pos in range(12):
+            label = day_pos_label[pos]
+            if label.lower() in skip_day_types:
+                continue
+            ds_name = days[pos]
+            if ds_name is None:
+                continue
+            key = ds_name.lower()
+            if key not in seen:
+                seen[key] = len(groups)
+                groups.append([ds_name, [label]])
+            else:
+                groups[seen[key]][1].append(label)
+
+        for ds_name, labels in groups:
+            display_label = collapse_labels(labels)
+            if not display_label:
+                continue
+            pairs = day_sch_pairs.get(ds_name.lower())
+            print(f"  {display_label}")
+            if pairs is None:
+                print(f"  (day schedule '{ds_name}' not found)")
+                continue
+            print_entries(rollup_until_pairs(pairs, sch_type))
+
+    for schedule in idf_dict.get('schedule:compact', []):
+        name = schedule[1]
+        sch_type = get_sch_type(schedule[2], schedule_type_limits)
+
+        print(name)
+
+        i = 3
+        while i < len(schedule):
+            field = schedule[i].strip()
+            lower = field.lower()
+            if lower.startswith("through:"):
+                i += 1
+            elif lower.startswith("for:"):
+                day_type = field.split(":", 1)[1].strip()
+                kept_tokens = [t for t in day_type.split() if t.strip() and t.lower() not in skip_day_types]
+                skip_block = len(kept_tokens) == 0
+                display_day_type = " ".join(day_type_display[t.lower()] if t.lower() in day_type_display else t for t in kept_tokens)
+
+                i += 1
+                if i < len(schedule) and schedule[i].strip().lower().startswith("interpolate:"):
+                    i += 1
+
+                pairs = []
+                while i + 1 < len(schedule) and schedule[i].strip().lower().startswith("until:"):
+                    until_str = schedule[i].split(":", 1)[1].strip()
+                    parts = until_str.split(":")
+                    end_hour = int(parts[0]) + (int(parts[1]) / 60.0 if len(parts) > 1 else 0)
+                    pairs.append((end_hour, schedule[i + 1].strip()))
+                    i += 2
+
+                if skip_block:
+                    continue
+
+                print(f"  {display_day_type}")
+                print_entries(rollup_until_pairs(pairs, sch_type))
+            else:
+                i += 1
+        print()
+
+    for schedule in idf_dict.get('schedule:year', []):
+        name = schedule[1]
+        sch_type = get_sch_type(schedule[2], schedule_type_limits)
+        print(name)
+
+        periods = []
+        i = 3
+        while i + 4 < len(schedule):
+            periods.append((schedule[i].strip(), int(schedule[i + 1]), int(schedule[i + 2]), int(schedule[i + 3]), int(schedule[i + 4])))
+            i += 5
+
+        show_dates = len(periods) > 1
+        for week_name, sm, sd, em, ed in periods:
+            if show_dates:
+                print(f"  {sm}/{sd} - {em}/{ed}")
+            print_week(week_name, sch_type)
+        print()
+
+
 def floor_area_from_surface(surface: list[str]) -> float:
     # Start at 12th element
     area = 0
@@ -1502,6 +1692,7 @@ def main():
             print("  day_sch: Print day schedules.")
             print("  sch_process: Process day schedules.")
             print("  sch_compact: Print compact schedules.")
+            print("  sch_ranges: Print compact schedules as inline hour ranges grouped by day type.")
             print("  surface_areas: Print gross surface area grouped by surface type and boundary condition.")
             print("  zones: Print zone details.")
             print("  spaces: Print space details.")
@@ -1538,6 +1729,8 @@ def main():
             command = "sch_process"
         elif sys.argv[idx] == "sch_compact":
             command = "sch_compact"
+        elif sys.argv[idx] == "sch_ranges":
+            command = "sch_ranges"
         elif sys.argv[idx] == "surface_areas":
             command = "surface_areas"
         elif sys.argv[idx] == "zones":
@@ -1647,6 +1840,11 @@ def main():
         contents = idf2tsv(file)
         idf_dict = tsv2dict(contents)
         sch_compact(idf_dict)
+
+    elif command == "sch_ranges":
+        contents = idf2tsv(file)
+        idf_dict = tsv2dict(contents)
+        sch_ranges(idf_dict)
 
     elif command == "surface_areas":
         contents = idf2tsv(file)

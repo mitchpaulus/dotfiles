@@ -63,9 +63,8 @@ sfeedrc
 # REDOGI
 go/lf-preview-win/lf-preview-win.exe
 go/todoist/todoist
-haskell/**/*
-haskell/all
 notes/**/*.pdf
 sfeedrc
 skills/Word Tables/word_vba.py
+skills/nbem/neobem.html
 vim/vimrc
