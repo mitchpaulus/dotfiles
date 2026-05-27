@@ -62,3 +62,23 @@ print zones |= zone_template
 ```
 
 You can find the complete documentation at: `neobem.html` in this skill directory.
+
+## Running different model versions with flags
+
+You often want to run several different models with different tweaks based on binary flags.
+For example, running a baseline and then a design model.
+`nbem` supports this with the following workflow.
+
+The CLI has a `--flag` option that lets you specify a comma separated list of flags.
+
+```sh
+nbem --flags envelope,lights in.nbem
+```
+
+and in the nbem file:
+
+```neobem
+uvalue = if exists('envelope') then 0.08 else 0.124
+
+print if exists('lights') then my_design_light_template() else baseline_light_template()
+```
