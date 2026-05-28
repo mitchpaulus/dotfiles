@@ -100,7 +100,7 @@ end
 
 vim.lsp.config('nbem_lsp', {
     cmd = { 'nbem', '--lsp' },
-    filetypes = { 'neobem' },
+    filetypes = { 'neobem', 'idf' },
     name = 'nbem-lsp',
     root_dir = function(_, on_dir)
         on_dir(vim.fn.getcwd())
