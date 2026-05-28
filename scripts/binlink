@@ -40,7 +40,7 @@ runtime "windows" = if
     $1  @fullBinPath hardLink
 else
     ['ln' '-s' $1 absPath @fullBinPath]!
-    ['chmod''+x' @fullBinPath]!
+    # ['chmod''+x' @fullBinPath]!
 end
 # #!/bin/sh
 

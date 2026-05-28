@@ -1,10 +1,4 @@
-#!/bin/sh
-
-ROOT_GIT_DIR="$(git rev-parse --show-toplevel)"
-
-if [ -z "$1" ]; then
-    echo "Usage: gitpath <path>"
-    exit 1
-fi
-
-printf '%s\n' "$(realpath "$1")" | sed 's|^'"$ROOT_GIT_DIR"'/||'
+#!/usr/bin/env mshell
+['git' 'rev-parse' '--show-toplevel'] * ! chomp '/' + rootGitDir!
+args len 1 < if "Usage: gitpath <path>" wl 1 exit end
+['realpath' $1] * ! chomp @rootGitDir '' findReplace w
