@@ -1,5 +1,7 @@
 ```
 #set text(font: "Times New Roman")
+#show link: underline
+#link("https://url.com")[Description]
 
 // Table captions on top
 #show figure.where(
