@@ -807,9 +807,17 @@ class Table:
         else:
             return RtfFragment(body=table_rtf, colors=colors, font_name=self._font_name)
 
-    def compile(self) -> str:
-        """Compile table information into the required Word VBA"""
+    def compile(self, screen_updating: bool = False) -> str:
+        """Compile table information into the required Word VBA
+
+        screen_updating: if False (the default), the application's screen
+        updating is disabled while the table is built and re-enabled at the
+        end. This greatly speeds up building large tables since the UI does
+        not redraw after every operation.
+        """
         lines = []
+        if not screen_updating:
+            lines.append("Application.ScreenUpdating = False")
         lines.append("Dim tbl As Table")
         lines.append(f'Set tbl = ActiveDocument.Tables.Add(Range:=Selection.Range, NumRows:={self.num_rows()}, NumColumns:={self.num_cols()}, DefaultTableBehavior:=wdWord9TableBehavior, AutoFitBehavior:=wdAutoFitFixed)')
 
@@ -971,6 +979,9 @@ class Table:
 
         if self._col_widths:
             lines.append('tbl.AllowAutoFit = True')
+
+        if not screen_updating:
+            lines.append("Application.ScreenUpdating = True")
 
         return "\n".join(lines) + "\n"
 

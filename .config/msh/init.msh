@@ -53,11 +53,11 @@ def gm (--)
      iff
 end
 
-def zip2list (a b --)
+def zip2list ([a] [b] -- [[a|b]])
     (val2! val1! [@val1 @val2]) zip
 end
 
-def minPerDay (-- float) 1440 end
+def minPerDay (-- int) 1440 end
 
 hostname "prec3660-mp" = runtime "windows" = and if
     [
@@ -82,22 +82,4 @@ hostname "prec3660-mp" = runtime "windows" = and if
         $"{$REPOS}\\mmysql"
         $PATH
     ] ';' join $PATH!
-end
-
-def mshCompletion ([str] -- [str])
-    input!
-    ['-h' '--help' '--html' '--lex' '--parse' '--version' '-c'] options!
-    ['lsp' 'bin' 'completions'] subcommands!
-
-    @input len 0 > if
-        @input :0:
-        match
-            "lsp": drop [], # Nothing after lsp
-            "bin": drop ['add' 'remove' 'list' 'path' 'edit' 'audit' 'debug'],
-            "completions": drop ['fish' 'bash' 'nushell' 'elvish'],
-            _: drop [],
-        end
-    else
-        @options @subcommands extend
-    end
 end
