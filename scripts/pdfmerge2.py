@@ -84,12 +84,26 @@ def merge_pdfs_with_bookmarks(pdf_paths: list[str], output_path, filename_bookma
     merged_document.close()
 
 
-help_message = "Usage: pdfmerge.py [--filename] <output file> <input files...>\n\nThis script uses PyMuPDF to merge PDFs. --filename can be used to add a bookmark with the filename as the text.\n"
+help_message = """Usage: pdfmerge.py [--filename] [--from-file <file>] <output file> [input files...]
+
+This script uses PyMuPDF to merge PDFs. --filename can be used to add a bookmark with the filename as the text.
+--from-file can be used to read input files from a text file with one input file per line.
+"""
+
+def read_input_files_from_file(path):
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return [line.strip() for line in f if line.strip()]
+    except Exception as e:
+        print(f"Error reading input file list '{path}': {e}", file=sys.stderr)
+        sys.exit(1)
+
 
 if __name__ == "__main__":
     index = 1
 
     filename_bookmark_mode = False
+    input_file_lists = []
 
     while index < len(sys.argv):
         if sys.argv[index] == "-h" or sys.argv[index] == "--help":
@@ -98,15 +112,27 @@ if __name__ == "__main__":
         elif sys.argv[index] == "--filename":
             filename_bookmark_mode = True
             index += 1
+        elif sys.argv[index] == "--from-file":
+            if index + 1 >= len(sys.argv):
+                print("--from-file requires a path", file=sys.stderr)
+                sys.exit(1)
+            input_file_lists.append(sys.argv[index + 1])
+            index += 2
         else:
             break
 
-    if len(sys.argv) - index < 2:
+    if len(sys.argv) - index < 1:
         print(help_message)
         sys.exit(1)
 
     output_file = sys.argv[index]
     input_files = sys.argv[index + 1:]
+    for input_file_list in input_file_lists:
+        input_files.extend(read_input_files_from_file(input_file_list))
+
+    if len(input_files) == 0:
+        print("At least one input file is required", file=sys.stderr)
+        sys.exit(1)
 
     if output_file.strip() == "":
         print("Output file cannot be empty", file=sys.stderr)
