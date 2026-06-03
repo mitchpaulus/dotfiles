@@ -124,8 +124,12 @@ path_prepend /usr/local/go/bin
 path_prepend $HOME/go/bin
 path_prepend /opt/local/bin # This is for default Mac ports binaries
 
-# Neovim/Vim for all the things
-if command -v nvim >/dev/null 2>&1
+# medit time ~~Neovim/Vim for all the things~~
+if command -v medit >/dev/null 2>&1
+    set -gx EDITOR medit
+    set -gx VISUAL nvim
+    set -gx SUDO_EDITOR (which nvim)
+else if command -v nvim >/dev/null 2>&1
     set -gx EDITOR nvim
     set -gx VISUAL nvim
     set -gx SUDO_EDITOR (which nvim)
