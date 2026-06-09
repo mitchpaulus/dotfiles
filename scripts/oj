@@ -2,6 +2,17 @@
 
 # Usually update JOBS_DATA_FILE with something like:
 # cc_archive jobsdrives
-$JOBS_DATA_FILE? not ("$JOBS_DATA_FILE environment variable not set. Data usually created with cc_archive.py jobsdrives." wle 1 exit) iff
-['fzf' '-d' "\t" '-n' '1' '--with-nth' '1'] $JOBS_DATA_FILE toPath < * ! trim tsplit :-1: url!
+['uv' 'run' '--with' 'requests' $REPOS toPath `ms-graph` / `cc_archive.py` / 'jobsdrives'] cmd!
+
+tempDir `jobsfiles.tsv` / f!
+@f modTime match
+    just dt : now @dt - 2.0 > if $"Old {@f str}.." wle @cmd @f > ! end,
+    none : $"Did not find or couldn't stat {@f str}.." wle @cmd @f > !
+end
+
+{ 'Template': true, 'Site Pages': true, 'Site Assets': true, 'Pages': true, 'Master Page Gallery': true, 'Images': true, 'Documents': true, }
+ignore!
+
+# $JOBS_DATA_FILE? not ("$JOBS_DATA_FILE environment variable not set. Data usually created with cc_archive.py jobsdrives." wle 1 exit) iff
+['fzf' '-d' "\t" '-n' '1' '--with-nth' '1'] @f readFile lines filter. '^[0-9]' reMatch end sortV reverse unlines < * ! trim tsplit :-1: url!
 [wsl_url_open @url]!
