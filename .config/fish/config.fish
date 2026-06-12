@@ -126,7 +126,8 @@ path_prepend /opt/local/bin # This is for default Mac ports binaries
 
 # medit time ~~Neovim/Vim for all the things~~
 if command -v medit >/dev/null 2>&1
-    set -gx EDITOR medit
+    # set -gx EDITOR medit
+    set -gx EDITOR nvim
     set -gx VISUAL nvim
     set -gx SUDO_EDITOR (which nvim)
 else if command -v nvim >/dev/null 2>&1
@@ -163,7 +164,7 @@ function fish_prompt
     set exit_code "$status"
 
     if test (hostname) = 'prec3660-mp'; and command -v toggl >/dev/null 2>&1
-        set toggl_response (cut -f 2 '/tmp/toggl_status.tsv')
+        set toggl_response (cut -f 2 '/tmp/toggl_status.tsv' 2>/dev/null)
         # set toggl_response (toggl)
         if test "$toggl_response" = "$TOGGL_NOT_TRACKING"
             read -P 'Please acknowledge not tracking. Press Enter to continue.'
@@ -194,7 +195,7 @@ function fish_greeting
         random_remind
     end
     if command -v toggl >/dev/null 2>&1
-        set toggl_response (cut -f 2 '/tmp/toggl_status.tsv')
+        set toggl_response (cut -f 2 '/tmp/toggl_status.tsv' 2>/dev/null)
         # set toggl_response (toggl)
         if test "$toggl_response" = "$TOGGL_NOT_TRACKING"
             set_color C80000

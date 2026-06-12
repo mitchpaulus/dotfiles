@@ -1,0 +1,32 @@
+#!/usr/bin/env mshell
+
+false figure!
+false table!
+
+args args!
+
+(
+    @args match
+    [] : break,
+    [arg ...rest]:
+        @arg match
+            "-f" : true figure!,,
+            "-t" : true table!,,
+            string s : $"Unknown argument {@s}" wle 1 exit
+        end
+
+        @rest args!
+    end
+) loop
+
+stdin lines (tsplit) map match
+    [] : ,
+    [head] :> map. i! $"[{@i}]" end "," join wl,
+    [head ...rest] :
+
+    @head map. i! $"[{@i}]" end "," join headerItems!
+
+    $"table.header({@headerItems})," wl
+
+    @rest map. map. i! $"[{@i}]" end "," join end ",\n" join wl
+end
