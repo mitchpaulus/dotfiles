@@ -10,6 +10,8 @@ tmp/
 skills/mplot/doc.md
 skills/mshell/mshell.md
 
+.config/msh/v0.14.0/init.msh
+
 .idea/
 
 .config/fish/fish_variables
