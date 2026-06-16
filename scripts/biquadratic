@@ -1,47 +1,35 @@
-#!/usr/bin/awk -E
+#!/usr/bin/env mshell
 
-BEGIN {
-    for (i in ARGV) {
-        if (ARGV[i] == "-h" || ARGV[i] == "--help") {
-            print "Usage: "
-            print "  biquadratic X Y [file]"
-            print "  biquadratic  -h"
-            print ""
-            print "  X: column number"
-            print "  Y: row number"
-            print "  file: file to read from (default: stdin)"
-            exited = 1
-            exit 0
-        }
-    }
+args (a! ["-h" "--help"] (@a =) any) any if
+    [
+        "Usage: "
+        "  biquadratic X Y [file]"
+        "  biquadratic  -h"
+        ""
+        "  X: column number"
+        "  Y: row number"
+        "  file: file to read from (default: stdin)"
+    ] uw
+    0 exit
+end
 
-    if (ARGC < 3) {
-        print "2 arguments required: X Y [file]"
-        exit 1
-    }
+args len 3 < if "2 arguments required: X Y [file]" wle 1 exit end
 
-    x = ARGV[1]
-    y = ARGV[2]
+args :0: x! args :1: y!
+args len 3 = if $3 readFile else stdin end lines lines!
 
-    ARGV[1] = ""
-    ARGV[2] = ""
-}
+@lines :0: b0!
+@lines :1: b1!
+@lines :2: b2!
+@lines :3: b3!
+@lines :4: b4!
+@lines :5: b5!
 
-# Using the first field allows files that have comments or other noise.
-NR == 1 { b0 = $1; next }
-NR == 2 { b1 = $1; next }
-NR == 3 { b2 = $1; next }
-NR == 4 { b3 = $1; next }
-NR == 5 { b4 = $1; next }
-NR == 6 { b5 = $1; next }
+@b0 term0!
+$"{@b1} * {@x}" term1!
+$"{@b2} * {@x} * {@x}" term2!
+$"{@b3} * {@y}" term3!
+$"{@b4} * {@y} * {@y}" term4!
+$"{@b5} * {@x} * {@y}" term5!
 
-END {
-    if (exited) { exit 0 }
-    term0 = sprintf("%s", b0)
-    term1 = sprintf("%s * %s", b1, x)
-    term2 = sprintf("%s * %s * %s", b2, x, x)
-    term3 = sprintf("%s * %s", b3, y)
-    term4 = sprintf("%s * %s * %s", b4, y, y)
-    term5 = sprintf("%s * %s * %s", b5, x, y)
-    printf "%s + (%s) + (%s) + (%s) + (%s) + (%s)\n", term0, term1, term2, term3, term4, term5
-}
+$"{@term0} + ({@term1}) + ({@term2}) + ({@term3}) + ({@term4}) + ({@term5})" wl
