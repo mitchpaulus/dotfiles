@@ -3,7 +3,6 @@ set shell msh.exe
 set shellflag -c
 
 set hidden true
-set sixel
 map <esc> quit
 
 # Unmap single y
