@@ -17,6 +17,8 @@ map yy copy
 map yc copy-command-path
 map yf copy-filename
 map yp copy-fullpath
+map yg copy-gitpath
+
 
 map w & ['explorer.exe' '.'];
 
@@ -30,6 +32,7 @@ map <f-2> rename
 cmd copy-command-path & [clip] $f $JOBSDIR '' findReplace 'Jobs - ' '' findReplace < !
 cmd copy-fullpath & [clip.exe] $f < ;
 cmd copy-filename & [clip.exe] $f basename str < ;
+cmd copy-gitpath &{{ [copy-gitpath-lf]! }}
 
 cmd on-cd $ wt_cwd
 
