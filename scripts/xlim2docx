@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env mshell
 
-OUTPUT="${1%.*}.docx"
-{ printf "\`\`\`xlim\n"; cat "$1"; printf "\`\`\`\n" ; } | pandoc -o "$OUTPUT" --syntax-definition "$HOME"/.local/share/pandoc/xlim.xml --highlight-style kate
+$1 stem str ".docx" + output!
+["```xlim" $1 readFile "```"] unlines input!
+
+['pandoc' '-o' @output '--syntax-definition' $"{$HOME}/.local/share/pandoc/xlim.xml" '--highlight-style' 'kate' ] @input < !

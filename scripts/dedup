@@ -1,14 +1,9 @@
-#!/usr/bin/python3
-import sys
-
-seen = {}
-for line in sys.stdin:
-    if line not in seen:
-        seen[line] = 1
-        print(line, end='')
-
-    else:
-        count = seen[line]
-        # Print a (count) at the end, before the newline
-        print(line.rstrip() + ' (' + str(count) + ')')
-        seen[line] += 1
+#!/usr/bin/env mshell
+{} as {int} seen!
+stdin lines
+each.
+    l!
+    @seen @l get 0 maybe dbg i!
+    @seen @l @i 1 + set drop
+    @i 1 > if $"{@l} ({@i})" else @l end wl
+end

@@ -1,7 +1,2 @@
-#!/bin/sh
-
-if command -v win32yank.exe >/dev/null 2>/dev/null; then
-    win32yank.exe -i
-else
-    clip.exe
-fi
+#!/usr/bin/env mshell
+['win32yank.exe' '-i']? not if ['clip.exe']! end
