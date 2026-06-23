@@ -6,5 +6,5 @@
 # $1 = file path
 # $2 = optional number of lines to show
 'COLORTERM' unsetenv
-args len 2 = if [--line-range $":{$2}"] else [] end lineRange!
+args len 2 >= $2 toInt isNone not and if [--line-range $":{$2}"] else [] end lineRange!
 ['bat' '--italic-text' always --color always --style 'plain' --theme 'Visual Studio Dark+' @lineRange $1]!
