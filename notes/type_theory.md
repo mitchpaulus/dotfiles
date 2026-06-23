@@ -70,3 +70,5 @@ This is in contrast to "ad hoc polymorphism", in which functions can act
 ## References
 
 [Faking ADTs and GADTs in Languages That Shouldn't Have Them](https://blog.jle.im/entry/faking-adts-and-gadts.html)
+
+[Record type inference for dummies](https://haskellforall.com/2026/06/record-type-inference-for-dummies)

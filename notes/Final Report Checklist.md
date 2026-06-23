@@ -1,0 +1,4 @@
+- Update all references/check TOC
+- Check for any "Error: Reference not found"
+- Check all headers/footers.
+- Check all section boundaries
