@@ -344,6 +344,7 @@ class Table:
     def __init__(self) -> None:
         self._merges: list[tuple[int, int, int, int]] = [] # List of tuples (start_row, start_col, end_row, end_col), all on 1-based index
         self._background_colors = []
+        self._font_colors = []
         self._bolds = []
         self._vertical_alignments = []
         self._horizontal_alignments = []
@@ -444,6 +445,21 @@ class Table:
             raise ValueError("Invalid number of arguments")
 
         self.font_sizes.append((cell_range, font_size))
+        return self
+
+    def font_color(self, *args) -> 'Table':
+        if len(args) == 1:
+            if self.current_cell_range is None:
+                raise ValueError("No cell range set")
+            cell_range = self.current_cell_range
+            color = args[0]
+        elif len(args) == 2:
+            cell_range = args[0]
+            color = args[1]
+        else:
+            raise ValueError("Invalid number of arguments")
+
+        self._font_colors.append((cell_range, color))
         return self
 
     def font_name(self, name: str) -> 'Table':
@@ -587,7 +603,7 @@ class Table:
         # Collect unique colors for the color table
         colors: list[Color] = []
         color_map: dict[tuple[int, int, int], int] = {}
-        for _cr, color in self._background_colors:
+        for _cr, color in self._background_colors + self._font_colors:
             key = (color.r, color.g, color.b)
             if key not in color_map:
                 color_map[key] = len(colors) + 1  # 1-based; index 0 is auto
@@ -631,6 +647,13 @@ class Table:
         def get_bg_color_index(row1, col1):
             result = None
             for cr, color in self._background_colors:
+                if _cell_in_range(cr, row1, col1, self):
+                    result = color_map[(color.r, color.g, color.b)]
+            return result
+
+        def get_font_color_index(row1, col1):
+            result = None
+            for cr, color in self._font_colors:
                 if _cell_in_range(cr, row1, col1, self):
                     result = color_map[(color.r, color.g, color.b)]
             return result
@@ -774,6 +797,10 @@ class Table:
                 if fs is not None:
                     content += f'\\fs{fs} '
 
+                fc = get_font_color_index(r + 1, c + 1)
+                if fc is not None:
+                    content += f'\\cf{fc} '
+
                 # Cell text
                 if r < len(self.data) and c < len(self.data[r]):
                     cell_val = self.data[r][c]
@@ -787,6 +814,8 @@ class Table:
 
                 if bold:
                     content += '\\b0'
+                if fc is not None:
+                    content += '\\cf0'
 
                 content += '\\cell'
                 lines.append(content)
@@ -828,6 +857,9 @@ class Table:
 
         for cell_range, color in self._background_colors:
             lines.extend(self.apply_to_range(cell_range, f'.Shading.BackgroundPatternColor = RGB({color.r}, {color.g}, {color.b})'))
+
+        for cell_range, color in self._font_colors:
+            lines.extend(self.apply_to_range(cell_range, f'.Font.Color = RGB({color.r}, {color.g}, {color.b})'))
 
         for cell_range, bold in self._bolds:
             vba_bool = 'True' if bold else 'False'
