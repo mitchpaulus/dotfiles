@@ -1,0 +1,59 @@
+#!/usr/bin/env mshell
+
+def sortCmp (str | datetime str | datetime -- int)
+    a!, b!
+
+    @a match
+        str : -1,
+        _ : @b match
+                str : 1,
+                _ : @a as datetime @b as datetime dateTimeCmp
+            end
+    end
+end
+
+def toStr (str | datetime -- str)
+    match
+        date :> isoDateFmt,
+        str :>
+    end
+end
+
+def query (str -- str)
+b! '
+from(bucket: "BUCKET_NAME")
+  |> range(start: 2025-01-01T00:00:00Z)
+  |> last()
+  |> keep(columns: ["_time"])
+  |> group()
+  |> max(column: "_time")
+' "BUCKET_NAME" @b findReplace
+end
+
+['influx' 'bucket' 'list']* ! lines 1:
+(tsplit) map
+filter. :1: "bucket" != end buckets!
+
+@buckets len bucketCount!
+
+@buckets
+map.
+    :1: b!
+    ['influx' 'query' '-r'] @b query < * ! parseCsv data!
+
+    @b wle
+
+    @data len 0 = if
+        [@b 'No Data'] as [str | datetime]
+    else
+        @data :-1: :-1:
+        toDt? utcToCst
+        lastDate!
+        [@b @lastDate]
+    end
+end
+# tuw
+dbg
+((:1:) 2each dbg sortCmp dbg -1 *) sortByCmp
+map. map. toStr end end
+tuw

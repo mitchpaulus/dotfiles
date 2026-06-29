@@ -1,0 +1,18 @@
+#!/usr/bin/env mshell
+
+# unzipi = interactive unzip
+
+$1 toPath zipList
+filter. :isDir? not end
+map. :name? end
+unlines
+names!
+
+[fzf] @names < * ! chomp selection!
+
+
+$1 toPath
+@selection
+@selection basename
+{}
+zipExtractEntry
