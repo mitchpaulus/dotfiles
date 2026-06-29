@@ -3,6 +3,7 @@ ABQ
 ACCO
 ACH
 AEC
+AFPT
 AHRI
 AHU
 AHUs
@@ -557,6 +558,7 @@ psychrometric
 psychrometric
 psychrometric
 psychrometrics
+rasterize
 recalibrated
 recalibrated
 reconnection
@@ -603,4 +605,3 @@ workflows
 worktree
 xlim
 ΔT
-AFPT
