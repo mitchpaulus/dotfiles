@@ -9,13 +9,11 @@ Links:
 - <https://www.ashrae.org/news/ashraejournal/guideline-36-2021-what-s-new-and-why-it-s-important>
 - [Commissioning of Guideline 36](https://doi.org/10.6028/NIST.TN.2024)
 
-Chilled and hot water plant sequences based on RP-1711, Advanced
-Sequences of Operation for HVAC Systems - Phase II Central Plants and
-Hydronic Systems
+Chilled and hot water plant sequences based on RP-1711,
+Advanced Sequences of Operation for HVAC Systems - Phase II Central Plants and Hydronic Systems
 
-DOAS systems will likely be covered in next version in 2024, based on
-RP-1865, Optimizing Supply Air Temperature Control for Dedicated Outdoor
-Air Systems.
+DOAS systems will likely be covered in next version in 2024, based on RP-1865,
+Optimizing Supply Air Temperature Control for Dedicated Outdoor Air Systems.
 
 
 ## Reference pages
@@ -66,3 +64,13 @@ chiller energy savings resulting from keeping the chilled water supply temperatu
   - Try to maintain 0°F between primary supply and secondary supply temperature. G36 uses T&R for this. (pg. 202, 204 of PDF).
 - Typically requires knowing `CH-MinPriPumpSpdStage`: the primary chilled water pump speed necessary to deliver minimum
   chilled water flow, CHW-MinFlowX, through the operating chiller(s) in the stage.
+
+
+## Cooling Towers
+
+Disable fans on:
+
+1. Towers at minimum speeds, or
+2. CWST < setpoint - 1
+
+for 1 minute. Enables CWST > setpoint + 1 (plus some speed considerations)

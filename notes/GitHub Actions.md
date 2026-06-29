@@ -2,6 +2,7 @@
 
 <https://github.com/actions/checkout>
 <https://github.com/actions/setup-dotnet>
+<https://github.com/actions/setup-java>
 
 # GitHub Actions
 
