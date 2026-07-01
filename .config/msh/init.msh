@@ -82,6 +82,7 @@ hostname "prec3660-mp" = runtime "windows" = and if
         $"{$REPOS}\\mmysql"
         $"{$REPOS}\\medit\\target\\release"
 		$"{$REPOS}\\redo-msh\\target\\release"
+        $"{$REPOS}\\time-tracking\\target\\release"
         $PATH
     ] ';' join $PATH!
 end
