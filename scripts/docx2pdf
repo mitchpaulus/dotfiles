@@ -2,7 +2,7 @@
 
 args len 1 < ("Usage: docx2pdf <docx-file> [pdf-file]" wl 0 exit) iff
 
-tempFile tmpfile!
+".docx" tempFileExt tmpfile!
 $"Tmp File {@tmpfile}" wle
 $1 @tmpfile cp
 $"Converting '{@tmpfile}' to PDF..." wle
@@ -29,9 +29,10 @@ def move-result-file (--)
 end
 
 # If a second arg, it is the name of the output file.
-args len 1 >
-(move-result-file)
-iff
+args len 1 > if move-result-file end
+
+# Clean up temp file
+@tmpfile rmf
 
 # OLD
 # Get from https://github.com/cognidox/OfficeToPDF
