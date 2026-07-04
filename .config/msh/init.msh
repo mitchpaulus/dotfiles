@@ -45,12 +45,8 @@ def g (--)
 end
 
 def gm (--)
-     $OneDriveCommercial toPath `meetingnotes` /
-     path!
-     @path isDir
-     (@path cd)
-     ($"{@path} is not a directory." wle)
-     iff
+     $OneDriveCommercial toPath `meetingnotes` / path!
+     @path isDir if @path cd else $"{@path} is not a directory." wle end
 end
 
 def zip2list ([a] [b] -- [[a|b]])
@@ -58,6 +54,13 @@ def zip2list ([a] [b] -- [[a|b]])
 end
 
 def minPerDay (-- int) 1440 end
+
+runtime "linux" = if
+    $"{$HOME}/.dotnet/tools" toolsDir!
+    @toolsDir isDir if
+        $"{@toolsDir}:{$PATH}" $PATH!
+    end
+end
 
 hostname "prec3660-mp" = runtime "windows" = and if
     [
