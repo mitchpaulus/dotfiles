@@ -97,8 +97,6 @@ end
 # Required for Haxall - See https://github.com/haxall/haxall
 set -gx FAN_BUILD_JDKHOME "$JAVA_HOME"
 
-set -gx TOGGL_NOT_TRACKING "Not tracking"
-
 path_prepend "$JAVA_HOME"/bin
 path_prepend "$DOTFILES"/scripts/
 path_prepend "$DOTFILES"/python
@@ -163,10 +161,9 @@ command -q vivid; and set -gx LS_COLORS (vivid generate dracula)
 function fish_prompt
     set exit_code "$status"
 
-    if test (hostname) = 'prec3660-mp'; and command -v toggl >/dev/null 2>&1
-        set toggl_response (cut -f 2 '/tmp/toggl_status.tsv' 2>/dev/null)
-        # set toggl_response (toggl)
-        if test "$toggl_response" = "$TOGGL_NOT_TRACKING"
+    if test (hostname) = 'prec3660-mp'; and command -v timetrack >/dev/null 2>&1
+        set timetrack_response (timetrack status)
+        if test "$timetrack_response" = "stopped"
             read -P 'Please acknowledge not tracking. Press Enter to continue.'
         end
     end
@@ -194,20 +191,8 @@ function fish_greeting
     if command -v random_remind >/dev/null 2>&1
         random_remind
     end
-    if command -v toggl >/dev/null 2>&1
-        set toggl_response (cut -f 2 '/tmp/toggl_status.tsv' 2>/dev/null)
-        # set toggl_response (toggl)
-        if test "$toggl_response" = "$TOGGL_NOT_TRACKING"
-            set_color C80000
-            printf '%s\n' $toggl_response
-            set_color normal
-        else
-            printf '%s\n' $toggl_response
-        end
-    else
-        set_color C80000
-        printf 'No toggl command found..\n'
-        set_color normal
+    if command -v timetrack >/dev/null 2>&1
+        timetrack status
     end
 end
 
@@ -372,7 +357,6 @@ abbr -a rd 'nvim README.md'
 abbr -a lv 'nvim -c "normal \'0" -c bd1'
 
 abbr -a pwgen 'pwgen -cnysB -r \'`#<>[]{};\' 14 1'
-abbr -a lunch 'toggl lunch'
 
 abbr -a of 'open_facility_grid'
 
