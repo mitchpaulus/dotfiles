@@ -1,6 +1,6 @@
 #!/usr/bin/env mshell
 
-['timetrack' 'project' 'list']*! lines sortV unlines projs!
+['timetrack' 'project' 'list']*! lines 1: ((tsplit :1:) 2each versionSortCmp -1 *) sortByCmp unlines projs!
 
 ['fzf' -d "\t" -n '2,3' --with-nth '2,3'] @projs < * !
 chomp tab split :1: projNum!
