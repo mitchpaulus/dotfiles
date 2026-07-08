@@ -16,3 +16,9 @@ Using the CLI to create gnuplot code:
 ```
 mplot myfile.mplot
 ```
+
+You can pipe directly into Gnuplot
+
+```
+mplot myfile.mplot | gnuplot -
+```
