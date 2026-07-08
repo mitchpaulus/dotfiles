@@ -1,14 +1,14 @@
 #!/usr/bin/env mshell
-['toggl' 'projects']*! lines projs!
-@projs (tsplit :1:) map sortV unlines projs!
 
-['fzf'] @projs < * ?
-not (1 exit) iff
-trim proj!
+['timetrack' 'project' 'list']*! lines sortV unlines projs!
+
+['fzf' -d "\t" -n '2,3' --with-nth '2,3'] @projs < * !
+chomp tab split :1: projNum!
 
 "Description: " w read
 not (1 exit) iff
 trim desc!
 
-['toggl' start @proj @desc]!
-['toggl_set']!
+@projNum wl @desc wl
+
+['timetrack' 'start' @projNum @desc]!
