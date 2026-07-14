@@ -1,5 +1,7 @@
 # fd
 
+`fd.exe [OPTIONS] [pattern] [path]..`
+
 Find all results: `fd -H -I`. -H for hidden, -I for ignored.
 Smart Case by default.
 
