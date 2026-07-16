@@ -1,6 +1,13 @@
 #!/usr/bin/env mshell
 
-$WSLENV? if
+runtime 'windows' = if
+    'C:\' lsDir (isDir) filter (basename str 'EnergyPlus' startsWith) filter sortV dirs!
+    @dirs len 0 = if 'No EnergyPlus dirs found' wle 1 exit end
+    @dirs :-1: dir!
+    @dir toPath `Documentation` / `InputOutputReference.pdf` / pdf!
+    ['powershell.exe' '-NoProfile' '-Command' $"Start-Process \"{@pdf}\""]!
+
+else* $WSLENV? *if
     ['fd' '-t' 'f' 'InputOutputReference.pdf' $"/mnt/c/"] * ! lines sortV files!
     @files len 0 > if
         @files :-1: dirname DIR! ['cmd.exe' '/C' 'start' '' [wslpath '-w' @DIR]*!chomp]!
