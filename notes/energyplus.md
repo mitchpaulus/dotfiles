@@ -365,3 +365,9 @@ AirTerminal:SingleDuct:VAV:Reheat,
   ,                                                        !- Maximum Flow Fraction During Reheat
   ,                                                        !- Maximum Reheat Air Temperature
   ;                                                        !- Design Specification Outdoor Air Object Name
+
+```
+OutputControl:Table:Style,
+  Comma,   ! Column Separator Def: Comma, [Comma, Tab, Fixed, HTML, XML, CommaAndHTML, CommaAndXML, TabAndHTML, XMLandHTML, All], #1
+  None;   ! Unit Conversion Def: None, [None, JtoKWH, JtoMJ, JtoGJ, InchPound, InchPoundExceptElectricity], #2
+```

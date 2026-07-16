@@ -115,6 +115,24 @@ tar --list -f $argv[1] | while read f
 end
 ```
 
+From [`redo-ifchange`](https://redo.readthedocs.io/en/latest/redo-ifchange)
+
+```
+TIP 1
+You don't have to run redo-ifchange before generating your target; you can generate your target first, then declare its dependencies.
+For example, as part of compiling a .c file,
+gcc learns the list of .h files it depends on.
+You can pass this information along to redo-ifchange, so if any of those headers are changed or deleted, your .c file will be rebuilt:
+
+    redo-ifchange $2.c
+    gcc -o $3 -c $2.c \
+        -MMD -MF $2.deps
+    read DEPS <$2.deps
+    redo-ifchange ${DEPS#*:}
+This is much less confusing than the equivalent autodependency mechanism in make(1),
+because make requires that you declare all your dependencies before running the target build commands.
+```
+
 ## Other implementations
 
 - [list](https://redo.readthedocs.io/en/latest/#how-does-this-redo-compare-to-other-redo-implementations)
