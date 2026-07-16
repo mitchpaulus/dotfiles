@@ -85,7 +85,11 @@ map br run-redo
 
 cmd open-with-windows & {{
     lf -remote "send $id echomsg Opening $f with Windows"
-    start "$f" || lf -remote "send $id echomsg Failed to open $f with Windows"
+    if test -n "$WSL_DISTRO_NAME"; then
+        start "$f" || lf -remote "send $id echomsg Failed to open $f with Windows"
+    else
+        xdg-open "$f"
+    fi
 }}
 
 cmd open-with-Sumatra & {{

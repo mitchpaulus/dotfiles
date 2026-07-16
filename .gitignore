@@ -43,6 +43,7 @@ win_scripts/
 
 # Redo
 .redo/
+.redom/
 
 scripts/printmath
 
