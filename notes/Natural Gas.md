@@ -16,3 +16,7 @@ Heat Rate: 1.026 kBTU/ft^3
 1 MCF = 1.026 MMBTU
 
 1 therm ~ 100 ft3 ~ 0.1 MCF
+
+1 CCF * 100 ft3/CCF * 1,026 BTU/ft^3 * 1 MMBTU / 1_000_000 BTU = 0.1026 MMBTU
+
+1 CCF = 1.026 Therms
