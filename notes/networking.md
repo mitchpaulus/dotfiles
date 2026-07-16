@@ -31,3 +31,7 @@ device on the local network based on the port the network request came in on.
 ## Tracking all web requests
 
 `edge://net-export/`
+
+## References
+
+<https://fazamhd.com/mental-models/networking/>
