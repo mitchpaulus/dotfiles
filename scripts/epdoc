@@ -1,18 +1,19 @@
-#!/bin/sh
+#!/usr/bin/env mshell
 
-set -e
-
-if test -n "$WSLENV"; then
-    PREV_DIR="$(pwd)"
-    cd /mnt/c/ || exit 1
-    DIR="$(fd --type d Documentation /mnt/c/EnergyPlus* | awk '$0 !~ /installerResources/' | sort -rV | head -n 1)"
-    cmd.exe /C start '' "$(wslpath -w "$DIR")"
-    cd "$PREV_DIR" || exit 1
-else
-    IOREF="$(fd -t f InputOutputReference.pdf '/' | sort -rV | head -n 1)"
-    if test -n "$IOREF"; then
-        xdg-open "$IOREF"
+$WSLENV? if
+    ['fd' '-t' 'f' 'InputOutputReference.pdf' $"/mnt/c/"] * ! lines sortV files!
+    @files len 0 > if
+        @files :-1: dirname DIR! ['cmd.exe' '/C' 'start' '' [wslpath '-w' @DIR]*!chomp]!
     else
-        echo "No InputOutput reference found"
-    fi
-fi
+        'No InputOutput reference found' wle 1 exit
+    end
+else* runtime 'linux' = *if
+    ['fd' '-t' 'f' 'InputOutputReference.pdf' $"{$HOME}/.local/opt/"] * ! lines sortV files!
+    @files len 0 > if
+        ['xdg-open' @files :-1:]!
+    else
+        'No InputOutput reference found' wle 1 exit
+    end
+else
+    'Not implemented yet.' wle 1 exit
+end

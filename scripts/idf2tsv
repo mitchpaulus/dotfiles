@@ -1,10 +1,6 @@
 #!/usr/bin/env mshell
 
-args len 0 =
-(stdin)
-($1 readFile)
-iff
-
+args len 0 = if stdin else $1 readFile end
 lines ("!" split :0:) map unlines
 ";" split ("," split (trim) map tjoin) map
 ("" !=) filter
