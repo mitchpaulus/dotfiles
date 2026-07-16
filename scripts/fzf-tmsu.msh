@@ -15,7 +15,7 @@ def handleSelection (str [str] -- )
             0 exit
         end
 
-        [$EDITOR @input] &
+        [$EDITOR @input] & ;
     else* @input isDir *if
         0 exit # TODO
     else
@@ -36,7 +36,7 @@ def query ([str] --)
         "Looking for tags from files" wle
         @files tagsFromFiles sortV tagsFromFiles!
         "Got tags from files" wle
-        @tags () () listToDict tDict!
+        @tags (id) (id) listToDict tDict!
         @tagsFromFiles filter. t! @tDict @t in not end sortV unusedTags!
 
         @unusedTags @files extend unlines fzfInput!
