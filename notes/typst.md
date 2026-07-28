@@ -1,4 +1,4 @@
-```
+```typst
 #set text(font: "Times New Roman")
 #show link: underline
 #link("https://url.com")[Description]
@@ -73,6 +73,7 @@
 #enum(start: 2)[A][B]
 // https://typst.app/docs/reference/model/enum/
 #set enum(numbering: "(a)", indent: 5pt) // https://typst.app/docs/reference/model/numbering/
+#set heading(numbering: "1.a.")
 
 // Version without parentheses.
 #list[A][B]
