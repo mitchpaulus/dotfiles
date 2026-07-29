@@ -21,3 +21,14 @@ These are anti-patterns that I've seen you, the LLM, do in the past.
 
 - Use `1 nth` instead of `:1:`. The previous forces two evaluations versus 1 and takes 2 extra characters.
 - Using "\n" join instead of `unlines`. `unlines` also gives you the final newline, which I want with my files.
+
+## Common Mistakes
+
+For storing multiple variables using the comma operator, take care with the order.
+Note that the order with the comma makes sense, because otherwise it would be the same as the default behavior.
+
+```
+# Storing multiple values at once. Note the order!
+1 2 3 a!, b!, c!  # a is 1, b is 2, c is 3.
+1 2 3 a! b! c!  # a is 3, b is 2, c is 1.
+```
