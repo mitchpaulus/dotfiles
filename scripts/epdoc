@@ -8,7 +8,8 @@ runtime 'windows' = if
     ['powershell.exe' '-NoProfile' '-Command' $"Start-Process \"{@pdf}\""]!
 
 else* $WSLENV? *if
-    ['fd' '-t' 'f' 'InputOutputReference.pdf' $"/mnt/c/"] * ! lines sortV files!
+    ['fd' '--max-depth' 1 '-t' 'd' 'EnergyPlus.*' '/mnt/c/'] * ! lines sortV dirs!
+    ['fd' '-t' 'f' 'InputOutputReference.pdf' @dirs] * ! lines sortV files!
     @files len 0 > if
         @files :-1: dirname DIR! ['cmd.exe' '/C' 'start' '' [wslpath '-w' @DIR]*!chomp]!
     else
