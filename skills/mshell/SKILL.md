@@ -32,3 +32,9 @@ Note that the order with the comma makes sense, because otherwise it would be th
 1 2 3 a!, b!, c!  # a is 1, b is 2, c is 3.
 1 2 3 a! b! c!  # a is 3, b is 2, c is 1.
 ```
+
+When you are building a list to be used as a command, always quote strings that you want to be strings.
+The ability to use a literal is for HUMANS, where we are constrained by typing speed. You are not constrained.
+
+So for example, if you have a command that may take standard input via '-', you must quote it,
+otherwise you will get an error because mshell will try to do a subtraction.
