@@ -6,6 +6,7 @@ tmp/
 *.aux
 *.log
 .codex
+secrets.msh
 
 skills/mplot/doc.md
 skills/mshell/mshell.md

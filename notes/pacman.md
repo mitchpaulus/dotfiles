@@ -3,4 +3,6 @@
 
 ```
 pacman -Syyu --ignore=package
+pacman -Qdt # View all orphans
+pacman -Rns # Remove, delete config files designated as backups, remove dependencies along with it
 ```
