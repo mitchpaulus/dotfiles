@@ -4,25 +4,7 @@
 # opens the default EDITOR to make changes, prints the renames as
 # shell commands, and applies them after confirmation.
 
-# No isatty builtin, so shell out per platform.
-def isTty (str -- bool)
-    fd!
-    runtime "windows" = if
-        @fd "0" = if
-            '[Console]::IsInputRedirected' check!
-        else
-            '[Console]::IsOutputRedirected' check!
-        end
-        [powershell '-NoProfile' '-Command' @check] * ! trim "False" =
-    else
-        [test '-t' @fd]? 0 =
-    end
-end
-
-def sepCount (str -- int)
-    s!
-    @s "/" countSubStr @s "\\" countSubStr +
-end
+def sepCount (str -- int) s! @s "/" countSubStr @s "\\" countSubStr + end
 
 $EDITOR? not if
     "No editor set" wle
@@ -30,13 +12,14 @@ $EDITOR? not if
 end
 $EDITOR editor!
 
-"1" isTty not if
+
+stdoutIsTerminal not if
     "stdout is not a terminal" wle
     1 exit
 end
 
 # Read file names from stdin if piped, otherwise list the current directory
-"0" isTty if
+stdinIsTerminal if
     files dirs + (basename str) map fileList!
 else
     stdin chomp lines fileList!
