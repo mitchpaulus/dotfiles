@@ -1,0 +1,2 @@
+#!/usr/bin/env mshell
+$1 ".md" endsWith not if $"{$1}.md" else $1 end f! [$EDITOR $"{$DOTFILES}/notes/{@f}"]!
