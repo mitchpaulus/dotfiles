@@ -87,7 +87,9 @@ hostname "prec3660-mp" = runtime "windows" = and if
 		$"{$REPOS}\\redo-msh\\target\\release"
         $"F:\\repos\\time-tracking\\target\\release"
         $"{$REPOS}\\neobem\\src\\bin\\Debug\\net10.0"
+        $"{$REPOS}\\neobem\\gui\\bin\\Debug\\net10.0"
         'F:\repos\idf-visualizer\target\release'
+        'F:\repos\bookmarks\target\release'
         $PATH
     ] ';' join $PATH!
 end

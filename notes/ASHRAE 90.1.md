@@ -37,3 +37,16 @@ Makes the baseline building items not change from revision year to revision year
 <https://chatgpt.com/c/691b3faf-bb74-8327-8981-d937e729e389>
 
 - <https://www.energy.gov/eere/buildings/articles/building-energy-modeling-101-inherent-performance-rating-use-case>
+
+
+## Fan Power Limitation
+
+```
+BHP <= CFMs * 0.0013 + A
+A = PD * CFMd / 4131
+```
+
+
+0.0013 hp/CFM at 70% total efficiency is 5.772 in. wc.
+
+For System 6 parallel fan power boxes, 0.35 W/cfm at 70% efficiency is 2.084 inH2O.
