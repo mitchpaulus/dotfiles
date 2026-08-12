@@ -1,7 +1,6 @@
 #!/usr/bin/env mshell
 
-soe
-[git checkout main];
-[git fetch --prune];
-[git merge --ff-only];
-[git branch -D $1];
+['git' 'checkout' 'main']!
+['git' 'fetch' '--prune']!
+['git' 'merge' '--ff-only']!
+['git' 'branch' '-D' $1]!

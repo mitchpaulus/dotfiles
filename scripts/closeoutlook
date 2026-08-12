@@ -1,7 +1,3 @@
-#!/bin/sh
-
+#!/usr/bin/env mshell
 # Purpose is to close Microsoft Outlook on Windows from WSL.
-# Get PID.
-pid="$(tasklist.exe | grep OUTLOOK.EXE | awk '{print $2}')"
-# /F is to force kill. /T is to terminate any child processes.
-taskkill.exe /PID "$pid" /T /F
+['tasklist.exe'] * ! lines ('OUTLOOK.EXE' in) linearSearch pid! @pid isNone not if ['taskkill.exe' '/PID' @pid? '/T' '/F']! end

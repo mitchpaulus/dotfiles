@@ -189,3 +189,6 @@ ESC ] 9 ; 4 ; [0 thru 4] ; [0-100] ST
 - [Terminfo rant](https://twoot.site/@bean/113056942625234032)
 
 - Man page for `termios`
+
+Search 'Job Control' for useful shell job control information.
+<https://pubs.opengroup.org/onlinepubs/009604599/xrat/xbd_chap03.html>

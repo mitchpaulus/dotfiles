@@ -6,23 +6,15 @@
 
 def sepCount (str -- int) s! @s "/" countSubStr @s "\\" countSubStr + end
 
-$EDITOR? not if
-    "No editor set" wle
-    1 exit
-end
-$EDITOR editor!
+$EDITOR? not if "No editor set" wle 1 exit end
 
-
-stdoutIsTerminal not if
-    "stdout is not a terminal" wle
-    1 exit
-end
+stdoutIsTerminal not if "stdout is not a terminal" wle 1 exit end
 
 # Read file names from stdin if piped, otherwise list the current directory
 stdinIsTerminal if
     files dirs + (basename str) map fileList!
 else
-    stdin chomp lines fileList!
+    stdin lines fileList!
 end
 
 @fileList sortV fileList!
@@ -30,7 +22,11 @@ end
 # Put files to temp file and edit
 tempDir `brename` / str tmpFile!
 @fileList unlines @tmpFile writeFile
-@editor wsplit @tmpFile append ;
+
+"opening.." wle 2 sleep
+[$EDITOR @tmpFile] `/dev/tty` <  !
+
+# @editor wsplit @tmpFile append ;
 
 @tmpFile readFile chomp lines newNames!
 
