@@ -1,3 +1,6 @@
 #!/usr/bin/env mshell
 # Purpose is to close Microsoft Outlook on Windows from WSL.
-['tasklist.exe'] * ! lines ('OUTLOOK.EXE' in) linearSearch pid! @pid isNone not if ['taskkill.exe' '/PID' @pid? '/T' '/F']! end
+['tasklist.exe'] * ! lines ('OUTLOOK.EXE' in) linearSearch whenJust.
+    wsplit :1: pid!
+    ['taskkill.exe' '/PID' @pid '/T' '/F']!
+end

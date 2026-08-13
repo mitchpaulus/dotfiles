@@ -93,3 +93,11 @@ hostname "prec3660-mp" = runtime "windows" = and if
         $PATH
     ] ';' join $PATH!
 end
+
+runtime match
+    "linux" :
+        $"{$HOME}/.config/msh/secrets.json" isFile if $"{$HOME}/.config/msh/secrets.json" toPath parseJson :envVars match none:, _:> ? (v! @v :value? @v :var? setenv) each end end,
+    "windows" :
+        $"{$LOCALAPPDATA}\\msh\\secrets.json" isFile if $"{$LOCALAPPDATA}\\msh\\secrets.json" toPath parseJson :envVars match none:, _:> ? (v! @v :value? @v :var? setenv) each end end,
+     _ :
+end
