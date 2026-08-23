@@ -1,3 +1,2 @@
-#!/bin/sh
-
-pandoc --to plain --from docx
+#!/usr/bin/env mshell
+['pandoc' '--to' 'plain' '--from' 'docx']!

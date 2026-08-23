@@ -1,2 +1,5 @@
-#!/bin/sh
-awk '/^def /' *.py | sort | bat -l python
+#!/usr/bin/env mshell
+
+['bat' '-l' 'python']
+['rg' '-N' '^def'] * ! lines sortV unlines
+< !
