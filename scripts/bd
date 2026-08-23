@@ -1,4 +1,5 @@
 #!/usr/bin/env mshell
+# bd = branch delete
 
 ['git' 'checkout' 'main']!
 ['git' 'fetch' '--prune']!

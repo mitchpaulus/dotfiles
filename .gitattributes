@@ -3,9 +3,14 @@
 *.sh text eol=lf
 *.msh text eol=lf
 *.fish text eol=lf
+*.lua text eol=lf
+*.py text eol=lf
+*.do text eol=lf
 lfrc text eol=lf
 .gitattributes text eol=lf
 rss.tsv text eol=lf
 scripts/* text eol=lf
 .gitignore text eol=lf
 .config/vsnip/*.json text eol=lf
+.bashrc text eol=lf
+hvac.utf-8.add text eol=lf

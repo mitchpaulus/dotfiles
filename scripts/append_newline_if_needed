@@ -1,39 +1,30 @@
-#!/usr/bin/python3
+#!/usr/bin/env mshell
 
-import os
-import sys
+args len 1 = not if
+    "Usage: append_newline_if_needed <file>" wl
+    1 exit
+end
 
-def append_newline_if_needed(filename):
-    # Open the file in binary mode to efficiently check the end
-    with open(filename, 'rb+') as file:
-        # Move to the last byte
-        try:
-            file.seek(-1, os.SEEK_END)
-        except OSError as e:
-            print(f"Error: {e}", file=sys.stderr)
-            return
-        last_char = file.read(1)
+$1 filename!
+@filename readFile contents!
 
-        if last_char == b'\n':
-            return
+@contents len 0 = if
+    "Error: [Errno 22] Invalid argument" wle
+    0 exit
+end
 
-        # Determine if the file uses Windows or Unix newlines
-        file.seek(0)
-        first_line = file.readline()
-        newline_type = b'\r\n' if b'\r\n' in first_line else b'\n'
+@contents "\n" endsWith if
+    0 exit
+end
 
-        # Append the appropriate Newline
-        file.seek(0, os.SEEK_END)
-        file.write(newline_type)
+# Match the newline style used by the first line.
+@contents "\n" in @contents "\n" split :0: "\r" endsWith and if
+    "\r\n" newline!
+    '\r\n' newlineName!
+else
+    "\n" newline!
+    '\n' newlineName!
+end
 
-        newline_type_str = '\\n' if newline_type == b'\n' else '\\r\\n'
-
-        print(f"Appended newline '{newline_type_str}' to {filename}", file=sys.stderr)
-
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print(f"Usage: {sys.argv[0]} <file>")
-        sys.exit(1)
-
-    filename = sys.argv[1]
-    append_newline_if_needed(filename)
+@newline @filename appendFile
+$"Appended newline '{@newlineName}' to {@filename}" wle
