@@ -20,16 +20,22 @@ end
 
 def move-result-file (--)
     runtime "windows" = if
-        $TMP toPath `docx.pdf` / $2 mv
+        $TMP toPath `docx.pdf` /
+        args len 1 > if $2 else $1 stem str ".pdf" + end toPath
+        mv
     else
         [winenv TMP]*! chomp windowsTmpPath!
         [wslpath -u @windowsTmpPath]*! chomp unixTempPath!
-        ['mv' @unixTempPath "/docx.pdf" + $2];
+
+        args len 1 > if $2 else $1 stem str ".pdf" + end toPath path!
+
+
+        ['mv' @unixTempPath "/docx.pdf" + @path];
     end
 end
 
 # If a second arg, it is the name of the output file.
-args len 1 > if move-result-file end
+move-result-file
 
 # Clean up temp file
 @tmpfile rmf
