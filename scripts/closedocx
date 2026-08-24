@@ -1,2 +1,2 @@
-#!/bin/sh
-nircmd.exe win child process WINWORD.exe close ititle "$1"
+#!/usr/bin/env mshell
+['nircmd.exe' 'win' 'child' 'process' 'WINWORD.exe' 'close' 'ititle' $1]!

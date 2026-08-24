@@ -1,2 +1,0 @@
-#!/bin/sh
-cmd.exe '/C' 'C:\Program Files\Firefox Developer Edition\firefox.exe' "duckduckgo.com" 2>/dev/null >/dev/null
