@@ -1,65 +1,45 @@
-#!/usr/bin/awk -E
-#
-# I already have a corresponding script that prints out the biquadratic formulation.
-# This is going to be similar, just taking the first derivative.
-BEGIN {
-    for (i in ARGV) {
-        if (ARGV[i] == "-h" || ARGV[i] == "--help") {
-            print "Usage: "
-            print "  biquadratic-deriv <1 | 2> X Y [file]"
-            print "  biquadratic-deriv  -h"
-            print ""
-            print "  <1 | 2> derivative for first or second parameter"
-            print "  X: column number"
-            print "  Y: row number"
-            print "  file: file to read from (default: stdin)"
-            exited = 1
-            exit 0
-        }
-    }
+#!/usr/bin/env mshell
 
-    if (ARGC < 4) {
-        print "3 arguments required: X Y [file]"
-        exit 1
-    }
+args any. dup "-h" = swap "--help" = or end if
+    [
+        "Usage: "
+        "  biquadratic-deriv <1 | 2> X Y [file]"
+        "  biquadratic-deriv  -h"
+        ""
+        "  <1 | 2> derivative for first or second parameter"
+        "  X: column number"
+        "  Y: row number"
+        "  file: file to read from (default: stdin)"
+    ] uw
+    0 exit
+end
 
-    param = ARGV[1]
-    x = ARGV[2]
-    y = ARGV[3]
 
-    ARGV[1] = ""
-    ARGV[2] = ""
-    ARGV[3] = ""
-}
+args len 3 < if
+    "3 arguments required: X Y [file]" wl
+    1 exit
+end
 
-# Using the first fields allows files that file comments or other noise.
-NR == 1 { b0 = $1; next }
-NR == 2 { b1 = $1; next }
-NR == 3 { b2 = $1; next }
-NR == 4 { b3 = $1; next }
-NR == 5 { b4 = $1; next }
-NR == 6 { b5 = $1; next }
+args :0: parameter!
+args :1: x!
+args :2: y!
 
-END {
-    if (exited) { exit 0 }
+args len 3 = if
+    stdin lines
+else
+    args 3: map. readFile lines end concat
+end
+["" "" "" "" "" ""] + 6 take # Ensure we have at least 6 lines.
+map. wsplit fields! @fields len 0 = if "" else @fields :0: end end coefficients!
 
-    if (param == "1") {
-        term0 = sprintf("%s", b1)
-        term1 = sprintf("2 * %s * %s", b2, x)
-        term2 = sprintf("%s * %s", b5, y)
+@coefficients :1: b1!
+@coefficients :2: b2!
+@coefficients :3: b3!
+@coefficients :4: b4!
+@coefficients :5: b5!
 
-        printf "%s + (%s) + (%s)\n", term0, term1, term2
-    }
-    else if (param == "2") {
-        term0 = sprintf("%s", b3)
-        term1 = sprintf("2 * %s * %s", b4, y)
-        term2 = sprintf("%s * %s", b5, x)
-
-        printf "%s + (%s) + (%s)\n", term0, term1, term2
-    }
-    else {
-        print "Invalid parameter. Expected 1 or 2."
-        exit 1
-    }
-
-}
+@parameter match
+    "1" : $"{@b1} + (2 * {@b2} * {@x}) + ({@b5} * {@y})" wl,
+    "2" : $"{@b3} + (2 * {@b4} * {@y}) + ({@b5} * {@x})" wl,
+    _   : "Invalid parameter. Expected 1 or 2." wl 1 exit,
+end

@@ -1,4 +1,6 @@
-#!/bin/sh
-
+#!/usr/bin/env mshell
 # Print out the headers in a CSV file
-csv2tsv "$@" | tsvhead
+[
+    ['csv2tsv' args]
+    ['tsvhead']
+] | !
