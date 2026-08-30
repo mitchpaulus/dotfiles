@@ -112,3 +112,17 @@ end
 ```
 
 [Cool fish shell abbreviations](https://dpc.pw/posts/cool-fish-shell-abbreviations/)
+
+## is-login
+
+On KDE, my shell was /usr/bin/fish and so it was run as the 'login' shell.
+Any set -gx variables were then pushed into the systemd user environment, *used by all processes* after.
+This was not good.
+Moved all secrets to be guarded by:
+
+
+```fish
+if not status is-login
+  ...
+end
+```
