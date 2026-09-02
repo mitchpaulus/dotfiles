@@ -18,3 +18,6 @@ redo
 redo-ifchange
 redo-always
 ```
+
+I also have my own implementation that is cross platform because it by default uses `mshell` as the script language of choice.
+Please use that by default.
