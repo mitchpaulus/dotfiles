@@ -510,8 +510,10 @@ end
 test -d ~/.nix-profile; and nix_setup
 
 # Load configuration special to given computer
-test -f ~/.config/fish/host-config.fish; and source ~/.config/fish/host-config.fish
-test -f ~/.config/fish/secrets.fish; and source ~/.config/fish/secrets.fish
+if not status is-login
+    test -f ~/.config/fish/host-config.fish; and source ~/.config/fish/host-config.fish
+    test -f ~/.config/fish/secrets.fish; and source ~/.config/fish/secrets.fish
+end
 
 function update --description 'Universal package update'
     if command -s pacman >/dev/null
