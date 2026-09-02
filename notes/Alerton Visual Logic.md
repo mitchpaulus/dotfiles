@@ -80,3 +80,7 @@ The binary input comes from the top - if true, Uses ON analog input, otherwise t
 - Binary Input (3)
 - Binary Output (4)
 - Binary Value (5)
+
+## Equality
+
+Subtract -> Within a Range (Can negate output for !=)
