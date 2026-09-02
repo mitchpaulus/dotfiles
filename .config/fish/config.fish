@@ -510,7 +510,7 @@ end
 test -d ~/.nix-profile; and nix_setup
 
 # Load configuration special to given computer
-if not status is-login
+if not status is-login; or test -n "$WSL_DISTRO_NAME"
     test -f ~/.config/fish/host-config.fish; and source ~/.config/fish/host-config.fish
     test -f ~/.config/fish/secrets.fish; and source ~/.config/fish/secrets.fish
 end
