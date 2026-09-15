@@ -98,6 +98,12 @@ runtime match
     "linux" :
         $"{$HOME}/.config/msh/secrets.json" isFile if $"{$HOME}/.config/msh/secrets.json" toPath parseJson :envVars match none:, _:> ? (v! @v :value? @v :var? setenv) each end end,
     "windows" :
-        $"{$LOCALAPPDATA}\\msh\\secrets.json" isFile if $"{$LOCALAPPDATA}\\msh\\secrets.json" toPath parseJson :envVars match none:, _:> ? (v! @v :value? @v :var? setenv) each end end,
+        $"{$LOCALAPPDATA}\\msh\\secrets.json" isFile if $"{$LOCALAPPDATA}\\msh\\secrets.json" toPath parseJson :envVars match none:, _:> ? (v! @v :value? @v :var? setenv) each end end
+            # Extra path stuff.
+        $"{$LOCALAPPDATA}\\msh\\paths.txt" isFile if
+                $"{$LOCALAPPDATA}\\msh\\paths.txt" toPath readFile lines ";" join newPaths!
+                $"{$PATH};{@newPaths}" $PATH!
+            end
+        ,
      _ :
 end

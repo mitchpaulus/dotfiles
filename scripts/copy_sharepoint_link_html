@@ -1,26 +1,27 @@
 #!/usr/bin/env mshell
 ['lf' -remote $"send {$id} echomsg Copying.."];
-['uv' 'run' $"{$REPOS}/ms-graph/create_link.py" $f] * ? not
-(['lf' -remote $"send {$id} echomsg Failed to copy link"]; "Exiting" wl 1 exit)
-iff
+['uv' 'run' $"{$REPOS}/ms-graph/create_link.py" $f] * ? not if
+    ['lf' -remote $"send {$id} echomsg Failed to create link for {$f :30}.."]; "Exiting" wl 1 exit
+end
 trim link!
 
 ['lf' -remote $"send {$id} echomsg Link created.."]!
 
 $JOBSDIR? ($JOBSDIR) ("basdfasdf") iff jDir!
 
-$f @jDir startsWith
-(
+$f @jDir startsWith if
     $f @jDir "" findReplace shortened!
-    @shortened "/Jobs - " startsWith @shortened '\Jobs - ' startsWith or
-    (@shortened 8: path!)
-    (@shortened path!)
-    iff
-)
-( $f path!)
-iff
+    @shortened "/Jobs - " startsWith @shortened '\Jobs - ' startsWith or if
+        @shortened 8: path!
+    else
+        @shortened path!
+    end
+else
+    $f path!
+end
 
-[WinCopyLink.exe @link @path] ?
-(['lf' -remote $"send {$id} echomsg Copied HTML link"];)
-(['lf' -remote $"send {$id} echomsg Failed to copy HTML link for {@link} {@path}"]; "Exiting" wl 1 exit)
-iff
+['WinCopyLink.exe' @link @path] ? if
+    ['lf' -remote $"send {$id} echomsg Copied HTML link"];
+else
+    ['lf' -remote $"send {$id} echomsg Failed to copy HTML link for {@link} {@path}"]; "Exiting" wl 1 exit
+end
