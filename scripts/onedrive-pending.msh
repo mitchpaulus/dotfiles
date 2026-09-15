@@ -1,0 +1,49 @@
+# onedrive-pending.msh
+# Print full sync-relative paths of OneDrive files stuck as "pending download"
+# (fileStatus = 3 in the sync engine database), longest path first.
+#
+# Usage:
+#   msh onedrive-pending.msh              # live db at %LOCALAPPDATA%\Microsoft\OneDrive\settings\Business1
+#   msh onedrive-pending.msh some.db      # explicit db path
+
+args len 0 > if
+    args :0: toPath db!
+else
+    $LOCALAPPDATA toPath `Microsoft` / `OneDrive` / `settings` / `Business1` / `SyncEngineDatabase.db` / db!
+end
+
+@db fileExists not if $"Database not found: {@db str}" wle 1 exit end
+
+# Work on a temp copy (with the WAL sidecar, if present) so sqlite3 isn't
+# fighting the running OneDrive client for locks on the live file.
+".db" tempFileExt copy!
+@db @copy cp
+$"{@db str}-wal" walSrc!
+@walSrc fileExists if
+    @walSrc $"{@copy str}-wal" cp
+end
+
+[
+"WITH RECURSIVE walk(fileID, currentParent, pathSoFar) AS ("
+"  SELECT resourceID, parentResourceID, fileName"
+"  FROM od_ClientFile_Records"
+"  WHERE fileStatus = 3"
+"  UNION ALL"
+"  SELECT w.fileID, d.parentResourceID, d.folderName || '/' || w.pathSoFar"
+"  FROM walk w"
+"  JOIN od_ClientFolder_Records d ON d.resourceID = w.currentParent"
+")"
+"SELECT length(pathSoFar) || ' chars: ' || pathSoFar"
+"FROM walk w"
+"WHERE NOT EXISTS (SELECT 1 FROM od_ClientFolder_Records d"
+"                  WHERE d.resourceID = w.currentParent)"
+"ORDER BY length(pathSoFar) DESC;"
+] unlines query!
+
+[sqlite3 @copy str] @query < ? exitCode!
+
+$"{@copy str}-wal" rmf
+$"{@copy str}-shm" rmf
+@copy str rmf
+
+@exitCode 0 != if $"sqlite3 failed with exit code {@exitCode}" wle 1 exit end
