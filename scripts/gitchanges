@@ -1,0 +1,145 @@
+#!/usr/bin/env mshell
+# Summarize git changes by lines added/removed and by file size.
+#
+# Default: unstaged changes to tracked files plus untracked (new) files.
+# Any arguments are passed straight to `git diff --numstat` (e.g. `--staged`,
+# `HEAD~3`, `main..feature`), in which case untracked files are not included.
+#
+# Text files: sorted by lines added, descending.
+# Binary files: separate table, sorted by file size, descending. > 1 MB in red.
+
+def fmtInt (int -- str)
+    { "thousandsSep": ",", "decimals": 0 } numFmt
+end
+
+def rpad (str int -- str)
+    s!, n!
+    @n @s len - 0 max2 padLen!
+    @s "" " " @padLen leftPad +
+end
+
+def lpad (str int -- str)
+    s!, n!
+    @s " " @n leftPad
+end
+
+def fmtRow ([str] [int] -- str)
+    row!, widths!
+    [
+        @row :0: @widths :0: rpad
+        @row :1: @widths :1: lpad
+        @row :2: @widths :2: lpad
+        @row :3: @widths :3: lpad
+        @row :4: @widths :4: lpad
+        @row :5: @widths :5: lpad
+    ] "  " join
+end
+
+# Parse one numstat line into a record. `-` counts mean binary.
+def parseNumstat (str str -- {"file": str, "added": int, "removed": int, "binary": bool})
+    line!, file!
+    @line tsplit fields!
+    @fields :0: "-" = if
+        { "file": @file, "added": 0, "removed": 0, "binary": true }
+    else
+        { "file": @file, "added": @fields :0: toInt ?, "removed": @fields :1: toInt ?, "binary": false }
+    end
+end
+
+[] records!
+
+args diffArgs!
+[git diff --numstat] @diffArgs + * ! chomp lines
+filter. len 0 > end
+each.
+    line!
+    @line tsplit :2: file!
+    @records @line @file parseNumstat append drop
+end
+
+@diffArgs len 0 = if
+    [git ls-files --others --exclude-standard] * ! chomp lines
+    filter. len 0 > end
+    each.
+        file!
+        # Compare against the null device so new files get a numstat too.
+        [git diff --no-index --numstat nullDevice str @file] * ? drop chomp
+        @file parseNumstat @records swap append drop
+    end
+end
+
+@records filter. :binary? not end textFiles!
+@records filter. :binary? end binFiles!
+
+stdoutIsTerminal isTty!
+
+# --- Text files -------------------------------------------------------------
+
+@textFiles len 0 > if
+    @textFiles (a!, b! @a :added? @b :added? intCmp) sortByCmp reverse textFiles!
+    @textFiles map. r! @r :added? @r :removed? - end as [int] nets!
+    @nets sum totalNet!
+    @textFiles map. :added? end sum totalAdded!
+    @textFiles map. :removed? end sum totalRemoved!
+
+    0.0 cum!
+    [] rows!
+    @textFiles enumerate each.
+        e!
+        @e :item? r!
+        @nets @e :index? nth net!
+        @totalNet 0 = (0.0) (@net toFloat @totalNet toFloat / 100.0 *) iff pct!
+        @cum @pct + cum!
+        @rows [
+            @r :file?
+            @net fmtInt
+            @r :added? fmtInt
+            @pct 1 toFixed
+            @cum 1 toFixed
+            @r :removed? fmtInt
+        ] append drop
+    end
+    @rows ["TOTAL" @totalNet fmtInt @totalAdded fmtInt "" "" @totalRemoved fmtInt] append drop
+
+    ["file" "net" "added" "% net" "cum %" "removed"] header!
+    [@header] @rows + allRows!
+    6 seq map. i! @allRows map. @i nth len end max end widths!
+
+    @header @widths fmtRow wl
+    @widths map. w! "" "-" @w leftPad end "  " join wl
+    @rows enumerate each.
+        e!
+        @e :index? @rows len 1 - = if
+            @widths map. w! "" "-" @w leftPad end "  " join wl
+        end
+        @e :item? @widths fmtRow wl
+    end
+end
+
+# --- Binary files -----------------------------------------------------------
+
+@binFiles len 0 > if
+    @textFiles len 0 > ("" wl) iff
+    "Binary files" wl
+
+    @binFiles map. :file? end
+    map. f! { "file": @f, "size": @f fileSize 0 maybe } end
+    (a!, b! @a :size? @b :size? intCmp) sortByCmp reverse sized!
+
+    @sized map. :size? fmtInt end sizeStrs!
+    @sized map. :file? len end max fileW!
+    @sizeStrs map. len end max sizeW!
+
+    "file" @fileW rpad "  " + "bytes" @sizeW lpad + wl
+    "" "-" @fileW leftPad "  " + "" "-" @sizeW leftPad + wl
+    @sized enumerate each.
+        e!
+        @e :item? r!
+        @r :file? @fileW rpad "  " + @sizeStrs @e :index? nth @sizeW lpad + line!
+        @isTty @r :size? 1000000 > and if
+            "\e[31m" @line + "\e[0m" + wl
+        else
+            @line wl
+        end
+    end
+end
