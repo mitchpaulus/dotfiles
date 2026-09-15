@@ -39,6 +39,8 @@ rho = 1000 {kg/m^3}
 tons {tr} = flow * cp * rho * dt
 ```
 
+For scratch calculations, you can pipe in input using the file name `-`
+
 Things you have missed in the past:
 
 - You can coerce the output unit (like the `tr` in `tons {tr} = flow * cp * rho * dt`)

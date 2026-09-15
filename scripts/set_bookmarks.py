@@ -5,13 +5,13 @@
 # Lines are [level, title, page] where level is 1 based and page is 1 based.
 # printf '1\tName\t2\n' | set_bookmarks pdf_file.pdf
 import sys
-import fitz
+import pymupdf
 
 # https://pymupdf.readthedocs.io/en/latest/document.html#Document.set_toc
 def set_bookmarks(pdf_file, add = False, output_file = None):
 
     if add:
-        doc = fitz.open(pdf_file)
+        doc = pymupdf.open(pdf_file)
         bookmarks = doc.get_toc()
         doc.close()
     else:
@@ -50,7 +50,7 @@ def set_bookmarks(pdf_file, add = False, output_file = None):
     if len(bookmarks) == 0:
         print("No bookmarks found.", file=sys.stderr)
 
-    doc = fitz.open(pdf_file)
+    doc = pymupdf.open(pdf_file)
     print(f"Setting {len(bookmarks)} bookmarks in {pdf_file}", file=sys.stderr)
     doc.set_toc(bookmarks)
     if output_file:
@@ -70,6 +70,7 @@ if __name__ == '__main__':
 
         if arg in ['-h', '--help']:
             print(f'Usage: {sys.argv[0]} pdf_file.pdf < INPUT_DATA')
+            print('')
             print('Pass in lines of tab separated values to stdin.')
             print('Lines are [level, title, page] where level is 1 based and page is 1 based.')
             print('Update the bookmarks in the PDF file in-place with the given data.')
@@ -77,13 +78,13 @@ if __name__ == '__main__':
             sys.exit(0)
         elif arg in ['-o']:
             if i >= len(sys.argv):
-                print('Error: -o requires an output file argument')
+                print('Error: -o requires an output file argument', file=sys.stderr)
                 sys.exit(1)
             output_file = sys.argv[i]
             i += 1
         else:
             if pdf_file is not None:
-                print(f'Error: unexpected argument {pdf_file} {arg}')
+                print(f'Error: unexpected argument {pdf_file} {arg}', file=sys.stderr)
                 sys.exit(1)
             pdf_file = arg
 
@@ -95,7 +96,7 @@ if __name__ == '__main__':
         #  sys.exit(0)
 
     if pdf_file is None:
-        print('Error: pdf_file argument is required')
+        print('Error: pdf_file argument is required', file=sys.stderr)
         sys.exit(1)
 
     #  pdf_file = sys.argv[1]

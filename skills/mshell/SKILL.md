@@ -24,6 +24,7 @@ These are anti-patterns that I've seen you, the LLM, do in the past.
 
 ## Common Mistakes
 
+You make this mistake nearly EVERY time. Please note in your response that you read and comprehend this.
 For storing multiple variables using the comma operator, take care with the order.
 Note that the order with the comma makes sense, because otherwise it would be the same as the default behavior.
 
@@ -38,3 +39,16 @@ The ability to use a literal is for HUMANS, where we are constrained by typing s
 
 So for example, if you have a command that may take standard input via '-', you must quote it,
 otherwise you will get an error because mshell will try to do a subtraction.
+
+### Reaching out to CLI utilities when not required
+
+The point of `mshell` is to provide nearly all of the capabilities of GNU coreutils and others, so that all scripts are cross platform and performant.
+
+Examples include:
+
+  - `curl`: We have many `http` definitions
+  - `jq`: Our JSON mangling methods are great
+  - `awk`
+  - `sed`
+
+If you are reaching out to a CLI tool and think that `mshell` would be in a good position to support directly, stop and let me know, and I'll get it added.
