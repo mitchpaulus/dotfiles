@@ -1,3 +1,8 @@
+# New-Item -ItemType Directory -Path (Split-Path $PROFILE) -Force
+# New-Item -ItemType File -Path $PROFILE -Force
+# notepad $PROFILE
+# Microsoft.PowerShell_profile.ps1
+
 function Andover2EBO {
     param (
         [string]$InputText
