@@ -1,0 +1,33 @@
+#!/usr/bin/env mshell
+# Bookmark the current lf file ($f) as a SharePoint link with `bm`.
+# Run from lf with the '%' prefix so the tag prompt shows on the status line.
+# Path shortening logic mirrors copy_sharepoint_link_html.
+
+"Tags (comma separated): " w
+read answer!, ok!
+@ok not if "No tags entered, aborting." wl 1 exit end
+@answer tags!
+
+"Creating link.." wl
+['uv' 'run' $"{$REPOS}/ms-graph/create_link.py" $f] * ? not if
+    $"Failed to create link for {$f}" wl 1 exit
+end
+trim link!
+
+$JOBSDIR? ($JOBSDIR) ("basdfasdf") iff jDir!
+
+$f @jDir startsWith if
+    $f @jDir "" findReplace shortened!
+    @shortened "/Jobs - " startsWith @shortened '\Jobs - ' startsWith or if
+        @shortened 8: path!
+    else
+        @shortened path!
+    end
+else
+    $f path!
+end
+
+['bm' 'add' @link '--title' @path '--tag' @tags] ? not if
+    $"Failed to bookmark {@path}" wl 1 exit
+end
+$"Bookmarked {@path} [{@tags}]" wl

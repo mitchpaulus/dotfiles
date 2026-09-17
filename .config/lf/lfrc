@@ -79,6 +79,10 @@ cmd copy-sharepoint-link & copy-sharepoint-link "$f" "$id"
 
 cmd copy-sharepoint-link-html & copy_sharepoint_link_html
 
+# Bookmark SharePoint link with bm, prompting for tags on the status line
+cmd bookmark-sharepoint % bookmark_sharepoint
+map bs bookmark-sharepoint
+
 cmd copy-gitpath & gitpath "$f" | clip
 cmd run-redo ! redo "$f"
 map br run-redo
