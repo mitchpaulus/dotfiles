@@ -56,3 +56,8 @@ Select-String -Path .\file.txt -Pattern "pattern"
 # FIND, Get-ChildItem, alias dir
 Get-ChildItem -Path .\ -Recurse -Filter "*.txt" | Select-String -Pattern "pattern"
 ```
+
+```powershell
+$PROFILE # Location of profile script
+# Microsoft.PowerShell_profile.ps1
+```
