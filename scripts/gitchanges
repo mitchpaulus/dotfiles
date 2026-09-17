@@ -2,10 +2,14 @@
 # Summarize git changes by lines added/removed and by file size.
 #
 # Default: unstaged changes to tracked files plus untracked (new) files.
+# If the working tree is clean and the current branch is not main/master,
+# falls back to a "PR diff": the changes since the merge base with main.
 # Any arguments are passed straight to `git diff --numstat` (e.g. `--staged`,
 # `HEAD~3`, `main..feature`), in which case untracked files are not included.
 #
-# Text files: sorted by lines added, descending.
+# The `new` column marks files that did not exist before (untracked, or added
+# in the diff range).
+# Text files: sorted by net lines added, descending.
 # Binary files: separate table, sorted by file size, descending. > 1 MB in red.
 
 def fmtInt (int -- str)
@@ -27,35 +31,49 @@ def fmtRow ([str] [int] -- str)
     row!, widths!
     [
         @row :0: @widths :0: rpad
-        @row :1: @widths :1: lpad
+        @row :1: @widths :1: rpad
         @row :2: @widths :2: lpad
         @row :3: @widths :3: lpad
         @row :4: @widths :4: lpad
         @row :5: @widths :5: lpad
+        @row :6: @widths :6: lpad
     ] "  " join
 end
 
+def newMark (bool -- str)
+    ("*") ("") iff
+end
+
 # Parse one numstat line into a record. `-` counts mean binary.
-def parseNumstat (str str -- {"file": str, "added": int, "removed": int, "binary": bool})
-    line!, file!
+def parseNumstat (str str bool -- {"file": str, "added": int, "removed": int, "binary": bool, "new": bool})
+    line!, file!, new!
     @line tsplit fields!
     @fields :0: "-" = if
-        { "file": @file, "added": 0, "removed": 0, "binary": true }
+        { "file": @file, "added": 0, "removed": 0, "binary": true, "new": @new }
     else
-        { "file": @file, "added": @fields :0: toInt ?, "removed": @fields :1: toInt ?, "binary": false }
+        { "file": @file, "added": @fields :0: toInt ?, "removed": @fields :1: toInt ?, "binary": false, "new": @new }
+    end
+end
+
+# Collect numstat records for a `git diff` argument list, marking files that
+# git reports as added (status A) as new.
+def collectDiff ([str] [{"file": str, "added": int, "removed": int, "binary": bool, "new": bool}] -- )
+    diffArgs!, records!
+    [git diff --name-only --diff-filter=A] @diffArgs + * ! chomp lines addedFiles!
+    [git diff --numstat] @diffArgs + * ! chomp lines
+    filter. len 0 > end
+    each.
+        line!
+        @line tsplit :2: file!
+        @addedFiles (@file =) any isNew!
+        @records @line @file @isNew parseNumstat append drop
     end
 end
 
 [] records!
 
 args diffArgs!
-[git diff --numstat] @diffArgs + * ! chomp lines
-filter. len 0 > end
-each.
-    line!
-    @line tsplit :2: file!
-    @records @line @file parseNumstat append drop
-end
+@diffArgs @records collectDiff
 
 @diffArgs len 0 = if
     [git ls-files --others --exclude-standard] * ! chomp lines
@@ -64,7 +82,21 @@ end
         file!
         # Compare against the null device so new files get a numstat too.
         [git diff --no-index --numstat nullDevice str @file] * ? drop chomp
-        @file parseNumstat @records swap append drop
+        @file true parseNumstat @records swap append drop
+    end
+end
+
+# Clean tree on a feature branch: show the PR diff against the main branch.
+@records len 0 = @diffArgs len 0 = and if
+    [git rev-parse --abbrev-ref HEAD] * ! chomp branch!
+    ["main" "master"] linearSearch. b! [git rev-parse --verify --quiet @b] * ? 0 = nip end mainBranch!
+    @mainBranch match
+        just m :
+            @branch @m != if
+                $"Working tree clean; showing {@m}...{@branch}" wle
+                [$"{@m}...HEAD"] @records collectDiff
+            end,
+        none : ,
     end
 end
 
@@ -76,7 +108,7 @@ stdoutIsTerminal isTty!
 # --- Text files -------------------------------------------------------------
 
 @textFiles len 0 > if
-    @textFiles (a!, b! @a :added? @b :added? intCmp) sortByCmp reverse textFiles!
+    @textFiles (a!, b! @a :added? @a :removed? - @b :added? @b :removed? - intCmp) sortByCmp reverse textFiles!
     @textFiles map. r! @r :added? @r :removed? - end as [int] nets!
     @nets sum totalNet!
     @textFiles map. :added? end sum totalAdded!
@@ -92,6 +124,7 @@ stdoutIsTerminal isTty!
         @cum @pct + cum!
         @rows [
             @r :file?
+            @r :new? newMark
             @net fmtInt
             @r :added? fmtInt
             @pct 1 toFixed
@@ -99,11 +132,11 @@ stdoutIsTerminal isTty!
             @r :removed? fmtInt
         ] append drop
     end
-    @rows ["TOTAL" @totalNet fmtInt @totalAdded fmtInt "" "" @totalRemoved fmtInt] append drop
+    @rows ["TOTAL" "" @totalNet fmtInt @totalAdded fmtInt "" "" @totalRemoved fmtInt] append drop
 
-    ["file" "net" "added" "% net" "cum %" "removed"] header!
+    ["file" "new" "net" "added" "% net" "cum %" "removed"] header!
     [@header] @rows + allRows!
-    6 seq map. i! @allRows map. @i nth len end max end widths!
+    7 seq map. i! @allRows map. @i nth len end max end widths!
 
     @header @widths fmtRow wl
     @widths map. w! "" "-" @w leftPad end "  " join wl
@@ -122,20 +155,20 @@ end
     @textFiles len 0 > ("" wl) iff
     "Binary files" wl
 
-    @binFiles map. :file? end
-    map. f! { "file": @f, "size": @f fileSize 0 maybe } end
+    @binFiles
+    map. b! { "file": @b :file?, "new": @b :new?, "size": @b :file? fileSize 0 maybe } end
     (a!, b! @a :size? @b :size? intCmp) sortByCmp reverse sized!
 
     @sized map. :size? fmtInt end sizeStrs!
     @sized map. :file? len end max fileW!
     @sizeStrs map. len end max sizeW!
 
-    "file" @fileW rpad "  " + "bytes" @sizeW lpad + wl
-    "" "-" @fileW leftPad "  " + "" "-" @sizeW leftPad + wl
+    "file" @fileW rpad "  new  " + "bytes" @sizeW lpad + wl
+    "" "-" @fileW leftPad "  ---  " + "" "-" @sizeW leftPad + wl
     @sized enumerate each.
         e!
         @e :item? r!
-        @r :file? @fileW rpad "  " + @sizeStrs @e :index? nth @sizeW lpad + line!
+        @r :file? @fileW rpad "  " + @r :new? newMark 3 rpad + "  " + @sizeStrs @e :index? nth @sizeW lpad + line!
         @isTty @r :size? 1000000 > and if
             "\e[31m" @line + "\e[0m" + wl
         else
