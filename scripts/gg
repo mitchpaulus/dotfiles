@@ -3,9 +3,14 @@
 # 'gg' => goto github
 tempDir `gh_repos.txt` / repoFile!
 
+
 @repoFile isFile not (@repoFile readFile lines len 2 <) or if
     $"Rebuilding gh_repos.txt.." wle
-    [github_repos_msh] @repoFile > !
+    ['infisical' 'login' '--silent']!
+    ['infisical' 'export' '--format' 'json' '--projectId=d93f1cd0-9acc-4e12-a552-1d87afea29e7'] * ! parseJson each.
+        => { 'key': key, 'value': value } @key @value setenv
+    end
+    ['github_repos_msh'] @repoFile > !
     # $"{@repoFile} not found. Usually made using\ngithub_repos > {@repoFile}\nor\n[github_repos] `{@repoFile}` >;" wle 1 exit
 end
 
