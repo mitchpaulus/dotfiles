@@ -251,7 +251,8 @@ if [[ -f ~/.host-bashrc ]]; then
     source ~/.host-bashrc
 fi
 
-export MSHSTDLIB="$REPOS/mshell/lib/std.msh:$DOTFILES/.config/msh/init.msh"
+export MSHSTDLIB="$REPOS/mshell/lib/std.msh"
+export MSHINIT="$DOTFILES/.config/msh/init.msh"
 
 # I hate all these programs that have to automatically add lines to my configs. But alas, here they are.
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
