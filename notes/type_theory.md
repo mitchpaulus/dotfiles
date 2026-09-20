@@ -25,11 +25,11 @@ situations for dealing with derived types.
 
 **Covariant**:
 
-A generic class MyCovGen[T, ...] is called covariant in type variable T if MyCovGen[B, ...] is always a subtype of MyCovGen[A, ...].
+A generic class `MyCovGen[T, ...]` is called covariant in type variable T if `MyCovGen[B, ...]` is always a subtype of `MyCovGen[A, ...]`.
 
 **Contravariant**:
 
-A generic class MyContraGen[T, ...] is called contravariant in type variable T if MyContraGen[A, ...] is always a subtype of MyContraGen[B, ...].
+A generic class `MyContraGen[T, ...]` is called contravariant in type variable T if `MyContraGen[A, ...]` is always a subtype of `MyContraGen[B, ...]`.
 
 **Invariant**:
 
