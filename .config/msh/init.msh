@@ -90,6 +90,7 @@ hostname "prec3660-mp" = runtime "windows" = and if
         $"{$REPOS}\\neobem\\gui\\bin\\Debug\\net10.0"
         'F:\repos\idf-visualizer\target\release'
         'F:\repos\bookmarks\target\release'
+        $"{$REPOS}\\xlwrite\\xlwrite\\bin\\Debug\\net10.0"
         $PATH
     ] ';' join $PATH!
 end
