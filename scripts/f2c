@@ -1,29 +1,19 @@
-#!/usr/bin/awk -E
+#!/usr/bin/env mshell
 
-BEGIN {
+# f2c - Convert Fahrenheit to Celsius
 
-    help_text = "f2c - Convert Fahrenheit to Celcius\n\nUSAGE:\n\n    f2c FahrenheitTemp"
+"f2c - Convert Fahrenheit to Celsius
 
-    # First argument is command name
-    if (ARGC < 2) { print "No temperature entered.\n\n" help_text ; exit }
+USAGE:
 
-    for (i in ARGV) {
-        if (ARGV[i] == "-h" || ARGV[i] == "--help") {
-            print help_text
-            exit 0
-        }
-    }
+    f2c FahrenheitTemp" help!
 
-    # Check if ARGV[1] is a number
-    if (ARGV[1] !~ /^[0-9.]+$/) {
-        # Assume its an Excel cell reference, so print formula to copy
-        print sprintf("=(%s - 32) * 5/9", ARGV[1])
-    }
+args len 1 < if "No temperature entered.\n" wle @help wle 1 exit end
+args (dup "-h" = swap "--help" = or) any if @help wl 0 exit end
 
-    print (ARGV[1] - 32) * 5 / 9
-
-    # Make sure this isn't read as a filename
-    ARGV[1] = ""
-}
-
-# vim:ft=awk
+args :0: arg!
+@arg toFloat match
+    just f : @f 32.0 - 5.0 * 9.0 / str wl,
+    # Assume it's an Excel cell reference, so print formula to copy
+    none : $"=({@arg} - 32) * 5/9" wl,
+end
