@@ -11,6 +11,7 @@ secrets.json
 
 skills/mplot/doc.md
 skills/mshell/mshell.md
+skills/synced/
 
 .config/msh/v0.14.0/init.msh
 
