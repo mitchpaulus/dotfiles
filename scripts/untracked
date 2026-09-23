@@ -1,0 +1,2 @@
+#!/usr/bin/env mshell
+['git' 'ls-files' '--others' '--exclude-standard']!

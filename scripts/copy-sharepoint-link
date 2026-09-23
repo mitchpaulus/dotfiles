@@ -2,11 +2,11 @@
 $1 filepath!
 $2 lf-id!
 
-[create_link.py @filepath] * ? not if
-    ['lf' -remote $"send {@lf-id} echomsg Failed to copy link"]; "Exiting" wl 1 exit
+['lf' '-remote' $"send {@lf-id} echomsg Getting SharePoint link..."];
+
+['uv' 'run' $REPOS toPath `ms-graph` `create_link.py` / / @filepath] * ? not if
+    ['lf' '-remote' $"send {@lf-id} echomsg Failed to copy link"]; "Exiting" wl 1 exit
 end
 
-chomp link!
-[clip] @link < ;
-
-['lf' -remote $"send {@lf-id} echomsg Copied SharePoint link to clipboard"] ;
+chomp clip
+['lf' '-remote' $"send {@lf-id} echomsg Copied SharePoint link to clipboard"] ;
