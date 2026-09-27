@@ -17,3 +17,5 @@ keybind = alt+enter=new_tab
 keybind = alt+n=next_tab
 keybind = alt+p=previous_tab
 keybind = ctrl+enter=unbind
+
+command = msh
