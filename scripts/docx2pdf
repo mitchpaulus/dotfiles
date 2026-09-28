@@ -1,10 +1,23 @@
 #!/usr/bin/env mshell
 
-args len 1 < ("Usage: docx2pdf <docx-file> [pdf-file]" wl 0 exit) iff
+# args len 1 < ("Usage: docx2pdf <docx-file> [pdf-file]" wl 0 exit) iff
+
+none pdfFile!
+args match
+    []: "Usage: docx2pdf <docx-file> [pdf-file]" wl 0 exit,
+    [arg ...rest] : @arg match
+        '-h' '--help' : "Usage: docx2pdf <docx-file> [pdf-file]" wl 0 exit,
+        _ : @arg docxFile!
+            @rest match
+                [pdfFile] : @pdfFile just pdfFile!,
+                _ : "Usage: docx2pdf <docx-file> [pdf-file]" wl 0 exit
+            end
+    end
+end
 
 ".docx" tempFileExt tmpfile!
 $"Tmp File {@tmpfile}" wle
-$1 @tmpfile cp
+@docxFile @tmpfile cp
 $"Converting '{@tmpfile}' to PDF..." wle
 
 runtime "windows" != if
@@ -18,24 +31,31 @@ end
 [@word @input-docx '/mMpPrintToPDF']!
 "Successfully printed to PDF." wle
 
-def move-result-file (--)
+def move-result-file (str Maybe[str] --)
+    docxFile!, pdfFile!
+
+    @pdfFile match
+            just file : @file,
+            _ : @docxFile stem str ".pdf" +
+    end toPath
+    outPath!
+
     runtime "windows" = if
         $TMP toPath `docx.pdf` /
-        args len 1 > if $2 else $1 stem str ".pdf" + end toPath
+        @outPath
         mv
     else
         [winenv TMP]*! chomp windowsTmpPath!
         [wslpath -u @windowsTmpPath]*! chomp unixTempPath!
 
-        args len 1 > if $2 else $1 stem str ".pdf" + end toPath path!
+        # args len 1 > if @pdfFile else @docxFile stem str ".pdf" + end toPath path!
 
-
-        ['mv' @unixTempPath "/docx.pdf" + @path];
+        ['mv' @unixTempPath "/docx.pdf" + @outPath];
     end
 end
 
 # If a second arg, it is the name of the output file.
-move-result-file
+@docxFile @pdfFile move-result-file
 
 # Clean up temp file
 @tmpfile rmf
