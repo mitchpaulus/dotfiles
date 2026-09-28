@@ -1,17 +1,19 @@
 #!/usr/bin/env mshell
 
-args (a! @a '-h' = @a '--help' = or) any if
+args len 0 > if
 'cb - Put clipboard contents to standard output
 
 USAGE: cb' wl
 0 exit
 end
 
-$WSL_DISTRO_NAME? "windows" runtime = or if
+"windows" runtime =  if
      ['powershell.exe' 'Get-Clipboard'] * !
       "\r" "" findReplace
       # '\n$' '' reReplace
       w
+else* $WAYLAND_DISPLAY? *if
+    [wl-paste]!
 else
-     ['xclip' '-o' '-selection' 'clipboard'] * ! w
+    ['xclip' '-o' '-selection' 'clipboard']!
 end
