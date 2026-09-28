@@ -147,3 +147,13 @@ Set and Show
 Set is basically resetting the defaults on element functions.
 
 Show is an arbitrary transformation.
+
+
+## Math Syntax
+
+<https://typst.app/docs/reference/math/>
+
+```
+"text"
+times # ("x")
+```
