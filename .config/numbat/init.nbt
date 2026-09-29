@@ -1,2 +1,5 @@
 unit btu = 1 Btu
+unit kbtu = 1000 Btu
+unit kBTU = 1000 Btu
+unit kBtu = 1000 Btu
 unit tonref: Power = 12000 Btu/hr
