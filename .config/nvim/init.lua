@@ -618,7 +618,7 @@ xnoremap # :<C-u>call VSetSearch()<CR>?<C-R>=@/<CR><CR>
 ]], false)
 
 -- Use ripgrep instead of grep if available.
-if vim.fn.executable('rg') then
+if vim.fn.executable('rg') == 1 then
     vim.o.grepprg = "rg --vimgrep"
 end
 
@@ -655,6 +655,19 @@ vim.o.hidden = true  -- Stop asking me to write file
 vim.o.mouse = 'a'  -- The mouse can be useful
 vim.o.isfname = '@,48-57,/,.,-,_,+,,,#,$,%,~,='
 if in_windows then vim.opt.isfname:append('\\') end
+-- Use mshell for :!, system(), :terminal, etc. on Windows instead of cmd.exe.
+-- Commands are mshell syntax, e.g. ':![ls];' or ':%!["sort"];'.
+-- 'noshelltemp' pipes filter/read input and output instead of appending '< tmp',
+-- which mshell can't parse.
+if in_windows then
+  vim.o.shell = 'msh'
+  vim.o.shellcmdflag = '-c'
+  vim.o.shellquote = ''
+  vim.o.shellxquote = ''
+  vim.o.shelltemp = false
+  vim.o.shellredir = "`%s` &> ;"
+  vim.o.shellpipe = "`%s` &> ;"
+end
 vim.o.listchars = 'tab:▸ ,eol:¬,trail:-,nbsp:+'
 vim.o.showmode = true
 vim.o.shiftround = true
