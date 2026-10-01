@@ -9,6 +9,7 @@ args match
         '-h' '--help' : "Usage: docx2pdf <docx-file> [pdf-file]" wl 0 exit,
         _ : @arg docxFile!
             @rest match
+                [] :,
                 [pdfFile] : @pdfFile just pdfFile!,
                 _ : "Usage: docx2pdf <docx-file> [pdf-file]" wl 0 exit
             end
