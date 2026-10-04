@@ -32,7 +32,7 @@ def wt_cwd (--)
     $"\e]9;9;{pwd}\e\\" w
 end
 
-def buildings (-- [str])
+def buildings (-- new [str])
     [ "XI2004" "Q12480" "82361" "ORK037" "L23120" "SB025" "33222" "J2301" "G3108" "CO0609" ]
 end
 
@@ -49,9 +49,9 @@ def gm (--)
      @path isDir if @path cd else $"{@path} is not a directory." wle end
 end
 
-def zip2list ([a] [b] -- [[a|b]])
-    (val2! val1! [@val1 @val2]) zip
-end
+# def zip2list ([a] [b] -- [[a|b]])
+    # (val2! val1! [@val1 @val2]) zip
+# end
 
 def minPerDay (-- int) 1440 end
 
@@ -95,11 +95,20 @@ hostname "prec3660-mp" = runtime "windows" = and if
     ] ';' join $PATH!
 end
 
+type EnvFile = { 'envVars' : [ {'var': str, 'value': str }] }
+
+def parseEnvVarsJson (Maybe[EnvFile] -- )
+    match
+        none :,
+        just e : @e :envVars match none:, _:> ? (v! @v :var? @v :value? setenv) each end
+    end
+end
+
 runtime match
     "linux" :
-        $"{$HOME}/.config/msh/secrets.json" isFile if $"{$HOME}/.config/msh/secrets.json" toPath parseJson :envVars match none:, _:> ? (v! @v :var? @v :value? setenv) each end end,
+$"{$HOME}/.config/msh/secrets.json" isFile if $"{$HOME}/.config/msh/secrets.json" toPath parseJson tryAs EnvFile parseEnvVarsJson end,
     "windows" :
-        $"{$LOCALAPPDATA}\\msh\\secrets.json" isFile if $"{$LOCALAPPDATA}\\msh\\secrets.json" toPath parseJson :envVars match none:, _:> ? (v! @v :var? @v :value? setenv) each end end
+    $"{$LOCALAPPDATA}\\msh\\secrets.json" isFile if $"{$LOCALAPPDATA}\\msh\\secrets.json" toPath parseJson tryAs EnvFile parseEnvVarsJson end
             # Extra path stuff.
         $"{$LOCALAPPDATA}\\msh\\paths.txt" isFile if
                 $"{$LOCALAPPDATA}\\msh\\paths.txt" toPath readFile lines ";" join newPaths!

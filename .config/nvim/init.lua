@@ -1160,6 +1160,7 @@ filetypeAutocmds = {
     { 'markdown', 'nnoremap ]] <Cmd>keeppatterns /^#<Cr>' },
     { 'markdown', 'nnoremap <localleader>- <Cmd>keeppatterns s/[^<bar>]/-/g<Cr>' },
     { 'markdown', 'nnoremap <leader>m vip:!to_markdown<Cr>' },
+    { 'markdown', 'setlocal conceallevel=0' },
 
     { 'help', 'nnoremap <leader>hh mnA~<esc>`n', },
     { 'help', 'nnoremap <leader>hl mn78i=<esc>`n', },

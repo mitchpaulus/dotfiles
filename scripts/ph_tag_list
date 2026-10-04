@@ -1,9 +1,11 @@
 #!/usr/bin/env mshell
 
-[curl --silent 'https://project-haystack.org/download/defs.json']  *! parseJson "rows" get?
-(
-    "def" get? "val" get? as str name!
-    @name "-" in @name ":" in or not
-    (@name wl)
-    iff
-) each
+type DefsResponse = { "rows": [ { "def": { "val": str } } ] }
+
+['curl' --silent 'https://project-haystack.org/download/defs.json']  *! parseJson tryAs DefsResponse? "rows" get?
+each.
+    "def" get? "val" get? name!
+    @name "-" in @name ":" in or not if
+        @name wl
+    end
+end

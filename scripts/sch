@@ -16,6 +16,6 @@ or or ) filter
 
 unlines input!
 
-[clip]
-[fzf] @input < *; tsplit :2:
+['clip']
+['fzf'] @input < *; tsplit :2:
 <;

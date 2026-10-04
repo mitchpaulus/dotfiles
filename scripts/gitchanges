@@ -40,12 +40,10 @@ def fmtRow ([str] [int] -- str)
     ] "  " join
 end
 
-def newMark (bool -- str)
-    ("*") ("") iff
-end
+def newMark (bool -- str) if "*" else "" end end
 
 # Parse one numstat line into a record. `-` counts mean binary.
-def parseNumstat (str str bool -- {"file": str, "added": int, "removed": int, "binary": bool, "new": bool})
+def parseNumstat (str str bool -- new {"file": str, "added": int, "removed": int, "binary": bool, "new": bool})
     line!, file!, new!
     @line tsplit fields!
     @fields :0: "-" = if
@@ -59,8 +57,8 @@ end
 # git reports as added (status A) as new.
 def collectDiff ([str] [{"file": str, "added": int, "removed": int, "binary": bool, "new": bool}] -- )
     diffArgs!, records!
-    [git diff --name-only --diff-filter=A] @diffArgs + * ! chomp lines addedFiles!
-    [git diff --numstat] @diffArgs + * ! chomp lines
+    ['git' 'diff' '--name-only' '--diff-filter=A'] @diffArgs + * ! chomp lines addedFiles!
+    ['git' 'diff' '--numstat'] @diffArgs + * ! chomp lines
     filter. len 0 > end
     each.
         line!
@@ -76,7 +74,7 @@ args diffArgs!
 @diffArgs @records collectDiff
 
 @diffArgs len 0 = if
-    [git ls-files --others --exclude-standard] * ! chomp lines
+    ['git' 'ls-files' '--others' '--exclude-standard'] * ! chomp lines
     filter. len 0 > end
     each.
         file!
@@ -88,15 +86,15 @@ end
 
 # Clean tree on a feature branch: show the PR diff against the main branch.
 @records len 0 = @diffArgs len 0 = and if
-    [git rev-parse --abbrev-ref HEAD] * ! chomp branch!
-    ["main" "master"] linearSearch. b! [git rev-parse --verify --quiet @b] * ? 0 = nip end mainBranch!
+    ['git' 'rev-parse' '--abbrev-ref' 'HEAD'] * ! chomp curBranch!
+    ["main" "master"] linearSearch. branch! [git rev-parse --verify --quiet @branch] * ? 0 = nip end mainBranch!
     @mainBranch match
         just m :
-            @branch @m != if
-                $"Working tree clean; showing {@m}...{@branch}" wle
+            @curBranch @m != if
+                $"Working tree clean; showing {@m}...{@curBranch}" wle
                 [$"{@m}...HEAD"] @records collectDiff
             end,
-        none : ,
+        none : "Could not find main/master branch;" wle,
     end
 end
 
@@ -117,9 +115,9 @@ stdoutIsTerminal isTty!
     0.0 cum!
     [] rows!
     @textFiles enumerate each.
-        e!
-        @e :item? r!
-        @nets @e :index? nth net!
+        textFile!
+        @textFile :item? r!
+        @nets @textFile :index? nth net!
         @totalNet 0 = (0.0) (@net toFloat @totalNet toFloat / 100.0 *) iff pct!
         @cum @pct + cum!
         @rows [
@@ -156,8 +154,8 @@ end
     "Binary files" wl
 
     @binFiles
-    map. b! { "file": @b :file?, "new": @b :new?, "size": @b :file? fileSize 0 maybe } end
-    (a!, b! @a :size? @b :size? intCmp) sortByCmp reverse sized!
+    map. f! { "file": @f :file?, "new": @f :new?, "size": @f :file? fileSize 0 maybe } end
+    (fileA!, fileB! @fileA :size? @fileB :size? intCmp) sortByCmp reverse sized!
 
     @sized map. :size? fmtInt end sizeStrs!
     @sized map. :file? len end max fileW!
@@ -166,10 +164,10 @@ end
     "file" @fileW rpad "  new  " + "bytes" @sizeW lpad + wl
     "" "-" @fileW leftPad "  ---  " + "" "-" @sizeW leftPad + wl
     @sized enumerate each.
-        e!
-        @e :item? r!
-        @r :file? @fileW rpad "  " + @r :new? newMark 3 rpad + "  " + @sizeStrs @e :index? nth @sizeW lpad + line!
-        @isTty @r :size? 1000000 > and if
+        sizedFile!
+        @sizedFile :item? item!
+        @item :file? @fileW rpad "  " + @item :new? newMark 3 rpad + "  " + @sizeStrs @sizedFile :index? nth @sizeW lpad + line!
+        @isTty @item :size? 1000000 > and if
             "\e[31m" @line + "\e[0m" + wl
         else
             @line wl

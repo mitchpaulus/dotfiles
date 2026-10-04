@@ -3,7 +3,9 @@
 $GITHUB_PAT_LINK? not if "$GITHUB_PAT_LINK not set" wle 1 exit end
 $GITHUB_PAT_LINK_CCLLC? not if "$GITHUB_PAT_LINK_CCLLC not set" wle 1 exit end
 
-def getItems (dict -- )
+type GitHubResponse =  [ { 'full_name': str} ]
+
+def getItems (HttpRequest -- )
     request!
     (
         @request httpGet? response!
@@ -12,7 +14,7 @@ def getItems (dict -- )
             $"{@status} response" wle
             1 exit
         ) iff
-        @response "body" get? utf8Str parseJson ("full_name" get? wl) each
+        @response "body" get? utf8Str parseJson tryAs GitHubResponse? ("full_name" get? wl) each
 
         @response "headers" get? respHeaders!
 

@@ -3,11 +3,25 @@
 # 'gg' => goto github
 tempDir `gh_repos.txt` / repoFile!
 
+type InfisicalExportResponse = [
+    {
+        "key": str,
+        "workspace": str,
+        "value": str,
+        "type":str,
+        "_id": str,
+        "secretPath": str,
+        "tags": [str],
+        "comment": str,
+        "Etag": str,
+        "skipMultilineEncoding": bool
+  }
+]
 
 @repoFile isFile not (@repoFile readFile lines len 2 <) or if
     $"Rebuilding gh_repos.txt.." wle
     ['infisical' 'login' '--silent']!
-    ['infisical' 'export' '--format' 'json' '--projectId=d93f1cd0-9acc-4e12-a552-1d87afea29e7'] * ! parseJson each.
+    ['infisical' 'export' '--format' 'json' '--projectId=d93f1cd0-9acc-4e12-a552-1d87afea29e7'] * ! parseJson tryAs InfisicalExportResponse? each.
         => { 'key': key, 'value': value } @key @value setenv
     end
     ['github_repos_msh'] @repoFile > !

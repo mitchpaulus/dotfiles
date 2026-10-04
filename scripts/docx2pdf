@@ -22,8 +22,8 @@ $"Tmp File {@tmpfile}" wle
 $"Converting '{@tmpfile}' to PDF..." wle
 
 runtime "windows" != if
-    'WINWORD.EXE' word!
-    [wslpath -w -a @tmpfile]*! trim input-docx!
+    `WINWORD.EXE` word!
+    [wslpath -w -a @tmpfile]*! trim toPath input-docx!
 else
     `C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE` word!
     @tmpfile input-docx!

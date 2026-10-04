@@ -11,10 +11,10 @@
     'OpenClose': 'Two Position',
     'VFD': 'VFD',
     'Mod': 'Modulating',
-}
+} as {str}
 map!
 
-def processLine (str dict -- [str])
+def processLine (str {str} -- new [str])
     map! l!
     @l "# " startsWith if
         ["FPT" @l 2: trim "Section"]
@@ -38,7 +38,7 @@ end
 
 false makeExcel!
 "Test FPT" name!
-'' xlsxFile!
+`` xlsxFile!
 
 0 i!
 (

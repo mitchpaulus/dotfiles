@@ -2,7 +2,7 @@
 
 files
 (str f! @f 'Scan - ' startsWith and. @f '.pdf' endsWith end) filter
-(f! @f @f 7: mv) each
+(dup 7: mv) each
 
 #!/usr/bin/env python3
 # import re

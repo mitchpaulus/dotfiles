@@ -12,3 +12,5 @@ wrapped up in a simple function that takes a singleton set to $x$.
 
 Category: collection of "objects" that are linked by "arrows".
 Arrows must compose associatively and existence of identity arrow
+
+Functor:

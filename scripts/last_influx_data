@@ -5,16 +5,16 @@ def sortCmp (str | datetime str | datetime -- int)
 
     @a match
         str : -1,
-        _ : @b match
+        datetime da: @b match
                 str : 1,
-                _ : @a as datetime @b as datetime dateTimeCmp
+                datetime db : @da @db dateTimeCmp
             end
     end
 end
 
 def toStr (str | datetime -- str)
     match
-        date :> isoDateFmt,
+        datetime :> isoDateFmt,
         str :>
     end
 end

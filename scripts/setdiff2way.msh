@@ -37,7 +37,7 @@ def extractField (str str int -- str)
     end
 end
 
-def loadFile (str str int bool int int dict [str] -- dict [str])
+def loadFile (str str int bool int int {bool} [str] -- {bool} [str])
     path!, delim!, col!, verbose!, fileNum!, startRow!, seen!, order!
     @path readFile lines fileLines!
 
@@ -168,8 +168,8 @@ false verbose!
     end
 ) loop
 
-{} fileOne!
-{} fileTwo!
+{} as {bool} fileOne!
+{} as {bool} fileTwo!
 [] fileOneOrder!
 [] fileTwoOrder!
 

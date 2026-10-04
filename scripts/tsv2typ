@@ -10,9 +10,9 @@ args args!
     [] : break,
     [arg ...rest]:
         @arg match
-            "-f" : true figure!,,
-            "-t" : true table!,,
-            string s : $"Unknown argument {@s}" wle 1 exit
+            "-f" : true figure!,
+            "-t" : true table!,
+            str s : $"Unknown argument {@s}" wle 1 exit
         end
 
         @rest args!
@@ -21,12 +21,12 @@ args args!
 
 stdin lines (tsplit) map match
     [] : ,
-    [head] :> map. i! $"[{@i}]" end "," join wl,
-    [head ...rest] :
+    [cells] : @cells map. i! $"[{@i}]" end "," join wl,
+    [head ...restRows] :
 
     @head map. i! $"[{@i}]" end "," join headerItems!
 
     $"table.header({@headerItems})," wl
 
-    @rest map. map. i! $"[{@i}]" end "," join end ",\n" join wl
+    @restRows map. map. i! $"[{@i}]" end "," join end ",\n" join wl
 end
