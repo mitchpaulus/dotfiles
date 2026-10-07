@@ -66,3 +66,7 @@ Tdew = -((178360*log(RH)+4181625)*Tdb+79530724*log(RH))/(400*log(RH)*Tdb+178360*
 /* For programming, if 'a' is Tdb, and 'b' is RH (0-100) */
 Tdew = -((178360*ln(b/100)+4181625)*b+79530724*ln(b/100))/(400*ln(b/100)*b+178360*ln(b/100)-4181625)
 ```
+
+# Standard Altitude
+
+p = 14.676 ( 1 - 6.8754 x 10^-6 Z )^(5.2559) psia, Z in ft.
