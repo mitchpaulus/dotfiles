@@ -8,7 +8,7 @@
 	email = paulusm14@gmail.com
 
 [core]
-	editor = C:\\\\Users\\\\mpaulus\\\\bin\\\\nvim-win64\\\\bin\\\\nvim.exe
+	editor = nvim.exe
     fileMode = false
     ignorecase = true
     symlinks = false
@@ -43,3 +43,6 @@
     files = !git diff --name-only $(git merge-base HEAD Dev_branch)
     stat = !git diff --stat $(git merge-base HEAD Dev_branch)
     review = !nvim $(git files) +\"bufdo Gdiffsplit Dev_branch\"
+
+[worktree]
+    useRelativePaths = true
