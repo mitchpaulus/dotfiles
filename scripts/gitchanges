@@ -69,6 +69,8 @@ def collectDiff ([str] [{"file": str, "added": int, "removed": int, "binary": bo
 end
 
 [] records!
+# mshell has no "\0" escape, so build the NUL character from base64.
+"AA==" base64decode utf8Str nul!
 
 args diffArgs!
 @diffArgs @records collectDiff
@@ -78,8 +80,10 @@ args diffArgs!
     filter. len 0 > end
     each.
         file!
-        # Compare against the null device so new files get a numstat too.
-        [git diff --no-index --numstat nullDevice str @file] * ? drop chomp
+        # Count lines ourselves rather than `git diff --no-index NUL <file>`,
+        # which fails in worktrees on Windows. A NUL byte means binary (as git).
+        @file readFile content!
+        @content @nul in if "-\t-" else $"{@content lines len}\t0" end
         @file true parseNumstat @records swap append drop
     end
 end
