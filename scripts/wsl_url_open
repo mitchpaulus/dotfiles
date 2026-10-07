@@ -1,12 +1,12 @@
 #!/usr/bin/env mshell
-VER "v0.14.0"
+# VER "v0.14.0"
 $1 "https://" startsWith not ($"https://{$1}") ($1) iff url!
 
 runtime "windows" = if
     ['EXPLORER.EXE' @url]!
 else*  $WSL_DISTRO_NAME? *if # Check if we are in WSL or not.
-    [wslpath -u [winenv USERPROFILE] * ! chomp] * ! chomp cd
-    [cmd.exe /C 'start' $1]!
+    ['wslpath' '-u' ['winenv' 'USERPROFILE'] * ! chomp] * ! chomp cd
+    ['cmd.exe' '/C' 'start' $1]!
 else
-    [xdg-open @url]!
+    ['xdg-open' @url]!
 end
