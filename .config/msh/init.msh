@@ -117,3 +117,76 @@ $"{$HOME}/.config/msh/secrets.json" isFile if $"{$HOME}/.config/msh/secrets.json
         ,
      _ :
 end
+
+def promptGen (PromptInfo -- [PromptItem])
+    info!
+    pwd pwd!
+    [
+        ['REPOS' '$REPOS']
+        ['JOBSDIR' '🏢' ]
+        ['HOME' '~']
+        ['USERPROFILE' '~']
+    ]
+    each. => [env replace] @env getEnv match
+        just e : @pwd @e @replace findReplace pwd!,
+        _:  end
+    end
+
+    [
+        $"{@pwd} ({@info "stackDepth" get?})"
+    ]
+    @info :lastExitCode? match none:, just code: $"({@code})" append end
+
+    " " join promptText top!
+
+    # Show user@hostname: when in an SSH session.
+    'SSH_CONNECTION' getEnv match
+        none: [],
+        _ : # In SSL
+            'USER' getEnv
+            match
+                none: 'USERNAME' getEnv
+                     match
+                        none: 'Unknown User' u!,
+                        just u :
+                    end,
+                just u :
+            end
+            [
+                152 195 121 setFgColorRgb
+                @u promptText
+                87 188 223 setFgColorRgb
+                "@" promptText
+                229 192 123 setFgColorRgb
+                hostname promptText
+                87 188 223 setFgColorRgb
+                ":" promptText
+            ]
+    end
+    # if
+        # $USER? if $USER else $USERNAME end u!
+        # [
+            # 152 195 121 setFgColorRgb
+            # @u promptText
+            # 87 188 223 setFgColorRgb
+            # "@" promptText
+            # 229 192 123 setFgColorRgb
+            # hostname promptText
+            # 87 188 223 setFgColorRgb
+            # ":" promptText
+        # ]
+    # else
+        # []
+    # end
+    sshItems!
+
+    @sshItems [
+        87 188 223 setFgColorRgb
+        @top
+        promptNewline
+        ":: " promptText
+        setFgDefault
+    ] extend
+end
+
+(promptGen) setPrompt

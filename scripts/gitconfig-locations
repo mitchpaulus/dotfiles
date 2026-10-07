@@ -1,0 +1,43 @@
+#!/usr/bin/env mshell
+# List the files git config is currently reading from, with their scope.
+# If a file is a symlink, also print the final destination (` -> target`).
+# If a file has other hard links, print them as a set on Windows
+# (`{ a, b }`), or just the link count elsewhere (`[2 hard links]`).
+# Run inside a repository to also see the local/worktree config files.
+
+# Unique "scope<TAB>origin" pairs, in the order git reads them.
+['git' 'config' '--list' '--show-origin' '--show-scope'] * ! chomp lines
+map. tsplit :2 tjoin end uniq
+map. tsplit end
+filter. :1: "file:" startsWith end
+entries!
+
+@entries map. :0: len end max scopeW!
+runtime "windows" = isWindows!
+
+@entries each.
+    entry!
+    @entry :0: scope!
+    @entry :1: 5 skip file!
+    [@scope "" " " @scopeW @scope len - leftPad + @file] "  " join line!
+
+    @file evalSymLinks match
+        just target :
+            @target absPath @file absPath != if
+                $"{@line} -> {@target}" line!
+            end,
+        none : $"{@line} -> (broken symlink)" line!,
+    end
+
+    @file linkCount 1 maybe count!
+    @count 1 > if
+        @isWindows if
+            @file hardLinks map. str end ", " join links!
+            $"{@line}  \{ {@links} }" line!
+        else
+            $"{@line}  [{@count} hard links]" line!
+        end
+    end
+
+    @line wl
+end
