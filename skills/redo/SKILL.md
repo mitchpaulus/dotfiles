@@ -7,9 +7,8 @@ description: 'redo is a build system, a competitor to make. It relies on simple 
 There are many different implementations of the basic idea, similar to `make`.
 The original idea can be found at <https://cr.yp.to/redo.html>.
 
-Build targets are set by `.do` files that define how the target is made. It can be any interpreted script.
-
-In the Apenwarr implementation, which only works on Unix-like systems, a shebang can be set.
+Build targets are set by `.do` files that define how the target is made.
+Unless I tell you otherwise use `mshell` as the script language.
 
 The key commands are:
 
