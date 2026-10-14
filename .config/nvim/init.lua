@@ -28,6 +28,10 @@ if in_wsl then
     }
 end
 
+if vim.fn.has('win32') == 1 then
+    vim.g.copilot_npx_command = { 'npx.cmd', '--yes' }
+end
+
 local function setupLsp()
     -- local nvim_lsp = require('lspconfig')
     -- local on_attach = function(client, bufnr)
@@ -1356,17 +1360,6 @@ bufenter_augroup_id = vim.api.nvim_create_augroup('bufenter_augroup', { clear = 
 for _, autocmd in ipairs(bufEnterAutocmds) do
     vim.api.nvim_create_autocmd('BufEnter', { pattern = autocmd[1], group = bufenter_augroup_id, command = autocmd[2] })
 end
-
-vim.api.nvim_create_autocmd('BufEnter', { pattern = '*.do', group = bufenter_augroup_id,
-    callback = function()
-        local first_line = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1]
-        if first_line:match("^#!.*msh") then
-            vim.bo.filetype = "mshell" -- Set filetype to mshell if mshell is found
-        else
-            vim.bo.filetype = "sh" -- Default to sh
-        end
-    end
-})
 
 vim.api.nvim_create_autocmd('TermOpen', { pattern = '*',        group = 'MPEvents', command = 'startinsert' })
 vim.api.nvim_create_autocmd('TextYankPost', { pattern = '*', group = 'MPEvents', command = 'silent! lua vim.highlight.on_yank { timeout = 500 }' })
