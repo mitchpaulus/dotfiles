@@ -1322,7 +1322,7 @@ end
 -- Event Type Autocmds {{{1
 bufEnterAutocmds = {
     { '*.cshtml' , 'set filetype=html' },
-    -- { '*.do'     , 'set filetype=sh' },
+    { '*.do'     , 'set filetype=mshell' },
     { '*.do'     , 'inoremap ,ex exec >&2<Cr>' },
     { '*.do'     , 'inoremap ,r redo-ifchange<Space>' },
     { '*.compass', 'set filetype=cem' },
