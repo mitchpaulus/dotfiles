@@ -146,3 +146,5 @@ FROM information_schema.COLUMNS
 WHERE TABLE_SCHEMA = 'MyTable'
 ORDER BY TABLE_NAME, ORDINAL_POSITION;
 ```
+
+Version : `SELECT @@version`
