@@ -90,7 +90,7 @@ local function setupLsp()
     -- Use a loop to conveniently both setup defined servers
     -- and map buffer local keybindings when the language server attaches
     -- Old: bashls
-    local servers = { "vimls", "hls", "ty", "ts_ls", "awk_ls", "gopls", "nbem_lsp" }
+    local servers = { "vimls", "hls", "ty", "ts_ls", "awk_ls", "gopls", "nbem_lsp", "mplot_lsp" }
     -- local servers = { "bashls", "vimls", "texlab", "hls", "tsserver", "awk_ls" }
     -- local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
     -- local capabilities =
@@ -111,6 +111,14 @@ vim.lsp.config('nbem_lsp', {
     end,
 })
 
+vim.lsp.config('mplot_lsp', {
+    cmd = { 'mplot', 'lsp' },
+    filetypes = { 'mplot' },
+    name = 'mplot_lsp',
+    root_dir = function(_, on_dir)
+        on_dir(vim.fn.getcwd())
+    end,
+})
 
 function setup_msh_lsp()
     name = 'msh-lsp'
