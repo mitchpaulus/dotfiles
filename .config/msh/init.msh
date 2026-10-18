@@ -190,3 +190,21 @@ def promptGen (PromptInfo -- [PromptItem])
 end
 
 (promptGen) setPrompt
+
+[
+    ['s' 'git status -u']
+    ['v' 'nvim']
+    ['mk' 'mkdir']
+    ['ls' 'eza -l']
+    ['gi' 'nvim .gitignore']
+    ['a' 'git add']
+    ['d' 'git diff -w']
+    ['dc' 'git diff -w --cached']
+    ['c' 'git commit']
+    ['p' 'git push']
+    ['u' "'..' cd"]
+    ['gu' '[git add -u]? if [git status -u]; end']
+    ['ga' '[git add -A]? if [git status -u]; end']
+    ['fp' 'git fetch --prune']
+]
+each. => [abbr expansion] { 'abbr': @abbr abbrWord, 'expansion': @expansion abbrText } abbrAdd end
