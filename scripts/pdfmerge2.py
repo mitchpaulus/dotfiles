@@ -135,10 +135,14 @@ def read_input_files_from_file(path):
 
 def parse_input_arg(arg) -> tuple[str, str | None]:
     # Split on ':'. First part should be filename, second part should be an optional new first level bookmark.
-    parts = arg.split(':', 1)
-    if len(parts) > 1:
-        return (parts[0], parts[1])
-    return (parts[0], None)
+    # On Windows, skip the drive of an absolute path like 'C:\' so its colon isn't treated as the separator.
+    start = 0
+    if sys.platform == "win32" and os.path.isabs(arg):
+        start = len(os.path.splitdrive(arg)[0])
+    sep = arg.find(':', start)
+    if sep != -1:
+        return (arg[:sep], arg[sep + 1:])
+    return (arg, None)
 
 
 if __name__ == "__main__":
