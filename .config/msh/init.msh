@@ -208,3 +208,25 @@ end
     ['fp' 'git fetch --prune']
 ]
 each. => [abbr expansion] { 'abbr': @abbr abbrWord, 'expansion': @expansion abbrText } abbrAdd end
+
+# Enter.
+{keys: [r'j' r'f'], action: [editAccept] bindingOps} bindingAdd
+
+# Clear the screen.
+{keys: [r'v' r'l'], action: [editClearScreen] bindingOps} bindingAdd
+
+# Leave the shell.
+{keys: [r'q' r'q'], action: [editExit] bindingOps} bindingAdd
+
+# The file manager on $REPOS and $JOBSDIR (the defs `r` and `j` above).
+{keys: [r';' r'r'], action: [(r) editRun] bindingOps} bindingAdd
+{keys: [r';' r'j'], action: [(j) editRun] bindingOps} bindingAdd
+
+# lf on F1.
+{keys: [keyF1], action: [([lf];) editRun] bindingOps} bindingAdd
+
+# Today's date (YYYY-MM-DD) at the cursor on Alt-D.
+def insertDate (EditState -- new Maybe[[EditOp]])
+    drop [now isoDateFmt editInsert] just
+end
+{keys: [r'd' keyAlt], action: (insertDate) bindingFunc} bindingAdd
