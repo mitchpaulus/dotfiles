@@ -28,8 +28,10 @@ if in_wsl then
     }
 end
 
+-- npx fails to find the 'copilot-language-server' bin shim on Windows.
+-- Skip npx and run the language server bundled with copilot.vim using node directly.
 if vim.fn.has('win32') == 1 then
-    vim.g.copilot_npx_command = { 'npx.cmd', '--yes' }
+    vim.g.copilot_npx = false
 end
 
 local function setupLsp()
