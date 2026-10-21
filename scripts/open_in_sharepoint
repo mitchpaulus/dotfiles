@@ -1,0 +1,227 @@
+#!/usr/bin/env mshell
+# Open a synced directory in SharePoint using OneDrive's View Online redirect.
+# Uses SQLite's fixed WinGet package path under Windows LOCALAPPDATA.
+# WSL also requires Windows interop and wslpath.
+# Only Business* accounts (including OneDrive for Business) are searched.
+#
+# Usage: open_in_sharepoint [DIRECTORY] [--print] [--database DATABASE]...
+# DIRECTORY defaults to the current working directory. --print only prints
+# the URL. --database overrides discovery, useful with a saved database.
+# Query the live database read-only using Windows SQLite, including from WSL,
+# so Windows handles SQLite locking and WAL access without database copies.
+#
+# Redirect format: Microsoft's MS-FILESYNC ViewOnlineUrlTemplate:
+# https://learn.microsoft.com/en-us/openspecs/sharepoint_protocols/ms-filesync/ae05c042-9fd3-4d9c-a618-980e9c072806
+
+type SharePointDirectory = {localRoot: str, rootID: str, webURL: str, relativePath: str, resourceID: str}
+
+def sp-sql-quote (str -- str)
+    "'" "''" findReplace "'" swap + "'" +
+end
+
+def sp-query (str path str -- Maybe[str])
+    sqliteCommand!, database!, query!
+    runtime "windows" = if
+        @database str
+    else
+        ['wslpath' '-w' @database str] * ! chomp
+    end
+    windowsDatabase!
+    # SQL travels on stdin to avoid Windows command-line quoting differences.
+    [@sqliteCommand '-readonly' '-batch' '-json' '-cmd' '.timeout 3000' @windowsDatabase] @query < * ^ ?
+    output!, errors!, code!
+    @code 0 != if
+        $"Cannot query {@database str}: {@errors trim} (exit {@code})" wle
+        none
+    else
+        @output trim dup len 0 = if drop "[]" end just
+    end
+end
+
+# Normalize separators without lowercasing the path used for display/lookup.
+def sp-normalize (str -- str)
+    '\' '/' findReplace '/+$' '' reReplace
+end
+
+def sp-is-windows-path (str -- bool)
+    dup '^[A-Za-z]:[\\/]' reMatch swap '\\' startsWith or
+end
+
+def sp-local-path (str -- path)
+    path!
+    runtime "windows" != @path sp-is-windows-path and if
+        ['wslpath' '-u' @path] * ! chomp toPath
+    else
+        @path toPath
+    end
+    absPath
+end
+
+"." directory!
+false directoryGiven!
+false printOnly!
+[] as [path] databases!
+args arguments!
+0 i!
+(
+    @i @arguments len >= if break end
+    @arguments @i nth arg!
+    @arg "--help" = @arg "-h" = or if
+        "Usage: open_in_sharepoint [DIRECTORY] [--print] [--database DATABASE]..." wl
+        "Open a synced directory, defaulting to the current working directory." wl
+        "  --print               Print the URL without opening the browser." wl
+        "  --database DATABASE   Search this database instead of Business* accounts." wl
+        0 exit
+    else* @arg "--print" = *if
+        true printOnly!
+    else* @arg "--database" = *if
+        @i 1 + i!
+        @i @arguments len >= if "--database requires a database path." wle 2 exit end
+        @databases @arguments @i nth sp-local-path append databases!
+    else* @arg "-" startsWith *if
+        $"Unknown option: {@arg}" wle 2 exit
+    else* @directoryGiven *if
+        "Only one directory can be supplied." wle 2 exit
+    else
+        @arg directory!
+        true directoryGiven!
+    end
+    @i 1 + i!
+) loop
+
+runtime "windows" != if
+    runtime "linux" != if "Only Windows and WSL are supported currently." wle 1 exit end
+    `/proc/sys/kernel/osrelease` readFile lower "microsoft" in not if
+        "Only Windows and WSL are supported currently." wle 1 exit
+    end
+end
+"LOCALAPPDATA" getEnv "" maybe localAppData!
+runtime "windows" != @localAppData len 0 = and if
+    # Query only the missing Windows environment value. Delayed expansion
+    # keeps characters such as & in the path from becoming cmd operators.
+    ['cmd.exe' '/d' '/v:on' '/c'
+     'chcp 65001>nul & if defined LOCALAPPDATA (echo !LOCALAPPDATA!) else (exit /b 1)'] * ^ ?
+    output!, errors!, code!
+    @code 0 != if
+        $"Could not determine Windows LOCALAPPDATA: {@errors trim}" wle 1 exit
+    end
+    @output chomp localAppData!
+end
+@localAppData len 0 = if "Could not determine Windows LOCALAPPDATA." wle 1 exit end
+@localAppData sp-local-path localAppDataPath!
+@localAppDataPath `Microsoft` / `WinGet` / `Packages` /
+`SQLite.SQLite_Microsoft.Winget.Source_8wekyb3d8bbwe` / `sqlite3.exe` / str sqliteCommand!
+@sqliteCommand fileExists not if
+    $"Windows SQLite not found: {@sqliteCommand}" wle 1 exit
+end
+
+@directory sp-local-path target!
+@target isDir not if $"Not a directory: {@directory}" wle 1 exit end
+# Resolve directory symlinks, such as a shortcut to a synced job folder in WSL.
+@target evalSymLinks @target maybe target!
+runtime "windows" = if
+    @target str
+else
+    ['wslpath' '-w' @target str] * ! chomp
+end
+sp-normalize windowsTarget!
+
+@databases len 0 = if
+    @localAppDataPath `Microsoft` / `OneDrive` / `settings` / settings!
+    @settings isDir not if $"OneDrive settings directory not found: {@settings str}" wle 1 exit end
+    @settings lsDir (dup isDir swap basename str "Business" startsWith and) filter
+    (@databases swap `SyncEngineDatabase.db` / append databases!) each
+    @databases (fileExists) filter databases!
+end
+@databases len 0 = if "No Business* OneDrive sync databases found." wle 1 exit end
+
+# Find candidate directories by their final name, then walk their parents by
+# primary key. Return their paths and the sync roots in one SQLite invocation.
+# Compare full paths in mshell so Unicode case folding works for mount points.
+@windowsTarget '/' split :-1: sp-sql-quote leafSql!
+[
+    "WITH RECURSIVE roots(localRoot, rootID, currentID, depth) AS ("
+    "    SELECT lastKnownFolderPath, scopeID, scopeID, 0"
+    "    FROM od_ScopeInfo_Records"
+    "    WHERE COALESCE(lastKnownFolderPath, '') <> ''"
+    "    UNION ALL"
+    "    SELECT r.localRoot, r.rootID, f.parentResourceID, r.depth + 1"
+    "    FROM roots r JOIN od_ClientFolder_Records f ON f.resourceID = r.currentID"
+    "    WHERE r.depth < 100 AND f.parentResourceID <> r.currentID"
+    "), mounts AS MATERIALIZED ("
+    "    SELECT DISTINCT r.localRoot, r.rootID, s.webURL"
+    "    FROM roots r JOIN od_ScopeInfo_Records s ON s.scopeID = r.currentID"
+    "    WHERE COALESCE(s.webURL, '') <> ''"
+    "), ancestors(resourceID, currentID, parentScopeID, relativePath, depth) AS ("
+    "    SELECT resourceID, resourceID, parentScopeID, '', 0"
+    "    FROM od_ClientFolder_Records"
+    $"    WHERE folderName = {@leafSql} COLLATE NOCASE"
+    "    UNION ALL"
+    "    SELECT a.resourceID, f.parentResourceID, a.parentScopeID,"
+    "        f.folderName || CASE WHEN a.relativePath = '' THEN '' ELSE '/' || a.relativePath END,"
+    "        a.depth + 1"
+    "    FROM ancestors a JOIN od_ClientFolder_Records f ON f.resourceID = a.currentID"
+    "    WHERE a.depth < 100 AND f.parentResourceID <> a.currentID"
+    ")"
+    "SELECT localRoot, rootID, webURL, '' AS relativePath, rootID AS resourceID FROM mounts"
+    "UNION"
+    "SELECT m.localRoot, m.rootID, COALESCE(NULLIF(s.webURL, ''), m.webURL), a.relativePath, a.resourceID"
+    "FROM ancestors a JOIN mounts m ON m.rootID = a.currentID"
+    "LEFT JOIN od_ScopeInfo_Records s ON s.scopeID = a.parentScopeID;"
+] unlines directoryQuery!
+
+-1 bestLength!
+[] as [SharePointDirectory] matches!
+@databases (database!
+    @database fileExists not if $"Database not found: {@database str}" wle 1 exit end
+    @sqliteCommand @database @directoryQuery sp-query (output!
+        @output parseJson tryAs [SharePointDirectory] ? (candidate!
+            @candidate :localRoot? sp-normalize localRoot!
+            @windowsTarget lower @localRoot lower =
+            @windowsTarget lower @localRoot lower "/" + startsWith or if
+                @localRoot len @bestLength > if
+                    @localRoot len bestLength!
+                    [] as [SharePointDirectory] matches!
+                end
+                @localRoot len @bestLength = if
+                    @candidate :relativePath? relative!
+                    @relative len 0 = if @localRoot else @localRoot "/" + @relative + end
+                    lower @windowsTarget lower = if
+                        @matches @candidate append matches!
+                    end
+                end
+            end
+        ) each
+    ) whenJust
+) each
+@bestLength -1 = if
+    $"No SharePoint sync root found for {@windowsTarget}." wle 1 exit
+end
+# The same folder can appear through overlapping mounts or multiple accounts.
+@matches (:resourceID? lower) (id) listToDict values directories!
+@directories len 1 != if
+    $"Directory not found uniquely in the OneDrive sync database: {@windowsTarget}. It may not have synced yet." wle
+    1 exit
+end
+@directories :0: folder!
+# OneDrive appends a local +scope number to SharePoint's 32-digit resource ID.
+@folder :resourceID? '+' split :0: resourceID!
+@resourceID '^[a-fA-F0-9]{32}$' reMatch not if
+    $"Unsupported SharePoint resource ID: {@resourceID}" wle 1 exit
+end
+@folder :webURL? '/+$' '' reReplace site!
+@site '^(?i)https://[^/?#]+' reMatch not if
+    $"Unsupported SharePoint site URL: {@site}" wle 1 exit
+end
+# Site names may contain spaces; preserve existing percent escapes.
+@site ' ' '%20' findReplace site!
+$"{@site}/_layouts/15/SkySyncRedir.aspx?Type=2&ResourceId={@resourceID}" url!
+@printOnly if @url wl else
+    runtime "windows" = if @url else
+        # wsl_url_open passes its argument to cmd.exe /C start in WSL.
+        # Escape cmd's metacharacters so the browser receives the full URL.
+        @url '([&|<>()^])' '^${1}' reReplace
+    end
+    urlToOpen!
+    ['wsl_url_open' @urlToOpen]!
+end

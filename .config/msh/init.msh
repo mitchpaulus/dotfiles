@@ -91,6 +91,7 @@ hostname "prec3660-mp" = runtime "windows" = and if
         'F:\repos\idf-visualizer\target\release'
         'F:\repos\bookmarks\target\release'
         $"{$REPOS}\\xlwrite\\xlwrite\\bin\\Debug\\net10.0"
+        $"{$LOCALAPPDATA}\\Microsoft\\WinGet\\Packages\\SQLite.SQLite_Microsoft.Winget.Source_8wekyb3d8bbwe"
         $PATH
     ] ';' join $PATH!
 end
