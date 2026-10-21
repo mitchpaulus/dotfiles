@@ -1,0 +1,197 @@
+#!/usr/bin/env msh
+# Overwrite my preferred Windows Terminal settings (selection, keybindings, color schemes)
+# into the stable and preview settings.json files.
+# Works natively on Windows or from WSL.
+
+runtime "windows" = if
+    $LOCALAPPDATA toPath
+else
+    `/mnt/c/Users/mpaulus/AppData/Local`
+end localAppData!
+
+[
+    `Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json`
+    `Packages/Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe/LocalState/settings.json`
+] map. @localAppData swap / end settingsFiles!
+
+# Types for the parts of the Windows Terminal 1.24 settings schema this script touches:
+# https://raw.githubusercontent.com/microsoft/terminal/release-1.24/doc/cascadia/profiles.schema.json
+# Everything else passes through as Json.
+
+type Scheme = {
+    name?: str,
+    background?: str,
+    foreground?: str,
+    cursorColor?: str,
+    selectionBackground?: str,
+    black?: str,
+    red?: str,
+    green?: str,
+    yellow?: str,
+    blue?: str,
+    purple?: str,
+    cyan?: str,
+    white?: str,
+    brightBlack?: str,
+    brightRed?: str,
+    brightGreen?: str,
+    brightYellow?: str,
+    brightBlue?: str,
+    brightPurple?: str,
+    brightCyan?: str,
+    brightWhite?: str
+}
+
+type NewTabAction = {action: str, commandline?: str}
+type Command = {command?: str | NewTabAction | null, id?: str}
+type Keybinding = {keys: str | [str], id?: str | null}
+
+type Settings = {
+    schemes: [Scheme],
+    actions?: [Command],
+    keybindings?: [Keybinding],
+    copyOnSelect?: bool,
+    copyFormatting?: bool | [str] | str,
+    trimBlockSelection?: bool,
+    trimPaste?: bool,
+    *: Json
+}
+
+def myActions ( -- new [Command])
+[
+    { "command": { "action": "newTab", "commandline": "msh.exe" }, "id": "User.newTab.Msh" }
+]
+end
+
+# Bound to my actions above or the built-in ones from Terminal's defaults.json; a null id unbinds the keys.
+def myKeybindings ( -- new [Keybinding])
+[
+    { "keys": "ctrl+shift+w", "id": null }
+    { "keys": "alt+down", "id": null }
+    { "keys": "alt+left", "id": null }
+    { "keys": "alt+right", "id": null }
+    { "keys": "alt+up", "id": null }
+    { "keys": "alt+enter", "id": "Terminal.OpenNewTab" }
+    { "keys": "alt+shift+enter", "id": "User.newTab.Msh" }
+    { "keys": "alt+;", "id": "Terminal.DuplicatePaneAuto" }
+    { "keys": "alt+-", "id": "Terminal.DuplicatePaneDown" }
+    { "keys": "alt+j", "id": "Terminal.MoveFocusDown" }
+    { "keys": "alt+h", "id": "Terminal.MoveFocusLeft" }
+    { "keys": "alt+l", "id": "Terminal.MoveFocusRight" }
+    { "keys": "alt+k", "id": "Terminal.MoveFocusUp" }
+    { "keys": "ctrl+alt+left", "id": "Terminal.MoveFocusPrevious" }
+    { "keys": "alt+n", "id": "Terminal.NextTab" }
+    { "keys": "alt+p", "id": "Terminal.PrevTab" }
+    # { "keys": "alt+o", "id": "Terminal.ClosePane" }
+]
+end
+
+def mySchemes ( -- new [Scheme])
+[
+    {
+        "name": "Nord",
+        "background": "#2E3440",
+        "foreground": "#D8DEE9",
+        "black": "#2E3440",
+        "red": "#3B4252",
+        "green": "#434C5E",
+        "yellow": "#4C566A",
+        "blue": "#D8DEE9",
+        "purple": "#E5E9F0",
+        "cyan": "#ECEFF4",
+        "white": "#8FBCBB",
+        "brightBlack": "#88C0D0",
+        "brightRed": "#81A1C1",
+        "brightGreen": "#5E81AC",
+        "brightYellow": "#BF616A",
+        "brightBlue": "#D08770",
+        "brightPurple": "#EBCB8B",
+        "brightCyan": "#A3BE8C",
+        "brightWhite": "#B48EAD"
+    }
+    {
+        "name": "Mitch",
+        "background": "#222222",
+        "foreground": "#F2F2F2",
+        "black": "#0C0C0C",
+        "red": "#ff7f7f",
+        "green": "#13A10E",
+        "yellow": "#e0e022",
+        "blue": "#0090FF",
+        "purple": "#FDAADC",
+        "cyan": "#3A96DD",
+        "white": "#CCCCCC",
+        "brightBlack": "#767676",
+        "brightRed": "#E74856",
+        "brightGreen": "#16C60C",
+        "brightYellow": "#F9F1A5",
+        "brightBlue": "#3B78FF",
+        "brightPurple": "#B4009E",
+        "brightCyan": "#61D6D6",
+        "brightWhite": "#F2F2F2"
+    }
+    {
+        "name": "Chalk",
+        "background": "#2b2d2e",
+        "foreground": "#d2d8d9",
+        "black": "#7d8b8f",
+        "red": "#b23a52",
+        "green": "#789b6a",
+        "yellow": "#b9ac4a",
+        "blue": "#2a7fac",
+        "purple": "#bd4f5a",
+        "cyan": "#44a799",
+        "white": "#d2d8d9",
+        "brightBlack": "#888888",
+        "brightRed": "#f24840",
+        "brightGreen": "#80c470",
+        "brightYellow": "#ffeb62",
+        "brightBlue": "#4196ff",
+        "brightPurple": "#fc5275",
+        "brightCyan": "#53cdbd",
+        "brightWhite": "#d2d8d9"
+    }
+]
+end
+
+def updateFile (path --)
+    file!
+    @file isFile not if $"Could not read settings file: {@file}" wle return end
+
+    @file parseJson tryAs Settings match
+        just s : @s,
+        none :
+            $"Settings file does not match the 1.24 schema: {@file}" wle
+            return,
+    end settings!
+    "Settings file loaded" wl
+
+    @settings "copyOnSelect" false setd
+    @settings "copyFormatting" false setd
+    @settings "trimBlockSelection" true setd
+    @settings "trimPaste" true setd
+
+    # Wipe the existing actions and keybindings, put my own
+    @settings "actions" myActions setd
+    @settings "keybindings" myKeybindings setd
+
+    # Merge my color schemes into the existing ones by 'name'.
+    # Existing schemes keep their position, mine replace them in place, new ones are appended.
+    @settings :schemes? existing!
+    @existing (:name "" maybe) (id) listToDict existingByName!
+
+    mySchemes mine!
+    @mine (:name "" maybe) (id) listToDict myByName!
+
+    @existing map.
+        scheme!
+        @myByName @scheme :name "" maybe get @scheme maybe
+    end
+    @mine filter. scheme! @existingByName @scheme :name "" maybe in not end
+    + schemes!
+    @settings "schemes" @schemes setd
+
+    @settings toJson @file writeFile
+end
+
+@settingsFiles (updateFile) each
