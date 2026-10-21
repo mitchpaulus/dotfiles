@@ -3,7 +3,7 @@
 $1 "https://" startsWith not ($"https://{$1}") ($1) iff url!
 
 runtime "windows" = if
-    ['EXPLORER.EXE' @url]!
+    ['rundll32.exe' 'url.dll,FileProtocolHandler' @url]!
 else*  $WSL_DISTRO_NAME? *if # Check if we are in WSL or not.
     ['wslpath' '-u' ['winenv' 'USERPROFILE'] * ! chomp] * ! chomp cd
     ['cmd.exe' '/C' 'start' $1]!
