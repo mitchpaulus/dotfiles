@@ -1,0 +1,18 @@
+#!/usr/bin/env mshell
+
+# PURPOSE: Quickly open a canvas from the dotfiles.
+# Uses 'fzf' to pick the canvas, then opens it in mcanvas.
+$DOTFILES toPath `canvases` / lsDir (basename str) map unlines canvases!
+
+runtime 'windows' = if 'bat.exe' else 'lf-preview' end previewer!
+
+['fzf' $"--preview={@previewer} {$DOTFILES}/canvases/" "{}" +] @canvases < * ! chomp file!
+$DOTFILES toPath `canvases` / @file toPath / path!
+
+runtime 'windows' = if
+    ['mcanvas.exe' @path] & !
+else* $WSL_DISTRO_NAME? *if
+    ['mcanvas.exe' ['wslpath' '-w' @path] * ! chomp] & !
+else
+    ['mcanvas' @path] & !
+end
