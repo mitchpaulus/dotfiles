@@ -119,6 +119,13 @@ Import Path: String used to import a package. A package's import path is its mod
 go install golang.org/x/tools/gopls@latest
 ```
 
+# cleanup
+
+```
+go clean -cache
+go clean -modcache
+```
+
 # References
 
 [Constants](https://go.dev/blog/constants#)

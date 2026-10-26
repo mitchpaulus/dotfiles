@@ -102,3 +102,9 @@ Can use `nuget config` to edit configuration.
 ## Adding personal source
 
 dotnet nuget add source -n mitchpaulus -u mitchpaulus -p '%GH_TOKEN%' --store-password-in-clear-text 'https://nuget.pkg.github.com/mitchpaulus/index.json'
+
+## Freeing up space - Linux
+
+```
+dotnet nuget locals all --clear
+```

@@ -97,3 +97,14 @@ $XDG_DATA_DIRS/systemd/user/*
 /usr/lib/systemd/user/*
 $XDG_RUNTIME_DIR/systemd/generator.late/*
 ```
+
+## Removing
+
+```
+sudo systemctl disable --now myjob.timer
+sudo systemctl disable --now myjob.service
+sudo rm /etc/systemd/system/myjob.service
+sudo rm /etc/systemd/system/myjob.timer
+sudo systemctl daemon-reload
+sudo systemctl reset-failed
+```
