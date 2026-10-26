@@ -94,6 +94,9 @@ hostname "prec3660-mp" = runtime "windows" = and if
         $"{$LOCALAPPDATA}\\Microsoft\\WinGet\\Packages\\SQLite.SQLite_Microsoft.Winget.Source_8wekyb3d8bbwe"
         $PATH
     ] ';' join $PATH!
+
+    {keys: [r';' r'R'], action: [('F:\repos' mshFileManager) editRun] bindingOps} bindingAdd
+
 end
 
 type EnvFile = { 'envVars' : [ {'var': str, 'value': str }] }
