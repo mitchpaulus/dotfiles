@@ -8,9 +8,9 @@
       "id": "c639556d",
       "name": "Page 1",
       "view": {
-        "x": 1805.1741943359375,
-        "y": 621.2307739257812,
-        "zoom": 0.8055410385131836
+        "x": 2536.601318359375,
+        "y": 681.95751953125,
+        "zoom": 1.179392695426941
       },
       "nodes": [
         {
@@ -65,7 +65,7 @@
           "y": 8.0,
           "width": 320.0,
           "height": null,
-          "source": "= Scripts\n\n```typst\nfor value in array {..}\nfor pair in dict {..}\nfor letter in \"string\" {..}\nfor byte in  bytes(\"😀\") {..}\n```"
+          "source": "= Scripts\n\n```typst\n#let my-add(x, y) = x + y\n\narray.filter(x => condition)\narray.map(x => x*x)\n\nfor value in array {..}\nfor pair in dict {..} // ordered\nfor letter in \"string\" {..}\nfor byte in  bytes(\"😀\") {..}\n```"
         }
       ]
     }
