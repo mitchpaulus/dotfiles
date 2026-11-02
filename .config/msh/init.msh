@@ -101,10 +101,10 @@ end
 
 type EnvFile = { 'envVars' : [ {'var': str, 'value': str }] }
 
-def parseEnvVarsJson (Maybe[EnvFile] -- )
+def parseEnvVarsJson (Result[EnvFile str] -- )
     match
-        none :,
-        just e : @e :envVars match none:, _:> ? (v! @v :var? @v :value? setenv) each end
+        err s:,
+        ok e: @e :envVars match none:, _:> ? (v! @v :var? @v :value? setenv) each end
     end
 end
 
