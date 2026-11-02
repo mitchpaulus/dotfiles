@@ -234,3 +234,66 @@ def insertDate (EditState -- new Maybe[[EditOp]])
     drop [now isoDateFmt editInsert] just
 end
 {keys: [r'd' keyAlt], action: (insertDate) bindingFunc} bindingAdd
+
+# File manager yanks, ported from lfrc.
+
+# SharePoint link for a file, from the ms-graph project's create_link.py.
+def sharepointLink (str -- Maybe[str])
+    f! ['uv' 'run' $REPOS toPath `ms-graph` / `create_link.py` / @f] * ? 0 = if trim just else drop none end
+end
+
+# The path shown for an HTML link: relative to $JOBSDIR, without the leading 'Jobs - '.
+def jobsDisplayPath (str -- str)
+    f!
+    $JOBSDIR? if @f $JOBSDIR startsWith else false end if
+        @f $JOBSDIR '' findReplace s!
+        ['/Jobs - '  '\Jobs - '] (@s swap startsWith) any if @s 8: else @s end
+    else
+        @f
+    end
+end
+
+def currentFileWrap (FmState (str -- Maybe[FmProgram]) -- Maybe[FmProgram])
+    s!, q! @s :current? match none: none, just f: @f @q x end
+end
+
+def fmCopySharepointLink (str -- new Maybe[FmProgram])
+    sharepointLink match
+                none: ['Failed to get SharePoint link' fmMessage],
+                just link: @link clip ['Copied SharePoint link' fmMessage],
+            end just
+end
+
+def fmCopySharepointLinkHtml (str -- new Maybe[FmProgram])
+        f! @f sharepointLink match
+        none: ['Failed to get SharePoint link' fmMessage],
+        just link:
+            ['WinCopyLink.exe' @link @f jobsDisplayPath]? 0 = if
+                ['Copied HTML link' fmMessage]
+            else
+                ['Failed to copy HTML link with WinCopyLink' fmMessage]
+            end,
+    end just
+end
+
+def fmCopyCommandPath (str -- new Maybe[FmProgram])
+    jobsDisplayPath shortened! @shortened clip
+    [$"Copied '{@shortened}'" fmMessage] just
+end
+
+def fmCopyJobsDirPath (str -- new Maybe[FmProgram])
+    f!
+    $JOBSDIR? if @f $JOBSDIR startsWith else false end if
+        @f $JOBSDIR '{JOBSDIR}' findReplace s!
+        $"file:///{@s}"
+    else
+        $"file:///{@f}"
+    end
+    '\' '/' findReplace toCopy! @toCopy clip
+    [$"Copied '{@toCopy}" fmMessage] just
+end
+
+{keys: [r'y' r'l'], action: [((fmCopySharepointLink) currentFileWrap) fmRunOps] fmOps, description: 'SharePoint link'} fmBindingAdd
+{keys: [r'y' r'h'], action: [((fmCopySharepointLinkHtml) currentFileWrap) fmRunOps] fmOps, description: 'SharePoint link as HTML'} fmBindingAdd
+{keys: [r'y' r'c'], action: [((fmCopyCommandPath) currentFileWrap) fmRunOps] fmOps, description: 'command path'} fmBindingAdd
+{keys: [r'y' r'j'], action: [((fmCopyJobsDirPath) currentFileWrap) fmRunOps] fmOps, description: 'Path for bookmarking'} fmBindingAdd
