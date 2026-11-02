@@ -1,5 +1,6 @@
 AlDanial.Cloc
 BurntSushi.ripgrep.MSVC
+DuckDB.cli
 frippery.busybox-w32
 junegunn.fzf
 sharkdp.bat
@@ -22,3 +23,4 @@ Y2Z.Monolith
 infisical.infisical
 JesseDuffield.lazygit
 MaximaTeam.Maxima
+Typst.Typst
