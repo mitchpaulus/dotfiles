@@ -227,7 +227,7 @@ each. => [abbr expansion] { 'abbr': @abbr abbrWord, 'expansion': @expansion abbr
 {keys: [r';' r'j'], action: [(j) editRun] bindingOps} bindingAdd
 
 # lf on F1.
-{keys: [keyF1], action: [([lf];) editRun] bindingOps} bindingAdd
+{keys: [keyF1], action: [(lf) editRun] bindingOps} bindingAdd
 
 # Today's date (YYYY-MM-DD) at the cursor on Alt-D.
 def insertDate (EditState -- new Maybe[[EditOp]])
@@ -282,12 +282,13 @@ def fmCopyCommandPath (str -- new Maybe[FmProgram])
 end
 
 def fmCopyJobsDirPath (str -- new Maybe[FmProgram])
-    f!
-    $JOBSDIR? if @f $JOBSDIR startsWith else false end if
-        @f $JOBSDIR '{JOBSDIR}' findReplace s!
-        $"file:///{@s}"
-    else
-        $"file:///{@f}"
+    f! ['JOBSDIR' 'REPOS'] (e! @f just @e getEnv (startsWith) map2 false maybe) linearSearch
+    match
+        none : $"file:///{@f}",
+        just env : @f
+                   @env getEnv?
+                   "{" @env "}" + +
+                   findReplace
     end
     '\' '/' findReplace toCopy! @toCopy clip
     [$"Copied '{@toCopy}" fmMessage] just
