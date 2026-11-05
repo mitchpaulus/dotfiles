@@ -1,11 +1,8 @@
 #!/usr/bin/env mshell
-args len 0 = ('No args provided' wl 1 exit) iff
-
-args :0: 'in' = if
-    args :1: delay!
-    args 2: ' ' join message!
-    { 'url': $NTFY_URL, 'headers': { 'In': @delay, 'p': 4 }, 'body': @message } httpPost?:body? utf8Str we
-else
-    args ' ' join message!
-    { 'url': $NTFY_URL, 'headers': { 'p': 4 }, 'body': @message } httpPost?:body? utf8Str we
+args match
+    [] : 'No args provided' wl 1 exit,
+    ['-h'] : 'USAGE: ntfy message' wl 0 exit,
+    ['--help'] : 'USAGE: ntfy message' wl 0 exit,
+    ['in' delay ...messageItems] : { 'url': $NTFY_URL, 'headers': { 'In': @delay, 'p': 4 }, 'body': @messageItems ' ' join } httpPost? :body? utf8Str we,
+    [...messageItems] : { 'url': $NTFY_URL, 'headers': { 'p': 4 }, 'body': @messageItems ' ' join } httpPost? :body? utf8Str we
 end
