@@ -36,10 +36,6 @@ def buildings (-- new [str])
     [ "XI2004" "Q12480" "82361" "ORK037" "L23120" "SB025" "33222" "J2301" "G3108" "CO0609" ]
 end
 
-def of (--)
-    [open_facility_grid];
-end
-
 def g (--)
   pwd [fzf-tmsu]? (drop) (cd) iff
 end
@@ -178,6 +174,7 @@ end
     ['gu' '[git add -u]? if [git status -u]; end']
     ['ga' '[git add -A]? if [git status -u]; end']
     ['fp' 'git fetch --prune']
+    ['of' 'open_facility_grid']
 ]
 each. => [abbr expansion] { 'abbr': @abbr abbrWord, 'expansion': @expansion abbrText } abbrAdd end
 

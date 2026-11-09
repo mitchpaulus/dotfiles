@@ -1,13 +1,13 @@
 #!/usr/bin/env mshell
-# VER "v0.13.0"
 
 tempDir `fg_projects.tsv` / f!
-@f isFile not if
+
+@f isFile not (args ('-f' =) linearSearch isNone not) or if
     "Rebuilding.." wle
-    [fg_projects 'ls-old'] @f > !
+    ['fg_projects' 'ls-old'] @f > !
 end
 
-[fzf -d tab -n '1,2' "--with-nth=1,2"] @f < * ! trim
+['fzf' '-d' tab '-n' '1,2' "--with-nth=1,2"] @f < * ! trim
 tsplit :-1: projectId!
 $"https://facilitygrid.net/main/project/{@projectId}/overview" url!
-[wsl_url_open @url];
+['wsl_url_open' @url];
