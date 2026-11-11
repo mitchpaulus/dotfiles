@@ -61,3 +61,7 @@ Get-ChildItem -Path .\ -Recurse -Filter "*.txt" | Select-String -Pattern "patter
 $PROFILE # Location of profile script
 # Microsoft.PowerShell_profile.ps1
 ```
+
+```
+powershell.exe -NoProfile -Command "$env:PATH.Length"
+```

@@ -118,7 +118,7 @@ end
 @directory sp-local-path target!
 @target isDir not if $"Not a directory: {@directory}" wle 1 exit end
 # Resolve directory symlinks, such as a shortcut to a synced job folder in WSL.
-@target evalSymLinks @target maybe target!
+@target evalSymLinks match err e : @target, ok t : @t end target!
 runtime "windows" = if
     @target str
 else

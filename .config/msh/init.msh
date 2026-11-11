@@ -229,6 +229,14 @@ def fmCopySharepointLink (str -- new Maybe[FmProgram])
             end just
 end
 
+def fmCopySharepointLinkTypst (str -- new Maybe[FmProgram])
+    f!
+    @f sharepointLink match
+                none: ['Failed to get SharePoint link' fmMessage],
+                just link: $"#link(\"{@link}\")[{@f jobsDisplayPath}]" clip ['Copied SharePoint link as Typst' fmMessage],
+            end just
+end
+
 def fmCopySharepointLinkHtml (str -- new Maybe[FmProgram])
         f! @f sharepointLink match
         none: ['Failed to get SharePoint link' fmMessage],
@@ -263,3 +271,4 @@ end
 {keys: [r'y' r'h'], action: [((fmCopySharepointLinkHtml) currentFileWrap) fmRunOps] fmOps, description: 'SharePoint link as HTML'} fmBindingAdd
 {keys: [r'y' r'c'], action: [((fmCopyCommandPath) currentFileWrap) fmRunOps] fmOps, description: 'command path'} fmBindingAdd
 {keys: [r'y' r'j'], action: [((fmCopyJobsDirPath) currentFileWrap) fmRunOps] fmOps, description: 'Path for bookmarking'} fmBindingAdd
+{keys: [r'y' r't'], action: [((fmCopySharepointLinkTypst) currentFileWrap) fmRunOps] fmOps, description: 'SharePoint link as Typst'} fmBindingAdd
