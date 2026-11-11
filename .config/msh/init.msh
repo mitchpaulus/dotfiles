@@ -267,8 +267,21 @@ def fmCopyJobsDirPath (str -- new Maybe[FmProgram])
     [$"Copied '{@toCopy}" fmMessage] just
 end
 
+def getTagsForFile (str -- new Maybe[FmProgram])
+    f!
+    [
+        ['bm' 'tags' @f] * ; lines match
+            []: $"No tags found for {@f}..",
+            _ :> ", " join
+        end
+        fmMessage
+    ] just
+end
+
 {keys: [r'y' r'l'], action: [((fmCopySharepointLink) currentFileWrap) fmRunOps] fmOps, description: 'SharePoint link'} fmBindingAdd
 {keys: [r'y' r'h'], action: [((fmCopySharepointLinkHtml) currentFileWrap) fmRunOps] fmOps, description: 'SharePoint link as HTML'} fmBindingAdd
 {keys: [r'y' r'c'], action: [((fmCopyCommandPath) currentFileWrap) fmRunOps] fmOps, description: 'command path'} fmBindingAdd
 {keys: [r'y' r'j'], action: [((fmCopyJobsDirPath) currentFileWrap) fmRunOps] fmOps, description: 'Path for bookmarking'} fmBindingAdd
 {keys: [r'y' r't'], action: [((fmCopySharepointLinkTypst) currentFileWrap) fmRunOps] fmOps, description: 'SharePoint link as Typst'} fmBindingAdd
+
+{keys: [r'T'], action: [((getTagsForFile) currentFileWrap) fmRunOps] fmOps, description: 'Get tags for file'} fmBindingAdd
