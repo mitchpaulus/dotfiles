@@ -158,7 +158,7 @@ end
     "Binary files" wl
 
     @binFiles
-    map. f! { "file": @f :file?, "new": @f :new?, "size": @f :file? fileSize 0 maybe } end
+    map. f! { "file": @f :file?, "new": @f :new?, "size": @f :file? fileSize match ok size : @size, err err : @err wle 1 exit end } end
     (fileA!, fileB! @fileA :size? @fileB :size? intCmp) sortByCmp reverse sized!
 
     @sized map. :size? fmtInt end sizeStrs!
