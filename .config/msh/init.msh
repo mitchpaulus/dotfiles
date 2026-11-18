@@ -278,6 +278,29 @@ def getTagsForFile (str -- new Maybe[FmProgram])
     ] just
 end
 
+# Add the tags typed at the prompt (comma separated) to the file under the cursor.
+# bm is slow enough that it runs in the returned program, not in the prompt's quotation.
+def addTagsForFile (str FmState -- new Maybe[FmProgram])
+    tags!, s!
+    @tags trim tags!
+    @tags '' = if
+        none
+    else
+        @s :current? match
+            none: none,
+            just f: [(
+                drop
+                ['bm' 'tags' '--add' @tags @f] * ? 0 = if
+                    lines ", " join out!
+                    [$"Tags for {@f}: {@out}" fmMessage]
+                else
+                    drop [$"Failed to add tags to {@f}" fmMessage]
+                end just
+            ) fmRunOps] just
+        end
+    end
+end
+
 {keys: [r'y' r'l'], action: [((fmCopySharepointLink) currentFileWrap) fmRunOps] fmOps, description: 'SharePoint link'} fmBindingAdd
 {keys: [r'y' r'h'], action: [((fmCopySharepointLinkHtml) currentFileWrap) fmRunOps] fmOps, description: 'SharePoint link as HTML'} fmBindingAdd
 {keys: [r'y' r'c'], action: [((fmCopyCommandPath) currentFileWrap) fmRunOps] fmOps, description: 'command path'} fmBindingAdd
@@ -285,3 +308,4 @@ end
 {keys: [r'y' r't'], action: [((fmCopySharepointLinkTypst) currentFileWrap) fmRunOps] fmOps, description: 'SharePoint link as Typst'} fmBindingAdd
 
 {keys: [r'T'], action: [((getTagsForFile) currentFileWrap) fmRunOps] fmOps, description: 'Get tags for file'} fmBindingAdd
+{keys: [r't'], action: ['Add tags: ' '' (addTagsForFile) fmPromptAsk fmPrompt] fmOps, description: 'Add tags for file'} fmBindingAdd
