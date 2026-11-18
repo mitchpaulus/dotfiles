@@ -14,3 +14,11 @@ sudo dpkg -i <package>.deb
 # If missing dependencies
 sudo apt-get install -f
 ```
+
+```
+# version
+lsb_release -a
+cat /etc/os-release
+
+sudo do-release-upgrade # Ubuntu upgrade
+```

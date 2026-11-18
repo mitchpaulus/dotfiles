@@ -126,6 +126,13 @@ go clean -cache
 go clean -modcache
 ```
 
+# install
+
+```
+GOPROXY=direct go install …/mshell/mshell@main
+# installs to $HOME/go/bin
+```
+
 # References
 
 [Constants](https://go.dev/blog/constants#)
