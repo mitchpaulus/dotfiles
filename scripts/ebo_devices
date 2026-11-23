@@ -1,6 +1,6 @@
 #!/usr/bin/env mshell
 
-[sqlite3 -tabs $1
+['sqlite3' '-tabs' $1
 
 "SELECT Name, TypeName FROM ObjectInstance
 WHERE TypeName like '%Device%'

@@ -3,6 +3,6 @@
 args (opt! @opt "-h" = or. @opt "--help" = end) any ("Convert CSV to XLSX format using csv2tsv and xlwrite." wl 0 exit) iff
 
 [
-    [csv2tsv $1]
-    [xlwrite block A1 '-' $"{$1 stem}.xlsx"]
+    ['csv2tsv' $1]
+    ['xlwrite' 'block' 'A1' '-' $"{$1 stem}.xlsx"]
 ]|!

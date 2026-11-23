@@ -2,14 +2,14 @@
 
 ['lf' '-remote' $"send {$id} echo Copying.."];
 
-[gitpath $f] * ? if
+['gitpath' $f] * ? if
     chomp path!
     $WSL_DISTRO_NAME? if
         ['wsl_clip'] @path < !
     else* $WAYLAND_DISPLAY? *if
         ['wl-copy'] @path < ! # Need wl-clipboard package sometimes.
     else* runtime 'windows' = *if
-        [powershell -NoProfile -Command '[Console]::InputEncoding = [Text.UTF8Encoding]::new(); Set-Clipboard -Value ([Console]::In.ReadToEnd())'] @path < !
+        ['powershell' '-NoProfile' '-Command' '[Console]::InputEncoding = [Text.UTF8Encoding]::new(); Set-Clipboard -Value ([Console]::In.ReadToEnd())'] @path < !
     else
         ['xclip' '-selection' 'clipboard'] @path < !
     end

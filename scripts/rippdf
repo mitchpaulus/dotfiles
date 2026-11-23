@@ -1,6 +1,6 @@
 #!/usr/bin/env mshell
 
-args (a! @a "-h" = @a "--help" = or) any (
+args (a! @a "-h" = @a "--help" = or) any if
 'rippdf
 
 USAGE:
@@ -15,7 +15,7 @@ high number followed by a low number, which causes the pages to appear in
 reverse.  Numbers may be repeated.  A page range may be appended with :odd
 to indicate odd pages in the selected range or :even to indicate even
 pages.' wl 0 exit
-) iff
+end
 
 args len 3 < ( '3 arguments required.' wl 1 exit)
-[qpdf --empty --pages $1 $2 '--' $3]!
+['qpdf' '--empty' '--pages' $1 $2 '--' $3]!

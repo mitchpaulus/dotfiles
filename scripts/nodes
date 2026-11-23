@@ -1,7 +1,7 @@
 #!/usr/bin/env mshell
 # Help select out node names from an nbem file.
 
-[nbem --objects $1]*!lines (tsplit) map
+['nbem' '--objects' $1]*!lines (tsplit) map
 map.
     obj!
 
@@ -18,4 +18,4 @@ map.
     end
 end
 concat map. trim end uniq sortV nodes!
-[fzf] @nodes unlines < !
+['fzf'] @nodes unlines < !

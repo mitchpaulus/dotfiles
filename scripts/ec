@@ -2,6 +2,6 @@
 
 # Bring up an fzf prompt for editing configuration files
 
-[fzf "--delimiter" tab "--with-nth" "1"] $DOTFILES toPath `config_files.txt` / < * ! chomp tsplit :1:
+['fzf' "--delimiter" tab "--with-nth" "1"] $DOTFILES toPath `config_files.txt` / < * ! chomp tsplit :1:
 "~" $HOME findReplace "$DOTFILES" $DOTFILES findReplace path!
 [$EDITOR @path]!

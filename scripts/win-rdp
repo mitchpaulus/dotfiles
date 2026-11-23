@@ -8,4 +8,4 @@ $WINRDPIP?    "IP address env var $WINRDPIP not set" envCheck
 $WINRDPEMAIL? "Email env var $WINRDPEMAIL not set"   envCheck
 $WINRDPPASS?  "Password env var $WINRDPPASS not set" envCheck
 
-[setsid xfreerdp3 $"/v:{$WINRDPIP}" $"/u:{$WINRDPEMAIL}" $"/p:{$WINRDPPASS}" '+dynamic-resolution'] `/tmp/rdp_stdout.txt` > `/tmp/rdp_stderr.txt` 2> & !
+['setsid' 'xfreerdp3' $"/v:{$WINRDPIP}" $"/u:{$WINRDPEMAIL}" $"/p:{$WINRDPPASS}" '+dynamic-resolution'] `/tmp/rdp_stdout.txt` > `/tmp/rdp_stderr.txt` 2> & !

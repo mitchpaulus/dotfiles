@@ -6,10 +6,10 @@ The purpose of this script is to unzip file to a folder
 with the same name. The folder will be in the same directory
 as the passed in file.' helpText!
 
-args ('-h' =) any args ('--help' =) any or
-(@helpText wl 0 exit)
-iff
+args ('-h' =) any args ('--help' =) any or if
+    @helpText wl 0 exit
+end
 
 args len 1 != ("unzipd expects a single argument, the zip file." wl 1 exit) iff
 
-[unzip $1 -d $"{$1 dirname}/{$1 stem}"];
+['unzip' $1 '-d' $"{$1 dirname}/{$1 stem}"];

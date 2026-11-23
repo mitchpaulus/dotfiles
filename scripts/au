@@ -2,4 +2,4 @@
 $REPOS? not ($"REPOS env not defined" wle 1 exit) iff
 $REPOS toPath `autocorrect.vim` / `updatecorrections.msh` / script!
 @script isFile not ($"Could not find '{@script}'" wle) iff
-[msh @script]!
+['msh' @script]!

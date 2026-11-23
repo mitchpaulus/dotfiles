@@ -11,7 +11,7 @@ else* $WSLENV? *if
     ['fd' '--max-depth' 1 '-t' 'd' 'EnergyPlus.*' '/mnt/c/'] * ! lines sortV dirs!
     ['fd' '-t' 'f' 'InputOutputReference.pdf' @dirs] * ! lines sortV files!
     @files len 0 > if
-        @files :-1: dirname DIR! ['cmd.exe' '/C' 'start' '' [wslpath '-w' @DIR]*!chomp]!
+        @files :-1: dirname DIR! ['cmd.exe' '/C' 'start' '' ['wslpath' '-w' @DIR]*!chomp]!
     else
         'No InputOutput reference found' wle 1 exit
     end

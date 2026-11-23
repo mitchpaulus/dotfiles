@@ -4,7 +4,7 @@ $WAYLAND_DISPLAY? if
 else* $WSL_DISTRO_NAME? *if
     ['wsl_clip']!
 else* runtime 'windows' = *if
-    [powershell -NoProfile -Command '[Console]::InputEncoding = [Text.UTF8Encoding]::new(); Set-Clipboard -Value ([Console]::In.ReadToEnd())']!
+    ['powershell' '-NoProfile' '-Command' '[Console]::InputEncoding = [Text.UTF8Encoding]::new(); Set-Clipboard -Value ([Console]::In.ReadToEnd())']!
 else
     ['xclip' '-selection' 'clipboard']!
 end

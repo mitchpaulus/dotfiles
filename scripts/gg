@@ -30,5 +30,5 @@ args ('-f' =) linearSearch isNone not force!
     # $"{@repoFile} not found. Usually made using\ngithub_repos > {@repoFile}\nor\n[github_repos] `{@repoFile}` >;" wle 1 exit
 end
 
-[fzf] @repoFile toPath < *! trim repo!
-[wsl_url_open $"https://github.com/{@repo}"]!
+['fzf'] @repoFile toPath < *! trim repo!
+['wsl_url_open' $"https://github.com/{@repo}"]!

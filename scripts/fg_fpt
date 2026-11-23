@@ -67,8 +67,8 @@ unlines data!
 
 @makeExcel if
     $FG_FPT_TEMPLATE_XLSX @xlsxFile cp
-    [xlwrite -w "Sheet1" block C9 @data psub @xlsxFile]!
-    [xlwrite -w "Sheet1" block B6 @name psub @xlsxFile]!
+    ['xlwrite' '-w' "Sheet1" 'block' 'C9' @data psub @xlsxFile]!
+    ['xlwrite' '-w' "Sheet1" 'block' 'B6' @name psub @xlsxFile]!
 else
     @data w
 end

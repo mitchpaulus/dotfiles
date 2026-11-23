@@ -23,7 +23,7 @@ $"Converting '{@tmpfile}' to PDF..." wle
 
 runtime "windows" != if
     `WINWORD.EXE` word!
-    [wslpath -w -a @tmpfile]*! trim toPath input-docx!
+    ['wslpath' '-w' '-a' @tmpfile]*! trim toPath input-docx!
 else
     `C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE` word!
     @tmpfile input-docx!
@@ -46,8 +46,8 @@ def move-result-file (str Maybe[str] --)
         @outPath
         mv
     else
-        [winenv TMP]*! chomp windowsTmpPath!
-        [wslpath -u @windowsTmpPath]*! chomp unixTempPath!
+        ['winenv' 'TMP']*! chomp windowsTmpPath!
+        ['wslpath' '-u' @windowsTmpPath]*! chomp unixTempPath!
 
         # args len 1 > if @pdfFile else @docxFile stem str ".pdf" + end toPath path!
 

@@ -159,9 +159,10 @@ def updateFile (path --)
     @file isFile not if $"Could not read settings file: {@file}" wle return end
 
     @file parseJson tryAs Settings match
-        just s : @s,
-        none :
+        ok s : @s,
+        err e :
             $"Settings file does not match the 1.24 schema: {@file}" wle
+            @e wle
             return,
     end settings!
     "Settings file loaded" wl

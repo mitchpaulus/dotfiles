@@ -1,18 +1,17 @@
 #!/usr/bin/env mshell
 
 args (arg! @arg "-h" = (@arg "--help" =) or) any
-(
+if
  "Usage:
  pdfcompress INPUT_FILE OUTPUT_FILE
  pdfcompress [-h | --help]" wl
  0 exit
-)
-iff
+end
 
-args len 2 < ( "pdfcompress requires 2 arguments" wle 1 exit) iff
-$1 $2 = ("pdfcompress cannot compress in-place" wle 1 exit) iff
+args len 2 < if "pdfcompress requires 2 arguments" wle 1 exit end
+$1 $2 =      if "pdfcompress cannot compress in-place" wle 1 exit end
 
-[gs
+['gs'
     '-sDEVICE=pdfwrite'
     '-dCompatibilityLevel=1.4'
     '-dPDFSETTINGS=/ebook'

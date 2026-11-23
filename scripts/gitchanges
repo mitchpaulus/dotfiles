@@ -91,7 +91,7 @@ end
 # Clean tree on a feature branch: show the PR diff against the main branch.
 @records len 0 = @diffArgs len 0 = and if
     ['git' 'rev-parse' '--abbrev-ref' 'HEAD'] * ! chomp curBranch!
-    ["main" "master"] linearSearch. branch! [git rev-parse --verify --quiet @branch] * ? 0 = nip end mainBranch!
+    ["main" "master"] linearSearch. branch! ['git' 'rev-parse' '--verify' '--quiet' @branch] * ? 0 = nip end mainBranch!
     @mainBranch match
         just m :
             @curBranch @m != if

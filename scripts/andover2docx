@@ -6,6 +6,6 @@ $"```and\n{$1 readFile}\n```\n" codeMarkdown!
 
 @codeMarkdown w
 
-[andover_kde] * ! psub syntax_file!
+['andover_kde'] * ! psub syntax_file!
 
-[pandoc $"--syntax-definition={@syntax_file}"  -o $"{$1}.docx" '-'] @codeMarkdown < ;
+['pandoc' $"--syntax-definition={@syntax_file}"  '-o' $"{$1}.docx" '-'] @codeMarkdown < ;

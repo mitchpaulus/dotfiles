@@ -22,14 +22,14 @@ runtime "windows" = isWindows!
     [@scope "" " " @scopeW @scope len - leftPad + @file] "  " join line!
 
     @file evalSymLinks match
-        just target :
+        ok target :
             @target absPath @file absPath != if
                 $"{@line} -> {@target}" line!
             end,
-        none : $"{@line} -> (broken symlink)" line!,
+        err _ : $"{@line} -> (broken symlink)" line!,
     end
 
-    @file linkCount 1 maybe count!
+    @file linkCount (drop 1 ok) orElse?  count!
     @count 1 > if
         @isWindows if
             @file hardLinks map. str end ", " join links!

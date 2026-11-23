@@ -5,12 +5,12 @@ $"Refreshing {$REPOS}" wle
 def process-repo (path --)
     absPath dir!
     $"Fetching {@dir}.." wle
-    [git -C @dir fetch --prune]? if
+    ['git' '-C' @dir 'fetch' '--prune']? if
         # Check if git status --porcelain is empty
-        [git -C @dir status --porcelain]? if
+        ['git' '-C' @dir 'status' '--porcelain']? if
             # Clean
             $"Refreshing {@dir}.." wle
-            [git -C @dir merge --ff-only];
+            ['git' '-C' @dir 'merge' '--ff-only'];
         else
             $"Skipping {@dir}.." wle # Not clean
         end

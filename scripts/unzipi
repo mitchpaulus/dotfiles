@@ -8,7 +8,7 @@ map. :name? end
 unlines
 names!
 
-[fzf] @names < * ! chomp selection!
+['fzf'] @names < * ! chomp selection!
 
 
 $1 toPath

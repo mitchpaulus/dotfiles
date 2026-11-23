@@ -37,7 +37,7 @@ def buildings (-- new [str])
 end
 
 def g (--)
-  pwd [fzf-tmsu]? (drop) (cd) iff
+  pwd ['fzf-tmsu']? (drop) (cd) iff
 end
 
 def gm (--)
@@ -170,8 +170,8 @@ end
     ['c' 'git commit']
     ['p' 'git push']
     ['u' "'..' cd"]
-    ['gu' '[git add -u]? if [git status -u]; end']
-    ['ga' '[git add -A]? if [git status -u]; end']
+    ['gu' "['git' 'add' '-u']? if ['git' 'status' '-u']; end"]
+    ['ga' "['git' 'add' '-A']? if ['git' 'status' '-u']; end"]
     ['fp' 'git fetch --prune']
     ['of' 'open_facility_grid']
 ]

@@ -11,7 +11,7 @@ $"{$HOME}/.config/idf-default-objects/dir" isFile if
 else
 
     # Search for directory named 'idf-default-objects'
-    [fd --type 'd' 'idf-default-objects' $HOME] * ! lines repos!
+    ['fd' '--type' 'd' 'idf-default-objects' $HOME] * ! lines repos!
 
     @repos len 0 = if
         "Could not find repository directory" wle 1 exit
@@ -23,5 +23,5 @@ else
 end
 
 @dir isDir not ($"The cached directory at '{@dir}' does not exist." wle 1 exit) iff
-[fzf] * @dir lsDir (basename str) map unlines < ! chomp filepath!
+['fzf'] * @dir lsDir (basename str) map unlines < ! chomp filepath!
 ['clip'] $"{@dir}/{@filepath}" toPath <!

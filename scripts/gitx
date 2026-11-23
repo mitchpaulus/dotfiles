@@ -1,2 +1,2 @@
 #!/usr/bin/env mshell
-[git update-index '--chmod=+x' args]!
+['git' 'update-index' '--chmod=+x' args]!

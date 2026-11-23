@@ -1,6 +1,6 @@
 #!/usr/bin/env mshell
 
 [
-    [mgitstatus -d 1 -e -w]
-    [tee git.txt]
+    ['mgitstatus' '-d' 1 '-e' '-w']
+    ['tee' 'git.txt']
 ] | ;

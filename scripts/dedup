@@ -3,7 +3,7 @@
 stdin lines
 each.
     l!
-    @seen @l get 0 maybe dbg i!
+    @seen @l get 0 maybe i!
     @seen @l @i 1 + set drop
     @i 1 > if $"{@l} ({@i})" else @l end wl
 end

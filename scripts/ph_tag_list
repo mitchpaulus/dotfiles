@@ -2,7 +2,7 @@
 
 type DefsResponse = { "rows": [ { "def": { "val": str } } ] }
 
-['curl' --silent 'https://project-haystack.org/download/defs.json']  *! parseJson tryAs DefsResponse? "rows" get?
+['curl' '--silent' 'https://project-haystack.org/download/defs.json']  *! parseJson tryAs DefsResponse? "rows" get?
 each.
     "def" get? "val" get? name!
     @name "-" in @name ":" in or not if

@@ -6,7 +6,7 @@ args len 1 < or. args any. a! @a '-h' = or. @a '--help' = end end end if
 end
 
 # Try qpdf first
-[qpdf --show-npages $1] * ? (trim wl 0 exit) iff
+['qpdf' '--show-npages' $1] * ? (trim wl 0 exit) iff
 
 # Else try Python
-[numpgs_py $1];
+['numpgs_py' $1];

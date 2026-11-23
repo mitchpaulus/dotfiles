@@ -1,4 +1,4 @@
 #!/usr/bin/env mshell
 
 # This is an alias to awk, with tab as the field separator, and output field separator
-[awk $"-F{tab}" -v $"OFS={tab}" args];
+['awk' $"-F{tab}" '-v' $"OFS={tab}" args];

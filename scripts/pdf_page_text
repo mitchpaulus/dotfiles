@@ -1,5 +1,5 @@
 #!/usr/bin/env mshell
-[uv run --with PyMuPDF python3 -c
+['uv' 'run' '--with' 'PyMuPDF' 'python3' '-c'
 '
 import fitz
 import sys

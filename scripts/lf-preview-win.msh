@@ -5,24 +5,14 @@ args len 3 < ("Usage: lf-preview-win.msh <file> <width> <height>" wl 1 exit) iff
 $1 ext lower ext!
 @ext ".jpg" =
 @ext ".jpeg" = or
-@ext ".png" = or
-(
-    [msh.exe $"{$DOTFILES}/scripts/print_sixel" $1 $2 $3];
-)
-(
-    @ext ".zip" =
-    ([unzip -l $1];)
-    (
-        @ext ".xlsx" =
-        ([excelchop $1];)
-        (
-            @ext ".eml" =
-            ([memail parse $1];)
-            ([bat --italic-text always --style plain --color always --theme=ansi $1];)
-            iff
-        )
-        iff
-    )
-    iff
-)
-iff
+@ext ".png" = or if
+    ['msh.exe' $"{$DOTFILES}/scripts/print_sixel" $1 $2 $3];
+else* @ext ".zip" =  *if
+    ['unzip' '-l' $1];
+else*  @ext ".xlsx" =  *if
+    ['excelchop' $1];
+else* @ext ".eml" = *if
+    ['memail' 'parse' $1];
+else
+    ['bat' '--italic-text' 'always' '--style' 'plain' '--color' 'always' '--theme=ansi' $1];
+end

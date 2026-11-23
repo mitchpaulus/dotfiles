@@ -10,4 +10,4 @@ args :0: bucket!
     'schema.measurements(bucket: "' @bucket + '")' +
 ] unlines query!
 
-[influx query -r @query] * ! parseCsv 4: (len 3 >) filter (:3:) map uw
+['influx' 'query' '-r' @query] * ! parseCsv 4: (len 3 >) filter (:3:) map uw

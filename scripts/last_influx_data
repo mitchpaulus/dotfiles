@@ -53,7 +53,6 @@ map.
     end
 end
 # tuw
-dbg
-((:1:) 2each dbg sortCmp dbg -1 *) sortByCmp
+((:1:) 2each sortCmp -1 *) sortByCmp
 map. map. toStr end end
 tuw

@@ -14,18 +14,18 @@ now date!
 + periodInt!
 @periodInt 1 - prevPeriodInt!
 
-[toggl ts @periodInt monthPeriodFromInt]*! lines
-[toggl ts @prevPeriodInt monthPeriodFromInt]*! lines
+['toggl' 'ts' @periodInt monthPeriodFromInt]*! lines
+['toggl' 'ts' @prevPeriodInt monthPeriodFromInt]*! lines
 extend
 
 (tsplit) map (:2: "No project" =) filter (tab join) map entries!
-[toggl projects]*!  projects!
+['toggl' 'projects']*!  projects!
 
 @entries each.
     entry!
     ["fzf" "-d" "\\t" "--with-nth=2" "--header=" @entry +] @projects < * ?
     if
-        chomp tsplit :0: project_id! [toggl update_proj @entry tsplit :0: @project_id]! # Update project on success
+        chomp tsplit :0: project_id! ['toggl' 'update_proj' @entry tsplit :0: @project_id]! # Update project on success
     else
         "Not updating " @entry + wl drop # Skip on failure
     end

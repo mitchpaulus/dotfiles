@@ -1,2 +1,2 @@
 #!/usr/bin/env mshell
-[rg -i $1 $MPNOTES]!
+['rg' '-i' $1 $MPNOTES]!

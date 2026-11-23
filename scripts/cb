@@ -13,7 +13,7 @@ end
       # '\n$' '' reReplace
       w
 else* $WAYLAND_DISPLAY? *if
-    [wl-paste]!
+    ['wl-paste']!
 else
     ['xclip' '-o' '-selection' 'clipboard']!
 end
